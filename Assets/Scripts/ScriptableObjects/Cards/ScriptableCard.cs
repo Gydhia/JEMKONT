@@ -10,7 +10,7 @@ public class ScriptableCard : ScriptableObject {
     [TextArea]public string Description;
     public Sprite IllustrationImage;
 }
-public class ChipsComparer : IComparer<ScriptableCard> {
+public class CardComparer : IComparer<ScriptableCard> {
     public int Compare(ScriptableCard x, ScriptableCard y) {
         return x.Title.CompareTo(y.Title);
     }
