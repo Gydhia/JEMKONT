@@ -14,8 +14,11 @@ namespace Jemkont.GridSystem
 
         public Cell[,] Cells;
 
-        public CombatGrid(int height, int width)
+        public void Init(int height, int width)
         {
+            this.GridHeight = height;
+            this.GridWidth = width;
+
             this.GenerateGrid(height, width);
         }
 
@@ -26,11 +29,6 @@ namespace Jemkont.GridSystem
         /// <param name="width">The width of the array ([x, width])</param>
         public void GenerateGrid(int height, int width)
         {
-            this.ClearCells();
-
-            this.GridHeight = height;
-            this.GridWidth = width;
-
             this.Cells = new Cell[height, width];
 
             float cellsWidth = SettingsManager.Instance.GridsPreset.CellsSize;
@@ -42,7 +40,7 @@ namespace Jemkont.GridSystem
             {
                 for (int j = 0; j < this.Cells.GetLength(1); j++)
                 {
-                    Cell newCell = Instantiate(GridManager.Instance.GridPrefab, new Vector3(j * cellsWidth + widthOffset, 0.1f, -i * cellsWidth + heightOffset), Quaternion.identity, GridManager.Instance.GridHandler.transform);
+                    Cell newCell = Instantiate(GridManager.Instance.CellPrefab, new Vector3(j * cellsWidth + widthOffset, 0.1f, -i * cellsWidth + heightOffset), Quaternion.identity, this.gameObject.transform);
 
                     newCell.Init(i, j, true);
 

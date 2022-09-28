@@ -9,12 +9,14 @@ namespace Jemkont.Managers
 {
     public class GridManager : _baseManager<GridManager>
     {
-      
+        public bool InCombat = false;
+
         public List<Cell> Path;
 
         #region Assets_reference
-        public Cell GridPrefab;
-        public GameObject GridHandler;
+        public Cell CellPrefab;
+        public CombatGrid GridPrefab;
+        public GameObject ObjectsHandler;
         public GameObject Plane;
         public PlayerBehavior PlayerPrefab;
         #endregion
@@ -32,7 +34,14 @@ namespace Jemkont.Managers
         [Button]
         private void _generateGrid(int height, int width)
         {
-            this.MainGrid = new CombatGrid(height, width);
+            if (this.MainGrid != null)
+                Destroy(this.MainGrid.gameObject);
+            if (this.TestPlane != null)
+                Destroy(this.TestPlane);
+            if (this.Player != null)
+                Destroy(this.Player.gameObject);
+            this.MainGrid = Instantiate<CombatGrid>(this.GridPrefab, this.ObjectsHandler.transform);
+            this.MainGrid.Init(height, width);
 
             float cellsWidth = SettingsManager.Instance.GridsPreset.CellsSize;
 
@@ -45,7 +54,7 @@ namespace Jemkont.Managers
                     (height * cellsWidth) / 2
                 ),
                 Quaternion.identity,
-                this.GridHandler.transform
+                this.ObjectsHandler.transform
             );
             this.TestPlane.transform.localScale = new Vector3(width * (cellsWidth / 10f), 0f, height * (cellsWidth / 10f));
 
@@ -55,6 +64,7 @@ namespace Jemkont.Managers
 
         private void Update()
         {
+            // We just raycast the cell and then ask to find a path to it from our player
             if (Input.GetMouseButtonUp(0))
             {
                 RaycastHit hit;
@@ -65,25 +75,35 @@ namespace Jemkont.Managers
                     for (int i = 0; i < this.Path.Count; i++)
                     {
                         if (this.Path[i] != null)
-                            this.Path[i].ChangeStateColor(false);
+                            this.Path[i].ChangeStateColor(Color.grey);
                     }
                     float cellSize = SettingsManager.Instance.GridsPreset.CellsSize;
-                    GridPosition clickPosition = new GridPosition((int)((hit.point.x - this.MainGrid.TopLeftOffset.x) / cellSize), (int)((hit.point.z - this.MainGrid.TopLeftOffset.z) / cellSize));
+                    GridPosition clickPosition = new GridPosition(Mathf.Abs((int)((hit.point.x - this.MainGrid.TopLeftOffset.x) / cellSize)), Mathf.Abs((int)((hit.point.z - this.MainGrid.TopLeftOffset.z) / cellSize)));
+                    Debug.Log("x:" + clickPosition.x + " y:" + clickPosition.y);
                     this.FindPath(clickPosition);
 
                     for (int i = 0; i < this.Path.Count; i++)
                     {
                         if (this.Path[i] != null)
-                            this.Path[i].ChangeStateColor(true);
+                            this.Path[i].ChangeStateColor(Color.green);
                     }
                 }
             }
-        }
-
-        public void ClearMainGrid()
-        {
-            this.MainGrid.ClearCells();
-            Destroy(this.TestPlane); 
+            // To mark a cell as non-walkable
+            if (Input.GetMouseButtonUp(1))
+            {
+                RaycastHit hit;
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                // layer 6 = ground
+                if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 6))
+                {
+                    float cellSize = SettingsManager.Instance.GridsPreset.CellsSize;
+                    GridPosition clickPosition = new GridPosition(Mathf.Abs((int)((hit.point.x - this.MainGrid.TopLeftOffset.x) / cellSize)), Mathf.Abs((int)((hit.point.z - this.MainGrid.TopLeftOffset.z) / cellSize)));
+                    Debug.Log("x:" + clickPosition.x + " y:" + clickPosition.y);
+                    this.MainGrid.Cells[clickPosition.y, clickPosition.x].ChangeStateColor(Color.red);
+                    this.MainGrid.Cells[clickPosition.y, clickPosition.x].Walkable = false;
+                }
+            }
         }
 
         /// <summary>
@@ -92,8 +112,8 @@ namespace Jemkont.Managers
         /// <param name="target"></param>
         public void FindPath(GridPosition target)
         {
-            Cell startCell = this.MainGrid.Cells[Player.PlayerPosition.x, Player.PlayerPosition.y];
-            Cell targetCell = this.MainGrid.Cells[target.x, target.y];
+            Cell startCell = this.MainGrid.Cells[Player.PlayerPosition.y, Player.PlayerPosition.x];
+            Cell targetCell = this.MainGrid.Cells[target.y, target.x];
 
             List<Cell> openSet = new List<Cell>();
             HashSet<Cell> closedSet = new HashSet<Cell>();
@@ -117,7 +137,8 @@ namespace Jemkont.Managers
                     return;
                 }
 
-                foreach (Cell neighbour in this.GetNeighbours(currentCell))
+                List<Cell> actNeighbours = this.InCombat ? GetCombatNeighbours(currentCell) : GetNormalNeighbours(currentCell);
+                foreach (Cell neighbour in actNeighbours)
                 {
                     if (!neighbour.Walkable || closedSet.Contains(neighbour))
                         continue;
@@ -148,8 +169,12 @@ namespace Jemkont.Managers
 
             this.Path = path;
         }
-
-        public List<Cell> GetNeighbours(Cell cell)
+        /// <summary>
+        /// To get the 8 neighbours around a cell. Used for out of combat walk.
+        /// </summary>
+        /// <param name="cell"></param>
+        /// <returns></returns>
+        public List<Cell> GetNormalNeighbours(Cell cell)
         {
             List<Cell> neighbours = new List<Cell>();
 
@@ -165,7 +190,7 @@ namespace Jemkont.Managers
                 
                     if(checkX >= 0 && checkX < this.MainGrid.GridWidth && checkY >= 0 && checkY < this.MainGrid.GridHeight)
                     {
-                        neighbours.Add(this.MainGrid.Cells[checkX, checkY]);
+                        neighbours.Add(this.MainGrid.Cells[checkY, checkX]);
                     }
                 }
             }
@@ -173,11 +198,47 @@ namespace Jemkont.Managers
             return neighbours;
         }
 
+        /// <summary>
+        /// To get the 4 lateral neighbours of a cell. Used for in combat walk
+        /// </summary>
+        /// <param name="cell"></param>
+        /// <returns></returns>
+        public List<Cell> GetCombatNeighbours(Cell cell)
+        {
+            List<Cell> neighbours = new List<Cell>();
+
+            for (int x = -1; x <= 1; x++)
+            {
+                for (int y = -1; y <= 1; y++)
+                {
+                    if ((x == 0 && y == 0) || (Mathf.Abs(x) == 1 && Mathf.Abs(y) == 1))
+                        continue;
+
+                    int checkX = cell.xPos + x;
+                    int checkY = cell.yPos + y;
+
+                    if (checkX >= 0 && checkX < this.MainGrid.GridWidth && checkY >= 0 && checkY < this.MainGrid.GridHeight)
+                    {
+                        neighbours.Add(this.MainGrid.Cells[checkY, checkX]);
+                    }
+                }
+            }
+
+            return neighbours;
+        }
+
+        /// <summary>
+        /// Return the weighted distance from 2 cells. 
+        /// </summary>
+        /// <param name="cellA"></param>
+        /// <param name="cellB"></param>
+        /// <returns></returns>
         public int GetDistance(Cell cellA, Cell cellB)
         {
             int dstX = Mathf.Abs(cellA.xPos - cellB.xPos);
             int dstY = Mathf.Abs(cellA.yPos - cellB.yPos);
 
+            // 14 is the diagonal weight, used in out of combat walk.
             if (dstX > dstY)
                 return 14 * dstY + 10 * (dstX - dstY);
             return 14 * dstX + 10 * (dstY - dstX);

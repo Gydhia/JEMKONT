@@ -31,11 +31,6 @@ namespace Jemkont.GridSystem
         public Vector3 WorldPosition => this.gameObject.transform.position;
         #endregion
 
-        private void Start()
-        {
-
-        }
-
         public void Init(int yPos, int xPos, bool walkable)
         {
             this.name = "Cell[" + yPos + ", " + xPos + "]";
@@ -58,15 +53,13 @@ namespace Jemkont.GridSystem
             this.LeftEdge.gameObject.transform.localPosition = new Vector3(cellsWidth / 2f - edgesOffset, 0f, 0f);
             this.RightEdge.gameObject.transform.localPosition = new Vector3(edgesOffset - cellsWidth / 2f, 0f, 0f);
 
-            this.ChangeStateColor(false);
+            this.ChangeStateColor(Color.grey);
         }
 
-        public void ChangeStateColor(bool isPath)
+        public void ChangeStateColor(Color color)
         {
-            this.TopEdge.material.color = isPath ? Color.green : Color.black;
-            this.BottomEdge.material.color = isPath ? Color.green : Color.black;
-            this.LeftEdge.material.color = isPath ? Color.green : Color.black;
-            this.RightEdge.material.color = isPath ? Color.green : Color.black;
+            this.LeftEdge.material.color = this.BottomEdge.material.color =
+                this.RightEdge.material.color = this.TopEdge.material.color = color;
         }
     }
 }
