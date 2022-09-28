@@ -20,11 +20,12 @@ namespace Jemkont.Managers
         public GameObject Plane;
         public PlayerBehavior PlayerPrefab;
         #endregion
+
         public CombatGrid MainGrid;
         public GameObject TestPlane;
 
         public PlayerBehavior Player;
-        
+
 
         private void Start()
         {
@@ -123,8 +124,10 @@ namespace Jemkont.Managers
             while (openSet.Count > 0)
             {
                 Cell currentCell = openSet[0];
-                for (int i = 1; i < openSet.Count; i++) {
-                    if(openSet[i].fCost < currentCell.fCost || openSet[i].fCost == currentCell.fCost && openSet[i].hCost < currentCell.hCost) {
+                for (int i = 1; i < openSet.Count; i++)
+                {
+                    if (openSet[i].fCost < currentCell.fCost || openSet[i].fCost == currentCell.fCost && openSet[i].hCost < currentCell.hCost)
+                    {
                         currentCell = openSet[i];
                     }
                 }
@@ -132,7 +135,8 @@ namespace Jemkont.Managers
                 openSet.Remove(currentCell);
                 closedSet.Add(currentCell);
 
-                if (currentCell == targetCell) {
+                if (currentCell == targetCell)
+                {
                     this.RetracePath(startCell, targetCell);
                     return;
                 }
@@ -144,7 +148,8 @@ namespace Jemkont.Managers
                         continue;
 
                     int newMovementCostToNeightbour = currentCell.gCost + GetDistance(currentCell, neighbour);
-                    if (newMovementCostToNeightbour < neighbour.gCost || !openSet.Contains(neighbour)) {
+                    if (newMovementCostToNeightbour < neighbour.gCost || !openSet.Contains(neighbour))
+                    {
                         neighbour.gCost = newMovementCostToNeightbour;
                         neighbour.hCost = GetDistance(neighbour, targetCell);
                         neighbour.parent = currentCell;
@@ -161,7 +166,8 @@ namespace Jemkont.Managers
             List<Cell> path = new List<Cell>();
             Cell currentCell = endCell;
 
-            while(currentCell != startCell) {
+            while (currentCell != startCell)
+            {
                 path.Add(currentCell);
                 currentCell = currentCell.parent;
             }
@@ -187,8 +193,8 @@ namespace Jemkont.Managers
 
                     int checkX = cell.xPos + x;
                     int checkY = cell.yPos + y;
-                
-                    if(checkX >= 0 && checkX < this.MainGrid.GridWidth && checkY >= 0 && checkY < this.MainGrid.GridHeight)
+
+                    if (checkX >= 0 && checkX < this.MainGrid.GridWidth && checkY >= 0 && checkY < this.MainGrid.GridHeight)
                     {
                         neighbours.Add(this.MainGrid.Cells[checkY, checkX]);
                     }

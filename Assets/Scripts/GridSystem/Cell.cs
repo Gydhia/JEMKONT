@@ -58,8 +58,8 @@ namespace Jemkont.GridSystem
 
         public void ChangeStateColor(Color color)
         {
-            this.LeftEdge.material.color = this.BottomEdge.material.color =
-                this.RightEdge.material.color = this.TopEdge.material.color = color;
+            this.LeftEdge.sharedMaterial.color = this.BottomEdge.sharedMaterial.color =
+                this.RightEdge.sharedMaterial.color = this.TopEdge.sharedMaterial.color = color;
         }
     }
 }
