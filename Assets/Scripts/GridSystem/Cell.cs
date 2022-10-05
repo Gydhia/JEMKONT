@@ -1,6 +1,6 @@
 using Jemkont.Managers;
-using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using UnityEngine;
 
 namespace Jemkont.GridSystem
@@ -15,10 +15,7 @@ namespace Jemkont.GridSystem
         #endregion
 
         #region Datas
-        public int yPos;
-        public int xPos;
-
-        public bool Walkable = true;
+        public CellData Datas;
 
         public int gCost;
         public int hCost;
@@ -27,18 +24,18 @@ namespace Jemkont.GridSystem
 
         public Cell parent;
 
-        public GridPosition PositionInGrid => new GridPosition(this.yPos, this.xPos);
+        public GridPosition PositionInGrid => new GridPosition(this.Datas.yPos, this.Datas.xPos);
         public Vector3 WorldPosition => this.gameObject.transform.position;
         #endregion
 
-        public void Init(int yPos, int xPos, bool walkable)
+        public void Init(int yPos, int xPos, CellState state)
         {
             this.name = "Cell[" + yPos + ", " + xPos + "]";
 
-            this.yPos = yPos;
-            this.xPos = xPos;
+            this.Datas.yPos = yPos;
+            this.Datas.xPos = xPos;
 
-            this.Walkable = walkable;
+            this.Datas.State = state;
 
             float edgesOffset = SettingsManager.Instance.GridsPreset.CellsEdgeOffset;
             float cellsWidth = SettingsManager.Instance.GridsPreset.CellsSize;
@@ -56,10 +53,56 @@ namespace Jemkont.GridSystem
             this.ChangeStateColor(Color.grey);
         }
 
+        public void ChangeCellState(CellState newState)
+        {
+            if (this.Datas.State == newState)
+                return;
+            this.Datas.State = newState;
+
+            Color stateColor;
+            switch (newState)
+            {
+                case CellState.Blocked: stateColor = Color.red; break;
+                case CellState.EntityIn: stateColor = Color.blue; break;
+
+                case CellState.Walkable:
+                default: stateColor = Color.white; break;
+            }
+
+            this.ChangeStateColor(stateColor);
+        }
+
         public void ChangeStateColor(Color color)
         {
-            this.LeftEdge.sharedMaterial.color = this.BottomEdge.sharedMaterial.color =
+            if (Application.isPlaying)
+            {
+                this.LeftEdge.material.color = this.BottomEdge.material.color =
+                this.RightEdge.material.color = this.TopEdge.material.color = color;
+            }
+            else
+            {
+                this.LeftEdge.sharedMaterial.color = this.BottomEdge.sharedMaterial.color =
                 this.RightEdge.sharedMaterial.color = this.TopEdge.sharedMaterial.color = color;
+            }
         }
+    }
+
+    [System.Serializable, DataContract]
+    public class CellData
+    {
+        public int yPos { get; set; }
+        public int xPos { get; set; }
+
+        public CellState State { get; set; }
+    }
+
+    public enum CellState
+    {
+        [EnumMember(Value = "Walkable")]
+        Walkable = 0,
+        [EnumMember(Value = "Blocked")]
+        Blocked = 1,
+        [EnumMember(Value = "EntityIn")]
+        EntityIn = 2
     }
 }

@@ -4,12 +4,18 @@ using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+using Newtonsoft.Json.Linq;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace Jemkont.Managers
 {
     public class GridManager : _baseManager<GridManager>
     {
         public bool InCombat = false;
+
+        public Dictionary<string, List<CellData>> SavedGrids;
 
         public List<Cell> Path;
 
@@ -29,7 +35,7 @@ namespace Jemkont.Managers
 
         private void Start()
         {
-            this._generateGrid(10, 15);
+            //this._generateGrid(10, 15);
         }
 
         [Button]
@@ -90,6 +96,8 @@ namespace Jemkont.Managers
                     }
                 }
             }
+
+
             // To mark a cell as non-walkable
             if (Input.GetMouseButtonUp(1))
             {
@@ -101,8 +109,7 @@ namespace Jemkont.Managers
                     float cellSize = SettingsManager.Instance.GridsPreset.CellsSize;
                     GridPosition clickPosition = new GridPosition(Mathf.Abs((int)((hit.point.x - this.MainGrid.TopLeftOffset.x) / cellSize)), Mathf.Abs((int)((hit.point.z - this.MainGrid.TopLeftOffset.z) / cellSize)));
                     Debug.Log("x:" + clickPosition.x + " y:" + clickPosition.y);
-                    this.MainGrid.Cells[clickPosition.y, clickPosition.x].ChangeStateColor(Color.red);
-                    this.MainGrid.Cells[clickPosition.y, clickPosition.x].Walkable = false;
+                    this.MainGrid.Cells[clickPosition.y, clickPosition.x].ChangeCellState(CellState.Blocked);
                 }
             }
         }
@@ -144,7 +151,7 @@ namespace Jemkont.Managers
                 List<Cell> actNeighbours = this.InCombat ? GetCombatNeighbours(currentCell) : GetNormalNeighbours(currentCell);
                 foreach (Cell neighbour in actNeighbours)
                 {
-                    if (!neighbour.Walkable || closedSet.Contains(neighbour))
+                    if (neighbour.Datas.State != CellState.Walkable || closedSet.Contains(neighbour))
                         continue;
 
                     int newMovementCostToNeightbour = currentCell.gCost + GetDistance(currentCell, neighbour);
@@ -191,8 +198,8 @@ namespace Jemkont.Managers
                     if (x == 0 && y == 0)
                         continue;
 
-                    int checkX = cell.xPos + x;
-                    int checkY = cell.yPos + y;
+                    int checkX = cell.Datas.xPos + x;
+                    int checkY = cell.Datas.yPos + y;
 
                     if (checkX >= 0 && checkX < this.MainGrid.GridWidth && checkY >= 0 && checkY < this.MainGrid.GridHeight)
                     {
@@ -220,8 +227,8 @@ namespace Jemkont.Managers
                     if ((x == 0 && y == 0) || (Mathf.Abs(x) == 1 && Mathf.Abs(y) == 1))
                         continue;
 
-                    int checkX = cell.xPos + x;
-                    int checkY = cell.yPos + y;
+                    int checkX = cell.Datas.xPos + x;
+                    int checkY = cell.Datas.yPos + y;
 
                     if (checkX >= 0 && checkX < this.MainGrid.GridWidth && checkY >= 0 && checkY < this.MainGrid.GridHeight)
                     {
@@ -241,14 +248,51 @@ namespace Jemkont.Managers
         /// <returns></returns>
         public int GetDistance(Cell cellA, Cell cellB)
         {
-            int dstX = Mathf.Abs(cellA.xPos - cellB.xPos);
-            int dstY = Mathf.Abs(cellA.yPos - cellB.yPos);
+            int dstX = Mathf.Abs(cellA.Datas.xPos - cellB.Datas.xPos);
+            int dstY = Mathf.Abs(cellA.Datas.yPos - cellB.Datas.yPos);
 
             // 14 is the diagonal weight, used in out of combat walk.
             if (dstX > dstY)
                 return 14 * dstY + 10 * (dstX - dstY);
             return 14 * dstX + 10 * (dstY - dstX);
         }
+
+        #region JSON_SAVES
+        public void LoadGridsFromJSON()
+        {
+            TextAsset[] jsons = Resources.LoadAll<TextAsset>("Saves/Grids");
+
+            
+
+            foreach (TextAsset json in jsons)
+            {
+                //CellDataBis datas = JsonConvert.DeserializeObject<CellDataBis>(json.text);
+            }
+        }
+
+        public void SaveGridAsJSON(CombatGrid grid)
+        {
+            List<Cell> savedCells = new List<Cell>();
+
+            // Get the non walkable cells only
+            for (int i = 0; i < grid.Cells.GetLength(0); i++)
+                for (int j = 0; j < grid.Cells.GetLength(1); j++)
+                    if (grid.Cells[i, j].Datas.State != CellState.Walkable)
+                        savedCells.Add(grid.Cells[i, j]);
+
+            string jsonCells = "{\"cells\": [";
+            foreach (Cell cell in savedCells)
+            {
+                jsonCells += JsonUtility.ToJson(cell.Datas) + ",";
+            }
+            jsonCells += "]}";
+
+            if(!File.Exists(Application.dataPath + "/Resources/Saves/Grids/" + grid.name + ".json"))
+            {
+                File.WriteAllText(Application.dataPath + "/Resources/Saves/Grids/" + grid.UName + ".json", jsonCells);
+            }
+        }
+        #endregion
     }
     public struct GridPosition
     {
