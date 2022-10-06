@@ -1,6 +1,8 @@
 using Jemkont.GridSystem;
 using Jemkont.Managers;
 using Newtonsoft.Json;
+using Sirenix.OdinInspector;
+using Sirenix.OdinInspector.Editor;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,10 +10,10 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(CombatGrid))]
-public class GridEditor : Editor
+[CustomEditor(typeof(GridPlaceholder))]
+public class GridEditor : OdinEditor
 {
-    private CombatGrid _target;
+    private GridPlaceholder _target;
 
     private int _oldHeight = -1;
     private int _oldWidth = -1;
@@ -21,7 +23,7 @@ public class GridEditor : Editor
     public void OnEnable()
     {
         if (this._target == null)
-            this._target = (CombatGrid)this.target;
+            this._target = (GridPlaceholder)this.target;
 
         this._oldWidth = this._target.GridWidth;
         this._oldHeight = this._target.GridHeight;
@@ -32,28 +34,27 @@ public class GridEditor : Editor
     {
         base.OnInspectorGUI();
 
-        if (GUI.Button(GUILayoutUtility.GetRect(0, int.MaxValue, 20, 20), "Init Grid"))
+        GUILayout.BeginHorizontal();
+        if (GUI.Button(GUILayoutUtility.GetRect(0, int.MaxValue, 20, 20), "Init"))
         {
             EditorUtility.SetDirty(this._target.gameObject);
-            this._target.DestroyChildren();
 
-            this._target.GenerateGrid(this._target.GridHeight, this._target.GridWidth, true);
+            this._target.GenerateGrid(this._target.GridHeight, this._target.GridWidth);
             this._oldWidth = this._target.GridWidth;
             this._oldHeight = this._target.GridHeight;
             this._target.ResizePlane();
         }
-
-        if (GUI.Button(GUILayoutUtility.GetRect(0, int.MaxValue, 20, 20), "Save Grid"))
+        if (GUI.Button(GUILayoutUtility.GetRect(0, int.MaxValue, 20, 20), "Save"))
         {
-            GridManager.Instance.SaveGridAsJSON(this._target);
+            GridManager.Instance.SaveGridAsJSON(this._target.CellDatas, this._target.SelectedGrid);
         }
-
-        if (GUI.Button(GUILayoutUtility.GetRect(0, int.MaxValue, 20, 20), "Load Grids"))
+        if(GUI.Button(GUILayoutUtility.GetRect(0, int.MaxValue, 20, 20), "Reload"))
         {
-            GridManager.Instance.LoadGridsFromJSON();
+            this._target.LoadSelectedGrid();
         }
+        GUILayout.EndHorizontal();
 
-        if (this._target.Cells == null || this._target.Cells.Length == 0 || this._target.GridWidth <= 0 || this._target.GridHeight <= 0)
+        if (this._target.CellDatas == null || this._target.CellDatas.Length == 0 || this._target.GridWidth <= 0 || this._target.GridHeight <= 0)
             return;
 
         if (this._target.GridWidth != this._oldWidth || this._target.GridHeight != this._oldHeight)
@@ -64,7 +65,7 @@ public class GridEditor : Editor
         if (this._oldPosition != this._target.transform.position)
         {
             this._oldPosition = this._target.transform.position;
-            if (this._target.Cells != null && this._target.Cells.Length > 0)
+            if (this._target.CellDatas != null && this._target.CellDatas.Length > 0)
                 this._target.TopLeftOffset = this._target.transform.position;
         }
 
@@ -75,7 +76,7 @@ public class GridEditor : Editor
             if (this._target.GridWidth < this._oldWidth || this._target.GridHeight < this._oldHeight)
                 resizeDown = true;
 
-            this._target.ResizeGrid(this.ResizeArrayTwo(_target.Cells, this._target.GridHeight, this._target.GridWidth, resizeDown), true);
+            this._target.ResizeGrid(this.ResizeArrayTwo(_target.CellDatas, this._target.GridHeight, this._target.GridWidth, resizeDown));
 
             this._oldWidth = this._target.GridWidth;
             this._oldHeight = this._target.GridHeight;
@@ -92,10 +93,8 @@ public class GridEditor : Editor
                 EditorUtility.SetDirty(this._target.gameObject);
                 GridPosition pos = this._target.GetGridIndexFromWorld(hit.point);
 
-                CellState currState = this._target.Cells[pos.x, pos.y].Datas.State;
-                this._target.Cells[pos.x, pos.y].ChangeCellState(currState == CellState.Blocked ?
-                    CellState.Walkable : CellState.Blocked
-                );
+                CellState currState = this._target.CellDatas[pos.x, pos.y].state;
+                this._target.CellDatas[pos.x, pos.y].state = (currState == CellState.Blocked) ? CellState.Walkable : CellState.Blocked;
             }
         }
     }

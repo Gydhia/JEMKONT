@@ -4,17 +4,16 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using UnityEditor;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 namespace Jemkont.GridSystem
 {
-    [System.Serializable]
-    public class CombatGrid : MonoBehaviour
+    public class CombatGrid : SerializedMonoBehaviour
     {
         public string UName;
 
         // Editor only cause it sucks
         public bool _inspInited = false;
-        public GameObject Plane;
 
         private float widthOffset => SettingsManager.Instance.GridsPreset.CellsSize / 2f;
         private float cellsWidth => SettingsManager.Instance.GridsPreset.CellsSize;
@@ -24,7 +23,7 @@ namespace Jemkont.GridSystem
 
         public Vector3 TopLeftOffset;
 
-        [SerializeField]
+        [HideInInspector]
         public Cell[,] Cells;
 
         private void Start()
@@ -36,11 +35,21 @@ namespace Jemkont.GridSystem
             {
                 if (GridManager.Instance.SavedGrids.TryGetValue(this.UName, out GridData grid))
                 {
-                    
+                    this.DestroyChildren();
+                    this.Init(grid.GridHeight, grid.GridWidth);
+
+                    foreach(CellData cell in grid.CellDatas)
+                        this.Cells[cell.heightPos, cell.widthPos].Datas = cell;
                 }
                 else
                     Debug.LogError("Could find grid : " + this.UName + " in the loaded grids");
             }
+        }
+
+        [Button]
+        public void SpawnPlayerAtGrid()
+        {
+            GridManager.Instance.SetupPlayer(this);
         }
 
         public void Init(int height, int width)
@@ -66,13 +75,24 @@ namespace Jemkont.GridSystem
             this.Cells = null;
         }
 
+        public void GenerateGrid(GridData gridData)
+        {
+            this.GenerateGrid(gridData.GridHeight, gridData.GridWidth);
+
+            foreach(CellData data in gridData.CellDatas)
+                this.Cells[data.heightPos, data.widthPos].ChangeCellState(data.state);
+        }
+
         /// <summary>
         /// The [0, 0] value of an array is at the top left corner. We'll follow these rules while instantiating cells
         /// </summary>
         /// <param name="height">The height of the array ([height, x])</param>
         /// <param name="width">The width of the array ([x, width])</param>
-        public void GenerateGrid(int height, int width, bool hideCells = false)
+        public void GenerateGrid(int height, int width)
         {
+            this.GridHeight = height;
+            this.GridWidth = width;
+
             this.Cells = new Cell[height, width];
 
             // Generate the grid with new cells
@@ -80,35 +100,20 @@ namespace Jemkont.GridSystem
             {
                 for (int j = 0; j < this.Cells.GetLength(1); j++)
                 {
-                    this.CreateAddCell(i, j, new Vector3(j * cellsWidth + widthOffset, 0.1f, -i * cellsWidth - widthOffset), hideCells);
+                    this.CreateAddCell(i, j, new Vector3(j * cellsWidth + widthOffset, 0.1f, -i * cellsWidth - widthOffset));
                 }
             }
 
             this.TopLeftOffset = this.transform.position;
         }
 
-        public void CreateAddCell(int height, int width, Vector3 position, bool hideCell = false)
+        public void CreateAddCell(int height, int width, Vector3 position)
         {
             Cell newCell = Instantiate(GridManager.Instance.CellPrefab, position, Quaternion.identity, this.gameObject.transform);
 
-            newCell.Init(height, width, CellState.Walkable);
-
-            if (hideCell)
-                newCell.gameObject.SetActive(false);
+            newCell.Init(height, width, CellState.Walkable, this);
 
             this.Cells[height, width] = newCell;
-        }
-
-        public void ResizePlane()
-        {
-            if(this.Plane == null)
-                this.Plane = Instantiate(
-                    GridManager.Instance.Plane,
-                    new Vector3((this.GridWidth * cellsWidth) / 2 ,0f,-(this.GridHeight * cellsWidth) / 2 + (cellsWidth / 2)),Quaternion.identity,this.transform
-                );
-
-            this.Plane.transform.localScale = new Vector3(this.GridWidth * (cellsWidth / 10f), 0f, this.GridHeight * (cellsWidth / 10f));
-            this.Plane.transform.localPosition = new Vector3((this.GridWidth * cellsWidth) / 2, 0f, -(this.GridHeight * cellsWidth) / 2);
         }
 
         public void ResizeGrid(Cell[,] newCells, bool hideCells = false)
@@ -144,12 +149,11 @@ namespace Jemkont.GridSystem
                     {
                         for (int j = 0; j < oldWidth; j++)
                         {
-                            this.CreateAddCell(i, j, new Vector3(j * cellsWidth + widthOffset, 0.1f, -i * cellsWidth), true);
+                            this.CreateAddCell(i, j, new Vector3(j * cellsWidth + widthOffset, 0.1f, -i * cellsWidth));
                         }
                     }
                 }
             }
-
             // Resize the width
             else if(newWidth != oldWidth)
             {
@@ -175,7 +179,7 @@ namespace Jemkont.GridSystem
                     {
                         for (int i = 0; i < oldHeight; i++)
                         {
-                            this.CreateAddCell(i, j, new Vector3(j * cellsWidth + widthOffset, 0.1f, -i * cellsWidth), true);
+                            this.CreateAddCell(i, j, new Vector3(j * cellsWidth + widthOffset, 0.1f, -i * cellsWidth));
                         }
                     }
                 }
@@ -193,55 +197,25 @@ namespace Jemkont.GridSystem
                 this.Cells = null;
             }
         }
-
-        public GridPosition GetGridIndexFromWorld(Vector3 worldPos) 
-        {
-            float cellSize = SettingsManager.Instance.GridsPreset.CellsSize;
-            int height = (int)(Mathf.Abs(Mathf.Abs(worldPos.z) - Mathf.Abs(this.TopLeftOffset.z)) / cellSize);
-            int width = (int)(Mathf.Abs(Mathf.Abs(worldPos.x) - Mathf.Abs(this.TopLeftOffset.x)) / cellSize);
-
-            return new GridPosition(height, width);
-        }
-
-        private void OnDrawGizmos()
-        {
-            if (this.Cells == null)
-                return;
-
-            Color red = new Color(Color.red.r, Color.red.g, Color.red.b, 0.4f);
-            Color white = new Color(Color.white.r, Color.white.g, Color.white.b, 0.4f);
-            Color blue = new Color(Color.blue.r, Color.blue.g, Color.blue.b, 0.4f);
-
-            float cellsWidth = SettingsManager.Instance.GridsPreset.CellsSize;
-            Vector3 cellBounds = new Vector3(cellsWidth - 1f, 2f, cellsWidth - 1f);
-
-            float widthOffset = (cellsWidth / 2);
-
-            for (int i = 0; i < this.GridHeight; i++)
-            {
-                for (int j = 0; j < this.GridWidth; j++)
-                {
-                    if (this.Cells[i, j] == null)
-                        continue;
-
-                    if (this.Cells[i, j].Datas.State == CellState.Walkable)
-                        Gizmos.color = white;
-                    else if (this.Cells[i, j].Datas.State == CellState.Blocked)
-                        Gizmos.color = red;
-                    else
-                        Gizmos.color = blue;
-
-                    Vector3 pos = new Vector3(j * cellsWidth + TopLeftOffset.x + (cellsWidth / 2), 0.1f, -i * cellsWidth + TopLeftOffset.z - (cellsWidth / 2));
-
-                    Gizmos.DrawCube(pos, cellBounds);
-                }
-            }
-        }
     }
 
     [System.Serializable]
     public class GridData
     {
+        public GridData() { }
+        public GridData(int GridHeight, int GridWidth)
+        {
+            this.GridHeight = GridHeight;
+            this.GridWidth = GridWidth;
+            this.CellDatas = new List<CellData>();
+        }
+        public GridData(int GridHeight, int GridWidth, List<CellData> CellDatas)
+        {
+            this.GridHeight = GridHeight;
+            this.GridWidth = GridWidth;
+            this.CellDatas = CellDatas;
+        }
+
         public int GridHeight { get; set; }
         public int GridWidth { get; set; }
 

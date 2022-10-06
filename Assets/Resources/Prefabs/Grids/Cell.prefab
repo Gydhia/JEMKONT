@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3998367135096836103}
   - component: {fileID: 7726041531083266328}
-  m_Layer: 0
+  - component: {fileID: 1769886239172715894}
+  m_Layer: 7
   m_Name: Cell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52,12 +53,24 @@ MonoBehaviour:
   BottomEdge: {fileID: 2140851908089883319}
   LeftEdge: {fileID: 7155442292877335589}
   RightEdge: {fileID: 4682363496276184085}
-  yPos: 0
-  xPos: 0
-  Walkable: 1
+  Collider: {fileID: 1769886239172715894}
+  RefGrid: {fileID: 0}
   gCost: 0
   hCost: 0
   parent: {fileID: 0}
+--- !u!65 &1769886239172715894
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7253283609294405911}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 10, y: 1, z: 10}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &753298327302878771
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -128,6 +141,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: bade24cd083f4d248bbf81156fa6398a, type: 3}
       propertyPath: m_Name
       value: BottomEdge
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: bade24cd083f4d248bbf81156fa6398a, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bade24cd083f4d248bbf81156fa6398a, type: 3}
@@ -212,6 +229,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RightEdge
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: bade24cd083f4d248bbf81156fa6398a, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bade24cd083f4d248bbf81156fa6398a, type: 3}
 --- !u!23 &4682363496276184085 stripped
@@ -294,6 +315,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: bade24cd083f4d248bbf81156fa6398a, type: 3}
       propertyPath: m_Name
       value: LeftEdge
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: bade24cd083f4d248bbf81156fa6398a, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bade24cd083f4d248bbf81156fa6398a, type: 3}
@@ -381,6 +406,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: bade24cd083f4d248bbf81156fa6398a, type: 3}
       propertyPath: m_Name
       value: TopEdge
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: bade24cd083f4d248bbf81156fa6398a, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bade24cd083f4d248bbf81156fa6398a, type: 3}

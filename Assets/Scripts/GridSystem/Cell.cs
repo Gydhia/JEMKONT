@@ -2,10 +2,10 @@ using Jemkont.Managers;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 namespace Jemkont.GridSystem
 {
-    [System.Serializable]
     public class Cell : MonoBehaviour
     {
         #region Appearance
@@ -14,6 +14,10 @@ namespace Jemkont.GridSystem
         public MeshRenderer LeftEdge;
         public MeshRenderer RightEdge;
         #endregion
+
+        public BoxCollider Collider;
+
+        public CombatGrid RefGrid;
 
         #region Datas
         public CellData Datas;
@@ -25,18 +29,20 @@ namespace Jemkont.GridSystem
 
         public Cell parent;
 
-        public GridPosition PositionInGrid => new GridPosition(this.Datas.yPos, this.Datas.xPos);
+        public GridPosition PositionInGrid => new GridPosition(this.Datas.heightPos, this.Datas.widthPos);
         public Vector3 WorldPosition => this.gameObject.transform.position;
         #endregion
 
-        public void Init(int yPos, int xPos, CellState state)
+        public void Init(int yPos, int xPos, CellState state, CombatGrid refGrid)
         {
+            this.RefGrid = refGrid;
+
             this.name = "Cell[" + yPos + ", " + xPos + "]";
 
-            this.Datas.yPos = yPos;
-            this.Datas.xPos = xPos;
+            this.Datas.heightPos = yPos;
+            this.Datas.widthPos = xPos;
 
-            this.Datas.State = state;
+            this.Datas.state = state;
 
             float edgesOffset = SettingsManager.Instance.GridsPreset.CellsEdgeOffset;
             float cellsWidth = SettingsManager.Instance.GridsPreset.CellsSize;
@@ -51,14 +57,16 @@ namespace Jemkont.GridSystem
             this.LeftEdge.gameObject.transform.localPosition = new Vector3(cellsWidth / 2f - edgesOffset, 0f, 0f);
             this.RightEdge.gameObject.transform.localPosition = new Vector3(edgesOffset - cellsWidth / 2f, 0f, 0f);
 
+            this.Collider.size = new Vector3(cellsWidth - 0.01f, 1.5f, cellsWidth - 0.01f);
+
             this.ChangeStateColor(Color.grey);
         }
 
         public void ChangeCellState(CellState newState)
         {
-            if (this.Datas.State == newState)
+            if (this.Datas.state == newState)
                 return;
-            this.Datas.State = newState;
+            this.Datas.state = newState;
 
             Color stateColor;
             switch (newState)
@@ -91,10 +99,17 @@ namespace Jemkont.GridSystem
     [System.Serializable]
     public class CellData
     {
-        public int yPos { get; set; }
-        public int xPos { get; set; }
+        public CellData(int yPos, int xPos, CellState state)
+        {
+            this.heightPos = yPos;
+            this.widthPos = xPos;
+            this.state = state;
+        }
 
-        public CellState State { get; set; }
+        public int heightPos { get; set; }
+        public int widthPos { get; set; }
+
+        public CellState state { get; set; }
     }
 
     [System.Serializable]
@@ -107,4 +122,5 @@ namespace Jemkont.GridSystem
         [EnumMember(Value = "EntityIn")]
         EntityIn = 2
     }
+
 }
