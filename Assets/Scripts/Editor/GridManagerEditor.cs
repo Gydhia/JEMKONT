@@ -1,8 +1,10 @@
 using Jemkont.GridSystem;
 using Jemkont.Managers;
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 
@@ -32,6 +34,7 @@ public class GridEditor : Editor
 
         if (GUI.Button(GUILayoutUtility.GetRect(0, int.MaxValue, 20, 20), "Init Grid"))
         {
+            EditorUtility.SetDirty(this._target.gameObject);
             this._target.DestroyChildren();
 
             this._target.GenerateGrid(this._target.GridHeight, this._target.GridWidth, true);
@@ -67,6 +70,7 @@ public class GridEditor : Editor
 
         if (this._target.GridWidth != this._oldWidth || this._target.GridHeight != this._oldHeight)
         {
+            EditorUtility.SetDirty(this._target.gameObject);
             bool resizeDown = false;
             if (this._target.GridWidth < this._oldWidth || this._target.GridHeight < this._oldHeight)
                 resizeDown = true;
@@ -85,6 +89,7 @@ public class GridEditor : Editor
             Ray ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, 1 << 6))
             {
+                EditorUtility.SetDirty(this._target.gameObject);
                 GridPosition pos = this._target.GetGridIndexFromWorld(hit.point);
 
                 CellState currState = this._target.Cells[pos.x, pos.y].Datas.State;

@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace Jemkont.GridSystem
 {
+    [System.Serializable]
     public class Cell : MonoBehaviour
     {
         #region Appearance
@@ -87,7 +88,7 @@ namespace Jemkont.GridSystem
         }
     }
 
-    [System.Serializable, DataContract]
+    [System.Serializable]
     public class CellData
     {
         public int yPos { get; set; }
@@ -96,6 +97,7 @@ namespace Jemkont.GridSystem
         public CellState State { get; set; }
     }
 
+    [System.Serializable]
     public enum CellState
     {
         [EnumMember(Value = "Walkable")]

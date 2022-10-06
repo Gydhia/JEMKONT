@@ -1,11 +1,13 @@
 using Jemkont.Managers;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using UnityEditor;
 using UnityEngine;
 
 namespace Jemkont.GridSystem
 {
+    [System.Serializable]
     public class CombatGrid : MonoBehaviour
     {
         public string UName;
@@ -22,13 +24,22 @@ namespace Jemkont.GridSystem
 
         public Vector3 TopLeftOffset;
 
+        [SerializeField]
         public Cell[,] Cells;
 
         private void Start()
         {
-            foreach (Cell cell in Cells)
+            if(this.Cells != null)
+                foreach (Cell cell in Cells)
+                    cell.gameObject.SetActive(true);
+            else
             {
-                cell.gameObject.SetActive(true);
+                if (GridManager.Instance.SavedGrids.TryGetValue(this.UName, out GridData grid))
+                {
+                    
+                }
+                else
+                    Debug.LogError("Could find grid : " + this.UName + " in the loaded grids");
             }
         }
 
@@ -228,4 +239,12 @@ namespace Jemkont.GridSystem
         }
     }
 
+    [System.Serializable]
+    public class GridData
+    {
+        public int GridHeight { get; set; }
+        public int GridWidth { get; set; }
+
+        public List<CellData> CellDatas { get; set; }
+    }
 }

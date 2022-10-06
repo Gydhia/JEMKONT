@@ -15,7 +15,7 @@ namespace Jemkont.Managers
     {
         public bool InCombat = false;
 
-        public Dictionary<string, List<CellData>> SavedGrids;
+        public Dictionary<string, GridData> SavedGrids;
 
         public List<Cell> Path;
 
@@ -32,6 +32,10 @@ namespace Jemkont.Managers
 
         public PlayerBehavior Player;
 
+        private void Awake()
+        {
+            this.LoadGridsFromJSON();
+        }
 
         private void Start()
         {
@@ -260,37 +264,39 @@ namespace Jemkont.Managers
         #region JSON_SAVES
         public void LoadGridsFromJSON()
         {
+            this.SavedGrids = new Dictionary<string, GridData>();
+
             TextAsset[] jsons = Resources.LoadAll<TextAsset>("Saves/Grids");
-
-            
-
             foreach (TextAsset json in jsons)
             {
-                //CellDataBis datas = JsonConvert.DeserializeObject<CellDataBis>(json.text);
+                GridData loadedData = JsonConvert.DeserializeObject<GridData>(jsons[0].text);
+
+                this.SavedGrids.Add(json.name, loadedData);
             }
         }
 
         public void SaveGridAsJSON(CombatGrid grid)
         {
-            List<Cell> savedCells = new List<Cell>();
+            List<CellData> savedCells = new List<CellData>();
 
             // Get the non walkable cells only
             for (int i = 0; i < grid.Cells.GetLength(0); i++)
                 for (int j = 0; j < grid.Cells.GetLength(1); j++)
                     if (grid.Cells[i, j].Datas.State != CellState.Walkable)
-                        savedCells.Add(grid.Cells[i, j]);
+                        savedCells.Add(grid.Cells[i, j].Datas);
 
-            string jsonCells = "{\"cells\": [";
-            foreach (Cell cell in savedCells)
-            {
-                jsonCells += JsonUtility.ToJson(cell.Datas) + ",";
-            }
-            jsonCells += "]}";
+            GridData gridData = new GridData();
+            gridData.GridHeight = grid.GridHeight;
+            gridData.GridWidth = grid.GridWidth;
+            gridData.CellDatas = savedCells;
 
-            if(!File.Exists(Application.dataPath + "/Resources/Saves/Grids/" + grid.name + ".json"))
-            {
-                File.WriteAllText(Application.dataPath + "/Resources/Saves/Grids/" + grid.UName + ".json", jsonCells);
-            }
+            string gridJson = JsonConvert.SerializeObject(gridData);
+
+            File.WriteAllText(Application.dataPath + "/Resources/Saves/Grids/" + grid.UName + ".json", gridJson);
+#if UNITY_EDITOR
+            UnityEditor.AssetDatabase.SaveAssets();
+            UnityEditor.AssetDatabase.Refresh();
+#endif
         }
         #endregion
     }
