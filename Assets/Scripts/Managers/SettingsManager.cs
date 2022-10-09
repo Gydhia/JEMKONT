@@ -8,6 +8,10 @@ namespace Jemkont.Managers
     public class SettingsManager : _baseManager<SettingsManager>
     {
         public GridsPreset GridsPreset;
+        public InputPreset InputPreset;
+
+        // for test
+        public EntityStats PlayerStats;
     }
 
 }

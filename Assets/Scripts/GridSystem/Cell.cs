@@ -9,10 +9,7 @@ namespace Jemkont.GridSystem
     public class Cell : MonoBehaviour
     {
         #region Appearance
-        public MeshRenderer TopEdge;
-        public MeshRenderer BottomEdge;
-        public MeshRenderer LeftEdge;
-        public MeshRenderer RightEdge;
+        public MeshRenderer SelfPlane;
         #endregion
 
         public BoxCollider Collider;
@@ -47,15 +44,8 @@ namespace Jemkont.GridSystem
             float edgesOffset = SettingsManager.Instance.GridsPreset.CellsEdgeOffset;
             float cellsWidth = SettingsManager.Instance.GridsPreset.CellsSize;
 
-            // Scale the edges according to preset's width
-            this.TopEdge.gameObject.transform.localScale = this.BottomEdge.gameObject.transform.localScale = new Vector3(cellsWidth / 2f, 0.1f, 0.1f);
-            this.LeftEdge.gameObject.transform.localScale = this.RightEdge.gameObject.transform.localScale = new Vector3(0.1f, 0.1f, cellsWidth / 2f);
-
-            // Move the edges to the right position
-            this.TopEdge.gameObject.transform.localPosition = new Vector3(0f, 0f, cellsWidth / 2f - edgesOffset);
-            this.BottomEdge.gameObject.transform.localPosition = new Vector3(0f, 0f, edgesOffset - cellsWidth / 2f);
-            this.LeftEdge.gameObject.transform.localPosition = new Vector3(cellsWidth / 2f - edgesOffset, 0f, 0f);
-            this.RightEdge.gameObject.transform.localPosition = new Vector3(edgesOffset - cellsWidth / 2f, 0f, 0f);
+            // Scale the plane according to preset's width
+            this.SelfPlane.gameObject.transform.localScale = new Vector3(cellsWidth / 10f - 0.1f, 0.1f, cellsWidth / 10f - 0.1f);
 
             this.Collider.size = new Vector3(cellsWidth - 0.01f, 1.5f, cellsWidth - 0.01f);
 
@@ -84,15 +74,9 @@ namespace Jemkont.GridSystem
         public void ChangeStateColor(Color color)
         {
             if (Application.isPlaying)
-            {
-                this.LeftEdge.material.color = this.BottomEdge.material.color =
-                this.RightEdge.material.color = this.TopEdge.material.color = color;
-            }
+                this.SelfPlane.material.color = color;
             else
-            {
-                this.LeftEdge.sharedMaterial.color = this.BottomEdge.sharedMaterial.color =
-                this.RightEdge.sharedMaterial.color = this.TopEdge.sharedMaterial.color = color;
-            }
+                this.SelfPlane.sharedMaterial.color = color;
         }
     }
 

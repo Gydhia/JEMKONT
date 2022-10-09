@@ -10,9 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c24d5ac1331fdca479c3c82f04555faf, type: 3}
-  m_Name: testout
+  m_Name: TestSpell
   m_EditorClassIdentifier: 
   Title: ddddd
   Cost: 0
   Description: eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
   IllustrationImage: {fileID: 21300000, guid: cb305c4b544864d6bb82ffc573d6022f, type: 3}
+  Spell: {fileID: 0}
+  Spells:
+  - {fileID: 0}

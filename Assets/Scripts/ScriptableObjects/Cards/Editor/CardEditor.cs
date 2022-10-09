@@ -42,6 +42,7 @@ public partial class CardEditor : Editor {
     public bool RemoveRequired { get; protected set; } = false;
 
     public override void OnInspectorGUI() {
+        base.OnInspectorGUI();
         // try {
         var Cost = serializedObject.FindProperty(nameof(Target.Cost));
         if (GUILayout.Button("RefreshBGCache"))

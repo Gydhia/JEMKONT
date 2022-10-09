@@ -18,6 +18,7 @@ namespace Jemkont.Managers
         public Dictionary<string, GridData> SavedGrids;
 
         public List<Cell> Path;
+        private List<Cell> _possiblePath = new List<Cell>();
 
         #region Assets_reference
         public Cell CellPrefab;
@@ -28,9 +29,12 @@ namespace Jemkont.Managers
         #endregion
 
         public Dictionary<string, CombatGrid> GameGrids;
+        private CombatGrid _currentGrid;
         public GameObject TestPlane;
 
+        public CharacterEntity CurrentPlayingEntity;
         public PlayerBehavior Player;
+        public Cell LastHoveredCell;
 
         private void Awake()
         {
@@ -43,39 +47,73 @@ namespace Jemkont.Managers
             CombatGrid newGrid = Instantiate<CombatGrid>(this.GridPrefab, offset, Quaternion.identity, this.ObjectsHandler.transform);
 
             newGrid.GenerateGrid(gridData);
+
+            this._currentGrid = newGrid;
+            this.SetupPlayer(this._currentGrid);
         }
 
         public void SetupPlayer(CombatGrid grid)
         {
             this.Player = Instantiate(this.PlayerPrefab, Vector3.zero, Quaternion.identity, this.transform);
             this.Player.Init(grid.Cells[0, 0].PositionInGrid, grid.Cells[0, 0].WorldPosition);
+
+            this.CurrentPlayingEntity = this.Player;
+            this.Player.Init(SettingsManager.Instance.PlayerStats);
+            this.ShowPossibleMovements();
         }
 
         private void Update()
         {
-            // We just raycast the cell and then ask to find a path to it from our player
+            if (this.CurrentPlayingEntity == null)
+                return;
+
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            // layer 7 = Cell
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 7))
+            {
+                if (hit.collider != null && hit.collider.TryGetComponent(out Cell cell))
+                {
+                    // Avoid executing this code when it has already been done
+                    if (cell != this.LastHoveredCell)
+                    {
+                        if(this.LastHoveredCell != null && this.LastHoveredCell.Datas.state == CellState.Walkable)
+                            this.LastHoveredCell.ChangeStateColor(Color.grey);
+                        this.ShowPossibleMovements();
+
+                        this.LastHoveredCell = cell;
+                        if (CardDraggingSystem.instance.DraggedCard != null && this.LastHoveredCell.Datas.state == CellState.Walkable)
+                            this.LastHoveredCell.ChangeStateColor(Color.cyan);
+
+                        // Make sure that we're not using a card so we don't show the player's path
+                        if (CardDraggingSystem.instance.DraggedCard == null)
+                        {
+                            this.FindPath(cell.PositionInGrid, cell.RefGrid);
+
+                            if (this.Path.Count <= this.CurrentPlayingEntity.Movement)
+                            {
+                                for (int i = 0; i < this.Path.Count; i++)
+                                {
+                                    if (this.Path[i] != null)
+                                        this.Path[i].ChangeStateColor(Color.green);
+                                }
+                            }
+                        }
+                    }
+
+                    
+                }
+            }
+
+            // Teleport player to location
             if (Input.GetMouseButtonUp(0))
             {
-                RaycastHit hit;
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                // layer 7 = Cell
-                if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 7))
+                if (CardDraggingSystem.instance.DraggedCard == null && this._possiblePath.Contains(this.LastHoveredCell))
                 {
-                    if (hit.collider.TryGetComponent(out Cell cell))
+                    if (this.LastHoveredCell != null && this.LastHoveredCell.Datas.state == CellState.Walkable)
                     {
-                        for (int i = 0; i < this.Path.Count; i++)
-                        {
-                            if (this.Path[i] != null)
-                                this.Path[i].ChangeStateColor(Color.grey);
-                        }
-
-                        this.FindPath(cell.PositionInGrid, cell.RefGrid);
-
-                        for (int i = 0; i < this.Path.Count; i++)
-                        {
-                            if (this.Path[i] != null)
-                                this.Path[i].ChangeStateColor(Color.green);
-                        }
+                        this.CurrentPlayingEntity.GoTo(this.LastHoveredCell);
+                        this.ShowPossibleMovements();
                     }
                 }
             }
@@ -83,8 +121,6 @@ namespace Jemkont.Managers
             // To mark a cell as non-walkable
             if (Input.GetMouseButtonUp(1))
             {
-                RaycastHit hit;
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 // layer 7 = Cell
                 if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 7))
                 {
@@ -96,14 +132,51 @@ namespace Jemkont.Managers
             }
         }
 
+        public void ShowPossibleMovements()
+        {
+            int movePoints = this.CurrentPlayingEntity.Movement;
+            Cell entityCell = this._currentGrid.Cells[this.CurrentPlayingEntity.PlayerPosition.longitude, this.CurrentPlayingEntity.PlayerPosition.latitude];
+
+            // Clear the highlighted cells
+            foreach (Cell cell in this._possiblePath)
+                cell.ChangeStateColor(Color.grey);
+            this._possiblePath.Clear();
+
+            for (int x = -movePoints; x <= movePoints; x++)
+            {
+                for (int y = -movePoints; y <= movePoints; y++)
+                {
+                    if (x == 0 && y == 0 || (Mathf.Abs(x) + Mathf.Abs(y) > movePoints))
+                        continue;
+
+                    int checkX = entityCell.Datas.widthPos + x;
+                    int checkY = entityCell.Datas.heightPos + y;
+
+                    if (checkX >= 0 && checkX < this._currentGrid.GridWidth && checkY >= 0 && checkY < _currentGrid.GridHeight)
+                    {
+                        this.FindPath(this._currentGrid.Cells[checkY, checkX].PositionInGrid, this._currentGrid);
+
+                        if(this.Path.Contains(this._currentGrid.Cells[checkY, checkX]) && this.Path.Count <= movePoints && (this._currentGrid.Cells[checkY, checkX].Datas.state == CellState.Walkable))
+                        {
+                            this._possiblePath.Add(this._currentGrid.Cells[checkY, checkX]);
+                            this._currentGrid.Cells[checkY, checkX].ChangeStateColor(new Color(0.82f, 0.796f, 0.5f, 0.8f));
+                        }
+                    }
+                }
+            }
+        }
+
         /// <summary>
         /// While calculate the closest path to a target, storing it in the Path var of the GridManager
         /// </summary>
         /// <param name="target"></param>
         public void FindPath(GridPosition target, CombatGrid grid)
         {
-            Cell startCell = grid.Cells[Player.PlayerPosition.y, Player.PlayerPosition.x];
-            Cell targetCell = grid.Cells[target.x, target.y];
+            if (Player == null)
+                return;
+
+            Cell startCell = grid.Cells[Player.PlayerPosition.longitude, Player.PlayerPosition.latitude];
+            Cell targetCell = grid.Cells[target.longitude, target.latitude];
 
             List<Cell> openSet = new List<Cell>();
             HashSet<Cell> closedSet = new HashSet<Cell>();
@@ -130,7 +203,7 @@ namespace Jemkont.Managers
                     return;
                 }
 
-                List<Cell> actNeighbours = this.InCombat ? GetCombatNeighbours(currentCell, grid) : GetNormalNeighbours(currentCell, grid);
+                List<Cell> actNeighbours = grid.IsCombatGrid ? GetCombatNeighbours(currentCell, grid) : GetNormalNeighbours(currentCell, grid);
                 foreach (Cell neighbour in actNeighbours)
                 {
                     if (neighbour.Datas.state != CellState.Walkable || closedSet.Contains(neighbour))
@@ -319,15 +392,15 @@ namespace Jemkont.Managers
     }
     public struct GridPosition
     {
-        public GridPosition(int x, int y)
+        public GridPosition(int longitude, int latitude)
         {
-            this.x = x;
-            this.y = y;
+            this.longitude = longitude;
+            this.latitude = latitude;
         }
 
         public static readonly GridPosition zero = new GridPosition(0, 0);
 
-        public int x { get; private set; }
-        public int y { get; private set; }
+        public int longitude { get; private set; }
+        public int latitude { get; private set; }
     }
 }
