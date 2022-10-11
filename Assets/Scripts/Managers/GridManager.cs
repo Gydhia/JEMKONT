@@ -315,11 +315,14 @@ namespace Jemkont.Managers
         #region JSON_SAVES
         public void LoadGridsFromJSON()
         {
+            CombatManager.Instance.Init();
             this.SavedGrids = new Dictionary<string, GridData>();
 
             TextAsset[] jsons = Resources.LoadAll<TextAsset>("Saves/Grids");
             foreach (TextAsset json in jsons)
             {
+                JObject obj = JsonConvert.DeserializeObject<JObject>(json.text);
+                //List<KeyValuePair<GridPosition, System.Guid>> a = JsonConvert.DeserializeObject<List<KeyValuePair<GridPosition, System.Guid>>>(obj["EntitiesSpawns"].ToString());
                 GridData loadedData = JsonConvert.DeserializeObject<GridData>(json.text);
 
                 this.SavedGrids.Add(json.name, loadedData);

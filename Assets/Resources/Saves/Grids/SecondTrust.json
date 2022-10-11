@@ -1,1 +1,1 @@
-{"IsCombatGrid":false,"GridHeight":2,"GridWidth":2,"CellDatas":[],"EntitiesSpawns":null}
+{"IsCombatGrid":false,"GridHeight":5,"GridWidth":5,"CellDatas":[{"heightPos":3,"widthPos":0,"state":2},{"heightPos":3,"widthPos":3,"state":1},{"heightPos":3,"widthPos":4,"state":1},{"heightPos":4,"widthPos":0,"state":2},{"heightPos":4,"widthPos":2,"state":1},{"heightPos":4,"widthPos":3,"state":1}],"EntitiesSpawns":[{"4,0":"00000000-0000-0000-0000-000000000000"},{"3,0":"00000000-0000-0000-0000-000000000000"}]}

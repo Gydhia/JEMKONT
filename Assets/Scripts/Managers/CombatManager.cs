@@ -15,6 +15,11 @@ namespace Jemkont.Managers
             this._loadEveryEntities();
         }
 
+        public void Init()
+        {
+            this._loadEveryEntities();
+        }
+
         private void _loadEveryEntities()
         {
             var entities = Resources.LoadAll<EntitySpawn>("Presets/Entity/").ToList();

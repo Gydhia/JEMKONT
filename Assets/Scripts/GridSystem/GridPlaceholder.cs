@@ -41,8 +41,18 @@ public class GridPlaceholder : SerializedMonoBehaviour
             foreach (CellData cellData in newGrid.CellDatas)
                 this.CellDatas[cellData.heightPos, cellData.widthPos].state = cellData.state;
             if (newGrid.EntitiesSpawns != null)
+            {
+                this.EntitySpawns = new Dictionary<GridPosition, EntitySpawn>();
                 foreach (var entitySpawn in newGrid.EntitiesSpawns)
+                {
+                    if(CombatManager.Instance.EntitiesSpawnsSO.ContainsKey(entitySpawn.Value))
+                        this.EntitySpawns.Add(entitySpawn.Key, CombatManager.Instance.EntitiesSpawnsSO[entitySpawn.Value]);
+                    else
+                        this.EntitySpawns.Add(entitySpawn.Key, null);
+
                     this.CellDatas[entitySpawn.Key.longitude, entitySpawn.Key.latitude].state = CellState.EntityIn;
+                }
+            }
             else
                 this.EntitySpawns.Clear();
 
