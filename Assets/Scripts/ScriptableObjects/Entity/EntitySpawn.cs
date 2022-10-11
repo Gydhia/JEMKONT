@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using System;
+using Jemkont.Entity;
 
 [CreateAssetMenu(menuName = "Entity/EntitySpawn")]
 public class EntitySpawn : SerializedScriptableObject

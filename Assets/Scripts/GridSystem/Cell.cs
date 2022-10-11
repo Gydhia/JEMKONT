@@ -45,16 +45,16 @@ namespace Jemkont.GridSystem
             float cellsWidth = SettingsManager.Instance.GridsPreset.CellsSize;
 
             // Scale the plane according to preset's width
-            this.SelfPlane.gameObject.transform.localScale = new Vector3(cellsWidth / 10f - 0.1f, 0.1f, cellsWidth / 10f - 0.1f);
+            this.SelfPlane.gameObject.transform.localScale = new Vector3(cellsWidth / 10f - cellsWidth / 150f, 0.1f, cellsWidth / 10f - cellsWidth / 150f);
 
-            this.Collider.size = new Vector3(cellsWidth - 0.01f, 1.5f, cellsWidth - 0.01f);
+            this.Collider.size = new Vector3(cellsWidth, cellsWidth / 6f, cellsWidth);
 
             this.ChangeStateColor(Color.grey);
         }
 
-        public void ChangeCellState(CellState newState)
+        public void ChangeCellState(CellState newState, bool force = false)
         {
-            if (this.Datas.state == newState)
+            if (!force && this.Datas.state == newState)
                 return;
             this.Datas.state = newState;
 
@@ -65,9 +65,10 @@ namespace Jemkont.GridSystem
                 case CellState.EntityIn: stateColor = Color.blue; break;
 
                 case CellState.Walkable:
-                default: stateColor = Color.white; break;
+                default: stateColor = Color.grey; break;
             }
 
+            Debug.Log("Change [" + this.Datas.heightPos + "," + this.Datas.widthPos + "] to " + newState.ToString());
             this.ChangeStateColor(stateColor);
         }
 
@@ -77,6 +78,11 @@ namespace Jemkont.GridSystem
                 this.SelfPlane.material.color = color;
             else
                 this.SelfPlane.sharedMaterial.color = color;
+        }
+        
+        public void RefreshCell()
+        {
+            this.ChangeCellState(this.Datas.state, true);
         }
     }
 
@@ -89,10 +95,11 @@ namespace Jemkont.GridSystem
             this.widthPos = xPos;
             this.state = state;
         }
-
+        [ShowInInspectorAttribute]
         public int heightPos { get; set; }
+        [ShowInInspectorAttribute]
         public int widthPos { get; set; }
-
+        [ShowInInspectorAttribute]
         public CellState state { get; set; }
     }
 

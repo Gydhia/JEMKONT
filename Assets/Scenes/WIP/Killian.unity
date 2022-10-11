@@ -530,8 +530,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 870594183}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 30, y: 0, z: -30}
-  m_LocalScale: {x: 6, y: 0, z: 6}
+  m_LocalPosition: {x: 5, y: 0, z: -5}
+  m_LocalScale: {x: 1, y: 0, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8506851707251346287}
@@ -646,7 +646,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1233273961}
   m_LocalRotation: {x: 0.66281605, y: 0, z: 0, w: 0.7487823}
-  m_LocalPosition: {x: 5.21, y: 108.6, z: -51.5}
+  m_LocalPosition: {x: 14.72, y: 14.43, z: -8.97}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -811,6 +811,7 @@ RectTransform:
   m_Children:
   - {fileID: 401475440}
   - {fileID: 2125633214}
+  - {fileID: 7989744163959915094}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1069,10 +1070,10 @@ MonoBehaviour:
       Data: 0|Jemkont.GridSystem.CellData[,], Assembly-CSharp
     - Name: 
       Entry: 12
-      Data: 36
+      Data: 100
     - Name: ranks
       Entry: 1
-      Data: 6|6
+      Data: 10|10
     - Name: 
       Entry: 7
       Data: 1|Jemkont.GridSystem.CellData, Assembly-CSharp
@@ -1290,6 +1291,390 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: 
+      Entry: 7
+      Data: 37|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 38|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 39|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 40|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 41|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 42|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 43|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 44|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 45|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 46|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 47|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 48|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 49|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 50|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 51|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 52|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 53|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 54|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 55|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 56|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 57|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 58|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 59|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 60|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 61|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 62|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 63|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 64|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 65|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 66|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 67|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 68|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 69|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 70|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 71|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 72|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 73|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 74|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 75|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 76|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 77|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 78|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 79|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 80|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 81|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 82|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 83|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 84|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 85|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 86|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 87|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 88|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 89|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 90|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 91|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 92|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 93|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 94|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 95|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 96|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 97|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 98|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 99|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 100|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
       Entry: 13
       Data: 
     - Name: 
@@ -1297,78 +1682,18 @@ MonoBehaviour:
       Data: 
     - Name: EntitySpawns
       Entry: 7
-      Data: 37|System.Collections.Generic.Dictionary`2[[Jemkont.Managers.GridPosition,
+      Data: 101|System.Collections.Generic.Dictionary`2[[Jemkont.Managers.GridPosition,
         Assembly-CSharp],[EntitySpawn, Assembly-CSharp]], mscorlib
     - Name: comparer
       Entry: 7
-      Data: 38|System.Collections.Generic.ObjectEqualityComparer`1[[Jemkont.Managers.GridPosition,
+      Data: 102|System.Collections.Generic.ObjectEqualityComparer`1[[Jemkont.Managers.GridPosition,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 8
       Data: 
     - Name: 
       Entry: 12
-      Data: 5
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 7
-      Data: Jemkont.Managers.GridPosition, Assembly-CSharp
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: $v
-      Entry: 10
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 7
-      Data: Jemkont.Managers.GridPosition, Assembly-CSharp
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: $v
-      Entry: 10
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 7
-      Data: Jemkont.Managers.GridPosition, Assembly-CSharp
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: $v
-      Entry: 10
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 7
-      Data: Jemkont.Managers.GridPosition, Assembly-CSharp
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: $v
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
+      Data: 1
     - Name: 
       Entry: 7
       Data: 
@@ -1390,12 +1715,12 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  _selectedGrid: TestGrid
-  SelectedGrid: TestGrid
-  IsCombatGrid: 0
-  GridHeight: 6
-  GridWidth: 6
+  _selectedGrid: SecondTrust
   TopLeftOffset: {x: 0, y: 0, z: 0}
+  SelectedGrid: SecondTrust
+  IsCombatGrid: 1
+  GridHeight: 10
+  GridWidth: 10
   Plane: {fileID: 870594183}
 --- !u!1 &6268991192390828927
 GameObject:
@@ -1414,6 +1739,156 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1001 &7989744163959915093
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1882780771}
+    m_Modifications:
+    - target: {fileID: 1069967088727509210, guid: 82b4a94c4f8818c489c8ba97921777e8, type: 3}
+      propertyPath: m_Pivot.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1069967088727509210, guid: 82b4a94c4f8818c489c8ba97921777e8, type: 3}
+      propertyPath: m_Pivot.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1069967088727509210, guid: 82b4a94c4f8818c489c8ba97921777e8, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1069967088727509210, guid: 82b4a94c4f8818c489c8ba97921777e8, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1069967088727509210, guid: 82b4a94c4f8818c489c8ba97921777e8, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1069967088727509210, guid: 82b4a94c4f8818c489c8ba97921777e8, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1069967088727509210, guid: 82b4a94c4f8818c489c8ba97921777e8, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1069967088727509210, guid: 82b4a94c4f8818c489c8ba97921777e8, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 250
+      objectReference: {fileID: 0}
+    - target: {fileID: 1069967088727509210, guid: 82b4a94c4f8818c489c8ba97921777e8, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 1069967088727509210, guid: 82b4a94c4f8818c489c8ba97921777e8, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1069967088727509210, guid: 82b4a94c4f8818c489c8ba97921777e8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1069967088727509210, guid: 82b4a94c4f8818c489c8ba97921777e8, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1069967088727509210, guid: 82b4a94c4f8818c489c8ba97921777e8, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1069967088727509210, guid: 82b4a94c4f8818c489c8ba97921777e8, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1069967088727509210, guid: 82b4a94c4f8818c489c8ba97921777e8, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1069967088727509210, guid: 82b4a94c4f8818c489c8ba97921777e8, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1069967088727509210, guid: 82b4a94c4f8818c489c8ba97921777e8, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1069967088727509210, guid: 82b4a94c4f8818c489c8ba97921777e8, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1069967088727509210, guid: 82b4a94c4f8818c489c8ba97921777e8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1069967088727509210, guid: 82b4a94c4f8818c489c8ba97921777e8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1069967088727509210, guid: 82b4a94c4f8818c489c8ba97921777e8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2366188788192868745, guid: 82b4a94c4f8818c489c8ba97921777e8, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2366188788192868745, guid: 82b4a94c4f8818c489c8ba97921777e8, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2366188788192868745, guid: 82b4a94c4f8818c489c8ba97921777e8, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2366188788192868745, guid: 82b4a94c4f8818c489c8ba97921777e8, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4881264067673445699, guid: 82b4a94c4f8818c489c8ba97921777e8, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4881264067673445699, guid: 82b4a94c4f8818c489c8ba97921777e8, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4881264067673445699, guid: 82b4a94c4f8818c489c8ba97921777e8, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4881264067673445699, guid: 82b4a94c4f8818c489c8ba97921777e8, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6101302143976140654, guid: 82b4a94c4f8818c489c8ba97921777e8, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6101302143976140654, guid: 82b4a94c4f8818c489c8ba97921777e8, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6101302143976140654, guid: 82b4a94c4f8818c489c8ba97921777e8, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6101302143976140654, guid: 82b4a94c4f8818c489c8ba97921777e8, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7262511405115443703, guid: 82b4a94c4f8818c489c8ba97921777e8, type: 3}
+      propertyPath: m_Name
+      value: PlayerSection
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 82b4a94c4f8818c489c8ba97921777e8, type: 3}
+--- !u!224 &7989744163959915094 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 1069967088727509210, guid: 82b4a94c4f8818c489c8ba97921777e8, type: 3}
+  m_PrefabInstance: {fileID: 7989744163959915093}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8506851707251346287
 Transform:
   m_ObjectHideFlags: 0

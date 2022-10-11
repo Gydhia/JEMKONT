@@ -1,5 +1,5 @@
 using Jemkont.GridSystem;
-using Jemkont.Player;
+using Jemkont.Entity;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
@@ -42,20 +42,19 @@ namespace Jemkont.Managers
             this.LoadGridsFromJSON();
         }
 
-        public void GenerateGrid(Vector3 offset, GridData gridData)
+        public void GenerateGrid(Vector3 offset, string gridId)
         {
             CombatGrid newGrid = Instantiate<CombatGrid>(this.GridPrefab, offset, Quaternion.identity, this.ObjectsHandler.transform);
-
-            newGrid.GenerateGrid(gridData);
+            newGrid.UName = gridId;
+            //newGrid.GenerateGrid(gridData);
 
             this._currentGrid = newGrid;
-            this.SetupPlayer(this._currentGrid);
         }
 
         public void SetupPlayer(CombatGrid grid)
         {
             this.Player = Instantiate(this.PlayerPrefab, Vector3.zero, Quaternion.identity, this.transform);
-            this.Player.Init(grid.Cells[0, 0].PositionInGrid, grid.Cells[0, 0].WorldPosition);
+            this.Player.Init(grid.Cells[0, 0].PositionInGrid, grid.Cells[0, 0].WorldPosition, grid);
 
             this.CurrentPlayingEntity = this.Player;
             this.Player.Init(SettingsManager.Instance.PlayerStats);
@@ -66,7 +65,7 @@ namespace Jemkont.Managers
         {
             if (this.CurrentPlayingEntity == null)
                 return;
-
+            
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             // layer 7 = Cell
@@ -112,7 +111,7 @@ namespace Jemkont.Managers
                 {
                     if (this.LastHoveredCell != null && this.LastHoveredCell.Datas.state == CellState.Walkable)
                     {
-                        this.CurrentPlayingEntity.GoTo(this.LastHoveredCell);
+                        this.CurrentPlayingEntity.TryGoTo(this.LastHoveredCell);
                         this.ShowPossibleMovements();
                     }
                 }
@@ -321,8 +320,8 @@ namespace Jemkont.Managers
             TextAsset[] jsons = Resources.LoadAll<TextAsset>("Saves/Grids");
             foreach (TextAsset json in jsons)
             {
+                // not used but it may help the GridData deserialization to works well, so keep it
                 JObject obj = JsonConvert.DeserializeObject<JObject>(json.text);
-                //List<KeyValuePair<GridPosition, System.Guid>> a = JsonConvert.DeserializeObject<List<KeyValuePair<GridPosition, System.Guid>>>(obj["EntitiesSpawns"].ToString());
                 GridData loadedData = JsonConvert.DeserializeObject<GridData>(json.text);
 
                 this.SavedGrids.Add(json.name, loadedData);

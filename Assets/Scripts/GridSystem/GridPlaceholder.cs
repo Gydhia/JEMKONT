@@ -8,15 +8,30 @@ using UnityEngine;
 
 public class GridPlaceholder : SerializedMonoBehaviour
 {
+    // Used variables in play time
+    [SerializeField, HideInInspector]
+    private string _selectedGrid;
+
+    public Vector3 TopLeftOffset;
+    private void Start()
+    {
+        if (GridManager.Instance != null)
+        {
+            GridManager.Instance.GenerateGrid(this.TopLeftOffset, this._selectedGrid);
+
+            Destroy(this.gameObject);
+        }
+    }
+
+#if UNITY_EDITOR
     #region GRID_ODIN_INSPECTOR
-    #if UNITY_EDITOR
+
     [HideInInspector]
     public CellData[,] CellDatas;
 
     public Dictionary<GridPosition, EntitySpawn> EntitySpawns;
 
-    [SerializeField, HideInInspector]
-    private string _selectedGrid;
+    
     [ValueDropdown("GetSavedGrids"), OnValueChanged("LoadSelectedGrid")]
     public string SelectedGrid;
 
@@ -59,7 +74,7 @@ public class GridPlaceholder : SerializedMonoBehaviour
             this._selectedGrid = SelectedGrid;
         }
     }
-#endif
+
     #endregion
     public bool IsCombatGrid = false;
 
@@ -68,20 +83,8 @@ public class GridPlaceholder : SerializedMonoBehaviour
 
     private float cellsWidth => SettingsManager.Instance.GridsPreset.CellsSize;
 
-    public Vector3 TopLeftOffset;
-
     [HideInInspector]
     public GameObject Plane;
-
-    private void Start()
-    {
-        if(GridManager.Instance != null)
-        {
-            GridManager.Instance.GenerateGrid(this.TopLeftOffset, GridManager.Instance.SavedGrids[this._selectedGrid]);
-
-            Destroy(this.gameObject);
-        }
-    }
 
     public void GenerateGrid(int height, int width)
     {
@@ -176,7 +179,7 @@ public class GridPlaceholder : SerializedMonoBehaviour
         Color blue = new Color(Color.blue.r, Color.blue.g, Color.blue.b, 0.4f);
 
         float cellsWidth = SettingsManager.Instance.GridsPreset.CellsSize;
-        Vector3 cellBounds = new Vector3(cellsWidth - 1f, 2f, cellsWidth - 1f);
+        Vector3 cellBounds = new Vector3(cellsWidth - cellsWidth/15f, cellsWidth/6f, cellsWidth - cellsWidth/15f);
 
         for (int i = 0; i < this.GridHeight; i++)
         {
@@ -194,7 +197,7 @@ public class GridPlaceholder : SerializedMonoBehaviour
                 else
                     Gizmos.color = blue;
 
-                Vector3 pos = new Vector3(j * cellsWidth + TopLeftOffset.x + (cellsWidth / 2), 0.1f, -i * cellsWidth + TopLeftOffset.z - (cellsWidth / 2));
+                Vector3 pos = new Vector3(j * cellsWidth + TopLeftOffset.x + (cellsWidth / 2), cellBounds.y /2f, -i * cellsWidth + TopLeftOffset.z - (cellsWidth / 2));
 
                 Gizmos.DrawCube(pos, cellBounds);
             }
@@ -205,7 +208,7 @@ public class GridPlaceholder : SerializedMonoBehaviour
             int counter = 0;
             foreach (var entity in this.EntitySpawns)
             {
-                drawString(counter.ToString(), new Vector3(entity.Key.latitude * cellsWidth + TopLeftOffset.x + (cellsWidth / 2), 2f, -entity.Key.longitude * cellsWidth + TopLeftOffset.z - (cellsWidth / 2)));
+                drawString(counter.ToString(), new Vector3(entity.Key.latitude * cellsWidth + TopLeftOffset.x + (cellsWidth / 2), cellBounds.y / 2f + 0.15f, -entity.Key.longitude * cellsWidth + TopLeftOffset.z - (cellsWidth / 2)));
                 counter++;
             }
         }
@@ -252,4 +255,5 @@ public class GridPlaceholder : SerializedMonoBehaviour
             return position;
     }
     #endregion
+#endif
 }

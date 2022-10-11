@@ -6,6 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using System;
+using Jemkont.Entity;
 
 namespace Jemkont.GridSystem
 {
@@ -37,23 +38,23 @@ namespace Jemkont.GridSystem
                 if (GridManager.Instance.SavedGrids.TryGetValue(this.UName, out GridData grid))
                 {
                     this.DestroyChildren();
-                    this.Init(grid.GridHeight, grid.GridWidth);
-
-                    foreach(CellData cell in grid.CellDatas)
-                        this.Cells[cell.heightPos, cell.widthPos].Datas = cell;
+                    this.Init(grid);
                 }
                 else
                     Debug.LogError("Could find grid : " + this.UName + " in the loaded grids");
             }
         }
 
-
-        public void Init(int height, int width)
+        public void Init(GridData data)
         {
-            this.GridHeight = height;
-            this.GridWidth = width;
+            this.GridHeight = data.GridHeight;
+            this.GridWidth = data.GridWidth;
+            this.IsCombatGrid = data.IsCombatGrid;
 
-            this.GenerateGrid(height, width);
+            this.GenerateGrid(data);
+
+            GridManager.Instance.SetupPlayer(this);
+            this.RedrawGrid();
         }
 
         public void DestroyChildren()
@@ -69,22 +70,21 @@ namespace Jemkont.GridSystem
             this.GenerateGrid(gridData.GridHeight, gridData.GridWidth);
 
             foreach(CellData data in gridData.CellDatas)
-                this.Cells[data.heightPos, data.widthPos].ChangeCellState(data.state);
+                this.Cells[data.heightPos, data.widthPos].Datas.state = data.state;
 
             this.GridEntities = new List<CharacterEntity>();
             if(gridData.EntitiesSpawns != null)
             {
                 foreach (var entity in gridData.EntitiesSpawns)
                 {
-                    if (entity.Value != null && entity.Value != Guid.Empty)
-                        this.GridEntities.Add(
-                            Instantiate(
-                                CombatManager.Instance.EntitiesSpawnsSO[entity.Value].Entity, 
-                                this.Cells[entity.Key.longitude, entity.Key.latitude].WorldPosition,
-                                Quaternion.identity,
-                                this.transform
-                            )
-                         );
+                    if (entity.Value != null)
+                    {
+                        if (CombatManager.Instance.EntitiesSpawnsSO.TryGetValue(entity.Value, out EntitySpawn entitySO))
+                        {
+                            this.Cells[entity.Key.longitude, entity.Key.latitude].Datas.state = CellState.EntityIn;
+                            this.GridEntities.Add(Instantiate(entitySO.Entity, this.Cells[entity.Key.longitude, entity.Key.latitude].WorldPosition, Quaternion.identity, this.transform));
+                        }
+                    }
                 }
             }
         }
@@ -120,6 +120,14 @@ namespace Jemkont.GridSystem
             newCell.Init(height, width, CellState.Walkable, this);
 
             this.Cells[height, width] = newCell;
+        }
+
+        [Button]
+        private void RedrawGrid()
+        {
+            for (int i = 0; i < this.Cells.GetLength(0); i++)
+                for (int j = 0; j < this.Cells.GetLength(1); j++)
+                    this.Cells[i, j].RefreshCell();
         }
 
         public void ResizeGrid(Cell[,] newCells)
