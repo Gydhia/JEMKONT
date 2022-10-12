@@ -22,10 +22,6 @@ public partial class CardEditor : Editor {
         _bgCache.Add(refBG);
     }
 
-    public static Texture2D GetBG(EChipType theme) {
-        return GetBG((int)theme);
-    }
-
     public static Texture2D GetBG(int theme) {
         if (_bgCache == null)
             RefreshBGCache();

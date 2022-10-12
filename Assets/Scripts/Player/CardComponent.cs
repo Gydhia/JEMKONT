@@ -7,6 +7,8 @@ using TMPro;
 using UnityEngine.EventSystems;
 using Jemkont.GridSystem;
 
+
+
 public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler {
 
     public ScriptableCard CardData;
@@ -16,19 +18,20 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
     public TextMeshPro DescText;
 
     [ReadOnly] public bool isInPlacingMode;
-
     [ReadOnly] public bool isHovered;
     [ReadOnly] public bool isPressed;
     [ReadOnly] public bool isDragged;
     public float dragSensivity = 60f;
 
     private Vector2 originPosition;
-    [ReadOnly]public Cell HoveredCell;
+    [ReadOnly] public Cell HoveredCell;
 
     private void Start() {
         originPosition = transform.position;
     }
     public void Update() {
+
+
         Vector2 mousePos = Input.mousePosition;
         if (isDragged) {
             this.Drag(mousePos);
@@ -44,12 +47,13 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
     }
     public void Dissapear() {
         //Idfk
-        //TODO : MAke card dissapear + FX appears?
+        //TODO : Make card dissapear + FX appears?
         IllustrationImage.SetAlpha(0);
         isInPlacingMode = true;
     }
     public void ReAppear() {
         //In case you cancel the spell or anything.
+        //TODO : Make card reappear (inverse of disapear, duh)
         IllustrationImage.SetAlpha(1);
         isInPlacingMode = false;
     }

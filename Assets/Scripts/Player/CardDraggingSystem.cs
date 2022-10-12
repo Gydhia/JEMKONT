@@ -17,7 +17,7 @@ public class CardDraggingSystem : MonoBehaviour {
 
     public void Update() {
        /* Implementation suggestion
-        * if (DraggedCard != null) {
+        if (DraggedCard != null) {
             if (!DraggedCard.isInPlacingMode) {
                 if (DraggedCard.transform.position.y >= DissapearingHeight) {
                     //Card starts to disspear;
