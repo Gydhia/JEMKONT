@@ -9,7 +9,7 @@ namespace Jemkont.Entity
 {
     public abstract class CharacterEntity : MonoBehaviour
     {
-        public delegate UnityEvent StatModified();
+        public delegate void StatModified();
 
         public event StatModified OnHealthRemoved;
         public event StatModified OnHealthAdded;
@@ -24,28 +24,105 @@ namespace Jemkont.Entity
 
         private EntityStats RefStats;
 
+        public int TurnOrder;
         public bool IsAlly = true;
-        public GridPosition PlayerPosition = GridPosition.zero;
+        public GridPosition EntityPosition = GridPosition.zero;
         public CombatGrid CurrentGrid;
+
+        public List<CharacterEntity> Invocations;
 
 
         public Dictionary<EntityStatistics, int> Statistics;
-        public int Health { get => Statistics[EntityStatistics.Health]; private set => Statistics[EntityStatistics.Health] = value; }
-        public int Strenght { get => Statistics[EntityStatistics.Strenght]; private set => Statistics[EntityStatistics.Strenght] = value; }
-        public int Dexterity { get => Statistics[EntityStatistics.Dexterity]; private set => Statistics[EntityStatistics.Dexterity] = value; }
-        public int Movement { get => Statistics[EntityStatistics.Movement]; private set => Statistics[EntityStatistics.Movement] = value; }
-        public int Mana { get => Statistics[EntityStatistics.Mana]; private set => Statistics[EntityStatistics.Mana] = value; }
-
-        public bool TryGoTo(Cell destination)
+        public int Health 
+        { 
+            get => Statistics[EntityStatistics.Health];
+            private set 
+            {
+                Statistics[EntityStatistics.Health] += value;
+                if (value > 0)
+                    this.OnHealthAdded?.Invoke();
+                else
+                    this.OnHealthRemoved?.Invoke();
+            }
+        }
+        public int Strenght 
+        { 
+            get => Statistics[EntityStatistics.Strenght]; 
+            private set 
+            {
+                Statistics[EntityStatistics.Strenght] += value;
+                if (value > 0)
+                    this.OnStrenghtAdded?.Invoke();
+                else
+                    this.OnStrenghtRemoved?.Invoke();
+            } 
+        }
+        public int Dexterity
+        { 
+            get => Statistics[EntityStatistics.Dexterity]; 
+            private set 
+            { 
+                Statistics[EntityStatistics.Dexterity] += value;
+                if (value > 0)
+                    this.OnDexterityAdded?.Invoke();
+                else
+                    this.OnDexterityRemoved?.Invoke();
+            } 
+        }
+        public int Movement
+        { 
+            get => Statistics[EntityStatistics.Movement]; 
+            private set 
+            { 
+                Statistics[EntityStatistics.Movement] += value;
+                if (value > 0)
+                    this.OnMovementAdded?.Invoke();
+                else
+                    this.OnMovementRemoved?.Invoke();
+            } 
+        }
+        public int Mana 
         {
-            this.PlayerPosition = new GridPosition(destination.Datas.heightPos, destination.Datas.widthPos);
+            get => Statistics[EntityStatistics.Mana]; 
+            private set 
+            { 
+                Statistics[EntityStatistics.Mana] += value;
+                if (value > 0)
+                    this.OnManaAdded?.Invoke();
+                else
+                    this.OnManaRemoved?.Invoke();
+            } 
+        }
+
+        public bool TryGoTo(Cell destination, int cost)
+        {
+            this.Movement = -cost;
+
+            this.EntityPosition = new GridPosition(destination.Datas.heightPos, destination.Datas.widthPos);
             this.transform.position = destination.WorldPosition;
             
             return true;
         }
 
-        public void Init(EntityStats stats)
+        public void EndTurn()
         {
+
+        }
+
+        public void StartTurn()
+        {
+            this.ReinitializeStat(EntityStatistics.Movement);
+            this.ReinitializeStat(EntityStatistics.Mana);
+
+            GridManager.Instance.ShowPossibleMovements(this);
+        }
+
+        public void Init(EntityStats stats, Cell refCell, CombatGrid refGrid)
+        {
+            this.transform.position = refCell.WorldPosition;
+            this.EntityPosition = refCell.PositionInGrid;
+            this.CurrentGrid = refGrid;
+
             this.RefStats = stats;
             this.Statistics = new Dictionary<EntityStatistics, int>();
 
@@ -56,104 +133,16 @@ namespace Jemkont.Entity
             this.Statistics.Add(EntityStatistics.Mana, stats.Mana);
         }
 
-        public void ChangeStatistic(EntityStatistics stat, int value)
+        public void ReinitializeStat(EntityStatistics stat)
         {
             switch (stat)
             {
-                case EntityStatistics.Health: this._changeHealth(value); break;
-                case EntityStatistics.Mana: this._changeMana(value); break;
-                case EntityStatistics.Movement: this._changeMovement(value); break;
-                case EntityStatistics.Strenght: this._changeStrenght(value); break;
-                case EntityStatistics.Dexterity: this._changeDexterity(value); break;
+                case EntityStatistics.Health: this.Statistics[EntityStatistics.Health] = this.RefStats.Health; break;
+                case EntityStatistics.Mana: this.Statistics[EntityStatistics.Mana] = this.RefStats.Mana; break;
+                case EntityStatistics.Movement: this.Statistics[EntityStatistics.Movement] = this.RefStats.Movement; break;
+                case EntityStatistics.Strenght: this.Statistics[EntityStatistics.Strenght] = this.RefStats.Strenght; break;
+                case EntityStatistics.Dexterity: this.Statistics[EntityStatistics.Dexterity] = this.RefStats.Dexterity; break;
             }
-        }
-
-        private void _changeHealth(int value)
-        {
-            if (value < 0)
-                this._removeHealth(value);
-            else
-                this._addHealth(value);
-        }
-
-        private void _changeStrenght(int value)
-        {
-            if (value < 0)
-                this._removeStrenght(value);
-            else
-                this._addStrenght(value);
-        }
-        private void _changeDexterity(int value)
-        {
-            if (value < 0)
-                this._removeDexterity(value);
-            else
-                this._addDexterity(value);
-        }
-        private void _changeMana(int value)
-        {
-            if (value < 0)
-                this._removeMana(value);
-            else
-                this._addMana(value);
-        }
-        private void _changeMovement(int value)
-        {
-            if (value < 0)
-                this._removeMovement(value);
-            else
-                this._addMovement(value);
-        }
-
-        private void _addHealth(int value)
-        {
-            this.Health += value;
-            this.OnHealthAdded?.Invoke();
-        }
-        private void _removeHealth(int value)
-        {
-            this.Health -= value;
-            this.OnHealthRemoved?.Invoke();
-        }
-        private void _addStrenght(int value)
-        {
-            this.Strenght += value;
-            this.OnStrenghtAdded?.Invoke();
-        }
-        private void _removeStrenght(int value)
-        {
-            this.Strenght -= value;
-            this.OnStrenghtRemoved?.Invoke();
-        }
-        private void _addDexterity(int value)
-        {
-            this.Dexterity += value;
-            this.OnDexterityAdded?.Invoke();
-        }
-        private void _removeDexterity(int value)
-        {
-            this.Dexterity -= value;
-            this.OnDexterityRemoved?.Invoke();
-        }
-        private void _addMana(int value)
-        {
-            this.Mana += value;
-            this.OnManaAdded?.Invoke();
-        }
-        private void _removeMana(int value)
-        {
-            this.Mana -= value;
-            this.OnManaRemoved?.Invoke();
-        }
-        private void _addMovement(int value)
-        {
-            this.Movement += value;
-            this.OnMovementAdded?.Invoke();
-        }
-        private void _removeMovement(int value)
-        {
-            this.Movement -= value;
-            this.OnMovementRemoved?.Invoke();
         }
     }
 }

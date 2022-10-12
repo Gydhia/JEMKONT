@@ -41,7 +41,6 @@ namespace Jemkont.GridSystem
 
             this.Datas.state = state;
 
-            float edgesOffset = SettingsManager.Instance.GridsPreset.CellsEdgeOffset;
             float cellsWidth = SettingsManager.Instance.GridsPreset.CellsSize;
 
             // Scale the plane according to preset's width
@@ -68,7 +67,6 @@ namespace Jemkont.GridSystem
                 default: stateColor = Color.grey; break;
             }
 
-            Debug.Log("Change [" + this.Datas.heightPos + "," + this.Datas.widthPos + "] to " + newState.ToString());
             this.ChangeStateColor(stateColor);
         }
 

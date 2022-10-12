@@ -9,6 +9,7 @@ namespace Jemkont.Managers
     {
         public GridsPreset GridsPreset;
         public InputPreset InputPreset;
+        public CombatPreset CombatPreset;
 
         // for test
         public EntityStats PlayerStats;

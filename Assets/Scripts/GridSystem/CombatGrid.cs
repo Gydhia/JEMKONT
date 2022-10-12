@@ -13,6 +13,7 @@ namespace Jemkont.GridSystem
     public class CombatGrid : SerializedMonoBehaviour
     {
         public string UName;
+        public bool HasStarted = false;
 
         private float widthOffset => SettingsManager.Instance.GridsPreset.CellsSize / 2f;
         private float cellsWidth => SettingsManager.Instance.GridsPreset.CellsSize;
@@ -39,6 +40,7 @@ namespace Jemkont.GridSystem
                 {
                     this.DestroyChildren();
                     this.Init(grid);
+                    GridManager.Instance.GameGrids.Add(this.UName, this);
                 }
                 else
                     Debug.LogError("Could find grid : " + this.UName + " in the loaded grids");
@@ -52,9 +54,15 @@ namespace Jemkont.GridSystem
             this.IsCombatGrid = data.IsCombatGrid;
 
             this.GenerateGrid(data);
-
-            GridManager.Instance.SetupPlayer(this);
             this.RedrawGrid();
+
+            // TODO: Temporary, we'll need to define a start grid and then use this to switch from grid to grid
+            this.OnEnteredGrid();
+        }
+
+        public void OnEnteredGrid()
+        {
+            PlayerManager.Instance.CreatePlayer(this);
         }
 
         public void DestroyChildren()
@@ -82,7 +90,11 @@ namespace Jemkont.GridSystem
                         if (CombatManager.Instance.EntitiesSpawnsSO.TryGetValue(entity.Value, out EntitySpawn entitySO))
                         {
                             this.Cells[entity.Key.longitude, entity.Key.latitude].Datas.state = CellState.EntityIn;
-                            this.GridEntities.Add(Instantiate(entitySO.Entity, this.Cells[entity.Key.longitude, entity.Key.latitude].WorldPosition, Quaternion.identity, this.transform));
+                            CharacterEntity newEntity = Instantiate(entitySO.Entity, this.Cells[entity.Key.longitude, entity.Key.latitude].WorldPosition, Quaternion.identity, this.transform);
+                            newEntity.IsAlly = false;
+                            newEntity.Init(entitySO.Statistics, this.Cells[entity.Key.longitude, entity.Key.latitude], this);
+
+                            this.GridEntities.Add(newEntity);
                         }
                     }
                 }

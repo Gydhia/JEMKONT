@@ -26,3 +26,4 @@ MonoBehaviour:
       Data: 6f68f9846b6b35847fcd13f8ebddab6f
   UName: Zeqsd
   Entity: {fileID: 2281775837897738858, guid: 10cdf3718853e83478224876a983a1f5, type: 3}
+  Statistics: {fileID: 11400000, guid: 749d1a933eed5214c9209d8ec792b76b, type: 2}

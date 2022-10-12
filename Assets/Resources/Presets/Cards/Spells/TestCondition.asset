@@ -22,10 +22,10 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   DmgsOverShield: 0
-  Dmgs: 0
+  Dmgs: 1
   OneDamagedTarget: 0
   Damages: 0
-  Healing: 0
+  Healing: 1
   OneHealedTarget: 0
   Heal: 0
   IsDebuff: 0

@@ -9,13 +9,6 @@ namespace Jemkont.Entity
     {
         public MeshRenderer PlayerBody;
 
-        public void Init(GridPosition startingPosition, Vector3 worldPosition, GridSystem.CombatGrid grid)
-        {
-            this.PlayerPosition = startingPosition;
-            this.gameObject.transform.position = new Vector3(worldPosition.x, 0f, worldPosition.z);
-            this.CurrentGrid = grid;
-        }
-
         public void MovePlayer()
         {
 

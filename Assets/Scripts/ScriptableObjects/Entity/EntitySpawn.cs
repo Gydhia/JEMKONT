@@ -25,4 +25,6 @@ public class EntitySpawn : SerializedScriptableObject
     }
 
     public CharacterEntity Entity;
+
+    public EntityStats Statistics;
 }
