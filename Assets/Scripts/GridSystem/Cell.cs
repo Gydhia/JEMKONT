@@ -63,7 +63,6 @@ namespace Jemkont.GridSystem
             {
                 case CellState.Blocked: stateColor = Color.red; break;
                 case CellState.EntityIn: stateColor = Color.blue; break;
-
                 case CellState.Walkable:
                 default: stateColor = Color.grey; break;
             }
