@@ -6,7 +6,7 @@ using UnityEngine;
 
 public enum EChipType { Melee, Ranged, Special }
 
-[CreateAssetMenu(menuName ="Chip")]
+[CreateAssetMenu(menuName ="Card")]
 public class  ScriptableCard : ScriptableObject {
     public string Title;
     public int Cost;
