@@ -25,14 +25,14 @@ namespace Jemkont.UI
             PlayerManager.Instance.SelfPlayer.OnMovementAdded += _onMoveChanged;
             PlayerManager.Instance.SelfPlayer.OnMovementRemoved += _onMoveChanged;
 
-            this._onManaChanged();
-            this._onHealthChanged();
-            this._onMoveChanged();
+            this._onManaChanged(null);
+            this._onHealthChanged(null);
+            this._onMoveChanged(null);
         }
 
-        private void _onManaChanged() { this.SetManaText(PlayerManager.Instance.SelfPlayer.Mana); }
-        private void _onHealthChanged() { this.SetHealthText(PlayerManager.Instance.SelfPlayer.Health); }
-        private void _onMoveChanged() { this.SetMoveText(PlayerManager.Instance.SelfPlayer.Movement); }
+        private void _onManaChanged(Events.SpellEventData data) { this.SetManaText(PlayerManager.Instance.SelfPlayer.Mana); }
+        private void _onHealthChanged(Events.SpellEventData data) { this.SetHealthText(PlayerManager.Instance.SelfPlayer.Health); }
+        private void _onMoveChanged(Events.SpellEventData data) { this.SetMoveText(PlayerManager.Instance.SelfPlayer.Movement); }
 
         public void SetManaText(int value)
         {

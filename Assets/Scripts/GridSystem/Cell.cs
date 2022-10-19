@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using Jemkont.Entity;
 
 namespace Jemkont.GridSystem
 {
@@ -25,6 +26,7 @@ namespace Jemkont.GridSystem
         public int fCost { get { return gCost + hCost; } }
 
         public Cell parent;
+        public CharacterEntity EntityIn;
 
         public GridPosition PositionInGrid => new GridPosition(this.Datas.heightPos, this.Datas.widthPos);
         public Vector3 WorldPosition => this.gameObject.transform.position;

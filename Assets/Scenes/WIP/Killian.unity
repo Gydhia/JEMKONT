@@ -324,6 +324,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1882780771}
     m_Modifications:
+    - target: {fileID: 845516420074002040, guid: d47697b3d0d1e924eaead537ef6cad1b, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -225
+      objectReference: {fileID: 0}
     - target: {fileID: 2860230959106445603, guid: d47697b3d0d1e924eaead537ef6cad1b, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -429,24 +433,16 @@ PrefabInstance:
       value: CardsSection
       objectReference: {fileID: 0}
     - target: {fileID: 6970170833602928675, guid: d47697b3d0d1e924eaead537ef6cad1b, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6970170833602928675, guid: d47697b3d0d1e924eaead537ef6cad1b, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6970170833602928675, guid: d47697b3d0d1e924eaead537ef6cad1b, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6970170833602928675, guid: d47697b3d0d1e924eaead537ef6cad1b, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 212.53
-      objectReference: {fileID: 0}
-    - target: {fileID: 6970170833602928675, guid: d47697b3d0d1e924eaead537ef6cad1b, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 111.2
+      value: -225
+      objectReference: {fileID: 0}
+    - target: {fileID: 9123825442910001026, guid: d47697b3d0d1e924eaead537ef6cad1b, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -150
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d47697b3d0d1e924eaead537ef6cad1b, type: 3}
@@ -796,7 +792,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1233273961}
   m_LocalRotation: {x: 0.66281605, y: 0, z: 0, w: 0.7487823}
-  m_LocalPosition: {x: 14.72, y: 14.43, z: -8.97}
+  m_LocalPosition: {x: 11.52, y: 14.43, z: -9.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -847,37 +843,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 927e7db90a8d295428f19e4de064aca1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1660169165
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1660169166}
-  m_Layer: 0
-  m_Name: Spell_FireBall
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1660169166
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1660169165}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1809787849
 GameObject:
   m_ObjectHideFlags: 0

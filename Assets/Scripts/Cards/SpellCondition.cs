@@ -71,6 +71,13 @@ namespace Jemkont.Spells
                     else if (dmg > this.Damages)
                         return true;
                 }
+                foreach (int dmg in this._currentResult.DamagesOnShield.Values)
+                {
+                    if (!this.OneDamagedTarget)
+                        total += dmg;
+                    else if (dmg > this.Damages)
+                        return true;
+                }
 
                 if (!this.OneDamagedTarget && total > this.Damages)
                     return true;
@@ -79,7 +86,7 @@ namespace Jemkont.Spells
             {
                 // If the condition is for one target, or every damages dealt
                 int total = 0;
-                foreach (int dmgOverShield in this._currentResult.DamagesOverShield.Values)
+                foreach (int dmgOverShield in this._currentResult.DamagesDealt.Values)
                 {
                     if (!this.OneDamagedTarget)
                         total += dmgOverShield;
@@ -110,9 +117,10 @@ namespace Jemkont.Spells
 
         public bool CheckBuffs()
         {
-            foreach (BuffType buff in this._currentResult.BuffGiven.Values)
-                if (buff == this.Buff)
-                    return true;
+            foreach (List<BuffType> buffs in this._currentResult.BuffGiven.Values)
+                foreach(BuffType buff in buffs)
+                    if (buff == this.Buff)
+                        return true;
 
             return false;
         }

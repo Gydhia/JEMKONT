@@ -6,6 +6,6 @@ namespace Jemkont.Entity
 {
     public class EnemyEntity : CharacterEntity
     {
-
+        
     }
 }
