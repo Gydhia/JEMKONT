@@ -46,7 +46,7 @@ public class GridEditor : OdinEditor
         }
         if (GUI.Button(GUILayoutUtility.GetRect(0, int.MaxValue, 20, 20), "Save"))
         {
-            GridManager.Instance.SaveGridAsJSON(this._target.CellDatas, this._target.SelectedGrid);
+            GridManager.Instance.SaveGridAsJSON(this._target.GetGridData(), this._target.SelectedGrid);
         }
         if(GUI.Button(GUILayoutUtility.GetRect(0, int.MaxValue, 20, 20), "Reload"))
         {
@@ -93,8 +93,29 @@ public class GridEditor : OdinEditor
                 EditorUtility.SetDirty(this._target.gameObject);
                 GridPosition pos = this._target.GetGridIndexFromWorld(hit.point);
 
-                CellState currState = this._target.CellDatas[pos.x, pos.y].state;
-                this._target.CellDatas[pos.x, pos.y].state = (currState == CellState.Blocked) ? CellState.Walkable : CellState.Blocked;
+                CellState currState = this._target.CellDatas[pos.longitude, pos.latitude].state;
+                this._target.CellDatas[pos.longitude, pos.latitude].state = (currState == CellState.Blocked) ? CellState.Walkable : CellState.Blocked;
+            }
+        }
+        else if(Event.current.shift && Event.current.keyCode == KeyCode.A && Event.current.type == EventType.KeyDown)
+        {
+            Ray ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, 1 << 6))
+            {
+                if (this._target.EntitySpawns == null)
+                    this._target.EntitySpawns = new Dictionary<GridPosition, EntitySpawn>();
+
+                GridPosition pos = this._target.GetGridIndexFromWorld(hit.point);
+                if(!this._target.EntitySpawns.ContainsKey(pos))
+                {
+                    this._target.CellDatas[pos.longitude, pos.latitude].state = CellState.EntityIn;
+                    this._target.EntitySpawns.Add(pos, null);
+                }
+                else
+                {
+                    this._target.CellDatas[pos.longitude, pos.latitude].state = CellState.Walkable;
+                    this._target.EntitySpawns.Remove(pos);
+                }
             }
         }
     }

@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using Jemkont.Entity;
 
 namespace Jemkont.GridSystem
 {
     public class Cell : MonoBehaviour
     {
         #region Appearance
-        public MeshRenderer TopEdge;
-        public MeshRenderer BottomEdge;
-        public MeshRenderer LeftEdge;
-        public MeshRenderer RightEdge;
+        public MeshRenderer SelfPlane;
         #endregion
 
         public BoxCollider Collider;
@@ -28,6 +26,7 @@ namespace Jemkont.GridSystem
         public int fCost { get { return gCost + hCost; } }
 
         public Cell parent;
+        public CharacterEntity EntityIn;
 
         public GridPosition PositionInGrid => new GridPosition(this.Datas.heightPos, this.Datas.widthPos);
         public Vector3 WorldPosition => this.gameObject.transform.position;
@@ -44,27 +43,19 @@ namespace Jemkont.GridSystem
 
             this.Datas.state = state;
 
-            float edgesOffset = SettingsManager.Instance.GridsPreset.CellsEdgeOffset;
             float cellsWidth = SettingsManager.Instance.GridsPreset.CellsSize;
 
-            // Scale the edges according to preset's width
-            this.TopEdge.gameObject.transform.localScale = this.BottomEdge.gameObject.transform.localScale = new Vector3(cellsWidth / 2f, 0.1f, 0.1f);
-            this.LeftEdge.gameObject.transform.localScale = this.RightEdge.gameObject.transform.localScale = new Vector3(0.1f, 0.1f, cellsWidth / 2f);
+            // Scale the plane according to preset's width
+            this.SelfPlane.gameObject.transform.localScale = new Vector3(cellsWidth / 10f - cellsWidth / 150f, 0.1f, cellsWidth / 10f - cellsWidth / 150f);
 
-            // Move the edges to the right position
-            this.TopEdge.gameObject.transform.localPosition = new Vector3(0f, 0f, cellsWidth / 2f - edgesOffset);
-            this.BottomEdge.gameObject.transform.localPosition = new Vector3(0f, 0f, edgesOffset - cellsWidth / 2f);
-            this.LeftEdge.gameObject.transform.localPosition = new Vector3(cellsWidth / 2f - edgesOffset, 0f, 0f);
-            this.RightEdge.gameObject.transform.localPosition = new Vector3(edgesOffset - cellsWidth / 2f, 0f, 0f);
-
-            this.Collider.size = new Vector3(cellsWidth - 0.01f, 1.5f, cellsWidth - 0.01f);
+            this.Collider.size = new Vector3(cellsWidth, cellsWidth / 6f, cellsWidth);
 
             this.ChangeStateColor(Color.grey);
         }
 
-        public void ChangeCellState(CellState newState)
+        public void ChangeCellState(CellState newState, bool force = false)
         {
-            if (this.Datas.state == newState)
+            if (!force && this.Datas.state == newState)
                 return;
             this.Datas.state = newState;
 
@@ -75,7 +66,7 @@ namespace Jemkont.GridSystem
                 case CellState.EntityIn: stateColor = Color.blue; break;
 
                 case CellState.Walkable:
-                default: stateColor = Color.white; break;
+                default: stateColor = Color.grey; break;
             }
 
             this.ChangeStateColor(stateColor);
@@ -84,15 +75,14 @@ namespace Jemkont.GridSystem
         public void ChangeStateColor(Color color)
         {
             if (Application.isPlaying)
-            {
-                this.LeftEdge.material.color = this.BottomEdge.material.color =
-                this.RightEdge.material.color = this.TopEdge.material.color = color;
-            }
+                this.SelfPlane.material.color = color;
             else
-            {
-                this.LeftEdge.sharedMaterial.color = this.BottomEdge.sharedMaterial.color =
-                this.RightEdge.sharedMaterial.color = this.TopEdge.sharedMaterial.color = color;
-            }
+                this.SelfPlane.sharedMaterial.color = color;
+        }
+        
+        public void RefreshCell()
+        {
+            this.ChangeCellState(this.Datas.state, true);
         }
     }
 
@@ -105,10 +95,11 @@ namespace Jemkont.GridSystem
             this.widthPos = xPos;
             this.state = state;
         }
-
+        [ShowInInspectorAttribute]
         public int heightPos { get; set; }
+        [ShowInInspectorAttribute]
         public int widthPos { get; set; }
-
+        [ShowInInspectorAttribute]
         public CellState state { get; set; }
     }
 

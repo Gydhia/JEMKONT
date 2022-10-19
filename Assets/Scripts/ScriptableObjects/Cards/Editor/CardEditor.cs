@@ -1,3 +1,4 @@
+using Jemkont.Mechanics;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -41,162 +42,166 @@ public partial class CardEditor : Editor {
     /// </summary>
     public bool RemoveRequired { get; protected set; } = false;
 
-    public override void OnInspectorGUI() {
-        // try {
-        var Cost = serializedObject.FindProperty(nameof(Target.Cost));
-        if (GUILayout.Button("RefreshBGCache"))
-            RefreshBGCache();
+    //public override void OnInspectorGUI() {
 
-        // start
-        EditorGUI.BeginChangeCheck();
-        serializedObject.UpdateIfRequiredOrScript();
+    //    base.OnInspectorGUI();
+    //    // try {
+    //    var Cost = serializedObject.FindProperty(nameof(Target.Cost));
+    //    if (GUILayout.Button("RefreshBGCache"))
+    //        RefreshBGCache();
 
-        // var propTheme = serializedObject.FindProperty("Data").FindPropertyRelative("Theme");
-        EditorGUILayout.PropertyField(Cost);
+    //    // start
+    //    EditorGUI.BeginChangeCheck();
+    //    serializedObject.UpdateIfRequiredOrScript();
 
-        // Background
-        var rect = GUILayoutUtility.GetRect(256,6);
-        if(_bgCache == null) RefreshBGCache();
-        var bg = _bgCache[0];
+    //    // var propTheme = serializedObject.FindProperty("Data").FindPropertyRelative("Theme");
+    //    EditorGUILayout.PropertyField(Cost);
 
-        var bgWidth = Mathf.Min(Screen.width,_maxWidth);
-        GUI.DrawTexture(
-            new Rect(
-                Screen.width > bgWidth ?
-                (Screen.width - bgWidth) / 2f 
-                : 0,rect.y,bgWidth,bgWidth 
-                * bg.height 
-                / bg.width),
-            bg,
-            ScaleMode.ScaleToFit,true);
+    //    // Background
+    //    var rect = GUILayoutUtility.GetRect(256,6);
+    //    if(_bgCache == null) RefreshBGCache();
+    //    var bg = _bgCache[0];
 
-        // Content 
-        var contentWidth = bgWidth - bgWidth * (_margins * 2f);
-        contentWidth = Mathf.Min(contentWidth,_maxWidth);
-        var inMargin = (bgWidth * _margins) / 2f;
-        float posY = 0f;
+    //    var bgWidth = Mathf.Min(Screen.width,_maxWidth);
+    //    GUI.DrawTexture(
+    //        new Rect(
+    //            Screen.width > bgWidth ?
+    //            (Screen.width - bgWidth) / 2f 
+    //            : 0,rect.y,bgWidth,bgWidth 
+    //            * bg.height 
+    //            / bg.width),
+    //        bg,
+    //        ScaleMode.ScaleToFit,true);
 
-        // Container
-        using (new EditorGUILayout.HorizontalScope()) {
-            GUILayout.FlexibleSpace();
-            // Content
-            using (new EditorGUILayout.VerticalScope(GUILayout.Width(contentWidth))) {
-                GUILayout.Space(bgWidth * _margins);
+    //    // Content 
+    //    var contentWidth = bgWidth - bgWidth * (_margins * 2f);
+    //    contentWidth = Mathf.Min(contentWidth,_maxWidth);
+    //    var inMargin = (bgWidth * _margins) / 2f;
+    //    float posY = 0f;
 
-                posY += (bgWidth * _margins);
+    //    // Container
+    //    using (new EditorGUILayout.HorizontalScope()) {
+    //        GUILayout.FlexibleSpace();
+    //        // Content
+    //        using (new EditorGUILayout.VerticalScope(GUILayout.Width(contentWidth))) {
+    //            GUILayout.Space(bgWidth * _margins);
 
-                GUILayout.Space(inMargin);
-                posY += (inMargin);
+    //            posY += (bgWidth * _margins);
 
-                // Image
+    //            GUILayout.Space(inMargin);
+    //            posY += (inMargin);
 
-                var bgimage = AssetPreview.GetAssetPreview(Target.IllustrationImage);
+    //            // Image
 
-                var flexibleBorderMargin = (Screen.width - contentWidth) / 2f;
-                if (bgimage != null)
-                    GUI.DrawTexture(new Rect(flexibleBorderMargin,posY + 75,contentWidth,contentWidth / _imageAspect),bgimage,ScaleMode.ScaleToFit,true);
-                using (new EditorGUILayout.VerticalScope(GUILayout.Width(contentWidth),GUILayout.Height(contentWidth / _imageAspect))) {
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(Target.IllustrationImage)),new GUIContent("Illustration","Illustration"));
-                }
+    //            var bgimage = AssetPreview.GetAssetPreview(Target.IllustrationImage);
 
-                posY += (contentWidth / _imageAspect);
-                posY += (inMargin);
+    //            var flexibleBorderMargin = (Screen.width - contentWidth) / 2f;
+    //            if (bgimage != null)
+    //                GUI.DrawTexture(new Rect(flexibleBorderMargin,posY + 75,contentWidth,contentWidth / _imageAspect),bgimage,ScaleMode.ScaleToFit,true);
+    //            using (new EditorGUILayout.VerticalScope(GUILayout.Width(contentWidth),GUILayout.Height(contentWidth / _imageAspect))) {
+    //                EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(Target.IllustrationImage)),new GUIContent("Illustration","Illustration"));
+    //            }
 
-                // Title
+    //            posY += (contentWidth / _imageAspect);
+    //            posY += (inMargin);
 
-                var propTitle = serializedObject.FindProperty(nameof(Target.Title));
-                var styleTitle = new GUIStyle("DefaultCenteredLargeText");
-                styleTitle.normal.textColor = Color.white;
-                propTitle.stringValue = EditorGUILayout.TextField(propTitle.stringValue,styleTitle);
-                posY += styleTitle.lineHeight + styleTitle.padding.top + styleTitle.padding.bottom;
+    //            // Title
 
-                GUILayout.Space(inMargin);
-                posY += (inMargin);
+    //            var propTitle = serializedObject.FindProperty(nameof(Target.Title));
+    //            var styleTitle = new GUIStyle("DefaultCenteredLargeText");
+    //            styleTitle.normal.textColor = Color.white;
+    //            propTitle.stringValue = EditorGUILayout.TextField(propTitle.stringValue,styleTitle);
+    //            posY += styleTitle.lineHeight + styleTitle.padding.top + styleTitle.padding.bottom;
 
-                // Description
+    //            GUILayout.Space(inMargin);
+    //            posY += (inMargin);
 
-                var propDescription = serializedObject.FindProperty(nameof(Target.Description));
-                var descHeight = (bg.height * (bgWidth / bg.width)) - posY - (bgWidth * _margins);
-                var styleDesc = new GUIStyle("DefaultCenteredText");
-                styleDesc.alignment = TextAnchor.UpperCenter;
-                styleDesc.normal.textColor = Color.white;
-                styleDesc.wordWrap = true;
-                propDescription.stringValue = EditorGUILayout.TextArea(propDescription.stringValue,styleDesc,GUILayout.Height(descHeight));
-                posY += styleDesc.CalcHeight(new GUIContent(propDescription.stringValue),contentWidth) + styleDesc.padding.top + styleDesc.padding.bottom;
+    //            // Description
 
-                GUILayout.Space(inMargin);
-                posY += (bgWidth * _margins);
-            }
+    //            var propDescription = serializedObject.FindProperty(nameof(Target.Description));
+    //            var descHeight = (bg.height * (bgWidth / bg.width)) - posY - (bgWidth * _margins);
+    //            var styleDesc = new GUIStyle("DefaultCenteredText");
+    //            styleDesc.alignment = TextAnchor.UpperCenter;
+    //            styleDesc.normal.textColor = Color.white;
+    //            styleDesc.wordWrap = true;
+    //            propDescription.stringValue = EditorGUILayout.TextArea(propDescription.stringValue,styleDesc,GUILayout.Height(descHeight));
+    //            posY += styleDesc.CalcHeight(new GUIContent(propDescription.stringValue),contentWidth) + styleDesc.padding.top + styleDesc.padding.bottom;
 
-            GUILayout.FlexibleSpace();
+    //            GUILayout.Space(inMargin);
+    //            posY += (bgWidth * _margins);
+    //        }
 
-        }
+    //        GUILayout.FlexibleSpace();
 
-        // Save
-        if (EditorGUI.EndChangeCheck()) {
+    //        //SerializedProperty Spells = serializedObject.FindProperty(nameof(Target.Spells));
+    //        //EditorGUILayout.PropertyField(Spells, GUILayout.ExpandWidth(true));
+    //    }
 
-            Save();
-        }
-        //} catch {            base.OnInspectorGUI();        }
-    }
+    //    // Save
+    //    if (EditorGUI.EndChangeCheck()) {
+
+    //        Save();
+    //    }
+    //    //} catch {            base.OnInspectorGUI();        }
+    //}
 
     void Save() {
         serializedObject.ApplyModifiedProperties();
         Repaint();
     }
-    public override Texture2D RenderStaticPreview(string assetPath,UnityEngine.Object[] subAssets,int width,int height) {
-        if (Target == null || Target.IllustrationImage == null)
-            return null;
+    //public override Texture2D RenderStaticPreview(string assetPath,UnityEngine.Object[] subAssets,int width,int height) {
+        //if (Target == null || Target.IllustrationImage == null)
+        //    return null;
 
-        Texture2D cache = new Texture2D(width,height);
-        var mimgw = width - Mathf.RoundToInt(width * (_margins * 2f));
-        var mimgh = Mathf.RoundToInt(Target.IllustrationImage.rect.height * (mimgw / Target.IllustrationImage.rect.width));
+        //Texture2D cache = new Texture2D(width,height);
+        //var mimgw = width - Mathf.RoundToInt(width * (_margins * 2f));
+        //var mimgh = Mathf.RoundToInt(Target.IllustrationImage.rect.height * (mimgw / Target.IllustrationImage.rect.width));
 
-        Texture2D bgImg = new Texture2D(mimgw,mimgh);
-        var prev = AssetPreview.GetAssetPreview(Target.IllustrationImage);
-        if (prev == null)
-            return null;
-        EditorUtility.CopySerialized(prev,bgImg);
-        bgImg = ResizeTexture(bgImg,mimgw,mimgh);
+        //Texture2D bgImg = new Texture2D(mimgw,mimgh);
+        //var prev = AssetPreview.GetAssetPreview(Target.IllustrationImage);
+        //if (prev == null)
+        //    return null;
+        //EditorUtility.CopySerialized(prev,bgImg);
+        //bgImg = ResizeTexture(bgImg,mimgw,mimgh);
 
-        Texture2D mainImg = new Texture2D(mimgw,mimgh);
-        prev = AssetPreview.GetAssetPreview(Target.IllustrationImage);
-        if (prev == null)
-            return null;
-        EditorUtility.CopySerialized(prev,mainImg);
-        mainImg = ResizeTexture(mainImg,mimgw,mimgh);
+        //Texture2D mainImg = new Texture2D(mimgw,mimgh);
+        //prev = AssetPreview.GetAssetPreview(Target.IllustrationImage);
+        //if (prev == null)
+        //    return null;
+        //EditorUtility.CopySerialized(prev,mainImg);
+        //mainImg = ResizeTexture(mainImg,mimgw,mimgh);
 
-        var tex = _bgCache[0];
-        tex = ResizeTexture(tex,width,height);
+        //var tex = _bgCache[0];
+        //tex = ResizeTexture(tex,width,height);
 
-        tex.SetPixels((width - mimgw) / 2,height - Mathf.RoundToInt(height * _margins) - mimgh,mimgw,mimgh,bgImg.GetPixels());
+        //tex.SetPixels((width - mimgw) / 2,height - Mathf.RoundToInt(height * _margins) - mimgh,mimgw,mimgh,bgImg.GetPixels());
 
-        int bx = (width - mimgw) / 2;
-        int by = height - Mathf.RoundToInt(height * _margins) - mimgh;
+        //int bx = (width - mimgw) / 2;
+        //int by = height - Mathf.RoundToInt(height * _margins) - mimgh;
 
-        int x1 = 0;
-        int y1 = 0;
-        for (int i = bx;i < bx + mimgw;++i) {
-            y1 = 0;
-            for (int y = by;y < by + mimgh;++y) {
-                var px = mainImg.GetPixel(x1,y1);
-                var px2 = tex.GetPixel(i,y);
-                px2.a = 1f - px.a;
+        //int x1 = 0;
+        //int y1 = 0;
+        //for (int i = bx;i < bx + mimgw;++i) {
+        //    y1 = 0;
+        //    for (int y = by;y < by + mimgh;++y) {
+        //        var px = mainImg.GetPixel(x1,y1);
+        //        var px2 = tex.GetPixel(i,y);
+        //        px2.a = 1f - px.a;
 
-                if (px2.a != 1f) {
-                    tex.SetPixel(i,y,new Color(px.r * px.a + px2.r * px2.a,px.g * px.a + px2.g * px2.a,px.b * px.a + px2.b * px2.a,1f));
-                }
+        //        if (px2.a != 1f) {
+        //            tex.SetPixel(i,y,new Color(px.r * px.a + px2.r * px2.a,px.g * px.a + px2.g * px2.a,px.b * px.a + px2.b * px2.a,1f));
+        //        }
 
-                ++y1;
-            }
-            ++x1;
-        }
+        //        ++y1;
+        //    }
+        //    ++x1;
+        //}
 
-        tex.Apply();
+        //tex.Apply();
 
-        EditorUtility.CopySerialized(tex,cache);
-        return cache;
-    }
+        //EditorUtility.CopySerialized(tex,cache);
+        //return cache;
+    //}
 
     public static Texture2D ResizeTexture(Texture2D img,int width,int height) {
         if (img != null) {

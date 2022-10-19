@@ -5,26 +5,29 @@ using System.Runtime.Serialization;
 using UnityEditor;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using System;
+using Jemkont.Entity;
 
 namespace Jemkont.GridSystem
 {
     public class CombatGrid : SerializedMonoBehaviour
     {
         public string UName;
-
-        // Editor only cause it sucks
-        public bool _inspInited = false;
+        public bool HasStarted = false;
 
         private float widthOffset => SettingsManager.Instance.GridsPreset.CellsSize / 2f;
         private float cellsWidth => SettingsManager.Instance.GridsPreset.CellsSize;
 
-        public int GridHeight = 2;
-        public int GridWidth = 2;
+        public bool IsCombatGrid;
+        public int GridHeight;
+        public int GridWidth;
 
         public Vector3 TopLeftOffset;
 
         [HideInInspector]
         public Cell[,] Cells;
+
+        public List<CharacterEntity> GridEntities;
 
         private void Start()
         {
@@ -36,42 +39,37 @@ namespace Jemkont.GridSystem
                 if (GridManager.Instance.SavedGrids.TryGetValue(this.UName, out GridData grid))
                 {
                     this.DestroyChildren();
-                    this.Init(grid.GridHeight, grid.GridWidth);
-
-                    foreach(CellData cell in grid.CellDatas)
-                        this.Cells[cell.heightPos, cell.widthPos].Datas = cell;
+                    this.Init(grid);
+                    GridManager.Instance.GameGrids.Add(this.UName, this);
                 }
                 else
                     Debug.LogError("Could find grid : " + this.UName + " in the loaded grids");
             }
         }
 
-        [Button]
-        public void SpawnPlayerAtGrid()
+        public void Init(GridData data)
         {
-            GridManager.Instance.SetupPlayer(this);
+            this.GridHeight = data.GridHeight;
+            this.GridWidth = data.GridWidth;
+            this.IsCombatGrid = data.IsCombatGrid;
+
+            this.GenerateGrid(data);
+            this.RedrawGrid();
+
+            // TODO: Temporary, we'll need to define a start grid and then use this to switch from grid to grid
+            this.OnEnteredGrid();
         }
 
-        public void Init(int height, int width)
+        public void OnEnteredGrid()
         {
-            this._inspInited = true;
-
-            this.GridHeight = height;
-            this.GridWidth = width;
-
-            this.GenerateGrid(height, width);
+            PlayerManager.Instance.CreatePlayer(this);
         }
 
         public void DestroyChildren()
         {
             foreach (Transform child in this.transform)
-            {
-#if UNITY_EDITOR
-                GameObject.DestroyImmediate(child.gameObject);
-#else
                 GameObject.Destroy(child.gameObject);
-#endif
-            }
+            
             this.Cells = null;
         }
 
@@ -80,7 +78,27 @@ namespace Jemkont.GridSystem
             this.GenerateGrid(gridData.GridHeight, gridData.GridWidth);
 
             foreach(CellData data in gridData.CellDatas)
-                this.Cells[data.heightPos, data.widthPos].ChangeCellState(data.state);
+                this.Cells[data.heightPos, data.widthPos].Datas.state = data.state;
+
+            this.GridEntities = new List<CharacterEntity>();
+            if(gridData.EntitiesSpawns != null)
+            {
+                foreach (var entity in gridData.EntitiesSpawns)
+                {
+                    if (entity.Value != null)
+                    {
+                        if (CombatManager.Instance.EntitiesSpawnsSO.TryGetValue(entity.Value, out EntitySpawn entitySO))
+                        {
+                            this.Cells[entity.Key.longitude, entity.Key.latitude].Datas.state = CellState.EntityIn;
+                            CharacterEntity newEntity = Instantiate(entitySO.Entity, this.Cells[entity.Key.longitude, entity.Key.latitude].WorldPosition, Quaternion.identity, this.transform);
+                            newEntity.IsAlly = false;
+                            newEntity.Init(entitySO.Statistics, this.Cells[entity.Key.longitude, entity.Key.latitude], this);
+
+                            this.GridEntities.Add(newEntity);
+                        }
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -116,7 +134,15 @@ namespace Jemkont.GridSystem
             this.Cells[height, width] = newCell;
         }
 
-        public void ResizeGrid(Cell[,] newCells, bool hideCells = false)
+        [Button]
+        private void RedrawGrid()
+        {
+            for (int i = 0; i < this.Cells.GetLength(0); i++)
+                for (int j = 0; j < this.Cells.GetLength(1); j++)
+                    this.Cells[i, j].RefreshCell();
+        }
+
+        public void ResizeGrid(Cell[,] newCells)
         {
             int oldHeight = this.Cells.GetLength(0);
             int oldWidth = this.Cells.GetLength(1);
@@ -130,28 +156,17 @@ namespace Jemkont.GridSystem
                 if(newHeight < oldHeight)
                 {
                     for (int i = newHeight; i < oldHeight; i++)
-                    {
                         for (int j = 0; j < oldWidth; j++)
-                        {
-#if UNITY_EDITOR
-                            DestroyImmediate(this.Cells[i, j].gameObject);
-#else
                             Destroy(this.Cells[i, j].gameObject);
-#endif
-                        }
-                    }
+                    
                     this.Cells = newCells;
                 }
                 else
                 {
                     this.Cells = newCells;
                     for (int i = oldHeight; i < newHeight; i++)
-                    {
                         for (int j = 0; j < oldWidth; j++)
-                        {
                             this.CreateAddCell(i, j, new Vector3(j * cellsWidth + widthOffset, 0.1f, -i * cellsWidth));
-                        }
-                    }
                 }
             }
             // Resize the width
@@ -160,28 +175,17 @@ namespace Jemkont.GridSystem
                 if (newWidth < oldWidth)
                 {
                     for (int i = newWidth; i < oldWidth; i++)
-                    {
                         for (int j = 0; j < oldHeight; j++)
-                        {
-#if UNITY_EDITOR
-                            DestroyImmediate(this.Cells[j, i].gameObject);
-#else
                             Destroy(this.Cells[j, i].gameObject);
-#endif
-                        }
-                    }
+                        
                     this.Cells = newCells;
                 }
                 else
                 {
                     this.Cells = newCells;
                     for (int j = oldWidth; j < newWidth; j++)
-                    {
                         for (int i = 0; i < oldHeight; i++)
-                        {
                             this.CreateAddCell(i, j, new Vector3(j * cellsWidth + widthOffset, 0.1f, -i * cellsWidth));
-                        }
-                    }
                 }
             }
         }
@@ -203,22 +207,36 @@ namespace Jemkont.GridSystem
     public class GridData
     {
         public GridData() { }
-        public GridData(int GridHeight, int GridWidth)
+        public GridData(bool IsCombatGrid, int GridHeight, int GridWidth)
         {
+            this.IsCombatGrid = IsCombatGrid;
             this.GridHeight = GridHeight;
             this.GridWidth = GridWidth;
             this.CellDatas = new List<CellData>();
         }
-        public GridData(int GridHeight, int GridWidth, List<CellData> CellDatas)
+        public GridData(bool IsCombatGrid, int GridHeight, int GridWidth, List<CellData> CellDatas)
         {
+            this.IsCombatGrid = IsCombatGrid;
             this.GridHeight = GridHeight;
             this.GridWidth = GridWidth;
             this.CellDatas = CellDatas;
         }
 
+        public GridData(bool IsCombatGrid, int GridHeight, int GridWidth, List<CellData> CellDatas, Dictionary<GridPosition, Guid> EntitiesSpawns)
+        {
+            this.IsCombatGrid = IsCombatGrid;
+            this.GridHeight = GridHeight;
+            this.GridWidth = GridWidth;
+            this.CellDatas = CellDatas;
+            this.EntitiesSpawns = EntitiesSpawns;
+        }
+        public bool IsCombatGrid { get; set; }
+
         public int GridHeight { get; set; }
         public int GridWidth { get; set; }
 
         public List<CellData> CellDatas { get; set; }
+        [Newtonsoft.Json.JsonConverter(typeof(JSONGridConverter))]
+        public Dictionary<GridPosition, Guid> EntitiesSpawns { get; set; }
     }
 }
