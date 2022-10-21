@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace DownBelow.Inventory
 {
-    public class InventoryElement : MonoBehaviour
+    public class ChestStockage : MonoBehaviour
     {
-
+        [SerializeField] private List<Item> itemsInChest = new List<Item>();
     }
-
 }
+
