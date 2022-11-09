@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c24d5ac1331fdca479c3c82f04555faf, type: 3}
-  m_Name: Damage_Heal_Spell
+  m_Name: Sand Snare
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -21,24 +21,15 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  Title: Vampire Bite
+  Title: Sand Snare
   Cost: 2
-  Description: Damage the enemy and heal for the damaged life
-  IllustrationImage: {fileID: 21300000, guid: 362d9d767515f41458b56dcb08f3f189, type: 3}
+  Description: Set a units Speed to 0 until the end of your next turn, draw a card.
+  IllustrationImage: {fileID: 0}
   Spells:
   - ConditionData: {fileID: 0}
-    ActionData: {fileID: 5524453869168674111, guid: e08706a65b6641f4282ff930713f007e, type: 3}
-    ApplyToCell: 0
+    ActionData: {fileID: 2438562126557281215, guid: ec95a4de19af46c49b0b5eaf4ee29537, type: 3}
+    ApplyToCell: 1
     ApplyToSelf: 0
-    ApplyToAllies: 0
-    ApplyToEnemies: 1
-    ApplyToAll: 0
-    CurrentAction: {fileID: 0}
-    Caster: {fileID: 0}
-  - ConditionData: {fileID: 11400000, guid: 3d7a510e0a2dbfa48910da631121e6a8, type: 2}
-    ActionData: {fileID: 6083591090785791959, guid: 451f5c9c14c31c440bba8a2da5572cef, type: 3}
-    ApplyToCell: 0
-    ApplyToSelf: 1
     ApplyToAllies: 0
     ApplyToEnemies: 0
     ApplyToAll: 0
