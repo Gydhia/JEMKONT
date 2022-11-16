@@ -25,4 +25,13 @@ MonoBehaviour:
   Cost: 2
   Description: Stuns a unit.
   IllustrationImage: {fileID: 0}
-  Spells: []
+  Spells:
+  - ConditionData: {fileID: 0}
+    ActionData: {fileID: 8713967515153432227, guid: 16422b07e19446c40a5c02a19d4aad08, type: 3}
+    ApplyToCell: 1
+    ApplyToSelf: 0
+    ApplyToAllies: 0
+    ApplyToEnemies: 0
+    ApplyToAll: 0
+    CurrentAction: {fileID: 0}
+    Caster: {fileID: 0}

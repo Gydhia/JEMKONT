@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c24d5ac1331fdca479c3c82f04555faf, type: 3}
-  m_Name: Sand Snare
+  m_Name: SummonStalactite
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -21,13 +21,13 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  Title: Sand Snare
+  Title: SummonStalactite
   Cost: 2
-  Description: Set a units Speed to 0 until the end of your next turn, draw a card.
+  Description: 
   IllustrationImage: {fileID: 0}
   Spells:
   - ConditionData: {fileID: 0}
-    ActionData: {fileID: 8713967515153432227, guid: db80cf872352d6a489fb2b983ca2fe09, type: 3}
+    ActionData: {fileID: -7351465854210830901, guid: fb5da88717a51014cb2e2c7455dc4135, type: 3}
     ApplyToCell: 1
     ApplyToSelf: 0
     ApplyToAllies: 0

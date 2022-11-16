@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c24d5ac1331fdca479c3c82f04555faf, type: 3}
-  m_Name: Protein Bar
+  m_Name: Golden Regalia
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -21,13 +21,31 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  Title: Protein Bar
-  Cost: 2
-  Description: Increases your power.
+  Title: Golden Regalia
+  Cost: 3
+  Description: Give yourself 20 shield points and "provoke" for 2 turns
   IllustrationImage: {fileID: 0}
   Spells:
   - ConditionData: {fileID: 0}
-    ActionData: {fileID: 5045551162097057043, guid: a72e089aef4ab6d499730e3d10eeb072, type: 3}
+    ActionData: {fileID: -6891807993022416823, guid: a0a6d98b78efe394bbdb8e81f1f17dc8, type: 3}
+    ApplyToCell: 0
+    ApplyToSelf: 1
+    ApplyToAllies: 0
+    ApplyToEnemies: 0
+    ApplyToAll: 0
+    CurrentAction: {fileID: 0}
+    Caster: {fileID: 0}
+  - ConditionData: {fileID: 0}
+    ActionData: {fileID: 6193795743324946449, guid: a0a6d98b78efe394bbdb8e81f1f17dc8, type: 3}
+    ApplyToCell: 0
+    ApplyToSelf: 1
+    ApplyToAllies: 0
+    ApplyToEnemies: 0
+    ApplyToAll: 0
+    CurrentAction: {fileID: 0}
+    Caster: {fileID: 0}
+  - ConditionData: {fileID: 0}
+    ActionData: {fileID: 777552954018078588, guid: a0a6d98b78efe394bbdb8e81f1f17dc8, type: 3}
     ApplyToCell: 0
     ApplyToSelf: 1
     ApplyToAllies: 0

@@ -25,4 +25,13 @@ MonoBehaviour:
   Cost: 1
   Description: Heals a unit.
   IllustrationImage: {fileID: 0}
-  Spells: []
+  Spells:
+  - ConditionData: {fileID: 0}
+    ActionData: {fileID: 5045551162097057043, guid: cfad56e398a940549a48a5c78f4ee4f6, type: 3}
+    ApplyToCell: 1
+    ApplyToSelf: 0
+    ApplyToAllies: 0
+    ApplyToEnemies: 0
+    ApplyToAll: 0
+    CurrentAction: {fileID: 0}
+    Caster: {fileID: 0}

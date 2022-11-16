@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c24d5ac1331fdca479c3c82f04555faf, type: 3}
-  m_Name: Sand Snare
+  m_Name: Nurture Soil
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -21,13 +21,13 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  Title: Sand Snare
-  Cost: 2
-  Description: Set a units Speed to 0 until the end of your next turn, draw a card.
+  Title: Nurture Soil
+  Cost: 1
+  Description: Give an ally +3/+3
   IllustrationImage: {fileID: 0}
   Spells:
   - ConditionData: {fileID: 0}
-    ActionData: {fileID: 8713967515153432227, guid: db80cf872352d6a489fb2b983ca2fe09, type: 3}
+    ActionData: {fileID: -570139496098006807, guid: a30cf6579ee0d2f4a81bbffb3a8b52e1, type: 3}
     ApplyToCell: 1
     ApplyToSelf: 0
     ApplyToAllies: 0

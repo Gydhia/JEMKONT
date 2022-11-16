@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c24d5ac1331fdca479c3c82f04555faf, type: 3}
-  m_Name: Sand Snare
+  m_Name: Sow & Reap
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -21,15 +21,24 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  Title: Sand Snare
+  Title: Sow & Reap
   Cost: 2
-  Description: Set a units Speed to 0 until the end of your next turn, draw a card.
+  Description: Draw a card, reduce the cost of all your cards by 1
   IllustrationImage: {fileID: 0}
   Spells:
   - ConditionData: {fileID: 0}
-    ActionData: {fileID: 8713967515153432227, guid: db80cf872352d6a489fb2b983ca2fe09, type: 3}
-    ApplyToCell: 1
-    ApplyToSelf: 0
+    ActionData: {fileID: 6866273454026046122, guid: bd6889338a1d3a44086b4c85b6c7d801, type: 3}
+    ApplyToCell: 0
+    ApplyToSelf: 1
+    ApplyToAllies: 0
+    ApplyToEnemies: 0
+    ApplyToAll: 0
+    CurrentAction: {fileID: 0}
+    Caster: {fileID: 0}
+  - ConditionData: {fileID: 0}
+    ActionData: {fileID: -5224003114078551717, guid: bd6889338a1d3a44086b4c85b6c7d801, type: 3}
+    ApplyToCell: 0
+    ApplyToSelf: 1
     ApplyToAllies: 0
     ApplyToEnemies: 0
     ApplyToAll: 0
