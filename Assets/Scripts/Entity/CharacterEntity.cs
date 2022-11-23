@@ -97,11 +97,10 @@ namespace Jemkont.Entity
 
         }
 
-        public void StartTurn()
+        public virtual void StartTurn()
         {
             this.ReinitializeStat(EntityStatistics.Movement);
             this.ReinitializeStat(EntityStatistics.Mana);
-
             GridManager.Instance.ShowPossibleMovements(this);
         }
 
@@ -212,6 +211,12 @@ namespace Jemkont.Entity
                 this.OnDexterityAdded?.Invoke(new SpellEventData(this, value));
             else
                 this.OnDexterityRemoved?.Invoke(new SpellEventData(this, -value));
+        }
+        public override string ToString() {
+
+            return @$"Name : {name}
+IsAlly : {IsAlly}
+GridPos : {EntityPosition}";
         }
     }
 }
