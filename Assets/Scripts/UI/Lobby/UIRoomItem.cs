@@ -8,14 +8,17 @@ public class UIRoomItem : MonoBehaviour
 {
     public LobbyNetworkManager LobbyNetworkParent;
     public TextMeshProUGUI RoomName;
-    
-    public void SetName(string roomName)
+    public string RawName = "";
+
+
+    public void SetName(string roomName, int players)
     {
-        this.RoomName.text = roomName;
+        this.RawName = roomName;
+        this.RoomName.text = roomName + " (" + players + "/4)";
     }
 
     public void OnClickJoin()
     {
-        LobbyNetworkParent.JoinRoom(RoomName.text);
+        LobbyNetworkParent.JoinRoom(RawName);
     }
 }

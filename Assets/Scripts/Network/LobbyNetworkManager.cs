@@ -13,7 +13,7 @@ public class LobbyNetworkManager : MonoBehaviourPunCallbacks
 
     public Button LeaveRoomBtn;
     public Button StartBtn;
-
+    public TextMeshProUGUI LobbyName;
     public UIPlayerItem PlayerPrefab;
     public Transform PlayersHolder;
 
@@ -22,11 +22,20 @@ public class LobbyNetworkManager : MonoBehaviourPunCallbacks
 
     public TMP_InputField RoomInput;
 
+    public TMP_InputField PlayerNameInput;
+
     void Start()
     {
         _initialize();
         _connect();
+
+        this.PlayerNameInput.onValueChanged.AddListener(x => _updateOwnerName());
     }
+    private void _updateOwnerName()
+    {
+        PhotonNetwork.NickName = this.PlayerNameInput.text;
+    }
+
 
     private void _initialize()
     {
@@ -35,7 +44,7 @@ public class LobbyNetworkManager : MonoBehaviourPunCallbacks
 
     private void _connect()
     {
-        PhotonNetwork.NickName = "Player" + Random.Range(0, 4);
+        PhotonNetwork.NickName = this.PlayerNameInput.text;
         PhotonNetwork.ConnectUsingSettings();
         PhotonNetwork.AutomaticallySyncScene = true;
     }
@@ -53,19 +62,27 @@ public class LobbyNetworkManager : MonoBehaviourPunCallbacks
         // Create the updated ones
         for (int i = 0; i < roomList.Count; i++)
         {
+            if (roomList[i].PlayerCount == 0)
+                continue;
+
             this._roomList.Add(Instantiate(this.RoomPrefab, this.RoomsHolder));
             this._roomList[i].LobbyNetworkParent = this;
-            this._roomList[i].RoomName.text = roomList[i].Name;
+            this._roomList[i].SetName(roomList[i].Name, roomList[i].PlayerCount);
         }
     }
 
-    public void UpdatePlayersInLobby()
+    private void _clearPlayers()
     {
         // Destroy existing players
         for (int i = 0; i < this._playerList.Count; i++)
             Destroy(this._playerList[i].gameObject);
 
-        this._roomList.Clear();
+        this._playerList.Clear();
+    }
+
+    public void UpdatePlayersInLobby()
+    {
+        this._clearPlayers();
 
         if (PhotonNetwork.CurrentRoom == null)
             return;
@@ -76,9 +93,29 @@ public class LobbyNetworkManager : MonoBehaviourPunCallbacks
         {
             this._playerList.Add(Instantiate(this.PlayerPrefab, this.PlayersHolder));
             this._playerList[count].LobbyNetworkParent = this;
-            this._playerList[count].PlayerName.text = player.Value.NickName;
+            this._playerList[count].SetPlayerDatas(player.Value.NickName, player.Value.UserId);
+            //if()
+
             count++;
         }
+    }
+
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
+    {
+        base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
+
+        if (targetPlayer.CustomProperties.ContainsKey("isReady"))
+        {
+            foreach (UIPlayerItem item in this._playerList)
+            {
+                if (item.UserID == targetPlayer.UserId)
+                {
+                    item.ChangeReadyState((bool)targetPlayer.CustomProperties["isReady"]);
+                }
+            }
+        }
+
+        this.UpdatePlayersState();
     }
 
     public override void OnCreatedRoom()
@@ -91,7 +128,11 @@ public class LobbyNetworkManager : MonoBehaviourPunCallbacks
         Debug.Log("Joined room :" + PhotonNetwork.CurrentRoom.Name);
         this.UpdatePlayersInLobby();
         this.UpdatePlayersState();
+
         this.LeaveRoomBtn.interactable = true;
+        this.PlayerNameInput.interactable = false;
+        this.LobbyName.text = PhotonNetwork.CurrentRoom.Name;
+        
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -103,7 +144,11 @@ public class LobbyNetworkManager : MonoBehaviourPunCallbacks
     public override void OnLeftRoom()
     {
         base.OnLeftRoom();
+
+        this._clearPlayers();
+
         this.LeaveRoomBtn.interactable = false;
+        this.PlayerNameInput.interactable = true;
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
@@ -138,7 +183,8 @@ public class LobbyNetworkManager : MonoBehaviourPunCallbacks
             if (!this._playerList[i].IsReady)
                 allReady = false;
 
-        this.StartBtn.interactable = allReady;
+        if(PhotonNetwork.IsMasterClient)
+            this.StartBtn.interactable = allReady;
     }
 
     public void ClickOnStart()
@@ -164,7 +210,7 @@ public class LobbyNetworkManager : MonoBehaviourPunCallbacks
 
     public void CreateRoom()
     {
-        if(!string.IsNullOrEmpty(RoomInput.text))
-            PhotonNetwork.CreateRoom(RoomInput.text, new RoomOptions() {  MaxPlayers = 4}, null);
+        if(!string.IsNullOrEmpty(this.RoomInput.text))
+            PhotonNetwork.CreateRoom(this.RoomInput.text, new RoomOptions() {  MaxPlayers = 4, BroadcastPropsChangeToAll = true }, null);
     }
 }

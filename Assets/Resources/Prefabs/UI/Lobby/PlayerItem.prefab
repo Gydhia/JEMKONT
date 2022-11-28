@@ -191,7 +191,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LobbyNetworkParent: {fileID: 0}
   PlayerName: {fileID: 6293248344161590361}
+  UserID: 
   IsReady: 0
+  ReadyToggle: {fileID: 5929364056372532726}
 --- !u!1 &6293248344161590359
 GameObject:
   m_ObjectHideFlags: 0
