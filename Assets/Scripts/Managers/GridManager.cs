@@ -126,7 +126,10 @@ namespace Jemkont.Managers {
                 }
             }
         }
-
+        public CellData CellDataAtPosition(GridPosition target) {
+            Cell targetCell = this._currentGrid.Cells[target.longitude,target.latitude];
+            return targetCell.Datas;
+        }
         /// <summary>
         /// While calculate the closest path to a target, storing it in the Path var of the GridManager
         /// </summary>
@@ -334,8 +337,11 @@ namespace Jemkont.Managers {
         }
         #endregion
     }
-    public struct GridPosition {
-        public GridPosition(int longitude,int latitude) {
+    
+    public struct GridPosition
+    {
+        public GridPosition(int longitude, int latitude)
+        {
             this.longitude = longitude;
             this.latitude = latitude;
         }

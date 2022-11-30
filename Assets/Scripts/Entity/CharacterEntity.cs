@@ -36,9 +36,9 @@ namespace Jemkont.Entity
         public GridPosition EntityPosition = GridPosition.zero;
         public CombatGrid CurrentGrid;
 
-        public List<CharacterEntity> Invocations;
+        public List<CharacterEntity> Summons;
 
-
+        public int MaxHealth { get => RefStats.Health; set => RefStats.Health = value; }
         public Dictionary<EntityStatistics, int> Statistics;
         public int Health {  get => Statistics[EntityStatistics.Health]; }
         public int Shield { get => Statistics[EntityStatistics.Shield]; }

@@ -10,7 +10,7 @@ namespace Jemkont.Mechanics
 {
     public enum EChipType { Melee, Ranged, Special }
 
-    [CreateAssetMenu(menuName = "Chip")]
+    [CreateAssetMenu(menuName = "Card")]
     public class ScriptableCard : SerializedScriptableObject
     {
         public string Title;
@@ -19,12 +19,9 @@ namespace Jemkont.Mechanics
         public Sprite IllustrationImage;
 
         public Spell[] Spells;
-
-        public void ExecuteSpells(GridSystem.Cell target)
-        {
-            //ScriptableCardExtension.Instance.ExecuteSpells(target, this.Spells);
+        private void OnValidate() {
+            Title = name;
         }
-        
     }
 
     public class CardComparer : IComparer<ScriptableCard>
