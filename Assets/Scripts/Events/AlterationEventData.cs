@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Jemkont.Spells.Alterations;
 
 public class AlterationEventData : EventData<AlterationEventData> {
     public CharacterEntity Entity;

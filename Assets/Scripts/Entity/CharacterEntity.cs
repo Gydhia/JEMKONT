@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
+using Jemkont.Spells.Alterations;
 
 namespace Jemkont.Entity {
     public abstract class CharacterEntity : MonoBehaviour {
@@ -65,7 +66,6 @@ namespace Jemkont.Entity {
         public bool DoT { get => Alterations.Any(x => x.GetType() == typeof(DoTAlteration)); }
         public bool Spirit { get => Alterations.Any(x => x.GetType() == typeof(SpiritAlteration)); }
         public bool Bubbled { get => Alterations.Any(x => x.GetType() == typeof(BubbledAlteration)); }
-        public bool Inspiration { get => Alterations.Any(x => x.GetType() == typeof(InspirationAlteration)); }
         public bool MindControl { get => Alterations.Any(x => x.GetType() == typeof(MindControlAlteration)); }
         #endregion
         public bool TryGoTo(Cell destination,int cost) {
@@ -116,7 +116,7 @@ namespace Jemkont.Entity {
             OnTurnBegun.Invoke(new GameEventData());
             this.ReinitializeStat(EntityStatistics.Movement);
             this.ReinitializeStat(EntityStatistics.Mana);
-            foreach(Alteration alteration in Alterations) {
+            foreach (Alteration alteration in Alterations) {
                 alteration.Apply(this);
             }
             if (Stunned) {
@@ -227,16 +227,25 @@ namespace Jemkont.Entity {
 IsAlly : {IsAlly}
 GridPos : {EntityPosition}";
         }
-        public void AddAlteration(EAlterationType type, int duration) {
+        public void AddAlteration(EAlterationType type,int duration) {
             Alteration alteration;
-            switch (type) {
-                case EAlterationType.Stun:
-                    alteration = new StunAlteration(duration);
-                    break;
-                default:
-                    alteration = null;
-                    break;
-            }
+            alteration = type switch {
+                EAlterationType.Stun => new StunAlteration(duration),
+                EAlterationType.Snare => new SnareAlteration(duration),
+                EAlterationType.Disarmed => new DisarmedAlteration(duration),
+                EAlterationType.Critical => new CriticalAlteration(duration),
+                EAlterationType.Dodge => new DodgeAlteration(duration),
+                EAlterationType.Camouflage => new CamouflageAlteration(duration),
+                EAlterationType.Provoke => new ProvokeAlteration(duration),
+                EAlterationType.Ephemeral => new EphemeralAlteration(duration),
+                EAlterationType.Confusion => new ConfusionAlteration(duration),
+                EAlterationType.Shattered => new ShatteredAlteration(duration),
+                EAlterationType.DoT => new DoTAlteration(duration,2),//Idfk how much dmg
+                EAlterationType.Spirit => new SpiritAlteration(duration),
+                EAlterationType.Bubbled => new BubbledAlteration(duration),
+                EAlterationType.MindControl => new MindControlAlteration(duration),
+                _ => throw new System.NotImplementedException($"NEED TO IMPLEMENT ENUM MEMBER {type}"),
+            };
             var found = Alterations.Find(x => x.GetType() == alteration.GetType());
             if (found != null) {
                 //TODO : GD? Add Duration? Set duration?
@@ -265,13 +274,23 @@ GridPos : {EntityPosition}";
                         //TODO: Also add on damage taken.
                         //this.OnHealthRemoved+= prov.DecrementAlterationCountdown; doesn't work. @kiki
                         break;
+                    case ShatteredAlteration shat:
+                        this.OnTurnEnded+= shat.DecrementAlterationCountdown;
+                        //TODO: Also add on damage taken.
+                        //this.OnHealthRemoved+= prov.DecrementAlterationCountdown; doesn't work. @kiki
+                        break;
+                    case BubbledAlteration bubble:
+                        this.OnTurnEnded += bubble.DecrementAlterationCountdown;
+                        //TODO: Also add on damage taken.
+                        //this.OnHealthRemoved+= prov.DecrementAlterationCountdown; doesn't work. @kiki
+                        break;
                     default:
                         Debug.LogError("ALTERATION ERROR: SPECIAL COUNTDOWN NOT IMPLEMENTED.");
                         break;
                 }
             }
         }
-       
+
     }
 }
 
