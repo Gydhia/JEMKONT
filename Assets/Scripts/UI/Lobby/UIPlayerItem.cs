@@ -7,7 +7,7 @@ using Photon.Pun;
 
 public class UIPlayerItem : MonoBehaviour
 {
-    public LobbyNetworkManager LobbyNetworkParent;
+    public NetworkManager LobbyNetworkParent;
     public TextMeshProUGUI PlayerName;
     public string UserID;
 

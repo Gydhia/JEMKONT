@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class UIRoomItem : MonoBehaviour
 {
-    public LobbyNetworkManager LobbyNetworkParent;
+    public NetworkManager LobbyNetworkParent;
     public TextMeshProUGUI RoomName;
     public string RawName = "";
 
