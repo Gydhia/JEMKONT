@@ -162,6 +162,13 @@
         "com.unity.modules.imgui": "1.0.0"
       }
     },
+    "studio.eode.wonderland.common": {
+      "version": "2.0.11",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "http://wonderland.eode.studio/registry"
+    },
     "com.unity.modules.ai": {
       "version": "1.0.0",
       "depth": 0,

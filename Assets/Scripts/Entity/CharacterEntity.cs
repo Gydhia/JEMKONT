@@ -1,15 +1,15 @@
 using Jemkont.Events;
 using Jemkont.GridSystem;
 using Jemkont.Managers;
+using System.CodeDom;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Jemkont.Entity
-{
-    public abstract class CharacterEntity : MonoBehaviour
-    {
+namespace Jemkont.Entity {
+    public abstract class CharacterEntity : MonoBehaviour {
         public delegate void StatModified();
 
         public event SpellEventData.Event OnHealthRemoved;
@@ -25,8 +25,12 @@ namespace Jemkont.Entity
         public event SpellEventData.Event OnManaRemoved;
         public event SpellEventData.Event OnManaAdded;
 
+        public event GameEventData.Event OnTurnBegun;
+        public event GameEventData.Event OnTurnEnded;
+
         private EntityStats RefStats;
 
+        public List<Alteration> Alterations;
 
         public UnityEngine.UI.Slider HealthFill;
         public UnityEngine.UI.Slider ShieldFill;
@@ -39,21 +43,37 @@ namespace Jemkont.Entity
         public List<CharacterEntity> Summons;
 
         public int MaxHealth { get => RefStats.Health; set => RefStats.Health = value; }
-        public Dictionary<EntityStatistics, int> Statistics;
-        public int Health {  get => Statistics[EntityStatistics.Health]; }
+        public Dictionary<EntityStatistics,int> Statistics;
+        public int Health { get => Statistics[EntityStatistics.Health]; }
         public int Shield { get => Statistics[EntityStatistics.Shield]; }
         public int Strenght { get => Statistics[EntityStatistics.Strenght]; }
         public int Dexterity { get => Statistics[EntityStatistics.Dexterity]; }
-        public int Movement { get => Statistics[EntityStatistics.Movement]; }
+        public int Movement { get => Snared ? 0 : Statistics[EntityStatistics.Movement]; }
         public int Mana { get => Statistics[EntityStatistics.Mana]; }
 
-        public bool TryGoTo(Cell destination, int cost)
-        {
+        #region alterationBooleans
+        public bool Snared { get => Alterations.Any(x => x.GetType() == typeof(SnareAlteration)); }
+        public bool Stunned { get => Alterations.Any(x => x.GetType() == typeof(StunAlteration)); }
+        public bool Disarmed { get => Alterations.Any(x => x.GetType() == typeof(DisarmedAlteration)); }
+        public bool Critical { get => Alterations.Any(x => x.GetType() == typeof(CriticalAlteration)); }
+        public bool Dodge { get => Alterations.Any(x => x.GetType() == typeof(DodgeAlteration)); }
+        public bool Camouflage { get => Alterations.Any(x => x.GetType() == typeof(CamouflageAlteration)); }
+        public bool Provoke { get => Alterations.Any(x => x.GetType() == typeof(ProvokeAlteration)); }
+        public bool Ephemeral { get => Alterations.Any(x => x.GetType() == typeof(EphemeralAlteration)); }
+        public bool Confusion { get => Alterations.Any(x => x.GetType() == typeof(ConfusionAlteration)); }
+        public bool Shattered { get => Alterations.Any(x => x.GetType() == typeof(ShatteredAlteration)); }
+        public bool DoT { get => Alterations.Any(x => x.GetType() == typeof(DoTAlteration)); }
+        public bool Spirit { get => Alterations.Any(x => x.GetType() == typeof(SpiritAlteration)); }
+        public bool Bubbled { get => Alterations.Any(x => x.GetType() == typeof(BubbledAlteration)); }
+        public bool Inspiration { get => Alterations.Any(x => x.GetType() == typeof(InspirationAlteration)); }
+        public bool MindControl { get => Alterations.Any(x => x.GetType() == typeof(MindControlAlteration)); }
+        #endregion
+        public bool TryGoTo(Cell destination,int cost) {
             this.ApplyMovement(-cost);
 
-            this.CurrentGrid.Cells[this.EntityPosition.longitude, this.EntityPosition.latitude].EntityIn = null;
+            this.CurrentGrid.Cells[this.EntityPosition.longitude,this.EntityPosition.latitude].EntityIn = null;
 
-            this.EntityPosition = new GridPosition(destination.Datas.heightPos, destination.Datas.widthPos);
+            this.EntityPosition = new GridPosition(destination.Datas.heightPos,destination.Datas.widthPos);
             this.transform.position = destination.WorldPosition;
 
             destination.EntityIn = this;
@@ -61,8 +81,7 @@ namespace Jemkont.Entity
             return true;
         }
 
-        public void Start()
-        {
+        public void Start() {
             this.OnHealthAdded += UpdateUILife;
             this.OnHealthRemoved += UpdateUILife;
 
@@ -77,54 +96,54 @@ namespace Jemkont.Entity
             this.ShieldFill.minValue = 0;
             this.ShieldFill.value = 0;
         }
-        public void UpdateUILife(SpellEventData data)
-        {
+        public void UpdateUILife(SpellEventData data) {
             this.HealthFill.value = this.Health;
         }
 
-        public void UpdateUIShield(SpellEventData data)
-        {
+        public void UpdateUIShield(SpellEventData data) {
             this.ShieldFill.value = this.Shield;
         }
 
-        private void LateUpdate()
-        {
+        private void LateUpdate() {
             this.HealthFill.transform.LookAt(Camera.main.transform.position);
             this.ShieldFill.transform.LookAt(Camera.main.transform.position);
         }
-        public void EndTurn()
-        {
-
+        public void EndTurn() {
+            OnTurnEnded.Invoke(new GameEventData());
         }
 
-        public virtual void StartTurn()
-        {
+        public virtual void StartTurn() {
+            OnTurnBegun.Invoke(new GameEventData());
             this.ReinitializeStat(EntityStatistics.Movement);
             this.ReinitializeStat(EntityStatistics.Mana);
+            foreach(Alteration alteration in Alterations) {
+                alteration.Apply(this);
+            }
+            if (Stunned) {
+                EndTurn();
+                return;
+            }
             GridManager.Instance.ShowPossibleMovements(this);
         }
 
-        public void Init(EntityStats stats, Cell refCell, CombatGrid refGrid)
-        {
+        public void Init(EntityStats stats,Cell refCell,CombatGrid refGrid) {
             this.transform.position = refCell.WorldPosition;
             this.EntityPosition = refCell.PositionInGrid;
             this.CurrentGrid = refGrid;
 
             this.RefStats = stats;
-            this.Statistics = new Dictionary<EntityStatistics, int>();
+            this.Statistics = new Dictionary<EntityStatistics,int>();
 
-            this.Statistics.Add(EntityStatistics.Health, stats.Health);
-            this.Statistics.Add(EntityStatistics.Shield, stats.BaseShield);
-            this.Statistics.Add(EntityStatistics.Strenght, stats.Strenght);
-            this.Statistics.Add(EntityStatistics.Dexterity, stats.Dexterity);
-            this.Statistics.Add(EntityStatistics.Movement, stats.Movement);
-            this.Statistics.Add(EntityStatistics.Mana, stats.Mana);
+            this.Statistics.Add(EntityStatistics.Health,stats.Health);
+            this.Statistics.Add(EntityStatistics.Shield,stats.BaseShield);
+            this.Statistics.Add(EntityStatistics.Strenght,stats.Strenght);
+            this.Statistics.Add(EntityStatistics.Dexterity,stats.Dexterity);
+            this.Statistics.Add(EntityStatistics.Movement,stats.Movement);
+            this.Statistics.Add(EntityStatistics.Mana,stats.Mana);
         }
 
-        public void ReinitializeStat(EntityStatistics stat)
-        {
-            switch (stat)
-            {
+        public void ReinitializeStat(EntityStatistics stat) {
+            switch (stat) {
                 case EntityStatistics.Health: this.Statistics[EntityStatistics.Health] = this.RefStats.Health; break;
                 case EntityStatistics.Mana: this.Statistics[EntityStatistics.Mana] = this.RefStats.Mana; break;
                 case EntityStatistics.Movement: this.Statistics[EntityStatistics.Movement] = this.RefStats.Movement; break;
@@ -133,20 +152,16 @@ namespace Jemkont.Entity
             }
         }
 
-        public void ApplyHealth(int value, bool overShield)
-        {
-            if (value > 0)
-            {
+        public void ApplyHealth(int value,bool overShield) {
+            if (value > 0) {
                 // Check overheal
-                if(this.Health + value > this.RefStats.Health)
+                if (this.Health + value > this.RefStats.Health)
                     Statistics[EntityStatistics.Health] = this.RefStats.Health;
                 else
                     Statistics[EntityStatistics.Health] += value;
 
-                this.OnHealthAdded?.Invoke(new SpellEventData(this, value));
-            }
-            else
-            {
+                this.OnHealthAdded?.Invoke(new SpellEventData(this,value));
+            } else {
                 // Better to understand like that :)
                 value = -value;
 
@@ -157,67 +172,106 @@ namespace Jemkont.Entity
 
                 if (!overShield) {
                     Statistics[EntityStatistics.Shield] -= onShield;
-                    this.OnShieldRemoved?.Invoke(new SpellEventData(this, onShield));
+                    this.OnShieldRemoved?.Invoke(new SpellEventData(this,onShield));
                 }
-                this.OnHealthRemoved?.Invoke(new SpellEventData(this, onLife));
+                this.OnHealthRemoved?.Invoke(new SpellEventData(this,onLife));
             }
         }
 
-        public void ApplyShield(int value)
-        {
+        public void ApplyShield(int value) {
             Statistics[EntityStatistics.Shield] += value;
 
             if (value > 0)
-                this.OnShieldAdded?.Invoke(new SpellEventData(this, value));
+                this.OnShieldAdded?.Invoke(new SpellEventData(this,value));
             else
-                this.OnShieldRemoved?.Invoke(new SpellEventData(this, -value));
+                this.OnShieldRemoved?.Invoke(new SpellEventData(this,-value));
         }
 
-        public void ApplyMana(int value)
-        {
+        public void ApplyMana(int value) {
             Statistics[EntityStatistics.Mana] += value;
 
             if (value > 0)
-                this.OnManaAdded?.Invoke(new SpellEventData(this, value));
+                this.OnManaAdded?.Invoke(new SpellEventData(this,value));
             else
-                this.OnManaRemoved?.Invoke(new SpellEventData(this, -value));
+                this.OnManaRemoved?.Invoke(new SpellEventData(this,-value));
         }
 
-        public void ApplyMovement(int value)
-        {
+        public void ApplyMovement(int value) {
             Statistics[EntityStatistics.Movement] += value;
 
             if (value > 0)
-                this.OnMovementAdded?.Invoke(new SpellEventData(this, value));
+                this.OnMovementAdded?.Invoke(new SpellEventData(this,value));
             else
-                this.OnMovementRemoved?.Invoke(new SpellEventData(this, -value));
+                this.OnMovementRemoved?.Invoke(new SpellEventData(this,-value));
         }
 
-        public void ApplyStrenght(int value)
-        {
+        public void ApplyStrenght(int value) {
             Statistics[EntityStatistics.Strenght] += value;
 
             if (value > 0)
-                this.OnStrenghtAdded?.Invoke(new SpellEventData(this, value));
+                this.OnStrenghtAdded?.Invoke(new SpellEventData(this,value));
             else
-                this.OnStrenghtRemoved?.Invoke(new SpellEventData(this, -value));
+                this.OnStrenghtRemoved?.Invoke(new SpellEventData(this,-value));
         }
 
-        public void ApplyDexterity(int value)
-        {
+        public void ApplyDexterity(int value) {
             Statistics[EntityStatistics.Dexterity] += value;
 
             if (value > 0)
-                this.OnDexterityAdded?.Invoke(new SpellEventData(this, value));
+                this.OnDexterityAdded?.Invoke(new SpellEventData(this,value));
             else
-                this.OnDexterityRemoved?.Invoke(new SpellEventData(this, -value));
+                this.OnDexterityRemoved?.Invoke(new SpellEventData(this,-value));
         }
         public override string ToString() {
-
             return @$"Name : {name}
 IsAlly : {IsAlly}
 GridPos : {EntityPosition}";
         }
+        public void AddAlteration(EAlterationType type, int duration) {
+            Alteration alteration;
+            switch (type) {
+                case EAlterationType.Stun:
+                    alteration = new StunAlteration(duration);
+                    break;
+                default:
+                    alteration = null;
+                    break;
+            }
+            var found = Alterations.Find(x => x.GetType() == alteration.GetType());
+            if (found != null) {
+                //TODO : GD? Add Duration? Set duration?
+            } else {
+                Alterations.Add(alteration);
+            }
+
+            alteration.Setup(this);
+            if (alteration.ClassicCountdown) {
+                this.OnTurnEnded += alteration.DecrementAlterationCountdown;
+            } else {
+                switch (alteration) {
+                    case CriticalAlteration crit:
+                        //TODO: Plug decrement on a OnDamageDoneEvent.
+                        break;
+                    case DodgeAlteration dodge:
+                        //TODO: Plug decrement manually/OnBeforeDamage? Dodge has 50% chance of nullifying damage.
+                        break;
+                    case CamouflageAlteration camo:
+                        this.OnTurnEnded += camo.DecrementAlterationCountdown;
+                        //TODO: Also add on damage taken.
+                        //this.OnHealthRemoved+= camo.DecrementAlterationCountdown; doesn't work. @kiki
+                        break;
+                    case ProvokeAlteration prov:
+                        this.OnTurnEnded += prov.DecrementAlterationCountdown;
+                        //TODO: Also add on damage taken.
+                        //this.OnHealthRemoved+= prov.DecrementAlterationCountdown; doesn't work. @kiki
+                        break;
+                    default:
+                        Debug.LogError("ALTERATION ERROR: SPECIAL COUNTDOWN NOT IMPLEMENTED.");
+                        break;
+                }
+            }
+        }
+       
     }
 }
 

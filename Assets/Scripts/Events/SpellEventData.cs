@@ -19,4 +19,5 @@ namespace Jemkont.Events
             this.Buff = Buff;
         }
     }
+
 }

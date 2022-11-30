@@ -23,7 +23,7 @@ public partial class CardEditor : Editor {
         _bgCache.Add(refBG);
     }
 
-    public static Texture2D GetBG(EChipType theme) {
+    public static Texture2D GetBG(ECardType theme) {
         return GetBG((int)theme);
     }
 
