@@ -12,16 +12,11 @@ public class GridPlaceholder : SerializedMonoBehaviour
     [SerializeField, HideInInspector]
     private string _selectedGrid;
 
-    public Vector3 TopLeftOffset;
-    private void Start()
-    {
-        if (GridManager.Instance != null)
-        {
-            GridManager.Instance.GenerateGrid(this.TopLeftOffset, this._selectedGrid);
+    [SerializeField] 
+    private GameObject _planePrefab;
 
-            Destroy(this.gameObject);
-        }
-    }
+    public Vector3 TopLeftOffset;
+
 
 #if UNITY_EDITOR
     #region GRID_ODIN_INSPECTOR
@@ -60,8 +55,8 @@ public class GridPlaceholder : SerializedMonoBehaviour
                 this.EntitySpawns = new Dictionary<GridPosition, EntitySpawn>();
                 foreach (var entitySpawn in newGrid.EntitiesSpawns)
                 {
-                    if(CombatManager.Instance.EntitiesSpawnsSO.ContainsKey(entitySpawn.Value))
-                        this.EntitySpawns.Add(entitySpawn.Key, CombatManager.Instance.EntitiesSpawnsSO[entitySpawn.Value]);
+                    if(GridManager.Instance.EnemiesSpawnSO.ContainsKey(entitySpawn.Value))
+                        this.EntitySpawns.Add(entitySpawn.Key, GridManager.Instance.EnemiesSpawnSO[entitySpawn.Value]);
                     else
                         this.EntitySpawns.Add(entitySpawn.Key, null);
 
@@ -109,7 +104,7 @@ public class GridPlaceholder : SerializedMonoBehaviour
     {
         if (this.Plane == null)
             this.Plane = Instantiate(
-                GridManager.Instance.Plane,
+                this._planePrefab,
                 new Vector3((this.GridWidth * cellsWidth) / 2, 0f, -(this.GridHeight * cellsWidth) / 2 + (cellsWidth / 2)), Quaternion.identity, this.transform
             );
 

@@ -15,7 +15,7 @@ namespace Jemkont.GridSystem
 
         public BoxCollider Collider;
 
-        public CombatGrid RefGrid;
+        public WorldGrid RefGrid;
 
         #region Datas
         public CellData Datas;
@@ -32,7 +32,7 @@ namespace Jemkont.GridSystem
         public Vector3 WorldPosition => this.gameObject.transform.position;
         #endregion
 
-        public void Init(int yPos, int xPos, CellState state, CombatGrid refGrid)
+        public void Init(int yPos, int xPos, CellState state, WorldGrid refGrid)
         {
             this.RefGrid = refGrid;
 

@@ -19,8 +19,7 @@ public class SpellTeleportToUnit : SpellAction {
             Debug.LogWarning("Spell Warning: no available positions to teleport to.");
             return;
         }
-        PlayerManager.Instance.SelfPlayer.EntityPosition = Teleport;
-        
+        GameManager.Instance.SelfPlayer.EntityPosition = Teleport;
     }
     GridPosition ClosestWalkableCellPosition(GridPosition to) {
         GridPosition[] positionsToCheck = new GridPosition[8] {

@@ -34,7 +34,7 @@ namespace Jemkont.Entity
         public int TurnOrder;
         public bool IsAlly = true;
         public GridPosition EntityPosition = GridPosition.zero;
-        public CombatGrid CurrentGrid;
+        public WorldGrid CurrentGrid;
 
         public List<CharacterEntity> Summons;
 
@@ -104,7 +104,7 @@ namespace Jemkont.Entity
             GridManager.Instance.ShowPossibleMovements(this);
         }
 
-        public void Init(EntityStats stats, Cell refCell, CombatGrid refGrid)
+        public void Init(EntityStats stats, Cell refCell, WorldGrid refGrid)
         {
             this.transform.position = refCell.WorldPosition;
             this.EntityPosition = refCell.PositionInGrid;
