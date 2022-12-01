@@ -20,6 +20,22 @@ public class GridEditor : OdinEditor
 
     private Vector3 _oldPosition;
 
+    private class SubgridVars
+    {
+        public SubgridVars(int height, int width, int longitude, int latitude)
+        {
+            this.oldHeight = height;
+            this.oldWidth = width;
+            this.oldLongitude = longitude;
+            this.oldLatitude = latitude;
+        }
+        public int oldHeight;
+        public int oldWidth;
+        public int oldLongitude;
+        public int oldLatitude;
+    }
+    private List<SubgridVars> _oldInnerGrids; 
+
     public void OnEnable()
     {
         if (this._target == null)
@@ -57,6 +73,38 @@ public class GridEditor : OdinEditor
         if (this._target.CellDatas == null || this._target.CellDatas.Length == 0 || this._target.GridWidth <= 0 || this._target.GridHeight <= 0)
             return;
 
+        // Actualize the subgrids
+        if(this._target.InnerGrids != null)
+        {
+            if (this._oldInnerGrids == null)
+                this._oldInnerGrids = new List<SubgridVars>();
+
+            if (this._oldInnerGrids.Count != this._target.InnerGrids.Count)
+            {
+                if (this._oldInnerGrids.Count < this._target.InnerGrids.Count)
+                    this._oldInnerGrids.Add(new SubgridVars(this._target.InnerGrids[^1].GridHeight, this._target.InnerGrids[^1].GridWidth, this._target.InnerGrids[^1].Longitude, this._target.InnerGrids[^1].Latitude));
+                else
+                    this._oldInnerGrids.RemoveAt(this._oldInnerGrids.Count - 1);
+            }
+
+            for (int i = 0; i < this._target.InnerGrids.Count; i++)
+            {
+                SubgridVars g = this._oldInnerGrids[i];
+                if (this._innerGridChanged(g, this._target.InnerGrids[i]))
+                {
+                    EditorUtility.SetDirty(this._target.gameObject);
+                    bool resizeDown = false;
+                    if (this._target.InnerGrids[i].GridWidth < g.oldWidth || this._target.InnerGrids[i].GridHeight < g.oldHeight)
+                        resizeDown = true;
+
+                    this._target.InnerGrids[i].ResizeGrid(this.ResizeArrayTwo(this._target.InnerGrids[i].CellDatas, this._target.InnerGrids[i].GridHeight, this._target.InnerGrids[i].GridWidth, resizeDown));
+
+                    this._setInnerGrid(ref g, this._target.InnerGrids[i]);
+                }
+            }
+        }
+        
+     
         if (this._target.GridWidth != this._oldWidth || this._target.GridHeight != this._oldHeight)
         {
             this._target.ResizePlane();
@@ -81,6 +129,22 @@ public class GridEditor : OdinEditor
             this._oldWidth = this._target.GridWidth;
             this._oldHeight = this._target.GridHeight;
         }
+    }
+
+    private bool _innerGridChanged(SubgridVars oldSubgrid, SubgridPlaceholder newSubgrid)
+    {
+        return oldSubgrid.oldHeight != newSubgrid.GridHeight ||
+                oldSubgrid.oldWidth != newSubgrid.GridWidth ||
+                oldSubgrid.oldLongitude != newSubgrid.Longitude ||
+                oldSubgrid.oldLatitude != newSubgrid.Latitude;
+    }
+
+    private void _setInnerGrid(ref SubgridVars oldSubgrid, SubgridPlaceholder newSubgrid)
+    {
+        oldSubgrid.oldHeight = newSubgrid.GridHeight;
+        oldSubgrid.oldWidth = newSubgrid.GridWidth;
+        oldSubgrid.oldLongitude = newSubgrid.Longitude;
+        oldSubgrid.oldLatitude = newSubgrid.Latitude;
     }
 
     public void OnSceneGUI()

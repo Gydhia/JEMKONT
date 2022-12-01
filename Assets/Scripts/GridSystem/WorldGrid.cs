@@ -229,6 +229,7 @@ namespace Jemkont.GridSystem
         public int GridHeight { get; set; }
         public int GridWidth { get; set; }
 
+        public List<GridData> InnerGrids;
         public List<CellData> CellDatas { get; set; }
         [Newtonsoft.Json.JsonConverter(typeof(JSONGridConverter))]
         public Dictionary<GridPosition, Guid> EntitiesSpawns { get; set; }

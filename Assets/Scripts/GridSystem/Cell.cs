@@ -111,7 +111,9 @@ namespace Jemkont.GridSystem
         [EnumMember(Value = "Blocked")]
         Blocked = 1,
         [EnumMember(Value = "EntityIn")]
-        EntityIn = 2
+        EntityIn = 2,
+        [EnumMember(Value = "EntityIn")]
+        Shared = 3
     }
 
 }

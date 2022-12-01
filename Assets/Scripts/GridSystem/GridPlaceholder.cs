@@ -24,6 +24,8 @@ public class GridPlaceholder : SerializedMonoBehaviour
     [HideInInspector]
     public CellData[,] CellDatas;
 
+    public List<SubgridPlaceholder> InnerGrids;
+
     public Dictionary<GridPosition, EntitySpawn> EntitySpawns;
 
     
@@ -37,6 +39,16 @@ public class GridPlaceholder : SerializedMonoBehaviour
             GridManager.Instance.SaveGridAsJSON(new GridData(false, 2, 2), name);
     }
 
+    [Button]
+    public void AddInnerGrid()
+    {
+        if(this.InnerGrids == null)
+            this.InnerGrids = new List<SubgridPlaceholder>();
+
+        this.InnerGrids.Add(new SubgridPlaceholder());
+        this.InnerGrids[^1].GenerateGrid(2, 2, 0, 0);
+    }
+
     private IEnumerable<string> GetSavedGrids()
     {
         GridManager.Instance.LoadGridsFromJSON();
@@ -48,10 +60,15 @@ public class GridPlaceholder : SerializedMonoBehaviour
         if(GridManager.Instance.SavedGrids.TryGetValue(SelectedGrid, out GridData newGrid))
         {
             this.GenerateGrid(newGrid.GridHeight, newGrid.GridWidth);
+
             foreach (CellData cellData in newGrid.CellDatas)
                 this.CellDatas[cellData.heightPos, cellData.widthPos].state = cellData.state;
+            
             if (newGrid.EntitiesSpawns != null)
             {
+                if (GridManager.Instance.EnemiesSpawnSO == null)
+                    GridManager.Instance.LoadEveryEntities();
+
                 this.EntitySpawns = new Dictionary<GridPosition, EntitySpawn>();
                 foreach (var entitySpawn in newGrid.EntitiesSpawns)
                 {
@@ -195,6 +212,24 @@ public class GridPlaceholder : SerializedMonoBehaviour
                 Vector3 pos = new Vector3(j * cellsWidth + TopLeftOffset.x + (cellsWidth / 2), cellBounds.y /2f, -i * cellsWidth + TopLeftOffset.z - (cellsWidth / 2));
 
                 Gizmos.DrawCube(pos, cellBounds);
+            }
+        }
+
+        for (int i = 0; i < this.InnerGrids.Count; i++)
+        {
+            for (int j = 0; j < this.InnerGrids[i].GridHeight; j++)
+            {
+                for (int k = 0; k < this.InnerGrids[i].GridWidth; k++)
+                {
+                    if (this.CellDatas[j, k] == null)
+                        continue;
+
+                    Gizmos.color = Color.black;
+
+                    Vector3 pos = new Vector3((k + this.InnerGrids[i].Longitude) * cellsWidth + TopLeftOffset.x + (cellsWidth / 2), cellBounds.y / 2f, -(j + this.InnerGrids[i].Latitude) * cellsWidth + TopLeftOffset.z - (cellsWidth / 2));
+
+                    Gizmos.DrawCube(pos, cellBounds);
+                }
             }
         }
 

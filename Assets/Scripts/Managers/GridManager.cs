@@ -51,7 +51,7 @@ namespace Jemkont.Managers {
             this.WorldGrids = new Dictionary<string, WorldGrid>();
             // Load the Grids and Entities SO
             this.LoadGridsFromJSON();
-            this._loadEveryEntities();
+            this.LoadEveryEntities();
 
             // Grids of a SCENE should be placed under one and ONLY parent. They're gonna be loaded from this
             GridPlaceholder[] gridPlaceholders = this._gridsDataHandler.GetComponentsInChildren<GridPlaceholder>();
@@ -388,7 +388,7 @@ namespace Jemkont.Managers {
             this.LoadGridsFromJSON();
         }
 
-        private void _loadEveryEntities()
+        public void LoadEveryEntities()
         {
             var enemyEntities = Resources.LoadAll<EntitySpawn>("Presets/Entity/Enemies").ToList();
             var NPCEntities = Resources.LoadAll<EntitySpawn>("Presets/Entity/NPCs").ToList();
