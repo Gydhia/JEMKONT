@@ -31,7 +31,7 @@ namespace Jemkont.Entity {
 
         private EntityStats RefStats;
 
-        public List<Alteration> Alterations;
+        public List<Alteration> Alterations = new();
 
         public UnityEngine.UI.Slider HealthFill;
         public UnityEngine.UI.Slider ShieldFill;
@@ -109,11 +109,11 @@ namespace Jemkont.Entity {
             this.ShieldFill.transform.LookAt(Camera.main.transform.position);
         }
         public void EndTurn() {
-            OnTurnEnded.Invoke(new GameEventData());
+            OnTurnEnded?.Invoke(new GameEventData());
         }
 
         public virtual void StartTurn() {
-            OnTurnBegun.Invoke(new GameEventData());
+            OnTurnBegun?.Invoke(new GameEventData());
             this.ReinitializeStat(EntityStatistics.Movement);
             this.ReinitializeStat(EntityStatistics.Mana);
             foreach (Alteration alteration in Alterations) {
