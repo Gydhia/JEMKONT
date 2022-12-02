@@ -216,16 +216,29 @@ namespace Jemkont.GridSystem
             this.CellDatas = CellDatas;
         }
 
-        public GridData(bool IsCombatGrid, int GridHeight, int GridWidth, List<CellData> CellDatas, Dictionary<GridPosition, Guid> EntitiesSpawns)
+        public GridData(bool IsCombatGrid, int GridHeight, int GridWidth, int Longitude, int Latitude, List<CellData> CellDatas, Dictionary<GridPosition, Guid> EntitiesSpawns)
+        {
+            this.IsCombatGrid = IsCombatGrid;
+            this.GridHeight = GridHeight;
+            this.GridWidth = GridWidth;
+            this.Longitude = Longitude;
+            this.Latitude = Latitude;
+            this.CellDatas = CellDatas;
+            this.EntitiesSpawns = EntitiesSpawns;
+        }
+
+        public GridData(bool IsCombatGrid, int GridHeight, int GridWidth, List<CellData> CellDatas, List<GridData> InnerGridsData, Dictionary<GridPosition, Guid> EntitiesSpawns)
         {
             this.IsCombatGrid = IsCombatGrid;
             this.GridHeight = GridHeight;
             this.GridWidth = GridWidth;
             this.CellDatas = CellDatas;
+            this.InnerGrids = InnerGridsData;
             this.EntitiesSpawns = EntitiesSpawns;
         }
         public bool IsCombatGrid { get; set; }
-
+        public int Longitude { get; set; }
+        public int Latitude { get; set; }
         public int GridHeight { get; set; }
         public int GridWidth { get; set; }
 

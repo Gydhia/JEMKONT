@@ -1,4 +1,5 @@
 using Jemkont.GridSystem;
+using Jemkont.Managers;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,6 +9,8 @@ public class SubgridPlaceholder
 {
     [HideInInspector]
     public CellData[,] CellDatas;
+
+    public Dictionary<GridPosition, EntitySpawn> EntitySpawns;
 
     public int GridHeight;
     public int GridWidth;
@@ -33,26 +36,4 @@ public class SubgridPlaceholder
             }
         }
     }
-
-    public void ResizeGrid(CellData[,] newCells)
-    {
-        int oldHeight = this.CellDatas.GetLength(0);
-        int oldWidth = this.CellDatas.GetLength(1);
-
-        int newHeight = newCells.GetLength(0);
-        int newWidth = newCells.GetLength(1);
-
-        if (newHeight < oldHeight || newWidth < oldWidth)
-            this.CellDatas = newCells;
-        else if (newCells.Length != this.CellDatas.Length)
-        {
-            this.CellDatas = newCells;
-
-            for (int i = 0; i < newHeight; i++)
-                for (int j = 0; j < newWidth; j++)
-                    if (this.CellDatas[i, j] == null)
-                        this.CellDatas[i, j] = new CellData(i, j, CellState.Walkable);
-        }
-    }
-
 }

@@ -6,6 +6,9 @@ namespace Jemkont.GridSystem
 {
     public class CombatGrid : WorldGrid
     {
+        public int Longitude;
+        public int Latitude;
+
         public bool HasStarted = false;
     }
 }

@@ -2006,7 +2006,7 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 1
+      Data: 2
     - Name: 
       Entry: 7
       Data: 102|SubgridPlaceholder, Assembly-CSharp
@@ -2015,10 +2015,10 @@ MonoBehaviour:
       Data: 103|Jemkont.GridSystem.CellData[,], Assembly-CSharp
     - Name: 
       Entry: 12
-      Data: 20
+      Data: 16
     - Name: ranks
       Entry: 1
-      Data: 4|5
+      Data: 4|4
     - Name: 
       Entry: 7
       Data: 104|Jemkont.GridSystem.CellData, Assembly-CSharp
@@ -2116,26 +2116,37 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: EntitySpawns
       Entry: 7
-      Data: 120|Jemkont.GridSystem.CellData, Assembly-CSharp
+      Data: 120|System.Collections.Generic.Dictionary`2[[Jemkont.Managers.GridPosition,
+        Assembly-CSharp],[EntitySpawn, Assembly-CSharp]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 121|System.Collections.Generic.ObjectEqualityComparer`1[[Jemkont.Managers.GridPosition,
+        Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 8
       Data: 
     - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
       Entry: 7
-      Data: 121|Jemkont.GridSystem.CellData, Assembly-CSharp
+      Data: 
+    - Name: $k
+      Entry: 7
+      Data: Jemkont.Managers.GridPosition, Assembly-CSharp
     - Name: 
       Entry: 8
       Data: 
-    - Name: 
-      Entry: 7
-      Data: 122|Jemkont.GridSystem.CellData, Assembly-CSharp
-    - Name: 
-      Entry: 8
+    - Name: $v
+      Entry: 6
       Data: 
-    - Name: 
-      Entry: 7
-      Data: 123|Jemkont.GridSystem.CellData, Assembly-CSharp
     - Name: 
       Entry: 8
       Data: 
@@ -2150,13 +2161,61 @@ MonoBehaviour:
       Data: 4
     - Name: GridWidth
       Entry: 3
-      Data: 5
+      Data: 4
     - Name: Longitude
       Entry: 3
       Data: 3
     - Name: Latitude
       Entry: 3
-      Data: 3
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 122|SubgridPlaceholder, Assembly-CSharp
+    - Name: CellDatas
+      Entry: 7
+      Data: 123|Jemkont.GridSystem.CellData[,], Assembly-CSharp
+    - Name: 
+      Entry: 12
+      Data: 6
+    - Name: ranks
+      Entry: 1
+      Data: 3|2
+    - Name: 
+      Entry: 7
+      Data: 124|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 125|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 126|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 127|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 128|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 129|Jemkont.GridSystem.CellData, Assembly-CSharp
     - Name: 
       Entry: 8
       Data: 
@@ -2168,18 +2227,66 @@ MonoBehaviour:
       Data: 
     - Name: EntitySpawns
       Entry: 7
-      Data: 124|System.Collections.Generic.Dictionary`2[[Jemkont.Managers.GridPosition,
+      Data: 130|System.Collections.Generic.Dictionary`2[[Jemkont.Managers.GridPosition,
         Assembly-CSharp],[EntitySpawn, Assembly-CSharp]], mscorlib
     - Name: comparer
-      Entry: 7
-      Data: 125|System.Collections.Generic.ObjectEqualityComparer`1[[Jemkont.Managers.GridPosition,
-        Assembly-CSharp]], mscorlib
-    - Name: 
-      Entry: 8
-      Data: 
+      Entry: 9
+      Data: 121
     - Name: 
       Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 7
+      Data: Jemkont.Managers.GridPosition, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: $v
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GridHeight
+      Entry: 3
+      Data: 3
+    - Name: GridWidth
+      Entry: 3
       Data: 2
+    - Name: Longitude
+      Entry: 3
+      Data: 0
+    - Name: Latitude
+      Entry: 3
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: EntitySpawns
+      Entry: 7
+      Data: 131|System.Collections.Generic.Dictionary`2[[Jemkont.Managers.GridPosition,
+        Assembly-CSharp],[EntitySpawn, Assembly-CSharp]], mscorlib
+    - Name: comparer
+      Entry: 9
+      Data: 121
+    - Name: 
+      Entry: 12
+      Data: 4
     - Name: 
       Entry: 7
       Data: 
@@ -2207,6 +2314,36 @@ MonoBehaviour:
     - Name: $v
       Entry: 10
       Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 7
+      Data: Jemkont.Managers.GridPosition, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: $v
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 7
+      Data: Jemkont.Managers.GridPosition, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: $v
+      Entry: 6
+      Data: 
     - Name: 
       Entry: 8
       Data: 
