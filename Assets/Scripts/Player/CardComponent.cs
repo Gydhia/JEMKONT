@@ -32,13 +32,19 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
 
     private void Start() 
     {
+        InitTexts();
+    }
+    public void InitTexts() {
         this.ShineImage.enabled = false;
         this.CostText.text = this.CardData.Cost.ToString();
         this.TitleText.text = this.CardData.Title;
         this.DescText.text = this.CardData.Description;
         originPosition = transform.position;
     }
-
+    public void ApplyCost(int much) {
+        CardData.Cost += much;
+        InitTexts();
+    }
     public void Update() 
     {
         Vector2 mousePos = Input.mousePosition;

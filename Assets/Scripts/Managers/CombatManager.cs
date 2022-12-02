@@ -39,7 +39,7 @@ namespace Jemkont.Managers
             this._loadEveryEntities();
         }
 
-        public void StartCombat(List<CharacterEntity> players)
+        public void StartCombat()
         {
             if (this.CurrentPlayingGrid.HasStarted)
                 return;
@@ -50,7 +50,7 @@ namespace Jemkont.Managers
             this.TurnNumber = -1;
             this.CurrentPlayingGrid.HasStarted = true;
 
-            this._defineEntitiesTurn(players);
+            this._defineEntitiesTurn();
             UIManager.Instance.TurnSection.Init(this.PlayingEntities);
             this.NextTurn();
         }
@@ -120,9 +120,10 @@ namespace Jemkont.Managers
             this.NextTurn();
         }
 
-        private void _defineEntitiesTurn(List<CharacterEntity> players)
+        private void _defineEntitiesTurn()
         {
-            List<CharacterEntity> enemies = this.CurrentPlayingGrid.GridEntities;
+            List<CharacterEntity> enemies = this.CurrentPlayingGrid.GridEntities.Where(x=>!x.IsAlly).ToList();
+            List<CharacterEntity> players = this.CurrentPlayingGrid.GridEntities.Where(x=>x.IsAlly).ToList();
 
             for (int i = 0; i < players.Count; i++)
                 players[i].TurnOrder = i;

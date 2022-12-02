@@ -185,6 +185,9 @@ MonoBehaviour:
   CurrentPlayingEntity: {fileID: 0}
   CurrentPlayingGrid: {fileID: 0}
   PlayingEntities: []
+  DiscardPile: []
+  DrawPile: []
+  HandPile: []
   TurnNumber: 0
 --- !u!1 &4684062575287771609
 GameObject:
@@ -237,7 +240,6 @@ MonoBehaviour:
   ObjectsHandler: {fileID: 0}
   Plane: {fileID: 913962143815404576, guid: 7141923bd86c41143a35f9d656e8949b, type: 3}
   TestPlane: {fileID: 0}
-  Player: {fileID: 0}
   LastHoveredCell: {fileID: 0}
 --- !u!1 &6162683752929045887
 GameObject:
@@ -298,6 +300,51 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DraggedCard: {fileID: 0}
   DissapearingHeight: 0
+--- !u!1 &7093381917630102102
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3391400160085995299}
+  - component: {fileID: 5566019968963898768}
+  m_Layer: 0
+  m_Name: NetworkManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3391400160085995299
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7093381917630102102}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6008253201538663047}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5566019968963898768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7093381917630102102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dff6be907a3db4c4c98087d5bc4b87a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UILobby: {fileID: 0}
 --- !u!1 &7177147408384528591
 GameObject:
   m_ObjectHideFlags: 0
@@ -333,6 +380,7 @@ Transform:
   - {fileID: 2378782602772439761}
   - {fileID: 4037672401551998160}
   - {fileID: 5979577254046834277}
+  - {fileID: 3391400160085995299}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -381,3 +429,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TurnSection: {fileID: 0}
+  PlayerInfos: {fileID: 0}
+  CardSection: {fileID: 0}

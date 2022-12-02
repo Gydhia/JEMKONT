@@ -36,9 +36,9 @@ namespace Jemkont.Entity
         public GridPosition EntityPosition = GridPosition.zero;
         public CombatGrid CurrentGrid;
 
-        public List<CharacterEntity> Invocations;
+        public List<CharacterEntity> Summons;
 
-
+        public int MaxHealth { get => RefStats.Health; set => RefStats.Health = value; }
         public Dictionary<EntityStatistics, int> Statistics;
         public int Health {  get => Statistics[EntityStatistics.Health]; }
         public int Shield { get => Statistics[EntityStatistics.Shield]; }
@@ -97,11 +97,10 @@ namespace Jemkont.Entity
 
         }
 
-        public void StartTurn()
+        public virtual void StartTurn()
         {
             this.ReinitializeStat(EntityStatistics.Movement);
             this.ReinitializeStat(EntityStatistics.Mana);
-
             GridManager.Instance.ShowPossibleMovements(this);
         }
 
@@ -212,6 +211,12 @@ namespace Jemkont.Entity
                 this.OnDexterityAdded?.Invoke(new SpellEventData(this, value));
             else
                 this.OnDexterityRemoved?.Invoke(new SpellEventData(this, -value));
+        }
+        public override string ToString() {
+
+            return @$"Name : {name}
+IsAlly : {IsAlly}
+GridPos : {EntityPosition}";
         }
     }
 }

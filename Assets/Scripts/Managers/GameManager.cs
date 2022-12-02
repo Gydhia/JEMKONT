@@ -6,6 +6,14 @@ namespace Jemkont.Managers
 {
     public class GameManager : _baseManager<GameManager>
     {
-   
+        private void Start()
+        {
+            
+        }
+
+        public void WelcomePlayers()
+        {
+
+        }
     }
 }
