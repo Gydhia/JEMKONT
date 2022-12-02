@@ -8,10 +8,6 @@ using UnityEngine;
 
 public class GridPlaceholder : SerializedMonoBehaviour
 {
-    // Used variables in play time
-    [SerializeField, HideInInspector]
-    private string _selectedGrid;
-
     [SerializeField] 
     private GameObject _planePrefab;
 
@@ -86,8 +82,6 @@ public class GridPlaceholder : SerializedMonoBehaviour
                 this.EntitySpawns = this._setEntitiesSpawn(this.CellDatas, newGrid.EntitiesSpawns);
             else
                 this.EntitySpawns.Clear();
-
-            this._selectedGrid = SelectedGrid;
         }
     }
 
@@ -109,6 +103,7 @@ public class GridPlaceholder : SerializedMonoBehaviour
     }
 
     #endregion
+    public bool ToLoad = false;
     public bool IsCombatGrid = false;
 
     public int GridHeight = 8;
@@ -209,6 +204,8 @@ public class GridPlaceholder : SerializedMonoBehaviour
             false,
             this.GridHeight,
             this.GridWidth,
+            this.TopLeftOffset,
+            this.ToLoad,
             cellData,
             innerGridsData,
             entitiesSpawns
@@ -265,8 +262,8 @@ public class GridPlaceholder : SerializedMonoBehaviour
         {
             Gizmos.color = Color.black;
 
-            Vector3 topLeft = new Vector3(this.InnerGrids[i].Longitude * cellsWidth, 0f, this.InnerGrids[i].Latitude * cellsWidth);
-            Vector3 botRight = new Vector3((this.InnerGrids[i].Longitude + this.InnerGrids[i].GridWidth) * cellsWidth, 0f, (this.InnerGrids[i].Latitude + this.InnerGrids[i].GridHeight) * cellsWidth);
+            Vector3 topLeft = new Vector3(this.TopLeftOffset.x + this.InnerGrids[i].Longitude * cellsWidth, 0f, this.InnerGrids[i].Latitude * cellsWidth - this.TopLeftOffset.z);
+            Vector3 botRight = new Vector3(this.TopLeftOffset.x + (this.InnerGrids[i].Longitude + this.InnerGrids[i].GridWidth) * cellsWidth, 0f, (this.InnerGrids[i].Latitude + this.InnerGrids[i].GridHeight) * cellsWidth - this.TopLeftOffset.z);
 
             float midLong = this.InnerGrids[i].GridWidth * cellsWidth / 2f;
             float midLat = this.InnerGrids[i].GridHeight * cellsWidth / 2f;

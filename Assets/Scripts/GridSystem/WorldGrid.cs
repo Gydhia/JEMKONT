@@ -30,23 +30,6 @@ namespace Jemkont.GridSystem
 
         public List<CombatGrid> InnerCombatGrids;
 
-        private void Start()
-        {
-            if(this.Cells != null)
-                foreach (Cell cell in Cells)
-                    cell.gameObject.SetActive(true);
-            else
-            {
-                if (GridManager.Instance.SavedGrids.TryGetValue(this.UName, out GridData grid))
-                {
-                    this.DestroyChildren();
-                    this.Init(grid);
-                }
-                else
-                    Debug.LogError("Could find grid : " + this.UName + " in the loaded grids");
-            }
-        }
-
         public void Init(GridData data)
         {
             this.GridHeight = data.GridHeight;
@@ -54,6 +37,8 @@ namespace Jemkont.GridSystem
             this.IsCombatGrid = data.IsCombatGrid;
 
             this.GenerateGrid(data);
+            if(data.InnerGrids != null)
+                this.GenerateInnerGrids(data.InnerGrids);
             this.RedrawGrid();
         }
 
@@ -67,10 +52,22 @@ namespace Jemkont.GridSystem
 
         public void GenerateGrid(GridData gridData)
         {
-            this.GenerateGrid(gridData.GridHeight, gridData.GridWidth);
+            this.GenerateGrid(gridData.GridHeight, gridData.GridWidth, gridData.Longitude, gridData.Latitude);
 
             foreach(CellData data in gridData.CellDatas)
                 this.Cells[data.heightPos, data.widthPos].Datas.state = data.state;
+
+            // Check in the inner grids, mark the shared cells as so and disable them.
+            if(gridData.InnerGrids != null)
+            {
+                foreach (GridData innerGrid in gridData.InnerGrids)
+                    for (int i = innerGrid.Longitude; i < innerGrid.Longitude + innerGrid.GridWidth; i++)
+                        for (int j = innerGrid.Latitude; j < innerGrid.Latitude + innerGrid.GridHeight; j++)
+                        {
+                            this.Cells[j, i].Datas.state = CellState.Shared;
+                            this.Cells[j, i].gameObject.SetActive(false);
+                        }
+            }
 
             this.GridEntities = new List<CharacterEntity>();
             if(gridData.EntitiesSpawns != null)
@@ -93,12 +90,24 @@ namespace Jemkont.GridSystem
             }
         }
 
+        public void GenerateInnerGrids(List<GridData> innerGrids)
+        {
+            foreach (GridData innerGrid in innerGrids)
+            {
+                CombatGrid newInnerGrid = Instantiate(GridManager.Instance.CombatGridPrefab, Vector3.zero, Quaternion.identity, this.transform) as CombatGrid;
+
+                newInnerGrid.Init(innerGrid);
+
+                this.InnerCombatGrids.Add(newInnerGrid);
+            }
+        }
+
         /// <summary>
         /// The [0, 0] value of an array is at the top left corner. We'll follow these rules while instantiating cells
         /// </summary>
         /// <param name="height">The height of the array ([height, x])</param>
         /// <param name="width">The width of the array ([x, width])</param>
-        public void GenerateGrid(int height, int width)
+        public void GenerateGrid(int height, int width, int longitude, int latitude)
         {
             this.GridHeight = height;
             this.GridWidth = width;
@@ -110,7 +119,7 @@ namespace Jemkont.GridSystem
             {
                 for (int j = 0; j < this.Cells.GetLength(1); j++)
                 {
-                    this.CreateAddCell(i, j, new Vector3(j * cellsWidth + widthOffset, 0.1f, -i * cellsWidth - widthOffset));
+                    this.CreateAddCell(i, j, new Vector3((j + longitude) * cellsWidth + widthOffset, 0.1f, -(i + latitude) * cellsWidth - widthOffset));
                 }
             }
 
@@ -216,31 +225,42 @@ namespace Jemkont.GridSystem
             this.CellDatas = CellDatas;
         }
 
+        /// <summary>
+        /// /!\ Constructor made for the InnerGrids (aka CombatGrids), don't use it for WorldGrids
+        /// </summary>
         public GridData(bool IsCombatGrid, int GridHeight, int GridWidth, int Longitude, int Latitude, List<CellData> CellDatas, Dictionary<GridPosition, Guid> EntitiesSpawns)
         {
             this.IsCombatGrid = IsCombatGrid;
             this.GridHeight = GridHeight;
             this.GridWidth = GridWidth;
+            this.ToLoad = false;
             this.Longitude = Longitude;
             this.Latitude = Latitude;
             this.CellDatas = CellDatas;
             this.EntitiesSpawns = EntitiesSpawns;
         }
 
-        public GridData(bool IsCombatGrid, int GridHeight, int GridWidth, List<CellData> CellDatas, List<GridData> InnerGridsData, Dictionary<GridPosition, Guid> EntitiesSpawns)
+        /// <summary>
+        /// /!\ Constructor made for the WorldGrids
+        /// </summary>
+        public GridData(bool IsCombatGrid, int GridHeight, int GridWidth, Vector3 TopLeftOffset, bool ToLoad, List<CellData> CellDatas, List<GridData> InnerGridsData, Dictionary<GridPosition, Guid> EntitiesSpawns)
         {
             this.IsCombatGrid = IsCombatGrid;
             this.GridHeight = GridHeight;
             this.GridWidth = GridWidth;
+            this.TopLeftOffset = TopLeftOffset;
+            this.ToLoad = ToLoad;
             this.CellDatas = CellDatas;
             this.InnerGrids = InnerGridsData;
             this.EntitiesSpawns = EntitiesSpawns;
         }
+        public bool ToLoad { get; set; }
         public bool IsCombatGrid { get; set; }
         public int Longitude { get; set; }
         public int Latitude { get; set; }
         public int GridHeight { get; set; }
         public int GridWidth { get; set; }
+        public Vector3 TopLeftOffset { get; set; }
 
         public List<GridData> InnerGrids;
         public List<CellData> CellDatas { get; set; }

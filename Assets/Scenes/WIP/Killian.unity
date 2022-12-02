@@ -676,8 +676,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 870594183}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5, y: 0, z: -5}
-  m_LocalScale: {x: 1, y: 0, z: 1}
+  m_LocalPosition: {x: 5, y: 0, z: -6}
+  m_LocalScale: {x: 1, y: 0, z: 1.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8506851707251346287}
@@ -1346,21 +1346,65 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7964413336302880731, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: TestPlane
+      value: 
+      objectReference: {fileID: 913962143815404576, guid: 7141923bd86c41143a35f9d656e8949b, type: 3}
+    - target: {fileID: 7964413336302880731, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
       propertyPath: GridHandler
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7964413336302880731, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: FirstSpawn.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7964413336302880731, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: FirstSpawn.y
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7964413336302880731, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
       propertyPath: PlayerPrefab
       value: 
       objectReference: {fileID: -4998914615591247022, guid: 1d1bd3328be7bc54eb7b01b391b42dc7, type: 3}
     - target: {fileID: 7964413336302880731, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: ThirdSpawn.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7964413336302880731, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: ThirdSpawn.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7964413336302880731, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: FourthSpawn.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7964413336302880731, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: FourthSpawn.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7964413336302880731, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: SecondSpawn.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7964413336302880731, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: SecondSpawn.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7964413336302880731, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
       propertyPath: ObjectsHandler
       value: 
       objectReference: {fileID: 1171847042}
     - target: {fileID: 7964413336302880731, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: _objectsHandler
+      value: 
+      objectReference: {fileID: 1171847043}
+    - target: {fileID: 7964413336302880731, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
       propertyPath: CombatGridPrefab
       value: 
       objectReference: {fileID: 2420647313775234594, guid: 309f24f78f459eb4d809b4e078f52ee1, type: 3}
+    - target: {fileID: 7964413336302880731, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: _gridsDataHandler
+      value: 
+      objectReference: {fileID: 1090901377}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
 --- !u!114 &5162589613231053291
@@ -1390,10 +1434,10 @@ MonoBehaviour:
       Data: 0|Jemkont.GridSystem.CellData[,], Assembly-CSharp
     - Name: 
       Entry: 12
-      Data: 100
+      Data: 120
     - Name: ranks
       Entry: 1
-      Data: 10|10
+      Data: 12|10
     - Name: 
       Entry: 7
       Data: 1|Jemkont.GridSystem.CellData, Assembly-CSharp
@@ -1995,30 +2039,23 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: 
-      Entry: 13
-      Data: 
+      Entry: 7
+      Data: 101|Jemkont.GridSystem.CellData, Assembly-CSharp
     - Name: 
       Entry: 8
       Data: 
-    - Name: InnerGrids
-      Entry: 7
-      Data: 101|System.Collections.Generic.List`1[[SubgridPlaceholder, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 2
     - Name: 
       Entry: 7
-      Data: 102|SubgridPlaceholder, Assembly-CSharp
-    - Name: CellDatas
-      Entry: 7
-      Data: 103|Jemkont.GridSystem.CellData[,], Assembly-CSharp
+      Data: 102|Jemkont.GridSystem.CellData, Assembly-CSharp
     - Name: 
-      Entry: 12
-      Data: 16
-    - Name: ranks
-      Entry: 1
-      Data: 4|4
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 103|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 7
       Data: 104|Jemkont.GridSystem.CellData, Assembly-CSharp
@@ -2116,6 +2153,133 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: 
+      Entry: 7
+      Data: 120|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: InnerGrids
+      Entry: 7
+      Data: 121|System.Collections.Generic.List`1[[SubgridPlaceholder, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 122|SubgridPlaceholder, Assembly-CSharp
+    - Name: CellDatas
+      Entry: 7
+      Data: 123|Jemkont.GridSystem.CellData[,], Assembly-CSharp
+    - Name: 
+      Entry: 12
+      Data: 16
+    - Name: ranks
+      Entry: 1
+      Data: 4|4
+    - Name: 
+      Entry: 7
+      Data: 124|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 125|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 126|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 127|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 128|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 129|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 130|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 131|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 132|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 133|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 134|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 135|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 136|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 137|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 138|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 139|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
       Entry: 13
       Data: 
     - Name: 
@@ -2123,11 +2287,11 @@ MonoBehaviour:
       Data: 
     - Name: EntitySpawns
       Entry: 7
-      Data: 120|System.Collections.Generic.Dictionary`2[[Jemkont.Managers.GridPosition,
+      Data: 140|System.Collections.Generic.Dictionary`2[[Jemkont.Managers.GridPosition,
         Assembly-CSharp],[EntitySpawn, Assembly-CSharp]], mscorlib
     - Name: comparer
       Entry: 7
-      Data: 121|System.Collections.Generic.ObjectEqualityComparer`1[[Jemkont.Managers.GridPosition,
+      Data: 141|System.Collections.Generic.ObjectEqualityComparer`1[[Jemkont.Managers.GridPosition,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 8
@@ -2172,54 +2336,6 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: 
-      Entry: 7
-      Data: 122|SubgridPlaceholder, Assembly-CSharp
-    - Name: CellDatas
-      Entry: 7
-      Data: 123|Jemkont.GridSystem.CellData[,], Assembly-CSharp
-    - Name: 
-      Entry: 12
-      Data: 6
-    - Name: ranks
-      Entry: 1
-      Data: 3|2
-    - Name: 
-      Entry: 7
-      Data: 124|Jemkont.GridSystem.CellData, Assembly-CSharp
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 125|Jemkont.GridSystem.CellData, Assembly-CSharp
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 126|Jemkont.GridSystem.CellData, Assembly-CSharp
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 127|Jemkont.GridSystem.CellData, Assembly-CSharp
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 128|Jemkont.GridSystem.CellData, Assembly-CSharp
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 129|Jemkont.GridSystem.CellData, Assembly-CSharp
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
       Entry: 13
       Data: 
     - Name: 
@@ -2227,66 +2343,14 @@ MonoBehaviour:
       Data: 
     - Name: EntitySpawns
       Entry: 7
-      Data: 130|System.Collections.Generic.Dictionary`2[[Jemkont.Managers.GridPosition,
+      Data: 142|System.Collections.Generic.Dictionary`2[[Jemkont.Managers.GridPosition,
         Assembly-CSharp],[EntitySpawn, Assembly-CSharp]], mscorlib
     - Name: comparer
       Entry: 9
-      Data: 121
+      Data: 141
     - Name: 
       Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 7
-      Data: Jemkont.Managers.GridPosition, Assembly-CSharp
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: $v
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: GridHeight
-      Entry: 3
-      Data: 3
-    - Name: GridWidth
-      Entry: 3
-      Data: 2
-    - Name: Longitude
-      Entry: 3
-      Data: 0
-    - Name: Latitude
-      Entry: 3
-      Data: 1
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: EntitySpawns
-      Entry: 7
-      Data: 131|System.Collections.Generic.Dictionary`2[[Jemkont.Managers.GridPosition,
-        Assembly-CSharp],[EntitySpawn, Assembly-CSharp]], mscorlib
-    - Name: comparer
-      Entry: 9
-      Data: 121
-    - Name: 
-      Entry: 12
-      Data: 4
+      Data: 5
     - Name: 
       Entry: 7
       Data: 
@@ -2348,17 +2412,32 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 7
+      Data: Jemkont.Managers.GridPosition, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: $v
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
       Entry: 13
       Data: 
     - Name: 
       Entry: 8
       Data: 
-  _selectedGrid: SecondTrust
   _planePrefab: {fileID: 913962143815404576, guid: 7141923bd86c41143a35f9d656e8949b, type: 3}
   TopLeftOffset: {x: 0, y: 0, z: 0}
   SelectedGrid: SecondTrust
-  IsCombatGrid: 1
-  GridHeight: 10
+  ToLoad: 1
+  IsCombatGrid: 0
+  GridHeight: 12
   GridWidth: 10
   Plane: {fileID: 870594183}
 --- !u!1 &6268991192390828927

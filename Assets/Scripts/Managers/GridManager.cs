@@ -15,9 +15,14 @@ namespace Jemkont.Managers {
     {
         #region Assets_reference
 
+        public Vector2 FirstSpawn;
+        public Vector2 SecondSpawn;
+        public Vector2 ThirdSpawn;
+        public Vector2 FourthSpawn;
+
         public Cell CellPrefab;
 
-        [SerializeField] private CombatGrid _combatGridPrefab;
+        [SerializeField] public WorldGrid CombatGridPrefab;
         [SerializeField] private Transform _objectsHandler;
         [SerializeField] private Transform _gridsDataHandler;
 
@@ -39,7 +44,7 @@ namespace Jemkont.Managers {
         public Dictionary<string, WorldGrid> WorldGrids;
 
         private CombatGrid _currentCombatGrid;
-        private WorldGrid _currentWorldGrid;
+        public WorldGrid MainWorldGrid;
         public GameObject TestPlane;
 
         public Cell LastHoveredCell;
@@ -53,28 +58,28 @@ namespace Jemkont.Managers {
             this.LoadGridsFromJSON();
             this.LoadEveryEntities();
 
-            // Grids of a SCENE should be placed under one and ONLY parent. They're gonna be loaded from this
-            GridPlaceholder[] gridPlaceholders = this._gridsDataHandler.GetComponentsInChildren<GridPlaceholder>();
-            for (int i = 0; i < gridPlaceholders.Length; i++)
+            Destroy(this._gridsDataHandler.gameObject);
+
+            foreach (var savedGrid in this.SavedGrids)
             {
-                this.GenerateGrid(gridPlaceholders[i].TopLeftOffset, gridPlaceholders[i].SelectedGrid);
-                
-                Destroy(gridPlaceholders[i].gameObject);
+                // Only load the saves that are indicated so
+                if (savedGrid.Value.ToLoad)
+                {
+                    this.GenerateGrid(savedGrid.Value, savedGrid.Key);   
+                }
             }
         }
 
-        public void GenerateGrid(Vector3 offset, string gridId) 
+        public void GenerateGrid(GridData gridData, string gridId) 
         {
-            // Check that the ID exists
-            if(this.SavedGrids.TryGetValue(gridId, out GridData gridData))
-            {
-                CombatGrid newGrid = Instantiate<CombatGrid>(this._combatGridPrefab, offset, Quaternion.identity, this._objectsHandler);
+            WorldGrid newGrid = Instantiate(this.CombatGridPrefab, gridData.TopLeftOffset, Quaternion.identity, this._objectsHandler);
                 
-                newGrid.UName = gridId;
-                newGrid.Init(gridData);
+            newGrid.UName = gridId;
+            newGrid.Init(gridData);
 
-                this.WorldGrids.Add(newGrid.UName, newGrid);
-            }
+            this.WorldGrids.Add(newGrid.UName, newGrid);
+
+            this.MainWorldGrid = this.WorldGrids.Values.First();
         }
 
         [Button]
@@ -314,7 +319,7 @@ namespace Jemkont.Managers {
         {
             this.SavedGrids = new Dictionary<string,GridData>();
 
-            TextAsset[] jsons = Resources.LoadAll<TextAsset>("Saves/Grids");
+            TextAsset[] jsons = Resources.LoadAll<TextAsset>("Saves/Grids/" + UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
             foreach (TextAsset json in jsons) {
                 // not used but it may help the GridData deserialization to works well, so keep it
                 JObject obj = JsonConvert.DeserializeObject<JObject>(json.text);
@@ -370,13 +375,18 @@ namespace Jemkont.Managers {
             if (uName == "" && uName == string.Empty)
                 return;
 
-            string gridJson = JsonConvert.SerializeObject(grid);
+            // We have to ignore the loops because Vector3.Normalize would fck up the serialization :)
+            JsonSerializerSettings Jss = new JsonSerializerSettings();
+            Jss.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+
+            string gridJson = JsonConvert.SerializeObject(grid, Jss);
             this._saveJSONFile(gridJson,uName);
         }
 
         private void _saveJSONFile(string json,string pathName) 
         {
-            string path = Application.dataPath + "/Resources/Saves/Grids/" + pathName + ".json";
+            string currScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+            string path = Application.dataPath + "/Resources/Saves/Grids/" + currScene + "/" + pathName + ".json";
             if (File.Exists(path))
                 File.Delete(path);
             File.WriteAllText(path,json);
@@ -404,6 +414,7 @@ namespace Jemkont.Managers {
         #endregion
     }
     
+    [Serializable]
     public struct GridPosition
     {
         public GridPosition(int longitude, int latitude)

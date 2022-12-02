@@ -76,7 +76,9 @@ namespace Jemkont.Managers
         public void CreateRoom()
         {
             if (!string.IsNullOrEmpty(this.UILobby.RoomInput.text))
-                PhotonNetwork.CreateRoom(this.UILobby.RoomInput.text, new RoomOptions() { MaxPlayers = 4, BroadcastPropsChangeToAll = true }, null);
+            {
+                PhotonNetwork.CreateRoom(this.UILobby.RoomInput.text, new RoomOptions() { MaxPlayers = 4, BroadcastPropsChangeToAll = true, PublishUserId = true }, null);
+            }
         }
 
         #endregion

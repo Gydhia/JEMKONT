@@ -21,11 +21,24 @@ namespace Jemkont.Managers
 
         public void WelcomePlayers()
         {
-            if (PhotonNetwork.CurrentRoom.PlayerCount > 1)
+            if (PhotonNetwork.CurrentRoom.PlayerCount >= 1)
             {
+                this.Players = new Dictionary<string, PlayerBehavior>();
+                int counter = 0;
                 foreach (var player in PhotonNetwork.CurrentRoom.Players.Values)
                 {
                     PlayerBehavior newPlayer = Instantiate(this._playerPrefab, Vector3.zero, Quaternion.identity, this.transform);
+                    GridPosition spawnPosition;
+
+                    switch (counter)
+                    {
+                        case 0: spawnPosition = new GridPosition((int)GridManager.Instance.FirstSpawn.x, (int)GridManager.Instance.FirstSpawn.y); break;
+                        case 1: spawnPosition = new GridPosition((int)GridManager.Instance.SecondSpawn.x, (int)GridManager.Instance.SecondSpawn.y); break;
+                        case 2: spawnPosition = new GridPosition((int)GridManager.Instance.ThirdSpawn.x, (int)GridManager.Instance.ThirdSpawn.y); break;
+                        default: spawnPosition = new GridPosition((int)GridManager.Instance.FourthSpawn.x, (int)GridManager.Instance.FourthSpawn.y); break;
+                    }
+
+                    newPlayer.Init(SettingsManager.Instance.PlayerStats, GridManager.Instance.MainWorldGrid.Cells[spawnPosition.latitude, spawnPosition.longitude], GridManager.Instance.MainWorldGrid);
                     // TODO: make it works with world grids
                     newPlayer.PlayerID = player.UserId;
 
@@ -33,6 +46,7 @@ namespace Jemkont.Managers
                         this.SelfPlayer = newPlayer;
 
                     this.Players.Add(player.UserId, newPlayer);
+                    counter++;
                 }
             }
         }
