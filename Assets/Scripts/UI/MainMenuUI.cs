@@ -120,23 +120,18 @@ public class MainMenuUI : MonoBehaviour
             {
                 case MenuButtonsTypes.SOLO:
                     MouseOverButtonAnimation(_soloPlayRect);
-                    Debug.Log("OVER : SOLO");
                     break;
                 case MenuButtonsTypes.HOST:
                     MouseOverButtonAnimation(_hostGameRect);
-                    Debug.Log("OVER : HOST");
                     break;
                 case MenuButtonsTypes.JOIN:
                     MouseOverButtonAnimation(_joinGameRect);
-                    Debug.Log("OVER : JOIN");
                     break;
                 case MenuButtonsTypes.OPTIONS:
                     MouseOverButtonAnimation(_optionsRect);
-                    Debug.Log("OVER : OPTIONS");
                     break;
                 case MenuButtonsTypes.QUIT:
                     MouseOverButtonAnimation(_quitRect);
-                    Debug.Log("OVER : QUIT");
                     break;
                 default:
                     break;
