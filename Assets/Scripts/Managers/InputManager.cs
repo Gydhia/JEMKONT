@@ -11,9 +11,6 @@ namespace Jemkont.Managers
 
         private void Update()
         {
-            if (CombatManager.Instance.CurrentPlayingEntity == null)
-                return;
-
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             // layer 7 = Cell
@@ -24,7 +21,7 @@ namespace Jemkont.Managers
                     // Avoid executing this code when it has already been done
                     if (cell != GridManager.Instance.LastHoveredCell)
                     {
-                        GridManager.Instance.OnNewCellHovered(CombatManager.Instance.CurrentPlayingEntity, cell);
+                            GridManager.Instance.OnNewCellHovered(GameManager.Instance.SelfPlayer, cell);
                     }
                 }
             }

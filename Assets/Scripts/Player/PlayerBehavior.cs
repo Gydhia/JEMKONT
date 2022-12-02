@@ -20,6 +20,7 @@ namespace Jemkont.Entity
         public void MoveWithPath(List<Cell> newPath)
         {
             this.CurrentPath = newPath;
+            newPath.Insert(0, this.EntityCell);
             this._moveCor = StartCoroutine(FollowPath());
         }
 
@@ -37,6 +38,8 @@ namespace Jemkont.Entity
                     timer += Time.deltaTime;
                     yield return null;
                 }
+
+                this.EntityCell = CurrentPath[targetCell];
 
                 currentCell++;
                 targetCell++;

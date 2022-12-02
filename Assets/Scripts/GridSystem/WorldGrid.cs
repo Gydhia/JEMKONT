@@ -79,10 +79,11 @@ namespace Jemkont.GridSystem
                         if (GridManager.Instance.EnemiesSpawnSO.TryGetValue(entity.Value, out EntitySpawn entitySO))
                         {
                             this.Cells[entity.Key.longitude, entity.Key.latitude].Datas.state = CellState.EntityIn;
+
                             CharacterEntity newEntity = Instantiate(entitySO.Entity, this.Cells[entity.Key.longitude, entity.Key.latitude].WorldPosition, Quaternion.identity, this.transform);
                             newEntity.IsAlly = false;
                             newEntity.Init(entitySO.Statistics, this.Cells[entity.Key.longitude, entity.Key.latitude], this);
-
+                            newEntity.gameObject.SetActive(false);
                             this.GridEntities.Add(newEntity);
                         }
                     }

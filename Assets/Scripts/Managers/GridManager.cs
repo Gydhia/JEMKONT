@@ -93,18 +93,31 @@ namespace Jemkont.Managers {
         {
             if (this.LastHoveredCell != null && this.LastHoveredCell.Datas.state == CellState.Walkable)
                 this.LastHoveredCell.ChangeStateColor(Color.grey);
-            this.ShowPossibleMovements(entity);
+
+            if(entity.CurrentGrid.IsCombatGrid)
+                this.ShowPossibleCombatMovements(entity);
 
             this.LastHoveredCell = cell;
             if (CardDraggingSystem.instance.DraggedCard != null && this.LastHoveredCell.Datas.state == CellState.Walkable)
                 this.LastHoveredCell.ChangeStateColor(Color.cyan);
 
             // Make sure that we're not using a card so we don't show the player's path
-            if (CardDraggingSystem.instance.DraggedCard == null) {
-                this.FindPath(entity,cell.PositionInGrid,cell.RefGrid);
+            if (CardDraggingSystem.instance.DraggedCard == null)
+            {
+                // Clear old path
+                for (int i = 0; i < this.Path.Count; i++)
+                    if (this.Path[i] != null)
+                        this.Path[i].ChangeStateColor(Color.grey);
 
-                if (this.Path.Count <= CombatManager.Instance.CurrentPlayingEntity.Movement) {
-                    for (int i = 0;i < this.Path.Count;i++) {
+                if (!entity.CurrentGrid.IsCombatGrid)
+                    this._possiblePath = this.Path;
+
+                this.FindPath(entity, cell.PositionInGrid, cell.RefGrid);
+
+                if (!entity.CurrentGrid.IsCombatGrid || this.Path.Count <= CombatManager.Instance.CurrentPlayingEntity.Movement)
+                {
+                    for (int i = 0; i < this.Path.Count; i++)
+                    {
                         if (this.Path[i] != null)
                             this.Path[i].ChangeStateColor(Color.green);
                     }
@@ -116,23 +129,26 @@ namespace Jemkont.Managers {
         {
             if (this.LastHoveredCell != null) 
             {
-                if (CardDraggingSystem.instance.DraggedCard == null && this._possiblePath.Contains(this.LastHoveredCell)) 
+                // TODO: Recalculate the path before
+                if (CardDraggingSystem.instance.DraggedCard == null && this.Path.Contains(this.LastHoveredCell)) 
                 {
                     if (this.LastHoveredCell.Datas.state == CellState.Walkable) 
                     {
-                        GridPosition lastPos = CombatManager.Instance.CurrentPlayingEntity.EntityPosition;
-                        if (CombatManager.Instance.CurrentPlayingEntity.TryGoTo(this.LastHoveredCell,this.Path.Count)) 
-                        {
-                            CombatManager.Instance.CurrentPlayingGrid
-                                .Cells[lastPos.longitude,lastPos.latitude]
-                                .ChangeCellState(CellState.Walkable);
+                        GridPosition lastPos = GameManager.Instance.SelfPlayer.EntityCell.PositionInGrid;
+                        GameManager.Instance.SelfPlayer.MoveWithPath(this.Path);
+                        // TODO: Rework the combat/out-of-combat network callbacks and structure
+                            //if () 
+                        //{
+                        //    GameManager.Instance.SelfPlayer.CurrentGrid
+                        //        .Cells[lastPos.longitude,lastPos.latitude]
+                        //        .ChangeCellState(CellState.Walkable);
 
-                            this.ShowPossibleMovements(CombatManager.Instance.CurrentPlayingEntity);
+                        //    this.ShowPossibleCombatMovements(GameManager.Instance.SelfPlayer);
 
-                            CombatManager.Instance.CurrentPlayingGrid
-                                .Cells[this.LastHoveredCell.Datas.heightPos,this.LastHoveredCell.Datas.widthPos]
-                                .ChangeCellState(CellState.EntityIn);
-                        }
+                        //    GameManager.Instance.SelfPlayer.CurrentGrid
+                        //        .Cells[this.LastHoveredCell.Datas.heightPos,this.LastHoveredCell.Datas.widthPos]
+                        //        .ChangeCellState(CellState.EntityIn);
+                        //}
                     }
                 } else if (CardDraggingSystem.instance.DraggedCard != null) {
                     CombatManager.Instance.PlayCard(this.LastHoveredCell);
@@ -141,10 +157,10 @@ namespace Jemkont.Managers {
             }
         }
 
-        public void ShowPossibleMovements(CharacterEntity entity) 
+        public void ShowPossibleCombatMovements(CharacterEntity entity) 
         {
             int movePoints = entity.Movement;
-            Cell entityCell = this._currentCombatGrid.Cells[entity.EntityPosition.longitude,entity.EntityPosition.latitude];
+            Cell entityCell = entity.EntityCell;
 
             // Clear the highlighted cells
             foreach (Cell cell in this._possiblePath)
@@ -159,12 +175,12 @@ namespace Jemkont.Managers {
                     int checkX = entityCell.Datas.widthPos + x;
                     int checkY = entityCell.Datas.heightPos + y;
 
-                    if (checkX >= 0 && checkX < this._currentCombatGrid.GridWidth && checkY >= 0 && checkY < _currentCombatGrid.GridHeight) {
-                        this.FindPath(entity, this._currentCombatGrid.Cells[checkY,checkX].PositionInGrid, this._currentCombatGrid);
+                    if (checkX >= 0 && checkX < entity.CurrentGrid.GridWidth && checkY >= 0 && checkY < entity.CurrentGrid.GridHeight) {
+                        this.FindPath(entity, entity.CurrentGrid.Cells[checkY,checkX].PositionInGrid, entity.CurrentGrid);
 
-                        if (this.Path.Contains(this._currentCombatGrid.Cells[checkY,checkX]) && this.Path.Count <= movePoints && (this._currentCombatGrid.Cells[checkY,checkX].Datas.state == CellState.Walkable)) {
-                            this._possiblePath.Add(this._currentCombatGrid.Cells[checkY,checkX]);
-                            this._currentCombatGrid.Cells[checkY,checkX].ChangeStateColor(new Color(0.82f,0.796f,0.5f,0.8f));
+                        if (this.Path.Contains(entity.CurrentGrid.Cells[checkY,checkX]) && this.Path.Count <= movePoints && (entity.CurrentGrid.Cells[checkY,checkX].Datas.state == CellState.Walkable)) {
+                            this._possiblePath.Add(entity.CurrentGrid.Cells[checkY,checkX]);
+                            entity.CurrentGrid.Cells[checkY,checkX].ChangeStateColor(new Color(0.82f,0.796f,0.5f,0.8f));
                         }
                     }
                 }
@@ -187,7 +203,7 @@ namespace Jemkont.Managers {
             if (entity == null)
                 return;
 
-            Cell startCell = entity.CurrentGrid.Cells[entity.EntityPosition.longitude,entity.EntityPosition.latitude];
+            Cell startCell = entity.EntityCell;
             Cell targetCell = entity.CurrentGrid.Cells[target.longitude,target.latitude];
 
             List<Cell> openSet = new List<Cell>();
@@ -208,7 +224,7 @@ namespace Jemkont.Managers {
 
                 if (currentCell == targetCell) {
                     this.RetracePath(startCell,targetCell);
-                    if (this.Path[^1].Datas.state == CellState.EntityIn) {
+                    if (this.Path.Count > 0 && this.Path[^1].Datas.state == CellState.EntityIn) {
                         this.Path.RemoveAt(Path.Count - 1);
                     }
                     return;
@@ -263,8 +279,19 @@ namespace Jemkont.Managers {
                     int checkX = cell.Datas.widthPos + x;
                     int checkY = cell.Datas.heightPos + y;
 
-                    if (checkX >= 0 && checkX < grid.GridWidth && checkY >= 0 && checkY < grid.GridHeight) {
-                        neighbours.Add(grid.Cells[checkY,checkX]);
+                    if ((checkX >= 0 && checkX < grid.GridWidth && checkY >= 0 && checkY < grid.GridHeight) &&
+                        grid.Cells[checkY, checkX].Datas.state != CellState.Blocked) 
+                    {
+                        if(Mathf.Abs(x) == 1 && Mathf.Abs(y) == 1)
+                        {
+                            if(grid.Cells[y == -1 ? checkY + 1 : checkY - 1, checkX].Datas.state == CellState.Walkable ||
+                               grid.Cells[checkY, x == -1 ? checkX + 1 : checkX - 1].Datas.state == CellState.Walkable)
+                            {
+                                neighbours.Add(grid.Cells[checkY, checkX]);
+                            }
+                        }
+                        else
+                            neighbours.Add(grid.Cells[checkY,checkX]);
                     }
                 }
             }
@@ -383,7 +410,7 @@ namespace Jemkont.Managers {
             this._saveJSONFile(gridJson,uName);
         }
 
-        private void _saveJSONFile(string json,string pathName) 
+        private void _saveJSONFile(string json, string pathName) 
         {
             string currScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
             string path = Application.dataPath + "/Resources/Saves/Grids/" + currScene + "/" + pathName + ".json";

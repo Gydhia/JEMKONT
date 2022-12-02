@@ -13,13 +13,13 @@ public class SpellTeleportToUnit : SpellAction {
             Debug.LogError("SPELL ERROR: Trying to teleport but targeted two entities.");
             return;//Tf goin on, do not teleport
         }
-        GridPosition entityPos = new GridPosition(targets[0].EntityPosition.longitude,targets[0].EntityPosition.latitude);
+        GridPosition entityPos = targets[0].EntityCell.PositionInGrid;
         GridPosition Teleport = ClosestWalkableCellPosition(entityPos);
         if (Teleport.longitude == -1) {
             Debug.LogWarning("Spell Warning: no available positions to teleport to.");
             return;
         }
-        GameManager.Instance.SelfPlayer.EntityPosition = Teleport;
+        GameManager.Instance.SelfPlayer.EntityCell = targets[0].CurrentGrid.Cells[Teleport.latitude, Teleport.longitude];
     }
     GridPosition ClosestWalkableCellPosition(GridPosition to) {
         GridPosition[] positionsToCheck = new GridPosition[8] {

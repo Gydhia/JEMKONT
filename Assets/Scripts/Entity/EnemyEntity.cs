@@ -30,7 +30,7 @@ namespace Jemkont.Entity
         /// gets the position the enemy should go, depending on it's AI.
         /// </summary>
         public GridPosition GetTargetPosition() {
-            return AlliesOrdered()[0].EntityPosition;
+            return AlliesOrdered()[0].EntityCell.PositionInGrid;
         }
         /// <summary>
         /// Returns entities ordered from closest to farthest
@@ -40,7 +40,7 @@ namespace Jemkont.Entity
             int[] distances = new int[Allies.Count];
             for (int i = 0;i < Allies.Count;i++) {
                 CharacterEntity item = Allies[i];
-                GridManager.Instance.FindPath(this,item.EntityPosition,true);
+                GridManager.Instance.FindPath(this,item.EntityCell.PositionInGrid,true);
                 distances[i] = GridManager.Instance.Path.Count;
             }
             CharacterEntity[] orderedAllies = new CharacterEntity[distances.Length];
