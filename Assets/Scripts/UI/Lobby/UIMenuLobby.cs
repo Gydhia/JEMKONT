@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class UIMenuLobby : MonoBehaviour
 {
@@ -24,10 +25,29 @@ public class UIMenuLobby : MonoBehaviour
 
     public TMP_InputField PlayerNameInput;
 
+    [SerializeField] private Button _validationPlayerNameButton;
+
+    public Action OnPlayerNameValidated;
+
+    private void OnEnable()
+    {
+        _validationPlayerNameButton.onClick.AddListener(ValidatePlayerName);
+    }
+
+    private void OnDisable()
+    {
+        _validationPlayerNameButton.onClick.RemoveListener(ValidatePlayerName);
+    }
+
     private void Start()
     {
         this.PlayerNameInput.onValueChanged.AddListener(x => NetworkManager.Instance.UpdateOwnerName(this.PlayerNameInput.text));
         this.LeaveRoomBtn.interactable = false;
+    }
+
+    private void ValidatePlayerName()
+    {
+        OnPlayerNameValidated?.Invoke();
     }
 
     public void OnJoinedRoom()
