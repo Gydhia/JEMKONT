@@ -165,7 +165,9 @@ namespace Jemkont.Managers {
             // When out of combat
             else
             {
-                NetworkManager.Instance.ProcessAskedPath(selfPlayer, this.LastHoveredCell);
+                // TODO: Verify if this works
+                selfPlayer.AskToGo(this.LastHoveredCell);
+                //NetworkManager.Instance.ProcessAskedPath(selfPlayer, this.LastHoveredCell);
             }
             
         }
