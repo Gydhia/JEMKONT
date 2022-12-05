@@ -1285,6 +1285,10 @@ PrefabInstance:
       propertyPath: TurnSection
       value: 
       objectReference: {fileID: 2125633217}
+    - target: {fileID: 4946891328310257652, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: sceneViewId
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6008253201538663047, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
       propertyPath: m_RootOrder
       value: 0

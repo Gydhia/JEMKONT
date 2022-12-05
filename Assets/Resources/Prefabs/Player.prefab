@@ -730,6 +730,10 @@ MonoBehaviour:
   ShieldFill: {fileID: 6732676040771153667}
   TurnOrder: 0
   IsAlly: 1
+  EntityCell: {fileID: 0}
   CurrentGrid: {fileID: 0}
-  Invocations: []
+  Summons: []
   PlayerBody: {fileID: 0}
+  PlayerID: 
+  PlayerView: {fileID: 0}
+  CurrentPath: []

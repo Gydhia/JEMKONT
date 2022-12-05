@@ -9,6 +9,7 @@ using Newtonsoft.Json.Linq;
 using System.IO;
 using Newtonsoft.Json;
 using System;
+using Jemkont.Events;
 
 namespace Jemkont.Managers {
     public class GridManager : _baseManager<GridManager> 
@@ -68,6 +69,9 @@ namespace Jemkont.Managers {
                     this.GenerateGrid(savedGrid.Value, savedGrid.Key);   
                 }
             }
+
+            // Events
+            InputManager.Instance.OnCellClicked += this.ProcessCellClick;
         }
 
         public void GenerateGrid(GridData gridData, string gridId) 
@@ -125,36 +129,45 @@ namespace Jemkont.Managers {
             }
         }
 
-        public void ClickOnCell()
+        public void ProcessCellClick(PositionEventData data)
         {
-            if (this.LastHoveredCell != null) 
+            if (this.LastHoveredCell == null)
+                return;
+
+            PlayerBehavior selfPlayer = GameManager.Instance.SelfPlayer;
+
+            // Combat behavior
+            if (selfPlayer.CurrentGrid.IsCombatGrid)
             {
-                // TODO: Recalculate the path before
-                if (CardDraggingSystem.instance.DraggedCard == null && this.Path.Contains(this.LastHoveredCell)) 
+                // When not grabbing card
+                if (CardDraggingSystem.instance.DraggedCard == null)
                 {
-                    if (this.LastHoveredCell.Datas.state == CellState.Walkable) 
+                    if (this.Path.Contains(this.LastHoveredCell) && this.LastHoveredCell.Datas.state == CellState.Walkable)
                     {
-                        GridPosition lastPos = GameManager.Instance.SelfPlayer.EntityCell.PositionInGrid;
-                        GameManager.Instance.SelfPlayer.MoveWithPath(this.Path);
-                        // TODO: Rework the combat/out-of-combat network callbacks and structure
-                            //if () 
-                        //{
-                        //    GameManager.Instance.SelfPlayer.CurrentGrid
-                        //        .Cells[lastPos.longitude,lastPos.latitude]
-                        //        .ChangeCellState(CellState.Walkable);
+                        //TODO: Rework the combat /out-of - combat network callbacks and structure
+                        selfPlayer.EntityCell
+                            .ChangeCellState(CellState.Walkable);
 
-                        //    this.ShowPossibleCombatMovements(GameManager.Instance.SelfPlayer);
+                        this.ShowPossibleCombatMovements(GameManager.Instance.SelfPlayer);
 
-                        //    GameManager.Instance.SelfPlayer.CurrentGrid
-                        //        .Cells[this.LastHoveredCell.Datas.heightPos,this.LastHoveredCell.Datas.widthPos]
-                        //        .ChangeCellState(CellState.EntityIn);
-                        //}
+                        selfPlayer.CurrentGrid
+                            .Cells[this.LastHoveredCell.Datas.heightPos, this.LastHoveredCell.Datas.widthPos]
+                                .ChangeCellState(CellState.EntityIn);
                     }
-                } else if (CardDraggingSystem.instance.DraggedCard != null) {
+
+                }
+                else if (CardDraggingSystem.instance.DraggedCard != null)
+                {
                     CombatManager.Instance.PlayCard(this.LastHoveredCell);
                 }
                 CardDraggingSystem.instance.DraggedCard = null;
             }
+            // When out of combat
+            else
+            {
+                NetworkManager.Instance.ProcessAskedPath(selfPlayer, this.LastHoveredCell);
+            }
+            
         }
 
         public void ShowPossibleCombatMovements(CharacterEntity entity) 
@@ -193,6 +206,25 @@ namespace Jemkont.Managers {
         }
 
 
+        public int[] SerializePathData()
+        {
+            int[] positions = new int[this.Path.Count * 2];
+            for (int i = 0; i < this.Path.Count; i++) {
+                positions[i * 2] = this.Path[i].PositionInGrid.longitude;
+                positions[i * 2 + 1] = this.Path[i].PositionInGrid.latitude;
+            }
+                
+            return positions;
+        }
+
+        public List<Cell> DeserializePathData(PlayerBehavior player, int[] positions)
+        {
+            List<Cell> result = new List<Cell>();
+            for (int i = 0; i < positions.Length; i += 2)
+                result.Add(player.CurrentGrid.Cells[positions[i], positions[i + 1]]);
+
+            return result;
+        }
 
         /// <summary>
         /// While calculate the closest path to a target, storing it in the Path var of the GridManager
@@ -456,6 +488,17 @@ namespace Jemkont.Managers {
         public int latitude { get; private set; }
         public override string ToString() {
             return $"({longitude},{latitude})";
+        }
+
+        public static object Deserialize(byte[] data) 
+        {
+            return new GridPosition(data[0], data[1]);
+        }
+
+        public static byte[] Serialize(object position)
+        {
+            GridPosition pos = (GridPosition)position;
+            return new byte[] { (byte)pos.longitude, (byte)pos.latitude };
         }
     }
 }

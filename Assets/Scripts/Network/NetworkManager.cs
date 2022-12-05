@@ -5,7 +5,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.UI;
 using TMPro;
-
+using ExitGames.Client.Photon;
 
 namespace Jemkont.Managers
 {
@@ -86,23 +86,27 @@ namespace Jemkont.Managers
 
         #region Players_Callbacks
 
-        public void ProcessAskedPath(Player player, Jemkont.GridSystem.Cell cell)
+        public void ProcessAskedPath(Player player, Jemkont.GridSystem.Cell target)
         {
             Entity.PlayerBehavior requestingPlayer = GameManager.Instance.Players[player.UserId];
-            this.ProcessAskedPath(requestingPlayer, cell);
+            this.ProcessAskedPath(requestingPlayer, target);
         }
 
-        public void ProcessAskedPath(Entity.PlayerBehavior player, Jemkont.GridSystem.Cell cell)
+        public void ProcessAskedPath(Entity.PlayerBehavior player, Jemkont.GridSystem.Cell target)
         {
-            GridManager.Instance.FindPath(player, cell.PositionInGrid);
+            GridManager.Instance.FindPath(player, target.PositionInGrid);
+
+            int[] positions = GridManager.Instance.SerializePathData();
             // TODO: make a custom function to process combat and non-combat movements
-            this.photonView.RPC("RPC_RespondWithProcessedPath", RpcTarget.All, player.PlayerID, GridManager.Instance.Path);
+            this.photonView.RPC("RPC_RespondWithProcessedPath", RpcTarget.All, player.PlayerID, positions);
         }
 
         [PunRPC]
-        public void RPC_RespondWithProcessedPath(string playerID, List<GridSystem.Cell> path)
+        public void RPC_RespondWithProcessedPath(object[] pathDatas)
         {
-            GameManager.Instance.Players[playerID].MoveWithPath(path);
+            Entity.PlayerBehavior movingPlayer = GameManager.Instance.Players[pathDatas[0].ToString()];
+            // We manage the fact that 2 players won't obv be on the same grid, so we send the player
+            movingPlayer.MoveWithPath(GridManager.Instance.DeserializePathData(movingPlayer, (int[])pathDatas[1]));
         }
 
         

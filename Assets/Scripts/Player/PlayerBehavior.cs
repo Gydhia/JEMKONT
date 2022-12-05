@@ -17,6 +17,8 @@ namespace Jemkont.Entity
         public List<Cell> CurrentPath;
         private Coroutine _moveCor = null;
 
+
+
         public void MoveWithPath(List<Cell> newPath)
         {
             this.CurrentPath = newPath;
