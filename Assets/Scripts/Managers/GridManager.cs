@@ -98,32 +98,34 @@ namespace Jemkont.Managers {
             if (this.LastHoveredCell != null && this.LastHoveredCell.Datas.state == CellState.Walkable)
                 this.LastHoveredCell.ChangeStateColor(Color.grey);
 
-            if(entity.CurrentGrid.IsCombatGrid)
-                this.ShowPossibleCombatMovements(entity);
-
             this.LastHoveredCell = cell;
             if (CardDraggingSystem.instance.DraggedCard != null && this.LastHoveredCell.Datas.state == CellState.Walkable)
                 this.LastHoveredCell.ChangeStateColor(Color.cyan);
 
-            // Make sure that we're not using a card so we don't show the player's path
-            if (CardDraggingSystem.instance.DraggedCard == null)
+            if (entity.CurrentGrid.IsCombatGrid)
             {
-                // Clear old path
-                for (int i = 0; i < this.Path.Count; i++)
-                    if (this.Path[i] != null)
-                        this.Path[i].ChangeStateColor(Color.grey);
+                this.ShowPossibleCombatMovements(entity);
 
-                if (!entity.CurrentGrid.IsCombatGrid)
-                    this._possiblePath = this.Path;
-
-                this.FindPath(entity, cell.PositionInGrid, cell.RefGrid);
-
-                if (!entity.CurrentGrid.IsCombatGrid || this.Path.Count <= CombatManager.Instance.CurrentPlayingEntity.Movement)
+                // Make sure that we're not using a card so we don't show the player's path
+                if (CardDraggingSystem.instance.DraggedCard == null)
                 {
+                    // Clear old path
                     for (int i = 0; i < this.Path.Count; i++)
-                    {
                         if (this.Path[i] != null)
-                            this.Path[i].ChangeStateColor(Color.green);
+                            this.Path[i].ChangeStateColor(Color.grey);
+
+                    if (!entity.CurrentGrid.IsCombatGrid)
+                        this._possiblePath = this.Path;
+
+                    this.FindPath(entity, cell.PositionInGrid, cell.RefGrid);
+
+                    if (!entity.CurrentGrid.IsCombatGrid || this.Path.Count <= CombatManager.Instance.CurrentPlayingEntity.Movement)
+                    {
+                        for (int i = 0; i < this.Path.Count; i++)
+                        {
+                            if (this.Path[i] != null)
+                                this.Path[i].ChangeStateColor(Color.green);
+                        }
                     }
                 }
             }

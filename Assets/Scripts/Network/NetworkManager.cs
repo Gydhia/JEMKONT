@@ -86,19 +86,27 @@ namespace Jemkont.Managers
 
         #region Players_Callbacks
 
-        public void ProcessAskedPath(Player player, Jemkont.GridSystem.Cell target)
+        public void PlayerAsksForPath(Entity.PlayerBehavior player, Jemkont.GridSystem.Cell target)
         {
-            Entity.PlayerBehavior requestingPlayer = GameManager.Instance.Players[player.UserId];
-            this.ProcessAskedPath(requestingPlayer, target);
+            int[] position = new int[2] { target.PositionInGrid.longitude, target.PositionInGrid.latitude };
+
+            if (!PhotonNetwork.IsMasterClient)
+                this.photonView.RPC("RPC_ProcessAskedPath", RpcTarget.MasterClient, player.PlayerID, position);
+            else
+                this.RPC_ProcessAskedPath(player.PlayerID, position);
         }
 
-        public void ProcessAskedPath(Entity.PlayerBehavior player, Jemkont.GridSystem.Cell target)
+        [PunRPC]
+        public void RPC_ProcessAskedPath(string playerID, int[] target)
         {
-            GridManager.Instance.FindPath(player, target.PositionInGrid);
+            // /!\ To avoid too many requests, when the player already has a new path, don't recalculate another one
+            Entity.PlayerBehavior player = GameManager.Instance.Players[playerID];
+
+            GridManager.Instance.FindPath(GameManager.Instance.Players[playerID], new GridPosition(target[0], target[1]));
 
             int[] positions = GridManager.Instance.SerializePathData();
             // TODO: make a custom function to process combat and non-combat movements
-            this.photonView.RPC("RPC_RespondWithProcessedPath", RpcTarget.All, player.PlayerID, positions);
+            this.photonView.RPC("RPC_RespondWithProcessedPath", RpcTarget.All, playerID, positions);
         }
 
         [PunRPC]

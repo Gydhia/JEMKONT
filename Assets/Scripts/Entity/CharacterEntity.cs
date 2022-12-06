@@ -34,6 +34,8 @@ namespace Jemkont.Entity
         public int TurnOrder;
         public bool IsAlly = true;
         public Cell EntityCell = null;
+        public Cell NextCell = null;
+        public bool IsMoving = false;
         public WorldGrid CurrentGrid;
 
         public List<CharacterEntity> Summons;

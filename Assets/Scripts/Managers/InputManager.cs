@@ -27,7 +27,7 @@ namespace Jemkont.Managers
                     // Avoid executing this code when it has already been done
                     if (cell != GridManager.Instance.LastHoveredCell)
                     {
-                            GridManager.Instance.OnNewCellHovered(GameManager.Instance.SelfPlayer, cell);
+                        GridManager.Instance.OnNewCellHovered(GameManager.Instance.SelfPlayer, cell);
                     }
                 }
             }
