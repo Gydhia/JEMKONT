@@ -239,7 +239,7 @@ namespace Jemkont.Managers {
             if (entity == null)
                 return;
 
-            Cell startCell = entity.EntityCell;
+            Cell startCell = entity.IsMoving ? entity.NextCell : entity.EntityCell;
             Cell targetCell = entity.CurrentGrid.Cells[target.longitude,target.latitude];
 
             List<Cell> openSet = new List<Cell>();

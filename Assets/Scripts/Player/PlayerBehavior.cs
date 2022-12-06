@@ -63,7 +63,7 @@ namespace Jemkont.Entity
                 currentCell++;
                 targetCell++;
 
-                if(targetCell < this.CurrentPath.Count - 1)
+                if(targetCell <= this.CurrentPath.Count - 1)
                     this.NextCell = CurrentPath[targetCell];
             }
 
