@@ -167,8 +167,14 @@ namespace Jemkont.Managers {
             // When out of combat
             else
             {
+                Cell closestCell = this.LastHoveredCell;
                 // TODO: Verify if this works
-                selfPlayer.AskToGo(this.LastHoveredCell);
+                if (selfPlayer.CurrentGrid != this.LastHoveredCell.RefGrid)
+                {
+                    closestCell = GridUtility.GetClosestCellToShape(selfPlayer.CurrentGrid, this.LastHoveredCell.RefGrid as CombatGrid, selfPlayer.EntityCell.PositionInGrid);
+                }
+                if(closestCell != null)
+                    selfPlayer.AskToGo(closestCell);
                 //NetworkManager.Instance.ProcessAskedPath(selfPlayer, this.LastHoveredCell);
             }
             
@@ -225,7 +231,7 @@ namespace Jemkont.Managers {
         {
             List<Cell> result = new List<Cell>();
             for (int i = 0; i < positions.Length; i += 2)
-                result.Add(player.CurrentGrid.Cells[positions[i], positions[i + 1]]);
+                result.Add(player.CurrentGrid.Cells[positions[i + 1], positions[i]]);
 
             return result;
         }
@@ -240,7 +246,7 @@ namespace Jemkont.Managers {
                 return;
 
             Cell startCell = entity.IsMoving ? entity.NextCell : entity.EntityCell;
-            Cell targetCell = entity.CurrentGrid.Cells[target.longitude,target.latitude];
+            Cell targetCell = entity.CurrentGrid.Cells[target.latitude, target.longitude];
 
             List<Cell> openSet = new List<Cell>();
             HashSet<Cell> closedSet = new HashSet<Cell>();
@@ -268,7 +274,7 @@ namespace Jemkont.Managers {
 
                 List<Cell> actNeighbours = entity.CurrentGrid.IsCombatGrid ? GetCombatNeighbours(currentCell, entity.CurrentGrid) : GetNormalNeighbours(currentCell, entity.CurrentGrid);
                 foreach (Cell neighbour in actNeighbours) {
-                    if (neighbour.Datas.state == CellState.Blocked || closedSet.Contains(neighbour))
+                    if (neighbour.Datas.state == CellState.Blocked || neighbour.Datas.state == CellState.Shared || closedSet.Contains(neighbour))
                             continue;
 
                     int newMovementCostToNeightbour = currentCell.gCost + GetDistance(currentCell,neighbour);
@@ -315,13 +321,16 @@ namespace Jemkont.Managers {
                     int checkX = cell.Datas.widthPos + x;
                     int checkY = cell.Datas.heightPos + y;
 
-                    if ((checkX >= 0 && checkX < grid.GridWidth && checkY >= 0 && checkY < grid.GridHeight) &&
-                        grid.Cells[checkY, checkX].Datas.state != CellState.Blocked) 
+                    if ((checkX >= 0 && checkX < grid.GridWidth && checkY >= 0 && checkY < grid.GridHeight) 
+                        && (grid.Cells[checkY, checkX] != null && grid.Cells[checkY, checkX].Datas.state != CellState.Blocked)) 
                     {
                         if(Mathf.Abs(x) == 1 && Mathf.Abs(y) == 1)
                         {
-                            if(grid.Cells[y == -1 ? checkY + 1 : checkY - 1, checkX].Datas.state == CellState.Walkable ||
-                               grid.Cells[checkY, x == -1 ? checkX + 1 : checkX - 1].Datas.state == CellState.Walkable)
+                            int nX = x == -1 ? checkX + 1 : checkX - 1;
+                            int nY = y == -1 ? checkY + 1 : checkY - 1;
+
+                            if ((grid.Cells[nY, checkX] != null && grid.Cells[nY, checkX].Datas.state == CellState.Walkable) ||
+                                (grid.Cells[checkY, nX] != null && grid.Cells[checkY, nX].Datas.state == CellState.Walkable))
                             {
                                 neighbours.Add(grid.Cells[checkY, checkX]);
                             }

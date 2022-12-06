@@ -1,3 +1,4 @@
+using Jemkont.Entity;
 using Jemkont.Managers;
 using System;
 using System.Collections;
@@ -62,6 +63,54 @@ namespace Jemkont.GridSystem
 
             includingGrid = null;
             return false;
+        }
+
+        /// <summary>
+        /// Find the closest cell to reach the shape (=innerGrid). Priority for top and bottom
+        /// </summary>
+        /// <returns></returns>
+        public static Cell GetClosestCellToShape(WorldGrid refGrid, CombatGrid innerGrid, GridPosition entityPos)
+        {
+            // Top
+            if (entityPos.latitude < innerGrid.Latitude)
+            {
+                // Are we horizontally inside ?
+                if (entityPos.longitude >= innerGrid.Longitude && entityPos.longitude <= innerGrid.Longitude + innerGrid.GridWidth)
+                    return refGrid.Cells[innerGrid.Latitude - 1, entityPos.longitude];
+                // Are we on the right or left ?
+                else
+                {
+                    if(entityPos.longitude < innerGrid.Longitude)
+                        return refGrid.Cells[innerGrid.Latitude - 1, innerGrid.Longitude];
+                    else
+                        return refGrid.Cells[innerGrid.Latitude - 1, innerGrid.Longitude + innerGrid.GridWidth - 1];
+                }
+            }
+            // Bottom
+            else if (entityPos.latitude > innerGrid.Latitude + innerGrid.GridHeight)
+            {
+                // Are we horizontally inside ?
+                if (entityPos.longitude >= innerGrid.Longitude && entityPos.longitude <= innerGrid.Longitude + innerGrid.GridWidth)
+                    return refGrid.Cells[innerGrid.Latitude + innerGrid.GridHeight + 1, entityPos.longitude];
+                // Are we on the right or left ?
+                else
+                {
+                    if (entityPos.longitude < innerGrid.Longitude)
+                        return refGrid.Cells[innerGrid.Latitude + innerGrid.GridHeight + 1, innerGrid.Longitude];
+                    else
+                        return refGrid.Cells[innerGrid.Latitude + innerGrid.GridHeight + 1, innerGrid.Longitude + innerGrid.GridWidth - 1];
+                }
+            }
+            // Right
+            else if (entityPos.longitude > innerGrid.Longitude + innerGrid.GridWidth)
+            {
+                return refGrid.Cells[entityPos.latitude, innerGrid.Longitude + innerGrid.GridWidth];
+            }
+            // Left
+            else
+            {
+                return refGrid.Cells[entityPos.latitude, innerGrid.Longitude - 1];
+            }
         }
     }
 }

@@ -64,8 +64,9 @@ namespace Jemkont.GridSystem
                     for (int i = innerGrid.Longitude; i < innerGrid.Longitude + innerGrid.GridWidth; i++)
                         for (int j = innerGrid.Latitude; j < innerGrid.Latitude + innerGrid.GridHeight; j++)
                         {
-                            this.Cells[j, i].Datas.state = CellState.Shared;
-                            this.Cells[j, i].gameObject.SetActive(false);
+                            // We'll never be in combat for now, so just destroy these cells
+                            Destroy(this.Cells[j, i].gameObject);
+                            this.Cells[j, i] = null;
                         }
             }
 
@@ -98,6 +99,8 @@ namespace Jemkont.GridSystem
                 CombatGrid newInnerGrid = Instantiate(GridManager.Instance.CombatGridPrefab, Vector3.zero, Quaternion.identity, this.transform) as CombatGrid;
 
                 newInnerGrid.Init(innerGrid);
+                newInnerGrid.Longitude = innerGrid.Longitude;
+                newInnerGrid.Latitude = innerGrid.Latitude;
 
                 this.InnerCombatGrids.Add(newInnerGrid);
             }
@@ -132,6 +135,8 @@ namespace Jemkont.GridSystem
             Cell newCell = Instantiate(GridManager.Instance.CellPrefab, position, Quaternion.identity, this.gameObject.transform);
 
             newCell.Init(height, width, CellState.Walkable, this);
+            if(this.IsCombatGrid)
+                newCell.SelfPlane.gameObject.SetActive(false);
 
             this.Cells[height, width] = newCell;
         }
@@ -141,7 +146,8 @@ namespace Jemkont.GridSystem
         {
             for (int i = 0; i < this.Cells.GetLength(0); i++)
                 for (int j = 0; j < this.Cells.GetLength(1); j++)
-                    this.Cells[i, j].RefreshCell();
+                    if(this.Cells[i, j] != null)
+                        this.Cells[i, j].RefreshCell();
         }
 
         #region Utility_methods
