@@ -256,6 +256,7 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
                 {
                     yield return new WaitForSeconds(Time.deltaTime);
                 }
+                CombatManager.Instance.CurrentPlayingEntity.UnsubToSpell(this._currentSpells[i].ActionData);
             }
         }
 

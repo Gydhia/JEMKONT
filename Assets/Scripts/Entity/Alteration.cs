@@ -1,4 +1,7 @@
 using Jemkont.Entity;
+using Jemkont.Events;
+using MyBox;
+using System;
 using System.CodeDom;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,7 +21,6 @@ namespace Jemkont.Spells.Alterations {
         Confusion,
         Shattered,
         DoT,
-        Spirit,
         Bubbled,
         MindControl
     }
@@ -37,13 +39,11 @@ namespace Jemkont.Spells.Alterations {
                 ConfusionAlteration => EAlterationType.Confusion,
                 ShatteredAlteration => EAlterationType.Shattered,
                 DoTAlteration => EAlterationType.DoT,
-                SpiritAlteration => EAlterationType.Spirit,
                 BubbledAlteration => EAlterationType.Bubbled,
                 MindControlAlteration => EAlterationType.MindControl,
-                _ => EAlterationType.Stun,
+                _ => EAlterationType.Stun, //I like the taste of RISK
             };
         }
-        //SHOW
         public int Cooldown;
         public CharacterEntity Target;
         public virtual bool ClassicCountdown { get => true; }
@@ -52,8 +52,11 @@ namespace Jemkont.Spells.Alterations {
         }
         public virtual void Apply(CharacterEntity entity) {
         }
+        public abstract List<Type> Overrides();
+        public abstract List<Type> Overridden();
         public virtual void WearsOff(CharacterEntity entity) { }
-        public virtual void DecrementAlterationCountdown(GameEventData data) {
+        public virtual void DecrementAlterationCountdown(Events.EventData data) {
+            
             Cooldown--;
             if (Cooldown <= 0) {
                 Target.Alterations.Remove(this);
