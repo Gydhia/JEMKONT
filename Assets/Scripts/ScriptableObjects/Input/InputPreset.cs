@@ -10,6 +10,8 @@ namespace Jemkont.GameData
     {
         [Header("Cursors")]
         public Texture2D CardCursor;
+        [Header("Timings")]
+        public float PathRequestDelay = 0.35f;
     }
 
 }

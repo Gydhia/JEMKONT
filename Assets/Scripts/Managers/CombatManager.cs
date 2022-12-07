@@ -10,10 +10,6 @@ namespace Jemkont.Managers
 {
     public class CombatManager : _baseManager<CombatManager>
     {
-        #region Datas
-        public Dictionary<Guid, EntitySpawn> EntitiesSpawnsSO;
-        #endregion
-
         #region Run-time
         private Coroutine _turnCoroutine;
 
@@ -27,18 +23,7 @@ namespace Jemkont.Managers
 
         public int TurnNumber;
         #endregion
-
-        private void Awake()
-        {
-            base.Awake();
-            this._loadEveryEntities();
-        }
-
-        public void Init()
-        {
-            this._loadEveryEntities();
-        }
-
+ 
         public void StartCombat()
         {
             if (this.CurrentPlayingGrid.HasStarted)
@@ -71,7 +56,7 @@ namespace Jemkont.Managers
             this.CurrentPlayingEntity = this.PlayingEntities[this.TurnNumber % this.PlayingEntities.Count];
             this.CurrentPlayingEntity.StartTurn();
 
-            if (PlayerManager.Instance.SelfPlayer == this.CurrentPlayingEntity)
+            if (GameManager.Instance.SelfPlayer == this.CurrentPlayingEntity)
                 this.DrawCard();
 
             if (this.TurnNumber > 0)
@@ -83,7 +68,7 @@ namespace Jemkont.Managers
 
         public void PlayCard(Cell cell)
         {
-            if (this.CurrentPlayingEntity == PlayerManager.Instance.SelfPlayer)
+            if (this.CurrentPlayingEntity == GameManager.Instance.SelfPlayer)
                 CardDraggingSystem.instance.DraggedCard.CastSpell(cell);
         }
 
@@ -137,16 +122,6 @@ namespace Jemkont.Managers
                 if(i < players.Count)
                     this.PlayingEntities.Add(players[i]);
             }
-        }
-
-        private void _loadEveryEntities()
-        {
-            var entities = Resources.LoadAll<EntitySpawn>("Presets/Entity/").ToList();
-
-            this.EntitiesSpawnsSO = new Dictionary<Guid, EntitySpawn>();
-
-            foreach (var entity in entities)
-                this.EntitiesSpawnsSO.Add(entity.UID, entity);
         }
     }
 }

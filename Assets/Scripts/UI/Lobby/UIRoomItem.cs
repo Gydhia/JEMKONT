@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using Jemkont.Managers;
 
 public class UIRoomItem : MonoBehaviour
 {
-    public LobbyNetworkManager LobbyNetworkParent;
+    public NetworkManager LobbyNetworkParent;
     public TextMeshProUGUI RoomName;
     public string RawName = "";
 

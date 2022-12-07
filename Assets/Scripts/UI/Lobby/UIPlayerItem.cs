@@ -4,10 +4,11 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using Photon.Pun;
+using Jemkont.Managers;
 
 public class UIPlayerItem : MonoBehaviour
 {
-    public LobbyNetworkManager LobbyNetworkParent;
+    public NetworkManager LobbyNetworkParent;
     public TextMeshProUGUI PlayerName;
     public string UserID;
 
