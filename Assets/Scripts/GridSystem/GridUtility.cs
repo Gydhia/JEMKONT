@@ -33,7 +33,7 @@ namespace Jemkont.GridSystem
 
         public static WorldGrid GetIncludingGrid(WorldGrid worldGrid, Managers.GridPosition target)
         {
-            foreach (CombatGrid innerGrid in worldGrid.InnerCombatGrids)
+            foreach (CombatGrid innerGrid in worldGrid.InnerCombatGrids.Values)
             {
                 if(target.longitude >= innerGrid.Longitude 
                  && target.longitude <= innerGrid.Longitude + innerGrid.GridWidth 
@@ -112,5 +112,37 @@ namespace Jemkont.GridSystem
                 return refGrid.Cells[entityPos.latitude, innerGrid.Longitude - 1];
             }
         }
+        /// <summary> 
+        /// This method assume that the player is adjacent to the shape, don't use it outside of this context 
+        /// </summary>
+        /// <param name="refGrid"></param>
+        /// <param name="innerGrid"></param>
+        /// <param name="entityPos"></param>
+        /// <returns></returns>
+        public static Cell GetClosestAvailableCombatCell(WorldGrid refGrid, CombatGrid innerGrid, GridPosition entityPos)
+        {
+            // Top
+            if (entityPos.latitude < innerGrid.Latitude)
+            {
+               return innerGrid.Cells[0, entityPos.longitude - innerGrid.Longitude];
+            }
+            // Bottom
+            else if (entityPos.latitude > innerGrid.Latitude + innerGrid.GridHeight)
+            {
+               return innerGrid.Cells[innerGrid.GridHeight - 1, entityPos.longitude - innerGrid.Longitude];
+
+            }
+            // Right
+            else if (entityPos.longitude > innerGrid.Longitude + innerGrid.GridWidth)
+            {
+                return innerGrid.Cells[entityPos.latitude - innerGrid.Latitude, innerGrid.GridWidth - 1];
+            }
+            // Left
+            else
+            {
+                return innerGrid.Cells[entityPos.latitude - innerGrid.Latitude, 0];
+            }
+        }
+        
     }
 }

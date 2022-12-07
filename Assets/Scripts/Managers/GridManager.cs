@@ -72,6 +72,7 @@ namespace Jemkont.Managers {
 
             // Events
             InputManager.Instance.OnCellClicked += this.ProcessCellClick;
+            GameManager.Instance.OnEnteredGrid += this.OnEnteredNewGrid;
         }
 
         public void GenerateGrid(GridData gridData, string gridId) 
@@ -102,7 +103,7 @@ namespace Jemkont.Managers {
             if (CardDraggingSystem.instance.DraggedCard != null && this.LastHoveredCell.Datas.state == CellState.Walkable)
                 this.LastHoveredCell.ChangeStateColor(Color.cyan);
 
-            if (entity.CurrentGrid.IsCombatGrid)
+            if (entity.CurrentGrid.IsCombatGrid && this.LastHoveredCell.RefGrid == entity.CurrentGrid)
             {
                 this.ShowPossibleCombatMovements(entity);
 
@@ -119,7 +120,7 @@ namespace Jemkont.Managers {
 
                     this.FindPath(entity, cell.PositionInGrid, cell.RefGrid);
 
-                    if (!entity.CurrentGrid.IsCombatGrid || this.Path.Count <= CombatManager.Instance.CurrentPlayingEntity.Movement)
+                    if (!entity.CurrentGrid.IsCombatGrid || this.Path.Count <= entity.Movement)
                     {
                         for (int i = 0; i < this.Path.Count; i++)
                         {
@@ -168,13 +169,15 @@ namespace Jemkont.Managers {
             else
             {
                 Cell closestCell = this.LastHoveredCell;
+                string otherGrid = string.Empty;
                 // TODO: Verify if this works
                 if (selfPlayer.CurrentGrid != this.LastHoveredCell.RefGrid)
                 {
                     closestCell = GridUtility.GetClosestCellToShape(selfPlayer.CurrentGrid, this.LastHoveredCell.RefGrid as CombatGrid, selfPlayer.EntityCell.PositionInGrid);
+                    otherGrid = this.LastHoveredCell.RefGrid.UName;
                 }
                 if(closestCell != null)
-                    selfPlayer.AskToGo(closestCell);
+                    selfPlayer.AskToGo(closestCell, otherGrid);
                 //NetworkManager.Instance.ProcessAskedPath(selfPlayer, this.LastHoveredCell);
             }
             
@@ -209,6 +212,24 @@ namespace Jemkont.Managers {
                 }
             }
         }
+
+        public void OnEnteredNewGrid(EntityEventData Data)
+        {
+            Data.Entity.CurrentGrid.ShowHideGrid(true);
+            if (Data.Entity.CurrentGrid.IsCombatGrid)
+            {
+                ((CombatGrid)Data.Entity.CurrentGrid).ParentGrid.ShowHideGrid(false);
+            }
+            else
+            {
+                foreach (CombatGrid grid in Data.Entity.CurrentGrid.InnerCombatGrids.Values)
+                {
+                    grid.ShowHideGrid(false);
+                }
+            }
+        }
+
+        #region PATH_FINDING
         public CellData CellDataAtPosition(GridPosition target) 
         {
             Cell targetCell = this._currentCombatGrid.Cells[target.longitude,target.latitude];
@@ -385,6 +406,7 @@ namespace Jemkont.Managers {
                 return 14 * dstY + 10 * (dstX - dstY);
             return 14 * dstX + 10 * (dstY - dstX);
         }
+#endregion
 
         #region DATAS_MANIPULATION
         public void LoadGridsFromJSON() 

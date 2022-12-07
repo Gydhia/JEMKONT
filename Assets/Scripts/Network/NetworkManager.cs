@@ -6,6 +6,8 @@ using Photon.Realtime;
 using UnityEngine.UI;
 using TMPro;
 using ExitGames.Client.Photon;
+using Jemkont.Entity;
+using Jemkont.GridSystem;
 
 namespace Jemkont.Managers
 {
@@ -86,39 +88,55 @@ namespace Jemkont.Managers
 
         #region Players_Callbacks
 
-        public void PlayerAsksForPath(Entity.PlayerBehavior player, Jemkont.GridSystem.Cell target)
+        public void PlayerAsksForPath(PlayerBehavior player, GridSystem.Cell target, string otherGrid)
         {
             int[] position = new int[2] { target.PositionInGrid.longitude, target.PositionInGrid.latitude };
 
             if (!PhotonNetwork.IsMasterClient)
-                this.photonView.RPC("RPC_ProcessAskedPath", RpcTarget.MasterClient, player.PlayerID, position);
+                this.photonView.RPC("RPC_ProcessAskedPath", RpcTarget.MasterClient, player.PlayerID, position, otherGrid);
             else
-                this.RPC_ProcessAskedPath(player.PlayerID, position);
+                this.RPC_ProcessAskedPath(player.PlayerID, position, otherGrid);
         }
 
         [PunRPC]
-        public void RPC_ProcessAskedPath(string playerID, int[] target)
+        public void RPC_ProcessAskedPath(string playerID, int[] target, string toOtherGrid)
         {
             // /!\ To avoid too many requests, when the player already has a new path, don't recalculate another one
-            Entity.PlayerBehavior player = GameManager.Instance.Players[playerID];
+            PlayerBehavior player = GameManager.Instance.Players[playerID];
 
             GridManager.Instance.FindPath(GameManager.Instance.Players[playerID], new GridPosition(target[0], target[1]));
 
             int[] positions = GridManager.Instance.SerializePathData();
             // TODO: make a custom function to process combat and non-combat movements
-            this.photonView.RPC("RPC_RespondWithProcessedPath", RpcTarget.All, playerID, positions);
+            this.photonView.RPC("RPC_RespondWithProcessedPath", RpcTarget.All, playerID, positions, toOtherGrid);
         }
 
         [PunRPC]
         public void RPC_RespondWithProcessedPath(object[] pathDatas)
         {
-            Entity.PlayerBehavior movingPlayer = GameManager.Instance.Players[pathDatas[0].ToString()];
+            PlayerBehavior movingPlayer = GameManager.Instance.Players[pathDatas[0].ToString()];
             // We manage the fact that 2 players won't obv be on the same grid, so we send the player
-            movingPlayer.MoveWithPath(GridManager.Instance.DeserializePathData(movingPlayer, (int[])pathDatas[1]));
+            movingPlayer.MoveWithPath(GridManager.Instance.DeserializePathData(movingPlayer, (int[])pathDatas[1]), pathDatas[2].ToString());
         }
 
-        
+        public void PlayerAsksToEnterGrid(PlayerBehavior player, WorldGrid mainGrid, string targetGrid)
+        {
+             if (player.CanEnterGrid)
+            {
+                if (!PhotonNetwork.IsMasterClient)
+                    this.photonView.RPC("RPC_RespondToEnterGrid", RpcTarget.All, player.PlayerID);
+                else
+                    this.RPC_RespondToEnterGrid(player.PlayerID, mainGrid.UName, targetGrid);
+            }
+        }
 
+        [PunRPC]
+        public void RPC_RespondToEnterGrid(string playerID, string mainGrid, string innerGrid)
+        {
+            GameManager.Instance.Players[playerID].EnterNewGrid(GridManager.Instance.WorldGrids[mainGrid].InnerCombatGrids[innerGrid] as CombatGrid);
+
+            GameManager.Instance.FireEntityEnteredGrid(playerID);
+        }
         #endregion
 
         #region Photon_UI_callbacks

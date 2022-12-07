@@ -1,4 +1,5 @@
 using Jemkont.Entity;
+using Jemkont.Events;
 using Jemkont.GridSystem;
 using System;
 using System.Collections;
@@ -23,7 +24,17 @@ namespace Jemkont.Managers
 
         public int TurnNumber;
         #endregion
- 
+
+        private void Start()
+        {
+            GameManager.Instance.OnEnteredGrid += this.WelcomePlayerInCombat;
+        }
+
+        public void WelcomePlayerInCombat(EntityEventData Data)
+        {
+
+        }
+
         public void StartCombat()
         {
             if (this.CurrentPlayingGrid.HasStarted)

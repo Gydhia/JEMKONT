@@ -28,7 +28,7 @@ namespace Jemkont.GridSystem
 
         public List<CharacterEntity> GridEntities;
 
-        public List<CombatGrid> InnerCombatGrids;
+        public Dictionary<string, CombatGrid> InnerCombatGrids = new Dictionary<string, CombatGrid>();
 
         public void Init(GridData data)
         {
@@ -94,15 +94,20 @@ namespace Jemkont.GridSystem
 
         public void GenerateInnerGrids(List<GridData> innerGrids)
         {
+            int count = 0;
+            this.InnerCombatGrids = new Dictionary<string, CombatGrid>();
             foreach (GridData innerGrid in innerGrids)
             {
                 CombatGrid newInnerGrid = Instantiate(GridManager.Instance.CombatGridPrefab, Vector3.zero, Quaternion.identity, this.transform) as CombatGrid;
 
                 newInnerGrid.Init(innerGrid);
+                newInnerGrid.ParentGrid = this;
                 newInnerGrid.Longitude = innerGrid.Longitude;
                 newInnerGrid.Latitude = innerGrid.Latitude;
+                newInnerGrid.UName = this.UName + count; 
 
-                this.InnerCombatGrids.Add(newInnerGrid);
+                this.InnerCombatGrids.Add(newInnerGrid.UName, newInnerGrid);
+                count++;
             }
         }
 
@@ -149,6 +154,16 @@ namespace Jemkont.GridSystem
                     if(this.Cells[i, j] != null)
                         this.Cells[i, j].RefreshCell();
         }
+
+        public void ShowHideGrid(bool show)
+        {
+            // /!\ TODO: Avoid iterating over all of these when already disabled
+            for (int i = 0; i < this.Cells.GetLength(0); i++)
+                for (int j = 0; j < this.Cells.GetLength(1); j++)
+                    if (this.Cells[i, j] != null)
+                        this.Cells[i, j].SelfPlane.gameObject.SetActive(show);
+        }
+
 
         #region Utility_methods
         public void ResizeGrid(Cell[,] newCells)

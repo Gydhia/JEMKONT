@@ -9,15 +9,31 @@ namespace Jemkont.Managers
 {
     public class GameManager : _baseManager<GameManager>
     {
+        #region EVENTS
+        public event EntityEventData.Event OnEnteredGrid;
+
+        public void FireEntityEnteredGrid(string entityID)
+        {
+            this.FireEntityEnteredGrid(this.Players[entityID]);
+        }
+        public void FireEntityEnteredGrid(CharacterEntity entity)
+        {
+            OnEnteredGrid?.Invoke(new EntityEventData(entity));
+        }
+        #endregion
+
         [SerializeField]
         private PlayerBehavior _playerPrefab;
 
         public Dictionary<string, PlayerBehavior> Players;
         public PlayerBehavior SelfPlayer;
 
+
         private void Start()
         {
             this.WelcomePlayers();
+
+            UIManager.Instance.Init();
         }
 
         public void WelcomePlayers()
