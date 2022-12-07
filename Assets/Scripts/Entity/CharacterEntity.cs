@@ -33,8 +33,10 @@ namespace Jemkont.Entity
 
         public int TurnOrder;
         public bool IsAlly = true;
-        public GridPosition EntityPosition = GridPosition.zero;
-        public CombatGrid CurrentGrid;
+        public Cell EntityCell = null;
+        public Cell NextCell = null;
+        public bool IsMoving = false;
+        public WorldGrid CurrentGrid;
 
         public List<CharacterEntity> Summons;
 
@@ -51,9 +53,9 @@ namespace Jemkont.Entity
         {
             this.ApplyMovement(-cost);
 
-            this.CurrentGrid.Cells[this.EntityPosition.longitude, this.EntityPosition.latitude].EntityIn = null;
+            this.EntityCell.EntityIn = null;
 
-            this.EntityPosition = new GridPosition(destination.Datas.heightPos, destination.Datas.widthPos);
+            this.EntityCell = destination;
             this.transform.position = destination.WorldPosition;
 
             destination.EntityIn = this;
@@ -101,13 +103,13 @@ namespace Jemkont.Entity
         {
             this.ReinitializeStat(EntityStatistics.Movement);
             this.ReinitializeStat(EntityStatistics.Mana);
-            GridManager.Instance.ShowPossibleMovements(this);
+            GridManager.Instance.ShowPossibleCombatMovements(this);
         }
 
-        public void Init(EntityStats stats, Cell refCell, CombatGrid refGrid)
+        public void Init(EntityStats stats, Cell refCell, WorldGrid refGrid)
         {
             this.transform.position = refCell.WorldPosition;
-            this.EntityPosition = refCell.PositionInGrid;
+            this.EntityCell = refCell;
             this.CurrentGrid = refGrid;
 
             this.RefStats = stats;
@@ -216,7 +218,7 @@ namespace Jemkont.Entity
 
             return @$"Name : {name}
 IsAlly : {IsAlly}
-GridPos : {EntityPosition}";
+GridPos : {EntityCell}";
         }
     }
 }
