@@ -1,5 +1,6 @@
 using Jemkont.GridSystem;
 using Jemkont.Managers;
+using Jemkont.Spells.Alterations;
 using MyBox;
 using Sirenix.Utilities;
 using System;
@@ -30,7 +31,12 @@ namespace Jemkont.Entity
         /// gets the position the enemy should go, depending on it's AI.
         /// </summary>
         public GridPosition GetTargetPosition() {
-            return AlliesOrdered()[0].EntityPosition;
+            var res = AlliesOrdered()[0].EntityPosition;
+            if (this.Alterations.Any(x => x.Is<ConfusionAlteration>())) {
+
+            }
+
+            return res;
         }
         /// <summary>
         /// Returns entities ordered from closest to farthest
@@ -53,5 +59,6 @@ namespace Jemkont.Entity
             //Distances[i] = x tel que x = la distance entre l'enemy et le players[i]. trouver i => Distance[i] est le plus petit de tous, return players[i]
             return orderedAllies;
         }
+        
     }
 }
