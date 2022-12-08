@@ -11,6 +11,7 @@ namespace Jemkont.Managers
     {
         #region EVENTS
         public event EntityEventData.Event OnEnteredGrid;
+        public event EntityEventData.Event OnExitingGrid;
 
         public void FireEntityEnteredGrid(string entityID)
         {
@@ -20,6 +21,15 @@ namespace Jemkont.Managers
         {
             OnEnteredGrid?.Invoke(new EntityEventData(entity));
         }
+
+        public void FireEntityExitingGrid(string entityID)
+        {
+            this.FireEntityExitingGrid(this.Players[entityID]);
+        }
+        public void FireEntityExitingGrid(CharacterEntity entity)
+        {
+            OnExitingGrid?.Invoke(new EntityEventData(entity));
+        }
         #endregion
 
         [SerializeField]
@@ -27,7 +37,6 @@ namespace Jemkont.Managers
 
         public Dictionary<string, PlayerBehavior> Players;
         public PlayerBehavior SelfPlayer;
-
 
         private void Start()
         {
@@ -60,7 +69,10 @@ namespace Jemkont.Managers
                     newPlayer.PlayerID = player.UserId;
 
                     if (player.UserId == PhotonNetwork.LocalPlayer.UserId)
+                    {
                         this.SelfPlayer = newPlayer;
+                        CameraManager.Instance.AttachPlayerToCamera(this.SelfPlayer);
+                    }
 
                     this.Players.Add(player.UserId, newPlayer);
                     counter++;

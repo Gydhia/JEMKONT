@@ -121,21 +121,52 @@ namespace Jemkont.Managers
 
         public void PlayerAsksToEnterGrid(PlayerBehavior player, WorldGrid mainGrid, string targetGrid)
         {
-             if (player.CanEnterGrid)
+            if (!PhotonNetwork.IsMasterClient)
+                this.photonView.RPC("RPC_ProcessEnterGrid", RpcTarget.MasterClient, player.PlayerID);
+            else
+                this.RPC_ProcessEnterGrid(player.PlayerID, mainGrid.UName, targetGrid);    
+        }
+
+        [PunRPC]
+        public void RPC_ProcessEnterGrid(string playerID, string mainGrid, string targetGrid)
+        {
+            if(GameManager.Instance.Players[playerID].CanEnterGrid)
             {
-                if (!PhotonNetwork.IsMasterClient)
-                    this.photonView.RPC("RPC_RespondToEnterGrid", RpcTarget.All, player.PlayerID);
-                else
-                    this.RPC_RespondToEnterGrid(player.PlayerID, mainGrid.UName, targetGrid);
+                this.photonView.RPC("RPC_RespondToEnterGrid", RpcTarget.All, playerID, mainGrid, targetGrid);
             }
         }
 
         [PunRPC]
-        public void RPC_RespondToEnterGrid(string playerID, string mainGrid, string innerGrid)
+        public void RPC_RespondToEnterGrid(string playerID, string mainGrid, string targetGrid)
         {
-            GameManager.Instance.Players[playerID].EnterNewGrid(GridManager.Instance.WorldGrids[mainGrid].InnerCombatGrids[innerGrid] as CombatGrid);
+            GameManager.Instance.FireEntityExitingGrid(playerID);
+
+            GameManager.Instance.Players[playerID].EnterNewGrid(GridManager.Instance.WorldGrids[mainGrid].InnerCombatGrids[targetGrid] as CombatGrid);
 
             GameManager.Instance.FireEntityEnteredGrid(playerID);
+        }
+
+        // /!\ Only one combat can be active at the moment, that is important
+        public void PlayerAsksToStartCombat()
+        {
+            // Only playerID is needed since it's referencing the grids
+            if (!PhotonNetwork.IsMasterClient)
+                this.photonView.RPC("RPC_ProcessAskStartCombat", RpcTarget.MasterClient, GameManager.Instance.SelfPlayer.PlayerID);
+            else
+                this.RPC_ProcessAskStartCombat(GameManager.Instance.SelfPlayer.PlayerID);
+        }
+
+        [PunRPC]
+        public void RPC_ProcessAskStartCombat(string playerID)
+        {
+            // No processing for now but keep it just in case
+            this.photonView.RPC("RPC_RespondToStartCombat", RpcTarget.All, playerID);
+        }
+
+        [PunRPC]
+        public void RPC_RespondToStartCombat(string playerID)
+        {
+            CombatManager.Instance.StartCombat(GameManager.Instance.Players[playerID].CurrentGrid as CombatGrid);
         }
         #endregion
 

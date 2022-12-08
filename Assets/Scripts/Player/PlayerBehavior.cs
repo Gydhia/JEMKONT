@@ -86,6 +86,7 @@ namespace Jemkont.Entity
             else if(this._nextGrid != string.Empty)
             {
                 NetworkManager.Instance.PlayerAsksToEnterGrid(this, this.CurrentGrid, this._nextGrid);
+                this.NextCell = null;
                 this._nextGrid = string.Empty;
             }
         }
@@ -103,6 +104,7 @@ namespace Jemkont.Entity
 
             this.CurrentGrid = grid;
             this.EntityCell = closestCell;
+            closestCell.Datas.state = CellState.EntityIn;
 
             this.transform.position = closestCell.WorldPosition;
         }

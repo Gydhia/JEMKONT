@@ -40,6 +40,20 @@ namespace Jemkont.GridSystem
             if(data.InnerGrids != null)
                 this.GenerateInnerGrids(data.InnerGrids);
             this.RedrawGrid();
+
+            GameManager.Instance.OnEnteredGrid += _entityEnteredGrid;
+            GameManager.Instance.OnExitingGrid += _entityExitingGrid;
+        }
+
+        protected void _entityEnteredGrid(Events.EntityEventData Data)
+        {
+            if (Data.Entity.CurrentGrid == this && !this.GridEntities.Contains(Data.Entity))
+                this.GridEntities.Add(Data.Entity);
+        }
+
+        protected void _entityExitingGrid(Events.EntityEventData Data)
+        {
+            this.GridEntities.Remove(Data.Entity);
         }
 
         public void DestroyChildren()

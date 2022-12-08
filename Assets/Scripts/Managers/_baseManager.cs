@@ -18,8 +18,6 @@ namespace Jemkont.Managers
         {
             get
             {
-                if (_instance == null)
-                    _instance = FindObjectOfType<ControllerType>();
                 return _instance;
             }
             private set

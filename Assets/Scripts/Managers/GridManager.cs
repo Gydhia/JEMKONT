@@ -87,13 +87,6 @@ namespace Jemkont.Managers {
             this.MainWorldGrid = this.WorldGrids.Values.First();
         }
 
-        [Button]
-        public void StartCombat()
-        {
-            CombatManager.Instance.CurrentPlayingGrid = this._currentCombatGrid;
-            CombatManager.Instance.StartCombat();
-        }
-
         public void OnNewCellHovered(CharacterEntity entity,Cell cell) 
         {
             if (this.LastHoveredCell != null && this.LastHoveredCell.Datas.state == CellState.Walkable)
@@ -148,6 +141,8 @@ namespace Jemkont.Managers {
                     if (this.Path.Contains(this.LastHoveredCell) && this.LastHoveredCell.Datas.state == CellState.Walkable)
                     {
                         //TODO: Rework the combat /out-of - combat network callbacks and structure
+                        selfPlayer.AskToGo(this.LastHoveredCell, string.Empty);
+
                         selfPlayer.EntityCell
                             .ChangeCellState(CellState.Walkable);
 
@@ -215,16 +210,41 @@ namespace Jemkont.Managers {
 
         public void OnEnteredNewGrid(EntityEventData Data)
         {
-            Data.Entity.CurrentGrid.ShowHideGrid(true);
-            if (Data.Entity.CurrentGrid.IsCombatGrid)
+            // Affect the visuals ONLY if we are the player transitionning
+            if(Data.Entity == GameManager.Instance.SelfPlayer)
             {
-                ((CombatGrid)Data.Entity.CurrentGrid).ParentGrid.ShowHideGrid(false);
+                Data.Entity.CurrentGrid.ShowHideGrid(true);
+                if (Data.Entity.CurrentGrid.IsCombatGrid)
+                {
+                    ((CombatGrid)Data.Entity.CurrentGrid).ParentGrid.ShowHideGrid(false);
+                }
+                else
+                {
+                    foreach (CombatGrid grid in Data.Entity.CurrentGrid.InnerCombatGrids.Values)
+                    {
+                        grid.ShowHideGrid(false);
+                    }
+                }
             }
+            // Make that stranger disappear / appear according to our grid
             else
             {
-                foreach (CombatGrid grid in Data.Entity.CurrentGrid.InnerCombatGrids.Values)
+                // IMPORTANT : Remember that Disabled GameObjects would disable their scripts to.
+                // Only MasterClient have to handle combat Datas, we'll do as it follows : 
+                // When joining a grid already in combat, load the values from MasterClient if we're not, else handle everything.
+                if(GameManager.Instance.SelfPlayer.CurrentGrid != Data.Entity.CurrentGrid)
                 {
-                    grid.ShowHideGrid(false);
+                    if (Photon.Pun.PhotonNetwork.IsMasterClient)
+                        Data.Entity.gameObject.SetActive(false);
+                    else
+                        Data.Entity.gameObject.SetActive(false);
+                }
+                else
+                {
+                    if (Photon.Pun.PhotonNetwork.IsMasterClient)
+                        Data.Entity.gameObject.SetActive(true);
+                    else
+                        Data.Entity.gameObject.SetActive(true);
                 }
             }
         }
