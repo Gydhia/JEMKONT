@@ -1,4 +1,5 @@
 using Jemkont.Entity;
+using Jemkont.Events;
 using Jemkont.GridSystem;
 using System;
 using System.Collections;
@@ -10,6 +11,13 @@ namespace Jemkont.Managers
 {
     public class CombatManager : _baseManager<CombatManager>
     {
+        public event GridEventData.Event OnCombatStarted;
+
+        public void FireCombatStarted(WorldGrid Grid)
+        {
+            this.OnCombatStarted?.Invoke(new GridEventData(Grid));
+        }
+
         #region Run-time
         private Coroutine _turnCoroutine;
 
@@ -23,11 +31,25 @@ namespace Jemkont.Managers
 
         public int TurnNumber;
         #endregion
- 
-        public void StartCombat()
+
+        private void Start()
         {
-            if (this.CurrentPlayingGrid.HasStarted)
+            GameManager.Instance.OnEnteredGrid += this.WelcomePlayerInCombat;
+        }
+
+        public void WelcomePlayerInCombat(EntityEventData Data)
+        {
+            Data.Entity.ReinitializeAllStats();
+        }
+
+        public void StartCombat(CombatGrid startingGrid)
+        {
+            if (this.CurrentPlayingGrid != null && this.CurrentPlayingGrid.HasStarted)
                 return;
+
+            this.CurrentPlayingGrid = startingGrid;
+
+            this._setupEnemyEntities();
 
             // Think about enabling/initing this UI only when in combat
             UIManager.Instance.PlayerInfos.Init();
@@ -38,6 +60,8 @@ namespace Jemkont.Managers
             this._defineEntitiesTurn();
             UIManager.Instance.TurnSection.Init(this.PlayingEntities);
             this.NextTurn();
+
+            this.FireCombatStarted(this.CurrentPlayingGrid);
         }
 
         public void NextTurn()
@@ -64,6 +88,15 @@ namespace Jemkont.Managers
             // TODO : remove this when we'll no longer need to test enemies
             //if (this.CurrentPlayingEntity.IsAlly)
             this._turnCoroutine = StartCoroutine(this._startTurnTimer());
+        }
+
+        private void _setupEnemyEntities()
+        {
+            foreach (CharacterEntity enemy in this.CurrentPlayingGrid.GridEntities.Where(e => !e.IsAlly))
+            {
+                enemy.ReinitializeAllStats();
+                enemy.gameObject.SetActive(true);
+            }
         }
 
         public void PlayCard(Cell cell)

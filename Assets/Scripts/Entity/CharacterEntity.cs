@@ -123,6 +123,12 @@ namespace Jemkont.Entity
             this.Statistics.Add(EntityStatistics.Mana, stats.Mana);
         }
 
+        public void ReinitializeAllStats()
+        {
+            foreach (EntityStatistics stat in System.Enum.GetValues(typeof(EntityStatistics)))
+                this.ReinitializeStat(stat);
+        }
+
         public void ReinitializeStat(EntityStatistics stat)
         {
             switch (stat)

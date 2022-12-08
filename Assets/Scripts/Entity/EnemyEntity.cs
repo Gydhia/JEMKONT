@@ -17,12 +17,11 @@ namespace Jemkont.Entity
             this.ReinitializeStat(EntityStatistics.Movement);
             this.ReinitializeStat(EntityStatistics.Mana);
             var TargetPosition = GetTargetPosition();
-            Debug.Log($"Target Position: {TargetPosition}");
-            Debug.Log($"Movement points: {Movement}");
+
             GridManager.Instance.FindPath(this,TargetPosition, true);
 
-            Debug.Log($"End Position: {GridManager.Instance.Path[Movement - 1].PositionInGrid}");
-            TryGoTo(GridManager.Instance.Path[Math.Min(Movement - 1,GridManager.Instance.Path.Count-1)],Movement);
+            if(GridManager.Instance.Path.Count > 0 && this.Movement > 0)
+                TryGoTo(GridManager.Instance.Path[Math.Min(0, GridManager.Instance.Path.Count-1)],Movement);
             //TODO: ENEMY SPELL
             //OPTIONAL TODO : TAKE INTO ACCOUNT ENEMY SPELL RANGE TO NOT MOVE HIM IF HES IN RANGE
         }

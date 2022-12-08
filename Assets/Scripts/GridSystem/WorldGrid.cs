@@ -28,7 +28,7 @@ namespace Jemkont.GridSystem
 
         public List<CharacterEntity> GridEntities;
 
-        public List<CombatGrid> InnerCombatGrids;
+        public Dictionary<string, CombatGrid> InnerCombatGrids = new Dictionary<string, CombatGrid>();
 
         public void Init(GridData data)
         {
@@ -40,6 +40,20 @@ namespace Jemkont.GridSystem
             if(data.InnerGrids != null)
                 this.GenerateInnerGrids(data.InnerGrids);
             this.RedrawGrid();
+
+            GameManager.Instance.OnEnteredGrid += _entityEnteredGrid;
+            GameManager.Instance.OnExitingGrid += _entityExitingGrid;
+        }
+
+        protected void _entityEnteredGrid(Events.EntityEventData Data)
+        {
+            if (Data.Entity.CurrentGrid == this && !this.GridEntities.Contains(Data.Entity))
+                this.GridEntities.Add(Data.Entity);
+        }
+
+        protected void _entityExitingGrid(Events.EntityEventData Data)
+        {
+            this.GridEntities.Remove(Data.Entity);
         }
 
         public void DestroyChildren()
@@ -94,15 +108,20 @@ namespace Jemkont.GridSystem
 
         public void GenerateInnerGrids(List<GridData> innerGrids)
         {
+            int count = 0;
+            this.InnerCombatGrids = new Dictionary<string, CombatGrid>();
             foreach (GridData innerGrid in innerGrids)
             {
                 CombatGrid newInnerGrid = Instantiate(GridManager.Instance.CombatGridPrefab, Vector3.zero, Quaternion.identity, this.transform) as CombatGrid;
 
                 newInnerGrid.Init(innerGrid);
+                newInnerGrid.ParentGrid = this;
                 newInnerGrid.Longitude = innerGrid.Longitude;
                 newInnerGrid.Latitude = innerGrid.Latitude;
+                newInnerGrid.UName = this.UName + count; 
 
-                this.InnerCombatGrids.Add(newInnerGrid);
+                this.InnerCombatGrids.Add(newInnerGrid.UName, newInnerGrid);
+                count++;
             }
         }
 
@@ -149,6 +168,16 @@ namespace Jemkont.GridSystem
                     if(this.Cells[i, j] != null)
                         this.Cells[i, j].RefreshCell();
         }
+
+        public void ShowHideGrid(bool show)
+        {
+            // /!\ TODO: Avoid iterating over all of these when already disabled
+            for (int i = 0; i < this.Cells.GetLength(0); i++)
+                for (int j = 0; j < this.Cells.GetLength(1); j++)
+                    if (this.Cells[i, j] != null)
+                        this.Cells[i, j].SelfPlane.gameObject.SetActive(show);
+        }
+
 
         #region Utility_methods
         public void ResizeGrid(Cell[,] newCells)

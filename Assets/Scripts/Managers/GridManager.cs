@@ -72,6 +72,7 @@ namespace Jemkont.Managers {
 
             // Events
             InputManager.Instance.OnCellClicked += this.ProcessCellClick;
+            GameManager.Instance.OnEnteredGrid += this.OnEnteredNewGrid;
         }
 
         public void GenerateGrid(GridData gridData, string gridId) 
@@ -86,13 +87,6 @@ namespace Jemkont.Managers {
             this.MainWorldGrid = this.WorldGrids.Values.First();
         }
 
-        [Button]
-        public void StartCombat()
-        {
-            CombatManager.Instance.CurrentPlayingGrid = this._currentCombatGrid;
-            CombatManager.Instance.StartCombat();
-        }
-
         public void OnNewCellHovered(CharacterEntity entity,Cell cell) 
         {
             if (this.LastHoveredCell != null && this.LastHoveredCell.Datas.state == CellState.Walkable)
@@ -102,7 +96,7 @@ namespace Jemkont.Managers {
             if (CardDraggingSystem.instance.DraggedCard != null && this.LastHoveredCell.Datas.state == CellState.Walkable)
                 this.LastHoveredCell.ChangeStateColor(Color.cyan);
 
-            if (entity.CurrentGrid.IsCombatGrid)
+            if (entity.CurrentGrid is CombatGrid cGrid && cGrid.HasStarted && this.LastHoveredCell.RefGrid == entity.CurrentGrid)
             {
                 this.ShowPossibleCombatMovements(entity);
 
@@ -119,7 +113,7 @@ namespace Jemkont.Managers {
 
                     this.FindPath(entity, cell.PositionInGrid, cell.RefGrid);
 
-                    if (!entity.CurrentGrid.IsCombatGrid || this.Path.Count <= CombatManager.Instance.CurrentPlayingEntity.Movement)
+                    if (!entity.CurrentGrid.IsCombatGrid || this.Path.Count <= entity.Movement)
                     {
                         for (int i = 0; i < this.Path.Count; i++)
                         {
@@ -147,6 +141,8 @@ namespace Jemkont.Managers {
                     if (this.Path.Contains(this.LastHoveredCell) && this.LastHoveredCell.Datas.state == CellState.Walkable)
                     {
                         //TODO: Rework the combat /out-of - combat network callbacks and structure
+                        selfPlayer.AskToGo(this.LastHoveredCell, string.Empty);
+
                         selfPlayer.EntityCell
                             .ChangeCellState(CellState.Walkable);
 
@@ -168,13 +164,15 @@ namespace Jemkont.Managers {
             else
             {
                 Cell closestCell = this.LastHoveredCell;
+                string otherGrid = string.Empty;
                 // TODO: Verify if this works
                 if (selfPlayer.CurrentGrid != this.LastHoveredCell.RefGrid)
                 {
                     closestCell = GridUtility.GetClosestCellToShape(selfPlayer.CurrentGrid, this.LastHoveredCell.RefGrid as CombatGrid, selfPlayer.EntityCell.PositionInGrid);
+                    otherGrid = this.LastHoveredCell.RefGrid.UName;
                 }
                 if(closestCell != null)
-                    selfPlayer.AskToGo(closestCell);
+                    selfPlayer.AskToGo(closestCell, otherGrid);
                 //NetworkManager.Instance.ProcessAskedPath(selfPlayer, this.LastHoveredCell);
             }
             
@@ -209,6 +207,56 @@ namespace Jemkont.Managers {
                 }
             }
         }
+
+        public void OnEnteredNewGrid(EntityEventData Data)
+        {
+            // Affect the visuals ONLY if we are the player transitionning
+            if(Data.Entity == GameManager.Instance.SelfPlayer)
+            {
+                Data.Entity.CurrentGrid.ShowHideGrid(true);
+                if (Data.Entity.CurrentGrid.IsCombatGrid)
+                {
+                    ((CombatGrid)Data.Entity.CurrentGrid).ParentGrid.ShowHideGrid(false);
+                }
+                else
+                {
+                    foreach (CombatGrid grid in Data.Entity.CurrentGrid.InnerCombatGrids.Values)
+                    {
+                        grid.ShowHideGrid(false);
+                    }
+                }
+                foreach (PlayerBehavior player in GameManager.Instance.Players.Values)
+                {
+                    if (player.CurrentGrid != Data.Entity.CurrentGrid)
+                        player.gameObject.SetActive(false);
+                    else
+                        player.gameObject.SetActive(true);
+                }
+            }
+            // Make that stranger disappear / appear according to our grid
+            else
+            {
+                // IMPORTANT : Remember that Disabled GameObjects would disable their scripts to.
+                // Only MasterClient have to handle combat Datas, we'll do as it follows : 
+                // When joining a grid already in combat, load the values from MasterClient if we're not, else handle everything.
+                if(GameManager.Instance.SelfPlayer.CurrentGrid != Data.Entity.CurrentGrid)
+                {
+                    if (Photon.Pun.PhotonNetwork.IsMasterClient)
+                        Data.Entity.gameObject.SetActive(false);
+                    else
+                        Data.Entity.gameObject.SetActive(false);
+                }
+                else
+                {
+                    if (Photon.Pun.PhotonNetwork.IsMasterClient)
+                        Data.Entity.gameObject.SetActive(true);
+                    else
+                        Data.Entity.gameObject.SetActive(true);
+                }
+            }
+        }
+
+        #region PATH_FINDING
         public CellData CellDataAtPosition(GridPosition target) 
         {
             Cell targetCell = this._currentCombatGrid.Cells[target.longitude,target.latitude];
@@ -385,6 +433,7 @@ namespace Jemkont.Managers {
                 return 14 * dstY + 10 * (dstX - dstY);
             return 14 * dstX + 10 * (dstY - dstX);
         }
+#endregion
 
         #region DATAS_MANIPULATION
         public void LoadGridsFromJSON() 

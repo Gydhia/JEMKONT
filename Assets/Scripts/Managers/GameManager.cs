@@ -9,6 +9,29 @@ namespace Jemkont.Managers
 {
     public class GameManager : _baseManager<GameManager>
     {
+        #region EVENTS
+        public event EntityEventData.Event OnEnteredGrid;
+        public event EntityEventData.Event OnExitingGrid;
+
+        public void FireEntityEnteredGrid(string entityID)
+        {
+            this.FireEntityEnteredGrid(this.Players[entityID]);
+        }
+        public void FireEntityEnteredGrid(CharacterEntity entity)
+        {
+            this.OnEnteredGrid?.Invoke(new EntityEventData(entity));
+        }
+
+        public void FireEntityExitingGrid(string entityID)
+        {
+            this.FireEntityExitingGrid(this.Players[entityID]);
+        }
+        public void FireEntityExitingGrid(CharacterEntity entity)
+        {
+            OnExitingGrid?.Invoke(new EntityEventData(entity));
+        }
+        #endregion
+
         [SerializeField]
         private PlayerBehavior _playerPrefab;
 
@@ -18,6 +41,8 @@ namespace Jemkont.Managers
         private void Start()
         {
             this.WelcomePlayers();
+
+            UIManager.Instance.Init();
         }
 
         public void WelcomePlayers()
@@ -44,7 +69,10 @@ namespace Jemkont.Managers
                     newPlayer.PlayerID = player.UserId;
 
                     if (player.UserId == PhotonNetwork.LocalPlayer.UserId)
+                    {
                         this.SelfPlayer = newPlayer;
+                        CameraManager.Instance.AttachPlayerToCamera(this.SelfPlayer);
+                    }
 
                     this.Players.Add(player.UserId, newPlayer);
                     counter++;

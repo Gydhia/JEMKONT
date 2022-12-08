@@ -10,5 +10,6 @@ namespace Jemkont.GridSystem
         public int Latitude;
 
         public bool HasStarted = false;
+        public WorldGrid ParentGrid = null;
     }
 }
