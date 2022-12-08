@@ -121,26 +121,35 @@ namespace Jemkont.GridSystem
         /// <returns></returns>
         public static Cell GetClosestAvailableCombatCell(WorldGrid refGrid, CombatGrid innerGrid, GridPosition entityPos)
         {
-            // Top
-            if (entityPos.latitude < innerGrid.Latitude)
+            try
             {
-               return innerGrid.Cells[0, entityPos.longitude - innerGrid.Longitude];
-            }
-            // Bottom
-            else if (entityPos.latitude > innerGrid.Latitude + innerGrid.GridHeight)
-            {
-               return innerGrid.Cells[innerGrid.GridHeight - 1, entityPos.longitude - innerGrid.Longitude];
+                // Top
+                if (entityPos.latitude < innerGrid.Latitude)
+                {
+                    return innerGrid.Cells[0, entityPos.longitude - innerGrid.Longitude];
+                }
+                // Bottom
+                else if (entityPos.latitude > innerGrid.Latitude + innerGrid.GridHeight)
+                {
+                    return innerGrid.Cells[innerGrid.GridHeight - 1, entityPos.longitude - innerGrid.Longitude];
 
+                }
+                // Right
+                else if (entityPos.longitude > innerGrid.Longitude + innerGrid.GridWidth)
+                {
+                    return innerGrid.Cells[entityPos.latitude - innerGrid.Latitude, innerGrid.GridWidth - 1];
+                }
+                // Left
+                else
+                {
+                    return innerGrid.Cells[entityPos.latitude - innerGrid.Latitude, 0];
+                }
             }
-            // Right
-            else if (entityPos.longitude > innerGrid.Longitude + innerGrid.GridWidth)
+            catch(Exception ex)
             {
-                return innerGrid.Cells[entityPos.latitude - innerGrid.Latitude, innerGrid.GridWidth - 1];
-            }
-            // Left
-            else
-            {
-                return innerGrid.Cells[entityPos.latitude - innerGrid.Latitude, 0];
+                Debug.LogError("Couldn't find closest Cell because Entity[" + entityPos.latitude + ", " + entityPos.longitude + 
+                    "] failed innerGrid[" + innerGrid.Latitude + ", " + innerGrid.Longitude + "] for size of [" + innerGrid.GridHeight + ", " + innerGrid.GridWidth + "]");
+                return null;
             }
         }
         

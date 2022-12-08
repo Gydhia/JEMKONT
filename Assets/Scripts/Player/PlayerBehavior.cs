@@ -29,6 +29,16 @@ namespace Jemkont.Entity
 
         public void MoveWithPath(List<Cell> newPath, string otherGrid)
         {
+            // Useless to animate hidden players
+            if (!this.gameObject.activeSelf)
+            {
+                // /!\ TEMPORY ONLY, SET THE CELL AS THE LAST ONE OF PATH
+                // We should have events instead for later on
+                this.EntityCell = newPath[^1];
+                return;
+            }
+                
+
             this._nextGrid = otherGrid;
 
             if (this._moveCor == null)

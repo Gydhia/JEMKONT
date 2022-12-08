@@ -225,6 +225,13 @@ namespace Jemkont.Managers {
                         grid.ShowHideGrid(false);
                     }
                 }
+                foreach (PlayerBehavior player in GameManager.Instance.Players.Values)
+                {
+                    if (player.CurrentGrid != Data.Entity.CurrentGrid)
+                        player.gameObject.SetActive(false);
+                    else
+                        player.gameObject.SetActive(true);
+                }
             }
             // Make that stranger disappear / appear according to our grid
             else

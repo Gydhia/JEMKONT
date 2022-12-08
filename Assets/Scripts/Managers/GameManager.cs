@@ -19,7 +19,7 @@ namespace Jemkont.Managers
         }
         public void FireEntityEnteredGrid(CharacterEntity entity)
         {
-            OnEnteredGrid?.Invoke(new EntityEventData(entity));
+            this.OnEnteredGrid?.Invoke(new EntityEventData(entity));
         }
 
         public void FireEntityExitingGrid(string entityID)

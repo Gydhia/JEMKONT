@@ -122,7 +122,7 @@ namespace Jemkont.Managers
         public void PlayerAsksToEnterGrid(PlayerBehavior player, WorldGrid mainGrid, string targetGrid)
         {
             if (!PhotonNetwork.IsMasterClient)
-                this.photonView.RPC("RPC_ProcessEnterGrid", RpcTarget.MasterClient, player.PlayerID);
+                this.photonView.RPC("RPC_ProcessEnterGrid", RpcTarget.MasterClient, player.PlayerID, mainGrid.UName, targetGrid);
             else
                 this.RPC_ProcessEnterGrid(player.PlayerID, mainGrid.UName, targetGrid);    
         }
@@ -140,6 +140,9 @@ namespace Jemkont.Managers
         public void RPC_RespondToEnterGrid(string playerID, string mainGrid, string targetGrid)
         {
             GameManager.Instance.FireEntityExitingGrid(playerID);
+
+            if (!GridManager.Instance.WorldGrids[mainGrid].InnerCombatGrids.ContainsKey(targetGrid))
+                Debug.LogError("Couldn't find mainGrid's inner grid called : " + targetGrid + ". Count of innerGrids is : " + GridManager.Instance.WorldGrids[mainGrid].InnerCombatGrids.Count);
 
             GameManager.Instance.Players[playerID].EnterNewGrid(GridManager.Instance.WorldGrids[mainGrid].InnerCombatGrids[targetGrid] as CombatGrid);
 
