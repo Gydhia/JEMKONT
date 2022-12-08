@@ -60,6 +60,8 @@ namespace Jemkont.Managers
             this._defineEntitiesTurn();
             UIManager.Instance.TurnSection.Init(this.PlayingEntities);
             this.NextTurn();
+
+            this.FireCombatStarted(this.CurrentPlayingGrid);
         }
 
         public void NextTurn()

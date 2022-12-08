@@ -96,7 +96,7 @@ namespace Jemkont.Managers {
             if (CardDraggingSystem.instance.DraggedCard != null && this.LastHoveredCell.Datas.state == CellState.Walkable)
                 this.LastHoveredCell.ChangeStateColor(Color.cyan);
 
-            if (entity.CurrentGrid.IsCombatGrid && this.LastHoveredCell.RefGrid == entity.CurrentGrid)
+            if (entity.CurrentGrid is CombatGrid cGrid && cGrid.HasStarted && this.LastHoveredCell.RefGrid == entity.CurrentGrid)
             {
                 this.ShowPossibleCombatMovements(entity);
 
