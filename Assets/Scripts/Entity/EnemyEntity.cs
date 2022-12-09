@@ -20,8 +20,8 @@ namespace Jemkont.Entity
 
             GridManager.Instance.FindPath(this,TargetPosition, true);
 
-            if(GridManager.Instance.Path.Count > 0 && this.Movement > 0)
-                TryGoTo(GridManager.Instance.Path[Math.Min(0, GridManager.Instance.Path.Count-1)],Movement);
+            //if(GridManager.Instance.Path.Count > 0 && this.Movement > 0)
+            //    NetworkManager.Instance.PlayerAsksForPath(GridManager.Instance.Path[Math.Min(0, GridManager.Instance.Path.Count-1)]);
             //TODO: ENEMY SPELL
             //OPTIONAL TODO : TAKE INTO ACCOUNT ENEMY SPELL RANGE TO NOT MOVE HIM IF HES IN RANGE
         }

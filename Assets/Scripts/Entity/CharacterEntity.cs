@@ -33,10 +33,16 @@ namespace Jemkont.Entity
 
         public int TurnOrder;
         public bool IsAlly = true;
+        
+        public WorldGrid CurrentGrid;
+
+        // Movements
+        public bool IsMoving = false;
         public Cell EntityCell = null;
         public Cell NextCell = null;
-        public bool IsMoving = false;
-        public WorldGrid CurrentGrid;
+        protected Coroutine moveCor = null;
+        public List<Cell> CurrentPath;
+
 
         public List<CharacterEntity> Summons;
 
@@ -48,20 +54,6 @@ namespace Jemkont.Entity
         public int Dexterity { get => Statistics[EntityStatistics.Dexterity]; }
         public int Movement { get => Statistics[EntityStatistics.Movement]; }
         public int Mana { get => Statistics[EntityStatistics.Mana]; }
-
-        public bool TryGoTo(Cell destination, int cost)
-        {
-            this.ApplyMovement(-cost);
-
-            this.EntityCell.EntityIn = null;
-
-            this.EntityCell = destination;
-            this.transform.position = destination.WorldPosition;
-
-            destination.EntityIn = this;
-
-            return true;
-        }
 
         public void Start()
         {
@@ -94,6 +86,61 @@ namespace Jemkont.Entity
             this.HealthFill.transform.LookAt(Camera.main.transform.position);
             this.ShieldFill.transform.LookAt(Camera.main.transform.position);
         }
+
+        #region MOVEMENTS
+
+        public virtual void MoveWithPath(List<Cell> newPath, string otherGrid)
+        {
+            // Useless to animate hidden players
+            if (!this.gameObject.activeSelf)
+            {
+                // /!\ TEMPORY ONLY, SET THE CELL AS THE LAST ONE OF PATH
+                // We should have events instead for later on
+                this.EntityCell = newPath[^1];
+                return;
+            }
+
+            if (this.moveCor == null)
+            {
+                this.CurrentPath = newPath;
+                // That's ugly, find a clean way to build the path instead
+                if (!this.CurrentPath.Contains(this.EntityCell))
+                    this.CurrentPath.Insert(0, this.EntityCell);
+                this.moveCor = StartCoroutine(FollowPath());
+            }
+        }
+
+        public virtual IEnumerator FollowPath()
+        {
+            this.IsMoving = true;
+            int currentCell = 0, targetCell = 1;
+
+            float timer;
+            while (currentCell < this.CurrentPath.Count - 1)
+            {
+                timer = 0f;
+                while (timer <= 0.2f)
+                {
+                    this.transform.position = Vector3.Lerp(CurrentPath[currentCell].gameObject.transform.position, CurrentPath[targetCell].gameObject.transform.position, timer / 0.2f);
+                    timer += Time.deltaTime;
+                    yield return null;
+                }
+
+                this.EntityCell = CurrentPath[targetCell];
+
+                currentCell++;
+                targetCell++;
+
+                if (targetCell <= this.CurrentPath.Count - 1)
+                    this.NextCell = CurrentPath[targetCell];
+            }
+
+            this.moveCor = null;
+            this.IsMoving = false;
+        }
+
+        #endregion
+
         public void EndTurn()
         {
 
