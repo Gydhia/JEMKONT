@@ -33,6 +33,9 @@ namespace Jemkont.Entity
 
         public int TurnOrder;
         public bool IsAlly = true;
+        // Used for NPC. Determined UID to parse over network. 
+        // TODO: Change it to a real Guid later
+        public string UID = string.Empty;
         
         public WorldGrid CurrentGrid;
 
@@ -153,7 +156,7 @@ namespace Jemkont.Entity
             GridManager.Instance.ShowPossibleCombatMovements(this);
         }
 
-        public void Init(EntityStats stats, Cell refCell, WorldGrid refGrid)
+        public virtual void Init(EntityStats stats, Cell refCell, WorldGrid refGrid, int order = 0)
         {
             this.transform.position = refCell.WorldPosition;
             this.EntityCell = refCell;

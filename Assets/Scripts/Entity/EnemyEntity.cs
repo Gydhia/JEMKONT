@@ -13,6 +13,15 @@ namespace Jemkont.Entity
 {
     public class EnemyEntity : CharacterEntity
     {
+        public EntitySpawn EnemyStyle;
+
+        public override void Init(EntityStats stats, Cell refCell, WorldGrid refGrid, int order = 0)
+        {
+            base.Init(stats, refCell, refGrid);
+
+            this.UID = refGrid.UName + this.EnemyStyle.UName + order;
+        }
+
         public override void StartTurn() {
             this.ReinitializeStat(EntityStatistics.Movement);
             this.ReinitializeStat(EntityStatistics.Mana);
@@ -20,8 +29,13 @@ namespace Jemkont.Entity
 
             GridManager.Instance.FindPath(this,TargetPosition, true);
 
-            //if(GridManager.Instance.Path.Count > 0 && this.Movement > 0)
-            //    NetworkManager.Instance.PlayerAsksForPath(GridManager.Instance.Path[Math.Min(0, GridManager.Instance.Path.Count-1)]);
+            if(GridManager.Instance.Path.Count > 0 && this.Movement > 0)
+            {
+                string mainGrid = this.CurrentGrid is CombatGrid cGrid ? cGrid.ParentGrid.UName : CurrentGrid.UName;
+                string innerGrid = mainGrid == this.CurrentGrid.UName ? string.Empty : this.CurrentGrid.UName;
+
+                NetworkManager.Instance.EntityAsksForPath(this.UID, GridManager.Instance.Path[GridManager.Instance.Path.Count - 1], mainGrid, innerGrid);
+            }
             //TODO: ENEMY SPELL
             //OPTIONAL TODO : TAKE INTO ACCOUNT ENEMY SPELL RANGE TO NOT MOVE HIM IF HES IN RANGE
         }
