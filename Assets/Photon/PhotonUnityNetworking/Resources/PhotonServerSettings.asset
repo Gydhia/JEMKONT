@@ -28,7 +28,7 @@ MonoBehaviour:
     AuthMode: 0
     EnableLobbyStatistics: 0
     NetworkLogging: 1
-  DevRegion: 
+  DevRegion: eu
   PunLogging: 0
   EnableSupportLogger: 0
   RunInBackground: 1
@@ -39,6 +39,14 @@ MonoBehaviour:
   - DestroySpaceship
   - Fire
   - RespawnSpaceship
+  - RPC_ProcessAskedPath
+  - RPC_ProcessAskStartCombat
+  - RPC_ProcessEnterGrid
+  - RPC_RespondToEnterGrid
+  - RPC_RespondToStartCombat
+  - RPC_RespondWithProcessedPath
+  - RPC_ProcessEntityAskedPath
+  - RPC_RespondWithEntityProcessedPath
   DisableAutoOpenWizard: 1
   ShowSettings: 0
-  DevRegionSetOnce: 0
+  DevRegionSetOnce: 1

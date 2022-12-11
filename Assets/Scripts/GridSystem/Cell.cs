@@ -15,7 +15,7 @@ namespace Jemkont.GridSystem
 
         public BoxCollider Collider;
 
-        public CombatGrid RefGrid;
+        public WorldGrid RefGrid;
 
         #region Datas
         public CellData Datas;
@@ -28,11 +28,11 @@ namespace Jemkont.GridSystem
         public Cell parent;
         public CharacterEntity EntityIn;
 
-        public GridPosition PositionInGrid => new GridPosition(this.Datas.heightPos, this.Datas.widthPos);
+        public GridPosition PositionInGrid => new GridPosition(this.Datas.widthPos, this.Datas.heightPos);
         public Vector3 WorldPosition => this.gameObject.transform.position;
         #endregion
 
-        public void Init(int yPos, int xPos, CellState state, CombatGrid refGrid)
+        public void Init(int yPos, int xPos, CellState state, WorldGrid refGrid)
         {
             this.RefGrid = refGrid;
 
@@ -111,7 +111,9 @@ namespace Jemkont.GridSystem
         [EnumMember(Value = "Blocked")]
         Blocked = 1,
         [EnumMember(Value = "EntityIn")]
-        EntityIn = 2
+        EntityIn = 2,
+        [EnumMember(Value = "Shared")]
+        Shared = 3
     }
 
 }

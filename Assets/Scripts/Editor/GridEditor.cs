@@ -20,6 +20,22 @@ public class GridEditor : OdinEditor
 
     private Vector3 _oldPosition;
 
+    private class SubgridVars
+    {
+        public SubgridVars(int height, int width, int longitude, int latitude)
+        {
+            this.oldHeight = height;
+            this.oldWidth = width;
+            this.oldLongitude = longitude;
+            this.oldLatitude = latitude;
+        }
+        public int oldHeight;
+        public int oldWidth;
+        public int oldLongitude;
+        public int oldLatitude;
+    }
+    private List<SubgridVars> _oldInnerGrids; 
+
     public void OnEnable()
     {
         if (this._target == null)
@@ -57,6 +73,44 @@ public class GridEditor : OdinEditor
         if (this._target.CellDatas == null || this._target.CellDatas.Length == 0 || this._target.GridWidth <= 0 || this._target.GridHeight <= 0)
             return;
 
+        // Actualize the subgrids
+        if(this._target.InnerGrids != null)
+        {
+            if (this._oldInnerGrids == null)
+                this._oldInnerGrids = new List<SubgridVars>();
+
+            if (this._oldInnerGrids.Count != this._target.InnerGrids.Count)
+            {
+                if (this._oldInnerGrids.Count < this._target.InnerGrids.Count)
+                    this._oldInnerGrids.Add(new SubgridVars(this._target.InnerGrids[^1].GridHeight, this._target.InnerGrids[^1].GridWidth, this._target.InnerGrids[^1].Longitude, this._target.InnerGrids[^1].Latitude));
+                else
+                    this._oldInnerGrids.RemoveAt(this._oldInnerGrids.Count - 1);
+            }
+
+            for (int i = 0; i < this._target.InnerGrids.Count; i++)
+            {
+                SubgridPlaceholder currGrid = this._target.InnerGrids[i];
+                if (currGrid.GridWidth <= 0 || currGrid.GridHeight <= 0)
+                    continue;
+
+                SubgridVars g = this._oldInnerGrids[i];
+                if (this._innerGridChanged(g, currGrid))
+                {
+                    EditorUtility.SetDirty(this._target.gameObject);
+                    bool resizeDown = false;
+                    if (currGrid.GridWidth < g.oldWidth || currGrid.GridHeight < g.oldHeight)
+                        resizeDown = true;
+
+                    GridUtility.ResizeGrid(
+                        ref this._target.InnerGrids[i].CellDatas,
+                        this.ResizeArrayTwo(currGrid.CellDatas, currGrid.GridHeight, currGrid.GridWidth, resizeDown));
+
+                    this._setInnerGrid(ref g, currGrid);
+                }
+            }
+        }
+        
+     
         if (this._target.GridWidth != this._oldWidth || this._target.GridHeight != this._oldHeight)
         {
             this._target.ResizePlane();
@@ -76,11 +130,28 @@ public class GridEditor : OdinEditor
             if (this._target.GridWidth < this._oldWidth || this._target.GridHeight < this._oldHeight)
                 resizeDown = true;
 
-            this._target.ResizeGrid(this.ResizeArrayTwo(_target.CellDatas, this._target.GridHeight, this._target.GridWidth, resizeDown));
+            GridUtility.ResizeGrid(ref this._target.CellDatas,
+                this.ResizeArrayTwo(_target.CellDatas, this._target.GridHeight, this._target.GridWidth, resizeDown));
 
             this._oldWidth = this._target.GridWidth;
             this._oldHeight = this._target.GridHeight;
         }
+    }
+
+    private bool _innerGridChanged(SubgridVars oldSubgrid, SubgridPlaceholder newSubgrid)
+    {
+        return oldSubgrid.oldHeight != newSubgrid.GridHeight ||
+                oldSubgrid.oldWidth != newSubgrid.GridWidth ||
+                oldSubgrid.oldLongitude != newSubgrid.Longitude ||
+                oldSubgrid.oldLatitude != newSubgrid.Latitude;
+    }
+
+    private void _setInnerGrid(ref SubgridVars oldSubgrid, SubgridPlaceholder newSubgrid)
+    {
+        oldSubgrid.oldHeight = newSubgrid.GridHeight;
+        oldSubgrid.oldWidth = newSubgrid.GridWidth;
+        oldSubgrid.oldLongitude = newSubgrid.Longitude;
+        oldSubgrid.oldLatitude = newSubgrid.Latitude;
     }
 
     public void OnSceneGUI()
@@ -93,8 +164,19 @@ public class GridEditor : OdinEditor
                 EditorUtility.SetDirty(this._target.gameObject);
                 GridPosition pos = this._target.GetGridIndexFromWorld(hit.point);
 
-                CellState currState = this._target.CellDatas[pos.longitude, pos.latitude].state;
-                this._target.CellDatas[pos.longitude, pos.latitude].state = (currState == CellState.Blocked) ? CellState.Walkable : CellState.Blocked;
+                // Longitude = x, latitude = y. Array is [height, width]
+
+                CellData[,] refDatas;
+                if (GridUtility.GetIncludingSubGrid(this._target.InnerGrids, pos, out SubgridPlaceholder includingGrid))
+                {
+                    refDatas = includingGrid.CellDatas;
+                    pos = new GridPosition(pos.longitude - includingGrid.Longitude, pos.latitude - includingGrid.Latitude);
+                }
+                else
+                    refDatas = this._target.CellDatas;
+
+                CellState currState = refDatas[pos.latitude, pos.longitude].state;
+                refDatas[pos.latitude, pos.longitude].state = (currState == CellState.Blocked) ? CellState.Walkable : CellState.Blocked;
             }
         }
         else if(Event.current.shift && Event.current.keyCode == KeyCode.A && Event.current.type == EventType.KeyDown)
@@ -106,17 +188,30 @@ public class GridEditor : OdinEditor
                     this._target.EntitySpawns = new Dictionary<GridPosition, EntitySpawn>();
 
                 GridPosition pos = this._target.GetGridIndexFromWorld(hit.point);
-                if(!this._target.EntitySpawns.ContainsKey(pos))
-                {
-                    this._target.CellDatas[pos.longitude, pos.latitude].state = CellState.EntityIn;
-                    this._target.EntitySpawns.Add(pos, null);
-                }
-                else
-                {
-                    this._target.CellDatas[pos.longitude, pos.latitude].state = CellState.Walkable;
-                    this._target.EntitySpawns.Remove(pos);
+
+                if (GridUtility.GetIncludingSubGrid(this._target.InnerGrids, pos, out SubgridPlaceholder includingGrid)) {
+                    if(includingGrid.EntitySpawns == null)
+                        includingGrid.EntitySpawns = new Dictionary<GridPosition, EntitySpawn>();
+
+                    this.AllocateEntity(includingGrid.EntitySpawns, includingGrid.CellDatas, new GridPosition(pos.longitude - includingGrid.Longitude, pos.latitude - includingGrid.Latitude));
+                } else {
+                    this.AllocateEntity(this._target.EntitySpawns, this._target.CellDatas, pos);
                 }
             }
+        }
+    }
+
+    public void AllocateEntity(Dictionary<GridPosition, EntitySpawn> entitiesRef, CellData[,] cellsRef, GridPosition pos)
+    {
+        if (!entitiesRef.ContainsKey(pos))
+        {
+            cellsRef[pos.latitude, pos.longitude].state = CellState.EntityIn;
+            entitiesRef.Add(pos, null);
+        }
+        else
+        {
+            cellsRef[pos.latitude, pos.longitude].state = CellState.Walkable;
+            entitiesRef.Remove(pos);
         }
     }
 

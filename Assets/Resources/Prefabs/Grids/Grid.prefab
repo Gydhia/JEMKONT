@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4706689021377430463}
-  - component: {fileID: 8767248532684317957}
+  - component: {fileID: 2420647313775234594}
   m_Layer: 0
   m_Name: Grid
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8767248532684317957
+--- !u!114 &2420647313775234594
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,9 +41,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 7667379347255253134}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b0e6e96387771ce419c63cb1034200f0, type: 3}
+  m_Script: {fileID: 11500000, guid: cbe7459226dd9824d9ca15222bc66c49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: Cells
+      Entry: 6
+      Data: 
+  UName: 
+  IsCombatGrid: 0
   GridHeight: 2
   GridWidth: 2
   TopLeftOffset: {x: 0, y: 0, z: 0}
+  GridEntities: []
+  HasStarted: 0
