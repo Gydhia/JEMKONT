@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/TextMesh Pro/Documentation/TextMesh Pro User Guide 2016.pdf.meta
 guid: 1b8d251f9af63b746bf2f7ffe00ebb9b
+========
+guid: f597f19f656ba56eae4f6a3a7cc528f4
+>>>>>>>> origin/main:Assets/Plugins/Sirenix/Demos/Custom Attribute Processors.unitypackage.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

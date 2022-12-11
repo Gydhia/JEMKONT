@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c24d5ac1331fdca479c3c82f04555faf, type: 3}
+  m_Name: Battle Bloodletting
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  Title: Battle Bloodletting
+  Cost: 2
+  Description: Teleport to an ally and heal them for 10
+  IllustrationImage: {fileID: 0}
+  Spells:
+  - ConditionData: {fileID: 0}
+    ActionData: {fileID: -315131343720580193, guid: eebea982765848747ad7e876a006e052, type: 3}
+    ApplyToCell: 1
+    ApplyToSelf: 0
+    ApplyToAllies: 0
+    ApplyToEnemies: 0
+    ApplyToAll: 0
+    CurrentAction: {fileID: 0}
+    Caster: {fileID: 0}
+  - ConditionData: {fileID: 0}
+    ActionData: {fileID: -2018030893080846226, guid: eebea982765848747ad7e876a006e052, type: 3}
+    ApplyToCell: 1
+    ApplyToSelf: 0
+    ApplyToAllies: 0
+    ApplyToEnemies: 0
+    ApplyToAll: 0
+    CurrentAction: {fileID: 0}
+    Caster: {fileID: 0}

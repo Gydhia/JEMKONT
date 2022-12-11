@@ -18,6 +18,7 @@ namespace Jemkont.Managers
         {
             get
             {
+                // If we don't do this in editor, it's sometimes fcked up and make errors
                 if (_instance == null)
                     _instance = FindObjectOfType<ControllerType>();
                 return _instance;
