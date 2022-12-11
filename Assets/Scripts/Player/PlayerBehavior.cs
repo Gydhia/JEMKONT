@@ -21,13 +21,12 @@ namespace Jemkont.Entity
         public string PlayerID;
         public PhotonView PlayerView;
 
-        public List<Cell> CurrentPath;
         public List<Cell> NextPath { get; private set; }
         public bool CanEnterGrid => true; 
 
-        private Coroutine _moveCor = null;
+        
 
-        public void MoveWithPath(List<Cell> newPath, string otherGrid)
+        public override void MoveWithPath(List<Cell> newPath, string otherGrid)
         {
             // Useless to animate hidden players
             if (!this.gameObject.activeSelf)
@@ -41,13 +40,13 @@ namespace Jemkont.Entity
 
             this._nextGrid = otherGrid;
 
-            if (this._moveCor == null)
+            if (this.moveCor == null)
             {
                 this.CurrentPath = newPath;
                 // That's ugly, find a clean way to build the path instead
                 if(!this.CurrentPath.Contains(this.EntityCell))
                     this.CurrentPath.Insert(0, this.EntityCell);
-                this._moveCor = StartCoroutine(FollowPath());
+                this.moveCor = StartCoroutine(FollowPath());
             }
             else
             {
@@ -55,7 +54,7 @@ namespace Jemkont.Entity
             }
         }
 
-        public IEnumerator FollowPath()
+        public override IEnumerator FollowPath()
         {
             this.IsMoving = true;
             int currentCell = 0, targetCell = 1;
@@ -85,7 +84,7 @@ namespace Jemkont.Entity
                     this.NextCell = CurrentPath[targetCell];
             }
 
-            this._moveCor = null;
+            this.moveCor = null;
             this.IsMoving = false;
 
             if(this.NextPath != null)

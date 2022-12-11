@@ -275,11 +275,11 @@ namespace Jemkont.Managers {
             return positions;
         }
 
-        public List<Cell> DeserializePathData(PlayerBehavior player, int[] positions)
+        public List<Cell> DeserializePathData(CharacterEntity entity, int[] positions)
         {
             List<Cell> result = new List<Cell>();
             for (int i = 0; i < positions.Length; i += 2)
-                result.Add(player.CurrentGrid.Cells[positions[i + 1], positions[i]]);
+                result.Add(entity.CurrentGrid.Cells[positions[i + 1], positions[i]]);
 
             return result;
         }

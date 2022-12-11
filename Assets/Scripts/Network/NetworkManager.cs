@@ -8,6 +8,7 @@ using TMPro;
 using ExitGames.Client.Photon;
 using Jemkont.Entity;
 using Jemkont.GridSystem;
+using System.Linq;
 
 namespace Jemkont.Managers
 {
@@ -87,6 +88,41 @@ namespace Jemkont.Managers
 
 
         #region Players_Callbacks
+        public void EntityAsksForPath(string entityUID, Cell target, string mainGrid, string innerGrid)
+        {
+            int[] position = new int[2] { target.PositionInGrid.longitude, target.PositionInGrid.latitude };
+
+            if (PhotonNetwork.IsMasterClient)
+                this.RPC_ProcessEntityAskedPath(entityUID, position, mainGrid, innerGrid);
+            else
+                this.photonView.RPC("RPC_ProcessEntityAskedPath", RpcTarget.MasterClient, entityUID, position, mainGrid, innerGrid);
+        }
+
+        [PunRPC]
+        public void RPC_ProcessEntityAskedPath(string entityUID, int[] target, string mainGrid, string innerGrid)
+        {
+            // Temporary, definitely need to create a method and list of all entities handled with UID
+            EnemyEntity entity = innerGrid != string.Empty ?
+                GridManager.Instance.WorldGrids[mainGrid].InnerCombatGrids[innerGrid].GridEntities.First(e => e.UID == entityUID) as EnemyEntity :
+                GridManager.Instance.WorldGrids[mainGrid].GridEntities.First(e => e.UID == entityUID) as EnemyEntity;
+
+            GridManager.Instance.FindPath(entity, new GridPosition(target[0], target[1]));
+
+            int[] positions = GridManager.Instance.SerializePathData();
+            // TODO: make a custom function to process combat and non-combat movements
+            this.photonView.RPC("RPC_RespondWithEntityProcessedPath", RpcTarget.All, entityUID, positions, mainGrid, innerGrid);
+        }
+
+        [PunRPC]
+        public void RPC_RespondWithEntityProcessedPath(object[] pathDatas)
+        {
+            EnemyEntity entity = pathDatas[3].ToString() != string.Empty ?
+                GridManager.Instance.WorldGrids[pathDatas[2].ToString()].InnerCombatGrids[pathDatas[3].ToString()].GridEntities.First(e => e.UID == pathDatas[0].ToString()) as EnemyEntity :
+                GridManager.Instance.WorldGrids[pathDatas[2].ToString()].GridEntities.First(e => e.UID == pathDatas[0].ToString()) as EnemyEntity;
+
+            // We manage the fact that 2 players won't obv be on the same grid, so we send the player
+            entity.MoveWithPath(GridManager.Instance.DeserializePathData(entity, (int[])pathDatas[1]), string.Empty);
+        }
 
         public void PlayerAsksForPath(PlayerBehavior player, GridSystem.Cell target, string otherGrid)
         {

@@ -45,12 +45,20 @@ namespace Jemkont.GridSystem
             GameManager.Instance.OnExitingGrid += _entityExitingGrid;
         }
 
+        /// <summary>
+        /// To notify if an entity entered a grid. /!\ Used only for players right now
+        /// </summary>
+        /// <param name="Data"></param>
         protected void _entityEnteredGrid(Events.EntityEventData Data)
         {
             if (Data.Entity.CurrentGrid == this && !this.GridEntities.Contains(Data.Entity))
                 this.GridEntities.Add(Data.Entity);
         }
 
+        /// <summary>
+        /// To notify if an entity exited a grid. /!\ Used only for players right now
+        /// </summary>
+        /// <param name="Data"></param>
         protected void _entityExitingGrid(Events.EntityEventData Data)
         {
             this.GridEntities.Remove(Data.Entity);
@@ -87,19 +95,25 @@ namespace Jemkont.GridSystem
             this.GridEntities = new List<CharacterEntity>();
             if(gridData.EntitiesSpawns != null)
             {
+                // Used to generate UID
+                int counter = 0;
                 foreach (var entity in gridData.EntitiesSpawns)
                 {
                     if (entity.Value != null)
                     {
                         if (GridManager.Instance.EnemiesSpawnSO.TryGetValue(entity.Value, out EntitySpawn entitySO))
                         {
+                            // TODO: Differentiate enemies and NPC. For now they'll be enemies
                             this.Cells[entity.Key.longitude, entity.Key.latitude].Datas.state = CellState.EntityIn;
 
-                            CharacterEntity newEntity = Instantiate(entitySO.Entity, this.Cells[entity.Key.longitude, entity.Key.latitude].WorldPosition, Quaternion.identity, this.transform);
+                            EnemyEntity newEntity = Instantiate(entitySO.Entity, this.Cells[entity.Key.longitude, entity.Key.latitude].WorldPosition, Quaternion.identity, this.transform) as EnemyEntity;
                             newEntity.IsAlly = false;
-                            newEntity.Init(entitySO.Statistics, this.Cells[entity.Key.longitude, entity.Key.latitude], this);
+                            newEntity.EnemyStyle = entitySO;
+                            newEntity.Init(entitySO.Statistics, this.Cells[entity.Key.longitude, entity.Key.latitude], this, counter);
                             newEntity.gameObject.SetActive(false);
                             this.GridEntities.Add(newEntity);
+
+                            counter++;
                         }
                     }
                 }
