@@ -1,9 +1,10 @@
+using DownBelow;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DownBelow.Inventory
+namespace Jemkont.Managers
 {
     public enum ItemTypes
     {
@@ -15,33 +16,28 @@ namespace DownBelow.Inventory
 
     }
 
-    public class InventoryManager : MonoBehaviour
+    public class InventoryManager : _baseManager<InventoryManager>
     {
-        public static InventoryManager Instance;
 
         //Properties
-        public List<Item> Inventory => inventory;
+        public List<ItemPreset> Inventory => inventory;
 
         //Fields
         [HideInInspector]
         [SerializeField]
-        private List<Item> inventory;
+        private List<ItemPreset> inventory;
 
-        public Action<Item> OnItemAdded;
-        public Action<Item> OnItemRemoved;
+        public Action<ItemPreset> OnItemAdded;
+        public Action<ItemPreset> OnItemRemoved;
 
-        private void Awake()
-        {
-            Instance = this;
-        }
 
-        public void AddItemToInventory(Item item)
+        public void AddItemToInventory(ItemPreset item)
         {
             inventory.Add(item);
             OnItemAdded?.Invoke(item);
         }
 
-        public void RemoveItemFromIventory(Item item)
+        public void RemoveItemFromIventory(ItemPreset item)
         {
             inventory.Remove(item);
             OnItemRemoved(item);

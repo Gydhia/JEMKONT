@@ -40,18 +40,40 @@ namespace Jemkont.Managers
 
         private void Start()
         {
-            this.WelcomePlayers();
+            this.ProcessPlayerWelcoming();
 
             UIManager.Instance.Init();
         }
 
+        public void ProcessPlayerWelcoming()
+        {
+            if (PhotonNetwork.CurrentRoom == null)
+            {
+                PhotonNetwork.ConnectUsingSettings();
+                PhotonNetwork.AutomaticallySyncScene = true;
+            }
+            else if (!PhotonNetwork.IsConnected)
+            {
+                PhotonNetwork.OfflineMode = true;
+            }
+            else
+            {
+                WelcomePlayers();
+            }
+        }
+
+        public void WelcomePlayerLately()
+        {
+            PhotonNetwork.CreateRoom("SoloRoom");
+        }
+
         public void WelcomePlayers()
         {
-            if (PhotonNetwork.CurrentRoom.PlayerCount >= 1)
+            if (PhotonNetwork.PlayerList.Length >= 1)
             {
                 this.Players = new Dictionary<string, PlayerBehavior>();
                 int counter = 0;
-                foreach (var player in PhotonNetwork.CurrentRoom.Players.Values)
+                foreach (var player in PhotonNetwork.PlayerList)
                 {
                     PlayerBehavior newPlayer = Instantiate(this._playerPrefab, Vector3.zero, Quaternion.identity, this.transform);
                     GridPosition spawnPosition;

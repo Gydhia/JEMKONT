@@ -223,7 +223,10 @@ namespace Jemkont.Managers
 
         public override void OnJoinedRoom()
         {
-            this.UILobby?.OnJoinedRoom();
+            if (this.UILobby != null)
+                this.UILobby?.OnJoinedRoom();
+            else
+                GameManager.Instance.WelcomePlayers();
         }
 
         public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -244,7 +247,10 @@ namespace Jemkont.Managers
         public override void OnConnectedToMaster()
         {
             Debug.Log("Connected to master serv");
-            PhotonNetwork.JoinLobby();
+            if (this.UILobby != null)
+                PhotonNetwork.JoinLobby();
+            else
+                GameManager.Instance.WelcomePlayerLately();
         }
 
         public override void OnDisconnected(DisconnectCause cause)

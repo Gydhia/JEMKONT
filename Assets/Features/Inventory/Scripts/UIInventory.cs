@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Jemkont.Managers;
+using Jemkont.UI.Inventory;
 
 namespace DownBelow.Inventory
 {
-    public class InventoryUI : MonoBehaviour
+    public class UIInventory : MonoBehaviour
     {
+        private List<UIInventoryItem> Items;
+
         private void OnEnable()
         {
             InventoryManager.Instance.OnItemAdded += OnItemAdded;
@@ -20,12 +24,12 @@ namespace DownBelow.Inventory
             InventoryManager.Instance.OnItemRemoved -= OnItemRemoved;
         }
 
-        private void OnItemAdded(Item item)
+        private void OnItemAdded(ItemPreset item)
         {
 
         }
 
-        private void OnItemRemoved(Item item)
+        private void OnItemRemoved(ItemPreset item)
         {
 
         }

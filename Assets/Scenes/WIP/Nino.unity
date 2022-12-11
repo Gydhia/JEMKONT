@@ -597,19 +597,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1746934668007549953, guid: 7254b2bc37c3b9349bdcd633f69557e6, type: 3}
       propertyPath: m_CellSize.x
-      value: 21.634203
+      value: 98.838
       objectReference: {fileID: 0}
     - target: {fileID: 1746934668007549953, guid: 7254b2bc37c3b9349bdcd633f69557e6, type: 3}
       propertyPath: m_CellSize.y
-      value: 19.145313
+      value: 87.467255
       objectReference: {fileID: 0}
     - target: {fileID: 1746934668007549953, guid: 7254b2bc37c3b9349bdcd633f69557e6, type: 3}
       propertyPath: m_Padding.m_Top
-      value: 2
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 1746934668007549953, guid: 7254b2bc37c3b9349bdcd633f69557e6, type: 3}
       propertyPath: m_Padding.m_Left
-      value: 3
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 1746934668702987531, guid: 7254b2bc37c3b9349bdcd633f69557e6, type: 3}
       propertyPath: m_Pivot.x
@@ -1011,7 +1011,8 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8742449331055367545, guid: 7254b2bc37c3b9349bdcd633f69557e6, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 7254b2bc37c3b9349bdcd633f69557e6, type: 3}
 --- !u!1001 &6235007449299430070
 PrefabInstance:

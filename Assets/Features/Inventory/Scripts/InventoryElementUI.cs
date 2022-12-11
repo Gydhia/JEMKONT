@@ -6,6 +6,5 @@ using TMPro;
 
 public class InventoryElementUI : MonoBehaviour
 {
-    [SerializeField] private Image icon;
-    [SerializeField] private TextMeshProUGUI quantity;
+   
 }
