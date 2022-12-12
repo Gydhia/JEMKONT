@@ -23,8 +23,9 @@ public class GridPlaceholder : SerializedMonoBehaviour
     public List<SubgridPlaceholder> InnerGrids;
 
     public Dictionary<GridPosition, EntitySpawn> EntitySpawns;
+    public Dictionary<GridPosition, InteractablePreset> InteractableSpawns;
 
-    
+
     [ValueDropdown("GetSavedGrids"), OnValueChanged("LoadSelectedGrid")]
     public string SelectedGrid;
 
@@ -55,6 +56,8 @@ public class GridPlaceholder : SerializedMonoBehaviour
     {
         if(GridManager.Instance.SavedGrids.TryGetValue(this.SelectedGrid, out GridData newGrid))
         {
+            this.TopLeftOffset = newGrid.TopLeftOffset;
+            this.transform.position = this.TopLeftOffset;
             if (GridManager.Instance.EnemiesSpawnSO == null)
                 GridManager.Instance.LoadEveryEntities();
 
@@ -82,6 +85,11 @@ public class GridPlaceholder : SerializedMonoBehaviour
                 this.EntitySpawns = this._setEntitiesSpawn(this.CellDatas, newGrid.EntitiesSpawns);
             else
                 this.EntitySpawns.Clear();
+
+            if (newGrid.InteractableSpawns != null)
+                this.InteractableSpawns = this._setInteractableSpawn(this.CellDatas, newGrid.InteractableSpawns);
+            else
+                this.InteractableSpawns.Clear();
         }
     }
 
@@ -100,6 +108,23 @@ public class GridPlaceholder : SerializedMonoBehaviour
         }
 
         return setEntities;
+    }
+
+    private Dictionary<GridPosition, InteractablePreset> _setInteractableSpawn(CellData[,] refCells, Dictionary<GridPosition, Guid> refInteractables)
+    {
+        Dictionary<GridPosition, InteractablePreset> setInteractables = new Dictionary<GridPosition, InteractablePreset>();
+
+        foreach (var entitySpawn in refInteractables)
+        {
+            if (GridManager.Instance.InteractablesSpawnSO.ContainsKey(entitySpawn.Value))
+                setInteractables.Add(entitySpawn.Key, GridManager.Instance.InteractablesSpawnSO[entitySpawn.Value]);
+            else
+                setInteractables.Add(entitySpawn.Key, null);
+
+            refCells[entitySpawn.Key.latitude, entitySpawn.Key.longitude].state = CellState.Interactable;
+        }
+
+        return setInteractables;
     }
 
     #endregion
@@ -129,8 +154,6 @@ public class GridPlaceholder : SerializedMonoBehaviour
                 this.CellDatas[i, j] = new CellData(i, j, CellState.Walkable);
             }
         }
-
-        this.TopLeftOffset = this.transform.position;
     }
 
     public void ResizePlane()
@@ -199,6 +222,11 @@ public class GridPlaceholder : SerializedMonoBehaviour
             foreach (var entitySpawn in this.EntitySpawns)
                 entitiesSpawns.Add(entitySpawn.Key, entitySpawn.Value != null ? entitySpawn.Value.UID : Guid.Empty) ;
 
+        Dictionary<GridPosition, Guid> interactableSpawns = new Dictionary<GridPosition, Guid>();
+        if (this.InteractableSpawns != null)
+            foreach (var interactableSpawn in this.InteractableSpawns)
+                interactableSpawns.Add(interactableSpawn.Key, interactableSpawn.Value != null ? interactableSpawn.Value.UID : Guid.Empty);
+
         // /!\ By default, the grid containing InnerGrids is not a combatgrid
         return new GridData(
             false,
@@ -208,7 +236,8 @@ public class GridPlaceholder : SerializedMonoBehaviour
             this.ToLoad,
             cellData,
             innerGridsData,
-            entitiesSpawns
+            entitiesSpawns,
+            interactableSpawns
         );
     }
 
@@ -249,10 +278,12 @@ public class GridPlaceholder : SerializedMonoBehaviour
                     Gizmos.color = white;
                 else if (this.CellDatas[i, j].state == CellState.Blocked)
                     Gizmos.color = red;
+                else if (this.CellDatas[i, j].state == CellState.Interactable)
+                    Gizmos.color = Color.magenta;
                 else
                     Gizmos.color = blue;
 
-                Vector3 pos = new Vector3(j * cellsWidth + TopLeftOffset.x + (cellsWidth / 2), cellBounds.y /2f, -i * cellsWidth + TopLeftOffset.z - (cellsWidth / 2));
+                Vector3 pos = new Vector3(j * cellsWidth + TopLeftOffset.x + (cellsWidth / 2), cellBounds.y / 2f + TopLeftOffset.y, -i * cellsWidth + TopLeftOffset.z - (cellsWidth / 2));
 
                 Gizmos.DrawCube(pos, cellBounds);
             }
@@ -262,16 +293,16 @@ public class GridPlaceholder : SerializedMonoBehaviour
         {
             Gizmos.color = Color.black;
 
-            Vector3 topLeft = new Vector3(this.TopLeftOffset.x + this.InnerGrids[i].Longitude * cellsWidth, 0f, this.InnerGrids[i].Latitude * cellsWidth - this.TopLeftOffset.z);
-            Vector3 botRight = new Vector3(this.TopLeftOffset.x + (this.InnerGrids[i].Longitude + this.InnerGrids[i].GridWidth) * cellsWidth, 0f, (this.InnerGrids[i].Latitude + this.InnerGrids[i].GridHeight) * cellsWidth - this.TopLeftOffset.z);
+            Vector3 topLeft = new Vector3(this.TopLeftOffset.x + this.InnerGrids[i].Longitude * cellsWidth, TopLeftOffset.y, this.InnerGrids[i].Latitude * cellsWidth - this.TopLeftOffset.z);
+            Vector3 botRight = new Vector3(this.TopLeftOffset.x + (this.InnerGrids[i].Longitude + this.InnerGrids[i].GridWidth) * cellsWidth, TopLeftOffset.y, (this.InnerGrids[i].Latitude + this.InnerGrids[i].GridHeight) * cellsWidth - this.TopLeftOffset.z);
 
             float midLong = this.InnerGrids[i].GridWidth * cellsWidth / 2f;
             float midLat = this.InnerGrids[i].GridHeight * cellsWidth / 2f;
 
-            Vector3 left = new Vector3(topLeft.x, cellBounds.y / 3f, -(topLeft.z + midLat));
-            Vector3 right = new Vector3(botRight.x, cellBounds.y / 3f, -(botRight.z - midLat));
-            Vector3 top = new Vector3(topLeft.x + midLong, cellBounds.y / 3f, -topLeft.z);
-            Vector3 bot = new Vector3(botRight.x - midLong, cellBounds.y / 3f, -botRight.z);
+            Vector3 left = new Vector3(topLeft.x, cellBounds.y / 3f + topLeft.y, -(topLeft.z + midLat));
+            Vector3 right = new Vector3(botRight.x, cellBounds.y / 3f + botRight.y, -(botRight.z - midLat));
+            Vector3 top = new Vector3(topLeft.x + midLong, cellBounds.y / 3f + topLeft.y, -topLeft.z);
+            Vector3 bot = new Vector3(botRight.x - midLong, cellBounds.y / 3f + botRight.y, -botRight.z);
             Gizmos.color = Color.cyan;
             Gizmos.DrawCube(top, new Vector3(this.InnerGrids[i].GridWidth, 0.05f, 0.05f));
             Gizmos.DrawCube(bot, new Vector3(this.InnerGrids[i].GridWidth, 0.05f, 0.05f));
@@ -295,7 +326,7 @@ public class GridPlaceholder : SerializedMonoBehaviour
                     else
                         Gizmos.color = blue;
 
-                    Vector3 pos = new Vector3((k + xOffset) * cellsWidth + TopLeftOffset.x + (cellsWidth / 2), cellBounds.y / 2f, -(j + yOffset) * cellsWidth + TopLeftOffset.z - (cellsWidth / 2));
+                    Vector3 pos = new Vector3((k + xOffset) * cellsWidth + TopLeftOffset.x + (cellsWidth / 2), cellBounds.y / 2f + TopLeftOffset.y, -(j + yOffset) * cellsWidth + TopLeftOffset.z - (cellsWidth / 2));
 
                     Gizmos.DrawCube(pos, cellBounds);
                 }

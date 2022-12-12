@@ -138,8 +138,6 @@ namespace Jemkont.Managers
         public void RPC_ProcessAskedPath(string playerID, int[] target, string toOtherGrid)
         {
             // /!\ To avoid too many requests, when the player already has a new path, don't recalculate another one
-            PlayerBehavior player = GameManager.Instance.Players[playerID];
-
             GridManager.Instance.FindPath(GameManager.Instance.Players[playerID], new GridPosition(target[0], target[1]));
 
             int[] positions = GridManager.Instance.SerializePathData();
@@ -223,7 +221,10 @@ namespace Jemkont.Managers
 
         public override void OnJoinedRoom()
         {
-            this.UILobby?.OnJoinedRoom();
+            if (this.UILobby != null)
+                this.UILobby?.OnJoinedRoom();
+            else
+                GameManager.Instance.WelcomePlayers();
         }
 
         public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -244,7 +245,10 @@ namespace Jemkont.Managers
         public override void OnConnectedToMaster()
         {
             Debug.Log("Connected to master serv");
-            PhotonNetwork.JoinLobby();
+            if (this.UILobby != null)
+                PhotonNetwork.JoinLobby();
+            else
+                GameManager.Instance.WelcomePlayerLately();
         }
 
         public override void OnDisconnected(DisconnectCause cause)

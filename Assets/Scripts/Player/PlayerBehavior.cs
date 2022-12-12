@@ -1,5 +1,6 @@
 using Jemkont.Events;
 using Jemkont.GridSystem;
+using Jemkont.Inventory;
 using Jemkont.Managers;
 using Photon.Pun;
 using Photon.Realtime;
@@ -13,6 +14,8 @@ namespace Jemkont.Entity
 {
     public class PlayerBehavior : CharacterEntity
     {
+        public Inventory.Inventory PlayerInventory;
+        
         private DateTime _lastTimeAsked = DateTime.Now;
         private string _nextGrid = string.Empty;
        
@@ -23,7 +26,6 @@ namespace Jemkont.Entity
 
         public List<Cell> NextPath { get; private set; }
         public bool CanEnterGrid => true; 
-
         
 
         public override void MoveWithPath(List<Cell> newPath, string otherGrid)

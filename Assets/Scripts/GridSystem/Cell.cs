@@ -53,6 +53,11 @@ namespace Jemkont.GridSystem
             this.ChangeStateColor(Color.grey);
         }
 
+        public void AttachInteractable(InteractablePreset linkedObject)
+        {
+            Instantiate(linkedObject.ObjectPrefab, this.WorldPosition, Quaternion.identity, this.transform);
+        }
+
         public void ChangeCellState(CellState newState, bool force = false)
         {
             if (!force && this.Datas.state == newState)
@@ -113,7 +118,9 @@ namespace Jemkont.GridSystem
         [EnumMember(Value = "EntityIn")]
         EntityIn = 2,
         [EnumMember(Value = "Shared")]
-        Shared = 3
+        Shared = 3,
+        [EnumMember(Value = "Interactable")]
+        Interactable = 4
     }
 
 }
