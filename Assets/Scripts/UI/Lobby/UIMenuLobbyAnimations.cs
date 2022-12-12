@@ -12,9 +12,15 @@ namespace Jemkont.UI
         [SerializeField] private UIMenuLobby _uIMenuLobby;
 
         [Header("Panels")]
-        [SerializeField] private RectTransform _playerNamePanel;
-        [SerializeField] private RectTransform _roomsPanel;
-        [SerializeField] private RectTransform _lobbyPanel;
+        [SerializeField] private CanvasGroup _playerNamePanel;
+        [SerializeField] private CanvasGroup _roomsPanel;
+        [SerializeField] private CanvasGroup _lobbyPanel;
+
+
+
+         private RectTransform _playerNamePanelTransform;
+         private RectTransform _roomsPanelTransform;
+         private RectTransform _lobbyPanelTransform;
 
         [SerializeField] private float _offset = 1.5f;
 
@@ -40,9 +46,14 @@ namespace Jemkont.UI
 
         private void Start()
         {
-            _playerNamePanelAnchors = new Vector4(_playerNamePanel.anchorMin.x, _playerNamePanel.anchorMin.y, _playerNamePanel.anchorMax.x, _playerNamePanel.anchorMax.y);
-            _roomsPanelAnchors = new Vector4(_roomsPanel.anchorMin.x, _roomsPanel.anchorMin.y, _roomsPanel.anchorMax.x, _roomsPanel.anchorMax.y);
-            _lobbyPanelAnchors = new Vector4(_lobbyPanel.anchorMin.x, _lobbyPanel.anchorMin.y, _lobbyPanel.anchorMax.x, _lobbyPanel.anchorMax.y);
+            _playerNamePanelTransform = _playerNamePanel.GetComponent<RectTransform>();
+            _roomsPanelTransform = _roomsPanel.GetComponent<RectTransform>();
+            _lobbyPanelTransform = _lobbyPanel.GetComponent<RectTransform>();
+
+
+            _playerNamePanelAnchors = new Vector4(_playerNamePanelTransform.anchorMin.x, _playerNamePanelTransform.anchorMin.y, _playerNamePanelTransform.anchorMax.x, _playerNamePanelTransform.anchorMax.y);
+            _roomsPanelAnchors = new Vector4(_roomsPanelTransform.anchorMin.x, _roomsPanelTransform.anchorMin.y, _roomsPanelTransform.anchorMax.x, _roomsPanelTransform.anchorMax.y);
+            _lobbyPanelAnchors = new Vector4(_lobbyPanelTransform.anchorMin.x, _lobbyPanelTransform.anchorMin.y, _lobbyPanelTransform.anchorMax.x, _lobbyPanelTransform.anchorMax.y);
 
 
             Init();
@@ -53,11 +64,11 @@ namespace Jemkont.UI
 
             HideRoomPanel();
             HideLobbyPanel();
-            _playerNamePanel.DOAnchorMax(new Vector2(_playerNamePanelAnchors.z, _playerNamePanelAnchors.w - _offset), 0f).SetEase(Ease.OutQuint);
-            _playerNamePanel.DOAnchorMin(new Vector2(_playerNamePanelAnchors.x, _playerNamePanelAnchors.y - _offset), 0f).SetEase(Ease.OutQuint).OnComplete(() =>
+            _playerNamePanelTransform.DOAnchorMax(new Vector2(_playerNamePanelAnchors.z, _playerNamePanelAnchors.w - _offset), 0f).SetEase(Ease.OutQuint);
+            _playerNamePanelTransform.DOAnchorMin(new Vector2(_playerNamePanelAnchors.x, _playerNamePanelAnchors.y - _offset), 0f).SetEase(Ease.OutQuint).OnComplete(() =>
             {
                 _isPlayerNamePanelHidden = true;
-                _playerNamePanel.gameObject.SetActive(false);
+                _playerNamePanel.alpha = 0;
                 ShowPlayerNamePanel();
             });
         }
@@ -70,17 +81,16 @@ namespace Jemkont.UI
 
             if (animated)
             {
-                _playerNamePanel.DOShakeAnchorPos(0.8f, 20f, 20).OnComplete(() =>
+                _playerNamePanelTransform.DOShakeAnchorPos(0.8f, 20f, 20).OnComplete(() =>
                 {
-                    _playerNamePanel.DOAnchorMax(new Vector2(_playerNamePanelAnchors.z, _playerNamePanelAnchors.w + 0.08f), 0.4f).SetEase(Ease.InQuad);
-                    _playerNamePanel.DOAnchorMin(new Vector2(_playerNamePanelAnchors.x, _playerNamePanelAnchors.y + 0.08f), 0.4f).SetEase(Ease.InQuad).OnComplete(() =>
+                    _playerNamePanelTransform.DOAnchorMax(new Vector2(_playerNamePanelAnchors.z, _playerNamePanelAnchors.w + 0.08f), 0.4f).SetEase(Ease.InQuad);
+                    _playerNamePanelTransform.DOAnchorMin(new Vector2(_playerNamePanelAnchors.x, _playerNamePanelAnchors.y + 0.08f), 0.4f).SetEase(Ease.InQuad).OnComplete(() =>
                     {
-                        _playerNamePanel.DOAnchorMax(new Vector2(_playerNamePanelAnchors.z, _playerNamePanelAnchors.w - _offset), 0.6f).SetEase(Ease.OutQuint);
-                        _playerNamePanel.DOAnchorMin(new Vector2(_playerNamePanelAnchors.x, _playerNamePanelAnchors.y - _offset), 0.6f).SetEase(Ease.OutQuint).OnComplete(() =>
+                        _playerNamePanelTransform.DOAnchorMax(new Vector2(_playerNamePanelAnchors.z, _playerNamePanelAnchors.w - _offset), 0.6f).SetEase(Ease.OutQuint);
+                        _playerNamePanelTransform.DOAnchorMin(new Vector2(_playerNamePanelAnchors.x, _playerNamePanelAnchors.y - _offset), 0.6f).SetEase(Ease.OutQuint).OnComplete(() =>
                         {
                             _isPlayerNamePanelHidden = true;
-                            _playerNamePanel.gameObject.SetActive(false);
-
+                            _playerNamePanel.alpha = 0;
                         });
                     });
 
@@ -89,11 +99,11 @@ namespace Jemkont.UI
             }
             else
             {
-                _playerNamePanel.DOAnchorMax(new Vector2(_playerNamePanelAnchors.z, _playerNamePanelAnchors.w - _offset), 0f).SetEase(Ease.OutQuint);
-                _playerNamePanel.DOAnchorMin(new Vector2(_playerNamePanelAnchors.x, _playerNamePanelAnchors.y - _offset), 0f).SetEase(Ease.OutQuint).OnComplete(() =>
+                _playerNamePanelTransform.DOAnchorMax(new Vector2(_playerNamePanelAnchors.z, _playerNamePanelAnchors.w - _offset), 0f).SetEase(Ease.OutQuint);
+                _playerNamePanelTransform.DOAnchorMin(new Vector2(_playerNamePanelAnchors.x, _playerNamePanelAnchors.y - _offset), 0f).SetEase(Ease.OutQuint).OnComplete(() =>
                 {
                     _isPlayerNamePanelHidden = true;
-                    _playerNamePanel.gameObject.SetActive(false);
+                    _playerNamePanel.alpha = 0;
                 });
             }
         }
@@ -102,20 +112,16 @@ namespace Jemkont.UI
 
         private void ShowPlayerNamePanel(bool animated = true)
         {
-
+            _playerNamePanel.alpha = 1;
             if (animated)
-            {
-                _playerNamePanel.gameObject.SetActive(true);
-
-                _playerNamePanel.DOAnchorMax(new Vector2(_playerNamePanelAnchors.z, _playerNamePanelAnchors.w), 0.4f).SetEase(Ease.OutQuad);
-                _playerNamePanel.DOAnchorMin(new Vector2(_playerNamePanelAnchors.x, _playerNamePanelAnchors.y), 0.4f).SetEase(Ease.OutQuad).OnComplete(() => _isPlayerNamePanelHidden = false);
+            {         
+                _playerNamePanelTransform.DOAnchorMax(new Vector2(_playerNamePanelAnchors.z, _playerNamePanelAnchors.w), 0.4f).SetEase(Ease.OutQuad);
+                _playerNamePanelTransform.DOAnchorMin(new Vector2(_playerNamePanelAnchors.x, _playerNamePanelAnchors.y), 0.4f).SetEase(Ease.OutQuad).OnComplete(() => _isPlayerNamePanelHidden = false);
             }
             else
             {
-                _playerNamePanel.gameObject.SetActive(true);
-
-                _playerNamePanel.DOAnchorMax(new Vector2(_playerNamePanelAnchors.z, _playerNamePanelAnchors.w), 0f).SetEase(Ease.OutQuad);
-                _playerNamePanel.DOAnchorMin(new Vector2(_playerNamePanelAnchors.x, _playerNamePanelAnchors.y), 0f).SetEase(Ease.OutQuad).OnComplete(() => _isPlayerNamePanelHidden = false);
+                _playerNamePanelTransform.DOAnchorMax(new Vector2(_playerNamePanelAnchors.z, _playerNamePanelAnchors.w), 0f).SetEase(Ease.OutQuad);
+                _playerNamePanelTransform.DOAnchorMin(new Vector2(_playerNamePanelAnchors.x, _playerNamePanelAnchors.y), 0f).SetEase(Ease.OutQuad).OnComplete(() => _isPlayerNamePanelHidden = false);
             }
 
            
@@ -128,16 +134,16 @@ namespace Jemkont.UI
 
             if (animated)
             {
-                _roomsPanel.DOShakeAnchorPos(0.8f, 20f, 20).OnComplete(() =>
+                _roomsPanelTransform.DOShakeAnchorPos(0.8f, 20f, 20).OnComplete(() =>
                 {
-                    _roomsPanel.DOAnchorMax(new Vector2(_roomsPanelAnchors.z, _roomsPanelAnchors.w + 0.08f), 0.4f).SetEase(Ease.InQuad);
-                    _roomsPanel.DOAnchorMin(new Vector2(_roomsPanelAnchors.x, _roomsPanelAnchors.y + 0.08f), 0.4f).SetEase(Ease.InQuad).OnComplete(() =>
+                    _roomsPanelTransform.DOAnchorMax(new Vector2(_roomsPanelAnchors.z, _roomsPanelAnchors.w + 0.08f), 0.4f).SetEase(Ease.InQuad);
+                    _roomsPanelTransform.DOAnchorMin(new Vector2(_roomsPanelAnchors.x, _roomsPanelAnchors.y + 0.08f), 0.4f).SetEase(Ease.InQuad).OnComplete(() =>
                     {
-                        _roomsPanel.DOAnchorMax(new Vector2(_roomsPanelAnchors.z, _roomsPanelAnchors.w - _offset), 0.6f).SetEase(Ease.OutQuint);
-                        _roomsPanel.DOAnchorMin(new Vector2(_roomsPanelAnchors.x, _roomsPanelAnchors.y - _offset), 0.6f).SetEase(Ease.OutQuint).OnComplete(() =>
+                        _roomsPanelTransform.DOAnchorMax(new Vector2(_roomsPanelAnchors.z, _roomsPanelAnchors.w - _offset), 0.6f).SetEase(Ease.OutQuint);
+                        _roomsPanelTransform.DOAnchorMin(new Vector2(_roomsPanelAnchors.x, _roomsPanelAnchors.y - _offset), 0.6f).SetEase(Ease.OutQuint).OnComplete(() =>
                         {
                             _isRoomPanelHidden = true;
-                            _roomsPanel.gameObject.SetActive(false);
+                            _roomsPanel.alpha = 0;
 
                         });
                     });
@@ -147,11 +153,12 @@ namespace Jemkont.UI
             }
             else
             {
-                _roomsPanel.DOAnchorMax(new Vector2(_roomsPanelAnchors.z, _roomsPanelAnchors.w - _offset), 0f).SetEase(Ease.OutQuint);
-                _roomsPanel.DOAnchorMin(new Vector2(_roomsPanelAnchors.x, _roomsPanelAnchors.y - _offset), 0f).SetEase(Ease.OutQuint).OnComplete(() =>
+                _roomsPanelTransform.DOAnchorMax(new Vector2(_roomsPanelAnchors.z, _roomsPanelAnchors.w - _offset), 0f).SetEase(Ease.OutQuint);
+                _roomsPanelTransform.DOAnchorMin(new Vector2(_roomsPanelAnchors.x, _roomsPanelAnchors.y - _offset), 0f).SetEase(Ease.OutQuint).OnComplete(() =>
                 {
                     _isRoomPanelHidden = true;
-                    _roomsPanel.gameObject.SetActive(false);
+                    _roomsPanel.alpha = 0;
+                    _roomsPanel.alpha = 0;
                 });
             }
         }
@@ -160,20 +167,16 @@ namespace Jemkont.UI
 
         private void ShowRoomPanel(bool animated = true)
         {
-
+            _roomsPanel.alpha = 1;
             if (animated)
             {
-                _roomsPanel.gameObject.SetActive(true);
-
-                _roomsPanel.DOAnchorMax(new Vector2(_roomsPanelAnchors.z, _roomsPanelAnchors.w), 0.4f).SetEase(Ease.OutQuad);
-                _roomsPanel.DOAnchorMin(new Vector2(_roomsPanelAnchors.x, _roomsPanelAnchors.y), 0.4f).SetEase(Ease.OutQuad).OnComplete(() => _isRoomPanelHidden = false);
+                _roomsPanelTransform.DOAnchorMax(new Vector2(_roomsPanelAnchors.z, _roomsPanelAnchors.w), 0.4f).SetEase(Ease.OutQuad);
+                _roomsPanelTransform.DOAnchorMin(new Vector2(_roomsPanelAnchors.x, _roomsPanelAnchors.y), 0.4f).SetEase(Ease.OutQuad).OnComplete(() => _isRoomPanelHidden = false);
             }
             else
             {
-                _roomsPanel.gameObject.SetActive(true);
-
-                _roomsPanel.DOAnchorMax(new Vector2(_roomsPanelAnchors.z, _roomsPanelAnchors.w), 0f).SetEase(Ease.OutQuad);
-                _roomsPanel.DOAnchorMin(new Vector2(_roomsPanelAnchors.x, _roomsPanelAnchors.y), 0f).SetEase(Ease.OutQuad).OnComplete(() => _isRoomPanelHidden = false);
+                _roomsPanelTransform.DOAnchorMax(new Vector2(_roomsPanelAnchors.z, _roomsPanelAnchors.w), 0f).SetEase(Ease.OutQuad);
+                _roomsPanelTransform.DOAnchorMin(new Vector2(_roomsPanelAnchors.x, _roomsPanelAnchors.y), 0f).SetEase(Ease.OutQuad).OnComplete(() => _isRoomPanelHidden = false);
             }
 
 
@@ -187,16 +190,16 @@ namespace Jemkont.UI
 
             if (animated)
             {
-                _lobbyPanel.DOShakeAnchorPos(0.8f, 20f, 20).OnComplete(() =>
+                _lobbyPanelTransform.DOShakeAnchorPos(0.8f, 20f, 20).OnComplete(() =>
                 {
-                    _lobbyPanel.DOAnchorMax(new Vector2(_lobbyPanelAnchors.z, _lobbyPanelAnchors.w + 0.08f), 0.4f).SetEase(Ease.InQuad);
-                    _lobbyPanel.DOAnchorMin(new Vector2(_lobbyPanelAnchors.x, _lobbyPanelAnchors.y + 0.08f), 0.4f).SetEase(Ease.InQuad).OnComplete(() =>
+                    _lobbyPanelTransform.DOAnchorMax(new Vector2(_lobbyPanelAnchors.z, _lobbyPanelAnchors.w + 0.08f), 0.4f).SetEase(Ease.InQuad);
+                    _lobbyPanelTransform.DOAnchorMin(new Vector2(_lobbyPanelAnchors.x, _lobbyPanelAnchors.y + 0.08f), 0.4f).SetEase(Ease.InQuad).OnComplete(() =>
                     {
-                        _lobbyPanel.DOAnchorMax(new Vector2(_lobbyPanelAnchors.z, _lobbyPanelAnchors.w - _offset), 0.6f).SetEase(Ease.OutQuint);
-                        _lobbyPanel.DOAnchorMin(new Vector2(_lobbyPanelAnchors.x, _lobbyPanelAnchors.y - _offset), 0.6f).SetEase(Ease.OutQuint).OnComplete(() =>
+                        _lobbyPanelTransform.DOAnchorMax(new Vector2(_lobbyPanelAnchors.z, _lobbyPanelAnchors.w - _offset), 0.6f).SetEase(Ease.OutQuint);
+                        _lobbyPanelTransform.DOAnchorMin(new Vector2(_lobbyPanelAnchors.x, _lobbyPanelAnchors.y - _offset), 0.6f).SetEase(Ease.OutQuint).OnComplete(() =>
                         {
                             _isLobbyPanelHidden = true;
-                            _lobbyPanel.gameObject.SetActive(false);
+                            _lobbyPanel.alpha = 0;
 
                         });
                     });
@@ -206,11 +209,11 @@ namespace Jemkont.UI
             }
             else
             {
-                _lobbyPanel.DOAnchorMax(new Vector2(_lobbyPanelAnchors.z, _lobbyPanelAnchors.w - _offset), 0f).SetEase(Ease.OutQuint);
-                _lobbyPanel.DOAnchorMin(new Vector2(_lobbyPanelAnchors.x, _lobbyPanelAnchors.y - _offset), 0f).SetEase(Ease.OutQuint).OnComplete(() =>
+                _lobbyPanelTransform.DOAnchorMax(new Vector2(_lobbyPanelAnchors.z, _lobbyPanelAnchors.w - _offset), 0f).SetEase(Ease.OutQuint);
+                _lobbyPanelTransform.DOAnchorMin(new Vector2(_lobbyPanelAnchors.x, _lobbyPanelAnchors.y - _offset), 0f).SetEase(Ease.OutQuint).OnComplete(() =>
                 {
                     _isLobbyPanelHidden = true;
-                    _lobbyPanel.gameObject.SetActive(false);
+                    _lobbyPanel.alpha = 0;
                 });
             }
         }
@@ -219,20 +222,16 @@ namespace Jemkont.UI
 
         private void ShowLobbyPanel(bool animated = true)
         {
-
+            _lobbyPanel.alpha = 1;
             if (animated)
             {
-                _lobbyPanel.gameObject.SetActive(true);
-
-                _lobbyPanel.DOAnchorMax(new Vector2(_lobbyPanelAnchors.z, _lobbyPanelAnchors.w), 0.4f).SetEase(Ease.OutQuad);
-                _lobbyPanel.DOAnchorMin(new Vector2(_lobbyPanelAnchors.x, _lobbyPanelAnchors.y), 0.4f).SetEase(Ease.OutQuad).OnComplete(() => _isLobbyPanelHidden = false);
+                _lobbyPanelTransform.DOAnchorMax(new Vector2(_lobbyPanelAnchors.z, _lobbyPanelAnchors.w), 0.4f).SetEase(Ease.OutQuad);
+                _lobbyPanelTransform.DOAnchorMin(new Vector2(_lobbyPanelAnchors.x, _lobbyPanelAnchors.y), 0.4f).SetEase(Ease.OutQuad).OnComplete(() => _isLobbyPanelHidden = false);
             }
             else
             {
-                _lobbyPanel.gameObject.SetActive(true);
-
-                _lobbyPanel.DOAnchorMax(new Vector2(_lobbyPanelAnchors.z, _lobbyPanelAnchors.w), 0f).SetEase(Ease.OutQuad);
-                _lobbyPanel.DOAnchorMin(new Vector2(_lobbyPanelAnchors.x, _lobbyPanelAnchors.y), 0f).SetEase(Ease.OutQuad).OnComplete(() => _isLobbyPanelHidden = false);
+                _lobbyPanelTransform.DOAnchorMax(new Vector2(_lobbyPanelAnchors.z, _lobbyPanelAnchors.w), 0f).SetEase(Ease.OutQuad);
+                _lobbyPanelTransform.DOAnchorMin(new Vector2(_lobbyPanelAnchors.x, _lobbyPanelAnchors.y), 0f).SetEase(Ease.OutQuad).OnComplete(() => _isLobbyPanelHidden = false);
             }
 
 
