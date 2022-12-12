@@ -407,6 +407,18 @@ PrefabInstance:
       propertyPath: m_fontSize
       value: 38.7
       objectReference: {fileID: 0}
+    - target: {fileID: 5355575557941840957, guid: aeba18d24df7a8e4fbbfc5644c49cb13, type: 3}
+      propertyPath: m_fontSize
+      value: 52.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5355575557941840957, guid: aeba18d24df7a8e4fbbfc5644c49cb13, type: 3}
+      propertyPath: m_fontSizeMin
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5355575557941840957, guid: aeba18d24df7a8e4fbbfc5644c49cb13, type: 3}
+      propertyPath: m_enableAutoSizing
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5355575558141962767, guid: aeba18d24df7a8e4fbbfc5644c49cb13, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0.9
@@ -433,7 +445,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5355575558141962864, guid: aeba18d24df7a8e4fbbfc5644c49cb13, type: 3}
       propertyPath: m_Padding.m_Top
-      value: 10
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5355575558141962864, guid: aeba18d24df7a8e4fbbfc5644c49cb13, type: 3}
+      propertyPath: m_ChildAlignment
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5355575558141962864, guid: aeba18d24df7a8e4fbbfc5644c49cb13, type: 3}
+      propertyPath: m_ChildControlHeight
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5355575558141962864, guid: aeba18d24df7a8e4fbbfc5644c49cb13, type: 3}
+      propertyPath: m_ChildForceExpandHeight
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5355575558165507122, guid: aeba18d24df7a8e4fbbfc5644c49cb13, type: 3}
       propertyPath: _playerNamePanel
@@ -695,7 +719,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2880913446043636193}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
