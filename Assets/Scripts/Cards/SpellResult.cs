@@ -35,9 +35,9 @@ namespace Jemkont.Spells
                 entity.OnShieldRemoved += this._updateShieldDamages;
                 entity.OnHealthAdded += this._updateHealings;
 
-                entity.OnDexterityAdded += this._updateBuffs;
+                entity.OnInspirationAdded += this._updateBuffs;
                 entity.OnStrengthAdded += this._updateBuffs;
-                entity.OnDexterityRemoved += this._updateBuffs;
+                entity.OnInspirationRemoved += this._updateBuffs;
                 entity.OnStrengthRemoved += this._updateBuffs;
             }
 
@@ -45,9 +45,9 @@ namespace Jemkont.Spells
             caster.OnShieldRemoved += this._updateSelfShieldDamages;
             caster.OnHealthAdded += this._updateSelfHealings;
 
-            caster.OnDexterityAdded += this._updateSelfBuffs;
+            caster.OnInspirationAdded += this._updateSelfBuffs;
             caster.OnStrengthAdded += this._updateSelfBuffs;
-            caster.OnDexterityRemoved += this._updateSelfBuffs;
+            caster.OnInspirationRemoved += this._updateSelfBuffs;
             caster.OnStrengthRemoved += this._updateSelfBuffs;
         }
 

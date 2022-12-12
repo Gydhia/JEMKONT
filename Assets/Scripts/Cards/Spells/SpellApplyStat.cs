@@ -27,14 +27,11 @@ namespace Jemkont.Spells
                     case EntityStatistics.Mana:
                         entity.ApplyMana(this.StatisticValue);
                         break;
-                    case EntityStatistics.Movement:
-                        entity.ApplyMovement(this.StatisticValue);
+                    case EntityStatistics.Speed:
+                        entity.ApplySpeed(this.StatisticValue);
                         break;
                     case EntityStatistics.Strength:
                         entity.ApplyStrength(this.StatisticValue);
-                        break;
-                    case EntityStatistics.Dexterity:
-                        entity.ApplyDexterity(this.StatisticValue);
                         break;
                     default:
                         break;

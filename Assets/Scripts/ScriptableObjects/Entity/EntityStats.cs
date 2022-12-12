@@ -14,7 +14,7 @@ public class EntityStats : SerializedScriptableObject
     public int Dexterity;
 
     public int Mana;
-    public int Movement;
+    public int Speed;
 
     public int Defense;
     public int Range;

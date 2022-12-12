@@ -108,7 +108,7 @@ namespace Jemkont.Managers {
 
                     this.FindPath(entity,cell.PositionInGrid,cell.RefGrid);
 
-                    if (!entity.CurrentGrid.IsCombatGrid || this.Path.Count <= entity.Movement) {
+                    if (!entity.CurrentGrid.IsCombatGrid || this.Path.Count <= entity.Speed) {
                         for (int i = 0;i < this.Path.Count;i++) {
                             if (this.Path[i] != null)
                                 this.Path[i].ChangeStateColor(Color.green);
@@ -179,7 +179,7 @@ namespace Jemkont.Managers {
         }
 
         public void ShowPossibleCombatMovements(CharacterEntity entity) {
-            int movePoints = entity.Movement;
+            int movePoints = entity.Speed;
             Cell entityCell = entity.EntityCell;
 
             // Clear the highlighted cells

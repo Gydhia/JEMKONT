@@ -7,9 +7,8 @@ public enum EntityStatistics
    Health = 0,
    Shield = 1,
    Mana = 10,
-   Movement = 11,
+   Speed = 11,
    Strength = 20,
-   Dexterity = 21,
    Defense = 30,
    Range = 31
 }

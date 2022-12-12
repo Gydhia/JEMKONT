@@ -22,8 +22,8 @@ namespace Jemkont.UI
             GameManager.Instance.SelfPlayer.OnManaRemoved += _onManaChanged;
             GameManager.Instance.SelfPlayer.OnHealthAdded += _onHealthChanged;
             GameManager.Instance.SelfPlayer.OnHealthRemoved += _onHealthChanged;
-            GameManager.Instance.SelfPlayer.OnMovementAdded += _onMoveChanged;
-            GameManager.Instance.SelfPlayer.OnMovementRemoved += _onMoveChanged;
+            GameManager.Instance.SelfPlayer.OnSpeedAdded += _onMoveChanged;
+            GameManager.Instance.SelfPlayer.OnSpeedRemoved += _onMoveChanged;
 
             this._onManaChanged(null);
             this._onHealthChanged(null);
@@ -32,7 +32,7 @@ namespace Jemkont.UI
 
         private void _onManaChanged(Events.SpellEventData data) { this.SetManaText(GameManager.Instance.SelfPlayer.Mana); }
         private void _onHealthChanged(Events.SpellEventData data) { this.SetHealthText(GameManager.Instance.SelfPlayer.Health); }
-        private void _onMoveChanged(Events.SpellEventData data) { this.SetMoveText(GameManager.Instance.SelfPlayer.Movement); }
+        private void _onMoveChanged(Events.SpellEventData data) { this.SetMoveText(GameManager.Instance.SelfPlayer.Speed); }
 
         public void SetManaText(int value)
         {

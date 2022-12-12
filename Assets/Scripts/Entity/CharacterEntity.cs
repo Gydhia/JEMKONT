@@ -18,10 +18,10 @@ namespace Jemkont.Entity {
         public event SpellEventData.Event OnShieldAdded;
         public event SpellEventData.Event OnStrengthRemoved;
         public event SpellEventData.Event OnStrengthAdded;
-        public event SpellEventData.Event OnDexterityRemoved;
-        public event SpellEventData.Event OnDexterityAdded;
-        public event SpellEventData.Event OnMovementRemoved;
-        public event SpellEventData.Event OnMovementAdded;
+        public event SpellEventData.Event OnInspirationRemoved;
+        public event SpellEventData.Event OnInspirationAdded;
+        public event SpellEventData.Event OnSpeedRemoved;
+        public event SpellEventData.Event OnSpeedAdded;
         public event SpellEventData.Event OnManaRemoved;
         public event SpellEventData.Event OnManaAdded;
         public event SpellEventData.Event OnDefenseRemoved;
@@ -57,8 +57,7 @@ namespace Jemkont.Entity {
         public int Health { get => Statistics[EntityStatistics.Health]; }
         public int Shield { get => Statistics[EntityStatistics.Shield]; }
         public int Strength { get => Statistics[EntityStatistics.Strength]; }
-        public int Dexterity { get => Statistics[EntityStatistics.Dexterity]; }
-        public int Movement { get => Statistics[EntityStatistics.Movement]; }
+        public int Speed { get => Statistics[EntityStatistics.Speed]; }
         public int Mana { get => Statistics[EntityStatistics.Mana]; }
         public int Defense { get => Statistics[EntityStatistics.Defense]; }
         public int Range { get => Statistics[EntityStatistics.Range]; }
@@ -187,7 +186,7 @@ namespace Jemkont.Entity {
 
         public virtual void StartTurn() {
             CanAutoAttack = true;
-            this.ReinitializeStat(EntityStatistics.Movement);
+            this.ReinitializeStat(EntityStatistics.Speed);
             this.ReinitializeStat(EntityStatistics.Mana);
             GridManager.Instance.ShowPossibleCombatMovements(this);
         }
@@ -203,8 +202,7 @@ namespace Jemkont.Entity {
             this.Statistics.Add(EntityStatistics.Health,stats.Health);
             this.Statistics.Add(EntityStatistics.Shield,stats.BaseShield);
             this.Statistics.Add(EntityStatistics.Strength,stats.Strength);
-            this.Statistics.Add(EntityStatistics.Dexterity,stats.Dexterity);
-            this.Statistics.Add(EntityStatistics.Movement,stats.Movement);
+            this.Statistics.Add(EntityStatistics.Speed,stats.Speed);
             this.Statistics.Add(EntityStatistics.Mana,stats.Mana);
             this.Statistics.Add(EntityStatistics.Defense,stats.Defense);
             this.Statistics.Add(EntityStatistics.Range,stats.Range);
@@ -213,16 +211,14 @@ namespace Jemkont.Entity {
         public void ReinitializeAllStats() {
             foreach (EntityStatistics stat in System.Enum.GetValues(typeof(EntityStatistics)))
                 this.ReinitializeStat(stat);
-
         }
 
         public void ReinitializeStat(EntityStatistics stat) {
             switch (stat) {
                 case EntityStatistics.Health: this.Statistics[EntityStatistics.Health] = this.RefStats.Health; break;
                 case EntityStatistics.Mana: this.Statistics[EntityStatistics.Mana] = this.RefStats.Mana; break;
-                case EntityStatistics.Movement: this.Statistics[EntityStatistics.Movement] = this.RefStats.Movement; break;
+                case EntityStatistics.Speed: this.Statistics[EntityStatistics.Speed] = this.RefStats.Speed; break;
                 case EntityStatistics.Strength: this.Statistics[EntityStatistics.Strength] = this.RefStats.Strength; break;
-                case EntityStatistics.Dexterity: this.Statistics[EntityStatistics.Dexterity] = this.RefStats.Dexterity; break;
                 case EntityStatistics.Defense: this.Statistics[EntityStatistics.Defense] = this.RefStats.Defense; break;
                 case EntityStatistics.Range: this.Statistics[EntityStatistics.Range] = this.RefStats.Range; break;
             }
@@ -272,13 +268,13 @@ namespace Jemkont.Entity {
                 this.OnManaRemoved?.Invoke(new SpellEventData(this,-value));
         }
 
-        public void ApplyMovement(int value) {
-            Statistics[EntityStatistics.Movement] += value;
+        public void ApplySpeed(int value) {
+            Statistics[EntityStatistics.Speed] += value;
 
             if (value > 0)
-                this.OnMovementAdded?.Invoke(new SpellEventData(this,value));
+                this.OnSpeedAdded?.Invoke(new SpellEventData(this,value));
             else
-                this.OnMovementRemoved?.Invoke(new SpellEventData(this,-value));
+                this.OnSpeedRemoved?.Invoke(new SpellEventData(this,-value));
         }
 
         public void ApplyStrength(int value) {
@@ -290,16 +286,7 @@ namespace Jemkont.Entity {
                 this.OnStrengthRemoved?.Invoke(new SpellEventData(this,-value));
         }
 
-        public void ApplyDexterity(int value) {
-            Statistics[EntityStatistics.Dexterity] += value;
-
-            if (value > 0)
-                this.OnDexterityAdded?.Invoke(new SpellEventData(this,value));
-            else
-                this.OnDexterityRemoved?.Invoke(new SpellEventData(this,-value));
-        }
         public override string ToString() {
-
             return @$"Name : {name}
 IsAlly : {IsAlly}
 GridPos : {EntityCell}";

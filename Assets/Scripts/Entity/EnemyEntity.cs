@@ -24,13 +24,13 @@ namespace Jemkont.Entity
         }
 
         public override void StartTurn() {
-            this.ReinitializeStat(EntityStatistics.Movement);
+            this.ReinitializeStat(EntityStatistics.Speed);
             this.ReinitializeStat(EntityStatistics.Mana);
             var TargetPosition = GetTargetPosition();
 
             GridManager.Instance.FindPath(this,TargetPosition, true);
 
-            if(GridManager.Instance.Path.Count > 0 && this.Movement > 0)
+            if(GridManager.Instance.Path.Count > 0 && this.Speed > 0)
             {
                 string mainGrid = this.CurrentGrid is CombatGrid cGrid ? cGrid.ParentGrid.UName : CurrentGrid.UName;
                 string innerGrid = mainGrid == this.CurrentGrid.UName ? string.Empty : this.CurrentGrid.UName;
