@@ -18,11 +18,13 @@ namespace DownBelow
         public ItemTypes Type => type;
         public string ItemName => itemName; 
         public Sprite InventoryIcon => inventoryIcon;
+        public Outline ItemPrefab => itemPrefab;
 
         //Fields
         [SerializeField] private ItemTypes type;
-        [SerializeField] private string itemName;
+        [OnValueChanged("_updateUID")][SerializeField] private string itemName;
         [SerializeField] private Sprite inventoryIcon;
+        [SerializeField] private Outline itemPrefab;
 
         private void _updateUID()
         {

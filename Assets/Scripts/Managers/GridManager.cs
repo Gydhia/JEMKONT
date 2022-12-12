@@ -36,6 +36,8 @@ namespace Jemkont.Managers {
 
         public Dictionary<Guid, EntitySpawn> EnemiesSpawnSO;
         public Dictionary<Guid, EntitySpawn> NPCsSpawnsSO;
+        public Dictionary<Guid, InteractablePreset> InteractablesSpawnSO;
+
         #endregion
 
 
@@ -523,14 +525,18 @@ namespace Jemkont.Managers {
         {
             var enemyEntities = Resources.LoadAll<EntitySpawn>("Presets/Entity/Enemies").ToList();
             var NPCEntities = Resources.LoadAll<EntitySpawn>("Presets/Entity/NPCs").ToList();
+            var interactables = Resources.LoadAll<InteractablePreset>("Presets/Interactables").ToList();
 
             this.EnemiesSpawnSO = new Dictionary<Guid, EntitySpawn>();
             this.NPCsSpawnsSO = new Dictionary<Guid, EntitySpawn>();
+            this.InteractablesSpawnSO = new Dictionary<Guid, InteractablePreset>();
 
             foreach (var enemy in enemyEntities)
                 this.EnemiesSpawnSO.Add(enemy.UID, enemy);
             foreach (var npc in NPCEntities)
                 this.NPCsSpawnsSO.Add(npc.UID, npc);
+            foreach (var interactable in interactables)
+                this.InteractablesSpawnSO.Add(interactable.UID, interactable);
         }
         #endregion
     }

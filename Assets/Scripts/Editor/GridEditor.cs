@@ -199,6 +199,31 @@ public class GridEditor : OdinEditor
                 }
             }
         }
+        else if (Event.current.shift && Event.current.keyCode == KeyCode.T && Event.current.type == EventType.KeyDown)
+        {
+            Ray ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, 1 << 6))
+            {
+                if (this._target.InteractableSpawns == null)
+                    this._target.InteractableSpawns = new Dictionary<GridPosition, InteractablePreset>();
+
+                GridPosition pos = this._target.GetGridIndexFromWorld(hit.point);
+
+                if (!GridUtility.GetIncludingSubGrid(this._target.InnerGrids, pos, out SubgridPlaceholder includingGrid))
+                {
+                    if (!this._target.InteractableSpawns.ContainsKey(pos))
+                    {
+                        this._target.CellDatas[pos.latitude, pos.longitude].state = CellState.Interactable;
+                        this._target.InteractableSpawns.Add(pos, null);
+                    }
+                    else
+                    {
+                        this._target.CellDatas[pos.latitude, pos.longitude].state = CellState.Walkable;
+                        this._target.InteractableSpawns.Remove(pos);
+                    }
+                }
+            }
+        }
     }
 
     public void AllocateEntity(Dictionary<GridPosition, EntitySpawn> entitiesRef, CellData[,] cellsRef, GridPosition pos)

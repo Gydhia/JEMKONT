@@ -118,6 +118,17 @@ namespace Jemkont.GridSystem
                     }
                 }
             }
+
+            if(gridData.InteractableSpawns != null)
+            {
+                foreach (var interactable in gridData.InteractableSpawns)
+                {
+                    if (GridManager.Instance.InteractablesSpawnSO.TryGetValue(interactable.Value, out InteractablePreset inter))
+                    {
+                        this.Cells[interactable.Key.latitude, interactable.Key.longitude].AttachInteractable(inter);
+                    }
+                }
+            }
         }
 
         public void GenerateInnerGrids(List<GridData> innerGrids)
@@ -288,12 +299,13 @@ namespace Jemkont.GridSystem
             this.Latitude = Latitude;
             this.CellDatas = CellDatas;
             this.EntitiesSpawns = EntitiesSpawns;
+            this.InteractableSpawns = new Dictionary<GridPosition, Guid>();
         }
 
         /// <summary>
         /// /!\ Constructor made for the WorldGrids
         /// </summary>
-        public GridData(bool IsCombatGrid, int GridHeight, int GridWidth, Vector3 TopLeftOffset, bool ToLoad, List<CellData> CellDatas, List<GridData> InnerGridsData, Dictionary<GridPosition, Guid> EntitiesSpawns)
+        public GridData(bool IsCombatGrid, int GridHeight, int GridWidth, Vector3 TopLeftOffset, bool ToLoad, List<CellData> CellDatas, List<GridData> InnerGridsData, Dictionary<GridPosition, Guid> EntitiesSpawns, Dictionary<GridPosition, Guid> InteractableSpawns)
         {
             this.IsCombatGrid = IsCombatGrid;
             this.GridHeight = GridHeight;
@@ -303,6 +315,7 @@ namespace Jemkont.GridSystem
             this.CellDatas = CellDatas;
             this.InnerGrids = InnerGridsData;
             this.EntitiesSpawns = EntitiesSpawns;
+            this.InteractableSpawns = InteractableSpawns;
         }
         public bool ToLoad { get; set; }
         public bool IsCombatGrid { get; set; }
@@ -316,5 +329,7 @@ namespace Jemkont.GridSystem
         public List<CellData> CellDatas { get; set; }
         [Newtonsoft.Json.JsonConverter(typeof(JSONGridConverter))]
         public Dictionary<GridPosition, Guid> EntitiesSpawns { get; set; }
+        [Newtonsoft.Json.JsonConverter(typeof(JSONGridConverter))]
+        public Dictionary<GridPosition, Guid> InteractableSpawns{ get; set; }
     }
 }

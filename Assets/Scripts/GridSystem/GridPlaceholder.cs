@@ -23,8 +23,9 @@ public class GridPlaceholder : SerializedMonoBehaviour
     public List<SubgridPlaceholder> InnerGrids;
 
     public Dictionary<GridPosition, EntitySpawn> EntitySpawns;
+    public Dictionary<GridPosition, InteractablePreset> InteractableSpawns;
 
-    
+
     [ValueDropdown("GetSavedGrids"), OnValueChanged("LoadSelectedGrid")]
     public string SelectedGrid;
 
@@ -84,6 +85,11 @@ public class GridPlaceholder : SerializedMonoBehaviour
                 this.EntitySpawns = this._setEntitiesSpawn(this.CellDatas, newGrid.EntitiesSpawns);
             else
                 this.EntitySpawns.Clear();
+
+            if (newGrid.InteractableSpawns != null)
+                this.InteractableSpawns = this._setInteractableSpawn(this.CellDatas, newGrid.InteractableSpawns);
+            else
+                this.InteractableSpawns.Clear();
         }
     }
 
@@ -102,6 +108,23 @@ public class GridPlaceholder : SerializedMonoBehaviour
         }
 
         return setEntities;
+    }
+
+    private Dictionary<GridPosition, InteractablePreset> _setInteractableSpawn(CellData[,] refCells, Dictionary<GridPosition, Guid> refInteractables)
+    {
+        Dictionary<GridPosition, InteractablePreset> setInteractables = new Dictionary<GridPosition, InteractablePreset>();
+
+        foreach (var entitySpawn in refInteractables)
+        {
+            if (GridManager.Instance.InteractablesSpawnSO.ContainsKey(entitySpawn.Value))
+                setInteractables.Add(entitySpawn.Key, GridManager.Instance.InteractablesSpawnSO[entitySpawn.Value]);
+            else
+                setInteractables.Add(entitySpawn.Key, null);
+
+            refCells[entitySpawn.Key.latitude, entitySpawn.Key.longitude].state = CellState.Interactable;
+        }
+
+        return setInteractables;
     }
 
     #endregion
@@ -199,6 +222,11 @@ public class GridPlaceholder : SerializedMonoBehaviour
             foreach (var entitySpawn in this.EntitySpawns)
                 entitiesSpawns.Add(entitySpawn.Key, entitySpawn.Value != null ? entitySpawn.Value.UID : Guid.Empty) ;
 
+        Dictionary<GridPosition, Guid> interactableSpawns = new Dictionary<GridPosition, Guid>();
+        if (this.InteractableSpawns != null)
+            foreach (var interactableSpawn in this.InteractableSpawns)
+                interactableSpawns.Add(interactableSpawn.Key, interactableSpawn.Value != null ? interactableSpawn.Value.UID : Guid.Empty);
+
         // /!\ By default, the grid containing InnerGrids is not a combatgrid
         return new GridData(
             false,
@@ -208,7 +236,8 @@ public class GridPlaceholder : SerializedMonoBehaviour
             this.ToLoad,
             cellData,
             innerGridsData,
-            entitiesSpawns
+            entitiesSpawns,
+            interactableSpawns
         );
     }
 
@@ -249,6 +278,8 @@ public class GridPlaceholder : SerializedMonoBehaviour
                     Gizmos.color = white;
                 else if (this.CellDatas[i, j].state == CellState.Blocked)
                     Gizmos.color = red;
+                else if (this.CellDatas[i, j].state == CellState.Interactable)
+                    Gizmos.color = Color.magenta;
                 else
                     Gizmos.color = blue;
 
