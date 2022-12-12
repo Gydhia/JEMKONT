@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scripts/Inventory.meta
 guid: 10fe16be887d85a48a4bf70b3b4a8e89
+========
+guid: ea081f9458335104fbb0d765fe655c49
+>>>>>>>> JT-5-Level-Design:Assets/PolygonNatureBiomes.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
