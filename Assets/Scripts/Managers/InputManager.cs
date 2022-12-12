@@ -8,11 +8,15 @@ namespace Jemkont.Managers
 {
     public class InputManager : _baseManager<InputManager>
     {
-        public event PositionEventData.Event OnCellClicked;
+        public event PositionEventData.Event OnCellClickedUp;
+        public event PositionEventData.Event OnCellClickedDown;
 
-        public void FireCellClicked(GridPosition position)
+        public void FireCellClickedUp(GridPosition position)
         {
-            this.OnCellClicked?.Invoke(new PositionEventData(position));
+            this.OnCellClickedUp?.Invoke(new PositionEventData(position));
+        }
+        public void FireCellClickedDown(GridPosition position) {
+            this.OnCellClickedDown?.Invoke(new PositionEventData(position));
         }
 
         private void Update()
@@ -40,7 +44,11 @@ namespace Jemkont.Managers
             if (Input.GetMouseButtonUp(0))
             {
                 if(GridManager.Instance.LastHoveredCell != null)
-                    this.FireCellClicked(GridManager.Instance.LastHoveredCell.PositionInGrid);
+                    this.FireCellClickedUp(GridManager.Instance.LastHoveredCell.PositionInGrid);
+            }
+            if (Input.GetMouseButtonDown(0)) {
+                if (GridManager.Instance.LastHoveredCell != null)
+                    this.FireCellClickedDown(GridManager.Instance.LastHoveredCell.PositionInGrid);
             }
 
             // UTILITY : To mark a cell as non-walkable

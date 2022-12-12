@@ -30,8 +30,8 @@ namespace Jemkont.Spells
                     case EntityStatistics.Movement:
                         entity.ApplyMovement(this.StatisticValue);
                         break;
-                    case EntityStatistics.Strenght:
-                        entity.ApplyStrenght(this.StatisticValue);
+                    case EntityStatistics.Strength:
+                        entity.ApplyStrength(this.StatisticValue);
                         break;
                     case EntityStatistics.Dexterity:
                         entity.ApplyDexterity(this.StatisticValue);

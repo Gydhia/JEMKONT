@@ -1,5 +1,6 @@
 using Jemkont.GridSystem;
 using Jemkont.Managers;
+using Jemkont.Spells;
 using MyBox;
 using Sirenix.Utilities;
 using System;
@@ -14,7 +15,7 @@ namespace Jemkont.Entity
     public class EnemyEntity : CharacterEntity
     {
         public EntitySpawn EnemyStyle;
-
+        CharacterEntity cachedAllyToAttack;
         public override void Init(EntityStats stats, Cell refCell, WorldGrid refGrid, int order = 0)
         {
             base.Init(stats, refCell, refGrid);
@@ -36,14 +37,25 @@ namespace Jemkont.Entity
 
                 NetworkManager.Instance.EntityAsksForPath(this.UID, GridManager.Instance.Path[GridManager.Instance.Path.Count - 1], mainGrid, innerGrid);
             }
+            //Moved (or not if was in range); and will now Autoattack:
+            if (CanAutoAttack) {
+                if(cachedAllyToAttack != null) {
+                    //LETSGOOOOOO FIREEEEEEEEEEEEE
+                    AutoAttack(cachedAllyToAttack.EntityCell);
+                }
+            }
             //TODO: ENEMY SPELL
-            //OPTIONAL TODO : TAKE INTO ACCOUNT ENEMY SPELL RANGE TO NOT MOVE HIM IF HES IN RANGE
         }
         /// <summary>
         /// gets the position the enemy should go, depending on it's AI.
         /// </summary>
         public GridPosition GetTargetPosition() {
-            return AlliesOrdered()[0].EntityCell.PositionInGrid;
+            var ClosestAlly = AlliesOrdered()[0];
+            if (isInAttackRange(ClosestAlly.EntityCell)) {
+                cachedAllyToAttack = ClosestAlly;
+                return this.EntityCell.PositionInGrid;
+            }
+            return ClosestAlly.EntityCell.PositionInGrid;
         }
         /// <summary>
         /// Returns entities ordered from closest to farthest
@@ -65,6 +77,10 @@ namespace Jemkont.Entity
             }
             //Distances[i] = x tel que x = la distance entre l'enemy et le players[i]. trouver i => Distance[i] est le plus petit de tous, return players[i]
             return orderedAllies;
+        }
+
+        public override Spell AutoAttackSpell() {
+            return new Spell(CombatManager.Instance.PossibleAutoAttacks.Find(x=>x.Is<DamageStrengthSpellAction>()));
         }
     }
 }

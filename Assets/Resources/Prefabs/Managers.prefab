@@ -137,6 +137,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VirtualCamera: {fileID: 0}
+  MainCamera: {fileID: 0}
 --- !u!1 &2925001646214969611
 GameObject:
   m_ObjectHideFlags: 0
@@ -229,8 +230,12 @@ MonoBehaviour:
   CurrentPlayingGrid: {fileID: 0}
   PlayingEntities: []
   DiscardPile: []
-  DrawPile: []
+  DrawPile:
+    Cards: []
   HandPile: []
+  CardPrefab: {fileID: 0}
+  PossibleAutoAttacks:
+  - {fileID: 7485489964714345042, guid: b98ebecdecac8f441bc6d16057650f22, type: 3}
   TurnNumber: 0
 --- !u!1 &4684062575287771609
 GameObject:
@@ -380,6 +385,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57a4408e0e3d1e24c9a6b0a4401a17d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DeckPresets: []
 --- !u!114 &3009567406848012230
 MonoBehaviour:
   m_ObjectHideFlags: 0

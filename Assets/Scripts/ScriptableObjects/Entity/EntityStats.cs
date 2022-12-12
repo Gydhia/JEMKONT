@@ -10,9 +10,12 @@ public class EntityStats : SerializedScriptableObject
     public int Health;
     public int BaseShield;
 
-    public int Strenght;
+    public int Strength;
     public int Dexterity;
 
     public int Mana;
     public int Movement;
+
+    public int Defense;
+    public int Range;
 }

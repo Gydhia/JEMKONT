@@ -64,7 +64,7 @@ namespace Jemkont.Managers
 
         public void WelcomePlayerLately()
         {
-            PhotonNetwork.CreateRoom("SoloRoom");
+            PhotonNetwork.CreateRoom($"SoloRoom{Random.Range(-256,256)}");
         }
 
         public void WelcomePlayers()

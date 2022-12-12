@@ -1,6 +1,7 @@
 using Jemkont.Entity;
 using Jemkont.Events;
 using Jemkont.GridSystem;
+using Jemkont.Spells;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -26,8 +27,11 @@ namespace Jemkont.Managers
         public List<CharacterEntity> PlayingEntities;
 
         public List<CardComponent> DiscardPile;
-        public List<CardComponent> DrawPile;
+        public Deck DrawPile;
         public List<CardComponent> HandPile;
+
+        public GameObject CardPrefab;
+        public List<SpellAction> PossibleAutoAttacks;
 
         public int TurnNumber;
         #endregion
@@ -40,6 +44,8 @@ namespace Jemkont.Managers
         public void WelcomePlayerInCombat(EntityEventData Data)
         {
             Data.Entity.ReinitializeAllStats();
+            DrawPile = ((PlayerBehavior)Data.Entity).ActiveTool.Deck;
+
         }
 
         public void StartCombat(CombatGrid startingGrid)
@@ -95,6 +101,7 @@ namespace Jemkont.Managers
             foreach (CharacterEntity enemy in this.CurrentPlayingGrid.GridEntities.Where(e => !e.IsAlly))
             {
                 enemy.ReinitializeAllStats();
+                enemy.EntityCell.EntityIn = enemy;
                 enemy.gameObject.SetActive(true);
             }
         }
@@ -114,10 +121,11 @@ namespace Jemkont.Managers
 
         public void DrawCard()
         {
-            if(this.DiscardPile.Count > 0)
+            if(this.DrawPile.Count > 0)
             {
-                this.HandPile.Add(this.DiscardPile[0]);
-                this.HandPile[0].DrawCardFromPile();
+                this.HandPile.Add(Instantiate(CardPrefab,UIManager.Instance.CardSection.DrawPile.transform).GetComponent<CardComponent>());
+                this.HandPile[^1].CardData=DrawPile.DrawCard();
+                this.HandPile[^1].DrawCardFromPile();
             }
         }
 

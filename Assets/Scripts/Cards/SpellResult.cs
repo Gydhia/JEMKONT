@@ -36,9 +36,9 @@ namespace Jemkont.Spells
                 entity.OnHealthAdded += this._updateHealings;
 
                 entity.OnDexterityAdded += this._updateBuffs;
-                entity.OnStrenghtAdded += this._updateBuffs;
+                entity.OnStrengthAdded += this._updateBuffs;
                 entity.OnDexterityRemoved += this._updateBuffs;
-                entity.OnStrenghtRemoved += this._updateBuffs;
+                entity.OnStrengthRemoved += this._updateBuffs;
             }
 
             caster.OnHealthRemoved += this._updateSelfDamages;
@@ -46,9 +46,9 @@ namespace Jemkont.Spells
             caster.OnHealthAdded += this._updateSelfHealings;
 
             caster.OnDexterityAdded += this._updateSelfBuffs;
-            caster.OnStrenghtAdded += this._updateSelfBuffs;
+            caster.OnStrengthAdded += this._updateSelfBuffs;
             caster.OnDexterityRemoved += this._updateSelfBuffs;
-            caster.OnStrenghtRemoved += this._updateSelfBuffs;
+            caster.OnStrengthRemoved += this._updateSelfBuffs;
         }
 
         private void _updateDamages(SpellEventData data)

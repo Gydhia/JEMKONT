@@ -29,6 +29,14 @@ namespace Jemkont.Spells
         [HideInInspector]
         public CharacterEntity Caster;
 
+        public Spell(SpellAction ActionData,SpellCondition ConditionData = null,bool ApplyToCell = true, bool ApplyToSelf = false,bool ApplyToAllies=false, bool ApplyToAll=false) {
+            this.ActionData = ActionData;
+            this.ConditionData = ConditionData;
+            this.ApplyToCell = ApplyToCell;
+            this.ApplyToSelf = ApplyToSelf;
+            this.ApplyToAllies = ApplyToAllies;
+            this.ApplyToAll = ApplyToAll;
+        }
         public void ExecuteSpell(CharacterEntity caster, GridSystem.Cell cellTarget)
         {
             this.Caster = caster;

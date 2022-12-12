@@ -4,12 +4,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpellNurtureSoil : SpellAction {
-    public int amount;
+public class DamageStrengthSpellAction : SpellAction
+{
     public override void Execute(List<CharacterEntity> targets,Spell spellRef) {
         base.Execute(targets,spellRef);
-        if (targets.Count > 1) return;
-        targets[0].MaxHealth += amount;
-        targets[0].ApplyStrength(amount);
+        targets[0].ApplyHealth(-spellRef.Caster.Strength,false);
     }
 }

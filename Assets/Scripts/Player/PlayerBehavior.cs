@@ -1,6 +1,8 @@
 using Jemkont.Events;
 using Jemkont.GridSystem;
 using Jemkont.Managers;
+using Jemkont.Spells;
+using MyBox;
 using Photon.Pun;
 using Photon.Realtime;
 using System;
@@ -22,10 +24,19 @@ namespace Jemkont.Entity
         public PhotonView PlayerView;
 
         public List<Cell> NextPath { get; private set; }
-        public bool CanEnterGrid => true; 
+        public bool CanEnterGrid => true;
 
-        
-
+        public Tool ActiveTool;
+        public bool IsAutoAttacking = false;
+        Deck deck { get => ActiveTool.Deck; set => ActiveTool.Deck = value; }
+        public void SetActiveTool(Tool activeTool) {
+            activeTool.ActualPlayer = this;
+            this.ActiveTool = activeTool;
+            this.RefStats = ToolsManager.Instance.ToolStats[activeTool.Class];
+        }
+        public override void StartTurn() {
+            base.StartTurn();
+        }
         public override void MoveWithPath(List<Cell> newPath, string otherGrid)
         {
             // Useless to animate hidden players
@@ -71,6 +82,7 @@ namespace Jemkont.Entity
                 }
 
                 this.EntityCell = CurrentPath[targetCell];
+                this.EntityCell.Datas.state = CellState.EntityIn;
 
                 if (this.NextPath != null) {
                     this.NextCell = null;
@@ -135,6 +147,10 @@ namespace Jemkont.Entity
         public bool RespectedDelayToAsk()
         {
             return (System.DateTime.Now - this._lastTimeAsked).Seconds >= SettingsManager.Instance.InputPreset.PathRequestDelay; 
+        }
+
+        public override Spell AutoAttackSpell() {
+            return new Spell(CombatManager.Instance.PossibleAutoAttacks.Find(x => x.Is<DamageStrengthSpellAction>()));
         }
     }
 }

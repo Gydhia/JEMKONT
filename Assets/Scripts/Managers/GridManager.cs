@@ -10,10 +10,10 @@ using System.IO;
 using Newtonsoft.Json;
 using System;
 using Jemkont.Events;
+using UnityEngine.Rendering;
 
 namespace Jemkont.Managers {
-    public class GridManager : _baseManager<GridManager> 
-    {
+    public class GridManager : _baseManager<GridManager> {
         #region Assets_reference
 
         public Vector2 FirstSpawn;
@@ -32,17 +32,17 @@ namespace Jemkont.Managers {
         public bool InCombat = false;
 
         #region Datas
-        public Dictionary<string, GridData> SavedGrids;
+        public Dictionary<string,GridData> SavedGrids;
 
-        public Dictionary<Guid, EntitySpawn> EnemiesSpawnSO;
-        public Dictionary<Guid, EntitySpawn> NPCsSpawnsSO;
+        public Dictionary<Guid,EntitySpawn> EnemiesSpawnSO;
+        public Dictionary<Guid,EntitySpawn> NPCsSpawnsSO;
         #endregion
 
 
         public List<Cell> Path;
         private List<Cell> _possiblePath = new List<Cell>();
 
-        public Dictionary<string, WorldGrid> WorldGrids;
+        public Dictionary<string,WorldGrid> WorldGrids;
 
         private CombatGrid _currentCombatGrid;
         public WorldGrid MainWorldGrid;
@@ -50,45 +50,42 @@ namespace Jemkont.Managers {
 
         public Cell LastHoveredCell;
 
-        public override void Awake()
-        {
+        public override void Awake() {
             base.Awake();
 
-            this.WorldGrids = new Dictionary<string, WorldGrid>();
+            this.WorldGrids = new Dictionary<string,WorldGrid>();
             // Load the Grids and Entities SO
             this.LoadGridsFromJSON();
             this.LoadEveryEntities();
 
             Destroy(this._gridsDataHandler.gameObject);
 
-            foreach (var savedGrid in this.SavedGrids)
-            {
+            foreach (var savedGrid in this.SavedGrids) {
                 // Only load the saves that are indicated so
-                if (savedGrid.Value.ToLoad)
-                {
-                    this.GenerateGrid(savedGrid.Value, savedGrid.Key);   
+                if (savedGrid.Value.ToLoad) {
+                    this.GenerateGrid(savedGrid.Value,savedGrid.Key);
                 }
             }
 
             // Events
-            InputManager.Instance.OnCellClicked += this.ProcessCellClick;
+            InputManager.Instance.OnCellClickedUp += this.ProcessCellClickUp;
+            InputManager.Instance.OnCellClickedDown += this.ProcessCellClickDown;
+
             GameManager.Instance.OnEnteredGrid += this.OnEnteredNewGrid;
         }
 
-        public void GenerateGrid(GridData gridData, string gridId) 
-        {
-            WorldGrid newGrid = Instantiate(this.CombatGridPrefab, gridData.TopLeftOffset, Quaternion.identity, this._objectsHandler);
-                
+        public void GenerateGrid(GridData gridData,string gridId) {
+            WorldGrid newGrid = Instantiate(this.CombatGridPrefab,gridData.TopLeftOffset,Quaternion.identity,this._objectsHandler);
+
             newGrid.UName = gridId;
             newGrid.Init(gridData);
 
-            this.WorldGrids.Add(newGrid.UName, newGrid);
+            this.WorldGrids.Add(newGrid.UName,newGrid);
 
             this.MainWorldGrid = this.WorldGrids.Values.First();
         }
 
-        public void OnNewCellHovered(CharacterEntity entity,Cell cell) 
-        {
+        public void OnNewCellHovered(CharacterEntity entity,Cell cell) {
             if (this.LastHoveredCell != null && this.LastHoveredCell.Datas.state == CellState.Walkable)
                 this.LastHoveredCell.ChangeStateColor(Color.grey);
 
@@ -96,27 +93,23 @@ namespace Jemkont.Managers {
             if (CardDraggingSystem.instance.DraggedCard != null && this.LastHoveredCell.Datas.state == CellState.Walkable)
                 this.LastHoveredCell.ChangeStateColor(Color.cyan);
 
-            if (entity.CurrentGrid is CombatGrid cGrid && cGrid.HasStarted && this.LastHoveredCell.RefGrid == entity.CurrentGrid)
-            {
+            if (entity.CurrentGrid is CombatGrid cGrid && cGrid.HasStarted && this.LastHoveredCell.RefGrid == entity.CurrentGrid) {
                 this.ShowPossibleCombatMovements(entity);
 
                 // Make sure that we're not using a card so we don't show the player's path
-                if (CardDraggingSystem.instance.DraggedCard == null)
-                {
+                if (CardDraggingSystem.instance.DraggedCard == null) {
                     // Clear old path
-                    for (int i = 0; i < this.Path.Count; i++)
+                    for (int i = 0;i < this.Path.Count;i++)
                         if (this.Path[i] != null)
                             this.Path[i].ChangeStateColor(Color.grey);
 
                     if (!entity.CurrentGrid.IsCombatGrid)
                         this._possiblePath = this.Path;
 
-                    this.FindPath(entity, cell.PositionInGrid, cell.RefGrid);
+                    this.FindPath(entity,cell.PositionInGrid,cell.RefGrid);
 
-                    if (!entity.CurrentGrid.IsCombatGrid || this.Path.Count <= entity.Movement)
-                    {
-                        for (int i = 0; i < this.Path.Count; i++)
-                        {
+                    if (!entity.CurrentGrid.IsCombatGrid || this.Path.Count <= entity.Movement) {
+                        for (int i = 0;i < this.Path.Count;i++) {
                             if (this.Path[i] != null)
                                 this.Path[i].ChangeStateColor(Color.green);
                         }
@@ -125,23 +118,23 @@ namespace Jemkont.Managers {
             }
         }
 
-        public void ProcessCellClick(PositionEventData data)
-        {
+        public void ProcessCellClickUp(PositionEventData data) {
             if (this.LastHoveredCell == null)
                 return;
 
             PlayerBehavior selfPlayer = GameManager.Instance.SelfPlayer;
 
             // Combat behavior
-            if (selfPlayer.CurrentGrid.IsCombatGrid)
-            {
+            if (selfPlayer.CurrentGrid.IsCombatGrid) {
                 // When not grabbing card
-                if (CardDraggingSystem.instance.DraggedCard == null)
-                {
-                    if (this.Path.Contains(this.LastHoveredCell) && this.LastHoveredCell.Datas.state == CellState.Walkable)
-                    {
+                if (CardDraggingSystem.instance.DraggedCard == null) {
+                    if (selfPlayer.IsAutoAttacking) {
+                        if (LastHoveredCell.Datas.state == CellState.EntityIn) {
+                            if (!selfPlayer.isInAttackRange(LastHoveredCell)) selfPlayer.IsAutoAttacking = false; else selfPlayer.AutoAttack(LastHoveredCell);
+                        }
+                    } else if (this.Path.Contains(this.LastHoveredCell) && this.LastHoveredCell.Datas.state == CellState.Walkable) {
                         //TODO: Rework the combat /out-of - combat network callbacks and structure
-                        selfPlayer.AskToGo(this.LastHoveredCell, string.Empty);
+                        selfPlayer.AskToGo(this.LastHoveredCell,string.Empty);
 
                         selfPlayer.EntityCell
                             .ChangeCellState(CellState.Walkable);
@@ -149,37 +142,43 @@ namespace Jemkont.Managers {
                         this.ShowPossibleCombatMovements(GameManager.Instance.SelfPlayer);
 
                         selfPlayer.CurrentGrid
-                            .Cells[this.LastHoveredCell.Datas.heightPos, this.LastHoveredCell.Datas.widthPos]
+                            .Cells[this.LastHoveredCell.Datas.heightPos,this.LastHoveredCell.Datas.widthPos]
                                 .ChangeCellState(CellState.EntityIn);
                     }
 
-                }
-                else if (CardDraggingSystem.instance.DraggedCard != null)
-                {
+                } else if (CardDraggingSystem.instance.DraggedCard != null) {
                     CombatManager.Instance.PlayCard(this.LastHoveredCell);
                 }
                 CardDraggingSystem.instance.DraggedCard = null;
             }
             // When out of combat
-            else
-            {
+            else {
                 Cell closestCell = this.LastHoveredCell;
                 string otherGrid = string.Empty;
                 // TODO: Verify if this works
-                if (selfPlayer.CurrentGrid != this.LastHoveredCell.RefGrid)
-                {
-                    closestCell = GridUtility.GetClosestCellToShape(selfPlayer.CurrentGrid, this.LastHoveredCell.RefGrid as CombatGrid, selfPlayer.EntityCell.PositionInGrid);
+                if (selfPlayer.CurrentGrid != this.LastHoveredCell.RefGrid) {
+                    closestCell = GridUtility.GetClosestCellToShape(selfPlayer.CurrentGrid,this.LastHoveredCell.RefGrid as CombatGrid,selfPlayer.EntityCell.PositionInGrid);
                     otherGrid = this.LastHoveredCell.RefGrid.UName;
                 }
-                if(closestCell != null)
-                    selfPlayer.AskToGo(closestCell, otherGrid);
+                if (closestCell != null)
+                    selfPlayer.AskToGo(closestCell,otherGrid);
                 //NetworkManager.Instance.ProcessAskedPath(selfPlayer, this.LastHoveredCell);
             }
-            
+
+        }
+        public void ProcessCellClickDown(PositionEventData data) {
+            if (this.LastHoveredCell == null)
+                return;
+            PlayerBehavior selfPlayer = GameManager.Instance.SelfPlayer;
+            // Combat behavior
+            if (selfPlayer.CurrentGrid.IsCombatGrid) {
+                if (CombatManager.Instance.CurrentPlayingEntity == selfPlayer && selfPlayer.EntityCell == LastHoveredCell &&  selfPlayer.CanAutoAttack) {
+                    selfPlayer.IsAutoAttacking = true;
+                }
+            }
         }
 
-        public void ShowPossibleCombatMovements(CharacterEntity entity) 
-        {
+        public void ShowPossibleCombatMovements(CharacterEntity entity) {
             int movePoints = entity.Movement;
             Cell entityCell = entity.EntityCell;
 
@@ -197,7 +196,7 @@ namespace Jemkont.Managers {
                     int checkY = entityCell.Datas.heightPos + y;
 
                     if (checkX >= 0 && checkX < entity.CurrentGrid.GridWidth && checkY >= 0 && checkY < entity.CurrentGrid.GridHeight) {
-                        this.FindPath(entity, entity.CurrentGrid.Cells[checkY,checkX].PositionInGrid, entity.CurrentGrid);
+                        this.FindPath(entity,entity.CurrentGrid.Cells[checkY,checkX].PositionInGrid,entity.CurrentGrid);
 
                         if (this.Path.Contains(entity.CurrentGrid.Cells[checkY,checkX]) && this.Path.Count <= movePoints && (entity.CurrentGrid.Cells[checkY,checkX].Datas.state == CellState.Walkable)) {
                             this._possiblePath.Add(entity.CurrentGrid.Cells[checkY,checkX]);
@@ -208,25 +207,18 @@ namespace Jemkont.Managers {
             }
         }
 
-        public void OnEnteredNewGrid(EntityEventData Data)
-        {
+        public void OnEnteredNewGrid(EntityEventData Data) {
             // Affect the visuals ONLY if we are the player transitionning
-            if(Data.Entity == GameManager.Instance.SelfPlayer)
-            {
+            if (Data.Entity == GameManager.Instance.SelfPlayer) {
                 Data.Entity.CurrentGrid.ShowHideGrid(true);
-                if (Data.Entity.CurrentGrid.IsCombatGrid)
-                {
+                if (Data.Entity.CurrentGrid.IsCombatGrid) {
                     ((CombatGrid)Data.Entity.CurrentGrid).ParentGrid.ShowHideGrid(false);
-                }
-                else
-                {
-                    foreach (CombatGrid grid in Data.Entity.CurrentGrid.InnerCombatGrids.Values)
-                    {
+                } else {
+                    foreach (CombatGrid grid in Data.Entity.CurrentGrid.InnerCombatGrids.Values) {
                         grid.ShowHideGrid(false);
                     }
                 }
-                foreach (PlayerBehavior player in GameManager.Instance.Players.Values)
-                {
+                foreach (PlayerBehavior player in GameManager.Instance.Players.Values) {
                     if (player.CurrentGrid != Data.Entity.CurrentGrid)
                         player.gameObject.SetActive(false);
                     else
@@ -234,20 +226,16 @@ namespace Jemkont.Managers {
                 }
             }
             // Make that stranger disappear / appear according to our grid
-            else
-            {
+            else {
                 // IMPORTANT : Remember that Disabled GameObjects would disable their scripts to.
                 // Only MasterClient have to handle combat Datas, we'll do as it follows : 
                 // When joining a grid already in combat, load the values from MasterClient if we're not, else handle everything.
-                if(GameManager.Instance.SelfPlayer.CurrentGrid != Data.Entity.CurrentGrid)
-                {
+                if (GameManager.Instance.SelfPlayer.CurrentGrid != Data.Entity.CurrentGrid) {
                     if (Photon.Pun.PhotonNetwork.IsMasterClient)
                         Data.Entity.gameObject.SetActive(false);
                     else
                         Data.Entity.gameObject.SetActive(false);
-                }
-                else
-                {
+                } else {
                     if (Photon.Pun.PhotonNetwork.IsMasterClient)
                         Data.Entity.gameObject.SetActive(true);
                     else
@@ -257,29 +245,26 @@ namespace Jemkont.Managers {
         }
 
         #region PATH_FINDING
-        public CellData CellDataAtPosition(GridPosition target) 
-        {
+        public CellData CellDataAtPosition(GridPosition target) {
             Cell targetCell = this._currentCombatGrid.Cells[target.longitude,target.latitude];
             return targetCell.Datas;
         }
 
 
-        public int[] SerializePathData()
-        {
+        public int[] SerializePathData() {
             int[] positions = new int[this.Path.Count * 2];
-            for (int i = 0; i < this.Path.Count; i++) {
+            for (int i = 0;i < this.Path.Count;i++) {
                 positions[i * 2] = this.Path[i].PositionInGrid.longitude;
                 positions[i * 2 + 1] = this.Path[i].PositionInGrid.latitude;
             }
-                
+
             return positions;
         }
 
-        public List<Cell> DeserializePathData(CharacterEntity entity, int[] positions)
-        {
+        public List<Cell> DeserializePathData(CharacterEntity entity,int[] positions) {
             List<Cell> result = new List<Cell>();
-            for (int i = 0; i < positions.Length; i += 2)
-                result.Add(entity.CurrentGrid.Cells[positions[i + 1], positions[i]]);
+            for (int i = 0;i < positions.Length;i += 2)
+                result.Add(entity.CurrentGrid.Cells[positions[i + 1],positions[i]]);
 
             return result;
         }
@@ -288,13 +273,12 @@ namespace Jemkont.Managers {
         /// While calculate the closest path to a target, storing it in the Path var of the GridManager
         /// </summary>
         /// <param name="target"></param>
-        public void FindPath(CharacterEntity entity, GridPosition target, bool directPath = false) 
-        {
+        public void FindPath(CharacterEntity entity,GridPosition target,bool directPath = false) {
             if (entity == null)
                 return;
 
             Cell startCell = entity.IsMoving ? entity.NextCell : entity.EntityCell;
-            Cell targetCell = entity.CurrentGrid.Cells[target.latitude, target.longitude];
+            Cell targetCell = entity.CurrentGrid.Cells[target.latitude,target.longitude];
 
             List<Cell> openSet = new List<Cell>();
             HashSet<Cell> closedSet = new HashSet<Cell>();
@@ -320,10 +304,10 @@ namespace Jemkont.Managers {
                     return;
                 }
 
-                List<Cell> actNeighbours = entity.CurrentGrid.IsCombatGrid ? GetCombatNeighbours(currentCell, entity.CurrentGrid) : GetNormalNeighbours(currentCell, entity.CurrentGrid);
+                List<Cell> actNeighbours = entity.CurrentGrid.IsCombatGrid ? GetCombatNeighbours(currentCell,entity.CurrentGrid) : GetNormalNeighbours(currentCell,entity.CurrentGrid);
                 foreach (Cell neighbour in actNeighbours) {
-                    if (neighbour.Datas.state == CellState.Blocked || neighbour.Datas.state == CellState.Shared || closedSet.Contains(neighbour))
-                            continue;
+                    if ((neighbour.Datas.state == CellState.Blocked || neighbour.Datas.state == CellState.Shared || closedSet.Contains(neighbour)) || directPath)
+                        continue;
 
                     int newMovementCostToNeightbour = currentCell.gCost + GetDistance(currentCell,neighbour);
                     if (newMovementCostToNeightbour < neighbour.gCost || !openSet.Contains(neighbour)) {
@@ -338,8 +322,8 @@ namespace Jemkont.Managers {
             }
 
         }
-        public void RetracePath(Cell startCell,Cell endCell) 
-        {
+
+        public void RetracePath(Cell startCell,Cell endCell) {
             List<Cell> path = new List<Cell>();
             Cell currentCell = endCell;
             string debug = "";
@@ -357,8 +341,7 @@ namespace Jemkont.Managers {
         /// </summary>
         /// <param name="cell"></param>
         /// <returns></returns>
-        public List<Cell> GetNormalNeighbours(Cell cell,WorldGrid grid) 
-        {
+        public List<Cell> GetNormalNeighbours(Cell cell,WorldGrid grid,bool directpath = false) {
             List<Cell> neighbours = new List<Cell>();
 
             for (int x = -1;x <= 1;x++) {
@@ -369,21 +352,17 @@ namespace Jemkont.Managers {
                     int checkX = cell.Datas.widthPos + x;
                     int checkY = cell.Datas.heightPos + y;
 
-                    if ((checkX >= 0 && checkX < grid.GridWidth && checkY >= 0 && checkY < grid.GridHeight) 
-                        && (grid.Cells[checkY, checkX] != null && grid.Cells[checkY, checkX].Datas.state != CellState.Blocked)) 
-                    {
-                        if(Mathf.Abs(x) == 1 && Mathf.Abs(y) == 1)
-                        {
+                    if (directpath || ((checkX >= 0 && checkX < grid.GridWidth && checkY >= 0 && checkY < grid.GridHeight)
+                        && (grid.Cells[checkY,checkX] != null && grid.Cells[checkY,checkX].Datas.state != CellState.Blocked))) {
+                        if (Mathf.Abs(x) == 1 && Mathf.Abs(y) == 1) {
                             int nX = x == -1 ? checkX + 1 : checkX - 1;
                             int nY = y == -1 ? checkY + 1 : checkY - 1;
 
-                            if ((grid.Cells[nY, checkX] != null && grid.Cells[nY, checkX].Datas.state == CellState.Walkable) ||
-                                (grid.Cells[checkY, nX] != null && grid.Cells[checkY, nX].Datas.state == CellState.Walkable))
-                            {
-                                neighbours.Add(grid.Cells[checkY, checkX]);
+                            if (directpath || ((grid.Cells[nY,checkX] != null && grid.Cells[nY,checkX].Datas.state == CellState.Walkable) ||
+                                (grid.Cells[checkY,nX] != null && grid.Cells[checkY,nX].Datas.state == CellState.Walkable))) {
+                                neighbours.Add(grid.Cells[checkY,checkX]);
                             }
-                        }
-                        else
+                        } else
                             neighbours.Add(grid.Cells[checkY,checkX]);
                     }
                 }
@@ -397,8 +376,7 @@ namespace Jemkont.Managers {
         /// </summary>
         /// <param name="cell"></param>
         /// <returns></returns>
-        public List<Cell> GetCombatNeighbours(Cell cell,WorldGrid grid) 
-        {
+        public List<Cell> GetCombatNeighbours(Cell cell,WorldGrid grid) {
             List<Cell> neighbours = new List<Cell>();
 
             for (int x = -1;x <= 1;x++) {
@@ -433,11 +411,10 @@ namespace Jemkont.Managers {
                 return 14 * dstY + 10 * (dstX - dstY);
             return 14 * dstX + 10 * (dstY - dstX);
         }
-#endregion
+        #endregion
 
         #region DATAS_MANIPULATION
-        public void LoadGridsFromJSON() 
-        {
+        public void LoadGridsFromJSON() {
             this.SavedGrids = new Dictionary<string,GridData>();
 
             TextAsset[] jsons = Resources.LoadAll<TextAsset>("Saves/Grids/" + UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
@@ -450,8 +427,7 @@ namespace Jemkont.Managers {
             }
         }
 
-        public void SaveGridAsJSON(WorldGrid grid) 
-        {
+        public void SaveGridAsJSON(WorldGrid grid) {
             if (grid.UName == "" && grid.UName == string.Empty)
                 return;
 
@@ -471,8 +447,7 @@ namespace Jemkont.Managers {
             string gridJson = JsonConvert.SerializeObject(gridData);
             this._saveJSONFile(gridJson,grid.UName);
         }
-        public void SaveGridAsJSON(CellData[,] cellDatas,string name) 
-        {
+        public void SaveGridAsJSON(CellData[,] cellDatas,string name) {
             if (name == "" && name == string.Empty)
                 return;
 
@@ -491,8 +466,7 @@ namespace Jemkont.Managers {
             this._saveJSONFile(gridJson,name);
         }
 
-        public void SaveGridAsJSON(GridData grid,string uName) 
-        {
+        public void SaveGridAsJSON(GridData grid,string uName) {
             if (uName == "" && uName == string.Empty)
                 return;
 
@@ -500,12 +474,11 @@ namespace Jemkont.Managers {
             JsonSerializerSettings Jss = new JsonSerializerSettings();
             Jss.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
 
-            string gridJson = JsonConvert.SerializeObject(grid, Jss);
+            string gridJson = JsonConvert.SerializeObject(grid,Jss);
             this._saveJSONFile(gridJson,uName);
         }
 
-        private void _saveJSONFile(string json, string pathName) 
-        {
+        private void _saveJSONFile(string json,string pathName) {
             string currScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
             string path = Application.dataPath + "/Resources/Saves/Grids/" + currScene + "/" + pathName + ".json";
             if (File.Exists(path))
@@ -519,27 +492,24 @@ namespace Jemkont.Managers {
             this.LoadGridsFromJSON();
         }
 
-        public void LoadEveryEntities()
-        {
+        public void LoadEveryEntities() {
             var enemyEntities = Resources.LoadAll<EntitySpawn>("Presets/Entity/Enemies").ToList();
             var NPCEntities = Resources.LoadAll<EntitySpawn>("Presets/Entity/NPCs").ToList();
 
-            this.EnemiesSpawnSO = new Dictionary<Guid, EntitySpawn>();
-            this.NPCsSpawnsSO = new Dictionary<Guid, EntitySpawn>();
+            this.EnemiesSpawnSO = new Dictionary<Guid,EntitySpawn>();
+            this.NPCsSpawnsSO = new Dictionary<Guid,EntitySpawn>();
 
             foreach (var enemy in enemyEntities)
-                this.EnemiesSpawnSO.Add(enemy.UID, enemy);
+                this.EnemiesSpawnSO.Add(enemy.UID,enemy);
             foreach (var npc in NPCEntities)
-                this.NPCsSpawnsSO.Add(npc.UID, npc);
+                this.NPCsSpawnsSO.Add(npc.UID,npc);
         }
         #endregion
     }
-    
+
     [Serializable]
-    public struct GridPosition
-    {
-        public GridPosition(int longitude, int latitude)
-        {
+    public struct GridPosition {
+        public GridPosition(int longitude,int latitude) {
             this.longitude = longitude;
             this.latitude = latitude;
         }
@@ -552,15 +522,13 @@ namespace Jemkont.Managers {
             return $"({longitude},{latitude})";
         }
 
-        public static object Deserialize(byte[] data) 
-        {
-            return new GridPosition(data[0], data[1]);
+        public static object Deserialize(byte[] data) {
+            return new GridPosition(data[0],data[1]);
         }
 
-        public static byte[] Serialize(object position)
-        {
+        public static byte[] Serialize(object position) {
             GridPosition pos = (GridPosition)position;
-            return new byte[] { (byte)pos.longitude, (byte)pos.latitude };
+            return new byte[] { (byte)pos.longitude,(byte)pos.latitude };
         }
     }
 }
