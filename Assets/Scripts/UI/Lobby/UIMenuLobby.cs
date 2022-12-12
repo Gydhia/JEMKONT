@@ -29,6 +29,7 @@ public class UIMenuLobby : MonoBehaviour
     [SerializeField] private Button _validationPlayerNameButton;
 
     public Action OnPlayerNameValidated;
+    public Action OnRoomJoined;
 
     private void OnEnable()
     {
@@ -62,6 +63,7 @@ public class UIMenuLobby : MonoBehaviour
         this.LobbyName.text = PhotonNetwork.CurrentRoom.Name;
 
         this.StartBtn.interactable = PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.PlayerCount == 1;
+        OnRoomJoined?.Invoke();
     }
 
     public void OnSelfLeftRoom()

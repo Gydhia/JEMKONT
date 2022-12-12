@@ -30,10 +30,12 @@ namespace Jemkont.UI
         private void OnEnable()
         {
             _uIMenuLobby.OnPlayerNameValidated += OnPlayerNameValidated;
+            _uIMenuLobby.OnRoomJoined += OnRoomJoined;
         }
         private void OnDisable()
         {
             _uIMenuLobby.OnPlayerNameValidated -= OnPlayerNameValidated;
+            _uIMenuLobby.OnRoomJoined -= OnRoomJoined;
         }
 
         private void Start()
@@ -241,6 +243,12 @@ namespace Jemkont.UI
         {
             HidePlayerNamePanel();
             ShowRoomPanel();
+        }
+
+        private void OnRoomJoined()
+        {
+            HideRoomPanel();
+            ShowLobbyPanel();
         }
 
 

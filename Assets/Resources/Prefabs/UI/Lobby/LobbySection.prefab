@@ -169,7 +169,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 27.05
+  m_fontSize: 27.25
   m_fontSizeBase: 25
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -556,7 +556,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -1042,7 +1042,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 2
   m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -1442,6 +1442,7 @@ MonoBehaviour:
   RoomsHolder: {fileID: 5355575558141962767}
   RoomInput: {fileID: 5355575557507036934}
   PlayerNameInput: {fileID: 0}
+  _validationPlayerNameButton: {fileID: 0}
 --- !u!114 &5355575558165507122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1454,8 +1455,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e3cbc72fb317a84a8784bddc2d9fbd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _uIMenuLobby: {fileID: 0}
   _playerNamePanel: {fileID: 0}
   _roomsPanel: {fileID: 0}
+  _lobbyPanel: {fileID: 0}
   _offset: 1.5
 --- !u!1 &5355575558375695508
 GameObject:
