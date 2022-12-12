@@ -8,6 +8,7 @@ using UnityEngine;
 public class EntityStats : SerializedScriptableObject
 {
     public int Health;
+    public int BaseShield;
 
     public int Strenght;
     public int Dexterity;

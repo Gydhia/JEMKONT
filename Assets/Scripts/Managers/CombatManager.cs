@@ -1,4 +1,5 @@
 using Jemkont.Entity;
+using Jemkont.Events;
 using Jemkont.GridSystem;
 using System;
 using System.Collections;
@@ -10,9 +11,12 @@ namespace Jemkont.Managers
 {
     public class CombatManager : _baseManager<CombatManager>
     {
-        #region Datas
-        public Dictionary<Guid, EntitySpawn> EntitiesSpawnsSO;
-        #endregion
+        public event GridEventData.Event OnCombatStarted;
+
+        public void FireCombatStarted(WorldGrid Grid)
+        {
+            this.OnCombatStarted?.Invoke(new GridEventData(Grid));
+        }
 
         #region Run-time
         private Coroutine _turnCoroutine;
@@ -28,21 +32,24 @@ namespace Jemkont.Managers
         public int TurnNumber;
         #endregion
 
-        private void Awake()
+        private void Start()
         {
-            base.Awake();
-            this._loadEveryEntities();
+            GameManager.Instance.OnEnteredGrid += this.WelcomePlayerInCombat;
         }
 
-        public void Init()
+        public void WelcomePlayerInCombat(EntityEventData Data)
         {
-            this._loadEveryEntities();
+            Data.Entity.ReinitializeAllStats();
         }
 
-        public void StartCombat(List<CharacterEntity> players)
+        public void StartCombat(CombatGrid startingGrid)
         {
-            if (this.CurrentPlayingGrid.HasStarted)
+            if (this.CurrentPlayingGrid != null && this.CurrentPlayingGrid.HasStarted)
                 return;
+
+            this.CurrentPlayingGrid = startingGrid;
+
+            this._setupEnemyEntities();
 
             // Think about enabling/initing this UI only when in combat
             UIManager.Instance.PlayerInfos.Init();
@@ -50,9 +57,11 @@ namespace Jemkont.Managers
             this.TurnNumber = -1;
             this.CurrentPlayingGrid.HasStarted = true;
 
-            this._defineEntitiesTurn(players);
+            this._defineEntitiesTurn();
             UIManager.Instance.TurnSection.Init(this.PlayingEntities);
             this.NextTurn();
+
+            this.FireCombatStarted(this.CurrentPlayingGrid);
         }
 
         public void NextTurn()
@@ -71,7 +80,7 @@ namespace Jemkont.Managers
             this.CurrentPlayingEntity = this.PlayingEntities[this.TurnNumber % this.PlayingEntities.Count];
             this.CurrentPlayingEntity.StartTurn();
 
-            if (PlayerManager.Instance.SelfPlayer == this.CurrentPlayingEntity)
+            if (GameManager.Instance.SelfPlayer == this.CurrentPlayingEntity)
                 this.DrawCard();
 
             if (this.TurnNumber > 0)
@@ -81,9 +90,18 @@ namespace Jemkont.Managers
             this._turnCoroutine = StartCoroutine(this._startTurnTimer());
         }
 
+        private void _setupEnemyEntities()
+        {
+            foreach (CharacterEntity enemy in this.CurrentPlayingGrid.GridEntities.Where(e => !e.IsAlly))
+            {
+                enemy.ReinitializeAllStats();
+                enemy.gameObject.SetActive(true);
+            }
+        }
+
         public void PlayCard(Cell cell)
         {
-            if (this.CurrentPlayingEntity == PlayerManager.Instance.SelfPlayer)
+            if (this.CurrentPlayingEntity == GameManager.Instance.SelfPlayer)
                 CardDraggingSystem.instance.DraggedCard.CastSpell(cell);
         }
 
@@ -120,9 +138,10 @@ namespace Jemkont.Managers
             this.NextTurn();
         }
 
-        private void _defineEntitiesTurn(List<CharacterEntity> players)
+        private void _defineEntitiesTurn()
         {
-            List<CharacterEntity> enemies = this.CurrentPlayingGrid.GridEntities;
+            List<CharacterEntity> enemies = this.CurrentPlayingGrid.GridEntities.Where(x=>!x.IsAlly).ToList();
+            List<CharacterEntity> players = this.CurrentPlayingGrid.GridEntities.Where(x=>x.IsAlly).ToList();
 
             for (int i = 0; i < players.Count; i++)
                 players[i].TurnOrder = i;
@@ -136,16 +155,6 @@ namespace Jemkont.Managers
                 if(i < players.Count)
                     this.PlayingEntities.Add(players[i]);
             }
-        }
-
-        private void _loadEveryEntities()
-        {
-            var entities = Resources.LoadAll<EntitySpawn>("Presets/Entity/").ToList();
-
-            this.EntitiesSpawnsSO = new Dictionary<Guid, EntitySpawn>();
-
-            foreach (var entity in entities)
-                this.EntitiesSpawnsSO.Add(entity.UID, entity);
         }
     }
 }

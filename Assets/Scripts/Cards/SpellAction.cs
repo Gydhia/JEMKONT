@@ -1,3 +1,5 @@
+using Jemkont.Entity;
+using Jemkont.Events;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,21 +10,28 @@ namespace Jemkont.Spells
 {
     public abstract class SpellAction : MonoBehaviour
     {
-        public delegate UnityEvent SpellEvent();
+        public SpellResult Result;
      
-        public SpellEvent OnDamageDealt;
-        public SpellEvent OnHealReceived;
-        public SpellEvent OnShieldRemoved;
-        public SpellEvent OnShieldAdded;
+        public event SpellEventData.Event OnDamageDealt;
+        public event SpellEventData.Event OnHealReceived;
+        public event SpellEventData.Event OnBuffGiven;
+        public event SpellEventData.Event OnShieldRemoved;
+        public event SpellEventData.Event OnShieldAdded;
 
+        [HideInInspector]
+        public bool HasEnded;
 
-        public bool ConditionsValidated(SpellResult result, SpellCondition condition)
+        private List<CharacterEntity> _targets;
+        private Spell _spellRef;
+
+        public virtual void Execute(List<CharacterEntity> targets, Spell spellRef)
         {
-            if (condition == null)
-                return true;
+            this._spellRef = spellRef;
+            this._targets = targets;
+            this.HasEnded = false;
 
-            return condition.Check(result);
+            this.Result = new SpellResult();
+            this.Result.Init(this._targets, this._spellRef.Caster);
         }
-
     }
 }

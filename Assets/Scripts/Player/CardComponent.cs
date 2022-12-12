@@ -7,15 +7,16 @@ using TMPro;
 using UnityEngine.EventSystems;
 using Jemkont.GridSystem;
 using Jemkont.Managers;
+using Jemkont.Mechanics;
 
 public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler {
 
     public ScriptableCard CardData;
     public Image IllustrationImage;
     public Image ShineImage;
-    public TextMeshPro CostText;
-    public TextMeshPro TitleText;
-    public TextMeshPro DescText;
+    public TextMeshProUGUI CostText;
+    public TextMeshProUGUI TitleText;
+    public TextMeshProUGUI DescText;
 
     [ReadOnly] public bool isInPlacingMode;
 
@@ -31,10 +32,19 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
 
     private void Start() 
     {
+        InitTexts();
+    }
+    public void InitTexts() {
         this.ShineImage.enabled = false;
+        this.CostText.text = this.CardData.Cost.ToString();
+        this.TitleText.text = this.CardData.Title;
+        this.DescText.text = this.CardData.Description;
         originPosition = transform.position;
     }
-
+    public void ApplyCost(int much) {
+        CardData.Cost += much;
+        InitTexts();
+    }
     public void Update() 
     {
         Vector2 mousePos = Input.mousePosition;
@@ -85,6 +95,7 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
     public void CastSpell(Cell cellToCastSpellOn) {
         // /!\ position might be off.
         StartCoroutine(this.GoToPile(0.28f, UIManager.Instance.CardSection.DiscardPile.transform.position));
+        this.ExecuteSpells(cellToCastSpellOn, this.CardData.Spells);
     }
     #region pointerHandlers&Drag
     private Vector2 MinimumDragPosition() {
@@ -182,7 +193,6 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
             yield return new WaitForSeconds(Time.deltaTime);
         }
         CombatManager.Instance.DiscardCard(this);
-        this.gameObject.SetActive(false);
     }
 
     public IEnumerator ScaleDown(float time)
@@ -216,4 +226,41 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
     }
     #endregion
 
+    #region Spells_handling
+    private Jemkont.Spells.Spell[] _currentSpells;
+
+    private Coroutine _spellCor = null;
+
+    internal void ExecuteSpells(Cell target, Jemkont.Spells.Spell[] spells)
+    {
+        this._currentSpells = spells;
+        
+        this._spellCor = StartCoroutine(this._waitForSpell(target));
+    }
+    private IEnumerator _waitForSpell(Jemkont.GridSystem.Cell target)
+    {
+        for (int i = 0; i < this._currentSpells.Length; i++)
+        {
+            bool canExecute = true;
+
+            if (this._currentSpells[i].ConditionData != null)
+                if (i - 1 >= 0)
+                    if (!this._currentSpells[i].ConditionData.Check(this._currentSpells[i - 1].CurrentAction.Result))
+                        canExecute = false;
+
+            if (canExecute)
+            {
+                this._currentSpells[i].CurrentAction = Instantiate(this._currentSpells[i].ActionData, Vector3.zero, Quaternion.identity, CombatManager.Instance.CurrentPlayingEntity.gameObject.transform);
+                this._currentSpells[i].ExecuteSpell(CombatManager.Instance.CurrentPlayingEntity, target);
+                while (!this._currentSpells[i].CurrentAction.HasEnded)
+                {
+                    yield return new WaitForSeconds(Time.deltaTime);
+                }
+            }
+        }
+
+        this.gameObject.SetActive(false);
+    }
+    #endregion
 }
+

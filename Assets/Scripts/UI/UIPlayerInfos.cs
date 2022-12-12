@@ -18,21 +18,21 @@ namespace Jemkont.UI
         {
             this.gameObject.SetActive(true);
 
-            PlayerManager.Instance.SelfPlayer.OnManaAdded += _onManaChanged;
-            PlayerManager.Instance.SelfPlayer.OnManaRemoved += _onManaChanged;
-            PlayerManager.Instance.SelfPlayer.OnHealthAdded += _onHealthChanged;
-            PlayerManager.Instance.SelfPlayer.OnHealthRemoved += _onHealthChanged;
-            PlayerManager.Instance.SelfPlayer.OnMovementAdded += _onMoveChanged;
-            PlayerManager.Instance.SelfPlayer.OnMovementRemoved += _onMoveChanged;
+            GameManager.Instance.SelfPlayer.OnManaAdded += _onManaChanged;
+            GameManager.Instance.SelfPlayer.OnManaRemoved += _onManaChanged;
+            GameManager.Instance.SelfPlayer.OnHealthAdded += _onHealthChanged;
+            GameManager.Instance.SelfPlayer.OnHealthRemoved += _onHealthChanged;
+            GameManager.Instance.SelfPlayer.OnMovementAdded += _onMoveChanged;
+            GameManager.Instance.SelfPlayer.OnMovementRemoved += _onMoveChanged;
 
-            this._onManaChanged();
-            this._onHealthChanged();
-            this._onMoveChanged();
+            this._onManaChanged(null);
+            this._onHealthChanged(null);
+            this._onMoveChanged(null);
         }
 
-        private void _onManaChanged() { this.SetManaText(PlayerManager.Instance.SelfPlayer.Mana); }
-        private void _onHealthChanged() { this.SetHealthText(PlayerManager.Instance.SelfPlayer.Health); }
-        private void _onMoveChanged() { this.SetMoveText(PlayerManager.Instance.SelfPlayer.Movement); }
+        private void _onManaChanged(Events.SpellEventData data) { this.SetManaText(GameManager.Instance.SelfPlayer.Mana); }
+        private void _onHealthChanged(Events.SpellEventData data) { this.SetHealthText(GameManager.Instance.SelfPlayer.Health); }
+        private void _onMoveChanged(Events.SpellEventData data) { this.SetMoveText(GameManager.Instance.SelfPlayer.Movement); }
 
         public void SetManaText(int value)
         {

@@ -1,3 +1,4 @@
+using Jemkont.Events;
 using Jemkont.UI;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,6 +12,36 @@ namespace Jemkont.Managers
         public UIPlayerInfos PlayerInfos;
         public UICardSection CardSection;
 
+        public void Init()
+        {
+            this.TurnSection.gameObject.SetActive(false);
+            this.PlayerInfos.gameObject.SetActive(false);
+            this.CardSection.gameObject.SetActive(false);
+
+            CombatManager.Instance.OnCombatStarted += this.SetupCombatInterface;
+        }
+
+        public void SetupCombatInterface(GridEventData Data)
+        {
+            if (Data.Grid.IsCombatGrid) {
+                this._setupCombatInterface();
+            } else {
+                this._setupOutOfCombatInterface();
+            }
+        }
+
+        private void _setupCombatInterface()
+        {
+            this.TurnSection.gameObject.SetActive(true);
+            this.PlayerInfos.gameObject.SetActive(true);
+            this.CardSection.gameObject.SetActive(true);
+        }
+        private void _setupOutOfCombatInterface()
+        {
+            this.TurnSection.gameObject.SetActive(false);
+            this.PlayerInfos.gameObject.SetActive(false);
+            this.CardSection.gameObject.SetActive(false);
+        }
     }
 }
 

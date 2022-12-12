@@ -1,3 +1,4 @@
+using Jemkont.Events;
 using Jemkont.GridSystem;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,13 +8,15 @@ namespace Jemkont.Managers
 {
     public class InputManager : _baseManager<InputManager>
     {
-        
+        public event PositionEventData.Event OnCellClicked;
+
+        public void FireCellClicked(GridPosition position)
+        {
+            this.OnCellClicked?.Invoke(new PositionEventData(position));
+        }
 
         private void Update()
         {
-            if (CombatManager.Instance.CurrentPlayingEntity == null)
-                return;
-
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             // layer 7 = Cell
@@ -24,7 +27,7 @@ namespace Jemkont.Managers
                     // Avoid executing this code when it has already been done
                     if (cell != GridManager.Instance.LastHoveredCell)
                     {
-                        GridManager.Instance.OnNewCellHovered(CombatManager.Instance.CurrentPlayingEntity, cell);
+                        GridManager.Instance.OnNewCellHovered(GameManager.Instance.SelfPlayer, cell);
                     }
                 }
             }
@@ -36,7 +39,8 @@ namespace Jemkont.Managers
             // Teleport player to location
             if (Input.GetMouseButtonUp(0))
             {
-                GridManager.Instance.ClickOnCell();
+                if(GridManager.Instance.LastHoveredCell != null)
+                    this.FireCellClicked(GridManager.Instance.LastHoveredCell.PositionInGrid);
             }
 
             // UTILITY : To mark a cell as non-walkable
