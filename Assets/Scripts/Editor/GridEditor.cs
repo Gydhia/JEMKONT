@@ -184,49 +184,24 @@ public class GridEditor : OdinEditor
             Ray ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, 1 << 6))
             {
-                if (this._target.EntitySpawns == null)
-                    this._target.EntitySpawns = new Dictionary<GridPosition, EntitySpawn>();
+                if (this._target.Spawnables == null)
+                    this._target.Spawnables = new Dictionary<GridPosition, BaseSpawnablePreset>();
 
                 GridPosition pos = this._target.GetGridIndexFromWorld(hit.point);
 
                 if (GridUtility.GetIncludingSubGrid(this._target.InnerGrids, pos, out SubgridPlaceholder includingGrid)) {
-                    if(includingGrid.EntitySpawns == null)
-                        includingGrid.EntitySpawns = new Dictionary<GridPosition, EntitySpawn>();
+                    if(includingGrid.Spawnables == null)
+                        includingGrid.Spawnables = new Dictionary<GridPosition, BaseSpawnablePreset>();
 
-                    this.AllocateEntity(includingGrid.EntitySpawns, includingGrid.CellDatas, new GridPosition(pos.longitude - includingGrid.Longitude, pos.latitude - includingGrid.Latitude));
+                    this.AllocateSpawnable(includingGrid.Spawnables, includingGrid.CellDatas, new GridPosition(pos.longitude - includingGrid.Longitude, pos.latitude - includingGrid.Latitude));
                 } else {
-                    this.AllocateEntity(this._target.EntitySpawns, this._target.CellDatas, pos);
-                }
-            }
-        }
-        else if (Event.current.shift && Event.current.keyCode == KeyCode.T && Event.current.type == EventType.KeyDown)
-        {
-            Ray ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, 1 << 6))
-            {
-                if (this._target.InteractableSpawns == null)
-                    this._target.InteractableSpawns = new Dictionary<GridPosition, InteractablePreset>();
-
-                GridPosition pos = this._target.GetGridIndexFromWorld(hit.point);
-
-                if (!GridUtility.GetIncludingSubGrid(this._target.InnerGrids, pos, out SubgridPlaceholder includingGrid))
-                {
-                    if (!this._target.InteractableSpawns.ContainsKey(pos))
-                    {
-                        this._target.CellDatas[pos.latitude, pos.longitude].state = CellState.Interactable;
-                        this._target.InteractableSpawns.Add(pos, null);
-                    }
-                    else
-                    {
-                        this._target.CellDatas[pos.latitude, pos.longitude].state = CellState.Walkable;
-                        this._target.InteractableSpawns.Remove(pos);
-                    }
+                    this.AllocateSpawnable(this._target.Spawnables, this._target.CellDatas, pos);
                 }
             }
         }
     }
 
-    public void AllocateEntity(Dictionary<GridPosition, EntitySpawn> entitiesRef, CellData[,] cellsRef, GridPosition pos)
+    public void AllocateSpawnable(Dictionary<GridPosition, BaseSpawnablePreset> entitiesRef, CellData[,] cellsRef, GridPosition pos)
     {
         if (!entitiesRef.ContainsKey(pos))
         {

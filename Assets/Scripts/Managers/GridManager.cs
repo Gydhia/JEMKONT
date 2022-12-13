@@ -34,9 +34,7 @@ namespace Jemkont.Managers {
         #region Datas
         public Dictionary<string, GridData> SavedGrids;
 
-        public Dictionary<Guid, EntitySpawn> EnemiesSpawnSO;
-        public Dictionary<Guid, EntitySpawn> NPCsSpawnsSO;
-        public Dictionary<Guid, InteractablePreset> InteractablesSpawnSO;
+        public Dictionary<Guid, BaseSpawnablePreset> SpawnablesPresets;
 
         #endregion
 
@@ -523,20 +521,12 @@ namespace Jemkont.Managers {
 
         public void LoadEveryEntities()
         {
-            var enemyEntities = Resources.LoadAll<EntitySpawn>("Presets/Entity/Enemies").ToList();
-            var NPCEntities = Resources.LoadAll<EntitySpawn>("Presets/Entity/NPCs").ToList();
-            var interactables = Resources.LoadAll<InteractablePreset>("Presets/Interactables").ToList();
+            var spawnablesPresets = Resources.LoadAll<BaseSpawnablePreset>("Presets").ToList();
 
-            this.EnemiesSpawnSO = new Dictionary<Guid, EntitySpawn>();
-            this.NPCsSpawnsSO = new Dictionary<Guid, EntitySpawn>();
-            this.InteractablesSpawnSO = new Dictionary<Guid, InteractablePreset>();
+            this.SpawnablesPresets = new Dictionary<Guid, BaseSpawnablePreset>();
 
-            foreach (var enemy in enemyEntities)
-                this.EnemiesSpawnSO.Add(enemy.UID, enemy);
-            foreach (var npc in NPCEntities)
-                this.NPCsSpawnsSO.Add(npc.UID, npc);
-            foreach (var interactable in interactables)
-                this.InteractablesSpawnSO.Add(interactable.UID, interactable);
+            foreach (var spawnable in spawnablesPresets)
+                this.SpawnablesPresets.Add(spawnable.UID, spawnable);
         }
         #endregion
     }

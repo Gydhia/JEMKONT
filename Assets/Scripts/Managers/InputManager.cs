@@ -8,6 +8,8 @@ namespace Jemkont.Managers
 {
     public class InputManager : _baseManager<InputManager>
     {
+        #region EVENTS
+
         public event PositionEventData.Event OnCellClicked;
 
         public void FireCellClicked(GridPosition position)
@@ -15,8 +17,13 @@ namespace Jemkont.Managers
             this.OnCellClicked?.Invoke(new PositionEventData(position));
         }
 
+        #endregion
+
+        private Interactable _lastInteractable;
+
         private void Update()
         {
+            #region CELLS_RAYCAST
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             // layer 7 = Cell
@@ -26,16 +33,35 @@ namespace Jemkont.Managers
                 {
                     // Avoid executing this code when it has already been done
                     if (cell != GridManager.Instance.LastHoveredCell)
-                    {
                         GridManager.Instance.OnNewCellHovered(GameManager.Instance.SelfPlayer, cell);
-                    }
                 }
             }
             else
             {
                 GridManager.Instance.LastHoveredCell = null;
             }
-
+            #endregion
+            #region INTERACTABLEs_RAYCAST
+            // layer 8 = Interactable
+            if(Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 8))
+            {
+                if (hit.collider != null && hit.collider.TryGetComponent(out Interactable interactable))
+                {
+                    if(interactable != this._lastInteractable)
+                    {
+                        if (_lastInteractable != null)
+                            this._lastInteractable.OnUnfocused();
+                        this._lastInteractable = interactable;
+                        this._lastInteractable.OnFocused();
+                    }
+                }
+            }
+            else if (this._lastInteractable != null)
+            {
+                this._lastInteractable.OnUnfocused();
+                this._lastInteractable = null;   
+            }
+                #endregion
             // Teleport player to location
             if (Input.GetMouseButtonUp(0))
             {

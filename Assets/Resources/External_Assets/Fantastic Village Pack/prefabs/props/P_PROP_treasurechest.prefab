@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 4491124507982218757}
   - component: {fileID: 3257815682923747617}
   - component: {fileID: 5733823520488915782}
-  m_Layer: 0
+  - component: {fileID: 317807116926795831}
+  m_Layer: 8
   m_Name: P_PROP_treasurechest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99,8 +100,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.7461649, y: 0.3805974, z: 0.5286244}
-  m_Center: {x: -0.012106016, y: 0.18104497, z: -0.0248622}
+  m_Size: {x: 0.7461649, y: 0.6129809, z: 0.5286244}
+  m_Center: {x: -0.012106001, y: 0.2972367, z: -0.0248622}
 --- !u!114 &5733823520488915782
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -119,6 +120,21 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
+--- !u!114 &317807116926795831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2769568623919297241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85f4818383be0924d8c493176c28876f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InteractableRef: {fileID: 0}
+  Renderer: {fileID: 4491124507982218757}
+  Outline: {fileID: 5733823520488915782}
 --- !u!1 &4332960560458902637
 GameObject:
   m_ObjectHideFlags: 0
@@ -130,8 +146,7 @@ GameObject:
   - component: {fileID: 3738033202442890871}
   - component: {fileID: 494720450598090768}
   - component: {fileID: 5772996987205507454}
-  - component: {fileID: 6991642929225631407}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_PROP_treasurechest_top
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -204,16 +219,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &6991642929225631407
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4332960560458902637}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.8165424, y: 0.31570616, z: 0.50765246}
-  m_Center: {x: -0.008713424, y: 0.13513045, z: -0.21857968}

@@ -10,7 +10,7 @@ public class SubgridPlaceholder
     [HideInInspector]
     public CellData[,] CellDatas;
 
-    public Dictionary<GridPosition, EntitySpawn> EntitySpawns;
+    public Dictionary<GridPosition, BaseSpawnablePreset> Spawnables;
 
     public int GridHeight;
     public int GridWidth;

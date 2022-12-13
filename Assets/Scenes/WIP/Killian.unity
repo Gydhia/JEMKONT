@@ -1835,7 +1835,7 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 11400000, guid: a27ca10a46839774c874f9bbf03abe4b, type: 2}
+    - {fileID: 11400000, guid: ed8c7df3d95b8e64bb72a70fd2fcd8b6, type: 2}
     - {fileID: 11400000, guid: 879941f02b366bc4b9093e9cfaf693a0, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
@@ -4312,10 +4312,10 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: EntitySpawns
+    - Name: Spawnables
       Entry: 7
       Data: 409|System.Collections.Generic.Dictionary`2[[Jemkont.Managers.GridPosition,
-        Assembly-CSharp],[EntitySpawn, Assembly-CSharp]], mscorlib
+        Assembly-CSharp],[BaseSpawnablePreset, Assembly-CSharp]], mscorlib
     - Name: comparer
       Entry: 7
       Data: 410|System.Collections.Generic.ObjectEqualityComparer`1[[Jemkont.Managers.GridPosition,
@@ -4383,26 +4383,10 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: EntitySpawns
+    - Name: Spawnables
       Entry: 7
       Data: 411|System.Collections.Generic.Dictionary`2[[Jemkont.Managers.GridPosition,
-        Assembly-CSharp],[EntitySpawn, Assembly-CSharp]], mscorlib
-    - Name: comparer
-      Entry: 9
-      Data: 410
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: InteractableSpawns
-      Entry: 7
-      Data: 412|System.Collections.Generic.Dictionary`2[[Jemkont.Managers.GridPosition,
-        Assembly-CSharp],[InteractablePreset, Assembly-CSharp]], mscorlib
+        Assembly-CSharp],[BaseSpawnablePreset, Assembly-CSharp]], mscorlib
     - Name: comparer
       Entry: 9
       Data: 410

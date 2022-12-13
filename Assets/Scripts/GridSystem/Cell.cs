@@ -53,9 +53,9 @@ namespace Jemkont.GridSystem
             this.ChangeStateColor(Color.grey);
         }
 
-        public void AttachInteractable(InteractablePreset linkedObject)
+        public void AttachInteractable(BaseSpawnablePreset linkedObject)
         {
-            Instantiate(linkedObject.ObjectPrefab, this.WorldPosition, Quaternion.identity, this.transform);
+            
         }
 
         public void ChangeCellState(CellState newState, bool force = false)

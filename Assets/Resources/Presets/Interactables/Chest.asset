@@ -25,4 +25,6 @@ MonoBehaviour:
       Entry: 2
       Data: 6a540a08bebc44a759f27ba33313993d
   UName: Chest
-  ObjectPrefab: {fileID: 5733823520488915782, guid: 1ee5710fbb2b073409a4c6843a75c377, type: 3}
+  AffectingState: 4
+  ObjectPrefab: {fileID: 317807116926795831, guid: 1ee5710fbb2b073409a4c6843a75c377, type: 3}
+  OutlineColor: {r: 0.29236382, g: 0.6585992, b: 0.8490566, a: 1}

@@ -13,7 +13,7 @@ namespace Jemkont.Entity
 {
     public class EnemyEntity : CharacterEntity
     {
-        public EntitySpawn EnemyStyle;
+        public EntityPreset EnemyStyle;
 
         public override void Init(EntityStats stats, Cell refCell, WorldGrid refGrid, int order = 0)
         {
