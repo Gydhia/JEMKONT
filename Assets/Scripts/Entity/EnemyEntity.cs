@@ -17,15 +17,12 @@ using UnityEngine;
 using Math = System.Math;
 
 
-namespace Jemkont.Entity
-{
-    public class EnemyEntity : CharacterEntity
-    {
+namespace Jemkont.Entity {
+    public class EnemyEntity : CharacterEntity {
         public EntitySpawn EnemyStyle;
         CharacterEntity cachedAllyToAttack;
-        public override void Init(EntityStats stats, Cell refCell, WorldGrid refGrid, int order = 0)
-        {
-            base.Init(stats, refCell, refGrid);
+        public override void Init(EntityStats stats,Cell refCell,WorldGrid refGrid,int order = 0) {
+            base.Init(stats,refCell,refGrid);
 
             this.UID = refGrid.UName + this.EnemyStyle.UName + order;
         }
@@ -35,18 +32,17 @@ namespace Jemkont.Entity
             this.ReinitializeStat(EntityStatistics.Mana);
             var TargetPosition = GetTargetPosition();
 
-            GridManager.Instance.FindPath(this,TargetPosition, true);
+            GridManager.Instance.FindPath(this,TargetPosition,true);
 
-            if(GridManager.Instance.Path.Count > 0 && this.Speed > 0)
-            {
+            if (GridManager.Instance.Path.Count > 0 && this.Speed > 0) {
                 string mainGrid = this.CurrentGrid is CombatGrid cGrid ? cGrid.ParentGrid.UName : CurrentGrid.UName;
                 string innerGrid = mainGrid == this.CurrentGrid.UName ? string.Empty : this.CurrentGrid.UName;
 
-                NetworkManager.Instance.EntityAsksForPath(this.UID, GridManager.Instance.Path[GridManager.Instance.Path.Count - 1], mainGrid, innerGrid);
+                NetworkManager.Instance.EntityAsksForPath(this.UID,GridManager.Instance.Path[GridManager.Instance.Path.Count - 1],mainGrid,innerGrid);
             }
             //Moved (or not if was in range); and will now Autoattack:
             if (CanAutoAttack) {
-                if(cachedAllyToAttack != null) {
+                if (cachedAllyToAttack != null) {
                     //LETSGOOOOOO FIREEEEEEEEEEEEE
                     AutoAttack(cachedAllyToAttack.EntityCell);
                 }
@@ -88,15 +84,16 @@ namespace Jemkont.Entity
 
 
         public override Spell AutoAttackSpell() {
-            return new Spell(CombatManager.Instance.PossibleAutoAttacks.Find(x=>x.Is<DamageStrengthSpellAction>()));
+            return new Spell(CombatManager.Instance.PossibleAutoAttacks.Find(x => x.Is<DamageStrengthSpellAction>()));
 
-        Cell RandomCellInRange() {
-            List<Cell> cells = new();
-            foreach (var item in CurrentGrid.Cells) {
-                cells.Add(item);
+            Cell RandomCellInRange() {
+                List<Cell> cells = new();
+                foreach (var item in CurrentGrid.Cells) {
+                    cells.Add(item);
+                }
+                return cells.FindAll(x => (Mathf.Abs(x.PositionInGrid.latitude - this.EntityCell.PositionInGrid.latitude) + Mathf.Abs(x.PositionInGrid.longitude - this.EntityCell.PositionInGrid.longitude)) >= Speed).GetRandom();
+
             }
-            return cells.FindAll(x => (Mathf.Abs(x.PositionInGrid.latitude - this.EntityCell.PositionInGrid.latitude) + Mathf.Abs(x.PositionInGrid.longitude - this.EntityCell.PositionInGrid.longitude)) >= Movement).GetRandom();
-
         }
     }
 }

@@ -14,14 +14,6 @@ namespace Jemkont.Spells.Alterations {
         public override void Apply(CharacterEntity entity) {
             entity.ApplyHealth(-Damage,false);
         }
-
-        public override List<Type> Overridden() {
-            return null;
-        }
-
-        public override List<Type> Overrides() {
-            return null;
-        }
         //DONE!
     }
 }

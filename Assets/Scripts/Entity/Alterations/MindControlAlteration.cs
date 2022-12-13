@@ -10,12 +10,5 @@ namespace Jemkont.Spells.Alterations {
             //TODO: MVP+1
         }
 
-        public override List<Type> Overridden() {
-            return null;
-        }
-
-        public override List<Type> Overrides() {
-            return null;
-        }
     }
 }

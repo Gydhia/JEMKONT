@@ -1,12 +1,12 @@
 using Jemkont.Entity;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Jemkont.Spells.Alterations {
-    public class SpiritAlteration : Alteration {
-        public SpiritAlteration(int Cooldown) : base(Cooldown) {
+    public class InspirationAlteration : Alteration {
+        public InspirationAlteration(int Cooldown) : base(Cooldown) {
         }
-        //TODO: DELETE THIS
     }
 }

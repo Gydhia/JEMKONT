@@ -13,13 +13,5 @@ namespace Jemkont.Spells.Alterations {
             base.DecrementAlterationCountdown(data);
             //TODO: DIE here lol
         }
-
-        public override List<Type> Overridden() {
-            return null;
-        }
-
-        public override List<Type> Overrides() {
-            return null;
-        }
     }
 }

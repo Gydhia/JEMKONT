@@ -16,15 +16,6 @@ namespace Jemkont.Spells.Alterations {
             }
             base.DecrementAlterationCountdown(data);
         }
-
-        public override List<Type> Overrides() {
-            return null;//TODO: Override defense bonuses.
-        }
-
-        public override List<Type> Overridden() {
-            return null;
-        }
-
         public override bool ClassicCountdown => false;
 
     }

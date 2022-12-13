@@ -9,16 +9,7 @@ namespace Jemkont.Spells.Alterations {
         public ConfusionAlteration(int Cooldown) : base(Cooldown) {
         }
 
-        public override List<Type> Overridden() {
-            return new List<Type>() {
-                typeof(StunAlteration)
-            };
-        }
-
-        public override List<Type> Overrides() {
-            return null;
-        }
         //DONE!
-        //TODO: when enemies can attack, make them.
+        //TODO: when enemies can attack, make them. Done?
     }
 }

@@ -9,15 +9,5 @@ namespace Jemkont.Spells.Alterations {
         public override bool ClassicCountdown { get => false; }
         public CriticalAlteration(int Cooldown) : base(Cooldown) {
         }
-
-        public override List<Type> Overrides() {
-            return null;
-        }
-
-        public override List<Type> Overridden() {
-            return new List<Type>() {
-            typeof(DisarmedAlteration)
-            };
-        }
     }
 }
