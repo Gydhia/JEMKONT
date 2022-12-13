@@ -91,26 +91,16 @@ namespace DownBelow.Managers
         public void EntityAsksForPath(string entityUID, Cell target, string mainGrid, string innerGrid)
         {
             int[] position = new int[2] { target.PositionInGrid.longitude, target.PositionInGrid.latitude };
-
-            if (PhotonNetwork.IsMasterClient)
-                this.RPC_ProcessEntityAskedPath(entityUID, position, mainGrid, innerGrid);
-            else
-                this.photonView.RPC("RPC_ProcessEntityAskedPath", RpcTarget.MasterClient, entityUID, position, mainGrid, innerGrid);
-        }
-
-        [PunRPC]
-        public void RPC_ProcessEntityAskedPath(string entityUID, int[] target, string mainGrid, string innerGrid)
-        {
             // Temporary, definitely need to create a method and list of all entities handled with UID
             EnemyEntity entity = innerGrid != string.Empty ?
                 GridManager.Instance.WorldGrids[mainGrid].InnerCombatGrids[innerGrid].GridEntities.First(e => e.UID == entityUID) as EnemyEntity :
                 GridManager.Instance.WorldGrids[mainGrid].GridEntities.First(e => e.UID == entityUID) as EnemyEntity;
 
-            GridManager.Instance.FindPath(entity, new GridPosition(target[0], target[1]));
+            GridManager.Instance.FindPath(entity, target.PositionInGrid);
 
             int[] positions = GridManager.Instance.SerializePathData();
-            // TODO: make a custom function to process combat and non-combat movements
-            this.photonView.RPC("RPC_RespondWithEntityProcessedPath", RpcTarget.All, entityUID, positions, mainGrid, innerGrid);
+
+            this.photonView.RPC("RPC_RespondWithEntityProcessedPath", RpcTarget.All, entityUID, position, mainGrid, innerGrid);
         }
 
         [PunRPC]
@@ -126,23 +116,11 @@ namespace DownBelow.Managers
 
         public void PlayerAsksForPath(PlayerBehavior player, GridSystem.Cell target, string otherGrid)
         {
-            int[] position = new int[2] { target.PositionInGrid.longitude, target.PositionInGrid.latitude };
-
-            if (!PhotonNetwork.IsMasterClient)
-                this.photonView.RPC("RPC_ProcessAskedPath", RpcTarget.MasterClient, player.PlayerID, position, otherGrid);
-            else
-                this.RPC_ProcessAskedPath(player.PlayerID, position, otherGrid);
-        }
-
-        [PunRPC]
-        public void RPC_ProcessAskedPath(string playerID, int[] target, string toOtherGrid)
-        {
-            // /!\ To avoid too many requests, when the player already has a new path, don't recalculate another one
-            GridManager.Instance.FindPath(GameManager.Instance.Players[playerID], new GridPosition(target[0], target[1]));
+            GridManager.Instance.FindPath(GameManager.Instance.Players[player.PlayerID], target.PositionInGrid);
 
             int[] positions = GridManager.Instance.SerializePathData();
-            // TODO: make a custom function to process combat and non-combat movements
-            this.photonView.RPC("RPC_RespondWithProcessedPath", RpcTarget.All, playerID, positions, toOtherGrid);
+
+            this.photonView.RPC("RPC_RespondWithProcessedPath", RpcTarget.All, player.PlayerID, positions, otherGrid);
         }
 
         [PunRPC]
@@ -155,19 +133,7 @@ namespace DownBelow.Managers
 
         public void PlayerAsksToEnterGrid(PlayerBehavior player, WorldGrid mainGrid, string targetGrid)
         {
-            if (!PhotonNetwork.IsMasterClient)
-                this.photonView.RPC("RPC_ProcessEnterGrid", RpcTarget.MasterClient, player.PlayerID, mainGrid.UName, targetGrid);
-            else
-                this.RPC_ProcessEnterGrid(player.PlayerID, mainGrid.UName, targetGrid);    
-        }
-
-        [PunRPC]
-        public void RPC_ProcessEnterGrid(string playerID, string mainGrid, string targetGrid)
-        {
-            if(GameManager.Instance.Players[playerID].CanEnterGrid)
-            {
-                this.photonView.RPC("RPC_RespondToEnterGrid", RpcTarget.All, playerID, mainGrid, targetGrid);
-            }
+            this.photonView.RPC("RPC_RespondToEnterGrid", RpcTarget.All, player.PlayerID, mainGrid.UName, targetGrid);
         }
 
         [PunRPC]
@@ -186,24 +152,37 @@ namespace DownBelow.Managers
         // /!\ Only one combat can be active at the moment, that is important
         public void PlayerAsksToStartCombat()
         {
-            // Only playerID is needed since it's referencing the grids
-            if (!PhotonNetwork.IsMasterClient)
-                this.photonView.RPC("RPC_ProcessAskStartCombat", RpcTarget.MasterClient, GameManager.Instance.SelfPlayer.PlayerID);
-            else
-                this.RPC_ProcessAskStartCombat(GameManager.Instance.SelfPlayer.PlayerID);
-        }
-
-        [PunRPC]
-        public void RPC_ProcessAskStartCombat(string playerID)
-        {
-            // No processing for now but keep it just in case
-            this.photonView.RPC("RPC_RespondToStartCombat", RpcTarget.All, playerID);
+            this.photonView.RPC("RPC_RespondToStartCombat", RpcTarget.All, GameManager.Instance.SelfPlayer.PlayerID);
         }
 
         [PunRPC]
         public void RPC_RespondToStartCombat(string playerID)
         {
             CombatManager.Instance.StartCombat(GameManager.Instance.Players[playerID].CurrentGrid as CombatGrid);
+        }
+
+        public void PlayerAsksToInteract(Cell interaction)
+        {
+            this.photonView.RPC("RPC_RespondToInteract", RpcTarget.All, GameManager.Instance.SelfPlayer.PlayerID, interaction.PositionInGrid.latitude, interaction.PositionInGrid.longitude);
+        }
+
+        [PunRPC]
+        public void RPC_RespondToInteract(string playerID, int latitude, int longitude)
+        {
+            PlayerBehavior player = GameManager.Instance.Players[playerID];
+            player.Interact(player.CurrentGrid.Cells[latitude, longitude]);
+        }
+
+        public void PlayerCanceledInteract(Cell interaction)
+        {
+            this.photonView.RPC("RPC_RespondCancelInteract", RpcTarget.All, GameManager.Instance.SelfPlayer.PlayerID, interaction.PositionInGrid.latitude, interaction.PositionInGrid.longitude);
+        }
+
+        [PunRPC]
+        public void RPC_RespondCancelInteract(string playerID, int latitude, int longitude)
+        {
+            PlayerBehavior player = GameManager.Instance.Players[playerID];
+            player.Interact(player.CurrentGrid.Cells[latitude, longitude]);
         }
         #endregion
 

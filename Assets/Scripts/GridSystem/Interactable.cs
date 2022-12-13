@@ -7,20 +7,21 @@ namespace DownBelow.GridSystem
 {
     public abstract class Interactable : MonoBehaviour
     {
+
         [HideInInspector]
-        public InteractablePreset InteractableRef;
+        public InteractablePreset InteractablePreset;
         public Cell RefCell;
 
-        public MeshRenderer Renderer;
-
+        public MeshRenderer Mesh;
+        public MeshRenderer GatheredMesh;
         public Outline Outline;
 
-        public virtual void Init(InteractablePreset InteractableRef, Cell RefCell)
+        public virtual void Init(InteractablePreset InteractableRef, Cell RefCell) 
         {
             this.Outline.enabled = false;
             this.RefCell = RefCell;
 
-            this.InteractableRef = InteractableRef;
+            this.InteractablePreset = InteractableRef;
             this.Outline.OutlineColor = InteractableRef.OutlineColor;
         }
 

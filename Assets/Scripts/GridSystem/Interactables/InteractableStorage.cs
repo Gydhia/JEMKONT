@@ -15,7 +15,7 @@ namespace DownBelow.GridSystem
             base.Init(InteractableRef, RefCell);
 
             this.Storage = new BaseStorage();
-            this.Storage.Init(this.InteractableRef as StoragePreset);
+            this.Storage.Init(this.InteractablePreset as StoragePreset);
         }
         public override void Interact()
         {

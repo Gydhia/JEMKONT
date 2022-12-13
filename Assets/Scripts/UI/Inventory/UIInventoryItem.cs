@@ -15,9 +15,16 @@ namespace DownBelow.UI.Inventory
 
         public void Init(ItemPreset preset, int quantity)
         {
-            this.icon.sprite = preset.InventoryIcon;
-            this.quantity.text = quantity.ToString();
-
+            if(preset != null)
+            {
+                this.icon.sprite = preset.InventoryIcon;
+                this.quantity.text = quantity.ToString();
+            }
+            else
+            {
+                this.icon.sprite = null;
+                this.quantity.text = string.Empty;
+            }
         }
     }
 }

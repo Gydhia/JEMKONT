@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81753c3e1e672524bbd137688005d727, type: 3}
+  m_Name: NormalTree
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: UID
+      Entry: 2
+      Data: 3d4e450094d4275b379867b1d916ca60
+  UName: Normal Tree
+  AffectingState: 4
+  ObjectPrefab: {fileID: 8025783147948518094, guid: 40674c61b805e4b4098a9473a23e5954, type: 3}
+  OutlineColor: {r: 0.21725611, g: 0.5471698, b: 0.1264685, a: 1}
+  InteractAnimation: {fileID: 0}
+  UISprite: {fileID: 21300000, guid: 5affeebf283c59743ac5171177bd7b2e, type: 3}
+  DroppedObject: {fileID: 0}
+  OnceGatheredObject: {fileID: 2664790825941896147, guid: 58338db5afb0ea146a18b2585cddd0bd, type: 3}
+  MinGathering: 1
+  MaxGathering: 4
+  TimeToGather: 3.2

@@ -43,12 +43,22 @@ namespace DownBelow.Inventory
             if(gap > 0)
             {
                 for (int i = 0; i < gap; i++)
+                {
                     this.Items.Add(Instantiate(SettingsManager.Instance.GameUIPreset.ItemPrefab, ItemsHolder));
+                    this.Items[^1].Init(null, 0);
+                }
             }
             else
             {
                 for (int i = this.Items.Count - 1; i >= this.Items.Count + gap; i--)
                     this.Items[i].gameObject.SetActive(false);
+            }
+
+            int counter = 0;
+            foreach (var item in this.Storage.StorageItems)
+            {
+                this.Items[counter].Init(item.Key, item.Value);
+                counter++;
             }
         }
 

@@ -10,8 +10,15 @@ namespace DownBelow.Managers
     public class GameManager : _baseManager<GameManager>
     {
         #region EVENTS
+        public event GameEventData.Event OnPlayersWelcomed;
+
         public event EntityEventData.Event OnEnteredGrid;
         public event EntityEventData.Event OnExitingGrid;
+
+        public void FirePlayersWelcomed()
+        {
+            this.OnPlayersWelcomed?.Invoke(new());
+        }
 
         public void FireEntityEnteredGrid(string entityID)
         {
@@ -99,6 +106,8 @@ namespace DownBelow.Managers
                     this.Players.Add(player.UserId, newPlayer);
                     counter++;
                 }
+
+                this.FirePlayersWelcomed();
             }
         }
     }

@@ -27,6 +27,7 @@ namespace DownBelow.GridSystem
 
         public Cell parent;
         public CharacterEntity EntityIn;
+        public Interactable AttachedInteract;
 
         public GridPosition PositionInGrid => new GridPosition(this.Datas.widthPos, this.Datas.heightPos);
         public Vector3 WorldPosition => this.gameObject.transform.position;
@@ -53,9 +54,9 @@ namespace DownBelow.GridSystem
             this.ChangeStateColor(Color.grey);
         }
 
-        public void AttachInteractable(BaseSpawnablePreset linkedObject)
+        public void AttachInteractable(Interactable linkedObject)
         {
-            
+            this.AttachedInteract = linkedObject;
         }
 
         public void ChangeCellState(CellState newState, bool force = false)
