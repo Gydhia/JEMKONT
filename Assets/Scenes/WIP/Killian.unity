@@ -3882,10 +3882,10 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  _planePrefab: {fileID: 913962143815404576, guid: 7141923bd86c41143a35f9d656e8949b, type: 3}
+  _planePrefab: {fileID: 0}
   TopLeftOffset: {x: 0, y: 0, z: 0}
   SelectedGrid: InGameTest
-  ToLoad: 1
+  ToLoad: 0
   IsCombatGrid: 0
   GridHeight: 15
   GridWidth: 25

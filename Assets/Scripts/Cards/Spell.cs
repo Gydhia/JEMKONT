@@ -43,6 +43,7 @@ namespace Jemkont.Spells
 
             this.CurrentAction = UnityEngine.Object.Instantiate(this.ActionData, Vector3.zero, Quaternion.identity, CombatManager.Instance.CurrentPlayingEntity.gameObject.transform);
             this.CurrentAction.Execute(this.GetTargets(caster, cellTarget), this);
+            
         }
 
         public List<CharacterEntity> GetTargets(CharacterEntity caster, GridSystem.Cell cellTarget)

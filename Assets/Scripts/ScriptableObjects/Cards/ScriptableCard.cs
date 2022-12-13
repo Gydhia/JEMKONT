@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Jemkont.Mechanics
 {
-    public enum EChipType { Melee, Ranged, Special }
+    public enum ECardType { Melee, Ranged, Special }
 
     [CreateAssetMenu(menuName = "Card")]
     public class ScriptableCard : SerializedScriptableObject

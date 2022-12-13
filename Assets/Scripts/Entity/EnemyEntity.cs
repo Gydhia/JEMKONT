@@ -1,6 +1,11 @@
+using EODE.Wonderland;
 using Jemkont.GridSystem;
 using Jemkont.Managers;
+
 using Jemkont.Spells;
+
+using Jemkont.Spells.Alterations;
+
 using MyBox;
 using Sirenix.Utilities;
 using System;
@@ -9,6 +14,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
+using Math = System.Math;
+
 
 namespace Jemkont.Entity
 {
@@ -79,8 +86,17 @@ namespace Jemkont.Entity
             return orderedAllies;
         }
 
+
         public override Spell AutoAttackSpell() {
             return new Spell(CombatManager.Instance.PossibleAutoAttacks.Find(x=>x.Is<DamageStrengthSpellAction>()));
+
+        Cell RandomCellInRange() {
+            List<Cell> cells = new();
+            foreach (var item in CurrentGrid.Cells) {
+                cells.Add(item);
+            }
+            return cells.FindAll(x => (Mathf.Abs(x.PositionInGrid.latitude - this.EntityCell.PositionInGrid.latitude) + Mathf.Abs(x.PositionInGrid.longitude - this.EntityCell.PositionInGrid.longitude)) >= Movement).GetRandom();
+
         }
     }
 }
