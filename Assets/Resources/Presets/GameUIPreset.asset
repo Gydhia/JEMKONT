@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d635c5c15d1099d47909698e1ce4952a, type: 3}
-  m_Name: Chest
+  m_Script: {fileID: 11500000, guid: b1f6b826a254a064ab9a6843cbedf78d, type: 3}
+  m_Name: GameUIPreset
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -20,11 +20,5 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes:
-    - Name: UID
-      Entry: 2
-      Data: 6a540a08bebc44a759f27ba33313993d
-  UName: Chest
-  AffectingState: 4
-  ObjectPrefab: {fileID: 317807116926795831, guid: 1ee5710fbb2b073409a4c6843a75c377, type: 3}
-  OutlineColor: {r: 0.29236382, g: 0.6585992, b: 0.8490566, a: 1}
+    SerializationNodes: []
+  ItemPrefab: {fileID: 595109141347629658, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}

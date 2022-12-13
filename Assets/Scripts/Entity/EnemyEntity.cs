@@ -1,5 +1,5 @@
-using Jemkont.GridSystem;
-using Jemkont.Managers;
+using DownBelow.GridSystem;
+using DownBelow.Managers;
 using MyBox;
 using Sirenix.Utilities;
 using System;
@@ -9,7 +9,7 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 
-namespace Jemkont.Entity
+namespace DownBelow.Entity
 {
     public class EnemyEntity : CharacterEntity
     {

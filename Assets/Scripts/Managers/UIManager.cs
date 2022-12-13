@@ -1,16 +1,20 @@
-using Jemkont.Events;
-using Jemkont.UI;
+using DownBelow.Events;
+using DownBelow.Inventory;
+using DownBelow.UI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Jemkont.Managers
+namespace DownBelow.Managers
 {
     public class UIManager : _baseManager<UIManager>
     {
         public UIStaticTurnSection TurnSection;
         public UIPlayerInfos PlayerInfos;
         public UICardSection CardSection;
+
+        public UIPlayerInventory PlayerInventory;
+        public UIStorage Storage;
 
         public void Init()
         {

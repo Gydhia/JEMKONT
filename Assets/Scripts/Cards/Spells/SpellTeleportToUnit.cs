@@ -1,6 +1,6 @@
-using Jemkont.Entity;
-using Jemkont.Managers;
-using Jemkont.Spells;
+using DownBelow.Entity;
+using DownBelow.Managers;
+using DownBelow.Spells;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;
@@ -33,7 +33,7 @@ public class SpellTeleportToUnit : SpellAction {
         new GridPosition(to.longitude+1,to.latitude+1)
         };
         foreach (GridPosition pos in positionsToCheck) {
-            if (GridManager.Instance.CellDataAtPosition(pos).state == Jemkont.GridSystem.CellState.Walkable) return pos;
+            if (GridManager.Instance.CellDataAtPosition(pos).state == DownBelow.GridSystem.CellState.Walkable) return pos;
         }
         return new GridPosition(-1,-1);//Normally impossible.
     }

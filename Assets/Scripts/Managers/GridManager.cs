@@ -1,5 +1,5 @@
-using Jemkont.GridSystem;
-using Jemkont.Entity;
+using DownBelow.GridSystem;
+using DownBelow.Entity;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,9 +9,9 @@ using Newtonsoft.Json.Linq;
 using System.IO;
 using Newtonsoft.Json;
 using System;
-using Jemkont.Events;
+using DownBelow.Events;
 
-namespace Jemkont.Managers {
+namespace DownBelow.Managers {
     public class GridManager : _baseManager<GridManager> 
     {
         #region Assets_reference
@@ -165,15 +165,23 @@ namespace Jemkont.Managers {
             {
                 Cell closestCell = this.LastHoveredCell;
                 string otherGrid = string.Empty;
-                // TODO: Verify if this works
-                if (selfPlayer.CurrentGrid != this.LastHoveredCell.RefGrid)
+
+                if (InputManager.Instance.LastInteractable != null)
                 {
-                    closestCell = GridUtility.GetClosestCellToShape(selfPlayer.CurrentGrid, this.LastHoveredCell.RefGrid as CombatGrid, selfPlayer.EntityCell.PositionInGrid);
-                    otherGrid = this.LastHoveredCell.RefGrid.UName;
+                    Cell cell = InputManager.Instance.LastInteractable.RefCell;
+                    closestCell = GridUtility.GetClosestCellToShape(selfPlayer.CurrentGrid, cell.Datas.heightPos, cell.Datas.widthPos, 1, 1, selfPlayer.EntityCell.PositionInGrid);
+                    selfPlayer._nextInteract = InputManager.Instance.LastInteractable;
                 }
-                if(closestCell != null)
+                else
+                {
+                    if (selfPlayer.CurrentGrid != this.LastHoveredCell.RefGrid)
+                    {
+                        closestCell = GridUtility.GetClosestCellToShape(selfPlayer.CurrentGrid, this.LastHoveredCell.RefGrid as CombatGrid, selfPlayer.EntityCell.PositionInGrid);
+                        otherGrid = this.LastHoveredCell.RefGrid.UName;
+                    }
+                }
+                if (closestCell != null)
                     selfPlayer.AskToGo(closestCell, otherGrid);
-                //NetworkManager.Instance.ProcessAskedPath(selfPlayer, this.LastHoveredCell);
             }
             
         }

@@ -1,4 +1,4 @@
-using Jemkont.Managers;
+using DownBelow.Managers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Jemkont.UI
+namespace DownBelow.UI
 {
     public class UIPlayerInfos : MonoBehaviour
     {

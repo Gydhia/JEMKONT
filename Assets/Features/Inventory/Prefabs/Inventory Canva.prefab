@@ -154,7 +154,7 @@ GameObject:
   - component: {fileID: 1746934668702987532}
   - component: {fileID: 1746934668702987533}
   - component: {fileID: 1746934668702987534}
-  - component: {fileID: 6772433198687240820}
+  - component: {fileID: 1745216732065946002}
   m_Layer: 5
   m_Name: Inventory Canva
   m_TagString: Untagged
@@ -244,7 +244,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 55
---- !u!114 &6772433198687240820
+--- !u!114 &1745216732065946002
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -253,11 +253,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1746934668702987535}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2a8e2b4a75423841a977b81d543d392, type: 3}
+  m_Script: {fileID: 11500000, guid: 8bde2dfff51898d43a6ea52ab7c21f9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventory: []
-  test: {fileID: 11400000, guid: efb1ba16499e0de4fa5e1121e3da5c16, type: 2}
 --- !u!1 &1746934668799380479
 GameObject:
   m_ObjectHideFlags: 0

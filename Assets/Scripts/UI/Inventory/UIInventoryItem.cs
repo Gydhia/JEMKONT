@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Jemkont.UI.Inventory
+namespace DownBelow.UI.Inventory
 {
     public class UIInventoryItem : MonoBehaviour
     {
@@ -15,7 +15,7 @@ namespace Jemkont.UI.Inventory
 
         public void Init(ItemPreset preset, int quantity)
         {
-            icon.sprite = preset.InventoryIcon;
+            this.icon.sprite = preset.InventoryIcon;
             this.quantity.text = quantity.ToString();
 
         }

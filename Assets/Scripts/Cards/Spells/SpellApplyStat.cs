@@ -1,9 +1,9 @@
-using Jemkont.Entity;
+using DownBelow.Entity;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Jemkont.Spells
+namespace DownBelow.Spells
 {
     public class SpellApplyStat : SpellAction
     {

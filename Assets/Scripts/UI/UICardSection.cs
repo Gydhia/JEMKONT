@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Jemkont.UI
+namespace DownBelow.UI
 {
     public class UICardSection : MonoBehaviour
     {

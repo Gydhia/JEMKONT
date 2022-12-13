@@ -6,11 +6,11 @@ using Photon.Realtime;
 using UnityEngine.UI;
 using TMPro;
 using ExitGames.Client.Photon;
-using Jemkont.Entity;
-using Jemkont.GridSystem;
+using DownBelow.Entity;
+using DownBelow.GridSystem;
 using System.Linq;
 
-namespace Jemkont.Managers
+namespace DownBelow.Managers
 {
     public class NetworkManager : MonoBehaviourPunCallbacks
     {

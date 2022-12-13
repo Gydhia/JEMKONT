@@ -1,10 +1,10 @@
-using Jemkont.Events;
-using Jemkont.GridSystem;
+using DownBelow.Events;
+using DownBelow.GridSystem;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Jemkont.Managers
+namespace DownBelow.Managers
 {
     public class InputManager : _baseManager<InputManager>
     {
@@ -19,7 +19,7 @@ namespace Jemkont.Managers
 
         #endregion
 
-        private Interactable _lastInteractable;
+        public Interactable LastInteractable;
 
         private void Update()
         {
@@ -47,19 +47,19 @@ namespace Jemkont.Managers
             {
                 if (hit.collider != null && hit.collider.TryGetComponent(out Interactable interactable))
                 {
-                    if(interactable != this._lastInteractable)
+                    if(interactable != this.LastInteractable)
                     {
-                        if (_lastInteractable != null)
-                            this._lastInteractable.OnUnfocused();
-                        this._lastInteractable = interactable;
-                        this._lastInteractable.OnFocused();
+                        if (LastInteractable != null)
+                            this.LastInteractable.OnUnfocused();
+                        this.LastInteractable = interactable;
+                        this.LastInteractable.OnFocused();
                     }
                 }
             }
-            else if (this._lastInteractable != null)
+            else if (this.LastInteractable != null)
             {
-                this._lastInteractable.OnUnfocused();
-                this._lastInteractable = null;   
+                this.LastInteractable.OnUnfocused();
+                this.LastInteractable = null;   
             }
                 #endregion
             // Teleport player to location

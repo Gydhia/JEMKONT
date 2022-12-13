@@ -1,11 +1,11 @@
-using Jemkont.Entity;
-using Jemkont.Events;
+using DownBelow.Entity;
+using DownBelow.Events;
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Jemkont.Managers
+namespace DownBelow.Managers
 {
     public class GameManager : _baseManager<GameManager>
     {
@@ -64,7 +64,7 @@ namespace Jemkont.Managers
 
         public void WelcomePlayerLately()
         {
-            PhotonNetwork.CreateRoom("SoloRoom");
+            PhotonNetwork.CreateRoom("SoloRoomKillian");
         }
 
         public void WelcomePlayers()

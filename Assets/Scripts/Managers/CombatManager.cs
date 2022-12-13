@@ -1,13 +1,13 @@
-using Jemkont.Entity;
-using Jemkont.Events;
-using Jemkont.GridSystem;
+using DownBelow.Entity;
+using DownBelow.Events;
+using DownBelow.GridSystem;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Jemkont.Managers
+namespace DownBelow.Managers
 {
     public class CombatManager : _baseManager<CombatManager>
     {

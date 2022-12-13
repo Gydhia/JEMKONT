@@ -1,7 +1,7 @@
-using Jemkont.Events;
-using Jemkont.GridSystem;
-using Jemkont.Inventory;
-using Jemkont.Managers;
+using DownBelow.Events;
+using DownBelow.GridSystem;
+using DownBelow.Inventory;
+using DownBelow.Managers;
 using Photon.Pun;
 using Photon.Realtime;
 using System;
@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Jemkont.Entity
+namespace DownBelow.Entity
 {
     public class PlayerBehavior : CharacterEntity
     {
@@ -18,6 +18,7 @@ namespace Jemkont.Entity
         
         private DateTime _lastTimeAsked = DateTime.Now;
         private string _nextGrid = string.Empty;
+        public Interactable _nextInteract = null;
        
 
         public MeshRenderer PlayerBody;
@@ -53,6 +54,8 @@ namespace Jemkont.Entity
             else
             {
                 this.NextPath = newPath;
+                if(this._nextInteract != null)
+                    this._nextInteract = null;
             }
         }
 
@@ -89,16 +92,21 @@ namespace Jemkont.Entity
             this.moveCor = null;
             this.IsMoving = false;
 
-            if(this.NextPath != null)
+            if (this.NextPath != null)
             {
                 this.MoveWithPath(this.NextPath, _nextGrid);
                 this.NextPath = null;
             }
-            else if(this._nextGrid != string.Empty)
+            else if (this._nextGrid != string.Empty)
             {
                 NetworkManager.Instance.PlayerAsksToEnterGrid(this, this.CurrentGrid, this._nextGrid);
                 this.NextCell = null;
                 this._nextGrid = string.Empty;
+            }
+            else if (this._nextInteract != null)
+            {
+                this._nextInteract.Interact();
+                this._nextInteract = null;
             }
         }
 

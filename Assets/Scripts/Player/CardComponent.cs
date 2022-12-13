@@ -5,9 +5,9 @@ using MyBox;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
-using Jemkont.GridSystem;
-using Jemkont.Managers;
-using Jemkont.Mechanics;
+using DownBelow.GridSystem;
+using DownBelow.Managers;
+using DownBelow.Mechanics;
 
 public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler {
 
@@ -227,17 +227,17 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
     #endregion
 
     #region Spells_handling
-    private Jemkont.Spells.Spell[] _currentSpells;
+    private DownBelow.Spells.Spell[] _currentSpells;
 
     private Coroutine _spellCor = null;
 
-    internal void ExecuteSpells(Cell target, Jemkont.Spells.Spell[] spells)
+    internal void ExecuteSpells(Cell target, DownBelow.Spells.Spell[] spells)
     {
         this._currentSpells = spells;
         
         this._spellCor = StartCoroutine(this._waitForSpell(target));
     }
-    private IEnumerator _waitForSpell(Jemkont.GridSystem.Cell target)
+    private IEnumerator _waitForSpell(DownBelow.GridSystem.Cell target)
     {
         for (int i = 0; i < this._currentSpells.Length; i++)
         {

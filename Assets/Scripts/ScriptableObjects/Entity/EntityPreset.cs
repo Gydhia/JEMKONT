@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using System;
-using Jemkont.Entity;
-using Jemkont.GridSystem;
+using DownBelow.Entity;
+using DownBelow.GridSystem;
 
 [CreateAssetMenu(menuName = "Entity/EntityPreset")]
 public class EntityPreset : BaseSpawnablePreset

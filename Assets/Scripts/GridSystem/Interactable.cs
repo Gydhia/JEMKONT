@@ -1,35 +1,39 @@
+using DownBelow.Managers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Interactable : MonoBehaviour
+namespace DownBelow.GridSystem
 {
-    [HideInInspector]
-    public InteractablePreset InteractableRef;
-
-    public MeshRenderer Renderer;
-
-    public Outline Outline;
-
-    public void Init(InteractablePreset InteractableRef)
+    public abstract class Interactable : MonoBehaviour
     {
-        this.Outline.enabled = false;
+        [HideInInspector]
+        public InteractablePreset InteractableRef;
+        public Cell RefCell;
 
-        this.InteractableRef = InteractableRef;
-        this.Outline.OutlineColor = InteractableRef.OutlineColor;
-    }
+        public MeshRenderer Renderer;
 
-    public void Interact()
-    {
+        public Outline Outline;
 
-    }
-    public void OnFocused()
-    {
-        this.Outline.enabled = true;
-    }
+        public virtual void Init(InteractablePreset InteractableRef, Cell RefCell)
+        {
+            this.Outline.enabled = false;
+            this.RefCell = RefCell;
 
-    public void OnUnfocused()
-    {
-        this.Outline.enabled = false;
+            this.InteractableRef = InteractableRef;
+            this.Outline.OutlineColor = InteractableRef.OutlineColor;
+        }
+
+        public abstract void Interact();
+
+        public void OnFocused()
+        {
+            this.Outline.enabled = true;
+        }
+
+        public void OnUnfocused()
+        {
+            this.Outline.enabled = false;
+        }
     }
 }

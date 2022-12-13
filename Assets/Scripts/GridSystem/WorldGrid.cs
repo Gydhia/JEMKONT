@@ -1,4 +1,4 @@
-using Jemkont.Managers;
+using DownBelow.Managers;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
@@ -6,9 +6,9 @@ using UnityEditor;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using System;
-using Jemkont.Entity;
+using DownBelow.Entity;
 
-namespace Jemkont.GridSystem
+namespace DownBelow.GridSystem
 {
     public class WorldGrid : SerializedMonoBehaviour
     {

@@ -1,11 +1,11 @@
-using Jemkont.Managers;
+using DownBelow.Managers;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using UnityEngine;
 using Sirenix.OdinInspector;
-using Jemkont.Entity;
+using DownBelow.Entity;
 
-namespace Jemkont.GridSystem
+namespace DownBelow.GridSystem
 {
     public class Cell : MonoBehaviour
     {

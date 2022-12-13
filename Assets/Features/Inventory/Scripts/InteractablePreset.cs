@@ -1,11 +1,11 @@
-using Jemkont.GridSystem;
+using DownBelow.GridSystem;
 using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Interactable", menuName = "DownBelow/ScriptableObject/Interactable", order = 2)]
+[CreateAssetMenu(fileName = "Interactable", menuName = "DownBelow/ScriptableObject/Interactables/InteractablePreset", order = 2)]
 public class InteractablePreset : BaseSpawnablePreset
 {
     public Interactable ObjectPrefab;
@@ -16,6 +16,6 @@ public class InteractablePreset : BaseSpawnablePreset
         Interactable newInteractable =
             Instantiate(this.ObjectPrefab, attachedCell.WorldPosition, Quaternion.identity, attachedCell.transform);
 
-        newInteractable.Init(this);
+        newInteractable.Init(this, attachedCell);
     }
 }

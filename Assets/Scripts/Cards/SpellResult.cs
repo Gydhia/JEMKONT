@@ -1,10 +1,10 @@
-using Jemkont.Entity;
-using Jemkont.Events;
+using DownBelow.Entity;
+using DownBelow.Events;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Jemkont.Spells
+namespace DownBelow.Spells
 {
     public class SpellResult
     {
