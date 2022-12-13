@@ -45,6 +45,14 @@ public class GridPlaceholder : SerializedMonoBehaviour
         this.InnerGrids[^1].GenerateGrid(2, 2, 0, 0);
     }
 
+    private string PenButtonName = "Enable Pen";
+    [Button("$PenButtonName")]
+    public void ActivatePen()
+    {
+        IsPainting = !IsPainting;
+        PenButtonName = IsPainting? "Disable Pen" : "Enable Pen";
+    }
+
     private IEnumerable<string> GetSavedGrids()
     {
         GridManager.Instance.LoadGridsFromJSON();
@@ -108,6 +116,10 @@ public class GridPlaceholder : SerializedMonoBehaviour
 
     public int GridHeight = 8;
     public int GridWidth = 5;
+
+    [HideInInspector]
+    public bool IsPainting;
+    
 
     private float cellsWidth => SettingsManager.Instance.GridsPreset.CellsSize;
 

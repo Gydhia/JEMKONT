@@ -64,7 +64,7 @@ namespace Jemkont.Managers
 
         public void WelcomePlayerLately()
         {
-            PhotonNetwork.CreateRoom("SoloRoom");
+            PhotonNetwork.CreateRoom("SoloRoom" + UnityEngine.Random.Range(0,100000));
         }
 
         public void WelcomePlayers()

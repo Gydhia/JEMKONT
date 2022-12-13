@@ -20,6 +20,9 @@ public class GridEditor : OdinEditor
 
     private Vector3 _oldPosition;
 
+    private bool PenTypeChoosed = false;
+    private CellState PenType = CellState.Walkable;
+
     private class SubgridVars
     {
         public SubgridVars(int height, int width, int longitude, int latitude)
@@ -154,55 +157,128 @@ public class GridEditor : OdinEditor
         oldSubgrid.oldLatitude = newSubgrid.Latitude;
     }
 
+    /// <summary>
+    /// launches the behaviors from Inputs in editor.
+    /// </summary>
     public void OnSceneGUI()
     {
-        if (Event.current.shift && Event.current.type == EventType.MouseDown)
+        /// check if the mouse is on a cell
+        Ray ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
+        if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, 1 << 6))
         {
-            Ray ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, 1 << 6))
-            {
-                EditorUtility.SetDirty(this._target.gameObject);
-                GridPosition pos = this._target.GetGridIndexFromWorld(hit.point);
-
-                // Longitude = x, latitude = y. Array is [height, width]
-
-                CellData[,] refDatas;
-                if (GridUtility.GetIncludingSubGrid(this._target.InnerGrids, pos, out SubgridPlaceholder includingGrid))
-                {
-                    refDatas = includingGrid.CellDatas;
-                    pos = new GridPosition(pos.longitude - includingGrid.Longitude, pos.latitude - includingGrid.Latitude);
-                }
-                else
-                    refDatas = this._target.CellDatas;
-
-                CellState currState = refDatas[pos.latitude, pos.longitude].state;
-                refDatas[pos.latitude, pos.longitude].state = (currState == CellState.Blocked) ? CellState.Walkable : CellState.Blocked;
-            }
+            return;
         }
-        else if(Event.current.shift && Event.current.keyCode == KeyCode.A && Event.current.type == EventType.KeyDown)
+        if (Event.current.type == EventType.KeyUp)
         {
-            Ray ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, 1 << 6))
-            {
-                if (this._target.EntitySpawns == null)
-                    this._target.EntitySpawns = new Dictionary<GridPosition, EntitySpawn>();
+            PenTypeChoosed = false;
+        }
+        /// depending on the current input call block or make entity
+        if (!this._target.IsPainting || Event.current.type != EventType.KeyDown && Event.current.type != EventType.MouseMove)
+        {
+            return;
+        }
+        switch (Event.current.keyCode)
+        {
+            case KeyCode.Keypad0:
+                PenType = CellState.Walkable;
+                this.MakeWalkable(hit.point);
+                break;
+            case KeyCode.Keypad1:
+                PenType = CellState.Blocked;
+                this.MakeBlock(hit.point);
+                break;
+            case KeyCode.Keypad2:
+                PenType = CellState.EntityIn;
+                this.MakeEntity(hit.point);;
+                break;
+        }
+    }
 
-                GridPosition pos = this._target.GetGridIndexFromWorld(hit.point);
 
-                if (GridUtility.GetIncludingSubGrid(this._target.InnerGrids, pos, out SubgridPlaceholder includingGrid)) {
-                    if(includingGrid.EntitySpawns == null)
-                        includingGrid.EntitySpawns = new Dictionary<GridPosition, EntitySpawn>();
+    public void MakeBlock(Vector3 WorldPosition)
+    {
+        EditorUtility.SetDirty(this._target.gameObject);
 
-                    this.AllocateEntity(includingGrid.EntitySpawns, includingGrid.CellDatas, new GridPosition(pos.longitude - includingGrid.Longitude, pos.latitude - includingGrid.Latitude));
-                } else {
-                    this.AllocateEntity(this._target.EntitySpawns, this._target.CellDatas, pos);
-                }
-            }
+        GridPosition pos = this._target.GetGridIndexFromWorld(WorldPosition);
+        // Longitude = x, latitude = y. Array is [height, width]
+
+        CellData[,] refDatas = this.GetRefDatasOfGRid(pos, out GridPosition positionInCurrentGrid);
+        pos = positionInCurrentGrid;
+        CellState currState = refDatas[pos.latitude, pos.longitude].state;
+        if (PenType == currState || currState == CellState.EntityIn)
+        {
+            return;
+        }
+        refDatas[pos.latitude, pos.longitude].state = CellState.Blocked;
+    }
+
+    public void MakeWalkable(Vector3 WorldPosition)
+    {
+        EditorUtility.SetDirty(this._target.gameObject);
+
+        GridPosition pos = this._target.GetGridIndexFromWorld(WorldPosition);
+        // Longitude = x, latitude = y. Array is [height, width]
+
+        CellData[,] refDatas = this.GetRefDatasOfGRid(pos, out GridPosition positionInCurrentGrid);
+        pos = positionInCurrentGrid;
+        CellState currState = refDatas[pos.latitude, pos.longitude].state;
+        if (currState == CellState.EntityIn)
+        {
+            MakeEntity(WorldPosition);
+        }
+        if (PenType == currState)
+        {
+            return;
+        }
+        refDatas[pos.latitude, pos.longitude].state = CellState.Walkable;
+    }
+
+    public CellData[,] GetRefDatasOfGRid(GridPosition pos, out GridPosition positionInCurrentGrid)
+    {
+        CellData[,] refDatas;
+        //Either in a sub grid or in the original grid : apply position and ref datas variables.
+        if (GridUtility.GetIncludingSubGrid(this._target.InnerGrids, pos, out SubgridPlaceholder includingGrid))
+        {
+            refDatas = includingGrid.CellDatas;
+            positionInCurrentGrid = new GridPosition(pos.longitude - includingGrid.Longitude, pos.latitude - includingGrid.Latitude);
+        }
+        else
+        {
+            refDatas = this._target.CellDatas;
+            positionInCurrentGrid = pos;
+        }
+        return refDatas;
+    }
+
+    /// <Summary>
+    /// Will Check if the cell has an Entity or not and delete it or place one.
+    /// </Summary>
+    public void MakeEntity(Vector3 WorldPosition)
+    {
+        if (this._target.EntitySpawns == null)
+            this._target.EntitySpawns = new Dictionary<GridPosition, EntitySpawn>();
+
+        GridPosition pos = this._target.GetGridIndexFromWorld(WorldPosition);
+
+        if (GridUtility.GetIncludingSubGrid(this._target.InnerGrids, pos, out SubgridPlaceholder includingGrid))
+        {
+            if (includingGrid.EntitySpawns == null)
+                includingGrid.EntitySpawns = new Dictionary<GridPosition, EntitySpawn>();
+
+            this.AllocateEntity(includingGrid.EntitySpawns, includingGrid.CellDatas, new GridPosition(pos.longitude - includingGrid.Longitude, pos.latitude - includingGrid.Latitude));
+        }
+        else
+        {
+            this.AllocateEntity(this._target.EntitySpawns, this._target.CellDatas, pos);
         }
     }
 
     public void AllocateEntity(Dictionary<GridPosition, EntitySpawn> entitiesRef, CellData[,] cellsRef, GridPosition pos)
     {
+        if (cellsRef[pos.latitude, pos.longitude].state == PenType)
+        {
+            return;
+        }
         if (!entitiesRef.ContainsKey(pos))
         {
             cellsRef[pos.latitude, pos.longitude].state = CellState.EntityIn;
