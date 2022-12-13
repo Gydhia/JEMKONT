@@ -49,8 +49,8 @@ namespace Jemkont.Spells
         public List<CharacterEntity> GetTargets(CharacterEntity caster, GridSystem.Cell cellTarget)
         {
             List<CharacterEntity> targets = new List<CharacterEntity>();
-
-            if (this.ApplyToCell && cellTarget.EntityIn != null)
+            //TODO: If getTarget doesn't get a target in a cell, cancel the spell?
+            if (this.ApplyToCell && cellTarget.EntityIn != null && !cellTarget.EntityIn.Camouflage)
                 targets.Add(cellTarget.EntityIn);
 
             if (this.ApplyToSelf && !targets.Contains(caster))

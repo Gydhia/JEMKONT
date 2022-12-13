@@ -20,8 +20,8 @@ public class SpellStrangeMushroom : SpellAction {
         var AmountOfHealthToApply = strength - health;
         var AmountOfStrengthToApply = -AmountOfHealthToApply;
         if (strength > target.MaxHealth) target.MaxHealth = strength;
-        target.ApplyHealth(AmountOfHealthToApply,false);
-        target.ApplyStrength(AmountOfStrengthToApply);
+        target.ApplyStat(EntityStatistics.Health,AmountOfHealthToApply,false);
+        target.ApplyStat(EntityStatistics.Strength,AmountOfStrengthToApply);
         CombatManager.Instance.DrawCard();
     }
 }

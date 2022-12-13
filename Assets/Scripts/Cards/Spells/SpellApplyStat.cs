@@ -16,28 +16,9 @@ namespace Jemkont.Spells
 
             foreach (CharacterEntity entity in targets)
             {
-                switch (this.ModifiedStatistic)
-                {
-                    case EntityStatistics.Health:
-                        entity.ApplyHealth(this.StatisticValue, false);
-                        break;
-                    case EntityStatistics.Shield:
-                        entity.ApplyShield(this.StatisticValue);
-                        break;
-                    case EntityStatistics.Mana:
-                        entity.ApplyMana(this.StatisticValue);
-                        break;
-                    case EntityStatistics.Speed:
-                        entity.ApplySpeed(this.StatisticValue);
-                        break;
-                    case EntityStatistics.Strength:
-                        entity.ApplyStrength(this.StatisticValue);
-                        break;
-                    default:
-                        break;
-                }
+                if (ModifiedStatistic == EntityStatistics.Health && spellRef.Caster.Critical && StatisticValue < 0) StatisticValue *= 2;
+                entity.ApplyStat(this.ModifiedStatistic,StatisticValue,false);
             }
-            
             this.HasEnded = true;
 
             Destroy(this.gameObject, 1f);

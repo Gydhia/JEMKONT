@@ -40,7 +40,7 @@ namespace Jemkont.Spells
                 timer += Time.deltaTime;
             }
 
-            target.ApplyHealth(-this.BaseDamages, false);
+            target.ApplyStat(EntityStatistics.Health,-this.BaseDamages, false);
             this.HasEnded = true;
         }
     }

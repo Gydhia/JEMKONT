@@ -11,7 +11,7 @@ namespace Jemkont.Spells.Alterations {
         }
         public override void DecrementAlterationCountdown(EventData data) {
             base.DecrementAlterationCountdown(data);
-            //TODO: DIE here lol
+            Target.Die();
         }
         public override EAlterationType ToEnum() {
             return EAlterationType.Ephemeral;

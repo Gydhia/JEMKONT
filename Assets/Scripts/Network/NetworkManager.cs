@@ -88,12 +88,14 @@ namespace Jemkont.Managers
 
 
         #region Players_Callbacks
-        public void EntityAsksForPath(string entityUID, Cell target, string mainGrid, string innerGrid)
+        public void EntityAsksForPath(string entityUID, Cell target, WorldGrid mainGrid)
         {
+            string refGrid = mainGrid is CombatGrid cGrid ? cGrid.ParentGrid.UName : mainGrid.UName;
+            string innerGrid = refGrid == mainGrid.UName ? string.Empty : mainGrid.UName;
             int[] position = new int[2] { target.PositionInGrid.longitude, target.PositionInGrid.latitude };
 
             if (PhotonNetwork.IsMasterClient)
-                this.RPC_ProcessEntityAskedPath(entityUID, position, mainGrid, innerGrid);
+                this.RPC_ProcessEntityAskedPath(entityUID, position,refGrid, innerGrid);
             else
                 this.photonView.RPC("RPC_ProcessEntityAskedPath", RpcTarget.MasterClient, entityUID, position, mainGrid, innerGrid);
         }

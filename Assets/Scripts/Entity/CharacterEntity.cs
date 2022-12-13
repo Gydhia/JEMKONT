@@ -36,6 +36,7 @@ namespace Jemkont.Entity {
         public event GameEventData.Event OnTurnEnded;
         public event GameEventData.Event OnTryTakeDamage;
         public event GameEventData.Event OnDamageTaken;
+        public event GameEventData.Event OnDeath;
 
 
         protected EntityStats RefStats;
@@ -66,21 +67,21 @@ namespace Jemkont.Entity {
 
 
         #region alterationBooleans
-        public bool Snared { get => Alterations.Any(x => x.GetType() == typeof(SnareAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Snare].Contains(x.ToEnum())); }
-        public bool Stunned { get => Alterations.Any(x => x.GetType() == typeof(StunAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Stun].Contains(x.ToEnum())); }
-        public bool Disarmed { get => Alterations.Any(x => x.GetType() == typeof(DisarmedAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Disarmed].Contains(x.ToEnum())); }
-        public bool Critical { get => Alterations.Any(x => x.GetType() == typeof(CriticalAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Critical].Contains(x.ToEnum())); }
-        public bool Dodge { get => Alterations.Any(x => x.GetType() == typeof(DodgeAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Dodge].Contains(x.ToEnum())); }
-        public bool Camouflage { get => Alterations.Any(x => x.GetType() == typeof(CamouflageAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Camouflage].Contains(x.ToEnum())); }
-        public bool Provoke { get => Alterations.Any(x => x.GetType() == typeof(ProvokeAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Provoke].Contains(x.ToEnum())); }
-        public bool Ephemeral { get => Alterations.Any(x => x.GetType() == typeof(EphemeralAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Ephemeral].Contains(x.ToEnum())); }
-        public bool Confusion { get => Alterations.Any(x => x.GetType() == typeof(ConfusionAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Confusion].Contains(x.ToEnum())); }
-        public bool Shattered { get => Alterations.Any(x => x.GetType() == typeof(ShatteredAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Shattered].Contains(x.ToEnum())); }
-        public bool DoT { get => Alterations.Any(x => x.GetType() == typeof(DoTAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.DoT].Contains(x.ToEnum())); }
-        public bool Spirit { get => Alterations.Any(x => x.GetType() == typeof(InspirationAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Inspiration].Contains(x.ToEnum())); }
-        public bool Bubbled { get => Alterations.Any(x => x.GetType() == typeof(BubbledAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Bubbled].Contains(x.ToEnum())); }
-        public bool MindControl { get => Alterations.Any(x => x.GetType() == typeof(MindControlAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.MindControl].Contains(x.ToEnum())); }
-        public bool Sleeping { get => Alterations.Any(x => x.GetType() == typeof(SleepAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Sleep].Contains(x.ToEnum())); }
+        public bool Snared { get => Alterations.Any(x => x.GetType() == typeof(SnareAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Snare].Contains(x.ToEnum())); }//DONE
+        public bool Stunned { get => Alterations.Any(x => x.GetType() == typeof(StunAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Stun].Contains(x.ToEnum())); }//DONE
+        public bool Disarmed { get => Alterations.Any(x => x.GetType() == typeof(DisarmedAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Disarmed].Contains(x.ToEnum())); }//DONE
+        public bool Critical { get => Alterations.Any(x => x.GetType() == typeof(CriticalAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Critical].Contains(x.ToEnum())); }//Ouille. On met ça de côté le temps d'un gros refactor. impossible.
+        public bool Dodge { get => Alterations.Any(x => x.GetType() == typeof(DodgeAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Dodge].Contains(x.ToEnum())); }//DONE
+        public bool Camouflage { get => Alterations.Any(x => x.GetType() == typeof(CamouflageAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Camouflage].Contains(x.ToEnum())); }//DONE
+        public bool Provoke { get => Alterations.Any(x => x.GetType() == typeof(ProvokeAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Provoke].Contains(x.ToEnum())); }//DONE
+        public bool Ephemeral { get => Alterations.Any(x => x.GetType() == typeof(EphemeralAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Ephemeral].Contains(x.ToEnum())); }//DONE
+        public bool Confused { get => Alterations.Any(x => x.GetType() == typeof(ConfusionAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Confusion].Contains(x.ToEnum())); }//DONE
+        public bool Shattered { get => Alterations.Any(x => x.GetType() == typeof(ShatteredAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Shattered].Contains(x.ToEnum())); }//DONE
+        public bool DoT { get => Alterations.Any(x => x.GetType() == typeof(DoTAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.DoT].Contains(x.ToEnum())); }//DONE
+        public bool Inspired { get => Alterations.Any(x => x.GetType() == typeof(InspirationAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Inspiration].Contains(x.ToEnum())); }//DONE 
+        public bool Bubbled { get => Alterations.Any(x => x.GetType() == typeof(BubbledAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Bubbled].Contains(x.ToEnum())); }//DONE
+        public bool MindControl { get => Alterations.Any(x => x.GetType() == typeof(MindControlAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.MindControl].Contains(x.ToEnum())); }//FUCK YOU
+        public bool Sleeping { get => Alterations.Any(x => x.GetType() == typeof(SleepAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Sleep].Contains(x.ToEnum())); }//DONE
         /// <summary>
         /// Returns the current Damage Up/Down alteration value. returns 0 of there isn't any.
         /// </summary>
@@ -108,15 +109,15 @@ namespace Jemkont.Entity {
         public int Health { get => Statistics[EntityStatistics.Health]; }
         public int Shield { get => Statistics[EntityStatistics.Shield]; }
         public int Strength { get => Statistics[EntityStatistics.Strength]; }
-        public int Speed { get => Statistics[EntityStatistics.Speed]; }
+        public int Speed { get => Snared ? 0 : Statistics[EntityStatistics.Speed] + SpeedUpDown; }
         public int Mana { get => Statistics[EntityStatistics.Mana]; }
-        public int Defense { get => Statistics[EntityStatistics.Defense]; }
+        public int Defense { get => Shattered ? 0 : Statistics[EntityStatistics.Defense]; }
         public int Range { get => Statistics[EntityStatistics.Range]; }
 
         public abstract Spell AutoAttackSpell();
 
         public bool TryGoTo(Cell destination,int cost) {
-            this.ApplySpeed(-cost);
+            this.ApplyStat(EntityStatistics.Speed,-cost);
 
             this.EntityCell.EntityIn = null;
 
@@ -131,6 +132,7 @@ namespace Jemkont.Entity {
         public void Start() {
             this.OnHealthAdded += UpdateUILife;
             this.OnHealthRemoved += UpdateUILife;
+            this.OnHealthRemoved += AreYouAlive;
 
             this.OnShieldAdded += UpdateUIShield;
             this.OnShieldRemoved += UpdateUIShield;
@@ -251,15 +253,15 @@ namespace Jemkont.Entity {
             }
             OnTurnEnded.Invoke(new());
         }
-
         public virtual void StartTurn() {
             OnTurnBegun.Invoke(new());
-            CanAutoAttack = true;
+            CanAutoAttack = !Disarmed;//CanAutoAttack = true if !Disarmed
             this.ReinitializeStat(EntityStatistics.Speed);//bruh.
             this.ReinitializeStat(EntityStatistics.Mana);
+            if (Stunned || Sleeping) EndTurn();
             GridManager.Instance.ShowPossibleCombatMovements(this);
-        }
 
+        }
         public virtual void Init(EntityStats stats,Cell refCell,WorldGrid refGrid,int order = 0) {
             this.transform.position = refCell.WorldPosition;
             this.EntityCell = refCell;
@@ -293,6 +295,20 @@ namespace Jemkont.Entity {
                 case EntityStatistics.Range: this.Statistics[EntityStatistics.Range] = this.RefStats.Range; break;
             }
         }
+        public void AreYouAlive(SpellEventData data) {
+            if (this.Health <= 0) Die();
+        }
+        public virtual void Die() {
+            while (Alterations.Count > 0) {
+                Alteration alt = Alterations[0];
+                alt.WearsOff(this);
+                RemoveAlteration(alt);//You know what? Fuck you *unsubs your alterations*
+                Alterations.RemoveAt(0);
+            }
+            //???
+            OnDeath?.Invoke(new());
+            Destroy(this.gameObject);
+        }
         /// <summary>
         /// Applies any value on any stat.
         /// </summary>
@@ -315,7 +331,9 @@ namespace Jemkont.Entity {
                         if (Bubbled) {
                             value = 0;
                         }
-                        OnHealthRemoved?.Invoke(new(this,value));
+                        if (Dodge) {
+                            if (Random.Range(0,1) == 0) value = 0;
+                        }
                         int onShield = this.Shield - value > 0 ? value : this.Shield;
                         int onLife = overShield ? value : -(onShield - value);
                         value = -onLife;
@@ -348,75 +366,7 @@ namespace Jemkont.Entity {
             }
             Statistics[stat] += value;
         }
-        public void ApplyHealth(int value,bool overShield) {
-            if (value > 0) {
-                // Check overheal
-                if (this.Health + value > this.RefStats.Health)
-                    Statistics[EntityStatistics.Health] = this.RefStats.Health;
-                else
-                    Statistics[EntityStatistics.Health] += value;
-
-                this.OnHealthAdded?.Invoke(new SpellEventData(this,value));
-            } else {
-                // Better to understand like that :)
-
-                value = Mathf.Max(0,Defense - value);
-                OnTryTakeDamage?.Invoke(new());
-                if (Alterations.Any(x => x.Is<BubbledAlteration>())) {
-                    value = 0;
-                }
-                int onShield = this.Shield - value > 0 ? value : this.Shield;
-                int onLife = overShield ? value : -(onShield - value);
-
-                Statistics[EntityStatistics.Health] -= onLife;
-
-                if (!overShield) {
-                    Statistics[EntityStatistics.Shield] -= onShield;
-                    this.OnShieldRemoved?.Invoke(new SpellEventData(this,onShield));
-                }
-                this.OnHealthRemoved?.Invoke(new SpellEventData(this,onLife));
-
-                if (value != 0) this.OnDamageTaken?.Invoke(new());
-
-            }
-        }
-
-        public void ApplyShield(int value) {
-            Statistics[EntityStatistics.Shield] += value;
-
-            if (value > 0)
-                this.OnShieldAdded?.Invoke(new SpellEventData(this,value));
-            else
-                this.OnShieldRemoved?.Invoke(new SpellEventData(this,-value));
-        }
-
-        public void ApplyMana(int value) {
-            Statistics[EntityStatistics.Mana] += value;
-
-            if (value > 0)
-                this.OnManaAdded?.Invoke(new SpellEventData(this,value));
-            else
-                this.OnManaRemoved?.Invoke(new SpellEventData(this,-value));
-        }
-
-        public void ApplySpeed(int value) {
-            Statistics[EntityStatistics.Speed] += value;
-
-            if (value > 0)
-                this.OnSpeedAdded?.Invoke(new SpellEventData(this,value));
-            else
-                this.OnSpeedRemoved?.Invoke(new SpellEventData(this,-value));
-        }
-
-        public void ApplyStrength(int value) {
-            Statistics[EntityStatistics.Strength] += value;
-
-            if (value > 0)
-                this.OnStrengthAdded?.Invoke(new SpellEventData(this,value));
-            else
-                this.OnStrengthRemoved?.Invoke(new SpellEventData(this,-value));
-        }
-
+       
         public override string ToString() {
             return @$"Name : {name}
 IsAlly : {IsAlly}
@@ -441,6 +391,7 @@ GridPos : {EntityCell}";
                 EAlterationType.SpeedUpDown => new SpeedUpDownAlteration(duration,value),
                 EAlterationType.DmgUpDown => new DmgUpDownAlteration(duration,value),
                 EAlterationType.Inspiration => new InspirationAlteration(duration),
+                EAlterationType.Sleep => new SleepAlteration(duration),
                 _ => throw new System.NotImplementedException($"NEED TO IMPLEMENT ENUM MEMBER {type}"),
             };
             var found = Alterations.Find(x => x.GetType() == alteration.GetType());
@@ -469,6 +420,7 @@ GridPos : {EntityCell}";
                         break;
                     case ProvokeAlteration prov:
                         this.OnTurnEnded += prov.DecrementAlterationCountdown;
+                        this.OnHealthRemoved += prov.DecrementAlterationCountdown;
                         //OnDamageReceived too? tf
                         break;
                     case ShatteredAlteration shat:
@@ -478,6 +430,48 @@ GridPos : {EntityCell}";
                     case BubbledAlteration bubble:
                         this.OnTurnEnded += bubble.DecrementAlterationCountdown;
                         this.OnHealthRemoved += bubble.DecrementAlterationCountdown;
+                        break;
+                    case SleepAlteration sleep:
+                        this.OnHealthRemoved += sleep.DecrementAlterationCountdown;
+                        break;
+                    default:
+                        Debug.LogError("ALTERATION ERROR: SPECIAL COUNTDOWN NOT IMPLEMENTED.");
+                        break;
+                }
+            }
+        }
+        public void RemoveAlteration(Alteration alteration) {
+            if (alteration.ClassicCountdown) {
+                this.OnTurnEnded += alteration.DecrementAlterationCountdown;
+            } else {
+                switch (alteration) {
+                    case CriticalAlteration crit:
+                        //Don't worry guys
+                        //Edit: WHY???? WHERE DID I- WHAT???? HELP
+                        //Re-Edit : yeah check SubToSpell
+                        break;
+                    case DodgeAlteration dodge:
+                        this.OnHealthRemoved -= alteration.DecrementAlterationCountdown;
+                        break;
+                    case CamouflageAlteration camo:
+                        this.OnTurnEnded -= camo.DecrementAlterationCountdown;
+                        this.OnHealthRemoved -= camo.DecrementAlterationCountdown;
+                        break;
+                    case ProvokeAlteration prov:
+                        this.OnTurnEnded -= prov.DecrementAlterationCountdown;
+                        //OnDamageReceived too? tf
+                        this.OnHealthRemoved -= prov.DecrementAlterationCountdown;
+                        break;
+                    case ShatteredAlteration shat:
+                        this.OnTurnEnded -= shat.DecrementAlterationCountdown;
+                        this.OnHealthRemoved -= shat.DecrementAlterationCountdown;
+                        break;
+                    case BubbledAlteration bubble:
+                        this.OnTurnEnded -= bubble.DecrementAlterationCountdown;
+                        this.OnHealthRemoved -= bubble.DecrementAlterationCountdown;
+                        break;
+                    case SleepAlteration sleep:
+                        this.OnHealthRemoved -= sleep.DecrementAlterationCountdown;
                         break;
                     default:
                         Debug.LogError("ALTERATION ERROR: SPECIAL COUNTDOWN NOT IMPLEMENTED.");
@@ -489,9 +483,6 @@ GridPos : {EntityCell}";
             //oh
             foreach (var item in Alterations) {
                 switch (item) {
-                    case ProvokeAlteration prov:
-                        Action.OnDamageDealt += prov.DecrementAlterationCountdown;//No
-                        break;
                     case CriticalAlteration crit:
                         Action.OnDamageDealt += crit.DecrementAlterationCountdown;
                         break;
@@ -503,9 +494,6 @@ GridPos : {EntityCell}";
         public void UnsubToSpell(SpellAction Action) {
             foreach (var item in Alterations) {
                 switch (item) {
-                    case ProvokeAlteration prov:
-                        Action.OnDamageDealt -= prov.DecrementAlterationCountdown;
-                        break;
                     case CriticalAlteration crit:
                         Action.OnDamageDealt -= crit.DecrementAlterationCountdown;
                         break;

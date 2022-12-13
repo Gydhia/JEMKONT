@@ -163,6 +163,7 @@ namespace Jemkont.Managers
                 if(i < players.Count)
                     this.PlayingEntities.Add(players[i]);
             }
+            this.PlayingEntities = this.PlayingEntities.OrderBy(x=>x.Inspired).ToList();
         }
     }
 }

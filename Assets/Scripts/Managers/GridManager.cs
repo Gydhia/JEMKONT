@@ -11,6 +11,8 @@ using Newtonsoft.Json;
 using System;
 using Jemkont.Events;
 using UnityEngine.Rendering;
+using EODE.Wonderland;
+using MyBox;
 
 namespace Jemkont.Managers {
     public class GridManager : _baseManager<GridManager> {
@@ -205,8 +207,17 @@ namespace Jemkont.Managers {
                     }
                 }
             }
+            if (entity.Confused) {
+                if(entity.Is<PlayerBehavior>())
+                    NetworkManager.Instance.PlayerAsksForPath((PlayerBehavior)entity,_possiblePath.Random(),string.Empty);
+                else {
+                    NetworkManager.Instance.EntityAsksForPath(entity.UID,_possiblePath.Random(),entity.CurrentGrid);
+                }
+            }
         }
-
+        public Cell RandomCellInPossiblePath() {
+            return _possiblePath.Random();
+        }
         public void OnEnteredNewGrid(EntityEventData Data) {
             // Affect the visuals ONLY if we are the player transitionning
             if (Data.Entity == GameManager.Instance.SelfPlayer) {
