@@ -1,3 +1,4 @@
+using Jemkont.Spells.Alterations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,6 +11,8 @@ public class DmgUpDownAlteration : BuffAlteration
     public override EntityStatistics StatToBuff() {
         return EntityStatistics.Strength;
     }
+    public override EAlterationType ToEnum() {
+        return EAlterationType.DmgUpDown;
+        }
 
-    
 }

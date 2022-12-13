@@ -1,3 +1,4 @@
+using Jemkont.Spells.Alterations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,5 +13,7 @@ public class SpeedUpDownAlteration : BuffAlteration
         return EntityStatistics.Speed;
     }
 
-    
+    public override EAlterationType ToEnum() {
+        return EAlterationType.SpeedUpDown;
+    }
 }

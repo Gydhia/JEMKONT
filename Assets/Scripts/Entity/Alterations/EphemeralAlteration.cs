@@ -13,5 +13,8 @@ namespace Jemkont.Spells.Alterations {
             base.DecrementAlterationCountdown(data);
             //TODO: DIE here lol
         }
+        public override EAlterationType ToEnum() {
+            return EAlterationType.Ephemeral;
+        }
     }
 }

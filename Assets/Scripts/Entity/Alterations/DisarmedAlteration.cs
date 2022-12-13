@@ -9,5 +9,8 @@ namespace Jemkont.Spells.Alterations {
         public DisarmedAlteration(int Cooldown) : base(Cooldown) {
             //TODO : disable autoattacks (when we've coded them)
         }
+        public override EAlterationType ToEnum() {
+            return EAlterationType.Disarmed;
+        }
     }
 }

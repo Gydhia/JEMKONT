@@ -16,6 +16,9 @@ namespace Jemkont.Spells.Alterations {
             }
             base.DecrementAlterationCountdown(data);
         }
+        public override EAlterationType ToEnum() {
+            return EAlterationType.Shattered;
+        }
         public override bool ClassicCountdown => false;
 
     }

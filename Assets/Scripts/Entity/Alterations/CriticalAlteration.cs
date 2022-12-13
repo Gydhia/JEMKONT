@@ -9,5 +9,8 @@ namespace Jemkont.Spells.Alterations {
         public override bool ClassicCountdown { get => false; }
         public CriticalAlteration(int Cooldown) : base(Cooldown) {
         }
+        public override EAlterationType ToEnum() {
+            return EAlterationType.Critical;
+        }
     }
 }

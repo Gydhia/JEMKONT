@@ -15,5 +15,8 @@ namespace Jemkont.Spells.Alterations {
             entity.ApplyHealth(-Damage,false);
         }
         //DONE!
+        public override EAlterationType ToEnum() {
+            return EAlterationType.DoT;
+        }
     }
 }

@@ -66,20 +66,41 @@ namespace Jemkont.Entity {
 
 
         #region alterationBooleans
-        public bool Snared { get => Alterations.Any(x => x.GetType() == typeof(SnareAlteration)) && !Alterations.Any(x => Alteration.TypeToEnum<>Alteration.overrides[EAlterationType.Snare]; }
-        public bool Stunned { get => Alterations.Any(x => x.GetType() == typeof(StunAlteration)); }
-        public bool Disarmed { get => Alterations.Any(x => x.GetType() == typeof(DisarmedAlteration)); }
-        public bool Critical { get => Alterations.Any(x => x.GetType() == typeof(CriticalAlteration)); }
-        public bool Dodge { get => Alterations.Any(x => x.GetType() == typeof(DodgeAlteration)); }
-        public bool Camouflage { get => Alterations.Any(x => x.GetType() == typeof(CamouflageAlteration)); }
-        public bool Provoke { get => Alterations.Any(x => x.GetType() == typeof(ProvokeAlteration)); }
-        public bool Ephemeral { get => Alterations.Any(x => x.GetType() == typeof(EphemeralAlteration)); }
-        public bool Confusion { get => Alterations.Any(x => x.GetType() == typeof(ConfusionAlteration)); }
-        public bool Shattered { get => Alterations.Any(x => x.GetType() == typeof(ShatteredAlteration)); }
-        public bool DoT { get => Alterations.Any(x => x.GetType() == typeof(DoTAlteration)); }
-        public bool Spirit { get => Alterations.Any(x => x.GetType() == typeof(InspirationAlteration)); }
-        public bool Bubbled { get => Alterations.Any(x => x.GetType() == typeof(BubbledAlteration)); }
-        public bool MindControl { get => Alterations.Any(x => x.GetType() == typeof(MindControlAlteration)); }
+        public bool Snared { get => Alterations.Any(x => x.GetType() == typeof(SnareAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Snare].Contains(x.ToEnum())); }
+        public bool Stunned { get => Alterations.Any(x => x.GetType() == typeof(StunAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Stun].Contains(x.ToEnum())); }
+        public bool Disarmed { get => Alterations.Any(x => x.GetType() == typeof(DisarmedAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Disarmed].Contains(x.ToEnum())); }
+        public bool Critical { get => Alterations.Any(x => x.GetType() == typeof(CriticalAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Critical].Contains(x.ToEnum())); }
+        public bool Dodge { get => Alterations.Any(x => x.GetType() == typeof(DodgeAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Dodge].Contains(x.ToEnum())); }
+        public bool Camouflage { get => Alterations.Any(x => x.GetType() == typeof(CamouflageAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Camouflage].Contains(x.ToEnum())); }
+        public bool Provoke { get => Alterations.Any(x => x.GetType() == typeof(ProvokeAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Provoke].Contains(x.ToEnum())); }
+        public bool Ephemeral { get => Alterations.Any(x => x.GetType() == typeof(EphemeralAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Ephemeral].Contains(x.ToEnum())); }
+        public bool Confusion { get => Alterations.Any(x => x.GetType() == typeof(ConfusionAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Confusion].Contains(x.ToEnum())); }
+        public bool Shattered { get => Alterations.Any(x => x.GetType() == typeof(ShatteredAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Shattered].Contains(x.ToEnum())); }
+        public bool DoT { get => Alterations.Any(x => x.GetType() == typeof(DoTAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.DoT].Contains(x.ToEnum())); }
+        public bool Spirit { get => Alterations.Any(x => x.GetType() == typeof(InspirationAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Inspiration].Contains(x.ToEnum())); }
+        public bool Bubbled { get => Alterations.Any(x => x.GetType() == typeof(BubbledAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Bubbled].Contains(x.ToEnum())); }
+        public bool MindControl { get => Alterations.Any(x => x.GetType() == typeof(MindControlAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.MindControl].Contains(x.ToEnum())); }
+        public bool Sleeping { get => Alterations.Any(x => x.GetType() == typeof(SleepAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Sleep].Contains(x.ToEnum())); }
+        /// <summary>
+        /// Returns the current Damage Up/Down alteration value. returns 0 of there isn't any.
+        /// </summary>
+        public int DmgUpDown {
+            get {
+                var alt = Alterations.Find(x => x.Is<DmgUpDownAlteration>());
+                if (alt != null && !Alterations.Any(x => Alteration.overrides[EAlterationType.DmgUpDown].Contains(x.ToEnum()))) return ((DmgUpDownAlteration)alt).value;
+                return 0;
+            }
+        }
+        /// <summary>
+        /// Returns the current Speed Up/Down alteration value. returns 0 of there isn't any.
+        /// </summary>
+        public int SpeedUpDown {
+            get {
+                var alt = Alterations.Find(x => x.Is<SpeedUpDownAlteration>());
+                if (alt != null && !Alterations.Any(x => Alteration.overrides[EAlterationType.SpeedUpDown].Contains(x.ToEnum()))) return ((SpeedUpDownAlteration)alt).value;
+                return 0;
+            }
+        }
         #endregion
 
         public int MaxHealth { get => RefStats.Health; set => RefStats.Health = value; }
@@ -91,7 +112,6 @@ namespace Jemkont.Entity {
         public int Mana { get => Statistics[EntityStatistics.Mana]; }
         public int Defense { get => Statistics[EntityStatistics.Defense]; }
         public int Range { get => Statistics[EntityStatistics.Range]; }
-
 
         public abstract Spell AutoAttackSpell();
 
@@ -292,10 +312,10 @@ namespace Jemkont.Entity {
                         OnHealthAdded?.Invoke(new(this,value));
                     } else {
                         value = Mathf.Max(0,Defense - value);
-                        OnHealthRemoved?.Invoke(new(this,value));
-                        if (Alterations.Any(x => x.Is<BubbledAlteration>())) {
+                        if (Bubbled) {
                             value = 0;
                         }
+                        OnHealthRemoved?.Invoke(new(this,value));
                         int onShield = this.Shield - value > 0 ? value : this.Shield;
                         int onLife = overShield ? value : -(onShield - value);
                         value = -onLife;

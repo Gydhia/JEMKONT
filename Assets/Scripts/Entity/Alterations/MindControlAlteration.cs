@@ -9,6 +9,9 @@ namespace Jemkont.Spells.Alterations {
         public MindControlAlteration(int Cooldown) : base(Cooldown) {
             //TODO: MVP+1
         }
+        public override EAlterationType ToEnum() {
+            return EAlterationType.MindControl;
+        }
 
     }
 }

@@ -8,5 +8,8 @@ namespace Jemkont.Spells.Alterations {
     public class InspirationAlteration : Alteration {
         public InspirationAlteration(int Cooldown) : base(Cooldown) {
         }
+        public override EAlterationType ToEnum() {
+            return EAlterationType.Inspiration;
+        }
     }
 }

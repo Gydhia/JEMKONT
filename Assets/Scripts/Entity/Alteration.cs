@@ -33,24 +33,24 @@ namespace Jemkont.Spells.Alterations {
         /// <summary>
         /// Key is overriden by value.
         /// </summary>
-        public static Dictionary<EAlterationType,Type[]> overrides = new() {
-            { EAlterationType.Stun, new Type[0] },
-            { EAlterationType.Snare, new Type[2]{ typeof(StunAlteration), typeof(SleepAlteration) } },
-            { EAlterationType.Disarmed, new Type[2]{ typeof(StunAlteration), typeof(SleepAlteration) } },
-            { EAlterationType.Critical, new Type[0] },
-            { EAlterationType.Dodge, new Type[0] },
-            { EAlterationType.Camouflage, new Type[2]{ typeof(StunAlteration), typeof(SleepAlteration) } },
-            { EAlterationType.Provoke, new Type[0]},
-            { EAlterationType.Ephemeral, new Type[0] },
-            { EAlterationType.Confusion, new Type[2]{ typeof(StunAlteration), typeof(SleepAlteration) } },
-            { EAlterationType.Shattered, new Type[2]{ typeof(StunAlteration), typeof(SleepAlteration) } },
-            { EAlterationType.DoT, new Type[2]{ typeof(StunAlteration), typeof(SleepAlteration) } },
-            { EAlterationType.Bubbled, new Type[2]{ typeof(StunAlteration), typeof(SleepAlteration) } },
-            { EAlterationType.MindControl, new Type[2]{ typeof(StunAlteration), typeof(SleepAlteration) } },
-            { EAlterationType.Inspiration, new Type[2]{ typeof(StunAlteration), typeof(SleepAlteration) } },
-            { EAlterationType.DmgUpDown, new Type[2]{ typeof(StunAlteration), typeof(SleepAlteration) } },
-            { EAlterationType.SpeedUpDown, new Type[2]{ typeof(StunAlteration), typeof(SleepAlteration) } },
-            { EAlterationType.Sleep, new Type[2]{ typeof(StunAlteration), typeof(SleepAlteration) } },
+        public static Dictionary<EAlterationType,EAlterationType[]> overrides = new() {
+            { EAlterationType.Stun, new EAlterationType[0] },
+            { EAlterationType.Snare, new EAlterationType[0] },
+            { EAlterationType.Disarmed, new EAlterationType[0] },
+            { EAlterationType.Critical, new EAlterationType[0] },
+            { EAlterationType.Dodge, new EAlterationType[0] },
+            { EAlterationType.Camouflage, new EAlterationType[0] },
+            { EAlterationType.Provoke, new EAlterationType[0]},
+            { EAlterationType.Ephemeral, new EAlterationType[0] },
+            { EAlterationType.Confusion, new EAlterationType[0] },
+            { EAlterationType.Shattered, new EAlterationType[0] },
+            { EAlterationType.DoT, new EAlterationType[0] },
+            { EAlterationType.Bubbled, new EAlterationType[0] },
+            { EAlterationType.MindControl, new EAlterationType[0] },
+            { EAlterationType.Inspiration, new EAlterationType[0] },
+            { EAlterationType.DmgUpDown, new EAlterationType[0] },
+            { EAlterationType.SpeedUpDown, new EAlterationType[0] },
+            { EAlterationType.Sleep, new EAlterationType[0] },
         };
         public static EAlterationType TypeToEnum<T>() {
             T type = default;
