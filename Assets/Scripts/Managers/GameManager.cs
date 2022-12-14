@@ -71,7 +71,7 @@ namespace DownBelow.Managers
 
         public void WelcomePlayerLately()
         {
-            PhotonNetwork.CreateRoom("SoloRoomKillian");
+            PhotonNetwork.CreateRoom("SoloRoom");
         }
 
         public void WelcomePlayers()
