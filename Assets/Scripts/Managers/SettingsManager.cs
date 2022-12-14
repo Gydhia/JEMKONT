@@ -14,6 +14,10 @@ namespace DownBelow.Managers
 
         // for test
         public EntityStats PlayerStats;
+        public EntityStats FishermanStats;
+        public EntityStats MinerStats;
+        public EntityStats FarmerStats;
+        public EntityStats HerbalistStats;
     }
 
 }

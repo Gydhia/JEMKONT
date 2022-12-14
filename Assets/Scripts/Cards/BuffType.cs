@@ -7,7 +7,7 @@ namespace DownBelow.Spells
     public enum BuffType
     {
         None = 0,
-        Strenght = 1,
+        Strength = 1,
         Health = 2,
         Shield = 3
     }

@@ -10,8 +10,9 @@ public class SpellHookAndTear : SpellAction {
     public override void Execute(List<CharacterEntity> targets,Spell spellRef) {
         base.Execute(targets,spellRef);
         var damage = CombatManager.Instance.HandPile.Count * damageMultiplier;
+        if (spellRef.Caster.Critical) damage *= 2;
         foreach (var item in targets) {
-            item.ApplyHealth(-damage,false);
+            item.ApplyStat(EntityStatistics.Health,-damage,false);
         }
     }
 }

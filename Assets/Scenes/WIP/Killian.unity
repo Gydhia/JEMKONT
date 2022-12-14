@@ -3258,82 +3258,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: DeckPresets.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: DeckPresets.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: dd2bfd15c03fc73419ff1859368e683d, type: 2}
     - target: {fileID: 7177147408384528591, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
       propertyPath: m_Name
       value: Managers
       objectReference: {fileID: 0}
     - target: {fileID: 7964413336302880731, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
-      propertyPath: Plane
-      value: 
-      objectReference: {fileID: 913962143815404576, guid: 7141923bd86c41143a35f9d656e8949b, type: 3}
-    - target: {fileID: 7964413336302880731, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
-      propertyPath: Player
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7964413336302880731, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
-      propertyPath: InCombat
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7964413336302880731, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
-      propertyPath: TestPlane
-      value: 
-      objectReference: {fileID: 913962143815404576, guid: 7141923bd86c41143a35f9d656e8949b, type: 3}
-    - target: {fileID: 7964413336302880731, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
-      propertyPath: GridHandler
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7964413336302880731, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
-      propertyPath: FirstSpawn.x
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7964413336302880731, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
-      propertyPath: FirstSpawn.y
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7964413336302880731, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
-      propertyPath: PlayerPrefab
-      value: 
-      objectReference: {fileID: -4998914615591247022, guid: 1d1bd3328be7bc54eb7b01b391b42dc7, type: 3}
-    - target: {fileID: 7964413336302880731, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
-      propertyPath: ThirdSpawn.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7964413336302880731, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
-      propertyPath: ThirdSpawn.y
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7964413336302880731, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
-      propertyPath: FourthSpawn.x
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7964413336302880731, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
-      propertyPath: FourthSpawn.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7964413336302880731, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
-      propertyPath: SecondSpawn.x
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7964413336302880731, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
-      propertyPath: SecondSpawn.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7964413336302880731, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
-      propertyPath: ObjectsHandler
-      value: 
-      objectReference: {fileID: 1171847042}
-    - target: {fileID: 7964413336302880731, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
       propertyPath: _objectsHandler
       value: 
       objectReference: {fileID: 1171847043}
     - target: {fileID: 7964413336302880731, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
-      propertyPath: CombatGridPrefab
-      value: 
-      objectReference: {fileID: 2420647313775234594, guid: 309f24f78f459eb4d809b4e078f52ee1, type: 3}
-    - target: {fileID: 7964413336302880731, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
       propertyPath: _gridsDataHandler
       value: 
       objectReference: {fileID: 1090901377}
+    - target: {fileID: 8070630671700927374, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: CardPrefab
+      value: 
+      objectReference: {fileID: 1236948560037684, guid: dd17cd64dbb8d844596172368dc9c04c, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
 --- !u!114 &3546545027586919324 stripped
@@ -5927,10 +5875,10 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  _planePrefab: {fileID: 913962143815404576, guid: 7141923bd86c41143a35f9d656e8949b, type: 3}
+  _planePrefab: {fileID: 0}
   TopLeftOffset: {x: 0, y: 0, z: 0}
   SelectedGrid: InGameTest
-  ToLoad: 1
+  ToLoad: 0
   IsCombatGrid: 0
   GridHeight: 15
   GridWidth: 25

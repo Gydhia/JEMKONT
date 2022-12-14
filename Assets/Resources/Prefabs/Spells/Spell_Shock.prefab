@@ -47,4 +47,4 @@ MonoBehaviour:
   HasEnded: 0
   AlterationType: 0
   Duration: 1
-  DurationReferential: 1
+  value: 0

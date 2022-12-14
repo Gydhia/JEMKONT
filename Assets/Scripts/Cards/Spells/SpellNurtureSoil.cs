@@ -10,6 +10,6 @@ public class SpellNurtureSoil : SpellAction {
         base.Execute(targets,spellRef);
         if (targets.Count > 1) return;
         targets[0].MaxHealth += amount;
-        targets[0].ApplyStrenght(amount);
+        targets[0].ApplyStat(EntityStatistics.Strength,amount);
     }
 }

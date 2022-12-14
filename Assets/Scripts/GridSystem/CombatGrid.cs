@@ -11,5 +11,8 @@ namespace DownBelow.GridSystem
 
         public bool HasStarted = false;
         public WorldGrid ParentGrid = null;
+        public List<Cell> StraightPath() {
+            return new List<Cell>();
+        }
     }
 }

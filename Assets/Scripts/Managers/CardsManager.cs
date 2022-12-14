@@ -6,7 +6,8 @@ namespace DownBelow.Managers
 {
     public class CardsManager : _baseManager<CardsManager>
     {
-     
+        public DeckPreset[] DeckPresets;
+
     }
 }
 

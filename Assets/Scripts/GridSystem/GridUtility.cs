@@ -42,7 +42,7 @@ namespace DownBelow.GridSystem
 
                     if (checkX >= 0 && checkX < cell.RefGrid.GridWidth && checkY >= 0 && checkY < cell.RefGrid.GridHeight)
                     {
-                        if (specifiedState == null || cell.RefGrid.Cells[checkY, checkX].Datas.state == specifiedState)
+                        if (specifiedState == null || (cell.RefGrid.Cells[checkY, checkX] != null && cell.RefGrid.Cells[checkY, checkX].Datas.state == specifiedState))
                             foundCells.Add(cell.RefGrid.Cells[checkY, checkX]);
                     }
                 }

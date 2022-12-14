@@ -29,19 +29,28 @@ namespace DownBelow.Spells
         [HideInInspector]
         public CharacterEntity Caster;
 
+        public Spell(SpellAction ActionData,SpellCondition ConditionData = null,bool ApplyToCell = true, bool ApplyToSelf = false,bool ApplyToAllies=false, bool ApplyToAll=false) {
+            this.ActionData = ActionData;
+            this.ConditionData = ConditionData;
+            this.ApplyToCell = ApplyToCell;
+            this.ApplyToSelf = ApplyToSelf;
+            this.ApplyToAllies = ApplyToAllies;
+            this.ApplyToAll = ApplyToAll;
+        }
         public void ExecuteSpell(CharacterEntity caster, GridSystem.Cell cellTarget)
         {
             this.Caster = caster;
 
             this.CurrentAction = UnityEngine.Object.Instantiate(this.ActionData, Vector3.zero, Quaternion.identity, CombatManager.Instance.CurrentPlayingEntity.gameObject.transform);
             this.CurrentAction.Execute(this.GetTargets(caster, cellTarget), this);
+            
         }
 
         public List<CharacterEntity> GetTargets(CharacterEntity caster, GridSystem.Cell cellTarget)
         {
             List<CharacterEntity> targets = new List<CharacterEntity>();
-
-            if (this.ApplyToCell && cellTarget.EntityIn != null)
+            //TODO: If getTarget doesn't get a target in a cell, cancel the spell?
+            if (this.ApplyToCell && cellTarget.EntityIn != null && !cellTarget.EntityIn.Camouflage)
                 targets.Add(cellTarget.EntityIn);
 
             if (this.ApplyToSelf && !targets.Contains(caster))

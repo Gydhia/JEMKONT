@@ -46,9 +46,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HasEnded: 0
-  AlterationType: 4
+  AlterationType: 5
   Duration: 1
-  DurationReferential: 0
+  value: 0
 --- !u!114 &-1333561536281553296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64,4 +64,4 @@ MonoBehaviour:
   HasEnded: 0
   AlterationType: 3
   Duration: 15
-  DurationReferential: 0
+  value: 0

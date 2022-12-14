@@ -71,7 +71,7 @@ namespace DownBelow.Managers
 
         public void WelcomePlayerLately()
         {
-            PhotonNetwork.CreateRoom("SoloRoom");
+            PhotonNetwork.CreateRoom($"SoloRoom{Random.Range(-256,256)}");
         }
 
         public void WelcomePlayers()
@@ -83,6 +83,8 @@ namespace DownBelow.Managers
                 foreach (var player in PhotonNetwork.PlayerList)
                 {
                     PlayerBehavior newPlayer = Instantiate(this._playerPrefab, Vector3.zero, Quaternion.identity, this.transform);
+                    newPlayer.Deck = CardsManager.Instance.DeckPresets[^1].Deck;
+                    //TO CHANGE WITH TOOL. FOR TESTING ONLY
                     GridPosition spawnPosition;
 
                     switch (counter)

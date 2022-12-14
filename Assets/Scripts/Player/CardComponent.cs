@@ -8,6 +8,7 @@ using UnityEngine.EventSystems;
 using DownBelow.GridSystem;
 using DownBelow.Managers;
 using DownBelow.Mechanics;
+using System.Threading.Tasks;
 
 public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler {
 
@@ -27,11 +28,10 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
     public float transformDragSensitivity = 180f;
 
     private Vector2 originPosition;
-    [ReadOnly]public Cell HoveredCell;
+    [ReadOnly] public Cell HoveredCell;
     private bool _hasScaledDown = false;
 
-    private void Start() 
-    {
+    private void Start() {
         InitTexts();
     }
     public void InitTexts() {
@@ -45,8 +45,12 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
         CardData.Cost += much;
         InitTexts();
     }
-    public void Update() 
-    {
+    public async Task Burn() {
+        await new WaitForSeconds(.3f);
+        //TODO BURN ANIMATION
+        Destroy(gameObject);
+    }
+    public void Update() {
         Vector2 mousePos = Input.mousePosition;
         if (isDragged) {
             this.Drag(mousePos);
@@ -59,8 +63,7 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
                 this.isDragged = true;
                 CardDraggingSystem.instance.DraggedCard = this;
 
-                if (!this._hasScaledDown && (minTransform.x < mousePos.x || min.y <= mousePos.y))
-                {
+                if (!this._hasScaledDown && (minTransform.x < mousePos.x || min.y <= mousePos.y)) {
                     InputManager.Instance.ChangeCursorAppearance(CursorAppearance.Card);
                     StartCoroutine(ScaleDown(0.25f));
                 }
@@ -94,8 +97,8 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
     }
     public void CastSpell(Cell cellToCastSpellOn) {
         // /!\ position might be off.
-        StartCoroutine(this.GoToPile(0.28f, UIManager.Instance.CardSection.DiscardPile.transform.position));
-        this.ExecuteSpells(cellToCastSpellOn, this.CardData.Spells);
+        StartCoroutine(this.GoToPile(0.28f,UIManager.Instance.CardSection.DiscardPile.transform.position));
+        this.ExecuteSpells(cellToCastSpellOn,this.CardData.Spells);
     }
     #region pointerHandlers&Drag
     private Vector2 MinimumDragPosition() {
@@ -105,8 +108,7 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
         pos.y += dragSensivity;
         return pos;
     }
-    private Vector2 MinimumDragTransformPosition()
-    {
+    private Vector2 MinimumDragTransformPosition() {
         //Corresponds to the minimum drag we have to do before the cards begins to get dragged
         Vector2 pos = this.transform.position;
         pos.x += transformDragSensitivity;
@@ -122,8 +124,7 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
             isPressed = true;
         }
     }
-    public void OnPointerEnter(PointerEventData eventData) 
-    {
+    public void OnPointerEnter(PointerEventData eventData) {
         this.ShineImage.enabled = true;
         isHovered = true;
     }
@@ -132,8 +133,8 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
         isHovered = false;
     }
     public void OnPointerUp(PointerEventData eventData) {
-        
-        if(isInPlacingMode && HoveredCell != null) {
+
+        if (isInPlacingMode && HoveredCell != null) {
             //Needs to check if you can cast the spell on this cell too. If you can:
             CastSpell(HoveredCell);
         } else {
@@ -154,40 +155,36 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
         transform.position = pos;
     }
 
-    public void DrawCardFromPile()
-    {
+    public async Task DrawCardFromPile() {
         this.gameObject.SetActive(true);
         this.transform.position = UIManager.Instance.CardSection.DrawPile.transform.position;
         StartCoroutine(GoToHand(0.28f));
+        await new WaitForSeconds(0.28f);
     }
 
-    public IEnumerator GoToHand(float time)
-    {
+    public IEnumerator GoToHand(float time) {
         Vector2 target = UIManager.Instance.CardSection.HandPile.transform.position;
         Vector2 basePos = this.transform.position;
         float timer = 0f;
 
-        while (timer < time)
-        {
+        while (timer < time) {
             float value = timer * (1 / time);
-            this.transform.localScale = new Vector3(value, value, value);
-            this.transform.position = Vector2.Lerp(basePos, target, value);
+            this.transform.localScale = new Vector3(value,value,value);
+            this.transform.position = Vector2.Lerp(basePos,target,value);
 
             timer += Time.deltaTime;
             yield return new WaitForSeconds(Time.deltaTime);
         }
     }
 
-    public IEnumerator GoToPile(float time, Vector2 target)
-    {
+    public IEnumerator GoToPile(float time,Vector2 target) {
         float timer = 0f;
         Vector2 basePos = this.transform.position;
 
-        while (timer < time)
-        {
+        while (timer < time) {
             float value = timer * (1 / time);
-            this.transform.localScale = new Vector3(1 - value, 1 - value, 1 - value);
-            this.transform.position = Vector2.Lerp(basePos, target, value);
+            this.transform.localScale = new Vector3(1 - value,1 - value,1 - value);
+            this.transform.position = Vector2.Lerp(basePos,target,value);
 
             timer += Time.deltaTime;
             yield return new WaitForSeconds(Time.deltaTime);
@@ -195,34 +192,30 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
         CombatManager.Instance.DiscardCard(this);
     }
 
-    public IEnumerator ScaleDown(float time)
-    {
+    public IEnumerator ScaleDown(float time) {
         this._hasScaledDown = true;
 
         float timer = time;
-        while(timer > 0f)
-        {
+        while (timer > 0f) {
             float value = timer * (1 / time);
-            this.transform.localScale = new Vector3(value, value, value);
+            this.transform.localScale = new Vector3(value,value,value);
 
             timer -= Time.deltaTime;
             yield return new WaitForSeconds(Time.deltaTime);
         }
     }
-    public IEnumerator ScaleUp(float time)
-    {
+    public IEnumerator ScaleUp(float time) {
         float timer = 0f;
-        while (timer < time)
-        {
+        while (timer < time) {
             float value = timer * (1 / time);
-            this.transform.localScale = new Vector3(value, value, value);
+            this.transform.localScale = new Vector3(value,value,value);
 
             timer += Time.deltaTime;
             yield return new WaitForSeconds(Time.deltaTime);
         }
 
         this._hasScaledDown = false;
-            
+
     }
     #endregion
 
@@ -231,16 +224,13 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
 
     private Coroutine _spellCor = null;
 
-    internal void ExecuteSpells(Cell target, DownBelow.Spells.Spell[] spells)
-    {
+    internal void ExecuteSpells(Cell target,DownBelow.Spells.Spell[] spells) {
         this._currentSpells = spells;
-        
+
         this._spellCor = StartCoroutine(this._waitForSpell(target));
     }
-    private IEnumerator _waitForSpell(DownBelow.GridSystem.Cell target)
-    {
-        for (int i = 0; i < this._currentSpells.Length; i++)
-        {
+    private IEnumerator _waitForSpell(DownBelow.GridSystem.Cell target) {
+        for (int i = 0;i < this._currentSpells.Length;i++) {
             bool canExecute = true;
 
             if (this._currentSpells[i].ConditionData != null)
@@ -248,14 +238,13 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
                     if (!this._currentSpells[i].ConditionData.Check(this._currentSpells[i - 1].CurrentAction.Result))
                         canExecute = false;
 
-            if (canExecute)
-            {
-                this._currentSpells[i].CurrentAction = Instantiate(this._currentSpells[i].ActionData, Vector3.zero, Quaternion.identity, CombatManager.Instance.CurrentPlayingEntity.gameObject.transform);
-                this._currentSpells[i].ExecuteSpell(CombatManager.Instance.CurrentPlayingEntity, target);
-                while (!this._currentSpells[i].CurrentAction.HasEnded)
-                {
+            if (canExecute) {
+                this._currentSpells[i].CurrentAction = Instantiate(this._currentSpells[i].ActionData,Vector3.zero,Quaternion.identity,CombatManager.Instance.CurrentPlayingEntity.gameObject.transform);
+                this._currentSpells[i].ExecuteSpell(CombatManager.Instance.CurrentPlayingEntity,target);
+                while (!this._currentSpells[i].CurrentAction.HasEnded) {
                     yield return new WaitForSeconds(Time.deltaTime);
                 }
+                CombatManager.Instance.CurrentPlayingEntity.UnsubToSpell(this._currentSpells[i].ActionData);
             }
         }
 
