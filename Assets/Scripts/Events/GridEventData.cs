@@ -1,9 +1,9 @@
-using Jemkont.GridSystem;
+using DownBelow.GridSystem;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Jemkont.Events
+namespace DownBelow.Events
 {
     public class GridEventData : EventData<GridEventData>
     {

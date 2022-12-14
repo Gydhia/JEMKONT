@@ -1,11 +1,11 @@
-using Jemkont.Entity;
-using Jemkont.Managers;
+using DownBelow.Entity;
+using DownBelow.Managers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Jemkont.UI
+namespace DownBelow.UI
 {
     public class UIStaticTurnSection : MonoBehaviour
     {

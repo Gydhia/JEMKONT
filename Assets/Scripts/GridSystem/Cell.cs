@@ -1,11 +1,11 @@
-using Jemkont.Managers;
+using DownBelow.Managers;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using UnityEngine;
 using Sirenix.OdinInspector;
-using Jemkont.Entity;
+using DownBelow.Entity;
 
-namespace Jemkont.GridSystem
+namespace DownBelow.GridSystem
 {
     public class Cell : MonoBehaviour
     {
@@ -27,6 +27,7 @@ namespace Jemkont.GridSystem
 
         public Cell parent;
         public CharacterEntity EntityIn;
+        public Interactable AttachedInteract;
 
         public GridPosition PositionInGrid => new GridPosition(this.Datas.widthPos, this.Datas.heightPos);
         public Vector3 WorldPosition => this.gameObject.transform.position;
@@ -51,6 +52,11 @@ namespace Jemkont.GridSystem
             this.Collider.size = new Vector3(cellsWidth, cellsWidth / 6f, cellsWidth);
 
             this.ChangeStateColor(Color.grey);
+        }
+
+        public void AttachInteractable(Interactable linkedObject)
+        {
+            this.AttachedInteract = linkedObject;
         }
 
         public void ChangeCellState(CellState newState, bool force = false)
@@ -113,7 +119,9 @@ namespace Jemkont.GridSystem
         [EnumMember(Value = "EntityIn")]
         EntityIn = 2,
         [EnumMember(Value = "Shared")]
-        Shared = 3
+        Shared = 3,
+        [EnumMember(Value = "Interactable")]
+        Interactable = 4
     }
 
 }

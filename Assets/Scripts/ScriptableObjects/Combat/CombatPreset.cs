@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Jemkont.GameData
+namespace DownBelow.GameData
 {
     [CreateAssetMenu(fileName = "CombatPreset", menuName = "Jemkont/Combat Preset", order = 1)]
     public class CombatPreset : SerializedScriptableObject

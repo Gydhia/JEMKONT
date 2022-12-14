@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Jemkont.GridSystem
+namespace DownBelow.GridSystem
 {
     public class CombatGrid : WorldGrid
     {

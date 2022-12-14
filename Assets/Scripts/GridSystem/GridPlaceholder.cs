@@ -1,5 +1,5 @@
-using Jemkont.GridSystem;
-using Jemkont.Managers;
+using DownBelow.GridSystem;
+using DownBelow.Managers;
 using Sirenix.OdinInspector;
 using System;
 using System.Collections;
@@ -22,9 +22,9 @@ public class GridPlaceholder : SerializedMonoBehaviour
 
     public List<SubgridPlaceholder> InnerGrids;
 
-    public Dictionary<GridPosition, EntitySpawn> EntitySpawns;
+    public Dictionary<GridPosition, BaseSpawnablePreset> Spawnables;
 
-    
+
     [ValueDropdown("GetSavedGrids"), OnValueChanged("LoadSelectedGrid")]
     public string SelectedGrid;
 
@@ -55,7 +55,9 @@ public class GridPlaceholder : SerializedMonoBehaviour
     {
         if(GridManager.Instance.SavedGrids.TryGetValue(this.SelectedGrid, out GridData newGrid))
         {
-            if (GridManager.Instance.EnemiesSpawnSO == null)
+            this.TopLeftOffset = newGrid.TopLeftOffset;
+            this.transform.position = this.TopLeftOffset;
+            if (GridManager.Instance.SpawnablesPresets == null)
                 GridManager.Instance.LoadEveryEntities();
 
             this.GenerateGrid(newGrid.GridHeight, newGrid.GridWidth);
@@ -74,29 +76,33 @@ public class GridPlaceholder : SerializedMonoBehaviour
                     foreach (CellData cellData in innerGrid.CellDatas)
                         this.InnerGrids[^1].CellDatas[cellData.heightPos, cellData.widthPos].state = cellData.state;
 
-                    this.InnerGrids[^1].EntitySpawns = this._setEntitiesSpawn(this.InnerGrids[^1].CellDatas, innerGrid.EntitiesSpawns);
+                    this.InnerGrids[^1].Spawnables = this._setSpawnablePresets(this.InnerGrids[^1].CellDatas, innerGrid.SpawnablePresets);
                 }
             }
 
-            if (newGrid.EntitiesSpawns != null)
-                this.EntitySpawns = this._setEntitiesSpawn(this.CellDatas, newGrid.EntitiesSpawns);
+            if (newGrid.SpawnablePresets != null)
+                this.Spawnables = this._setSpawnablePresets(this.CellDatas, newGrid.SpawnablePresets);
             else
-                this.EntitySpawns.Clear();
+                this.Spawnables.Clear();
         }
     }
 
-    private Dictionary<GridPosition, EntitySpawn> _setEntitiesSpawn(CellData[,] refCells, Dictionary<GridPosition, Guid> refEntities)
+    private Dictionary<GridPosition, BaseSpawnablePreset> _setSpawnablePresets(CellData[,] refCells, Dictionary<GridPosition, Guid> refEntities)
     {
-        Dictionary<GridPosition, EntitySpawn> setEntities = new Dictionary<GridPosition, EntitySpawn>();
+        Dictionary<GridPosition, BaseSpawnablePreset> setEntities = new Dictionary<GridPosition, BaseSpawnablePreset>();
 
-        foreach (var entitySpawn in refEntities)
+        foreach (var spawnable in refEntities)
         {
-            if (GridManager.Instance.EnemiesSpawnSO.ContainsKey(entitySpawn.Value))
-                setEntities.Add(entitySpawn.Key, GridManager.Instance.EnemiesSpawnSO[entitySpawn.Value]);
-            else
-                setEntities.Add(entitySpawn.Key, null);
+            if (GridManager.Instance.SpawnablesPresets.ContainsKey(spawnable.Value))
+            {
+                setEntities.Add(spawnable.Key, GridManager.Instance.SpawnablesPresets[spawnable.Value]);
+                refCells[spawnable.Key.latitude, spawnable.Key.longitude].state = GridManager.Instance.SpawnablesPresets[spawnable.Value].AffectingState;
 
-            refCells[entitySpawn.Key.latitude, entitySpawn.Key.longitude].state = CellState.EntityIn;
+            }
+            else
+            {
+                Debug.LogError("Couldn't find a place spawnable because it's null.");
+            }
         }
 
         return setEntities;
@@ -129,8 +135,6 @@ public class GridPlaceholder : SerializedMonoBehaviour
                 this.CellDatas[i, j] = new CellData(i, j, CellState.Walkable);
             }
         }
-
-        this.TopLeftOffset = this.transform.position;
     }
 
     public void ResizePlane()
@@ -174,10 +178,10 @@ public class GridPlaceholder : SerializedMonoBehaviour
                     if (this.InnerGrids[i].CellDatas[j, k].state != CellState.Walkable)
                         innerCellData.Add(this.InnerGrids[i].CellDatas[j, k]);
 
-            Dictionary<GridPosition, Guid> innerEntitiesSpawn = new Dictionary<GridPosition, Guid>();
-            if (this.InnerGrids[i].EntitySpawns != null)
-                foreach (var entitySpawn in this.InnerGrids[i].EntitySpawns)
-                    innerEntitiesSpawn.Add(entitySpawn.Key, entitySpawn.Value != null ? entitySpawn.Value.UID : Guid.Empty);
+            Dictionary<GridPosition, Guid> innerSpawnables = new Dictionary<GridPosition, Guid>();
+            if (this.InnerGrids[i].Spawnables != null)
+                foreach (var spawnable in this.InnerGrids[i].Spawnables)
+                    innerSpawnables.Add(spawnable.Key, spawnable.Value != null ? spawnable.Value.UID : Guid.Empty);
 
             // TODO: ADD entities
             GridData innerData = new GridData(
@@ -187,17 +191,17 @@ public class GridPlaceholder : SerializedMonoBehaviour
                 this.InnerGrids[i].Longitude,
                 this.InnerGrids[i].Latitude,
                 innerCellData,
-                innerEntitiesSpawn
+                innerSpawnables
                 );
 
             innerGridsData.Add(innerData);
         }
 
-        // Entities in grids
-        Dictionary<GridPosition, Guid> entitiesSpawns = new Dictionary<GridPosition, Guid>();
-        if(this.EntitySpawns != null)
-            foreach (var entitySpawn in this.EntitySpawns)
-                entitiesSpawns.Add(entitySpawn.Key, entitySpawn.Value != null ? entitySpawn.Value.UID : Guid.Empty) ;
+        // All the spawnables presets.
+        Dictionary<GridPosition, Guid> interactableSpawns = new Dictionary<GridPosition, Guid>();
+        if (this.Spawnables != null)
+            foreach (var interactableSpawn in this.Spawnables)
+                interactableSpawns.Add(interactableSpawn.Key, interactableSpawn.Value != null ? interactableSpawn.Value.UID : Guid.Empty);
 
         // /!\ By default, the grid containing InnerGrids is not a combatgrid
         return new GridData(
@@ -208,7 +212,7 @@ public class GridPlaceholder : SerializedMonoBehaviour
             this.ToLoad,
             cellData,
             innerGridsData,
-            entitiesSpawns
+            interactableSpawns
         );
     }
 
@@ -249,10 +253,12 @@ public class GridPlaceholder : SerializedMonoBehaviour
                     Gizmos.color = white;
                 else if (this.CellDatas[i, j].state == CellState.Blocked)
                     Gizmos.color = red;
+                else if (this.CellDatas[i, j].state == CellState.Interactable)
+                    Gizmos.color = Color.magenta;
                 else
                     Gizmos.color = blue;
 
-                Vector3 pos = new Vector3(j * cellsWidth + TopLeftOffset.x + (cellsWidth / 2), cellBounds.y /2f, -i * cellsWidth + TopLeftOffset.z - (cellsWidth / 2));
+                Vector3 pos = new Vector3(j * cellsWidth + TopLeftOffset.x + (cellsWidth / 2), cellBounds.y / 2f + TopLeftOffset.y, -i * cellsWidth + TopLeftOffset.z - (cellsWidth / 2));
 
                 Gizmos.DrawCube(pos, cellBounds);
             }
@@ -262,16 +268,16 @@ public class GridPlaceholder : SerializedMonoBehaviour
         {
             Gizmos.color = Color.black;
 
-            Vector3 topLeft = new Vector3(this.TopLeftOffset.x + this.InnerGrids[i].Longitude * cellsWidth, 0f, this.InnerGrids[i].Latitude * cellsWidth - this.TopLeftOffset.z);
-            Vector3 botRight = new Vector3(this.TopLeftOffset.x + (this.InnerGrids[i].Longitude + this.InnerGrids[i].GridWidth) * cellsWidth, 0f, (this.InnerGrids[i].Latitude + this.InnerGrids[i].GridHeight) * cellsWidth - this.TopLeftOffset.z);
+            Vector3 topLeft = new Vector3(this.TopLeftOffset.x + this.InnerGrids[i].Longitude * cellsWidth, TopLeftOffset.y, this.InnerGrids[i].Latitude * cellsWidth - this.TopLeftOffset.z);
+            Vector3 botRight = new Vector3(this.TopLeftOffset.x + (this.InnerGrids[i].Longitude + this.InnerGrids[i].GridWidth) * cellsWidth, TopLeftOffset.y, (this.InnerGrids[i].Latitude + this.InnerGrids[i].GridHeight) * cellsWidth - this.TopLeftOffset.z);
 
             float midLong = this.InnerGrids[i].GridWidth * cellsWidth / 2f;
             float midLat = this.InnerGrids[i].GridHeight * cellsWidth / 2f;
 
-            Vector3 left = new Vector3(topLeft.x, cellBounds.y / 3f, -(topLeft.z + midLat));
-            Vector3 right = new Vector3(botRight.x, cellBounds.y / 3f, -(botRight.z - midLat));
-            Vector3 top = new Vector3(topLeft.x + midLong, cellBounds.y / 3f, -topLeft.z);
-            Vector3 bot = new Vector3(botRight.x - midLong, cellBounds.y / 3f, -botRight.z);
+            Vector3 left = new Vector3(topLeft.x, cellBounds.y / 3f + topLeft.y, -(topLeft.z + midLat));
+            Vector3 right = new Vector3(botRight.x, cellBounds.y / 3f + botRight.y, -(botRight.z - midLat));
+            Vector3 top = new Vector3(topLeft.x + midLong, cellBounds.y / 3f + topLeft.y, -topLeft.z);
+            Vector3 bot = new Vector3(botRight.x - midLong, cellBounds.y / 3f + botRight.y, -botRight.z);
             Gizmos.color = Color.cyan;
             Gizmos.DrawCube(top, new Vector3(this.InnerGrids[i].GridWidth, 0.05f, 0.05f));
             Gizmos.DrawCube(bot, new Vector3(this.InnerGrids[i].GridWidth, 0.05f, 0.05f));
@@ -295,17 +301,17 @@ public class GridPlaceholder : SerializedMonoBehaviour
                     else
                         Gizmos.color = blue;
 
-                    Vector3 pos = new Vector3((k + xOffset) * cellsWidth + TopLeftOffset.x + (cellsWidth / 2), cellBounds.y / 2f, -(j + yOffset) * cellsWidth + TopLeftOffset.z - (cellsWidth / 2));
+                    Vector3 pos = new Vector3((k + xOffset) * cellsWidth + TopLeftOffset.x + (cellsWidth / 2), cellBounds.y / 2f + TopLeftOffset.y, -(j + yOffset) * cellsWidth + TopLeftOffset.z - (cellsWidth / 2));
 
                     Gizmos.DrawCube(pos, cellBounds);
                 }
             }
         }
 
-        if(this.EntitySpawns != null)
+        if(this.Spawnables != null)
         {
             int counter = 0;
-            foreach (var entity in this.EntitySpawns)
+            foreach (var entity in this.Spawnables)
             {
                 drawString(counter.ToString(), new Vector3(entity.Key.longitude * cellsWidth + TopLeftOffset.x + (cellsWidth / 2), cellBounds.y / 2f + 0.15f, -entity.Key.latitude * cellsWidth + TopLeftOffset.z - (cellsWidth / 2)));
                 counter++;
@@ -313,9 +319,9 @@ public class GridPlaceholder : SerializedMonoBehaviour
             foreach (var grid in this.InnerGrids)
             {
                 counter = 0;
-                if (grid.EntitySpawns != null)
+                if (grid.Spawnables != null)
                 {
-                    foreach (var entity in grid.EntitySpawns)
+                    foreach (var entity in grid.Spawnables)
                     {
                         drawString(counter.ToString(), new Vector3((entity.Key.longitude + grid.Longitude) * cellsWidth + TopLeftOffset.x + (cellsWidth / 2), cellBounds.y / 2f + 0.15f, -(entity.Key.latitude + grid.Latitude) * cellsWidth + TopLeftOffset.z - (cellsWidth / 2)));
                         counter++;

@@ -1,17 +1,24 @@
-using Jemkont.Entity;
-using Jemkont.Events;
+using DownBelow.Entity;
+using DownBelow.Events;
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Jemkont.Managers
+namespace DownBelow.Managers
 {
     public class GameManager : _baseManager<GameManager>
     {
         #region EVENTS
+        public event GameEventData.Event OnPlayersWelcomed;
+
         public event EntityEventData.Event OnEnteredGrid;
         public event EntityEventData.Event OnExitingGrid;
+
+        public void FirePlayersWelcomed()
+        {
+            this.OnPlayersWelcomed?.Invoke(new());
+        }
 
         public void FireEntityEnteredGrid(string entityID)
         {
@@ -99,6 +106,8 @@ namespace Jemkont.Managers
                     this.Players.Add(player.UserId, newPlayer);
                     counter++;
                 }
+
+                this.FirePlayersWelcomed();
             }
         }
     }

@@ -1,13 +1,15 @@
-using Jemkont.Events;
-using Jemkont.GridSystem;
+using DownBelow.Events;
+using DownBelow.GridSystem;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Jemkont.Managers
+namespace DownBelow.Managers
 {
     public class InputManager : _baseManager<InputManager>
     {
+        #region EVENTS
+
         public event PositionEventData.Event OnCellClicked;
 
         public void FireCellClicked(GridPosition position)
@@ -15,8 +17,13 @@ namespace Jemkont.Managers
             this.OnCellClicked?.Invoke(new PositionEventData(position));
         }
 
+        #endregion
+
+        public Interactable LastInteractable;
+
         private void Update()
         {
+            #region CELLS_RAYCAST
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             // layer 7 = Cell
@@ -26,16 +33,35 @@ namespace Jemkont.Managers
                 {
                     // Avoid executing this code when it has already been done
                     if (cell != GridManager.Instance.LastHoveredCell)
-                    {
                         GridManager.Instance.OnNewCellHovered(GameManager.Instance.SelfPlayer, cell);
-                    }
                 }
             }
             else
             {
                 GridManager.Instance.LastHoveredCell = null;
             }
-
+            #endregion
+            #region INTERACTABLEs_RAYCAST
+            // layer 8 = Interactable
+            if(Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 8))
+            {
+                if (hit.collider != null && hit.collider.TryGetComponent(out Interactable interactable))
+                {
+                    if(interactable != this.LastInteractable)
+                    {
+                        if (LastInteractable != null)
+                            this.LastInteractable.OnUnfocused();
+                        this.LastInteractable = interactable;
+                        this.LastInteractable.OnFocused();
+                    }
+                }
+            }
+            else if (this.LastInteractable != null)
+            {
+                this.LastInteractable.OnUnfocused();
+                this.LastInteractable = null;   
+            }
+                #endregion
             // Teleport player to location
             if (Input.GetMouseButtonUp(0))
             {

@@ -1,5 +1,5 @@
-using Jemkont.GridSystem;
-using Jemkont.Entity;
+using DownBelow.GridSystem;
+using DownBelow.Entity;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,9 +9,9 @@ using Newtonsoft.Json.Linq;
 using System.IO;
 using Newtonsoft.Json;
 using System;
-using Jemkont.Events;
+using DownBelow.Events;
 
-namespace Jemkont.Managers {
+namespace DownBelow.Managers {
     public class GridManager : _baseManager<GridManager> 
     {
         #region Assets_reference
@@ -34,8 +34,9 @@ namespace Jemkont.Managers {
         #region Datas
         public Dictionary<string, GridData> SavedGrids;
 
-        public Dictionary<Guid, EntitySpawn> EnemiesSpawnSO;
-        public Dictionary<Guid, EntitySpawn> NPCsSpawnsSO;
+        public Dictionary<Guid, BaseSpawnablePreset> SpawnablesPresets;
+        public Dictionary<Guid, ItemPreset> ItemsPresets;
+
         #endregion
 
 
@@ -165,15 +166,23 @@ namespace Jemkont.Managers {
             {
                 Cell closestCell = this.LastHoveredCell;
                 string otherGrid = string.Empty;
-                // TODO: Verify if this works
-                if (selfPlayer.CurrentGrid != this.LastHoveredCell.RefGrid)
+
+                if (InputManager.Instance.LastInteractable != null)
                 {
-                    closestCell = GridUtility.GetClosestCellToShape(selfPlayer.CurrentGrid, this.LastHoveredCell.RefGrid as CombatGrid, selfPlayer.EntityCell.PositionInGrid);
-                    otherGrid = this.LastHoveredCell.RefGrid.UName;
+                    Cell cell = InputManager.Instance.LastInteractable.RefCell;
+                    closestCell = GridUtility.GetClosestCellToShape(selfPlayer.CurrentGrid, cell.Datas.heightPos, cell.Datas.widthPos, 0, 0, selfPlayer.EntityCell.PositionInGrid);
+                    selfPlayer._nextInteract = InputManager.Instance.LastInteractable;
                 }
-                if(closestCell != null)
+                else
+                {
+                    if (selfPlayer.CurrentGrid != this.LastHoveredCell.RefGrid)
+                    {
+                        closestCell = GridUtility.GetClosestCellToShape(selfPlayer.CurrentGrid, this.LastHoveredCell.RefGrid as CombatGrid, selfPlayer.EntityCell.PositionInGrid);
+                        otherGrid = this.LastHoveredCell.RefGrid.UName;
+                    }
+                }
+                if (closestCell != null)
                     selfPlayer.AskToGo(closestCell, otherGrid);
-                //NetworkManager.Instance.ProcessAskedPath(selfPlayer, this.LastHoveredCell);
             }
             
         }
@@ -521,16 +530,16 @@ namespace Jemkont.Managers {
 
         public void LoadEveryEntities()
         {
-            var enemyEntities = Resources.LoadAll<EntitySpawn>("Presets/Entity/Enemies").ToList();
-            var NPCEntities = Resources.LoadAll<EntitySpawn>("Presets/Entity/NPCs").ToList();
+            var spawnablesPresets = Resources.LoadAll<BaseSpawnablePreset>("Presets").ToList();
+            var itemsPresets = Resources.LoadAll<ItemPreset>("Presets/Inventory/Items");
 
-            this.EnemiesSpawnSO = new Dictionary<Guid, EntitySpawn>();
-            this.NPCsSpawnsSO = new Dictionary<Guid, EntitySpawn>();
+            this.SpawnablesPresets = new Dictionary<Guid, BaseSpawnablePreset>();
+            this.ItemsPresets = new Dictionary<Guid, ItemPreset>();
 
-            foreach (var enemy in enemyEntities)
-                this.EnemiesSpawnSO.Add(enemy.UID, enemy);
-            foreach (var npc in NPCEntities)
-                this.NPCsSpawnsSO.Add(npc.UID, npc);
+            foreach (var spawnable in spawnablesPresets)
+                this.SpawnablesPresets.Add(spawnable.UID, spawnable);
+            foreach (var item in itemsPresets)
+                this.ItemsPresets.Add(item.UID, item);
         }
         #endregion
     }

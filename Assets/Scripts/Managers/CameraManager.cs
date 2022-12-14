@@ -1,10 +1,10 @@
 using Cinemachine;
-using Jemkont.Entity;
+using DownBelow.Entity;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Jemkont.Managers
+namespace DownBelow.Managers
 {
     public class CameraManager : _baseManager<CameraManager>
     {

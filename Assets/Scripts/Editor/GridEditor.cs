@@ -1,5 +1,5 @@
-using Jemkont.GridSystem;
-using Jemkont.Managers;
+using DownBelow.GridSystem;
+using DownBelow.Managers;
 using Newtonsoft.Json;
 using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;
@@ -184,28 +184,28 @@ public class GridEditor : OdinEditor
             Ray ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, 1 << 6))
             {
-                if (this._target.EntitySpawns == null)
-                    this._target.EntitySpawns = new Dictionary<GridPosition, EntitySpawn>();
+                if (this._target.Spawnables == null)
+                    this._target.Spawnables = new Dictionary<GridPosition, BaseSpawnablePreset>();
 
                 GridPosition pos = this._target.GetGridIndexFromWorld(hit.point);
 
                 if (GridUtility.GetIncludingSubGrid(this._target.InnerGrids, pos, out SubgridPlaceholder includingGrid)) {
-                    if(includingGrid.EntitySpawns == null)
-                        includingGrid.EntitySpawns = new Dictionary<GridPosition, EntitySpawn>();
+                    if(includingGrid.Spawnables == null)
+                        includingGrid.Spawnables = new Dictionary<GridPosition, BaseSpawnablePreset>();
 
-                    this.AllocateEntity(includingGrid.EntitySpawns, includingGrid.CellDatas, new GridPosition(pos.longitude - includingGrid.Longitude, pos.latitude - includingGrid.Latitude));
+                    this.AllocateSpawnable(includingGrid.Spawnables, includingGrid.CellDatas, new GridPosition(pos.longitude - includingGrid.Longitude, pos.latitude - includingGrid.Latitude));
                 } else {
-                    this.AllocateEntity(this._target.EntitySpawns, this._target.CellDatas, pos);
+                    this.AllocateSpawnable(this._target.Spawnables, this._target.CellDatas, pos);
                 }
             }
         }
     }
 
-    public void AllocateEntity(Dictionary<GridPosition, EntitySpawn> entitiesRef, CellData[,] cellsRef, GridPosition pos)
+    public void AllocateSpawnable(Dictionary<GridPosition, BaseSpawnablePreset> entitiesRef, CellData[,] cellsRef, GridPosition pos)
     {
         if (!entitiesRef.ContainsKey(pos))
         {
-            cellsRef[pos.latitude, pos.longitude].state = CellState.EntityIn;
+            cellsRef[pos.latitude, pos.longitude].state = entitiesRef[pos].AffectingState;
             entitiesRef.Add(pos, null);
         }
         else

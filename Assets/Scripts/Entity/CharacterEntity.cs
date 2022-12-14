@@ -1,12 +1,12 @@
-using Jemkont.Events;
-using Jemkont.GridSystem;
-using Jemkont.Managers;
+using DownBelow.Events;
+using DownBelow.GridSystem;
+using DownBelow.Managers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Jemkont.Entity
+namespace DownBelow.Entity
 {
     public abstract class CharacterEntity : MonoBehaviour
     {

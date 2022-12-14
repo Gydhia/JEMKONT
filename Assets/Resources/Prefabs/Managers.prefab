@@ -47,6 +47,7 @@ MonoBehaviour:
   GridsPreset: {fileID: 11400000, guid: 3eaa86dce42d6e94bb5c478ca2b46f64, type: 2}
   InputPreset: {fileID: 11400000, guid: 86ac5624b923f774094430ad4ab04493, type: 2}
   CombatPreset: {fileID: 11400000, guid: a26fd800d9da29548a4b431ecf6ed845, type: 2}
+  GameUIPreset: {fileID: 11400000, guid: b4f43fb59e111b349865a00b17dd32dc, type: 2}
   PlayerStats: {fileID: 11400000, guid: 749d1a933eed5214c9209d8ec792b76b, type: 2}
 --- !u!1 &1709003694304920991
 GameObject:
@@ -92,6 +93,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1aae1154c31eeef4698052cf88c90f2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LastInteractable: {fileID: 0}
 --- !u!1 &2265214080651548676
 GameObject:
   m_ObjectHideFlags: 0
@@ -137,6 +139,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VirtualCamera: {fileID: 0}
+  MainCamera: {fileID: 0}
 --- !u!1 &2925001646214969611
 GameObject:
   m_ObjectHideFlags: 0
@@ -550,3 +553,5 @@ MonoBehaviour:
   TurnSection: {fileID: 0}
   PlayerInfos: {fileID: 0}
   CardSection: {fileID: 0}
+  PlayerInventory: {fileID: 0}
+  Storage: {fileID: 0}

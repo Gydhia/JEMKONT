@@ -22,4 +22,4 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   CellsSize: 1
-  CellsEdgeOffset: 0.12
+  CellsEdgeOffset: 0

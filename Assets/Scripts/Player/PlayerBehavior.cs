@@ -1,6 +1,7 @@
-using Jemkont.Events;
-using Jemkont.GridSystem;
-using Jemkont.Managers;
+using DownBelow.Events;
+using DownBelow.GridSystem;
+using DownBelow.Inventory;
+using DownBelow.Managers;
 using Photon.Pun;
 using Photon.Realtime;
 using System;
@@ -9,23 +10,64 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Jemkont.Entity
+namespace DownBelow.Entity
 {
     public class PlayerBehavior : CharacterEntity
     {
+        #region EVENTS
+
+        public event PositionEventData.Event OnEnteredCell;
+        public event PositionEventData.Event OnExitedCell;
+
+        public event GatheringEventData.Event OnGatheringStarted;
+        public event GatheringEventData.Event OnGatheringCanceled;
+        public event GatheringEventData.Event OnGatheringEnded;
+
+        public void FireEnteredCell(Cell cell)
+        {
+            this.OnEnteredCell?.Invoke(new(cell.PositionInGrid, cell));
+        }
+
+        public void FireExitedCell(Cell cell)
+        {
+            this.OnExitedCell?.Invoke(new(cell.PositionInGrid, cell));
+        }
+
+        public void FireGatheringStarted(InteractableResource resource)
+        {
+            this.OnGatheringStarted?.Invoke(new(resource));
+        }
+        public void FireGatheringCanceled(InteractableResource resource = null)
+        {
+            this.OnGatheringCanceled?.Invoke(new(resource));
+        }
+        public void FireGatheringEnded(InteractableResource resource = null)
+        {
+            this.OnGatheringEnded?.Invoke(new(resource));
+        }
+
+        #endregion
+
+        public BaseStorage PlayerInventory;
+        
         private DateTime _lastTimeAsked = DateTime.Now;
         private string _nextGrid = string.Empty;
-       
+        private Coroutine _gatheringCor = null;
+        private bool _stopGathering = false;
+
+        private InteractableResource _currentResource = null;
+        
+        
+        public Interactable _nextInteract = null;
 
         public MeshRenderer PlayerBody;
         public string PlayerID;
         public PhotonView PlayerView;
 
         public List<Cell> NextPath { get; private set; }
-        public bool CanEnterGrid => true; 
+        public bool CanEnterGrid => true;
 
-        
-
+        #region MOVEMENTS
         public override void MoveWithPath(List<Cell> newPath, string otherGrid)
         {
             // Useless to animate hidden players
@@ -36,7 +78,9 @@ namespace Jemkont.Entity
                 this.EntityCell = newPath[^1];
                 return;
             }
-                
+
+            if (this._gatheringCor != null)
+                NetworkManager.Instance.PlayerCanceledInteract(this._currentResource.RefCell);
 
             this._nextGrid = otherGrid;
 
@@ -51,6 +95,8 @@ namespace Jemkont.Entity
             else
             {
                 this.NextPath = newPath;
+                if(this._nextInteract != null)
+                    this._nextInteract = null;
             }
         }
 
@@ -70,7 +116,9 @@ namespace Jemkont.Entity
                     yield return null;
                 }
 
+                this.FireExitedCell(this.EntityCell);
                 this.EntityCell = CurrentPath[targetCell];
+                this.FireEnteredCell(this.EntityCell);
 
                 if (this.NextPath != null) {
                     this.NextCell = null;
@@ -87,16 +135,21 @@ namespace Jemkont.Entity
             this.moveCor = null;
             this.IsMoving = false;
 
-            if(this.NextPath != null)
+            if (this.NextPath != null)
             {
                 this.MoveWithPath(this.NextPath, _nextGrid);
                 this.NextPath = null;
             }
-            else if(this._nextGrid != string.Empty)
+            else if (this._nextGrid != string.Empty)
             {
                 NetworkManager.Instance.PlayerAsksToEnterGrid(this, this.CurrentGrid, this._nextGrid);
                 this.NextCell = null;
                 this._nextGrid = string.Empty;
+            }
+            else if (this._nextInteract != null)
+            {
+                NetworkManager.Instance.PlayerAsksToInteract(_nextInteract.RefCell);
+                this._nextInteract = null;
             }
         }
 
@@ -136,5 +189,60 @@ namespace Jemkont.Entity
         {
             return (System.DateTime.Now - this._lastTimeAsked).Seconds >= SettingsManager.Instance.InputPreset.PathRequestDelay; 
         }
+        #endregion
+
+        #region INTERACTIONS
+
+        public void Interact(Cell target)
+        {
+            if(target.AttachedInteract is InteractableResource iResource)
+            {
+                if(this._gatheringCor == null)
+                {
+                    this._currentResource = iResource;
+                    this._gatheringCor = StartCoroutine(_gatherResource());
+                }
+            }
+            else
+            {
+                target.AttachedInteract.Interact(this);
+            }
+        }
+
+        public void CancelInteract()
+        {
+            this._stopGathering = true;
+        }
+
+        public IEnumerator _gatherResource()
+        {
+            ResourcePreset preset = _currentResource.InteractablePreset as ResourcePreset;
+            this.FireGatheringStarted(_currentResource);
+
+            float timer = 0f;
+            while (timer < preset.TimeToGather)
+            {
+                timer += Time.deltaTime;
+                yield return null;
+
+                if (this._stopGathering)
+                {
+                    this.FireGatheringCanceled(_currentResource);
+                    this._gatheringCor = null;
+                    this._stopGathering = false;
+                    yield break;
+                }
+            }
+            _currentResource.Interact(this);
+            this._gatheringCor = null;
+
+            this.FireGatheringEnded(_currentResource);
+        }
+
+        public void TakeResources(ItemPreset resource, int quantity)
+        {
+            this.PlayerInventory.AddItem(resource, quantity);
+        }
+        #endregion
     }
 }

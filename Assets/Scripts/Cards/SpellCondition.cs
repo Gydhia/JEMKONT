@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Jemkont.Spells
+namespace DownBelow.Spells
 {
     [CreateAssetMenu(menuName = "Spells/SpellCondition")]
     public class SpellCondition : SerializedScriptableObject

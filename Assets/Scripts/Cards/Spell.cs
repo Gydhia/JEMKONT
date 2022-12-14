@@ -1,12 +1,12 @@
-using Jemkont.Entity;
-using Jemkont.Managers;
+using DownBelow.Entity;
+using DownBelow.Managers;
 using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Jemkont.Spells
+namespace DownBelow.Spells
 {
     [Serializable]
     public class Spell
