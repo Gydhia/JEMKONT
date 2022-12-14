@@ -205,7 +205,7 @@ public class GridEditor : OdinEditor
     {
         if (!entitiesRef.ContainsKey(pos))
         {
-            cellsRef[pos.latitude, pos.longitude].state = CellState.EntityIn;
+            cellsRef[pos.latitude, pos.longitude].state = entitiesRef[pos].AffectingState;
             entitiesRef.Add(pos, null);
         }
         else

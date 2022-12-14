@@ -17,7 +17,7 @@ namespace DownBelow.GridSystem
             this.Storage = new BaseStorage();
             this.Storage.Init(this.InteractablePreset as StoragePreset);
         }
-        public override void Interact()
+        public override void Interact(Entity.PlayerBehavior player)
         {
             UIManager.Instance.Storage.SetStorageAndShow(this.Storage);
         }

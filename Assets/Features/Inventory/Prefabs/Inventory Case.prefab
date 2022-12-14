@@ -216,6 +216,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4893917239753150649}
   - component: {fileID: 595109141347629658}
+  - component: {fileID: 3580911279402768909}
   m_Layer: 5
   m_Name: Inventory Case
   m_TagString: Untagged
@@ -259,6 +260,28 @@ MonoBehaviour:
   icon: {fileID: 2885290725835248259}
   quantity: {fileID: 6184598405518796228}
   selfButton: {fileID: 8348190850639214509}
+  TotalQuantity: 0
+  ItemPreset: {fileID: 0}
+--- !u!114 &3580911279402768909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4893917239753150650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: 30
+  m_MinHeight: 30
+  m_PreferredWidth: -1
+  m_PreferredHeight: -1
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1001 &1716548737052203737
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -269,6 +292,10 @@ PrefabInstance:
     - target: {fileID: 3197206842888910110, guid: 49ffe6efce06abb4cb2eb08086477d81, type: 3}
       propertyPath: m_Name
       value: Inventory Element
+      objectReference: {fileID: 0}
+    - target: {fileID: 4757626946379153181, guid: 49ffe6efce06abb4cb2eb08086477d81, type: 3}
+      propertyPath: m_fontSize
+      value: 30.35
       objectReference: {fileID: 0}
     - target: {fileID: 5563772003745187519, guid: 49ffe6efce06abb4cb2eb08086477d81, type: 3}
       propertyPath: m_Pivot.x

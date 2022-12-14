@@ -1,3 +1,4 @@
+using DownBelow.Managers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,12 +15,13 @@ namespace DownBelow.GridSystem
             this.GatheredMesh.gameObject.SetActive(false);
         }
 
-        public override void Interact()
+        public override void Interact(Entity.PlayerBehavior player)
         {
-            ResourcePreset preset = this.InteractablePreset as ResourcePreset;
-
             this.Mesh.gameObject.SetActive(false);
             this.GatheredMesh.gameObject.SetActive(true);
+            ResourcePreset rPreset = this.InteractablePreset as ResourcePreset;
+
+            NetworkManager.Instance.GiftOrRemovePlayerItem(player.PlayerID, rPreset.ResourceItem, Random.Range(rPreset.MinGathering, rPreset.MaxGathering));
         }
     }
 }

@@ -47,6 +47,9 @@ MonoBehaviour:
   - RPC_RespondWithProcessedPath
   - RPC_ProcessEntityAskedPath
   - RPC_RespondWithEntityProcessedPath
+  - RPC_RespondToGather
+  - RPC_RespondToInteract
+  - RPC_RespondCancelInteract
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

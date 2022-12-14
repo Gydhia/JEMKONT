@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1f6b826a254a064ab9a6843cbedf78d, type: 3}
-  m_Name: GameUIPreset
+  m_Script: {fileID: 11500000, guid: 98b46f0a73178aa44bac469f936f261a, type: 3}
+  m_Name: Sword
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -20,7 +20,12 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
-  ItemPrefab: {fileID: 595109141347629658, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
-  ItemCase: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
-  SlotsByPlayer: 0a000000080000000600000004000000
+    SerializationNodes:
+    - Name: UID
+      Entry: 2
+      Data: 0386196c9a782849477eccd5d550b6b2
+  Type: 0
+  ItemName: Sword
+  InventoryIcon: {fileID: 21300000, guid: d5a4b728fa8ad70499dba3fa86749052, type: 3}
+  ItemPrefab: {fileID: 0}
+  MaxStack: 1

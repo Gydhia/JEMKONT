@@ -184,9 +184,21 @@ namespace DownBelow.Managers
             PlayerBehavior player = GameManager.Instance.Players[playerID];
             player.Interact(player.CurrentGrid.Cells[latitude, longitude]);
         }
+
+        public void GiftOrRemovePlayerItem(string playerID, ItemPreset item, int quantity)
+        {
+            this.photonView.RPC("RPC_RespondGiftOrRemovePlayerItem", RpcTarget.All, GameManager.Instance.SelfPlayer.PlayerID, item.UID.ToString(), quantity);
+
+        }
+
+        [PunRPC]
+        public void RPC_RespondGiftOrRemovePlayerItem(string playerID, string itemID, int quantity)
+        {
+            GameManager.Instance.Players[playerID].TakeResources(GridManager.Instance.ItemsPresets[System.Guid.Parse(itemID)], quantity);
+        }
         #endregion
 
-        #region Photon_UI_callbacks
+            #region Photon_UI_callbacks
 
         public override void OnRoomListUpdate(List<RoomInfo> roomList)
         {

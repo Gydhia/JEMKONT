@@ -18,12 +18,17 @@ namespace DownBelow.Inventory
         }
         #endregion
 
-        public Dictionary<ItemPreset, int> StorageItems= new Dictionary<ItemPreset, int>();
+        public Dictionary<ItemPreset, int> StorageItems = new Dictionary<ItemPreset, int>();
         public int MaxSlots;
 
         public void Init(StoragePreset preset)
         {
-            this.MaxSlots = preset.MaxSlots;
+            this.Init(preset.MaxSlots);
+        }
+
+        public void Init(int slots)
+        {
+            this.MaxSlots = slots;
         }
 
         /// <summary>
@@ -57,7 +62,7 @@ namespace DownBelow.Inventory
             {
                 if (this.StorageItems.ContainsKey(item))
                 {
-                    this.StorageItems[item] += quantity;
+                    this.StorageItems[item] -= quantity;
                     if(this.StorageItems[item] <= 0)
                         this.StorageItems.Remove(item);
                 }

@@ -25,7 +25,7 @@ namespace DownBelow.GridSystem
             this.Outline.OutlineColor = InteractableRef.OutlineColor;
         }
 
-        public abstract void Interact();
+        public abstract void Interact(Entity.PlayerBehavior p);
 
         public void OnFocused()
         {

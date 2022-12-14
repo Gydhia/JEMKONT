@@ -35,6 +35,7 @@ namespace DownBelow.Managers {
         public Dictionary<string, GridData> SavedGrids;
 
         public Dictionary<Guid, BaseSpawnablePreset> SpawnablesPresets;
+        public Dictionary<Guid, ItemPreset> ItemsPresets;
 
         #endregion
 
@@ -169,7 +170,7 @@ namespace DownBelow.Managers {
                 if (InputManager.Instance.LastInteractable != null)
                 {
                     Cell cell = InputManager.Instance.LastInteractable.RefCell;
-                    closestCell = GridUtility.GetClosestCellToShape(selfPlayer.CurrentGrid, cell.Datas.heightPos, cell.Datas.widthPos, 1, 1, selfPlayer.EntityCell.PositionInGrid);
+                    closestCell = GridUtility.GetClosestCellToShape(selfPlayer.CurrentGrid, cell.Datas.heightPos, cell.Datas.widthPos, 0, 0, selfPlayer.EntityCell.PositionInGrid);
                     selfPlayer._nextInteract = InputManager.Instance.LastInteractable;
                 }
                 else
@@ -530,11 +531,15 @@ namespace DownBelow.Managers {
         public void LoadEveryEntities()
         {
             var spawnablesPresets = Resources.LoadAll<BaseSpawnablePreset>("Presets").ToList();
+            var itemsPresets = Resources.LoadAll<ItemPreset>("Presets/Inventory/Items");
 
             this.SpawnablesPresets = new Dictionary<Guid, BaseSpawnablePreset>();
+            this.ItemsPresets = new Dictionary<Guid, ItemPreset>();
 
             foreach (var spawnable in spawnablesPresets)
                 this.SpawnablesPresets.Add(spawnable.UID, spawnable);
+            foreach (var item in itemsPresets)
+                this.ItemsPresets.Add(item.UID, item);
         }
         #endregion
     }

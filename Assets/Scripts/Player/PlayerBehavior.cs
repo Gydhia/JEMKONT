@@ -16,9 +16,22 @@ namespace DownBelow.Entity
     {
         #region EVENTS
 
+        public event PositionEventData.Event OnEnteredCell;
+        public event PositionEventData.Event OnExitedCell;
+
         public event GatheringEventData.Event OnGatheringStarted;
         public event GatheringEventData.Event OnGatheringCanceled;
         public event GatheringEventData.Event OnGatheringEnded;
+
+        public void FireEnteredCell(Cell cell)
+        {
+            this.OnEnteredCell?.Invoke(new(cell.PositionInGrid, cell));
+        }
+
+        public void FireExitedCell(Cell cell)
+        {
+            this.OnExitedCell?.Invoke(new(cell.PositionInGrid, cell));
+        }
 
         public void FireGatheringStarted(InteractableResource resource)
         {
@@ -32,9 +45,10 @@ namespace DownBelow.Entity
         {
             this.OnGatheringEnded?.Invoke(new(resource));
         }
+
         #endregion
 
-        public Inventory.Inventory PlayerInventory;
+        public BaseStorage PlayerInventory;
         
         private DateTime _lastTimeAsked = DateTime.Now;
         private string _nextGrid = string.Empty;
@@ -102,7 +116,9 @@ namespace DownBelow.Entity
                     yield return null;
                 }
 
+                this.FireExitedCell(this.EntityCell);
                 this.EntityCell = CurrentPath[targetCell];
+                this.FireEnteredCell(this.EntityCell);
 
                 if (this.NextPath != null) {
                     this.NextCell = null;
@@ -189,7 +205,7 @@ namespace DownBelow.Entity
             }
             else
             {
-                target.AttachedInteract.Interact();
+                target.AttachedInteract.Interact(this);
             }
         }
 
@@ -217,12 +233,16 @@ namespace DownBelow.Entity
                     yield break;
                 }
             }
-            _currentResource.Interact();
+            _currentResource.Interact(this);
             this._gatheringCor = null;
 
             this.FireGatheringEnded(_currentResource);
         }
 
+        public void TakeResources(ItemPreset resource, int quantity)
+        {
+            this.PlayerInventory.AddItem(resource, quantity);
+        }
         #endregion
     }
 }

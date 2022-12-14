@@ -8,6 +8,8 @@ namespace DownBelow.GridSystem
 
     public class ResourcePreset : InteractablePreset
     {
+        public ItemPreset ResourceItem;
+
         public Sprite UISprite;
         public GameObject DroppedObject;
         public MeshRenderer OnceGatheredObject;

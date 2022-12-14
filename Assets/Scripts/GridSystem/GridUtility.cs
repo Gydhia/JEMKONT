@@ -30,6 +30,25 @@ namespace DownBelow.GridSystem
                             oldCells[i, j] = new CellData(i, j, CellState.Walkable);
             }
         }
+        public static List<Cell> GetSurroundingCells(CellState? specifiedState, Cell cell)
+        {
+            List<Cell> foundCells = new List<Cell>();
+            for (int x = -1; x <= 1; x++)
+            {
+                for (int y = -1; y <= 1; y++)
+                {
+                    int checkX = cell.Datas.widthPos + x;
+                    int checkY = cell.Datas.heightPos + y;
+
+                    if (checkX >= 0 && checkX < cell.RefGrid.GridWidth && checkY >= 0 && checkY < cell.RefGrid.GridHeight)
+                    {
+                        if (specifiedState == null || cell.RefGrid.Cells[checkY, checkX].Datas.state == specifiedState)
+                            foundCells.Add(cell.RefGrid.Cells[checkY, checkX]);
+                    }
+                }
+            }
+            return foundCells;
+        }
 
         public static WorldGrid GetIncludingGrid(WorldGrid worldGrid, Managers.GridPosition target)
         {
@@ -77,6 +96,8 @@ namespace DownBelow.GridSystem
         }
         public static Cell GetClosestCellToShape(WorldGrid refGrid, int latitude, int longitude, int height, int width, GridPosition entityPos)
         {
+            // T0DO: Width and height aren't returning the expected result
+
             // Top
             if (entityPos.latitude < latitude)
             {

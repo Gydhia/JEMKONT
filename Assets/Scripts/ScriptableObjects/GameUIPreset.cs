@@ -9,4 +9,8 @@ using UnityEngine;
 public class GameUIPreset : SerializedScriptableObject
 {
     public UIInventoryItem ItemPrefab;
+
+    public Sprite ItemCase;
+
+    public int[] SlotsByPlayer;
 }
