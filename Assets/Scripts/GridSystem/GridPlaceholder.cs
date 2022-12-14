@@ -107,6 +107,8 @@ public class GridPlaceholder : SerializedMonoBehaviour
                 this.Spawnables = this._setSpawnablePresets(this.CellDatas, newGrid.SpawnablePresets);
             else
                 this.Spawnables.Clear();
+
+            GridManager.Instance.GenerateShaderBitmap(newGrid, null, true);
         }
     }
 
@@ -248,48 +250,8 @@ public class GridPlaceholder : SerializedMonoBehaviour
         if (this.CellDatas == null)
             return;
 
-        Color red = new Color(Color.red.r, Color.red.g, Color.red.b, 0.4f);
-        Color white = new Color(Color.white.r, Color.white.g, Color.white.b, 0.4f);
-        Color blue = new Color(Color.blue.r, Color.blue.g, Color.blue.b, 0.4f);
-
         float cellsWidth = SettingsManager.Instance.GridsPreset.CellsSize;
         Vector3 cellBounds = new Vector3(cellsWidth - cellsWidth/15f, cellsWidth/6f, cellsWidth - cellsWidth/15f);
-
-        List<GridPosition> sharedPos = new List<GridPosition>();
-        for (int i = 0; i < this.InnerGrids.Count; i++)
-        {
-            for (int j = 0; j < this.InnerGrids[i].CellDatas.GetLength(0); j++)
-            {
-                for (int k = 0; k < this.InnerGrids[i].CellDatas.GetLength(1); k++)
-                {
-                    sharedPos.Add(new GridPosition(k + this.InnerGrids[i].Longitude, j + this.InnerGrids[i].Latitude));
-                }
-            }
-        }
-
-        for (int i = 0; i < this.GridHeight; i++)
-        {
-            for (int j = 0; j < this.GridWidth; j++)
-            {
-                if (this.CellDatas[i, j] == null || sharedPos.Contains(new GridPosition(this.CellDatas[i, j].widthPos, this.CellDatas[i, j].heightPos)))
-                    continue;
-
-                if (i == 0 && j == 0)
-                    Gizmos.color = Color.yellow;
-                else if (this.CellDatas[i, j].state == CellState.Walkable)
-                    Gizmos.color = white;
-                else if (this.CellDatas[i, j].state == CellState.Blocked)
-                    Gizmos.color = red;
-                else if (this.CellDatas[i, j].state == CellState.Interactable)
-                    Gizmos.color = Color.magenta;
-                else
-                    Gizmos.color = blue;
-
-                Vector3 pos = new Vector3(j * cellsWidth + TopLeftOffset.x + (cellsWidth / 2), cellBounds.y / 2f + TopLeftOffset.y, -i * cellsWidth + TopLeftOffset.z - (cellsWidth / 2));
-
-                Gizmos.DrawCube(pos, cellBounds);
-            }
-        }
 
         for (int i = 0; i < this.InnerGrids.Count; i++)
         {
@@ -310,29 +272,6 @@ public class GridPlaceholder : SerializedMonoBehaviour
             Gizmos.DrawCube(bot, new Vector3(this.InnerGrids[i].GridWidth, 0.05f, 0.05f));
             Gizmos.DrawCube(left, new Vector3(0.05f, 0.05f, this.InnerGrids[i].GridHeight));
             Gizmos.DrawCube(right, new Vector3(0.05f, 0.05f, this.InnerGrids[i].GridHeight));
-
-            for (int j = 0; j < this.InnerGrids[i].GridHeight; j++)
-            {
-                for (int k = 0; k < this.InnerGrids[i].GridWidth; k++)
-                {
-                    if (this.InnerGrids[i].CellDatas[j, k] == null)
-                        continue;
-
-                    int xOffset = this.InnerGrids[i].Longitude;
-                    int yOffset = this.InnerGrids[i].Latitude;
-
-                    if (this.InnerGrids[i].CellDatas[j, k].state == CellState.Walkable)
-                        Gizmos.color = white;
-                    else if (this.InnerGrids[i].CellDatas[j, k].state == CellState.Blocked)
-                        Gizmos.color = red;
-                    else
-                        Gizmos.color = blue;
-
-                    Vector3 pos = new Vector3((k + xOffset) * cellsWidth + TopLeftOffset.x + (cellsWidth / 2), cellBounds.y / 2f + TopLeftOffset.y, -(j + yOffset) * cellsWidth + TopLeftOffset.z - (cellsWidth / 2));
-
-                    Gizmos.DrawCube(pos, cellBounds);
-                }
-            }
         }
 
         if(this.Spawnables != null)

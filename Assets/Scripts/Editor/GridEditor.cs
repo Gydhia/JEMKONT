@@ -199,17 +199,18 @@ public class GridEditor : OdinEditor
     {
         EditorUtility.SetDirty(this._target.gameObject);
 
-        GridPosition pos = this._target.GetGridIndexFromWorld(WorldPosition);
+        GridPosition refPos = this._target.GetGridIndexFromWorld(WorldPosition);
         // Longitude = x, latitude = y. Array is [height, width]
 
-        CellData[,] refDatas = this.GetRefDatasOfGRid(pos, out GridPosition positionInCurrentGrid);
-        pos = positionInCurrentGrid;
-        CellState currState = refDatas[pos.latitude, pos.longitude].state;
+        CellData[,] refDatas = this.GetRefDatasOfGRid(refPos, out GridPosition positionInCurrentGrid);
+        GridPosition processPose = positionInCurrentGrid;
+        CellState currState = refDatas[processPose.latitude, processPose.longitude].state;
         if (PenType == currState || currState == CellState.EntityIn)
         {
             return;
         }
-        refDatas[pos.latitude, pos.longitude].state = CellState.Blocked;
+        refDatas[processPose.latitude, processPose.longitude].state = CellState.Blocked;
+        GridManager.Instance.ChangeBitmapCell(refPos, this._target.GridHeight, CellState.Blocked, true);
     }
 
     public void MakeWalkable(Vector3 WorldPosition)
@@ -220,8 +221,8 @@ public class GridEditor : OdinEditor
         // Longitude = x, latitude = y. Array is [height, width]
 
         CellData[,] refDatas = this.GetRefDatasOfGRid(pos, out GridPosition positionInCurrentGrid);
-        pos = positionInCurrentGrid;
-        CellState currState = refDatas[pos.latitude, pos.longitude].state;
+        GridPosition processPose = positionInCurrentGrid;
+        CellState currState = refDatas[processPose.latitude, processPose.longitude].state;
         if (currState == CellState.EntityIn)
         {
             MakeEntity(WorldPosition);
@@ -230,7 +231,9 @@ public class GridEditor : OdinEditor
         {
             return;
         }
-        refDatas[pos.latitude, pos.longitude].state = CellState.Walkable;
+        refDatas[processPose.latitude, processPose.longitude].state = CellState.Walkable;
+        GridManager.Instance.ChangeBitmapCell(pos, this._target.GridHeight, CellState.Walkable, true);
+
     }
 
     public CellData[,] GetRefDatasOfGRid(GridPosition pos, out GridPosition positionInCurrentGrid)
@@ -271,6 +274,8 @@ public class GridEditor : OdinEditor
         {
             this.AllocateSpawnable(this._target.Spawnables, this._target.CellDatas, pos);
         }
+        GridManager.Instance.ChangeBitmapCell(pos, this._target.GridHeight, CellState.EntityIn, true);
+
     }
 
     public void AllocateSpawnable(Dictionary<GridPosition, BaseSpawnablePreset> spawnablesRef, CellData[,] cellsRef, GridPosition pos)
@@ -283,11 +288,6 @@ public class GridEditor : OdinEditor
         {
             cellsRef[pos.latitude, pos.longitude].state = CellState.EntityIn;
             spawnablesRef.Add(pos, null);
-        }
-        else
-        {
-            cellsRef[pos.latitude, pos.longitude].state = CellState.Walkable;
-            spawnablesRef.Remove(pos);
         }
     }
 

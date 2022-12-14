@@ -13,6 +13,8 @@ namespace DownBelow.GameData
 
         [Range(0f, 2f)]
         public float CellsEdgeOffset = 0.1f;
+
+        public GameObject GridShader;
     }
 
 }

@@ -25,6 +25,7 @@ namespace DownBelow.GridSystem
 
         [HideInInspector]
         public Cell[,] Cells;
+        public GridData SelfData;
 
         public List<CharacterEntity> GridEntities;
 
@@ -35,6 +36,8 @@ namespace DownBelow.GridSystem
             this.GridHeight = data.GridHeight;
             this.GridWidth = data.GridWidth;
             this.IsCombatGrid = data.IsCombatGrid;
+
+            this.SelfData = data;
 
             this.GenerateGrid(data);
             if(data.InnerGrids != null)
@@ -152,9 +155,7 @@ namespace DownBelow.GridSystem
             Cell newCell = Instantiate(GridManager.Instance.CellPrefab, position, Quaternion.identity, this.gameObject.transform);
 
             newCell.Init(height, width, CellState.Walkable, this);
-            if(this.IsCombatGrid)
-                newCell.SelfPlane.gameObject.SetActive(false);
-
+            
             this.Cells[height, width] = newCell;
         }
 
@@ -166,16 +167,6 @@ namespace DownBelow.GridSystem
                     if(this.Cells[i, j] != null)
                         this.Cells[i, j].RefreshCell();
         }
-
-        public void ShowHideGrid(bool show)
-        {
-            // /!\ TODO: Avoid iterating over all of these when already disabled
-            for (int i = 0; i < this.Cells.GetLength(0); i++)
-                for (int j = 0; j < this.Cells.GetLength(1); j++)
-                    if (this.Cells[i, j] != null)
-                        this.Cells[i, j].SelfPlane.gameObject.SetActive(show);
-        }
-
 
         #region Utility_methods
         public void ResizeGrid(Cell[,] newCells)
