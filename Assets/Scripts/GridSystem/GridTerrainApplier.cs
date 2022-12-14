@@ -28,10 +28,13 @@ public class GridTerrainApplier : MonoBehaviour
 
     private RaycastHit RayCastFromCell(CellData Cell)
     {
-        Vector3 position = transform.position + new Vector3(Cell.widthPos * CellsSize, RayStartHeight, -Cell.heightPos * CellsSize);
+        Vector3 position = transform.position + new Vector3(Cell.widthPos * CellsSize + CellsSize/2, RayStartHeight, -Cell.heightPos-1 * CellsSize + CellsSize / 2);
         Vector3 Direction = new Vector3(0, RayDistance, 0);
-        print(" 11 : " + Cell.widthPos + "  " + Cell.heightPos);
-        Physics.BoxCast(position, new Vector3(CellsSize, CellsSize, CellsSize), Direction, out RaycastHit hit, new Quaternion(), RayDistance, LayerMask.NameToLayer("Terrain"));
+        Debug.DrawRay(position, Direction, Color.red, 5);
+        if (Physics.BoxCast(position, new Vector3(CellsSize, CellsSize, CellsSize), Direction, out RaycastHit hit, new Quaternion(), RayDistance, 1 << LayerMask.NameToLayer("Terrain")))
+        {
+            Debug.Log("Yes ");
+        }
         return hit;
     }
 
