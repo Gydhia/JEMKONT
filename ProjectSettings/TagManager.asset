@@ -4,6 +4,8 @@
 TagManager:
   serializedVersion: 2
   tags:
+  - Walkable
+  - Blocked
   - Bullet
   layers:
   - Default
@@ -26,7 +28,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - Terrain
   - 
   - 
   - 

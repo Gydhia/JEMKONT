@@ -71,7 +71,7 @@ namespace DownBelow.Managers
 
         public void WelcomePlayerLately()
         {
-            PhotonNetwork.CreateRoom($"SoloRoom{Random.Range(-256,256)}");
+            PhotonNetwork.CreateRoom("SoloRoom" + UnityEngine.Random.Range(0,100000));
         }
 
         public void WelcomePlayers()

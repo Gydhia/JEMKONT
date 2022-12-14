@@ -24,7 +24,6 @@ public class GridPlaceholder : SerializedMonoBehaviour
 
     public Dictionary<GridPosition, BaseSpawnablePreset> Spawnables;
 
-
     [ValueDropdown("GetSavedGrids"), OnValueChanged("LoadSelectedGrid")]
     public string SelectedGrid;
 
@@ -43,6 +42,30 @@ public class GridPlaceholder : SerializedMonoBehaviour
 
         this.InnerGrids.Add(new SubgridPlaceholder());
         this.InnerGrids[^1].GenerateGrid(2, 2, 0, 0);
+    }
+
+    private string PenButtonName = "Enable Pen";
+    [Button("$PenButtonName")]
+    public void ActivatePen()
+    {
+        IsPainting = !IsPainting;
+        PenButtonName = IsPainting? "Disable Pen" : "Enable Pen";
+    }
+
+    private string ApplyTerrainButtonName = "Apply terrain to grid";
+    [Button("$ApplyTerrainButtonName")]
+    public void ApplyTerrainToGrid()
+    {
+        ApplyTerrainButtonName = "Getting gridTerrainApplier..";
+        GridTerrainApplier gridTerrainApplier = gameObject.GetComponent<GridTerrainApplier>();
+        if (gridTerrainApplier == null)
+        {
+            ApplyTerrainButtonName = "No gridTerrainApplier found";
+            return;
+        }
+        ApplyTerrainButtonName = "Applying terrain to grid..";
+        gridTerrainApplier.ApplyTerrainToGrid(CellDatas);
+        ApplyTerrainButtonName = "Apply terrain to grid";
     }
 
     private IEnumerable<string> GetSavedGrids()
@@ -114,6 +137,10 @@ public class GridPlaceholder : SerializedMonoBehaviour
 
     public int GridHeight = 8;
     public int GridWidth = 5;
+
+    [HideInInspector]
+    public bool IsPainting;
+    
 
     private float cellsWidth => SettingsManager.Instance.GridsPreset.CellsSize;
 
