@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59a72d096bebb9c4ab75509aed0c1bd6, type: 3}
+  m_Script: {fileID: 11500000, guid: 3eb73038b662871489a966a0f3936d94, type: 3}
   m_Name: AkWwiseProjectData
   m_EditorClassIdentifier: 
   AcousticTextureWwu:
