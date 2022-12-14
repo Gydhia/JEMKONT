@@ -93,6 +93,10 @@ MonoBehaviour:
   CombatPreset: {fileID: 11400000, guid: a26fd800d9da29548a4b431ecf6ed845, type: 2}
   GameUIPreset: {fileID: 11400000, guid: b4f43fb59e111b349865a00b17dd32dc, type: 2}
   PlayerStats: {fileID: 11400000, guid: 749d1a933eed5214c9209d8ec792b76b, type: 2}
+  FishermanStats: {fileID: 0}
+  MinerStats: {fileID: 0}
+  FarmerStats: {fileID: 0}
+  HerbalistStats: {fileID: 0}
 --- !u!1 &1709003694304920991
 GameObject:
   m_ObjectHideFlags: 0
@@ -338,6 +342,8 @@ MonoBehaviour:
   InCombat: 1
   Path: []
   MainWorldGrid: {fileID: 0}
+  BitmapTexture: {fileID: 2800000, guid: 774cf7acc1c321844b3f8ee5e9f215b8, type: 3}
+  BitmapShader: {fileID: 2100000, guid: 0349616ade0e9a54cbd7bfb285ede134, type: 2}
   TestPlane: {fileID: 913962143815404576, guid: 7141923bd86c41143a35f9d656e8949b, type: 3}
   LastHoveredCell: {fileID: 0}
 --- !u!1 &4708042891339228753
@@ -609,3 +615,5 @@ MonoBehaviour:
   CardSection: {fileID: 0}
   PlayerInventory: {fileID: 0}
   Storage: {fileID: 0}
+  GatheringSlider: {fileID: 0}
+  GatheringName: {fileID: 0}

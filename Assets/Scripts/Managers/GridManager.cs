@@ -43,14 +43,18 @@ namespace DownBelow.Managers {
 
         #endregion
 
-
         public List<Cell> Path;
         private List<Cell> _possiblePath = new List<Cell>();
 
         public Dictionary<string,WorldGrid> WorldGrids;
 
         private CombatGrid _currentCombatGrid;
+
         public WorldGrid MainWorldGrid;
+        public Texture2D BitmapTexture;
+        public Material BitmapShader;
+        public GameObject GridShader;
+
         public GameObject TestPlane;
 
         public Cell LastHoveredCell;
@@ -64,11 +68,16 @@ namespace DownBelow.Managers {
             this.LoadEveryEntities();
 
             Destroy(this._gridsDataHandler.gameObject);
-
+            bool bitmapSet = false;
             foreach (var savedGrid in this.SavedGrids) {
                 // Only load the saves that are indicated so
                 if (savedGrid.Value.ToLoad) {
                     this.GenerateGrid(savedGrid.Value,savedGrid.Key);
+                    if (!bitmapSet)
+                    {
+                        this.GenerateShaderBitmap(savedGrid.Value);
+                        bitmapSet = true;
+                    }
                 }
             }
 
@@ -91,12 +100,12 @@ namespace DownBelow.Managers {
         }
 
         public void OnNewCellHovered(CharacterEntity entity,Cell cell) {
-            if (this.LastHoveredCell != null && this.LastHoveredCell.Datas.state == CellState.Walkable)
-                this.LastHoveredCell.ChangeStateColor(Color.grey);
+            //if (this.LastHoveredCell != null && this.LastHoveredCell.Datas.state == CellState.Walkable)
+            //    this.LastHoveredCell.ChangeStateColor(Color.grey);
 
             this.LastHoveredCell = cell;
-            if (CardDraggingSystem.instance.DraggedCard != null && this.LastHoveredCell.Datas.state == CellState.Walkable)
-                this.LastHoveredCell.ChangeStateColor(Color.cyan);
+            //if (CardDraggingSystem.instance.DraggedCard != null && this.LastHoveredCell.Datas.state == CellState.Walkable)
+            //    this.LastHoveredCell.ChangeStateColor(Color.cyan);
 
             if (entity.CurrentGrid is CombatGrid cGrid && cGrid.HasStarted && this.LastHoveredCell.RefGrid == entity.CurrentGrid) {
                 this.ShowPossibleCombatMovements(entity);
@@ -104,21 +113,21 @@ namespace DownBelow.Managers {
                 // Make sure that we're not using a card so we don't show the player's path
                 if (CardDraggingSystem.instance.DraggedCard == null) {
                     // Clear old path
-                    for (int i = 0;i < this.Path.Count;i++)
-                        if (this.Path[i] != null)
-                            this.Path[i].ChangeStateColor(Color.grey);
+                    //for (int i = 0;i < this.Path.Count;i++)
+                    //    if (this.Path[i] != null)
+                    //        this.Path[i].ChangeStateColor(Color.grey);
 
                     if (!entity.CurrentGrid.IsCombatGrid)
                         this._possiblePath = this.Path;
 
                     this.FindPath(entity,cell.PositionInGrid,cell.RefGrid);
 
-                    if (!entity.CurrentGrid.IsCombatGrid || this.Path.Count <= entity.Speed) {
-                        for (int i = 0;i < this.Path.Count;i++) {
-                            if (this.Path[i] != null)
-                                this.Path[i].ChangeStateColor(Color.green);
-                        }
-                    }
+                    //if (!entity.CurrentGrid.IsCombatGrid || this.Path.Count <= entity.Speed) {
+                    //    for (int i = 0;i < this.Path.Count;i++) {
+                    //        if (this.Path[i] != null)
+                    //            this.Path[i].ChangeStateColor(Color.green);
+                    //    }
+                    //}
                 }
             }
         }
@@ -197,8 +206,8 @@ namespace DownBelow.Managers {
             Cell entityCell = entity.EntityCell;
 
             // Clear the highlighted cells
-            foreach (Cell cell in this._possiblePath)
-                cell.ChangeStateColor(Color.grey);
+            //foreach (Cell cell in this._possiblePath)
+            //    cell.ChangeStateColor(Color.grey);
             this._possiblePath.Clear();
 
             for (int x = -movePoints;x <= movePoints;x++) {
@@ -214,7 +223,7 @@ namespace DownBelow.Managers {
 
                         if (this.Path.Contains(entity.CurrentGrid.Cells[checkY,checkX]) && this.Path.Count <= movePoints && (entity.CurrentGrid.Cells[checkY,checkX].Datas.state == CellState.Walkable)) {
                             this._possiblePath.Add(entity.CurrentGrid.Cells[checkY,checkX]);
-                            entity.CurrentGrid.Cells[checkY,checkX].ChangeStateColor(new Color(0.82f,0.796f,0.5f,0.8f));
+                            //entity.CurrentGrid.Cells[checkY,checkX].ChangeStateColor(new Color(0.82f,0.796f,0.5f,0.8f));
                         }
                     }
                 }
@@ -230,17 +239,16 @@ namespace DownBelow.Managers {
         public Cell RandomCellInPossiblePath() {
             return _possiblePath.Random();
         }
-        public void OnEnteredNewGrid(EntityEventData Data) {
+        public void OnEnteredNewGrid(EntityEventData Data) 
+        {
             // Affect the visuals ONLY if we are the player transitionning
-            if (Data.Entity == GameManager.Instance.SelfPlayer) {
-                Data.Entity.CurrentGrid.ShowHideGrid(true);
-                if (Data.Entity.CurrentGrid.IsCombatGrid) {
-                    ((CombatGrid)Data.Entity.CurrentGrid).ParentGrid.ShowHideGrid(false);
-                } else {
-                    foreach (CombatGrid grid in Data.Entity.CurrentGrid.InnerCombatGrids.Values) {
-                        grid.ShowHideGrid(false);
-                    }
-                }
+            if (Data.Entity == GameManager.Instance.SelfPlayer) 
+            {
+                if(Data.Entity.CurrentGrid.IsCombatGrid)
+                    this.GenerateShaderBitmap(((CombatGrid)Data.Entity.CurrentGrid).ParentGrid.SelfData, Data.Entity.CurrentGrid.SelfData);
+                else
+                    this.GenerateShaderBitmap(Data.Entity.CurrentGrid.SelfData);
+
                 foreach (PlayerBehavior player in GameManager.Instance.Players.Values) {
                     if (player.CurrentGrid != Data.Entity.CurrentGrid)
                         player.gameObject.SetActive(false);
@@ -528,6 +536,156 @@ namespace DownBelow.Managers {
             foreach (var item in itemsPresets)
                 this.ItemsPresets.Add(item.UID, item);
         }
+        #endregion
+
+        #region SHADERS_BITMAP
+
+        public void GenerateShaderBitmap(GridData world, GridData innerGrid = null,bool editor = false)
+        {
+            float cellSize = SettingsManager.Instance.GridsPreset.CellsSize;
+
+            if (this.GridShader == null)
+                this.GridShader = Instantiate(SettingsManager.Instance.GridsPreset.GridShader, this.transform);
+            this.GridShader.transform.localScale = new Vector3((float)world.GridWidth / 10f, 1f, (float)world.GridHeight / 10f);
+            this.GridShader.transform.position = new Vector3(world.TopLeftOffset.x + (world.GridWidth * cellSize) / 2f, 0.2f, world.TopLeftOffset.z + -(world.GridHeight * cellSize) / 2f);
+
+            this.BitmapTexture = new Texture2D(world.GridWidth, world.GridHeight, TextureFormat.ARGB32, false);
+
+            Color[] Colors = new Color[world.GridHeight * world.GridWidth];
+            for (int i = 0; i < world.GridHeight * world.GridWidth; i++)
+                Colors[i] = Color.black;
+
+            this.BitmapTexture.SetPixels(0, 0, world.GridWidth, world.GridHeight, Colors);
+
+
+            if (editor)
+                this._generateShaderEditorBitmap(world);
+            else
+                this._generateShaderBitmap(world, innerGrid);
+
+
+            this.BitmapTexture.Apply();
+            // -1 ? Don't know, just works
+            this.BitmapShader.SetVector("_Offset", new Vector2(-world.TopLeftOffset.x, -(world.TopLeftOffset.z - 1)));
+            this.BitmapShader.SetTexture("_Texture2D", this.BitmapTexture);
+        }
+
+        private void _generateShaderBitmap(GridData world, GridData innerGrid)
+        {
+            // We use innergrid to determine we have a parent
+
+            if(innerGrid == null)
+            {
+                foreach (var item in world.CellDatas)
+                {
+                    this.BitmapTexture.SetPixel(item.widthPos, world.GridHeight - item.heightPos, this._getBitmapColor(item.state));
+                }
+            }
+            for (int y = 0; y < world.GridHeight; y++)
+            {
+                for (int x = 0; x < world.GridWidth; x++)
+                {
+                    if(innerGrid != null)
+                        this.BitmapTexture.SetPixel(x, world.GridHeight - y, Color.black);
+                    else if (this.BitmapTexture.GetPixel(x, world.GridHeight - y) == Color.black)
+                        this.BitmapTexture.SetPixel(x, world.GridHeight - y, Color.green);
+                }
+            }
+            
+            if(innerGrid != null)
+            {
+                int xOffset = innerGrid.Longitude;
+                int yOffset = innerGrid.Latitude;
+
+                this.BitmapTexture.SetPixels(
+                        innerGrid.Longitude, world.GridHeight - (innerGrid.Latitude - 1) - innerGrid.GridHeight,
+                        innerGrid.GridWidth, innerGrid.GridHeight,
+                        Enumerable.Repeat(Color.green, innerGrid.GridWidth * innerGrid.GridHeight).ToArray());
+
+                foreach (CellData cellData in innerGrid.CellDatas)
+                {
+                    this.BitmapTexture.SetPixel(cellData.widthPos + xOffset, world.GridHeight - (cellData.heightPos + yOffset), this._getBitmapColor(cellData.state));
+                }
+            }
+            // If this is a main grid, iterate over its CombatGrid to hide them
+            else
+            {
+                for (int i = 0; i < world.InnerGrids.Count; i++)
+                {
+                    this.BitmapTexture.SetPixels(
+                        world.InnerGrids[i].Longitude, world.GridHeight - (world.InnerGrids[i].Latitude - 1) - world.InnerGrids[i].GridHeight, 
+                        world.InnerGrids[i].GridWidth, world.InnerGrids[i].GridHeight,
+                        Enumerable.Repeat(Color.black, world.InnerGrids[i].GridWidth * world.InnerGrids[i].GridHeight).ToArray());
+                }
+            }
+           
+        }
+
+        public void _generateShaderEditorBitmap(GridData world)
+        {
+            foreach (var item in world.CellDatas)
+            {
+                this.BitmapTexture.SetPixel(item.widthPos, world.GridHeight - item.heightPos, this._getBitmapEditorColor(item.state));
+            }
+            
+            for (int y = 0; y < world.GridHeight; y++)
+            {
+                for (int x = 0; x < world.GridWidth; x++)
+                {
+                    if (world.IsCombatGrid)
+                        this.BitmapTexture.SetPixel(x, world.GridHeight - y, Color.black);
+                    if (this.BitmapTexture.GetPixel(x, world.GridHeight - y) == Color.black)
+                        this.BitmapTexture.SetPixel(x, world.GridHeight - y, Color.green);
+                }
+            }
+
+            for (int i = 0; i < world.InnerGrids.Count; i++)
+            {
+                int xOffset = world.InnerGrids[i].Longitude;
+                int yOffset = world.InnerGrids[i].Latitude;
+
+                foreach (CellData cellData in world.InnerGrids[i].CellDatas)
+                {
+                    this.BitmapTexture.SetPixel(cellData.widthPos + xOffset, world.GridHeight - (cellData.heightPos + yOffset), this._getBitmapEditorColor(cellData.state));
+                }
+            }
+        }
+
+        private Color _getBitmapColor(CellState state)
+        {
+            Color newColor = Color.red;
+            switch (state)
+            {
+                case CellState.Walkable: newColor = Color.black; break;
+                case CellState.EntityIn: newColor = Color.green; break;
+                case CellState.Interactable: newColor = Color.blue; break;
+            }
+
+            return newColor;
+        }
+
+        private Color _getBitmapEditorColor(CellState state)
+        {
+            Color newColor = Color.green;
+            switch (state)
+            {
+                case CellState.Walkable: newColor = Color.green; break;
+
+                case CellState.EntityIn:
+                case CellState.Interactable: newColor = Color.red; break;
+
+                case CellState.Blocked: newColor = Color.blue; break;
+            }
+
+            return newColor;
+        }
+
+        public void ChangeBitmapCell(GridPosition pos, int gridHeight,CellState state, bool editor = false)
+        {
+            this.BitmapTexture.SetPixel(pos.longitude, gridHeight - pos.latitude, editor ? this._getBitmapEditorColor(state) : _getBitmapColor(state));
+            this.BitmapTexture.Apply();
+        }
+
         #endregion
     }
 
