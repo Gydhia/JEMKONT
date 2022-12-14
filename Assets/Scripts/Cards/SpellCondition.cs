@@ -119,8 +119,7 @@ namespace DownBelow.Spells
 
         public bool CheckBuffs()
         {
-            
-            return _currentResult.;
+            return false;
         }
     }
 }

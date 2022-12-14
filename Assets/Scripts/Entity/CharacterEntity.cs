@@ -135,7 +135,6 @@ namespace DownBelow.Entity
             this.transform.position = destination.WorldPosition;
 
             destination.EntityIn = this;
-
             return true;
         }
 

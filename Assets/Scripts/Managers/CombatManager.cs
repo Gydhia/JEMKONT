@@ -8,12 +8,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
+using DownBelow.Mechanics;
 
 namespace DownBelow.Managers {
     public class CombatManager : _baseManager<CombatManager> {
         public event GridEventData.Event OnCombatStarted;
         public bool BattleGoing;
-        private Spell[] _currentSpells; 
+        private Spell[] _currentSpells;
         public void FireCombatStarted(WorldGrid Grid) {
             this.OnCombatStarted?.Invoke(new GridEventData(Grid));
         }
@@ -38,7 +39,10 @@ namespace DownBelow.Managers {
         private void Start() {
             GameManager.Instance.OnEnteredGrid += this.WelcomePlayerInCombat;
         }
-
+        public void ExecuteSpells(Cell target,ScriptableCard spell) {
+            this._currentSpells = spell.Spells;
+            StartCoroutine(this._waitForSpell(target));
+        }
         public void WelcomePlayerInCombat(EntityEventData Data) {
             Data.Entity.ReinitializeAllStats();
             //TODO: Verify this is well understood.
@@ -109,27 +113,27 @@ namespace DownBelow.Managers {
             //if (this.CurrentPlayingEntity.IsAlly)
             this._turnCoroutine = StartCoroutine(this._startTurnTimer());
         }
-    private IEnumerator _waitForSpell(DownBelow.GridSystem.Cell target) {
-        for (int i = 0;i < this._currentSpells.Length;i++) {
-            bool canExecute = true;
+        private IEnumerator _waitForSpell(DownBelow.GridSystem.Cell target) {
+            for (int i = 0;i < this._currentSpells.Length;i++) {
+                bool canExecute = true;
 
-            if (this._currentSpells[i].ConditionData != null)
-                if (i - 1 >= 0)
-                    if (!this._currentSpells[i].ConditionData.Check(this._currentSpells[i - 1].CurrentAction.Result))
-                        canExecute = false;
+                if (this._currentSpells[i].ConditionData != null)
+                    if (i - 1 >= 0)
+                        if (!this._currentSpells[i].ConditionData.Check(this._currentSpells[i - 1].CurrentAction.Result))
+                            canExecute = false;
 
-            if (canExecute) {
-                this._currentSpells[i].CurrentAction = Instantiate(this._currentSpells[i].ActionData,Vector3.zero,Quaternion.identity,CombatManager.Instance.CurrentPlayingEntity.gameObject.transform);
-                this._currentSpells[i].ExecuteSpell(CombatManager.Instance.CurrentPlayingEntity,target);
-                while (!this._currentSpells[i].CurrentAction.HasEnded) {
-                    yield return new WaitForSeconds(Time.deltaTime);
+                if (canExecute) {
+                    this._currentSpells[i].CurrentAction = Instantiate(this._currentSpells[i].ActionData,Vector3.zero,Quaternion.identity,CombatManager.Instance.CurrentPlayingEntity.gameObject.transform);
+                    this._currentSpells[i].ExecuteSpell(CombatManager.Instance.CurrentPlayingEntity,target);
+                    while (!this._currentSpells[i].CurrentAction.HasEnded) {
+                        yield return new WaitForSeconds(Time.deltaTime);
+                    }
+                    CombatManager.Instance.CurrentPlayingEntity.UnsubToSpell(this._currentSpells[i].ActionData);
                 }
-                CombatManager.Instance.CurrentPlayingEntity.UnsubToSpell(this._currentSpells[i].ActionData);
             }
-        }
 
-        this.gameObject.SetActive(false);
-    }
+            this.gameObject.SetActive(false);
+        }
 
         private void _setupEnemyEntities() {
             foreach (CharacterEntity enemy in this.CurrentPlayingGrid.GridEntities.Where(e => !e.IsAlly)) {

@@ -3271,9 +3271,176 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+    - target: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
       propertyPath: DeckPresets.Array.data[4]
       value: 
       objectReference: {fileID: 11400000, guid: dd2bfd15c03fc73419ff1859368e683d, type: 2}
+    - target: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.size
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[0]
+      value: '"path":"ScriptableCards","value":{"$id":0,"$type":"System.Collections.Generic.Dictionary`2[[System.String,
+        mscorlib],[DownBelow.Mechanics.ScriptableCard, Assembly-CSharp]], mscorlib","comparer":{"$id":1,"$type":"System.Collections.Generic.GenericEqualityComparer`1[[System.String,
+        mscorlib]], mscorlib"},"$rlength":18,"$rcontent":[{"$k":"Angler''s Eye","$v":$eref:0},{"$k":"Bash","$v":$eref:1},{"$k":"Battle
+        Bloodletting","$v":$eref:2},{"$k":"Go Fish","$v":$eref:3},{"$k":"Golden Regalia","$v":$eref:4},{"$k":"Homemade
+        Ointment","$v":$eref:5},{"$k":"Hook And Tear","$v":$eref:6},{"$k":"Lawn Order","$v":$eref:7},{"$k":"Nurture
+        Soil","$v":$eref:8},{"$k":"Pick In The Dark","$v":$eref:9},{"$k":"Protein
+        Bar","$v":$eref:10},{"$k":"Sand Snare","$v":$eref:11},{"$k":"Shock","$v":$eref:12},{"$k":"Sickle
+        Slash","$v":$eref:13},{"$k":"Sow & Reap","$v":$eref:14},{"$k":"Strange Mushroom","$v":$eref:15},{"$k":"SummonStalactite","$v":$eref:16},{"$k":"","$v":$eref:17}]}'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[1]
+      value: '"path":"ScriptableCards.{\"Angler''s Eye\"}","value":$eref:0'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[2]
+      value: '"path":"ScriptableCards.{\"Bash\"}","value":$eref:1'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[3]
+      value: '"path":"ScriptableCards.{\"Battle Bloodletting\"}","value":$eref:2'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[4]
+      value: '"path":"ScriptableCards.{\"Go Fish\"}","value":$eref:3'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[5]
+      value: '"path":"ScriptableCards.{\"Golden Regalia\"}","value":$eref:4'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[6]
+      value: '"path":"ScriptableCards.{\"Homemade Ointment\"}","value":$eref:5'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[7]
+      value: '"path":"ScriptableCards.{\"Hook And Tear\"}","value":$eref:6'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[8]
+      value: '"path":"ScriptableCards.{\"Lawn Order\"}","value":$eref:7'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[9]
+      value: '"path":"ScriptableCards.{\"Nurture Soil\"}","value":$eref:8'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[10]
+      value: '"path":"ScriptableCards.{\"Pick In The Dark\"}","value":$eref:9'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[11]
+      value: '"path":"ScriptableCards.{\"Protein Bar\"}","value":$eref:10'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[12]
+      value: '"path":"ScriptableCards.{\"Sand Snare\"}","value":$eref:11'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[13]
+      value: '"path":"ScriptableCards.{\"Shock\"}","value":$eref:12'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[14]
+      value: '"path":"ScriptableCards.{\"Sickle Slash\"}","value":$eref:13'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[15]
+      value: '"path":"ScriptableCards.{\"Sow & Reap\"}","value":$eref:14'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[16]
+      value: '"path":"ScriptableCards.{\"Strange Mushroom\"}","value":$eref:15'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[17]
+      value: '"path":"ScriptableCards.{\"SummonStalactite\"}","value":$eref:16'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[18]
+      value: '"path":"ScriptableCards.{\"Unseen Aid\"}","value":$eref:17'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.size
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: df3af346f5c9d3e42adc01d9ff4cfb39, type: 2}
+    - target: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: c8ec0ab5a83846d438943c97c32b320c, type: 2}
+    - target: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: baadb8cae24b45f4b85d190e14243916, type: 2}
+    - target: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 13877796ab985c344ac1ece8f2afe63b, type: 2}
+    - target: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: 75be3a1d1991621458e58c6e9e89ed4a, type: 2}
+    - target: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: e6089736fe0b82948952e94e53c3ba6b, type: 2}
+    - target: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[6]
+      value: 
+      objectReference: {fileID: 11400000, guid: a4bd6d4842e41b347a6c5e845162e976, type: 2}
+    - target: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[7]
+      value: 
+      objectReference: {fileID: 11400000, guid: 3c48a7b90c0759b478fe24013146f97b, type: 2}
+    - target: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[8]
+      value: 
+      objectReference: {fileID: 11400000, guid: a4a6955df41de2941aee0d1929bab8b7, type: 2}
+    - target: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[9]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5608d0bc55a2d374f82fdadd43a6103b, type: 2}
+    - target: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[10]
+      value: 
+      objectReference: {fileID: 11400000, guid: 931eb095137ef8148bc5a6f656a17390, type: 2}
+    - target: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[11]
+      value: 
+      objectReference: {fileID: 11400000, guid: 17cca61da856a0a4abc846a9ec5ce6a4, type: 2}
+    - target: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[12]
+      value: 
+      objectReference: {fileID: 11400000, guid: 33a72a420cd0f99489654a79543ebc3c, type: 2}
+    - target: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[13]
+      value: 
+      objectReference: {fileID: 11400000, guid: 9b7f4817f36bd3b4ca3ffb7fa0b23688, type: 2}
+    - target: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[14]
+      value: 
+      objectReference: {fileID: 11400000, guid: e30b7d271256c604eb320efe88cac15a, type: 2}
+    - target: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[15]
+      value: 
+      objectReference: {fileID: 11400000, guid: e1dc70314cde4324da42748300aedede, type: 2}
+    - target: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[16]
+      value: 
+      objectReference: {fileID: 11400000, guid: b9c808d06f0e1644cbce38bc11f4294f, type: 2}
+    - target: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[17]
+      value: 
+      objectReference: {fileID: 11400000, guid: 03bd8b4317e84b94da13eaffc5468e41, type: 2}
     - target: {fileID: 7177147408384528591, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
       propertyPath: m_Name
       value: Managers
