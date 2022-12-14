@@ -53,6 +53,22 @@ public class GridPlaceholder : SerializedMonoBehaviour
         PenButtonName = IsPainting? "Disable Pen" : "Enable Pen";
     }
 
+    private string ApplyTerrainButtonName = "Apply terrain to grid";
+    [Button("$ApplyTerrainButtonName")]
+    public void ApplyTerrainToGrid()
+    {
+        ApplyTerrainButtonName = "Getting gridTerrainApplier..";
+        GridTerrainApplier gridTerrainApplier = gameObject.GetComponent<GridTerrainApplier>();
+        if (gridTerrainApplier == null)
+        {
+            ApplyTerrainButtonName = "No gridTerrainApplier found";
+            return;
+        }
+        ApplyTerrainButtonName = "Applying terrain to grid..";
+        gridTerrainApplier.ApplyTerrainToGrid(CellDatas);
+        ApplyTerrainButtonName = "Apply terrain to grid";
+    }
+
     private IEnumerable<string> GetSavedGrids()
     {
         GridManager.Instance.LoadGridsFromJSON();
