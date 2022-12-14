@@ -23,6 +23,8 @@ namespace DownBelow.Managers
         public Slider GatheringSlider;
         public TextMeshProUGUI GatheringName;
 
+        public Button NextTurnButton;
+        public Button StartCombatButton;
         public void Init()
         {
             this.TurnSection.gameObject.SetActive(false);

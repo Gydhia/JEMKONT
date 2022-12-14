@@ -24,7 +24,7 @@ MonoBehaviour:
   Title: Battle Bloodletting
   Cost: 2
   Description: Teleport to an ally and heal them for 10
-  IllustrationImage: {fileID: 0}
+  IllustrationImage: {fileID: 21300000, guid: caacc182410eb214eac15f5f672be178, type: 3}
   Spells:
   - ConditionData: {fileID: 0}
     ActionData: {fileID: -315131343720580193, guid: eebea982765848747ad7e876a006e052, type: 3}

@@ -9,14 +9,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace DownBelow.Managers
-{
-    public class CombatManager : _baseManager<CombatManager>
-    {
+namespace DownBelow.Managers {
+    public class CombatManager : _baseManager<CombatManager> {
         public event GridEventData.Event OnCombatStarted;
-
-        public void FireCombatStarted(WorldGrid Grid)
-        {
+        public bool BattleGoing;
+        private Spell[] _currentSpells; 
+        public void FireCombatStarted(WorldGrid Grid) {
             this.OnCombatStarted?.Invoke(new GridEventData(Grid));
         }
 
@@ -37,49 +35,49 @@ namespace DownBelow.Managers
         public int TurnNumber;
         #endregion
 
-        private void Start()
-        {
+        private void Start() {
             GameManager.Instance.OnEnteredGrid += this.WelcomePlayerInCombat;
         }
 
-        public void WelcomePlayerInCombat(EntityEventData Data)
-        {
+        public void WelcomePlayerInCombat(EntityEventData Data) {
             Data.Entity.ReinitializeAllStats();
             //TODO: Verify this is well understood.
             DrawPile = ((PlayerBehavior)Data.Entity).Deck;
             DrawPile.ShuffleDeck();
-            //if(CombatHasStarted)???
+
+            if (BattleGoing) {
+                UIManager.Instance.StartCombatButton.gameObject.SetActive(false);
+            }
         }
 
-        public async void StartCombat(CombatGrid startingGrid)
-        {
+        public async void StartCombat(CombatGrid startingGrid) {
             if (this.CurrentPlayingGrid != null && this.CurrentPlayingGrid.HasStarted)
                 return;
 
             this.CurrentPlayingGrid = startingGrid;
-            
+
             this._setupEnemyEntities();
 
             // Think about enabling/initing this UI only when in combat
             UIManager.Instance.PlayerInfos.Init();
 
-            
+
             this.TurnNumber = -1;
             this.CurrentPlayingGrid.HasStarted = true;
 
             this._defineEntitiesTurn();
             UIManager.Instance.TurnSection.Init(this.PlayingEntities);
-            
+
+            UIManager.Instance.StartCombatButton.gameObject.SetActive(false);
+            this.FireCombatStarted(this.CurrentPlayingGrid);
             this.NextTurn();
 
-            this.FireCombatStarted(this.CurrentPlayingGrid);
             for (int i = 0;i < 3;i++) {
                 await DrawCard();
             }
         }
 
-        public async void NextTurn()
-        {
+        public async void NextTurn() {
             if (this._turnCoroutine != null) {
                 StopCoroutine(this._turnCoroutine);
                 this._turnCoroutine = null;
@@ -89,7 +87,7 @@ namespace DownBelow.Managers
 
             this.TurnNumber++;
 
-            if(this.CurrentPlayingEntity != null) {
+            if (this.CurrentPlayingEntity != null) {
                 if (GameManager.Instance.SelfPlayer == this.CurrentPlayingEntity) { //We draw at the end of our turn.
                     for (int i = 2;i < 0;i++) {
                         await DrawCard();
@@ -98,9 +96,12 @@ namespace DownBelow.Managers
                 this.CurrentPlayingEntity.EndTurn();
             }
             this.CurrentPlayingEntity = this.PlayingEntities[this.TurnNumber % this.PlayingEntities.Count];
+            if (CurrentPlayingEntity is PlayerBehavior Player) {
+                NetworkManager.Instance.TurnBegan(Player.PlayerID);
+            }
             this.CurrentPlayingEntity.StartTurn();
 
-           
+
 
             if (this.TurnNumber > 0)
                 UIManager.Instance.TurnSection.ChangeSelectedEntity(this.TurnNumber % this.PlayingEntities.Count);
@@ -108,36 +109,51 @@ namespace DownBelow.Managers
             //if (this.CurrentPlayingEntity.IsAlly)
             this._turnCoroutine = StartCoroutine(this._startTurnTimer());
         }
+    private IEnumerator _waitForSpell(DownBelow.GridSystem.Cell target) {
+        for (int i = 0;i < this._currentSpells.Length;i++) {
+            bool canExecute = true;
 
-        private void _setupEnemyEntities()
-        {
-            foreach (CharacterEntity enemy in this.CurrentPlayingGrid.GridEntities.Where(e => !e.IsAlly))
-            {
+            if (this._currentSpells[i].ConditionData != null)
+                if (i - 1 >= 0)
+                    if (!this._currentSpells[i].ConditionData.Check(this._currentSpells[i - 1].CurrentAction.Result))
+                        canExecute = false;
+
+            if (canExecute) {
+                this._currentSpells[i].CurrentAction = Instantiate(this._currentSpells[i].ActionData,Vector3.zero,Quaternion.identity,CombatManager.Instance.CurrentPlayingEntity.gameObject.transform);
+                this._currentSpells[i].ExecuteSpell(CombatManager.Instance.CurrentPlayingEntity,target);
+                while (!this._currentSpells[i].CurrentAction.HasEnded) {
+                    yield return new WaitForSeconds(Time.deltaTime);
+                }
+                CombatManager.Instance.CurrentPlayingEntity.UnsubToSpell(this._currentSpells[i].ActionData);
+            }
+        }
+
+        this.gameObject.SetActive(false);
+    }
+
+        private void _setupEnemyEntities() {
+            foreach (CharacterEntity enemy in this.CurrentPlayingGrid.GridEntities.Where(e => !e.IsAlly)) {
                 enemy.ReinitializeAllStats();
                 enemy.EntityCell.EntityIn = enemy;
                 enemy.gameObject.SetActive(true);
             }
         }
 
-        public void PlayCard(Cell cell)
-        {
+        public void PlayCard(Cell cell) {
             if (this.CurrentPlayingEntity == GameManager.Instance.SelfPlayer)
                 CardDraggingSystem.instance.DraggedCard.CastSpell(cell);
         }
 
-        public void DiscardCard(CardComponent card)
-        {
+        public void DiscardCard(CardComponent card) {
             UIManager.Instance.CardSection.AddDiscardCard(1);
             this.HandPile.Remove(card);
             this.DiscardPile.Add(card);
         }
 
-        public async Task DrawCard()
-        {
-            if(this.DrawPile.Count > 0)
-            {
+        public async Task DrawCard() {
+            if (this.DrawPile.Count > 0) {
                 this.HandPile.Add(Instantiate(CardPrefab,UIManager.Instance.CardSection.DrawPile.transform).GetComponent<CardComponent>());
-                this.HandPile[^1].CardData=DrawPile.DrawCard();
+                this.HandPile[^1].CardData = DrawPile.DrawCard();
                 await this.HandPile[^1].DrawCardFromPile();
                 if (HandPile.Count > 7) {
                     await this.HandPile[^1].Burn();
@@ -146,8 +162,7 @@ namespace DownBelow.Managers
             }
         }
 
-        private IEnumerator _startTurnTimer()
-        {
+        private IEnumerator _startTurnTimer() {
             float time = SettingsManager.Instance.CombatPreset.TurnTime;
             float timePassed = 0f;
 
@@ -163,24 +178,22 @@ namespace DownBelow.Managers
             this.NextTurn();
         }
 
-        private void _defineEntitiesTurn()
-        {
-            List<CharacterEntity> enemies = this.CurrentPlayingGrid.GridEntities.Where(x=>!x.IsAlly).ToList();
-            List<CharacterEntity> players = this.CurrentPlayingGrid.GridEntities.Where(x=>x.IsAlly).ToList();
+        private void _defineEntitiesTurn() {
+            List<CharacterEntity> enemies = this.CurrentPlayingGrid.GridEntities.Where(x => !x.IsAlly).ToList();
+            List<CharacterEntity> players = this.CurrentPlayingGrid.GridEntities.Where(x => x.IsAlly).ToList();
 
-            for (int i = 0; i < players.Count; i++)
+            for (int i = 0;i < players.Count;i++)
                 players[i].TurnOrder = i;
-            for (int i = 0; i < enemies.Count; i++)
+            for (int i = 0;i < enemies.Count;i++)
                 enemies[i].TurnOrder = i;
 
             this.PlayingEntities = new List<CharacterEntity>();
-            for (int i = 0; i < enemies.Count; i++)
-            {
+            for (int i = 0;i < enemies.Count;i++) {
                 this.PlayingEntities.Add(enemies[i]);
-                if(i < players.Count)
+                if (i < players.Count)
                     this.PlayingEntities.Add(players[i]);
             }
-            this.PlayingEntities = this.PlayingEntities.OrderBy(x=>x.Inspired).ToList();
+            this.PlayingEntities = this.PlayingEntities.OrderBy(x => x.Inspired).ToList();
         }
     }
 }

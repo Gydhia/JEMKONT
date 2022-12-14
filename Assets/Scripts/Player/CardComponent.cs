@@ -226,29 +226,8 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
 
     internal void ExecuteSpells(Cell target,DownBelow.Spells.Spell[] spells) {
         this._currentSpells = spells;
+        //StartCoroutine(this._waitForSpell(target));
 
-        this._spellCor = StartCoroutine(this._waitForSpell(target));
-    }
-    private IEnumerator _waitForSpell(DownBelow.GridSystem.Cell target) {
-        for (int i = 0;i < this._currentSpells.Length;i++) {
-            bool canExecute = true;
-
-            if (this._currentSpells[i].ConditionData != null)
-                if (i - 1 >= 0)
-                    if (!this._currentSpells[i].ConditionData.Check(this._currentSpells[i - 1].CurrentAction.Result))
-                        canExecute = false;
-
-            if (canExecute) {
-                this._currentSpells[i].CurrentAction = Instantiate(this._currentSpells[i].ActionData,Vector3.zero,Quaternion.identity,CombatManager.Instance.CurrentPlayingEntity.gameObject.transform);
-                this._currentSpells[i].ExecuteSpell(CombatManager.Instance.CurrentPlayingEntity,target);
-                while (!this._currentSpells[i].CurrentAction.HasEnded) {
-                    yield return new WaitForSeconds(Time.deltaTime);
-                }
-                CombatManager.Instance.CurrentPlayingEntity.UnsubToSpell(this._currentSpells[i].ActionData);
-            }
-        }
-
-        this.gameObject.SetActive(false);
     }
     #endregion
 }
