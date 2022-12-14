@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Jemkont.Managers
@@ -44,33 +45,40 @@ namespace Jemkont.Managers
         public void WelcomePlayerInCombat(EntityEventData Data)
         {
             Data.Entity.ReinitializeAllStats();
-            DrawPile = ((PlayerBehavior)Data.Entity).ActiveTool.Deck;
-
+            //TODO: Verify this is well understood.
+            DrawPile = ((PlayerBehavior)Data.Entity).Deck;
+            DrawPile.ShuffleDeck();
+            //if(CombatHasStarted)???
         }
 
-        public void StartCombat(CombatGrid startingGrid)
+        public async void StartCombat(CombatGrid startingGrid)
         {
             if (this.CurrentPlayingGrid != null && this.CurrentPlayingGrid.HasStarted)
                 return;
 
             this.CurrentPlayingGrid = startingGrid;
-
+            
             this._setupEnemyEntities();
 
             // Think about enabling/initing this UI only when in combat
             UIManager.Instance.PlayerInfos.Init();
 
+            
             this.TurnNumber = -1;
             this.CurrentPlayingGrid.HasStarted = true;
 
             this._defineEntitiesTurn();
             UIManager.Instance.TurnSection.Init(this.PlayingEntities);
+            
             this.NextTurn();
 
             this.FireCombatStarted(this.CurrentPlayingGrid);
+            for (int i = 0;i < 3;i++) {
+                await DrawCard();
+            }
         }
 
-        public void NextTurn()
+        public async void NextTurn()
         {
             if (this._turnCoroutine != null) {
                 StopCoroutine(this._turnCoroutine);
@@ -81,13 +89,18 @@ namespace Jemkont.Managers
 
             this.TurnNumber++;
 
-            if(this.CurrentPlayingEntity != null)
+            if(this.CurrentPlayingEntity != null) {
+                if (GameManager.Instance.SelfPlayer == this.CurrentPlayingEntity) { //We draw at the end of our turn.
+                    for (int i = 2;i < 0;i++) {
+                        await DrawCard();
+                    }
+                }
                 this.CurrentPlayingEntity.EndTurn();
+            }
             this.CurrentPlayingEntity = this.PlayingEntities[this.TurnNumber % this.PlayingEntities.Count];
             this.CurrentPlayingEntity.StartTurn();
 
-            if (GameManager.Instance.SelfPlayer == this.CurrentPlayingEntity)
-                this.DrawCard();
+           
 
             if (this.TurnNumber > 0)
                 UIManager.Instance.TurnSection.ChangeSelectedEntity(this.TurnNumber % this.PlayingEntities.Count);
@@ -119,13 +132,17 @@ namespace Jemkont.Managers
             this.DiscardPile.Add(card);
         }
 
-        public void DrawCard()
+        public async Task DrawCard()
         {
             if(this.DrawPile.Count > 0)
             {
                 this.HandPile.Add(Instantiate(CardPrefab,UIManager.Instance.CardSection.DrawPile.transform).GetComponent<CardComponent>());
                 this.HandPile[^1].CardData=DrawPile.DrawCard();
-                this.HandPile[^1].DrawCardFromPile();
+                await this.HandPile[^1].DrawCardFromPile();
+                if (HandPile.Count > 7) {
+                    await this.HandPile[^1].Burn();
+                    this.HandPile.Remove(this.HandPile[^1]);
+                }
             }
         }
 

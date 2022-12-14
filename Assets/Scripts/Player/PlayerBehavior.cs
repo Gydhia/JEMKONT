@@ -10,14 +10,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static UnityEngine.Rendering.VirtualTexturing.Debugging;
 
-namespace Jemkont.Entity
-{
-    public class PlayerBehavior : CharacterEntity
-    {
+namespace Jemkont.Entity {
+    public class PlayerBehavior : CharacterEntity {
         private DateTime _lastTimeAsked = DateTime.Now;
         private string _nextGrid = string.Empty;
-       
+
 
         public MeshRenderer PlayerBody;
         public string PlayerID;
@@ -28,7 +27,15 @@ namespace Jemkont.Entity
 
         public Tool ActiveTool;
         public bool IsAutoAttacking = false;
-        Deck deck { get => ActiveTool.Deck; set => ActiveTool.Deck = value; }
+        public Deck Deck { get => testingDeck; set => testingDeck = value; }
+        Deck testingDeck;
+
+        #region cards constants
+        public const int MAXCARDSINHAND = 7;
+        public const int CARDSTOSTARTTURNWITH = 3;
+        public const int MAXMANA = 6;
+        public const int MAXMANAHARDCAP = 7;
+        #endregion
         public void SetActiveTool(Tool activeTool) {
             activeTool.ActualPlayer = this;
             this.ActiveTool = activeTool;
@@ -37,46 +44,41 @@ namespace Jemkont.Entity
         public override void StartTurn() {
             base.StartTurn();
         }
-        public override void MoveWithPath(List<Cell> newPath, string otherGrid)
-        {
+        public override void EndTurn() {
+            base.EndTurn();
+        }
+        public override void MoveWithPath(List<Cell> newPath,string otherGrid) {
             // Useless to animate hidden players
-            if (!this.gameObject.activeSelf)
-            {
+            if (!this.gameObject.activeSelf) {
                 // /!\ TEMPORY ONLY, SET THE CELL AS THE LAST ONE OF PATH
                 // We should have events instead for later on
                 this.EntityCell = newPath[^1];
                 return;
             }
-                
+
 
             this._nextGrid = otherGrid;
 
-            if (this.moveCor == null)
-            {
+            if (this.moveCor == null) {
                 this.CurrentPath = newPath;
                 // That's ugly, find a clean way to build the path instead
-                if(!this.CurrentPath.Contains(this.EntityCell))
-                    this.CurrentPath.Insert(0, this.EntityCell);
+                if (!this.CurrentPath.Contains(this.EntityCell))
+                    this.CurrentPath.Insert(0,this.EntityCell);
                 this.moveCor = StartCoroutine(FollowPath());
-            }
-            else
-            {
+            } else {
                 this.NextPath = newPath;
             }
         }
 
-        public override IEnumerator FollowPath()
-        {
+        public override IEnumerator FollowPath() {
             this.IsMoving = true;
             int currentCell = 0, targetCell = 1;
 
             float timer;
-            while(currentCell < this.CurrentPath.Count - 1)
-            {
+            while (currentCell < this.CurrentPath.Count - 1) {
                 timer = 0f;
-                while (timer <= 0.2f)
-                {
-                    this.transform.position = Vector3.Lerp(CurrentPath[currentCell].gameObject.transform.position, CurrentPath[targetCell].gameObject.transform.position, timer / 0.2f);
+                while (timer <= 0.2f) {
+                    this.transform.position = Vector3.Lerp(CurrentPath[currentCell].gameObject.transform.position,CurrentPath[targetCell].gameObject.transform.position,timer / 0.2f);
                     timer += Time.deltaTime;
                     yield return null;
                 }
@@ -92,32 +94,28 @@ namespace Jemkont.Entity
                 currentCell++;
                 targetCell++;
 
-                if(targetCell <= this.CurrentPath.Count - 1)
+                if (targetCell <= this.CurrentPath.Count - 1)
                     this.NextCell = CurrentPath[targetCell];
             }
 
             this.moveCor = null;
             this.IsMoving = false;
 
-            if(this.NextPath != null)
-            {
-                this.MoveWithPath(this.NextPath, _nextGrid);
+            if (this.NextPath != null) {
+                this.MoveWithPath(this.NextPath,_nextGrid);
                 this.NextPath = null;
-            }
-            else if(this._nextGrid != string.Empty)
-            {
-                NetworkManager.Instance.PlayerAsksToEnterGrid(this, this.CurrentGrid, this._nextGrid);
+            } else if (this._nextGrid != string.Empty) {
+                NetworkManager.Instance.PlayerAsksToEnterGrid(this,this.CurrentGrid,this._nextGrid);
                 this.NextCell = null;
                 this._nextGrid = string.Empty;
             }
         }
 
-        public void EnterNewGrid(CombatGrid grid)
-        {
-            Cell closestCell = GridUtility.GetClosestAvailableCombatCell(this.CurrentGrid, grid, this.EntityCell.PositionInGrid);
+        public void EnterNewGrid(CombatGrid grid) {
+            Cell closestCell = GridUtility.GetClosestAvailableCombatCell(this.CurrentGrid,grid,this.EntityCell.PositionInGrid);
 
-            while(closestCell.Datas.state != CellState.Walkable) {
-                List<Cell> neighbours = GridManager.Instance.GetCombatNeighbours(closestCell, grid);
+            while (closestCell.Datas.state != CellState.Walkable) {
+                List<Cell> neighbours = GridManager.Instance.GetCombatNeighbours(closestCell,grid);
                 closestCell = neighbours.First(cell => cell.Datas.state == CellState.Walkable);
                 if (closestCell == null)
                     closestCell = neighbours[0];
@@ -134,21 +132,17 @@ namespace Jemkont.Entity
         /// Ask the server to go to a target cell. Only used by LocalPlayer
         /// </summary>
         /// <param name="cell"></param>
-        public void AskToGo(Cell cell, string otherGrid)
-        {
+        public void AskToGo(Cell cell,string otherGrid) {
             // To avoid too many requests we put a delay for asking
-            if(this.RespectedDelayToAsk())
-            {
+            if (this.RespectedDelayToAsk()) {
                 this._lastTimeAsked = DateTime.Now;
-                NetworkManager.Instance.PlayerAsksForPath(this, cell, otherGrid);
-            }    
+                NetworkManager.Instance.PlayerAsksForPath(this,cell,otherGrid);
+            }
         }
 
-        public bool RespectedDelayToAsk()
-        {
-            return (System.DateTime.Now - this._lastTimeAsked).Seconds >= SettingsManager.Instance.InputPreset.PathRequestDelay; 
+        public bool RespectedDelayToAsk() {
+            return (System.DateTime.Now - this._lastTimeAsked).Seconds >= SettingsManager.Instance.InputPreset.PathRequestDelay;
         }
-
         public override Spell AutoAttackSpell() {
             return new Spell(CombatManager.Instance.PossibleAutoAttacks.Find(x => x.Is<DamageStrengthSpellAction>()));
         }

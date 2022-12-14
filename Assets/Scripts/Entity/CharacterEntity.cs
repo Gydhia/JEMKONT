@@ -113,7 +113,9 @@ namespace Jemkont.Entity {
         public int Mana { get => Statistics[EntityStatistics.Mana]; }
         public int Defense { get => Shattered ? 0 : Statistics[EntityStatistics.Defense]; }
         public int Range { get => Statistics[EntityStatistics.Range]; }
-
+        /// <summary>
+        /// </summary>
+        /// <returns>the auto attack spell of this entity. Can be any Spell.</returns>
         public abstract Spell AutoAttackSpell();
 
         public bool TryGoTo(Cell destination,int cost) {
@@ -246,18 +248,19 @@ namespace Jemkont.Entity {
             bool res = Range >= Mathf.Abs(cell.PositionInGrid.latitude - EntityCell.PositionInGrid.latitude) + Mathf.Abs(cell.PositionInGrid.longitude - EntityCell.PositionInGrid.longitude);
             return res;
         }
-        public void EndTurn() {
+        public virtual void EndTurn() {
             CanAutoAttack = false;
             foreach (Alteration Alter in Alterations) {
                 Alter.Apply(this);
             }
-            OnTurnEnded.Invoke(new());
+            OnTurnEnded?.Invoke(new());
         }
         public virtual void StartTurn() {
-            OnTurnBegun.Invoke(new());
+            OnTurnBegun?.Invoke(new());
             CanAutoAttack = !Disarmed;//CanAutoAttack = true if !Disarmed
             this.ReinitializeStat(EntityStatistics.Speed);//bruh.
             this.ReinitializeStat(EntityStatistics.Mana);
+
             if (Stunned || Sleeping) EndTurn();
             GridManager.Instance.ShowPossibleCombatMovements(this);
 

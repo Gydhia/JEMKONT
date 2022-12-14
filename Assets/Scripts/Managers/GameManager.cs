@@ -76,6 +76,8 @@ namespace Jemkont.Managers
                 foreach (var player in PhotonNetwork.PlayerList)
                 {
                     PlayerBehavior newPlayer = Instantiate(this._playerPrefab, Vector3.zero, Quaternion.identity, this.transform);
+                    newPlayer.Deck = CardsManager.Instance.DeckPresets[^1].Deck;
+                    //TO CHANGE WITH TOOL. FOR TESTING ONLY
                     GridPosition spawnPosition;
 
                     switch (counter)

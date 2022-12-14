@@ -1293,6 +1293,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: DeckPresets.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: DeckPresets.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: dd2bfd15c03fc73419ff1859368e683d, type: 2}
     - target: {fileID: 7177147408384528591, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
       propertyPath: m_Name
       value: Managers
@@ -1305,6 +1313,10 @@ PrefabInstance:
       propertyPath: _gridsDataHandler
       value: 
       objectReference: {fileID: 1090901377}
+    - target: {fileID: 8070630671700927374, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: CardPrefab
+      value: 
+      objectReference: {fileID: 1236948560037684, guid: dd17cd64dbb8d844596172368dc9c04c, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
 --- !u!114 &3546545027586919324 stripped
