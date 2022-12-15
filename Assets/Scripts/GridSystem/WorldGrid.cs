@@ -25,6 +25,7 @@ namespace DownBelow.GridSystem
 
         [HideInInspector]
         public Cell[,] Cells;
+        public GridData SelfData;
 
         public List<CharacterEntity> GridEntities;
 
@@ -36,9 +37,11 @@ namespace DownBelow.GridSystem
             this.GridWidth = data.GridWidth;
             this.IsCombatGrid = data.IsCombatGrid;
 
+            this.SelfData = data;
+
             this.GenerateGrid(data);
             if(data.InnerGrids != null)
-                this.GenerateInnerGrids(data.InnerGrids);
+                this.GenerateInnerGrids(data.InnerGrids, this.TopLeftOffset);
             this.RedrawGrid();
 
             GameManager.Instance.OnEnteredGrid += _entityEnteredGrid;
@@ -104,7 +107,7 @@ namespace DownBelow.GridSystem
             }
         }
 
-        public void GenerateInnerGrids(List<GridData> innerGrids)
+        public void GenerateInnerGrids(List<GridData> innerGrids, Vector3 parentTLOffset)
         {
             int count = 0;
             this.InnerCombatGrids = new Dictionary<string, CombatGrid>();
@@ -134,17 +137,16 @@ namespace DownBelow.GridSystem
             this.GridWidth = width;
 
             this.Cells = new Cell[height, width];
+            this.TopLeftOffset = this.IsCombatGrid ? this.transform.parent.transform.position : this.transform.position;
 
             // Generate the grid with new cells
             for (int i = 0; i < this.Cells.GetLength(0); i++)
             {
                 for (int j = 0; j < this.Cells.GetLength(1); j++)
                 {
-                    this.CreateAddCell(i, j, new Vector3((j + longitude) * cellsWidth + widthOffset, 0.1f, -(i + latitude) * cellsWidth - widthOffset));
+                    this.CreateAddCell(i, j, new Vector3((j + longitude) * cellsWidth + widthOffset, this.TopLeftOffset.y + 0.1f, -(i + latitude) * cellsWidth - widthOffset));
                 }
             }
-
-            this.TopLeftOffset = this.transform.position;
         }
 
         public void CreateAddCell(int height, int width, Vector3 position)
@@ -152,9 +154,7 @@ namespace DownBelow.GridSystem
             Cell newCell = Instantiate(GridManager.Instance.CellPrefab, position, Quaternion.identity, this.gameObject.transform);
 
             newCell.Init(height, width, CellState.Walkable, this);
-            if(this.IsCombatGrid)
-                newCell.SelfPlane.gameObject.SetActive(false);
-
+            
             this.Cells[height, width] = newCell;
         }
 
@@ -166,16 +166,6 @@ namespace DownBelow.GridSystem
                     if(this.Cells[i, j] != null)
                         this.Cells[i, j].RefreshCell();
         }
-
-        public void ShowHideGrid(bool show)
-        {
-            // /!\ TODO: Avoid iterating over all of these when already disabled
-            for (int i = 0; i < this.Cells.GetLength(0); i++)
-                for (int j = 0; j < this.Cells.GetLength(1); j++)
-                    if (this.Cells[i, j] != null)
-                        this.Cells[i, j].SelfPlane.gameObject.SetActive(show);
-        }
-
 
         #region Utility_methods
         public void ResizeGrid(Cell[,] newCells)
