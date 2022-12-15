@@ -13,7 +13,7 @@ namespace DownBelow.Managers
             Instance= this;
         }
         public DeckPreset[] DeckPresets;
-         public Dictionary<string,ScriptableCard> ScriptableCards;
+        public Dictionary<string,ScriptableCard> ScriptableCards;
         private void OnValidate() {
             Dictionary<string,ScriptableCard> NewScriptableCards = new();
             foreach (KeyValuePair<string,ScriptableCard> item in ScriptableCards) {

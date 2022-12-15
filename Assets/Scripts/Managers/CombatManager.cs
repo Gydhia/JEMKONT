@@ -196,7 +196,9 @@ namespace DownBelow.Managers {
             {
                 this.HandPile.Add(Instantiate(CardPrefab,UIManager.Instance.CardSection.DrawPile.transform).GetComponent<CardComponent>());
                 this.HandPile[^1].CardData = DrawPile.DrawCard();
+                
                 await this.HandPile[^1].DrawCardFromPile();
+
                 if (HandPile.Count > 7) {
                     await this.HandPile[^1].Burn();
                     this.HandPile.Remove(this.HandPile[^1]);
