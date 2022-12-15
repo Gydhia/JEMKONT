@@ -30,11 +30,10 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
     public float dragSensivity = 60f;
     public float transformDragSensitivity = 180f;
     private RectTransform _thisRectTransform;
-    private Vector2 originPosition;
     private bool _hasScaledDown = false;
+    private Vector2 originPosition;
 
     HorizontalLayoutGroup _parent;
-
 
     public void Init(ScriptableCard cardData)
     {
@@ -46,8 +45,7 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
         this.DescText.text = CardData.Description;
         _thisRectTransform = this.GetComponent<RectTransform>();
         originPosition = _thisRectTransform.anchoredPosition;
-
-
+       // _parent = this.GetComponentInParent<HorizontalLayoutGroup>();
     }
 
     public void ApplyCost(int much) 
@@ -130,6 +128,12 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
         pos.y += transformDragSensitivity;
         return pos;
     }
+
+    private void RefreshLayoutGroup()
+    {
+        _parent.enabled = false;
+        _parent.enabled = true;
+    }
     public void OnPointerClick(PointerEventData eventData) {
         //System design
     }
@@ -156,13 +160,7 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
         } else {
             isPressed = false;
             isDragged = false;
-            _thisRectTransform.DOAnchorPos(originPosition, 0f);
-            _parent.enabled = false;
-            _parent.enabled = true;
-            ReAppear();
-            InputManager.Instance.ChangeCursorAppearance(CursorAppearance.Idle);
-            if (this._hasScaledDown)
-                StartCoroutine(ScaleUp(0.25f));
+           
             //Card is going to be reset anyways.
         }
     }
@@ -180,10 +178,20 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
         StartCoroutine(GoToHand(0.28f));
         await new WaitForSeconds(0.28f);
     }
-
+    public void GoBackToHand()
+    {
+        _thisRectTransform.DOAnchorPos(originPosition, 0f);
+        RefreshLayoutGroup();
+        ReAppear();
+        InputManager.Instance.ChangeCursorAppearance(CursorAppearance.Idle);
+        if (this._hasScaledDown)
+            StartCoroutine(ScaleUp(0.25f));
+    }
     public IEnumerator GoToHand(float time) {
-        Vector2 target = UIManager.Instance.CardSection.HandPile.transform.position;
+        Vector2 target = UIManager.Instance.CardSection.CardsHolder.transform.position;
         Vector2 basePos = this.transform.position;
+
+        this.transform.parent = UIManager.Instance.CardSection.CardsHolder.transform;
         float timer = 0f;
 
         while (timer < time) {
@@ -194,7 +202,12 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
             timer += Time.deltaTime;
             yield return new WaitForSeconds(Time.deltaTime);
         }
+
+        _parent = this.transform.parent.GetComponent<HorizontalLayoutGroup>();
+        RefreshLayoutGroup();
+
     }
+
 
     public IEnumerator GoToPile(float time,Vector2 target) {
         float timer = 0f;
@@ -209,6 +222,7 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
             yield return new WaitForSeconds(Time.deltaTime);
         }
         CombatManager.Instance.DiscardCard(this);
+        this.transform.parent = UIManager.Instance.CardSection.DiscardPile.transform;
     }
 
     public IEnumerator ScaleDown(float time) {

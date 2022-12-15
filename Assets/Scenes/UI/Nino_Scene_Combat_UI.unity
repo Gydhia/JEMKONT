@@ -3503,10 +3503,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2931269471344800921, guid: 9afe23065b115a8468415c3b5ca15def, type: 3}
-      propertyPath: weight
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3431355628303101464, guid: 9afe23065b115a8468415c3b5ca15def, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -19290,10 +19286,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2553991893259665933, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2722922969260134470, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -19426,10 +19418,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8444803123620909949, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
-      propertyPath: CardsHolder
-      value: 
-      objectReference: {fileID: 1949338515}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
 --- !u!114 &808257836 stripped
@@ -50270,11 +50258,6 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 575725094388030929, guid: 49c1bc25c0f99f6449c9b06424b2fa75, type: 3}
   m_PrefabInstance: {fileID: 1938543032}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1949338515 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1522984959716470875, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
-  m_PrefabInstance: {fileID: 808257834}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1950933792
 GameObject:
