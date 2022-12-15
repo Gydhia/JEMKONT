@@ -19246,38 +19246,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -8458225638194690397, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8458225638194690397, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8458225638194690397, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8458225638194690397, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -2821937114469965200, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -2821937114469965200, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -2821937114469965200, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -2821937114469965200, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1752205074264291441, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -19374,48 +19342,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: CombatCardUI
       objectReference: {fileID: 0}
-    - target: {fileID: 2722922969409474542, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 339353585}
-    - target: {fileID: 2722922969409474542, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: PlayerAsksToStartCombat
+    - target: {fileID: 6997194918407831317, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2722922969409474542, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: DownBelow.Managers.NetworkManager, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 3635674977460383287, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
+    - target: {fileID: 6997194918407831317, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3635674977460383287, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3635674977460383287, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3635674977460383287, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4076868148454451936, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4076868148454451936, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4076868148454451936, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4076868148454451936, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
-      propertyPath: m_AnchoredPosition.y
+    - target: {fileID: 6997194918407831317, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
+      propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -43,6 +43,7 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
         this.CostText.text = CardData.Cost.ToString();
         this.TitleText.text = CardData.Title;
         this.DescText.text = CardData.Description;
+        this.IllustrationImage.sprite = CardData.IllustrationImage;
         _thisRectTransform = this.GetComponent<RectTransform>();
         originPosition = _thisRectTransform.anchoredPosition;
        // _parent = this.GetComponentInParent<HorizontalLayoutGroup>();

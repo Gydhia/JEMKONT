@@ -15,6 +15,7 @@ namespace DownBelow.Managers
         public UIStaticTurnSection TurnSection;
         public UIPlayerInfos PlayerInfos;
         public UICardSection CardSection;
+        public EntityTooltipUI EntityTooltipUI;
 
         public UIPlayerInventory PlayerInventory;
         public UIStorage Storage;
@@ -55,6 +56,12 @@ namespace DownBelow.Managers
             this.GatheringName.gameObject.SetActive(true);
 
             this._gatheringCor = StartCoroutine(this._gather(resource));
+        }
+
+        public void UpdateEntityToolTip(PositionEventData Data)
+        {
+            EntityTooltipUI.Init(Data.Cell.EntityIn);
+            //UPDATES TOOLTIP UI
         }
 
         public void EndGather(GatheringEventData Data)
