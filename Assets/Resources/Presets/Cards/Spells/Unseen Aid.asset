@@ -20,7 +20,10 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: UID
+      Entry: 2
+      Data: 01bcf5121d9ef4902aff29a6a9aca0fe
   Title: Unseen Aid
   Cost: 2
   Description: Gives an ally "Camouflage" for 1 turn and "Critical"

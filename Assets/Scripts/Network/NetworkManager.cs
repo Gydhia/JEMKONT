@@ -12,6 +12,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using DownBelow.Mechanics;
 using DownBelow.Events;
+using System;
 
 namespace DownBelow.Managers {
     public class NetworkManager : MonoBehaviourPunCallbacks {
@@ -33,7 +34,7 @@ namespace DownBelow.Managers {
 
             NetworkManager.Instance = this;
 
-            Object.DontDestroyOnLoad(this);
+            UnityEngine.Object.DontDestroyOnLoad(this);
         }
 
         void Start() {
@@ -82,7 +83,8 @@ namespace DownBelow.Managers {
         #endregion
 
         #region Players_Callbacks
-        public void EntityAsksForPath(CharacterEntity entity,Cell target,WorldGrid refGrid) {
+        public void EntityAsksForPath(CharacterEntity entity,Cell target,WorldGrid refGrid) 
+        {
             string mainGrid = refGrid is CombatGrid cGrid ? cGrid.ParentGrid.UName : refGrid.UName;
             string innerGrid = mainGrid == refGrid.UName ? string.Empty : refGrid.UName;
 
@@ -93,7 +95,8 @@ namespace DownBelow.Managers {
         }
 
         [PunRPC]
-        public void RPC_RespondWithEntityProcessedPath(string entityID,int[] pathResult,string mainGrid,string innerGrid) {
+        public void RPC_RespondWithEntityProcessedPath(string entityID,int[] pathResult,string mainGrid,string innerGrid) 
+        {
             // TODO : remove dat Ugly func
             EnemyEntity entity = innerGrid != string.Empty ?
                 GridManager.Instance.WorldGrids[mainGrid].InnerCombatGrids[innerGrid].GridEntities.First(e => e.UID == entityID) as EnemyEntity :
@@ -172,7 +175,7 @@ namespace DownBelow.Managers {
 
         public void GiftOrRemovePlayerItem(string playerID,ItemPreset item,int quantity) 
         {
-            this.photonView.RPC("RPC_RespondGiftOrRemovePlayerItem",RpcTarget.All,GameManager.Instance.SelfPlayer.PlayerID,item.UID.ToString(),quantity);
+            this.photonView.RPC("RPC_RespondGiftOrRemovePlayerItem", RpcTarget.All, GameManager.Instance.SelfPlayer.PlayerID, item.UID.ToString(), quantity);
         }
 
         [PunRPC]
@@ -225,15 +228,15 @@ namespace DownBelow.Managers {
 
         public void CastSpell(ScriptableCard spellToCast, Cell cell) 
         {
-            this.photonView.RPC("RPC_CastSpell",RpcTarget.All,spellToCast.name,cell.PositionInGrid.longitude,cell.PositionInGrid.latitude);
+            this.photonView.RPC("RPC_CastSpell", RpcTarget.All, spellToCast.UID.ToString(), cell.PositionInGrid.longitude, cell.PositionInGrid.latitude); ;
         }
 
         [PunRPC]
         public void RPC_CastSpell(string spellName, int longitude, int latittude) 
         {
-            var card = CardsManager.Instance.ScriptableCards[spellName];
-            if (card != null) 
-                CombatManager.Instance.ExecuteSpells(CombatManager.Instance.CurrentPlayingGrid.Cells[longitude,latittude],card);
+            ScriptableCard cardToPlay = CardsManager.Instance.ScriptableCards[System.Guid.Parse(spellName)];
+            if (cardToPlay != null) 
+                CombatManager.Instance.ExecuteSpells(CombatManager.Instance.CurrentPlayingGrid.Cells[longitude, latittude], cardToPlay);
         }
         #endregion
 

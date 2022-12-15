@@ -20,7 +20,10 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: UID
+      Entry: 2
+      Data: 9b4adf0bd655a4909c37c4dd2fb44af0
   Title: Strange Mushroom
   Cost: 2
   Description: Swap a unit's power and health.

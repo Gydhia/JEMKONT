@@ -20,7 +20,10 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: UID
+      Entry: 2
+      Data: 018ec1a6db3ce509de648744be4245fa
   Title: SummonStalactite
   Cost: 2
   Description: 

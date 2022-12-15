@@ -20,7 +20,10 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: UID
+      Entry: 2
+      Data: 4c26e262513b1a9f4e97d9164e6bb43f
   Title: Lawn Order
   Cost: 2
   Description: Deal 6 damage in a 3x3 square

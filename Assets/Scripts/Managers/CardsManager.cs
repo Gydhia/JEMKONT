@@ -3,24 +3,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using System;
+using System.Linq;
+
 namespace DownBelow.Managers
 {
     [ShowOdinSerializedPropertiesInInspector]
-    public class CardsManager : SerializedMonoBehaviour
+    public class CardsManager : _baseManager<CardsManager>
     {
-        public static CardsManager Instance;
-        private void Awake() {
-            Instance= this;
+        public Dictionary<Guid, DeckPreset> DeckPresets;
+        public Dictionary<Guid, ScriptableCard> ScriptableCards;
+
+        public override void Awake()
+        {
+            this._loadScriptableCards();
         }
-        public DeckPreset[] DeckPresets;
-        public Dictionary<string,ScriptableCard> ScriptableCards;
-        private void OnValidate() {
-            Dictionary<string,ScriptableCard> NewScriptableCards = new();
-            foreach (KeyValuePair<string,ScriptableCard> item in ScriptableCards) {
-                NewScriptableCards.Add(item.Value.name,item.Value);
-                //TODO: change name by GUID?
+
+        private void _loadScriptableCards()
+        {
+            List<DeckPreset> decks = Resources.LoadAll<DeckPreset>("Presets/Decks").ToList();
+
+            this.DeckPresets = new Dictionary<Guid, DeckPreset>();
+            this.ScriptableCards = new Dictionary<Guid, ScriptableCard>();
+
+            foreach (var deck in decks)
+            {
+                this.DeckPresets.Add(deck.UID, deck);
+
+                // Only take the unique cards
+                foreach (var card in deck.Deck.Cards)
+                {
+                    if (!this.ScriptableCards.ContainsKey(card.UID))
+                        this.ScriptableCards.Add(card.UID, card);
+                }
             }
-            ScriptableCards = NewScriptableCards;
         }
     }
 }

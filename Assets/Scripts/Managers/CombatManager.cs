@@ -18,6 +18,9 @@ namespace DownBelow.Managers {
         public event EntityEventData.Event OnTurnStarted;
         public event EntityEventData.Event OnTurnEnded;
 
+        public event CardEventData.Event OnCardBeginDrag;
+        public event CardEventData.Event OnCardEndDrag;
+       
         public void FireCombatStarted(WorldGrid Grid) 
         {
             this.OnCombatStarted?.Invoke(new GridEventData(Grid));
@@ -30,6 +33,16 @@ namespace DownBelow.Managers {
         {
             this.OnTurnEnded?.Invoke(new EntityEventData(Entity));
         }
+
+        public void FireCardBeginDrag(ScriptableCard Card, Cell Cell = null, bool Played = false)
+        {
+            this.OnCardBeginDrag?.Invoke(new CardEventData(Card, Cell, Played));
+        }
+        public void FireCardEndDrag(ScriptableCard Card, Cell Cell = null, bool Played = false)
+        {
+            this.OnCardEndDrag?.Invoke(new CardEventData(Card, Cell, Played));
+        }
+
         #endregion
 
         public bool BattleGoing;
@@ -42,6 +55,7 @@ namespace DownBelow.Managers {
         public CombatGrid CurrentPlayingGrid;
         public List<CharacterEntity> PlayingEntities;
 
+        public ScriptableCard CurrentCard;
         public List<CardComponent> DiscardPile;
         public Deck DrawPile;
         public List<CardComponent> HandPile;
@@ -55,6 +69,9 @@ namespace DownBelow.Managers {
         private void Start() 
         {
             GameManager.Instance.OnEnteredGrid += this.WelcomePlayerInCombat;
+
+            this.OnCardBeginDrag += _cardDrag;
+            InputManager.Instance.OnCellClickedUp += _cardEndDrag;
         }
 
         public void ExecuteSpells(Cell target, ScriptableCard spell) 
@@ -177,10 +194,37 @@ namespace DownBelow.Managers {
             }
         }
 
-        public void PlayCard(Cell cell) 
+        #region CARDS
+        private void _cardDrag(CardEventData Data)
         {
-            if (this.CurrentPlayingEntity == GameManager.Instance.SelfPlayer)
-                CardDraggingSystem.instance.DraggedCard.CastSpell(cell);
+            this.CurrentCard = Data.Card;
+        }
+
+        private void _cardEndDrag(CellEventData Data)
+        {
+            // If we aren't dragging card or outside the grid, return
+            if (this.CurrentCard == null)
+                return;
+
+            // If there is no selected Cell, the card should return to hand
+            if(Data.Cell == null || !Data.InCurrentGrid)
+            {
+                this.FireCardEndDrag(this.CurrentCard, Data.Cell, false);
+                return;
+            }
+            
+            // Lastly, cast the card's spell and say that the card has been played
+            else if (this.CurrentCard != null)
+                this.CurrentCard.CastSpell(Data.Cell);
+
+            this.FireCardEndDrag(this.CurrentCard, Data.Cell, true);
+
+            this.CurrentCard = null;
+        }
+        
+        private void _processCellClickUp()
+        {
+
         }
 
         public void DiscardCard(CardComponent card) 
@@ -205,6 +249,7 @@ namespace DownBelow.Managers {
                 }
             }
         }
+        #endregion
 
         private IEnumerator _startTurnTimer()
         {

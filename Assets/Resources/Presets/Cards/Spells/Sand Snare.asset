@@ -20,7 +20,10 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: UID
+      Entry: 2
+      Data: 2ae2a1cc1f85af4ee734b9bfa899130e
   Title: Sand Snare
   Cost: 2
   Description: Set a units Speed to 0 until the end of your next turn, draw a card.

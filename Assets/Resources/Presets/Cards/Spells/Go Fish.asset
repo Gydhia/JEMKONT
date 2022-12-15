@@ -20,7 +20,10 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: UID
+      Entry: 2
+      Data: 4785fbe0e480740aaadad58d4e598e41
   Title: Go Fish
   Cost: 2
   Description: Draw 3 cards.

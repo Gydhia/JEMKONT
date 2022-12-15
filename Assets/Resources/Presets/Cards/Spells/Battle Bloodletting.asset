@@ -20,7 +20,10 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: UID
+      Entry: 2
+      Data: f458d00c6f1f3bacecca9b6125042668
   Title: Battle Bloodletting
   Cost: 2
   Description: Teleport to an ally and heal them for 10

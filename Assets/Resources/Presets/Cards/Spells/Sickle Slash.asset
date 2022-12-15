@@ -20,7 +20,10 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: UID
+      Entry: 2
+      Data: 5775aa7c68f932c9b9a7c602c4647096
   Title: Sickle Slash
   Cost: 2
   Description: Teleport to an opponent and attack him

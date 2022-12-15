@@ -6,15 +6,15 @@ using UnityEngine;
 
 namespace DownBelow.Events
 {
-    public class PositionEventData : EventData<PositionEventData>
+    public class CellEventData : EventData<CellEventData>
     {
-        public GridPosition GridPosition;
         public Cell Cell;
+        public bool InCurrentGrid;
 
-        public PositionEventData(GridPosition GridPosition, Cell Cell = null)
+        public CellEventData(Cell Cell)
         {
-            this.GridPosition = GridPosition;
             this.Cell = Cell;
+            this.InCurrentGrid = this.Cell.RefGrid == GameManager.Instance.SelfPlayer.CurrentGrid;
         }
     }
 }

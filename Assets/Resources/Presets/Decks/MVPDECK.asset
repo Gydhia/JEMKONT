@@ -12,6 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0229511ea5185984eb5833ff13151ec4, type: 3}
   m_Name: MVPDECK
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: UID
+      Entry: 2
+      Data: fe5795fc08cc1532c8737074a8b62606
+  Name: TestDeck
+  Class: 0
   Deck:
     Cards:
     - {fileID: 11400000, guid: c8ec0ab5a83846d438943c97c32b320c, type: 2}
@@ -33,4 +47,3 @@ MonoBehaviour:
     - {fileID: 11400000, guid: a4bd6d4842e41b347a6c5e845162e976, type: 2}
     - {fileID: 11400000, guid: df3af346f5c9d3e42adc01d9ff4cfb39, type: 2}
     - {fileID: 11400000, guid: df3af346f5c9d3e42adc01d9ff4cfb39, type: 2}
-  Class: 0

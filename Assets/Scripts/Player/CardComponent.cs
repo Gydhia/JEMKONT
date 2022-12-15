@@ -44,17 +44,17 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
         CardData.Cost += much;
         InitTexts();
     }
-    public async Task Burn() {
+    public async Task Burn() 
+    {
         await new WaitForSeconds(.3f);
         //TODO BURN ANIMATION
         Destroy(gameObject);
     }
-    public void Update() {
+    public void Update()
+    {
         Vector2 mousePos = Input.mousePosition;
         if (isDragged) {
             this.Drag(mousePos);
-            //Draw Arrow from us to GridManager.Instance.LastHoveredCell;
-            if (GridManager.Instance.LastHoveredCell != null) GridManager.Instance.DrawArrowFromTo(GameManager.Instance.SelfPlayer.EntityCell,GridManager.Instance.LastHoveredCell);
         }
         if (isPressed) {
             //Check with sensivity:
@@ -62,80 +62,89 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
             var minTransform = this.MinimumDragTransformPosition();
             if (min.x <= mousePos.x || min.y <= mousePos.y) {
                 this.isDragged = true;
-                CardDraggingSystem.instance.DraggedCard = this;
 
-                if (!this._hasScaledDown && (minTransform.x < mousePos.x || min.y <= mousePos.y)) {
-                    InputManager.Instance.ChangeCursorAppearance(CursorAppearance.Card);
+                if (!this._hasScaledDown && (minTransform.x < mousePos.x || min.y <= mousePos.y)) 
+                {
+                    CombatManager.Instance.FireCardBeginDrag(this.CardData);
                     StartCoroutine(ScaleDown(0.25f));
                 }
             }
         }
     }
-    public void Dissapear() {
+    public void Dissapear() 
+    {
         //Idfk
         //TODO : MAke card dissapear + FX appears?
         IllustrationImage.SetAlpha(0);
         isInPlacingMode = true;
     }
-    public void ReAppear() {
+    public void ReAppear() 
+    {
         //In case you cancel the spell or anything.
         //IllustrationImage.SetAlpha(1);
         isInPlacingMode = false;
     }
-    public void Hydrate(ScriptableCard CardData) {
+    public void Hydrate(ScriptableCard CardData) 
+    {
         this.CardData = CardData;
         this.IllustrationImage.sprite = CardData.IllustrationImage;
         this.CostText.text = CardData.Cost.ToString();
         this.TitleText.text = CardData.Title;
         this.DescText.text = CardData.Description;
     }
-    public void Hydrate() {
+    public void Hydrate() 
+    {
         //CardData is already the card we want:
         this.IllustrationImage.sprite = this.CardData.IllustrationImage;
         this.CostText.text = this.CardData.Cost.ToString();
         this.TitleText.text = this.CardData.Title;
         this.DescText.text = this.CardData.Description;
     }
-    public void CastSpell(Cell cellToCastSpellOn) {
+    public void CastSpell(Cell cellToCastSpellOn) 
+    {
         // /!\ position might be off.
         StartCoroutine(this.GoToPile(0.28f,UIManager.Instance.CardSection.DiscardPile.transform.position));
-        this.ExecuteSpells(cellToCastSpellOn);
     }
     #region pointerHandlers&Drag
-    private Vector2 MinimumDragPosition() {
+    private Vector2 MinimumDragPosition() 
+    {
         //Corresponds to the minimum drag we have to do before the cards begins to get dragged
         Vector2 pos = this.transform.position;
         pos.x += dragSensivity;
         pos.y += dragSensivity;
         return pos;
     }
-    private Vector2 MinimumDragTransformPosition() {
+    private Vector2 MinimumDragTransformPosition() 
+    {
         //Corresponds to the minimum drag we have to do before the cards begins to get dragged
         Vector2 pos = this.transform.position;
         pos.x += transformDragSensitivity;
         pos.y += transformDragSensitivity;
         return pos;
     }
-    public void OnPointerClick(PointerEventData eventData) {
+    public void OnPointerClick(PointerEventData eventData) 
+    {
         //System design
     }
-    public void OnPointerDown(PointerEventData eventData) {
+    public void OnPointerDown(PointerEventData eventData) 
+    {
         if (isPressed || isHovered) {
             //Selected?
             isPressed = true;
         }
     }
-    public void OnPointerEnter(PointerEventData eventData) {
+    public void OnPointerEnter(PointerEventData eventData) 
+    {
         this.ShineImage.enabled = true;
         isHovered = true;
     }
-    public void OnPointerExit(PointerEventData eventData) {
+    public void OnPointerExit(PointerEventData eventData) 
+    {
         this.ShineImage.enabled = false;
         isHovered = false;
     }
-    public void OnPointerUp(PointerEventData eventData) {
-        if (GridManager.Instance.IsDrawingArrow)
-            GridManager.Instance.StopDrawingArrow();
+    public void OnPointerUp(PointerEventData eventData) 
+    {
         if (isInPlacingMode && GridManager.Instance.LastHoveredCell != null) {
             //Needs to check if you can cast the spell on this cell too. If you can:
             CastSpell(GridManager.Instance.LastHoveredCell);
@@ -223,11 +232,6 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
     private DownBelow.Spells.Spell[] _currentSpells;
 
     private Coroutine _spellCor = null;
-
-    internal void ExecuteSpells(Cell target) 
-    {
-        NetworkManager.Instance.CastSpell(this.CardData,target);
-    }
     #endregion
 }
 

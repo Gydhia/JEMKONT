@@ -19,8 +19,8 @@ namespace DownBelow.Entity
     {
         #region EVENTS
 
-        public event PositionEventData.Event OnEnteredCell;
-        public event PositionEventData.Event OnExitedCell;
+        public event CellEventData.Event OnEnteredCell;
+        public event CellEventData.Event OnExitedCell;
 
         public event GatheringEventData.Event OnGatheringStarted;
         public event GatheringEventData.Event OnGatheringCanceled;
@@ -28,12 +28,12 @@ namespace DownBelow.Entity
 
         public void FireEnteredCell(Cell cell)
         {
-            this.OnEnteredCell?.Invoke(new(cell.PositionInGrid, cell));
+            this.OnEnteredCell?.Invoke(new CellEventData(cell));
         }
 
         public void FireExitedCell(Cell cell)
         {
-            this.OnExitedCell?.Invoke(new(cell.PositionInGrid, cell));
+            this.OnExitedCell?.Invoke(new CellEventData(cell));
         }
 
         public void FireGatheringStarted(InteractableResource resource)

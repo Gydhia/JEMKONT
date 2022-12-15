@@ -20,7 +20,10 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: UID
+      Entry: 2
+      Data: 11f1eb615f1e6fe6a1d2444cd8e9325c
   Title: Homemade Ointment
   Cost: 1
   Description: Heals a unit.
