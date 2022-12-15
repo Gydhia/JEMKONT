@@ -45,11 +45,14 @@ namespace DownBelow.Managers
         public Dictionary<string, PlayerBehavior> Players;
         public PlayerBehavior SelfPlayer;
 
+        public static bool GameStarted = false;
+
         private void Start()
         {
-            this.ProcessPlayerWelcoming();
-
             UIManager.Instance.Init();
+            GridManager.Instance.Init();
+        
+            this.ProcessPlayerWelcoming();
         }
 
         public void ProcessPlayerWelcoming()
@@ -109,6 +112,7 @@ namespace DownBelow.Managers
                     counter++;
                 }
 
+                GameStarted = true;
                 this.FirePlayersWelcomed();
             }
         }
