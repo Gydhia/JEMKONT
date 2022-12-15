@@ -11,6 +11,7 @@ using DownBelow.GridSystem;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using DownBelow.Mechanics;
+using DownBelow.Events;
 
 namespace DownBelow.Managers {
     public class NetworkManager : MonoBehaviourPunCallbacks {
@@ -37,6 +38,12 @@ namespace DownBelow.Managers {
 
         void Start() {
             _connect();
+        }
+
+        public void SubToGameEvents()
+        {
+            CombatManager.Instance.OnTurnStarted += this.TurnBegan;
+            CombatManager.Instance.OnTurnEnded += this.TurnEnded;
         }
 
         public void UpdateOwnerName(string newName) {
@@ -73,7 +80,6 @@ namespace DownBelow.Managers {
         }
 
         #endregion
-
 
         #region Players_Callbacks
         public void EntityAsksForPath(CharacterEntity entity,Cell target,WorldGrid refGrid) {
@@ -129,62 +135,101 @@ namespace DownBelow.Managers {
         }
 
         // /!\ Only one combat can be active at the moment, that is important
-        public void PlayerAsksToStartCombat() {
+        public void PlayerAsksToStartCombat()
+        {
             this.photonView.RPC("RPC_RespondToStartCombat",RpcTarget.All,GameManager.Instance.SelfPlayer.PlayerID);
         }
 
         [PunRPC]
-        public void RPC_RespondToStartCombat(string playerID) {
+        public void RPC_RespondToStartCombat(string playerID) 
+        {
             CombatManager.Instance.StartCombat(GameManager.Instance.Players[playerID].CurrentGrid as CombatGrid);
         }
 
-        public void PlayerAsksToInteract(Cell interaction) {
+        public void PlayerAsksToInteract(Cell interaction)
+        {
             this.photonView.RPC("RPC_RespondToInteract",RpcTarget.All,GameManager.Instance.SelfPlayer.PlayerID,interaction.PositionInGrid.latitude,interaction.PositionInGrid.longitude);
         }
 
         [PunRPC]
-        public void RPC_RespondToInteract(string playerID,int latitude,int longitude) {
+        public void RPC_RespondToInteract(string playerID,int latitude,int longitude)
+        {
             PlayerBehavior player = GameManager.Instance.Players[playerID];
             player.Interact(player.CurrentGrid.Cells[latitude,longitude]);
         }
 
-        public void PlayerCanceledInteract(Cell interaction) {
+        public void PlayerCanceledInteract(Cell interaction) 
+        {
             this.photonView.RPC("RPC_RespondCancelInteract",RpcTarget.All,GameManager.Instance.SelfPlayer.PlayerID,interaction.PositionInGrid.latitude,interaction.PositionInGrid.longitude);
         }
 
         [PunRPC]
-        public void RPC_RespondCancelInteract(string playerID,int latitude,int longitude) {
+        public void RPC_RespondCancelInteract(string playerID,int latitude,int longitude) 
+        {
             PlayerBehavior player = GameManager.Instance.Players[playerID];
             player.Interact(player.CurrentGrid.Cells[latitude,longitude]);
         }
 
-        public void GiftOrRemovePlayerItem(string playerID,ItemPreset item,int quantity) {
+        public void GiftOrRemovePlayerItem(string playerID,ItemPreset item,int quantity) 
+        {
             this.photonView.RPC("RPC_RespondGiftOrRemovePlayerItem",RpcTarget.All,GameManager.Instance.SelfPlayer.PlayerID,item.UID.ToString(),quantity);
-
         }
 
         [PunRPC]
-        public void RPC_RespondGiftOrRemovePlayerItem(string playerID,string itemID,int quantity) {
+        public void RPC_RespondGiftOrRemovePlayerItem(string playerID,string itemID,int quantity) 
+        {
             GameManager.Instance.Players[playerID].TakeResources(GridManager.Instance.ItemsPresets[System.Guid.Parse(itemID)],quantity);
         }
-        public void TurnBegan(string playerID) {
-            this.photonView.RPC("RPC_OnTurnBegan",RpcTarget.All,playerID);
+
+        public void TurnBegan(EntityEventData EntityData) 
+        {
+            if (!CombatManager.Instance.BattleGoing && GameManager.Instance.SelfPlayer.CurrentGrid.IsCombatGrid)
+                return;
+
+            this.photonView.RPC("RPC_OnTurnBegan", RpcTarget.All, EntityData.Entity.UID);
         }
+
         [PunRPC]
-        public void RPC_OnTurnBegan(string playerID) {
-            if (CombatManager.Instance.PlayingEntities.Any(x => x == GameManager.Instance.SelfPlayer)) {
-                //If there is the client player in the battle;
-                if (playerID == GameManager.Instance.SelfPlayer.PlayerID) {
-                    //If it is OUR turn;
-                    UIManager.Instance.NextTurnButton.interactable = true;
-                }
+        public void RPC_OnTurnBegan(string entityID) 
+        {
+            CombatManager.Instance.ProcessStartTurn(entityID);
+            //If there is the client player in the battle;
+            if (entityID == GameManager.Instance.SelfPlayer.PlayerID) {
+                //If it is OUR turn;
+                UIManager.Instance.NextTurnButton.interactable = true;
             }
         }
-        public void CastSpell(ScriptableCard spellToCast) {
+
+        public void TurnEnded(EntityEventData EntityData)
+        {
+            if (!CombatManager.Instance.BattleGoing && GameManager.Instance.SelfPlayer.CurrentGrid.IsCombatGrid)
+                return;
+
+            this.photonView.RPC("RPC_OnTurnEnded", RpcTarget.All, EntityData.Entity.UID);
+        }
+
+        [PunRPC]
+        public void RPC_OnTurnEnded(string entityID)
+        {
+            CharacterEntity entity = CombatManager.Instance.PlayingEntities.Single(e => e.UID == entityID);
+
+            CombatManager.Instance.ProcessEndTurn(entityID);
+            //If there is the client player in the battle;
+            if (entityID == GameManager.Instance.SelfPlayer.PlayerID)
+            {
+                //If it is OUR turn;
+                UIManager.Instance.NextTurnButton.interactable = true;
+            }            
+        }
+
+
+        public void CastSpell(ScriptableCard spellToCast) 
+        {
             this.photonView.RPC("RPC_CastSpell",RpcTarget.All,spellToCast.name);
         }
         [PunRPC]
-        public void RPC_CastSpell(string spellName, int longitude, int latittude) {
+        public void RPC_CastSpell(string spellName, int longitude, int latittude) 
+        {
             var card = CardsManager.Instance.ScriptableCards[spellName];
             if (card != null) {
                 CombatManager.Instance.ExecuteSpells(CombatManager.Instance.CurrentPlayingGrid.Cells[longitude,latittude],card);

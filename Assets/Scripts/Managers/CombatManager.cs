@@ -11,13 +11,29 @@ using UnityEngine;
 using DownBelow.Mechanics;
 
 namespace DownBelow.Managers {
-    public class CombatManager : _baseManager<CombatManager> {
+    public class CombatManager : _baseManager<CombatManager> 
+    {
+        #region EVENTS
         public event GridEventData.Event OnCombatStarted;
-        public bool BattleGoing;
-        private Spell[] _currentSpells;
-        public void FireCombatStarted(WorldGrid Grid) {
+        public event EntityEventData.Event OnTurnStarted;
+        public event EntityEventData.Event OnTurnEnded;
+
+        public void FireCombatStarted(WorldGrid Grid) 
+        {
             this.OnCombatStarted?.Invoke(new GridEventData(Grid));
         }
+        public void FireTurnStarted(CharacterEntity Entity)
+        {
+            this.OnTurnStarted?.Invoke(new EntityEventData(Entity));
+        }
+        public void FireTurnEnded(CharacterEntity Entity)
+        {
+            this.OnTurnEnded?.Invoke(new EntityEventData(Entity));
+        }
+        #endregion
+
+        public bool BattleGoing;
+        private Spell[] _currentSpells;
 
         #region Run-time
         private Coroutine _turnCoroutine;
@@ -36,15 +52,20 @@ namespace DownBelow.Managers {
         public int TurnNumber;
         #endregion
 
-        private void Start() {
+        private void Start() 
+        {
             GameManager.Instance.OnEnteredGrid += this.WelcomePlayerInCombat;
         }
-        public void ExecuteSpells(Cell target,ScriptableCard spell) {
+
+        public void ExecuteSpells(Cell target,ScriptableCard spell) 
+        {
             this._currentSpells = spell.Spells;
             Debug.Log("EXECUTED SPELL!!!");
             StartCoroutine(this._waitForSpell(target));
         }
-        public void WelcomePlayerInCombat(EntityEventData Data) {
+
+        public void WelcomePlayerInCombat(EntityEventData Data) 
+        {
             Data.Entity.ReinitializeAllStats();
             //TODO: Verify this is well understood.
             DrawPile = ((PlayerBehavior)Data.Entity).Deck;
@@ -55,10 +76,12 @@ namespace DownBelow.Managers {
             }
         }
 
-        public async void StartCombat(CombatGrid startingGrid) {
+        public async void StartCombat(CombatGrid startingGrid) 
+        {
             if (this.CurrentPlayingGrid != null && this.CurrentPlayingGrid.HasStarted)
                 return;
 
+            this.BattleGoing = true;
             this.CurrentPlayingGrid = startingGrid;
 
             this._setupEnemyEntities();
@@ -66,56 +89,69 @@ namespace DownBelow.Managers {
             // Think about enabling/initing this UI only when in combat
             UIManager.Instance.PlayerInfos.Init();
 
-
             this.TurnNumber = -1;
             this.CurrentPlayingGrid.HasStarted = true;
 
             this._defineEntitiesTurn();
+
             UIManager.Instance.TurnSection.Init(this.PlayingEntities);
-
             UIManager.Instance.StartCombatButton.gameObject.SetActive(false);
-            this.FireCombatStarted(this.CurrentPlayingGrid);
-            this.NextTurn();
 
-            for (int i = 0;i < 3;i++) {
+            this.FireCombatStarted(this.CurrentPlayingGrid);
+            this.TurnNumber++;
+            this.CurrentPlayingEntity = this.PlayingEntities[this.TurnNumber % this.PlayingEntities.Count];
+            this.FireTurnStarted(this.CurrentPlayingEntity);
+
+            for (int i = 0;i < 3;i++) 
                 await DrawCard();
-            }
         }
 
-        public async void NextTurn() {
-            if (this._turnCoroutine != null) {
-                StopCoroutine(this._turnCoroutine);
-                this._turnCoroutine = null;
-            }
-            // Reset the time slider
-            UIManager.Instance.TurnSection.TimeSlider.value = 0f;
-
-            this.TurnNumber++;
-
-            if (this.CurrentPlayingEntity != null) {
-                if (GameManager.Instance.SelfPlayer == this.CurrentPlayingEntity) { //We draw at the end of our turn.
-                    for (int i = 2;i < 0;i++) {
-                        await DrawCard();
-                    }
-                }
-                this.CurrentPlayingEntity.EndTurn();
-            }
-            this.CurrentPlayingEntity = this.PlayingEntities[this.TurnNumber % this.PlayingEntities.Count];
-            if (CurrentPlayingEntity is PlayerBehavior Player) {
-                NetworkManager.Instance.TurnBegan(Player.PlayerID);
-            }
+        public void ProcessStartTurn(string entityID)
+        {
             this.CurrentPlayingEntity.StartTurn();
 
-
-
-            if (this.TurnNumber > 0)
+            if (this.TurnNumber >= 0)
                 UIManager.Instance.TurnSection.ChangeSelectedEntity(this.TurnNumber % this.PlayingEntities.Count);
             // TODO : remove this when we'll no longer need to test enemies
             //if (this.CurrentPlayingEntity.IsAlly)
             this._turnCoroutine = StartCoroutine(this._startTurnTimer());
         }
-        private IEnumerator _waitForSpell(DownBelow.GridSystem.Cell target) {
-            for (int i = 0;i < this._currentSpells.Length;i++) {
+
+        public async void ProcessEndTurn(string entityID)
+        {
+            this.CurrentPlayingEntity.EndTurn();
+
+            if (this.CurrentPlayingEntity != null)
+            {
+                if (GameManager.Instance.SelfPlayer == this.CurrentPlayingEntity)
+                {
+                    //We draw at the end of our turn.
+                    for (int i = 0; i < SettingsManager.Instance.CombatPreset.CardsToDraw; i++)
+                    {
+                        await DrawCard();
+                    }
+                }
+            }
+
+            // Reset the time slider
+            if (this._turnCoroutine != null)
+            {
+                StopCoroutine(this._turnCoroutine);
+                this._turnCoroutine = null;
+            }
+            UIManager.Instance.TurnSection.TimeSlider.value = 0f;
+
+            // Increment the turns to pre-select next entity
+            this.TurnNumber++;
+            this.CurrentPlayingEntity = this.PlayingEntities[this.TurnNumber % this.PlayingEntities.Count];
+
+            this.FireTurnStarted(this.CurrentPlayingEntity);
+        }
+
+        private IEnumerator _waitForSpell(DownBelow.GridSystem.Cell target) 
+        {
+            for (int i = 0;i < this._currentSpells.Length;i++) 
+            {
                 bool canExecute = true;
 
                 if (this._currentSpells[i].ConditionData != null)
@@ -136,27 +172,33 @@ namespace DownBelow.Managers {
             this.gameObject.SetActive(false);
         }
 
-        private void _setupEnemyEntities() {
-            foreach (CharacterEntity enemy in this.CurrentPlayingGrid.GridEntities.Where(e => !e.IsAlly)) {
+        private void _setupEnemyEntities() 
+        {
+            foreach (CharacterEntity enemy in this.CurrentPlayingGrid.GridEntities.Where(e => !e.IsAlly))
+            {
                 enemy.ReinitializeAllStats();
                 enemy.EntityCell.EntityIn = enemy;
                 enemy.gameObject.SetActive(true);
             }
         }
 
-        public void PlayCard(Cell cell) {
+        public void PlayCard(Cell cell) 
+        {
             if (this.CurrentPlayingEntity == GameManager.Instance.SelfPlayer)
                 CardDraggingSystem.instance.DraggedCard.CastSpell(cell);
         }
 
-        public void DiscardCard(CardComponent card) {
+        public void DiscardCard(CardComponent card) 
+        {
             UIManager.Instance.CardSection.AddDiscardCard(1);
             this.HandPile.Remove(card);
             this.DiscardPile.Add(card);
         }
 
-        public async Task DrawCard() {
-            if (this.DrawPile.Count > 0) {
+        public async Task DrawCard()
+        {
+            if (this.DrawPile.Count > 0) 
+            {
                 this.HandPile.Add(Instantiate(CardPrefab,UIManager.Instance.CardSection.DrawPile.transform).GetComponent<CardComponent>());
                 this.HandPile[^1].CardData = DrawPile.DrawCard();
                 await this.HandPile[^1].DrawCardFromPile();
@@ -167,7 +209,8 @@ namespace DownBelow.Managers {
             }
         }
 
-        private IEnumerator _startTurnTimer() {
+        private IEnumerator _startTurnTimer()
+        {
             float time = SettingsManager.Instance.CombatPreset.TurnTime;
             float timePassed = 0f;
 
@@ -180,10 +223,11 @@ namespace DownBelow.Managers {
                 UIManager.Instance.TurnSection.TimeSlider.value = timePassed;
             }
 
-            this.NextTurn();
+            this.FireTurnEnded(this.CurrentPlayingEntity);
         }
 
-        private void _defineEntitiesTurn() {
+        private void _defineEntitiesTurn() 
+        {
             List<CharacterEntity> enemies = this.CurrentPlayingGrid.GridEntities.Where(x => !x.IsAlly).ToList();
             List<CharacterEntity> players = this.CurrentPlayingGrid.GridEntities.Where(x => x.IsAlly).ToList();
 

@@ -51,7 +51,9 @@ namespace DownBelow.Managers
         {
             UIManager.Instance.Init();
             GridManager.Instance.Init();
-        
+            NetworkManager.Instance.SubToGameEvents();
+
+
             this.ProcessPlayerWelcoming();
         }
 
