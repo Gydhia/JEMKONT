@@ -31,6 +31,7 @@ namespace DownBelow.Managers
             this.TurnSection.gameObject.SetActive(false);
             this.PlayerInfos.gameObject.SetActive(false);
             this.CardSection.gameObject.SetActive(false);
+            this.EntityTooltipUI.gameObject.SetActive(false);
 
             GameManager.Instance.OnPlayersWelcomed += _subscribe;
         }
