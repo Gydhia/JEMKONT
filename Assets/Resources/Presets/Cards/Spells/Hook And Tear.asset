@@ -20,11 +20,14 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: UID
+      Entry: 2
+      Data: 7f7099ff6fd9917c089fc9e433cca500
   Title: Hook And Tear
   Cost: 2
   Description: For each other car in hand, deal 3 damage to a unit.
-  IllustrationImage: {fileID: 0}
+  IllustrationImage: {fileID: 21300000, guid: 3e70afd6c42a6c1449f3f632d62f8059, type: 3}
   Spells:
   - ConditionData: {fileID: 0}
     ActionData: {fileID: 8858182927329136198, guid: 83c20f04cfd763b4db42c7626b0d3153, type: 3}

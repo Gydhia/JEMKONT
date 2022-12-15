@@ -5,11 +5,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class Tool {
+public class Tool 
+{
     public Deck Deck;
     public EClass Class;
     public PlayerBehavior ActualPlayer;
-    public virtual void WorldAction() {
+    public virtual void WorldAction() 
+    {
         switch (Class) {
             //Fuck every each one of you, fuck polymorphism, fuck joe biden, fuck macron, fuck putin, embrace monkey
             case EClass.Fisherman:

@@ -93,10 +93,10 @@ MonoBehaviour:
   CombatPreset: {fileID: 11400000, guid: a26fd800d9da29548a4b431ecf6ed845, type: 2}
   GameUIPreset: {fileID: 11400000, guid: b4f43fb59e111b349865a00b17dd32dc, type: 2}
   PlayerStats: {fileID: 11400000, guid: 749d1a933eed5214c9209d8ec792b76b, type: 2}
-  FishermanStats: {fileID: 0}
-  MinerStats: {fileID: 0}
-  FarmerStats: {fileID: 0}
-  HerbalistStats: {fileID: 0}
+  FishermanStats: {fileID: 11400000, guid: 4d576a35a0dcc0e4cb45e35dc060d9d9, type: 2}
+  MinerStats: {fileID: 11400000, guid: 378e4726dcac3c94390835d65888d60c, type: 2}
+  FarmerStats: {fileID: 11400000, guid: acc2fcfe067f4a548a44a691816601e8, type: 2}
+  HerbalistStats: {fileID: 11400000, guid: 431193b9be546b642821e7c04419e789, type: 2}
 --- !u!1 &1709003694304920991
 GameObject:
   m_ObjectHideFlags: 0
@@ -276,9 +276,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db16899e32613154aa2db751201be8e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BattleGoing: 0
   CurrentPlayingEntity: {fileID: 0}
   CurrentPlayingGrid: {fileID: 0}
   PlayingEntities: []
+  CurrentCard: {fileID: 0}
   DiscardPile: []
   DrawPile:
     Cards: []
@@ -403,7 +405,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2378782602772439761}
   - component: {fileID: 7152127348150087471}
-  - component: {fileID: 3009567406848012230}
   m_Layer: 0
   m_Name: CardsManager
   m_TagString: Untagged
@@ -438,25 +439,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57a4408e0e3d1e24c9a6b0a4401a17d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DeckPresets:
-  - {fileID: 11400000, guid: c2e0033a467715f4182f725e2d155c12, type: 2}
-  - {fileID: 11400000, guid: afde972ffb51c2945915475e3cbd72a0, type: 2}
-  - {fileID: 11400000, guid: a94274f9a030fcf49942d26ac3ced7d2, type: 2}
-  - {fileID: 11400000, guid: 65297000a20289941b928d0d23e05aa5, type: 2}
---- !u!114 &3009567406848012230
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6162683752929045887}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a3e0efa2666fa3409749542c6478d1b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DraggedCard: {fileID: 0}
-  DissapearingHeight: 0
 --- !u!1 &7177147408384528591
 GameObject:
   m_ObjectHideFlags: 0
@@ -549,3 +531,5 @@ MonoBehaviour:
   Storage: {fileID: 0}
   GatheringSlider: {fileID: 0}
   GatheringName: {fileID: 0}
+  NextTurnButton: {fileID: 0}
+  StartCombatButton: {fileID: 0}

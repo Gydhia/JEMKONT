@@ -9,23 +9,31 @@ namespace DownBelow.Managers
     public class InputManager : _baseManager<InputManager>
     {
         #region EVENTS
-        public event PositionEventData.Event OnCellClickedUp;
-        public event PositionEventData.Event OnCellClickedDown;
+        public event CellEventData.Event OnCellClickedUp;
+        public event CellEventData.Event OnCellClickedDown;
+        public event CellEventData.Event OnNewCellHovered;
 
-        public void FireCellClickedUp(GridPosition position)
+        public void FireCellClickedUp(Cell Cell)
         {
-            this.OnCellClickedUp?.Invoke(new PositionEventData(position));
+            this.OnCellClickedUp?.Invoke(new CellEventData(Cell));
         }
-        public void FireCellClickedDown(GridPosition position) {
-            this.OnCellClickedDown?.Invoke(new PositionEventData(position));
+        public void FireCellClickedDown(Cell Cell)
+        {
+            this.OnCellClickedDown?.Invoke(new CellEventData(Cell));
         }
-
+        public void FireNewCellHovered(Cell Cell)
+        {
+            this.OnNewCellHovered?.Invoke(new CellEventData(Cell));
+        }
         #endregion
 
         public Interactable LastInteractable;
 
         private void Update()
         {
+            if (!GameManager.GameStarted)
+                return;
+
             #region CELLS_RAYCAST
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -36,7 +44,7 @@ namespace DownBelow.Managers
                 {
                     // Avoid executing this code when it has already been done
                     if (cell != GridManager.Instance.LastHoveredCell)
-                        GridManager.Instance.OnNewCellHovered(GameManager.Instance.SelfPlayer, cell);
+                        this.FireNewCellHovered(cell);
                 }
             }
             else
@@ -64,16 +72,15 @@ namespace DownBelow.Managers
                 this.LastInteractable.OnUnfocused();
                 this.LastInteractable = null;   
             }
-                #endregion
-            // Teleport player to location
+            #endregion
             if (Input.GetMouseButtonUp(0))
             {
                 if(GridManager.Instance.LastHoveredCell != null)
-                    this.FireCellClickedUp(GridManager.Instance.LastHoveredCell.PositionInGrid);
+                    this.FireCellClickedUp(GridManager.Instance.LastHoveredCell);
             }
             if (Input.GetMouseButtonDown(0)) {
                 if (GridManager.Instance.LastHoveredCell != null)
-                    this.FireCellClickedDown(GridManager.Instance.LastHoveredCell.PositionInGrid);
+                    this.FireCellClickedDown(GridManager.Instance.LastHoveredCell);
             }
 
             // UTILITY : To mark a cell as non-walkable

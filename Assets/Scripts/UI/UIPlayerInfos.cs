@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
+using DG.Tweening;
 
 namespace DownBelow.UI
 {
@@ -13,6 +15,10 @@ namespace DownBelow.UI
         public TextMeshProUGUI ManaText;
         public TextMeshProUGUI HealthText;
         public TextMeshProUGUI MoveText;
+
+        [SerializeField] private Image _lifeFill;
+
+
 
         public void Init()
         {
@@ -38,9 +44,22 @@ namespace DownBelow.UI
         {
             this.ManaText.text = value.ToString();
         }
-        public void SetHealthText(int value)
+        public void SetHealthText(int value, bool animated = true)
         {
             this.HealthText.text = value.ToString();
+
+            if (value < 0)
+                value = 0;
+
+            if (animated)
+            {
+                _lifeFill.DOFillAmount((float)((float)value / (float)GameManager.Instance.SelfPlayer.MaxHealth), 0.6f).SetEase(Ease.OutQuart);
+            }
+            else
+            {
+                _lifeFill.DOFillAmount((float)((float)value / (float)GameManager.Instance.SelfPlayer.MaxHealth), 0f);
+            }
+            
         }
         public void SetMoveText(int value)
         {

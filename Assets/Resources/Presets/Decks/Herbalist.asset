@@ -12,6 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0229511ea5185984eb5833ff13151ec4, type: 3}
   m_Name: Herbalist
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: UID
+      Entry: 2
+      Data: 92554b1ce84f5dc10ce63a218c2420ee
+  Name: BaseHerbalist
+  Class: 0
   Deck:
     Cards:
     - {fileID: 11400000, guid: 17cca61da856a0a4abc846a9ec5ce6a4, type: 2}
@@ -34,4 +48,3 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 9b7f4817f36bd3b4ca3ffb7fa0b23688, type: 2}
     - {fileID: 11400000, guid: 9b7f4817f36bd3b4ca3ffb7fa0b23688, type: 2}
     - {fileID: 11400000, guid: 9b7f4817f36bd3b4ca3ffb7fa0b23688, type: 2}
-  Class: 0

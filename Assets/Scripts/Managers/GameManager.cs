@@ -3,6 +3,7 @@ using DownBelow.Events;
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace DownBelow.Managers
@@ -51,7 +52,9 @@ namespace DownBelow.Managers
         {
             UIManager.Instance.Init();
             GridManager.Instance.Init();
-        
+            NetworkManager.Instance.SubToGameEvents();
+
+
             this.ProcessPlayerWelcoming();
         }
 
@@ -86,7 +89,7 @@ namespace DownBelow.Managers
                 foreach (var player in PhotonNetwork.PlayerList)
                 {
                     PlayerBehavior newPlayer = Instantiate(this._playerPrefab, Vector3.zero, Quaternion.identity, this.transform);
-                    newPlayer.Deck = CardsManager.Instance.DeckPresets[^1].Deck;
+                    newPlayer.Deck = CardsManager.Instance.DeckPresets.Values.Single(d => d.Name == "TestDeck").Copy();
                     //TO CHANGE WITH TOOL. FOR TESTING ONLY
                     GridPosition spawnPosition;
 

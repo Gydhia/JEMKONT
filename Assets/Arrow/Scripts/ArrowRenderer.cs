@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using DownBelow.Events;
+using DownBelow.Managers;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ArrowRenderer : MonoBehaviour
@@ -15,11 +17,14 @@ public class ArrowRenderer : MonoBehaviour
     [SerializeField] Vector3 end;
     [SerializeField] Vector3 upwards = Vector3.up;
 
+    public Vector3 StartPos { get { return start; } set { } }
+    public Vector3 EndPos { get { return end; } set { } }
     Transform arrow;
 
     readonly List<Transform> segments = new List<Transform>();
     readonly List<MeshRenderer> renderers = new List<MeshRenderer>();
 
+    #region BASE_ASSET
     public void SetPositions(Vector3 start0, Vector3 end0)
     {
         start = start0;
@@ -104,4 +109,36 @@ public class ArrowRenderer : MonoBehaviour
     {
         return Mathf.Clamp01(Mathf.Clamp01(distance0 / distanceMax) + Mathf.Clamp01(distance1 / distanceMax) - 1f);
     }
+    #endregion
+
+    #region CUSTOM_FUNC
+
+    public void Init()
+    {
+        CombatManager.Instance.OnCardBeginDrag += this._shouldFollowCard;
+        CombatManager.Instance.OnCardEndDrag += this._stopFollowCard;
+    }
+
+    private void _shouldFollowCard(CardEventData Data)
+    {
+        if (Data.Card.IsTrackable())
+        {
+            this.gameObject.SetActive(true);
+            InputManager.Instance.OnNewCellHovered += _updateArrowTarget;
+        }
+    }
+
+    private void _stopFollowCard(CardEventData Data)
+    {
+        InputManager.Instance.OnNewCellHovered -= _updateArrowTarget;
+        this.gameObject.SetActive(false);
+    }
+
+    private void _updateArrowTarget(CellEventData Data)
+    {
+        if(Data.InCurrentGrid)
+            this.SetPositions(GameManager.Instance.SelfPlayer.transform.position, Data.Cell.WorldPosition);
+    }
+
+    #endregion
 }

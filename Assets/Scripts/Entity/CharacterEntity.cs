@@ -22,8 +22,6 @@ namespace DownBelow.Entity
         public event SpellEventData.Event OnShieldAdded;
         public event SpellEventData.Event OnStrengthRemoved;
         public event SpellEventData.Event OnStrengthAdded;
-        public event SpellEventData.Event OnInspirationRemoved;
-        public event SpellEventData.Event OnInspirationAdded;
         public event SpellEventData.Event OnSpeedRemoved;
         public event SpellEventData.Event OnSpeedAdded;
         public event SpellEventData.Event OnManaRemoved;
@@ -32,6 +30,14 @@ namespace DownBelow.Entity
         public event SpellEventData.Event OnDefenseAdded;
         public event SpellEventData.Event OnRangeRemoved;
         public event SpellEventData.Event OnRangeAdded;
+        /// <summary>
+        /// When you give an alteration to someone else.
+        /// </summary>
+        public event SpellEventData.Event OnAlterationGiven;
+        /// <summary>
+        /// When you receive an alteration from someone else.
+        /// </summary>
+        public event SpellEventData.Event OnAlterationReceived;
 
 
         public event GameEventData.Event OnTurnBegun;
@@ -129,7 +135,6 @@ namespace DownBelow.Entity
             this.transform.position = destination.WorldPosition;
 
             destination.EntityIn = this;
-
             return true;
         }
 
@@ -378,6 +383,8 @@ IsAlly : {IsAlly}
 GridPos : {EntityCell}";
         }
         public void AddAlteration(EAlterationType type,int duration,int value) {
+            OnAlterationReceived?.Invoke(new SpellEventDataAlteration(this,duration,type));
+            Debug.Log($"Alteration: {type} to {this.name}");
             Alteration alteration;
             alteration = type switch {
                 EAlterationType.Stun => new StunAlteration(duration),
@@ -506,6 +513,10 @@ GridPos : {EntityCell}";
                         break;
                 }
             }
+        }
+
+        internal void FireOnAlterationGiven(SpellEventData Data) {
+            OnAlterationGiven?.Invoke(Data);
         }
     }
 }

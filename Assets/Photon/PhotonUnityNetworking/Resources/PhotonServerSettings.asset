@@ -28,7 +28,7 @@ MonoBehaviour:
     AuthMode: 0
     EnableLobbyStatistics: 0
     NetworkLogging: 1
-  DevRegion: 
+  DevRegion: eu
   PunLogging: 0
   EnableSupportLogger: 0
   RunInBackground: 1
@@ -51,6 +51,9 @@ MonoBehaviour:
   - RPC_RespondToInteract
   - RPC_RespondCancelInteract
   - RPC_RespondGiftOrRemovePlayerItem
+  - RPC_OnTurnBegan
+  - RPC_CastSpell
+  - RPC_OnTurnEnded
   DisableAutoOpenWizard: 1
   ShowSettings: 0
-  DevRegionSetOnce: 0
+  DevRegionSetOnce: 1

@@ -13,7 +13,6 @@ using DownBelow.Events;
 using UnityEngine.Rendering;
 using EODE.Wonderland;
 using MyBox;
-using DownBelow.Events;
 
 namespace DownBelow.Managers {
     public class GridManager : _baseManager<GridManager> 
@@ -59,6 +58,8 @@ namespace DownBelow.Managers {
 
         public Cell LastHoveredCell;
 
+        private ArrowRenderer _spellArrow;
+
         public void Init() 
         {
             base.Awake();
@@ -82,9 +83,15 @@ namespace DownBelow.Managers {
                 }
             }
 
+            // Pre-instantiate the spell's arrow indicator
+            this._spellArrow = Instantiate(SettingsManager.Instance.GridsPreset.SpellArrowPrefab, this.transform);
+            this._spellArrow.Init();
+            this._spellArrow.gameObject.SetActive(false);
+
             // Events
             InputManager.Instance.OnCellClickedUp += this.ProcessCellClickUp;
             InputManager.Instance.OnCellClickedDown += this.ProcessCellClickDown;
+            InputManager.Instance.OnNewCellHovered += this.ProcessNewCellHovered;
 
             GameManager.Instance.OnEnteredGrid += this.OnEnteredNewGrid;
         }
@@ -100,58 +107,31 @@ namespace DownBelow.Managers {
             this.MainWorldGrid = this.WorldGrids.Values.First();
         }
 
-        public void OnNewCellHovered(CharacterEntity entity,Cell cell) {
-            //if (this.LastHoveredCell != null && this.LastHoveredCell.Datas.state == CellState.Walkable)
-            //    this.LastHoveredCell.ChangeStateColor(Color.grey);
-
-            if (!GameManager.GameStarted)
-                return;
-            this.LastHoveredCell = cell;
-            //if (CardDraggingSystem.instance.DraggedCard != null && this.LastHoveredCell.Datas.state == CellState.Walkable)
-            //    this.LastHoveredCell.ChangeStateColor(Color.cyan);
-
-            if (entity.CurrentGrid is CombatGrid cGrid && cGrid.HasStarted && this.LastHoveredCell.RefGrid == entity.CurrentGrid) {
-                this.ShowPossibleCombatMovements(entity);
-
-                // Make sure that we're not using a card so we don't show the player's path
-                if (CardDraggingSystem.instance.DraggedCard == null) {
-                    // Clear old path
-                    //for (int i = 0;i < this.Path.Count;i++)
-                    //    if (this.Path[i] != null)
-                    //        this.Path[i].ChangeStateColor(Color.grey);
-
-                    if (!entity.CurrentGrid.IsCombatGrid)
-                        this._possiblePath = this.Path;
-
-                    this.FindPath(entity,cell.PositionInGrid,cell.RefGrid);
-
-                    //if (!entity.CurrentGrid.IsCombatGrid || this.Path.Count <= entity.Speed) {
-                    //    for (int i = 0;i < this.Path.Count;i++) {
-                    //        if (this.Path[i] != null)
-                    //            this.Path[i].ChangeStateColor(Color.green);
-                    //    }
-                    //}
-                }
-            }
-        }
-
-        public void ProcessCellClickUp(PositionEventData data) {
+        public void ProcessCellClickUp(CellEventData data) 
+        {
             if (this.LastHoveredCell == null)
                 return;
 
             PlayerBehavior selfPlayer = GameManager.Instance.SelfPlayer;
 
             // Combat behavior
-            if (selfPlayer.CurrentGrid.IsCombatGrid) {
+            if (selfPlayer.CurrentGrid.IsCombatGrid) 
+            {
                 // When not grabbing card
-                if (CardDraggingSystem.instance.DraggedCard == null) {
-                    if (selfPlayer.IsAutoAttacking) {
-                        if (LastHoveredCell.Datas.state == CellState.EntityIn) {
+                if(CombatManager.Instance.CurrentCard != null)
+                {
+
+                    if (selfPlayer.IsAutoAttacking)
+                    {
+                        if (LastHoveredCell.Datas.state == CellState.EntityIn)
+                        {
                             if (!selfPlayer.isInAttackRange(LastHoveredCell)) selfPlayer.IsAutoAttacking = false; else selfPlayer.AutoAttack(LastHoveredCell);
                         }
-                    } else if (this.Path.Contains(this.LastHoveredCell) && this.LastHoveredCell.Datas.state == CellState.Walkable) {
+                    }
+                    else if (this.Path.Contains(this.LastHoveredCell) && this.LastHoveredCell.Datas.state == CellState.Walkable)
+                    {
                         //TODO: Rework the combat /out-of - combat network callbacks and structure
-                        selfPlayer.AskToGo(this.LastHoveredCell,string.Empty);
+                        selfPlayer.AskToGo(this.LastHoveredCell, string.Empty);
 
                         selfPlayer.EntityCell
                             .ChangeCellState(CellState.Walkable);
@@ -159,17 +139,15 @@ namespace DownBelow.Managers {
                         this.ShowPossibleCombatMovements(GameManager.Instance.SelfPlayer);
 
                         selfPlayer.CurrentGrid
-                            .Cells[this.LastHoveredCell.Datas.heightPos,this.LastHoveredCell.Datas.widthPos]
+                            .Cells[this.LastHoveredCell.Datas.heightPos, this.LastHoveredCell.Datas.widthPos]
                                 .ChangeCellState(CellState.EntityIn);
                     }
 
-                } else if (CardDraggingSystem.instance.DraggedCard != null) {
-                    CombatManager.Instance.PlayCard(this.LastHoveredCell);
                 }
-                CardDraggingSystem.instance.DraggedCard = null;
             }
             // When out of combat
-            else {
+            else 
+            {
                 Cell closestCell = this.LastHoveredCell;
                 string otherGrid = string.Empty;
 
@@ -187,20 +165,48 @@ namespace DownBelow.Managers {
                         otherGrid = this.LastHoveredCell.RefGrid.UName;
                     }
                 }
+
                 if (closestCell != null)
                     selfPlayer.AskToGo(closestCell, otherGrid);
             }
-
         }
-        public void ProcessCellClickDown(PositionEventData data) {
+        public void ProcessCellClickDown(CellEventData data) 
+        {
             if (this.LastHoveredCell == null)
                 return;
+
             PlayerBehavior selfPlayer = GameManager.Instance.SelfPlayer;
+
             // Combat behavior
-            if (selfPlayer.CurrentGrid.IsCombatGrid) {
-                if (CombatManager.Instance.CurrentPlayingEntity == selfPlayer && selfPlayer.EntityCell == LastHoveredCell &&  selfPlayer.CanAutoAttack) {
+            if (selfPlayer.CurrentGrid.IsCombatGrid) 
+            {
+                if (CombatManager.Instance.CurrentPlayingEntity == selfPlayer && selfPlayer.EntityCell == LastHoveredCell &&  selfPlayer.CanAutoAttack) 
                     selfPlayer.IsAutoAttacking = true;
-                }
+            }
+        }
+
+        public void ProcessNewCellHovered(CellEventData Data)
+        {
+            if (!GameManager.GameStarted)
+                return;
+
+            // TODO : Not up to date, this func here should only setup the visual and POSSIBLES datas
+            PlayerBehavior selfPlayer = GameManager.Instance.SelfPlayer;
+            this.LastHoveredCell = Data.Cell;
+
+            if (selfPlayer.CurrentGrid is CombatGrid cGrid && cGrid.HasStarted && this.LastHoveredCell.RefGrid == selfPlayer.CurrentGrid)
+            {
+                //this.ShowPossibleCombatMovements(selfPlayer);
+
+                // Make sure that we're not using a card so we don't show the player's path
+                //if (CardDraggingSystem.instance.DraggedCard == null)
+                //{
+
+                //    if (!entity.CurrentGrid.IsCombatGrid)
+                //        this._possiblePath = this.Path;
+
+                //    this.FindPath(entity, cell.PositionInGrid, cell.RefGrid);
+                //}
             }
         }
 
@@ -208,9 +214,6 @@ namespace DownBelow.Managers {
             int movePoints = entity.Speed;
             Cell entityCell = entity.EntityCell;
 
-            // Clear the highlighted cells
-            //foreach (Cell cell in this._possiblePath)
-            //    cell.ChangeStateColor(Color.grey);
             this._possiblePath.Clear();
 
             for (int x = -movePoints;x <= movePoints;x++) {
@@ -231,15 +234,17 @@ namespace DownBelow.Managers {
                     }
                 }
             }
-            if (entity.Confused) {
+
+            if (entity.Confused) 
+            {
                 if(entity.Is<PlayerBehavior>())
                     NetworkManager.Instance.PlayerAsksForPath((PlayerBehavior)entity,_possiblePath.Random(),string.Empty);
-                else {
+                else 
                     NetworkManager.Instance.EntityAsksForPath(entity, _possiblePath.Random(), entity.CurrentGrid);
-                }
             }
         }
-        public Cell RandomCellInPossiblePath() {
+        public Cell RandomCellInPossiblePath()
+        {
             return _possiblePath.Random();
         }
         public void OnEnteredNewGrid(EntityEventData Data) 
@@ -547,8 +552,16 @@ namespace DownBelow.Managers {
         {
             float cellSize = SettingsManager.Instance.GridsPreset.CellsSize;
 
-            if (this.GridShader == null)
-                this.GridShader = Instantiate(SettingsManager.Instance.GridsPreset.GridShader, this.transform);
+            foreach (Transform child in this.transform)
+            {
+#if UNITY_EDITOR
+                DestroyImmediate(child.gameObject);
+#else
+                Destroy(child.gameObject);
+#endif
+            }
+
+            this.GridShader = Instantiate(SettingsManager.Instance.GridsPreset.GridShader, this.transform);
             this.GridShader.transform.localScale = new Vector3((float)world.GridWidth / 10f, 1f, (float)world.GridHeight / 10f);
             this.GridShader.transform.position = new Vector3(world.TopLeftOffset.x + (world.GridWidth * cellSize) / 2f, world.TopLeftOffset.y, world.TopLeftOffset.z + -(world.GridHeight * cellSize) / 2f);
 
@@ -689,7 +702,7 @@ namespace DownBelow.Managers {
             this.BitmapTexture.Apply();
         }
 
-        #endregion
+#endregion
     }
 
     [Serializable]

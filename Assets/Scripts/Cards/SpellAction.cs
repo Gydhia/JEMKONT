@@ -15,10 +15,13 @@ namespace DownBelow.Spells
         public event SpellEventData.Event OnDamageDealt;
         public event SpellEventData.Event OnHealReceived;
         public event SpellEventData.Event OnHealGiven;
-        public event SpellEventData.Event OnBuffGiven;
+        public event SpellEventData.Event OnAlterationGiven;
         public event SpellEventData.Event OnShieldRemoved;
         public event SpellEventData.Event OnShieldAdded;
-
+        /// <summary>
+        /// Called whenever a spell modifies a stat. All info in data.
+        /// </summary>
+        public event SpellEventData.Event OnStatModified;
         [HideInInspector]
         public bool HasEnded;
 
@@ -44,14 +47,35 @@ namespace DownBelow.Spells
         public void FireOnHealGiven(SpellEventData data) {
             OnHealGiven?.Invoke(data);
         }
-        public void FireOnBuffGiven(SpellEventData data) {
-            OnBuffGiven?.Invoke(data);
+        public void FireOnAlterationGiven(SpellEventData data) {
+            OnAlterationGiven?.Invoke(data);
         }
         public void FireOnShieldRemoved(SpellEventData data) {
             OnShieldRemoved?.Invoke(data);
         }
         public void FireOnShieldAdded(SpellEventData data) {
             OnShieldAdded?.Invoke(data);
+        }
+        public void FireOnStatModified(SpellEventData data) {
+            switch (data.Stat) {
+                case EntityStatistics.Health:
+                    if(data.Value >= 0) {
+                        OnDamageDealt?.Invoke(data);
+                    } else {
+                        OnHealGiven?.Invoke(data);
+                    }
+                    break;
+                case EntityStatistics.Shield:
+                    if(data.Value >= 0) {
+                        OnShieldAdded?.Invoke(data);
+                    } else {
+                        OnShieldRemoved?.Invoke(data);
+                    }
+                    break;
+                default:
+                    OnStatModified?.Invoke(data);
+                    break;
+            }
         }
     }
 }

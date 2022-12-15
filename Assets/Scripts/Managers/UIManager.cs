@@ -15,6 +15,7 @@ namespace DownBelow.Managers
         public UIStaticTurnSection TurnSection;
         public UIPlayerInfos PlayerInfos;
         public UICardSection CardSection;
+        public EntityTooltipUI EntityTooltipUI;
 
         public UIPlayerInventory PlayerInventory;
         public UIStorage Storage;
@@ -23,11 +24,14 @@ namespace DownBelow.Managers
         public Slider GatheringSlider;
         public TextMeshProUGUI GatheringName;
 
+        public Button NextTurnButton;
+        public Button StartCombatButton;
         public void Init()
         {
             this.TurnSection.gameObject.SetActive(false);
             this.PlayerInfos.gameObject.SetActive(false);
             this.CardSection.gameObject.SetActive(false);
+            this.EntityTooltipUI.gameObject.SetActive(false);
 
             GameManager.Instance.OnPlayersWelcomed += _subscribe;
         }
@@ -39,6 +43,10 @@ namespace DownBelow.Managers
             GameManager.Instance.SelfPlayer.OnGatheringStarted += StartGather;
             GameManager.Instance.SelfPlayer.OnGatheringEnded += EndGather;
             GameManager.Instance.SelfPlayer.OnGatheringCanceled += EndGather;
+
+            CombatManager.Instance.OnCardBeginDrag += this._beginCardDrag;
+            CombatManager.Instance.OnCardEndDrag += this._endCardDrag;
+
         }
 
         public void StartGather(GatheringEventData Data)
@@ -53,6 +61,12 @@ namespace DownBelow.Managers
             this.GatheringName.gameObject.SetActive(true);
 
             this._gatheringCor = StartCoroutine(this._gather(resource));
+        }
+
+        public void UpdateEntityToolTip(CellEventData Data)
+        {
+            EntityTooltipUI.Init(Data.Cell.EntityIn);
+            //UPDATES TOOLTIP UI
         }
 
         public void EndGather(GatheringEventData Data)
@@ -99,6 +113,18 @@ namespace DownBelow.Managers
             this.TurnSection.gameObject.SetActive(false);
             this.PlayerInfos.gameObject.SetActive(false);
             this.CardSection.gameObject.SetActive(false);
+        }
+
+        private void _beginCardDrag(CardEventData Data)
+        {
+            InputManager.Instance.ChangeCursorAppearance(CursorAppearance.Card);
+
+        }
+
+        private void _endCardDrag(CardEventData Data)
+        {
+            InputManager.Instance.ChangeCursorAppearance(CursorAppearance.Idle);
+
         }
     }
 }
