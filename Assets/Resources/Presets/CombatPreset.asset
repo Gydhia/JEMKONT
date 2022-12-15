@@ -21,4 +21,5 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  TurnTime: 60
+  TurnTime: 32
+  CardsToDraw: 3

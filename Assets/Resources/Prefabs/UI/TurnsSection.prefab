@@ -439,6 +439,7 @@ MonoBehaviour:
   SpritePrefab: {fileID: 3086965284080062921, guid: 13c6c0fbe7db1514e81b6331157efb8a, type: 3}
   EntitiesHolder: {fileID: 4438578326227344358}
   TimeSlider: {fileID: 8448129796172515359}
+  NextTurnButton: {fileID: 5312382794933435147}
   CombatEntities: []
 --- !u!1 &7116059631646258354
 GameObject:

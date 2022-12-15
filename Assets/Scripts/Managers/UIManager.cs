@@ -1,10 +1,14 @@
-using Jemkont.Events;
-using Jemkont.UI;
+using DownBelow.Events;
+using DownBelow.GridSystem;
+using DownBelow.Inventory;
+using DownBelow.UI;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
-namespace Jemkont.Managers
+namespace DownBelow.Managers
 {
     public class UIManager : _baseManager<UIManager>
     {
@@ -12,13 +16,69 @@ namespace Jemkont.Managers
         public UIPlayerInfos PlayerInfos;
         public UICardSection CardSection;
 
+        public UIPlayerInventory PlayerInventory;
+        public UIStorage Storage;
+
+        private Coroutine _gatheringCor;
+        public Slider GatheringSlider;
+        public TextMeshProUGUI GatheringName;
+
+        public Button NextTurnButton;
+        public Button StartCombatButton;
         public void Init()
         {
             this.TurnSection.gameObject.SetActive(false);
             this.PlayerInfos.gameObject.SetActive(false);
             this.CardSection.gameObject.SetActive(false);
 
+            GameManager.Instance.OnPlayersWelcomed += _subscribe;
+        }
+
+        private void _subscribe(GameEventData Data)
+        {
             CombatManager.Instance.OnCombatStarted += this.SetupCombatInterface;
+
+            GameManager.Instance.SelfPlayer.OnGatheringStarted += StartGather;
+            GameManager.Instance.SelfPlayer.OnGatheringEnded += EndGather;
+            GameManager.Instance.SelfPlayer.OnGatheringCanceled += EndGather;
+        }
+
+        public void StartGather(GatheringEventData Data)
+        {
+            ResourcePreset resource = Data.ResourceRef.InteractablePreset as ResourcePreset;
+            this.GatheringName.text = "Gathering " + resource.UName + "... (" + resource.MinGathering + ", " + resource.MaxGathering + ")";
+            this.GatheringSlider.value = 0f;
+            this.GatheringSlider.minValue = 0f;
+            this.GatheringSlider.maxValue = resource.TimeToGather;
+
+            this.GatheringSlider.gameObject.SetActive(true);
+            this.GatheringName.gameObject.SetActive(true);
+
+            this._gatheringCor = StartCoroutine(this._gather(resource));
+        }
+
+        public void EndGather(GatheringEventData Data)
+        {
+            this.GatheringSlider.gameObject.SetActive(false);
+            this.GatheringName.gameObject.SetActive(false);
+
+            if(this._gatheringCor != null)
+            {
+                StopCoroutine(this._gatheringCor);
+                this._gatheringCor = null;
+            }
+        }
+
+        private IEnumerator _gather(ResourcePreset resource)
+        {
+            float timer = 0f;
+            while (timer <= resource.TimeToGather)
+            {
+                timer += Time.deltaTime;
+                this.GatheringSlider.value = timer;
+                yield return null;
+            }
+            this._gatheringCor = null;
         }
 
         public void SetupCombatInterface(GridEventData Data)

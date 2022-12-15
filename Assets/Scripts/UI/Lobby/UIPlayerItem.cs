@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using Photon.Pun;
-using Jemkont.Managers;
+using DownBelow.Managers;
 
 public class UIPlayerItem : MonoBehaviour
 {

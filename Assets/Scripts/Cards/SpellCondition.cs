@@ -1,9 +1,10 @@
+using DownBelow.Spells.Alterations;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Jemkont.Spells
+namespace DownBelow.Spells
 {
     [CreateAssetMenu(menuName = "Spells/SpellCondition")]
     public class SpellCondition : SerializedScriptableObject
@@ -32,11 +33,12 @@ namespace Jemkont.Spells
         [EnableIf("@this.Healing")]
         public int Heal;
 
-        [BoxGroup("Buffs")]
-        public bool IsDebuff;
-        [BoxGroup("Buffs")]
+        [BoxGroup("Alterations")]
+        public bool IsAltered;
+        [BoxGroup("Alterations")]
         [Tooltip("If set to None, it will not be counted.")]
-        public BuffType Buff;
+        [EnableIf("@this.IsAltered")]
+        public EAlterationType Buff;
 
         public bool Check(SpellResult result)
         {
@@ -50,7 +52,7 @@ namespace Jemkont.Spells
             if (this.Healing)
                 validated = this.CheckHealing();
 
-            if (this.Buff != BuffType.None)
+            if (this.IsAltered)
                 validated =  this.CheckBuffs();
 
             this._currentResult = null;
@@ -117,11 +119,6 @@ namespace Jemkont.Spells
 
         public bool CheckBuffs()
         {
-            foreach (List<BuffType> buffs in this._currentResult.BuffGiven.Values)
-                foreach(BuffType buff in buffs)
-                    if (buff == this.Buff)
-                        return true;
-
             return false;
         }
     }

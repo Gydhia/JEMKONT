@@ -24,7 +24,7 @@ MonoBehaviour:
   Title: Shock
   Cost: 2
   Description: Stuns a unit.
-  IllustrationImage: {fileID: 0}
+  IllustrationImage: {fileID: 21300000, guid: 5888f96b569d30b4eae01fbde5cd8cd9, type: 3}
   Spells:
   - ConditionData: {fileID: 0}
     ActionData: {fileID: 8713967515153432227, guid: 16422b07e19446c40a5c02a19d4aad08, type: 3}

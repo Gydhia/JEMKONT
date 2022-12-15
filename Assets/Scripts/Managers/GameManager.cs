@@ -1,17 +1,24 @@
-using Jemkont.Entity;
-using Jemkont.Events;
+using DownBelow.Entity;
+using DownBelow.Events;
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Jemkont.Managers
+namespace DownBelow.Managers
 {
     public class GameManager : _baseManager<GameManager>
     {
         #region EVENTS
+        public event GameEventData.Event OnPlayersWelcomed;
+
         public event EntityEventData.Event OnEnteredGrid;
         public event EntityEventData.Event OnExitingGrid;
+
+        public void FirePlayersWelcomed()
+        {
+            this.OnPlayersWelcomed?.Invoke(new());
+        }
 
         public void FireEntityEnteredGrid(string entityID)
         {
@@ -38,11 +45,16 @@ namespace Jemkont.Managers
         public Dictionary<string, PlayerBehavior> Players;
         public PlayerBehavior SelfPlayer;
 
+        public static bool GameStarted = false;
+
         private void Start()
         {
-            this.ProcessPlayerWelcoming();
-
             UIManager.Instance.Init();
+            GridManager.Instance.Init();
+            NetworkManager.Instance.SubToGameEvents();
+
+
+            this.ProcessPlayerWelcoming();
         }
 
         public void ProcessPlayerWelcoming()
@@ -64,7 +76,7 @@ namespace Jemkont.Managers
 
         public void WelcomePlayerLately()
         {
-            PhotonNetwork.CreateRoom("SoloRoom");
+            PhotonNetwork.CreateRoom("SoloRoom" + UnityEngine.Random.Range(0,100000));
         }
 
         public void WelcomePlayers()
@@ -76,6 +88,8 @@ namespace Jemkont.Managers
                 foreach (var player in PhotonNetwork.PlayerList)
                 {
                     PlayerBehavior newPlayer = Instantiate(this._playerPrefab, Vector3.zero, Quaternion.identity, this.transform);
+                    newPlayer.Deck = CardsManager.Instance.DeckPresets[^1].Copy();
+                    //TO CHANGE WITH TOOL. FOR TESTING ONLY
                     GridPosition spawnPosition;
 
                     switch (counter)
@@ -99,6 +113,9 @@ namespace Jemkont.Managers
                     this.Players.Add(player.UserId, newPlayer);
                     counter++;
                 }
+
+                GameStarted = true;
+                this.FirePlayersWelcomed();
             }
         }
     }

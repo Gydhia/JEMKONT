@@ -1,9 +1,9 @@
-using Jemkont.Entity;
+using DownBelow.Entity;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Jemkont.Spells
+namespace DownBelow.Spells
 {
     public class SpellApplyStat : SpellAction
     {
@@ -16,31 +16,9 @@ namespace Jemkont.Spells
 
             foreach (CharacterEntity entity in targets)
             {
-                switch (this.ModifiedStatistic)
-                {
-                    case EntityStatistics.Health:
-                        entity.ApplyHealth(this.StatisticValue, false);
-                        break;
-                    case EntityStatistics.Shield:
-                        entity.ApplyShield(this.StatisticValue);
-                        break;
-                    case EntityStatistics.Mana:
-                        entity.ApplyMana(this.StatisticValue);
-                        break;
-                    case EntityStatistics.Movement:
-                        entity.ApplyMovement(this.StatisticValue);
-                        break;
-                    case EntityStatistics.Strenght:
-                        entity.ApplyStrenght(this.StatisticValue);
-                        break;
-                    case EntityStatistics.Dexterity:
-                        entity.ApplyDexterity(this.StatisticValue);
-                        break;
-                    default:
-                        break;
-                }
+                if (ModifiedStatistic == EntityStatistics.Health && spellRef.Caster.Critical && StatisticValue < 0) StatisticValue *= 2;
+                entity.ApplyStat(this.ModifiedStatistic,StatisticValue,false);
             }
-            
             this.HasEnded = true;
 
             Destroy(this.gameObject, 1f);

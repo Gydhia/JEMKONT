@@ -1,6 +1,6 @@
-using Jemkont.Entity;
-using Jemkont.Managers;
-using Jemkont.Spells;
+using DownBelow.Entity;
+using DownBelow.Managers;
+using DownBelow.Spells;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

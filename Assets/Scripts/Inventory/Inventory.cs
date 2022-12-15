@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Jemkont.Inventory
+namespace DownBelow.Inventory
 {
     public class Inventory : MonoBehaviour
     {

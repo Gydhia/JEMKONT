@@ -1,4 +1,4 @@
-using Jemkont.Spells;
+using DownBelow.Spells;
 using Sirenix.OdinInspector;
 using System;
 using System.Collections;
@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Jemkont.Mechanics
+namespace DownBelow.Mechanics
 {
-    public enum EChipType { Melee, Ranged, Special }
+    public enum ECardType { Melee, Ranged, Special }
 
     [CreateAssetMenu(menuName = "Card")]
     public class ScriptableCard : SerializedScriptableObject

@@ -1166,7 +1166,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7924372251492575611, guid: 014927768df3fa74da61959d880e1335, type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7924372251492575611, guid: 014927768df3fa74da61959d880e1335, type: 3}
       propertyPath: m_LocalScale.x
@@ -14984,80 +14984,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6021397490697034255, guid: 597245baab5f7c149896c7cfecc011db, type: 3}
   m_PrefabInstance: {fileID: 521740241}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &526790608
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 1957150558}
-    m_Modifications:
-    - target: {fileID: 3783172376195406270, guid: 25cbb7cd007b1f141807d65eee830da8, type: 3}
-      propertyPath: m_Name
-      value: SM_Env_Monolith_01
-      objectReference: {fileID: 0}
-    - target: {fileID: 4596864154966606596, guid: 25cbb7cd007b1f141807d65eee830da8, type: 3}
-      propertyPath: m_RootOrder
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 4596864154966606596, guid: 25cbb7cd007b1f141807d65eee830da8, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.7725732
-      objectReference: {fileID: 0}
-    - target: {fileID: 4596864154966606596, guid: 25cbb7cd007b1f141807d65eee830da8, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.7725732
-      objectReference: {fileID: 0}
-    - target: {fileID: 4596864154966606596, guid: 25cbb7cd007b1f141807d65eee830da8, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.7725732
-      objectReference: {fileID: 0}
-    - target: {fileID: 4596864154966606596, guid: 25cbb7cd007b1f141807d65eee830da8, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 28.539
-      objectReference: {fileID: 0}
-    - target: {fileID: 4596864154966606596, guid: 25cbb7cd007b1f141807d65eee830da8, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4596864154966606596, guid: 25cbb7cd007b1f141807d65eee830da8, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 101.81022
-      objectReference: {fileID: 0}
-    - target: {fileID: 4596864154966606596, guid: 25cbb7cd007b1f141807d65eee830da8, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4596864154966606596, guid: 25cbb7cd007b1f141807d65eee830da8, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4596864154966606596, guid: 25cbb7cd007b1f141807d65eee830da8, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4596864154966606596, guid: 25cbb7cd007b1f141807d65eee830da8, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4596864154966606596, guid: 25cbb7cd007b1f141807d65eee830da8, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4596864154966606596, guid: 25cbb7cd007b1f141807d65eee830da8, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4596864154966606596, guid: 25cbb7cd007b1f141807d65eee830da8, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 25cbb7cd007b1f141807d65eee830da8, type: 3}
---- !u!4 &526790609 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4596864154966606596, guid: 25cbb7cd007b1f141807d65eee830da8, type: 3}
-  m_PrefabInstance: {fileID: 526790608}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &528702620
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20395,7 +20321,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5947873048596732306, guid: c5dc2cb2eda0d7946b9c6754360d61ed, type: 3}
       propertyPath: m_RootOrder
-      value: 12
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 5947873048596732306, guid: c5dc2cb2eda0d7946b9c6754360d61ed, type: 3}
       propertyPath: m_LocalScale.x
@@ -20915,72 +20841,6 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 1859377504824037428, guid: 4ca2886ca8c874344a6e08aafdf4d9de, type: 3}
   m_PrefabInstance: {fileID: 770425468}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &770552183
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 1957150558}
-    m_Modifications:
-    - target: {fileID: 4859814413129037243, guid: 427231e9fa77a304abff2247a73abebb, type: 3}
-      propertyPath: m_Name
-      value: SM_Bld_Ruins_Column_03
-      objectReference: {fileID: 0}
-    - target: {fileID: 5204568910012182273, guid: 427231e9fa77a304abff2247a73abebb, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5204568910012182273, guid: 427231e9fa77a304abff2247a73abebb, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5204568910012182273, guid: 427231e9fa77a304abff2247a73abebb, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 25.952822
-      objectReference: {fileID: 0}
-    - target: {fileID: 5204568910012182273, guid: 427231e9fa77a304abff2247a73abebb, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5204568910012182273, guid: 427231e9fa77a304abff2247a73abebb, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 100.82411
-      objectReference: {fileID: 0}
-    - target: {fileID: 5204568910012182273, guid: 427231e9fa77a304abff2247a73abebb, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.9977453
-      objectReference: {fileID: 0}
-    - target: {fileID: 5204568910012182273, guid: 427231e9fa77a304abff2247a73abebb, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0.027430963
-      objectReference: {fileID: 0}
-    - target: {fileID: 5204568910012182273, guid: 427231e9fa77a304abff2247a73abebb, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.0573506
-      objectReference: {fileID: 0}
-    - target: {fileID: 5204568910012182273, guid: 427231e9fa77a304abff2247a73abebb, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0.0215134
-      objectReference: {fileID: 0}
-    - target: {fileID: 5204568910012182273, guid: 427231e9fa77a304abff2247a73abebb, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5204568910012182273, guid: 427231e9fa77a304abff2247a73abebb, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5204568910012182273, guid: 427231e9fa77a304abff2247a73abebb, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 427231e9fa77a304abff2247a73abebb, type: 3}
---- !u!4 &770552184 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5204568910012182273, guid: 427231e9fa77a304abff2247a73abebb, type: 3}
-  m_PrefabInstance: {fileID: 770552183}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &770773073
 PrefabInstance:
@@ -29884,7 +29744,8 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: a27ca10a46839774c874f9bbf03abe4b, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -73270,10 +73131,10 @@ MonoBehaviour:
       Data: 7228|Jemkont.GridSystem.CellData[,], Assembly-CSharp
     - Name: 
       Entry: 12
-      Data: 48
+      Data: 225
     - Name: ranks
       Entry: 1
-      Data: 6|8
+      Data: 15|15
     - Name: 
       Entry: 7
       Data: 7229|Jemkont.GridSystem.CellData, Assembly-CSharp
@@ -73563,6 +73424,1068 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: 
+      Entry: 7
+      Data: 7277|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7278|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7279|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7280|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7281|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7282|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7283|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7284|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7285|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7286|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7287|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7288|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7289|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7290|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7291|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7292|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7293|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7294|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7295|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7296|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7297|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7298|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7299|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7300|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7301|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7302|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7303|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7304|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7305|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7306|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7307|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7308|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7309|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7310|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7311|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7312|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7313|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7314|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7315|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7316|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7317|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7318|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7319|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7320|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7321|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7322|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7323|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7324|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7325|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7326|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7327|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7328|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7329|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7330|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7331|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7332|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7333|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7334|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7335|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7336|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7337|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7338|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7339|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7340|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7341|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7342|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7343|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7344|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7345|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7346|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7347|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7348|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7349|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7350|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7351|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7352|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7353|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7354|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7355|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7356|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7357|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7358|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7359|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7360|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7361|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7362|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7363|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7364|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7365|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7366|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7367|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7368|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7369|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7370|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7371|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7372|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7373|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7374|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7375|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7376|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7377|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7378|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7379|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7380|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7381|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7382|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7383|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7384|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7385|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7386|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7387|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7388|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7389|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7390|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7391|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7392|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7393|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7394|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7395|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7396|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7397|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7398|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7399|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7400|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7401|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7402|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7403|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7404|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7405|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7406|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7407|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7408|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7409|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7410|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7411|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7412|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7413|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7414|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7415|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7416|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7417|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7418|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7419|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7420|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7421|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7422|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7423|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7424|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7425|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7426|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7427|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7428|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7429|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7430|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7431|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7432|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7433|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7434|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7435|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7436|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7437|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7438|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7439|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7440|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7441|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7442|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7443|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7444|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7445|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7446|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7447|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7448|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7449|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7450|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7451|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7452|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7453|Jemkont.GridSystem.CellData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
       Entry: 13
       Data: 
     - Name: 
@@ -73570,18 +74493,153 @@ MonoBehaviour:
       Data: 
     - Name: EntitySpawns
       Entry: 7
-      Data: 7277|System.Collections.Generic.Dictionary`2[[Jemkont.Managers.GridPosition,
+      Data: 7454|System.Collections.Generic.Dictionary`2[[Jemkont.Managers.GridPosition,
         Assembly-CSharp],[EntitySpawn, Assembly-CSharp]], mscorlib
     - Name: comparer
       Entry: 7
-      Data: 7278|System.Collections.Generic.ObjectEqualityComparer`1[[Jemkont.Managers.GridPosition,
+      Data: 7455|System.Collections.Generic.ObjectEqualityComparer`1[[Jemkont.Managers.GridPosition,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 8
       Data: 
     - Name: 
       Entry: 12
+      Data: 9
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 7
+      Data: Jemkont.Managers.GridPosition, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: $v
+      Entry: 10
       Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 7
+      Data: Jemkont.Managers.GridPosition, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: $v
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 7
+      Data: Jemkont.Managers.GridPosition, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: $v
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 7
+      Data: Jemkont.Managers.GridPosition, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: $v
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 7
+      Data: Jemkont.Managers.GridPosition, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: $v
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 7
+      Data: Jemkont.Managers.GridPosition, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: $v
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 7
+      Data: Jemkont.Managers.GridPosition, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: $v
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 7
+      Data: Jemkont.Managers.GridPosition, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: $v
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 7
+      Data: Jemkont.Managers.GridPosition, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: $v
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -73590,16 +74648,16 @@ MonoBehaviour:
       Data: 
     - Name: GridHeight
       Entry: 3
-      Data: 6
+      Data: 15
     - Name: GridWidth
       Entry: 3
-      Data: 8
+      Data: 15
     - Name: Longitude
       Entry: 3
-      Data: 3
+      Data: 45
     - Name: Latitude
       Entry: 3
-      Data: 6
+      Data: 27
     - Name: 
       Entry: 8
       Data: 
@@ -73611,11 +74669,11 @@ MonoBehaviour:
       Data: 
     - Name: EntitySpawns
       Entry: 7
-      Data: 7279|System.Collections.Generic.Dictionary`2[[Jemkont.Managers.GridPosition,
+      Data: 7456|System.Collections.Generic.Dictionary`2[[Jemkont.Managers.GridPosition,
         Assembly-CSharp],[EntitySpawn, Assembly-CSharp]], mscorlib
     - Name: comparer
       Entry: 9
-      Data: 7278
+      Data: 7455
     - Name: 
       Entry: 12
       Data: 0
@@ -74864,7 +75922,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 575725094388030929, guid: 49c1bc25c0f99f6449c9b06424b2fa75, type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 575725094388030929, guid: 49c1bc25c0f99f6449c9b06424b2fa75, type: 3}
       propertyPath: m_LocalPosition.x
@@ -76827,7 +77885,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1263473210}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 784.08954, y: -1489.0742, z: -2071.5315}
+  m_LocalPosition: {x: 784.08954, y: -1489.0742, z: -2073.1316}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -77732,7 +78790,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1312356864}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2088.21, y: -1427.3032, z: 2663.3}
+  m_LocalPosition: {x: 2088.21, y: -1427.3032, z: 2661.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -91654,7 +92712,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1885105243}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2088.21, y: -1427.3032, z: 2663.3}
+  m_LocalPosition: {x: 2088.21, y: -1427.3032, z: 2661.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -93626,7 +94684,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 770552184}
   - {fileID: 1064804524}
   - {fileID: 1460036939}
   - {fileID: 618142341}
@@ -93635,7 +94692,6 @@ Transform:
   - {fileID: 962158228}
   - {fileID: 1348806577}
   - {fileID: 514494153}
-  - {fileID: 526790609}
   - {fileID: 1185283610}
   - {fileID: 47815431}
   - {fileID: 745907980}
@@ -97095,7 +98151,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2097099760}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2088.21, y: -1427.3032, z: 2663.3}
+  m_LocalPosition: {x: 2088.21, y: -1427.3032, z: 2661.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

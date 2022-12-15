@@ -1,18 +1,14 @@
-using Jemkont.Managers;
+using DownBelow.Managers;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using UnityEngine;
 using Sirenix.OdinInspector;
-using Jemkont.Entity;
+using DownBelow.Entity;
 
-namespace Jemkont.GridSystem
+namespace DownBelow.GridSystem
 {
     public class Cell : MonoBehaviour
     {
-        #region Appearance
-        public MeshRenderer SelfPlane;
-        #endregion
-
         public BoxCollider Collider;
 
         public WorldGrid RefGrid;
@@ -27,6 +23,7 @@ namespace Jemkont.GridSystem
 
         public Cell parent;
         public CharacterEntity EntityIn;
+        public Interactable AttachedInteract;
 
         public GridPosition PositionInGrid => new GridPosition(this.Datas.widthPos, this.Datas.heightPos);
         public Vector3 WorldPosition => this.gameObject.transform.position;
@@ -45,17 +42,12 @@ namespace Jemkont.GridSystem
 
             float cellsWidth = SettingsManager.Instance.GridsPreset.CellsSize;
 
-            // Scale the plane according to preset's width
-            this.SelfPlane.gameObject.transform.localScale = new Vector3(cellsWidth / 10f - cellsWidth / 150f, 0.1f, cellsWidth / 10f - cellsWidth / 150f);
-
             this.Collider.size = new Vector3(cellsWidth, cellsWidth / 6f, cellsWidth);
-
-            this.ChangeStateColor(Color.grey);
         }
 
-        public void AttachInteractable(InteractablePreset linkedObject)
+        public void AttachInteractable(Interactable linkedObject)
         {
-            Instantiate(linkedObject.ObjectPrefab, this.WorldPosition, Quaternion.identity, this.transform);
+            this.AttachedInteract = linkedObject;
         }
 
         public void ChangeCellState(CellState newState, bool force = false)
@@ -63,26 +55,6 @@ namespace Jemkont.GridSystem
             if (!force && this.Datas.state == newState)
                 return;
             this.Datas.state = newState;
-
-            Color stateColor;
-            switch (newState)
-            {
-                case CellState.Blocked: stateColor = Color.red; break;
-                case CellState.EntityIn: stateColor = Color.blue; break;
-
-                case CellState.Walkable:
-                default: stateColor = Color.grey; break;
-            }
-
-            this.ChangeStateColor(stateColor);
-        }
-
-        public void ChangeStateColor(Color color)
-        {
-            if (Application.isPlaying)
-                this.SelfPlane.material.color = color;
-            else
-                this.SelfPlane.sharedMaterial.color = color;
         }
         
         public void RefreshCell()

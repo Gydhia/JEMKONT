@@ -1,12 +1,12 @@
-using Jemkont.Entity;
-using Jemkont.Events;
+using DownBelow.Entity;
+using DownBelow.Events;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Jemkont.Spells
+namespace DownBelow.Spells
 {
     public abstract class SpellAction : MonoBehaviour
     {
@@ -14,10 +14,14 @@ namespace Jemkont.Spells
      
         public event SpellEventData.Event OnDamageDealt;
         public event SpellEventData.Event OnHealReceived;
-        public event SpellEventData.Event OnBuffGiven;
+        public event SpellEventData.Event OnHealGiven;
+        public event SpellEventData.Event OnAlterationGiven;
         public event SpellEventData.Event OnShieldRemoved;
         public event SpellEventData.Event OnShieldAdded;
-
+        /// <summary>
+        /// Called whenever a spell modifies a stat. All info in data.
+        /// </summary>
+        public event SpellEventData.Event OnStatModified;
         [HideInInspector]
         public bool HasEnded;
 
@@ -29,9 +33,49 @@ namespace Jemkont.Spells
             this._spellRef = spellRef;
             this._targets = targets;
             this.HasEnded = false;
-
             this.Result = new SpellResult();
-            this.Result.Init(this._targets, this._spellRef.Caster);
+            this.Result.Init(this._targets, this._spellRef.Caster,this);
+
+            spellRef.Caster.SubToSpell(this);
+        }
+        public void FireOnDamageDealt(SpellEventData data) {
+            OnDamageDealt?.Invoke(data);
+        }
+        public void FireOnHealReceived(SpellEventData data) {
+            OnHealReceived?.Invoke(data);
+        }
+        public void FireOnHealGiven(SpellEventData data) {
+            OnHealGiven?.Invoke(data);
+        }
+        public void FireOnAlterationGiven(SpellEventData data) {
+            OnAlterationGiven?.Invoke(data);
+        }
+        public void FireOnShieldRemoved(SpellEventData data) {
+            OnShieldRemoved?.Invoke(data);
+        }
+        public void FireOnShieldAdded(SpellEventData data) {
+            OnShieldAdded?.Invoke(data);
+        }
+        public void FireOnStatModified(SpellEventData data) {
+            switch (data.Stat) {
+                case EntityStatistics.Health:
+                    if(data.Value >= 0) {
+                        OnDamageDealt?.Invoke(data);
+                    } else {
+                        OnHealGiven?.Invoke(data);
+                    }
+                    break;
+                case EntityStatistics.Shield:
+                    if(data.Value >= 0) {
+                        OnShieldAdded?.Invoke(data);
+                    } else {
+                        OnShieldRemoved?.Invoke(data);
+                    }
+                    break;
+                default:
+                    OnStatModified?.Invoke(data);
+                    break;
+            }
         }
     }
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DownBelow.Inventory;
-using Jemkont.Managers;
+using DownBelow.Managers;
 using Sirenix.OdinInspector;
 using System;
 
@@ -15,16 +15,15 @@ namespace DownBelow
         public Guid UID;
 
         //Properties
-        public ItemTypes Type => type;
-        public string ItemName => itemName; 
-        public Sprite InventoryIcon => inventoryIcon;
-        public Outline ItemPrefab => itemPrefab;
+        public ItemTypes Type;
+        [OnValueChanged("_updateUID")]
+        public string ItemName; 
+        public Sprite InventoryIcon;
+        public Outline ItemPrefab;
+
+        public int MaxStack = 1;
 
         //Fields
-        [SerializeField] private ItemTypes type;
-        [OnValueChanged("_updateUID")][SerializeField] private string itemName;
-        [SerializeField] private Sprite inventoryIcon;
-        [SerializeField] private Outline itemPrefab;
 
         private void _updateUID()
         {

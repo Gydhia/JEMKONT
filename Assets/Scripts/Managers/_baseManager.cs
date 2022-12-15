@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Jemkont.Managers
+namespace DownBelow.Managers
 {
     public abstract class _baseManager : MonoBehaviour
     {

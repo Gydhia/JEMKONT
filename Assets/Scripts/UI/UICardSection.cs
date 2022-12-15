@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Jemkont.Mechanics;
-namespace Jemkont.UI
+DownBelow.Mechanics;
+
+namespace DownBelow.UI
 {
     public class UICardSection : MonoBehaviour
     {

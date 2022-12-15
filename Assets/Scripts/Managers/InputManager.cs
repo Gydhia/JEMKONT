@@ -1,22 +1,32 @@
-using Jemkont.Events;
-using Jemkont.GridSystem;
+using DownBelow.Events;
+using DownBelow.GridSystem;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Jemkont.Managers
+namespace DownBelow.Managers
 {
     public class InputManager : _baseManager<InputManager>
     {
-        public event PositionEventData.Event OnCellClicked;
+        #region EVENTS
+        public event PositionEventData.Event OnCellClickedUp;
+        public event PositionEventData.Event OnCellClickedDown;
 
-        public void FireCellClicked(GridPosition position)
+        public void FireCellClickedUp(GridPosition position)
         {
-            this.OnCellClicked?.Invoke(new PositionEventData(position));
+            this.OnCellClickedUp?.Invoke(new PositionEventData(position));
         }
+        public void FireCellClickedDown(GridPosition position) {
+            this.OnCellClickedDown?.Invoke(new PositionEventData(position));
+        }
+
+        #endregion
+
+        public Interactable LastInteractable;
 
         private void Update()
         {
+            #region CELLS_RAYCAST
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             // layer 7 = Cell
@@ -26,21 +36,44 @@ namespace Jemkont.Managers
                 {
                     // Avoid executing this code when it has already been done
                     if (cell != GridManager.Instance.LastHoveredCell)
-                    {
                         GridManager.Instance.OnNewCellHovered(GameManager.Instance.SelfPlayer, cell);
-                    }
                 }
             }
             else
             {
                 GridManager.Instance.LastHoveredCell = null;
             }
-
+            #endregion
+            #region INTERACTABLEs_RAYCAST
+            // layer 8 = Interactable
+            if(Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 8))
+            {
+                if (hit.collider != null && hit.collider.TryGetComponent(out Interactable interactable))
+                {
+                    if(interactable != this.LastInteractable)
+                    {
+                        if (LastInteractable != null)
+                            this.LastInteractable.OnUnfocused();
+                        this.LastInteractable = interactable;
+                        this.LastInteractable.OnFocused();
+                    }
+                }
+            }
+            else if (this.LastInteractable != null)
+            {
+                this.LastInteractable.OnUnfocused();
+                this.LastInteractable = null;   
+            }
+                #endregion
             // Teleport player to location
             if (Input.GetMouseButtonUp(0))
             {
                 if(GridManager.Instance.LastHoveredCell != null)
-                    this.FireCellClicked(GridManager.Instance.LastHoveredCell.PositionInGrid);
+                    this.FireCellClickedUp(GridManager.Instance.LastHoveredCell.PositionInGrid);
+            }
+            if (Input.GetMouseButtonDown(0)) {
+                if (GridManager.Instance.LastHoveredCell != null)
+                    this.FireCellClickedDown(GridManager.Instance.LastHoveredCell.PositionInGrid);
             }
 
             // UTILITY : To mark a cell as non-walkable

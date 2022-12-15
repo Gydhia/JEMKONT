@@ -1,5 +1,5 @@
-using Jemkont.GridSystem;
-using Jemkont.Managers;
+using DownBelow.GridSystem;
+using DownBelow.Managers;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ public class SubgridPlaceholder
     [HideInInspector]
     public CellData[,] CellDatas;
 
-    public Dictionary<GridPosition, EntitySpawn> EntitySpawns;
+    public Dictionary<GridPosition, BaseSpawnablePreset> Spawnables;
 
     public int GridHeight;
     public int GridWidth;

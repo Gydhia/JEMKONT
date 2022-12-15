@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Jemkont.GridSystem
+namespace DownBelow.GridSystem
 {
     public class CombatGrid : WorldGrid
     {
@@ -11,5 +11,8 @@ namespace Jemkont.GridSystem
 
         public bool HasStarted = false;
         public WorldGrid ParentGrid = null;
+        public List<Cell> StraightPath() {
+            return new List<Cell>();
+        }
     }
 }

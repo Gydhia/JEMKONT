@@ -1,6 +1,6 @@
-using Jemkont.Entity;
-using Jemkont.Managers;
-using Jemkont.Spells;
+using DownBelow.Entity;
+using DownBelow.Managers;
+using DownBelow.Spells;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,8 +10,9 @@ public class SpellHookAndTear : SpellAction {
     public override void Execute(List<CharacterEntity> targets,Spell spellRef) {
         base.Execute(targets,spellRef);
         var damage = CombatManager.Instance.HandPile.Count * damageMultiplier;
+        if (spellRef.Caster.Critical) damage *= 2;
         foreach (var item in targets) {
-            item.ApplyHealth(-damage,false);
+            item.ApplyStat(EntityStatistics.Health,-damage,false);
         }
     }
 }

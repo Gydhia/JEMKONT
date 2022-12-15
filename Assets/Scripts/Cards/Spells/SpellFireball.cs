@@ -1,9 +1,9 @@
-using Jemkont.Entity;
+using DownBelow.Entity;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Jemkont.Spells
+namespace DownBelow.Spells
 {
     public class SpellFireball : SpellAction
     {
@@ -40,7 +40,7 @@ namespace Jemkont.Spells
                 timer += Time.deltaTime;
             }
 
-            target.ApplyHealth(-this.BaseDamages, false);
+            target.ApplyStat(EntityStatistics.Health,-this.BaseDamages, false);
             this.HasEnded = true;
         }
     }

@@ -9,11 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1167595748763631818}
+  - component: {fileID: 6944299834032497403}
+  - component: {fileID: 5733823520488915782}
   - component: {fileID: 7885561719087381244}
   - component: {fileID: 4491124507982218757}
   - component: {fileID: 3257815682923747617}
-  - component: {fileID: 5733823520488915782}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: P_PROP_treasurechest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36,6 +37,41 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6944299834032497403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2769568623919297241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a75ea2a545bcb74dbb2183846db583b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InteractableRef: {fileID: 0}
+  RefCell: {fileID: 0}
+  Renderer: {fileID: 5772996987205507454}
+  Outline: {fileID: 5733823520488915782}
+  Storage: {fileID: 0}
+--- !u!114 &5733823520488915782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2769568623919297241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!33 &7885561719087381244
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -99,26 +135,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.7461649, y: 0.3805974, z: 0.5286244}
-  m_Center: {x: -0.012106016, y: 0.18104497, z: -0.0248622}
---- !u!114 &5733823520488915782
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2769568623919297241}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  outlineMode: 0
-  outlineColor: {r: 1, g: 1, b: 1, a: 1}
-  outlineWidth: 2
-  precomputeOutline: 0
-  bakeKeys: []
-  bakeValues: []
+  m_Size: {x: 0.7461649, y: 0.6129809, z: 0.5286244}
+  m_Center: {x: -0.012106001, y: 0.2972367, z: -0.0248622}
 --- !u!1 &4332960560458902637
 GameObject:
   m_ObjectHideFlags: 0
@@ -130,8 +148,7 @@ GameObject:
   - component: {fileID: 3738033202442890871}
   - component: {fileID: 494720450598090768}
   - component: {fileID: 5772996987205507454}
-  - component: {fileID: 6991642929225631407}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_PROP_treasurechest_top
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -204,16 +221,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &6991642929225631407
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4332960560458902637}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.8165424, y: 0.31570616, z: 0.50765246}
-  m_Center: {x: -0.008713424, y: 0.13513045, z: -0.21857968}
