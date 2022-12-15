@@ -18,8 +18,6 @@ namespace DownBelow.UI
 
         [SerializeField] private Image _lifeFill;
 
-
-
         public void Init()
         {
             this.gameObject.SetActive(true);

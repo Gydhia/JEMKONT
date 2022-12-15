@@ -317,6 +317,9 @@ MonoBehaviour:
   CostText: {fileID: 2881650663093787906}
   TitleText: {fileID: 7592525668707456867}
   DescText: {fileID: 8266263323093915107}
+  _attackColor: {r: 0.8301887, g: 0.12534855, b: 0.07362046, a: 1}
+  _powerColor: {r: 0.18310784, g: 0.39029926, b: 0.764151, a: 1}
+  _skillColor: {r: 0.9433962, g: 0.78366566, b: 0, a: 1}
   isInPlacingMode: 0
   isHovered: 0
   isPressed: 0
