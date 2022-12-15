@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
+using Jemkont.Mechanics;
 namespace Jemkont.UI
 {
     public class UICardSection : MonoBehaviour
     {
+
+        [SerializeField] private RectTransform _cardsHolder;
+        [SerializeField] private GameObject _spellCardPrefab;
+
         public GameObject HandPile;
 
         public Image DrawPile;
@@ -26,6 +30,12 @@ namespace Jemkont.UI
         {
             this.CardsInDraw += number;
             this.DrawNumber.text = this.CardsInDraw.ToString();
+        }
+
+        public void AddNewCardInHand(ScriptableCard scriptableCard)
+        {
+            CardComponent card = Instantiate(_spellCardPrefab, _cardsHolder).GetComponent<CardComponent>();
+            card.Init(scriptableCard);
         }
     }
 

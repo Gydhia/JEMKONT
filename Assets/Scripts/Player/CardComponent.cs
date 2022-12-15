@@ -8,8 +8,10 @@ using UnityEngine.EventSystems;
 using Jemkont.GridSystem;
 using Jemkont.Managers;
 using Jemkont.Mechanics;
+using DG.Tweening;
 
 public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler {
+
 
     public ScriptableCard CardData;
     public Image IllustrationImage;
@@ -23,27 +25,38 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
     [ReadOnly] public bool isHovered;
     [ReadOnly] public bool isPressed;
     [ReadOnly] public bool isDragged;
+
     public float dragSensivity = 60f;
     public float transformDragSensitivity = 180f;
-
+    private RectTransform _thisRectTransform;
     private Vector2 originPosition;
     [ReadOnly]public Cell HoveredCell;
     private bool _hasScaledDown = false;
 
-    private void Start() 
+    HorizontalLayoutGroup _parent;
+
+
+    public void Init(ScriptableCard cardData)
     {
-        InitTexts();
-    }
-    public void InitTexts() {
+        CardData = cardData;
+
         this.ShineImage.enabled = false;
-        this.CostText.text = this.CardData.Cost.ToString();
-        this.TitleText.text = this.CardData.Title;
-        this.DescText.text = this.CardData.Description;
-        originPosition = transform.position;
+        this.CostText.text = CardData.Cost.ToString();
+        this.TitleText.text = CardData.Title;
+        this.DescText.text = CardData.Description;
+        _thisRectTransform = this.GetComponent<RectTransform>();
+        originPosition = _thisRectTransform.anchoredPosition;
+
+
     }
-    public void ApplyCost(int much) {
-        CardData.Cost += much;
-        InitTexts();
+
+    public void ApplyCost(int much) 
+    {
+
+        if (CardData)
+            CardData.Cost += much;
+        else
+            Debug.LogError("NO CARD SETUP");
     }
     public void Update() 
     {
@@ -139,7 +152,9 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
         } else {
             isPressed = false;
             isDragged = false;
-            transform.position = originPosition;
+            _thisRectTransform.DOAnchorPos(originPosition, 0f);
+            _parent.enabled = false;
+            _parent.enabled = true;
             ReAppear();
             InputManager.Instance.ChangeCursorAppearance(CursorAppearance.Idle);
             if (this._hasScaledDown)
@@ -148,6 +163,7 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
         }
     }
     private void Drag(Vector2 mousePos) {
+        
         Vector2 pos = transform.position;
         pos.x = Mathf.Lerp(pos.x,mousePos.x,0.1f);
         pos.y = Mathf.Lerp(pos.y,mousePos.y,0.1f);
