@@ -18,6 +18,7 @@ namespace DownBelow.Mechanics
         [OnValueChanged("_updateUID")]
         public string Title;
         public int Cost;
+        public CardType CardType;
         [TextArea] 
         public string Description;
         public Sprite IllustrationImage;
@@ -43,6 +44,17 @@ namespace DownBelow.Mechanics
 
         public bool IsTrackable() => this.Spells.Length > 0 && this.Spells[0].ApplyToCell;
     
+    }
+
+    public enum CardType
+    {
+        None = 0,
+        // Yellow
+        Skill = 1,
+        // Red
+        Attack = 2,
+        // Green or Blue
+        Power = 3
     }
 
     public class CardComparer : IComparer<ScriptableCard>

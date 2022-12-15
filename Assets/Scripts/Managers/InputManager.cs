@@ -9,10 +9,17 @@ namespace DownBelow.Managers
     public class InputManager : _baseManager<InputManager>
     {
         #region EVENTS
+        public event CellEventData.Event OnCellRightClick;
+
         public event CellEventData.Event OnCellClickedUp;
         public event CellEventData.Event OnCellClickedDown;
+
         public event CellEventData.Event OnNewCellHovered;
 
+        public void FireCellRightClick(Cell Cell)
+        {
+            this.OnCellRightClick?.Invoke(new CellEventData(Cell));
+        }
         public void FireCellClickedUp(Cell Cell)
         {
             this.OnCellClickedUp?.Invoke(new CellEventData(Cell));
@@ -73,6 +80,11 @@ namespace DownBelow.Managers
                 this.LastInteractable = null;   
             }
             #endregion
+            if (Input.GetMouseButtonUp(1))
+            {
+                if (GridManager.Instance.LastHoveredCell != null)
+                    this.FireCellRightClick(GridManager.Instance.LastHoveredCell);
+            }
             if (Input.GetMouseButtonUp(0))
             {
                 if(GridManager.Instance.LastHoveredCell != null)
