@@ -1,6 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scenes/UI/Nino_Lobby.unity.meta
+guid: cbe8bf7694f602c46ae81a8b3c5a9f8e
+========
 guid: dc998e881a3e03943bb2eb851963cbdb
 folderAsset: yes
+>>>>>>>> origin/JT-25_Combat_turn_system:Assets/PolygonNatureBiomes.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

@@ -1,6 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Plugins/GUI Kit The Stone/AI/Function_Icon.ai.meta
+guid: 7881eb17cde7c2b41ab9f54cbdaa747a
+========
 guid: 9f7604944cd3d544391b9c99638d7a10
 folderAsset: yes
+>>>>>>>> origin/JT-25_Combat_turn_system:Assets/Resources/Shader.meta
 DefaultImporter:
   externalObjects: {}
   userData: 
