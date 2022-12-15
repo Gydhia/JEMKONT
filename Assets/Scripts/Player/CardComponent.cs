@@ -64,18 +64,21 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
     public void Update()
     {
         Vector2 mousePos = Input.mousePosition;
-        if (isDragged) {
+        if (isDragged)
+        {
             this.Drag(mousePos);
         }
-        if (isPressed) {
+        if (isPressed) 
+        {
             //Check with sensivity:
             var min = this.MinimumDragPosition();
             var minTransform = this.MinimumDragTransformPosition();
-            if (min.x <= mousePos.x || min.y <= mousePos.y) {
+            if (min.x <= mousePos.x || min.y <= mousePos.y) 
+            {
                 this.isDragged = true;
 
                 if (!this._hasScaledDown && (minTransform.x < mousePos.x || min.y <= mousePos.y)) 
-                {
+                {   
                     CombatManager.Instance.FireCardBeginDrag(this.CardData);
                     StartCoroutine(ScaleDown(0.25f));
                 }
@@ -163,12 +166,11 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
     public void OnPointerUp(PointerEventData eventData) 
     {
         if (isInPlacingMode && GridManager.Instance.LastHoveredCell != null) {
-            //Needs to check if you can cast the spell on this cell too. If you can:
-            CastSpell(GridManager.Instance.LastHoveredCell);
+            
         } else {
             isPressed = false;
             isDragged = false;
-           
+            this.GoBackToHand();
             //Card is going to be reset anyways.
         }
     }

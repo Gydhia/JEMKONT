@@ -72,6 +72,7 @@ namespace DownBelow.Managers {
 
             this.OnCardBeginDrag += _cardDrag;
             InputManager.Instance.OnCellClickedUp += _cardEndDrag;
+            InputManager.Instance.OnCellRightClick += _processCellClickUp;
         }
 
         public void ExecuteSpells(Cell target, ScriptableCard spell) 
@@ -222,9 +223,13 @@ namespace DownBelow.Managers {
             this.CurrentCard = null;
         }
         
-        private void _processCellClickUp()
+        private void _processCellClickUp(CellEventData Data)
         {
-
+            // If we right click while dragging a card, cancel
+            if(this.CurrentCard != null)
+            {
+                this._cardEndDrag(Data);
+            }
         }
 
         public void DiscardCard(CardComponent card) 

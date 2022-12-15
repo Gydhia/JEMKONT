@@ -47,6 +47,7 @@ namespace DownBelow.Managers
             CombatManager.Instance.OnCardBeginDrag += this._beginCardDrag;
             CombatManager.Instance.OnCardEndDrag += this._endCardDrag;
 
+            InputManager.Instance.OnCellRightClick += this.UpdateEntityToolTip;
         }
 
         public void StartGather(GatheringEventData Data)
@@ -65,7 +66,12 @@ namespace DownBelow.Managers
 
         public void UpdateEntityToolTip(CellEventData Data)
         {
-            EntityTooltipUI.Init(Data.Cell.EntityIn);
+            if (Data.Cell.EntityIn == null)
+                return;
+            // TODO: Make sure the entity notice well the cell they're in while entering a grid
+                
+            this.EntityTooltipUI.Init(Data.Cell.EntityIn);
+            this.EntityTooltipUI.gameObject.SetActive(!this.EntityTooltipUI.isActiveAndEnabled);
             //UPDATES TOOLTIP UI
         }
 
