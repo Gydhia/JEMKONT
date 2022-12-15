@@ -384,6 +384,7 @@ GridPos : {EntityCell}";
         }
         public void AddAlteration(EAlterationType type,int duration,int value) {
             OnAlterationReceived?.Invoke(new SpellEventDataAlteration(this,duration,type));
+            Debug.Log($"Alteration: {type} to {this.name}");
             Alteration alteration;
             alteration = type switch {
                 EAlterationType.Stun => new StunAlteration(duration),

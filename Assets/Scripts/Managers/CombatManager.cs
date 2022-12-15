@@ -41,6 +41,7 @@ namespace DownBelow.Managers {
         }
         public void ExecuteSpells(Cell target,ScriptableCard spell) {
             this._currentSpells = spell.Spells;
+            Debug.Log("EXECUTED SPELL!!!");
             StartCoroutine(this._waitForSpell(target));
         }
         public void WelcomePlayerInCombat(EntityEventData Data) {
