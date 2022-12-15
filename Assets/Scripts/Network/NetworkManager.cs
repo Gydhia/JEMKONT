@@ -180,8 +180,8 @@ namespace DownBelow.Managers {
                 }
             }
         }
-        public void CastSpell(ScriptableCard spellToCast) {
-            this.photonView.RPC("RPC_CastSpell",RpcTarget.All,spellToCast.name);
+        public void CastSpell(ScriptableCard spellToCast, Cell cell) {
+            this.photonView.RPC("RPC_CastSpell",RpcTarget.All,spellToCast.name,cell.PositionInGrid.longitude,cell.PositionInGrid.latitude);
         }
         [PunRPC]
         public void RPC_CastSpell(string spellName, int longitude, int latittude) {

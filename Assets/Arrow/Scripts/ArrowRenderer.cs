@@ -15,6 +15,8 @@ public class ArrowRenderer : MonoBehaviour
     [SerializeField] Vector3 end;
     [SerializeField] Vector3 upwards = Vector3.up;
 
+    public Vector3 StartPos { get { return start; } set { } }
+    public Vector3 EndPos { get { return end; } set { } }
     Transform arrow;
 
     readonly List<Transform> segments = new List<Transform>();

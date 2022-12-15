@@ -57081,6 +57081,14 @@ PrefabInstance:
       value: Managers
       objectReference: {fileID: 0}
     - target: {fileID: 7964413336302880731, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: FirstSpawn.x
+      value: 36
+      objectReference: {fileID: 0}
+    - target: {fileID: 7964413336302880731, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: FirstSpawn.y
+      value: 43
+      objectReference: {fileID: 0}
+    - target: {fileID: 7964413336302880731, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
       propertyPath: _objectsHandler
       value: 
       objectReference: {fileID: 1171847043}

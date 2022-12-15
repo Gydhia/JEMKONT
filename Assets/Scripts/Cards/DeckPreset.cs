@@ -6,4 +6,7 @@ public class DeckPreset : ScriptableObject
 {
     public Deck Deck;
     public EClass Class;
+    public Deck Copy() {
+        return new Deck(Deck);
+    }
 }

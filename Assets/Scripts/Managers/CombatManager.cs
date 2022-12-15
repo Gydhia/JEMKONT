@@ -15,6 +15,7 @@ namespace DownBelow.Managers {
         public event GridEventData.Event OnCombatStarted;
         public bool BattleGoing;
         private Spell[] _currentSpells;
+
         public void FireCombatStarted(WorldGrid Grid) {
             this.OnCombatStarted?.Invoke(new GridEventData(Grid));
         }
@@ -41,7 +42,6 @@ namespace DownBelow.Managers {
         }
         public void ExecuteSpells(Cell target,ScriptableCard spell) {
             this._currentSpells = spell.Spells;
-            Debug.Log("EXECUTED SPELL!!!");
             StartCoroutine(this._waitForSpell(target));
         }
         public void WelcomePlayerInCombat(EntityEventData Data) {
@@ -125,15 +125,14 @@ namespace DownBelow.Managers {
 
                 if (canExecute) {
                     this._currentSpells[i].CurrentAction = Instantiate(this._currentSpells[i].ActionData,Vector3.zero,Quaternion.identity,CombatManager.Instance.CurrentPlayingEntity.gameObject.transform);
-                    this._currentSpells[i].ExecuteSpell(CombatManager.Instance.CurrentPlayingEntity,target);
+                    this._currentSpells[i].ExecuteSpell(CurrentPlayingEntity,target);
                     while (!this._currentSpells[i].CurrentAction.HasEnded) {
                         yield return new WaitForSeconds(Time.deltaTime);
                     }
-                    CombatManager.Instance.CurrentPlayingEntity.UnsubToSpell(this._currentSpells[i].ActionData);
+                    CurrentPlayingEntity.UnsubToSpell(this._currentSpells[i].ActionData);
                 }
             }
 
-            this.gameObject.SetActive(false);
         }
 
         private void _setupEnemyEntities() {

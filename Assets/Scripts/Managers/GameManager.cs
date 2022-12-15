@@ -86,7 +86,7 @@ namespace DownBelow.Managers
                 foreach (var player in PhotonNetwork.PlayerList)
                 {
                     PlayerBehavior newPlayer = Instantiate(this._playerPrefab, Vector3.zero, Quaternion.identity, this.transform);
-                    newPlayer.Deck = CardsManager.Instance.DeckPresets[^1].Deck;
+                    newPlayer.Deck = CardsManager.Instance.DeckPresets[^1].Copy();
                     //TO CHANGE WITH TOOL. FOR TESTING ONLY
                     GridPosition spawnPosition;
 

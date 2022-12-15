@@ -28,7 +28,6 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
     public float transformDragSensitivity = 180f;
 
     private Vector2 originPosition;
-    [ReadOnly] public Cell HoveredCell;
     private bool _hasScaledDown = false;
 
     private void Start() {
@@ -54,6 +53,8 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
         Vector2 mousePos = Input.mousePosition;
         if (isDragged) {
             this.Drag(mousePos);
+            //Draw Arrow from us to GridManager.Instance.LastHoveredCell;
+            if (GridManager.Instance.LastHoveredCell != null) GridManager.Instance.DrawArrowFromTo(GameManager.Instance.SelfPlayer.EntityCell,GridManager.Instance.LastHoveredCell);
         }
         if (isPressed) {
             //Check with sensivity:
@@ -98,7 +99,7 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
     public void CastSpell(Cell cellToCastSpellOn) {
         // /!\ position might be off.
         StartCoroutine(this.GoToPile(0.28f,UIManager.Instance.CardSection.DiscardPile.transform.position));
-        this.ExecuteSpells(cellToCastSpellOn,this.CardData.Spells);
+        this.ExecuteSpells(cellToCastSpellOn);
     }
     #region pointerHandlers&Drag
     private Vector2 MinimumDragPosition() {
@@ -133,10 +134,11 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
         isHovered = false;
     }
     public void OnPointerUp(PointerEventData eventData) {
-
-        if (isInPlacingMode && HoveredCell != null) {
+        if (GridManager.Instance.IsDrawingArrow)
+            GridManager.Instance.StopDrawingArrow();
+        if (isInPlacingMode && GridManager.Instance.LastHoveredCell != null) {
             //Needs to check if you can cast the spell on this cell too. If you can:
-            CastSpell(HoveredCell);
+            CastSpell(GridManager.Instance.LastHoveredCell);
         } else {
             isPressed = false;
             isDragged = false;
@@ -213,9 +215,7 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
             timer += Time.deltaTime;
             yield return new WaitForSeconds(Time.deltaTime);
         }
-
         this._hasScaledDown = false;
-
     }
     #endregion
 
@@ -224,10 +224,8 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
 
     private Coroutine _spellCor = null;
 
-    internal void ExecuteSpells(Cell target,DownBelow.Spells.Spell[] spells) {
-        this._currentSpells = spells;
-        //StartCoroutine(this._waitForSpell(target));
-
+    internal void ExecuteSpells(Cell target) {
+        NetworkManager.Instance.CastSpell(CardData,target);
     }
     #endregion
 }
