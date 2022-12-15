@@ -63,7 +63,7 @@ namespace DownBelow.Managers
             this._gatheringCor = StartCoroutine(this._gather(resource));
         }
 
-        public void UpdateEntityToolTip(PositionEventData Data)
+        public void UpdateEntityToolTip(CellEventData Data)
         {
             EntityTooltipUI.Init(Data.Cell.EntityIn);
             //UPDATES TOOLTIP UI

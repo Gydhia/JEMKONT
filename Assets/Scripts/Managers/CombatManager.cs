@@ -230,6 +230,7 @@ namespace DownBelow.Managers {
         public void DiscardCard(CardComponent card) 
         {
             UIManager.Instance.CardSection.AddDiscardCard(1);
+
             this.HandPile.Remove(card);
             this.DiscardPile.Add(card);
         }
@@ -239,12 +240,12 @@ namespace DownBelow.Managers {
             if (this.DrawPile.Count > 0) 
             {
                 this.HandPile.Add(Instantiate(CardPrefab,UIManager.Instance.CardSection.DrawPile.transform).GetComponent<CardComponent>());
-                this.HandPile[^1].CardData = DrawPile.DrawCard();
+                this.HandPile[^1].Init(DrawPile.DrawCard());
                 
                 await this.HandPile[^1].DrawCardFromPile();
 
                 if (HandPile.Count > 7) {
-                    await this.HandPile[^1].Burn();
+                    this.HandPile[^1].Burn();
                     this.HandPile.Remove(this.HandPile[^1]);
                 }
             }

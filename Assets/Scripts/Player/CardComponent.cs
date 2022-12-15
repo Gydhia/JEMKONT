@@ -11,9 +11,8 @@ using DownBelow.Mechanics;
 using System.Threading.Tasks;
 using DG.Tweening;
 
-public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler {
-
-
+public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler 
+{
     public ScriptableCard CardData;
     public Image IllustrationImage;
     public Image ShineImage;
@@ -29,23 +28,24 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
 
     public float dragSensivity = 60f;
     public float transformDragSensitivity = 180f;
+
     private RectTransform _thisRectTransform;
     private bool _hasScaledDown = false;
-    private Vector2 originPosition;
+    private Vector2 _originPosition;
 
     HorizontalLayoutGroup _parent;
 
     public void Init(ScriptableCard cardData)
     {
-        CardData = cardData;
+        this.CardData = cardData;
 
         this.ShineImage.enabled = false;
         this.CostText.text = CardData.Cost.ToString();
         this.TitleText.text = CardData.Title;
         this.DescText.text = CardData.Description;
         this.IllustrationImage.sprite = CardData.IllustrationImage;
-        _thisRectTransform = this.GetComponent<RectTransform>();
-        originPosition = _thisRectTransform.anchoredPosition;
+        this._thisRectTransform = this.GetComponent<RectTransform>();
+        this._originPosition = _thisRectTransform.anchoredPosition;
        // _parent = this.GetComponentInParent<HorizontalLayoutGroup>();
     }
 
@@ -57,11 +57,9 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
         else
             Debug.LogError("NO CARD SETUP");
     }
-    public async Task Burn() 
+    public void Burn() 
     {
-        await new WaitForSeconds(.3f);
-        //TODO BURN ANIMATION
-        Destroy(gameObject);
+        Destroy(this.gameObject);
     }
     public void Update()
     {
@@ -190,7 +188,7 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
     }
     public void GoBackToHand()
     {
-        _thisRectTransform.DOAnchorPos(originPosition, 0f);
+        _thisRectTransform.DOAnchorPos(_originPosition, 0f);
         RefreshLayoutGroup();
         ReAppear();
         InputManager.Instance.ChangeCursorAppearance(CursorAppearance.Idle);
