@@ -13,7 +13,6 @@ using DownBelow.Events;
 using UnityEngine.Rendering;
 using EODE.Wonderland;
 using MyBox;
-using DownBelow.Events;
 
 namespace DownBelow.Managers {
     public class GridManager : _baseManager<GridManager> 
@@ -59,6 +58,23 @@ namespace DownBelow.Managers {
 
         public Cell LastHoveredCell;
 
+        public GameObject SpellArrowIndicatorPrefab;
+        public bool IsDrawingArrow;
+        private ArrowRenderer SpellArrowIndicatorInstance;
+        public void DrawArrowFromTo(Cell from, Cell to) {
+            if (SpellArrowIndicatorInstance == null) 
+                SpellArrowIndicatorInstance = Instantiate(SpellArrowIndicatorPrefab).GetComponent<ArrowRenderer>();
+            else if(SpellArrowIndicatorInstance.StartPos != from.WorldPosition || SpellArrowIndicatorInstance.EndPos != to.WorldPosition) {
+                SpellArrowIndicatorInstance.SetPositions(from.WorldPosition,to.WorldPosition);
+            }
+            IsDrawingArrow= true;
+        }
+        public void StopDrawingArrow() {
+            if (IsDrawingArrow) {
+                IsDrawingArrow = false;
+                Destroy(SpellArrowIndicatorInstance.gameObject);
+            }
+        }
         public void Init() 
         {
             base.Awake();

@@ -44,6 +44,8 @@ namespace DownBelow.Entity {
                     AutoAttack(cachedAllyToAttack.EntityCell);
                 }
             }
+
+            CombatManager.Instance.ProcessEndTurn(this.UID);
             //TODO: ENEMY SPELL?
         }
         /// <summary>

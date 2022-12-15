@@ -17,5 +17,14 @@ public class Deck
         Cards.RemoveAt(0);
         return res;
     }
+    public Deck Copy() {
+        return new Deck(Cards);
+    }
+    public Deck(List<ScriptableCard> cards) {
+        Cards = cards;
+    }
+    public Deck(Deck other) {
+        Cards = other.Cards;
+    }
 }
 

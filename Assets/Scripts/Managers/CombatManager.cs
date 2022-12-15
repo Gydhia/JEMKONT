@@ -57,10 +57,9 @@ namespace DownBelow.Managers {
             GameManager.Instance.OnEnteredGrid += this.WelcomePlayerInCombat;
         }
 
-        public void ExecuteSpells(Cell target,ScriptableCard spell) 
+        public void ExecuteSpells(Cell target, ScriptableCard spell) 
         {
             this._currentSpells = spell.Spells;
-            Debug.Log("EXECUTED SPELL!!!");
             StartCoroutine(this._waitForSpell(target));
         }
 
@@ -102,7 +101,7 @@ namespace DownBelow.Managers {
             this.CurrentPlayingEntity = this.PlayingEntities[this.TurnNumber % this.PlayingEntities.Count];
             this.FireTurnStarted(this.CurrentPlayingEntity);
 
-            for (int i = 0;i < 3;i++) 
+            for (int i = 0;i < SettingsManager.Instance.CombatPreset.CardsToDraw; i++) 
                 await DrawCard();
         }
 
@@ -114,23 +113,19 @@ namespace DownBelow.Managers {
                 UIManager.Instance.TurnSection.ChangeSelectedEntity(this.TurnNumber % this.PlayingEntities.Count);
             // TODO : remove this when we'll no longer need to test enemies
             //if (this.CurrentPlayingEntity.IsAlly)
-            this._turnCoroutine = StartCoroutine(this._startTurnTimer());
+            if(this.CurrentPlayingEntity is PlayerBehavior)
+                this._turnCoroutine = StartCoroutine(this._startTurnTimer());
         }
 
         public async void ProcessEndTurn(string entityID)
         {
             this.CurrentPlayingEntity.EndTurn();
 
-            if (this.CurrentPlayingEntity != null)
+            // We draw cards at end of turn
+            if (GameManager.Instance.SelfPlayer == this.CurrentPlayingEntity)
             {
-                if (GameManager.Instance.SelfPlayer == this.CurrentPlayingEntity)
-                {
-                    //We draw at the end of our turn.
-                    for (int i = 0; i < SettingsManager.Instance.CombatPreset.CardsToDraw; i++)
-                    {
-                        await DrawCard();
-                    }
-                }
+                for (int i = 0; i < SettingsManager.Instance.CombatPreset.CardsToDraw; i++)
+                    await DrawCard();
             }
 
             // Reset the time slider
@@ -139,6 +134,7 @@ namespace DownBelow.Managers {
                 StopCoroutine(this._turnCoroutine);
                 this._turnCoroutine = null;
             }
+
             UIManager.Instance.TurnSection.TimeSlider.value = 0f;
 
             // Increment the turns to pre-select next entity
@@ -161,15 +157,14 @@ namespace DownBelow.Managers {
 
                 if (canExecute) {
                     this._currentSpells[i].CurrentAction = Instantiate(this._currentSpells[i].ActionData,Vector3.zero,Quaternion.identity,CombatManager.Instance.CurrentPlayingEntity.gameObject.transform);
-                    this._currentSpells[i].ExecuteSpell(CombatManager.Instance.CurrentPlayingEntity,target);
+                    this._currentSpells[i].ExecuteSpell(CurrentPlayingEntity,target);
                     while (!this._currentSpells[i].CurrentAction.HasEnded) {
                         yield return new WaitForSeconds(Time.deltaTime);
                     }
-                    CombatManager.Instance.CurrentPlayingEntity.UnsubToSpell(this._currentSpells[i].ActionData);
+                    CurrentPlayingEntity.UnsubToSpell(this._currentSpells[i].ActionData);
                 }
             }
 
-            this.gameObject.SetActive(false);
         }
 
         private void _setupEnemyEntities() 

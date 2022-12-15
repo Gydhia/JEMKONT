@@ -348,6 +348,8 @@ MonoBehaviour:
   GridShader: {fileID: 0}
   TestPlane: {fileID: 913962143815404576, guid: 7141923bd86c41143a35f9d656e8949b, type: 3}
   LastHoveredCell: {fileID: 0}
+  SpellArrowIndicatorPrefab: {fileID: 3637930098049629254, guid: 9f8622dfa009a564d89604d04a5b3c41, type: 3}
+  IsDrawingArrow: 0
 --- !u!1 &4708042891339228753
 GameObject:
   m_ObjectHideFlags: 0

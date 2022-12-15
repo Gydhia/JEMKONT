@@ -223,17 +223,17 @@ namespace DownBelow.Managers {
         }
 
 
-        public void CastSpell(ScriptableCard spellToCast) 
+        public void CastSpell(ScriptableCard spellToCast, Cell cell) 
         {
-            this.photonView.RPC("RPC_CastSpell",RpcTarget.All,spellToCast.name);
+            this.photonView.RPC("RPC_CastSpell",RpcTarget.All,spellToCast.name,cell.PositionInGrid.longitude,cell.PositionInGrid.latitude);
         }
+
         [PunRPC]
         public void RPC_CastSpell(string spellName, int longitude, int latittude) 
         {
             var card = CardsManager.Instance.ScriptableCards[spellName];
-            if (card != null) {
+            if (card != null) 
                 CombatManager.Instance.ExecuteSpells(CombatManager.Instance.CurrentPlayingGrid.Cells[longitude,latittude],card);
-            }
         }
         #endregion
 

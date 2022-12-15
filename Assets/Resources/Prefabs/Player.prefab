@@ -730,10 +730,21 @@ MonoBehaviour:
   ShieldFill: {fileID: 6732676040771153667}
   TurnOrder: 0
   IsAlly: 1
-  EntityCell: {fileID: 0}
+  UID: 
   CurrentGrid: {fileID: 0}
+  IsMoving: 0
+  EntityCell: {fileID: 0}
+  NextCell: {fileID: 0}
+  CurrentPath: []
   Summons: []
+  CanAutoAttack: 0
+  _nextInteract: {fileID: 0}
   PlayerBody: {fileID: 0}
   PlayerID: 
   PlayerView: {fileID: 0}
-  CurrentPath: []
+  ActiveTool:
+    Deck:
+      Cards: []
+    Class: 3
+    ActualPlayer: {fileID: 0}
+  IsAutoAttacking: 0
