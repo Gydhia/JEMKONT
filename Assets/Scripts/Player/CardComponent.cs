@@ -16,9 +16,15 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
     public ScriptableCard CardData;
     public Image IllustrationImage;
     public Image ShineImage;
+
     public TextMeshProUGUI CostText;
     public TextMeshProUGUI TitleText;
     public TextMeshProUGUI DescText;
+
+    [Header("Colors")]
+    [SerializeField] private Color _attackColor;
+    [SerializeField] private Color _powerColor;
+    [SerializeField] private Color _skillColor;
 
     [ReadOnly] public bool isInPlacingMode;
 
@@ -47,7 +53,20 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
         this._thisRectTransform = this.GetComponent<RectTransform>();
         this._originPosition = _thisRectTransform.anchoredPosition;
         // _parent = this.GetComponentInParent<HorizontalLayoutGroup>();
-
+        switch (cardData.CardType)
+        {
+            case CardType.Attack:
+                ShineImage.color = _attackColor;
+                break;
+            case CardType.Power:
+                ShineImage.color = _powerColor;
+                break;
+            case CardType.Skill:
+                ShineImage.color = _skillColor;
+                break;
+            default:
+                break;
+        }
     }
 
     public void ApplyCost(int much) 

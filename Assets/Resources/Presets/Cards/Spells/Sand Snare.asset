@@ -26,6 +26,7 @@ MonoBehaviour:
       Data: 2ae2a1cc1f85af4ee734b9bfa899130e
   Title: Sand Snare
   Cost: 2
+  CardType: 3
   Description: Set a units Speed to 0 until the end of your next turn, draw a card.
   IllustrationImage: {fileID: 21300000, guid: 00a1ea73c70bcb548815ccbb24276f90, type: 3}
   Spells:

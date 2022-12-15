@@ -26,6 +26,7 @@ MonoBehaviour:
       Data: 4785fbe0e480740aaadad58d4e598e41
   Title: Go Fish
   Cost: 2
+  CardType: 1
   Description: Draw 3 cards.
   IllustrationImage: {fileID: 21300000, guid: 4e5f2b3b36f51a946afd569c041bdd2f, type: 3}
   Spells:

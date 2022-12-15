@@ -26,6 +26,7 @@ MonoBehaviour:
       Data: 08ff2470de60abc61519a3f71c7d8779
   Title: Bash
   Cost: 1
+  CardType: 2
   Description: Deals damage.
   IllustrationImage: {fileID: 21300000, guid: 99c022fcb87ec6a40971f49f33d6fbb9, type: 3}
   Spells:
