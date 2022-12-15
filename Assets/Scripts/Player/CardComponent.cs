@@ -46,7 +46,8 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
         this.IllustrationImage.sprite = CardData.IllustrationImage;
         this._thisRectTransform = this.GetComponent<RectTransform>();
         this._originPosition = _thisRectTransform.anchoredPosition;
-       // _parent = this.GetComponentInParent<HorizontalLayoutGroup>();
+        // _parent = this.GetComponentInParent<HorizontalLayoutGroup>();
+
     }
 
     public void ApplyCost(int much) 
