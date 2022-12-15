@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-DownBelow.Mechanics;
+using DownBelow.Mechanics;
 
 namespace DownBelow.UI
 {
