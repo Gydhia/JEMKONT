@@ -31,11 +31,6 @@ namespace DownBelow.Inventory
         {
             this.Holder = GameManager.Instance.SelfPlayer;
 
-            this.Holder.PlayerInventory = new BaseStorage();
-
-            this.Holder.PlayerInventory.Init(
-                SettingsManager.Instance.GameUIPreset.SlotsByPlayer[GameManager.Instance.Players.Count - 1]);
-
             this.PlayerStorage.SetStorageAndShow(Holder.PlayerInventory);
 
             this.Holder.OnEnteredCell += _updateChestInteract;

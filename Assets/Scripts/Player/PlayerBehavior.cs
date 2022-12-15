@@ -81,6 +81,16 @@ namespace DownBelow.Entity
         public const int MAXMANA = 6;
         public const int MAXMANAHARDCAP = 7;
         #endregion
+
+        public override void Init(EntityStats stats, Cell refCell, WorldGrid refGrid, int order = 0)
+        {
+            base.Init(stats, refCell, refGrid, order);
+
+            this.PlayerInventory = new BaseStorage();
+            this.PlayerInventory.Init(
+                SettingsManager.Instance.GameUIPreset.SlotsByPlayer[Photon.Pun.PhotonNetwork.PlayerList.Length - 1]);
+        }
+
         public void SetActiveTool(Tool activeTool) {
             activeTool.ActualPlayer = this;
             this.ActiveTool = activeTool;
@@ -99,7 +109,8 @@ namespace DownBelow.Entity
             if (!this.gameObject.activeSelf) {
                 // /!\ TEMPORY ONLY, SET THE CELL AS THE LAST ONE OF PATH
                 // We should have events instead for later on
-                this.EntityCell = newPath[^1];
+                if(newPath.Count > 0)
+                    this.EntityCell = newPath[^1];
                 return;
             }
 
