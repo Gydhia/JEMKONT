@@ -41,7 +41,7 @@ namespace DownBelow.GridSystem
 
             this.GenerateGrid(data);
             if(data.InnerGrids != null)
-                this.GenerateInnerGrids(data.InnerGrids);
+                this.GenerateInnerGrids(data.InnerGrids, this.TopLeftOffset);
             this.RedrawGrid();
 
             GameManager.Instance.OnEnteredGrid += _entityEnteredGrid;
@@ -107,7 +107,7 @@ namespace DownBelow.GridSystem
             }
         }
 
-        public void GenerateInnerGrids(List<GridData> innerGrids)
+        public void GenerateInnerGrids(List<GridData> innerGrids, Vector3 parentTLOffset)
         {
             int count = 0;
             this.InnerCombatGrids = new Dictionary<string, CombatGrid>();
@@ -137,17 +137,16 @@ namespace DownBelow.GridSystem
             this.GridWidth = width;
 
             this.Cells = new Cell[height, width];
+            this.TopLeftOffset = this.IsCombatGrid ? this.transform.parent.transform.position : this.transform.position;
 
             // Generate the grid with new cells
             for (int i = 0; i < this.Cells.GetLength(0); i++)
             {
                 for (int j = 0; j < this.Cells.GetLength(1); j++)
                 {
-                    this.CreateAddCell(i, j, new Vector3((j + longitude) * cellsWidth + widthOffset, 0.1f, -(i + latitude) * cellsWidth - widthOffset));
+                    this.CreateAddCell(i, j, new Vector3((j + longitude) * cellsWidth + widthOffset, this.TopLeftOffset.y + 0.1f, -(i + latitude) * cellsWidth - widthOffset));
                 }
             }
-
-            this.TopLeftOffset = this.transform.position;
         }
 
         public void CreateAddCell(int height, int width, Vector3 position)

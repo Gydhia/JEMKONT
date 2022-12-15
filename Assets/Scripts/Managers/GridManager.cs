@@ -59,7 +59,8 @@ namespace DownBelow.Managers {
 
         public Cell LastHoveredCell;
 
-        public override void Awake() {
+        public void Init() 
+        {
             base.Awake();
 
             this.WorldGrids = new Dictionary<string,WorldGrid>();
@@ -103,6 +104,8 @@ namespace DownBelow.Managers {
             //if (this.LastHoveredCell != null && this.LastHoveredCell.Datas.state == CellState.Walkable)
             //    this.LastHoveredCell.ChangeStateColor(Color.grey);
 
+            if (!GameManager.GameStarted)
+                return;
             this.LastHoveredCell = cell;
             //if (CardDraggingSystem.instance.DraggedCard != null && this.LastHoveredCell.Datas.state == CellState.Walkable)
             //    this.LastHoveredCell.ChangeStateColor(Color.cyan);
@@ -547,7 +550,7 @@ namespace DownBelow.Managers {
             if (this.GridShader == null)
                 this.GridShader = Instantiate(SettingsManager.Instance.GridsPreset.GridShader, this.transform);
             this.GridShader.transform.localScale = new Vector3((float)world.GridWidth / 10f, 1f, (float)world.GridHeight / 10f);
-            this.GridShader.transform.position = new Vector3(world.TopLeftOffset.x + (world.GridWidth * cellSize) / 2f, 0.2f, world.TopLeftOffset.z + -(world.GridHeight * cellSize) / 2f);
+            this.GridShader.transform.position = new Vector3(world.TopLeftOffset.x + (world.GridWidth * cellSize) / 2f, world.TopLeftOffset.y, world.TopLeftOffset.z + -(world.GridHeight * cellSize) / 2f);
 
             this.BitmapTexture = new Texture2D(world.GridWidth, world.GridHeight, TextureFormat.ARGB32, false);
 

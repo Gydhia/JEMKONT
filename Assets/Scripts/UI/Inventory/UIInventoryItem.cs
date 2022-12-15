@@ -16,7 +16,7 @@ namespace DownBelow.UI.Inventory
         public int TotalQuantity = 0;
         public ItemPreset ItemPreset;
 
-        private void Awake()
+        private void Start()
         {
             this.RemoveItem();
         }
