@@ -585,6 +585,16 @@ GridPos : {EntityCell}";
         internal void FireOnAlterationGiven(SpellEventData Data) {
             OnAlterationGiven?.Invoke(Data);
         }
+        public string AlterationStates() {
+            string res = "";
+            if(Alterations.Count > 0) {
+                res += "Alterations of this Entity:\n";
+                foreach (Alteration item in Alterations) {
+                    res += item.ToString();
+                }
+            }
+            return res;
+        }
     }
 }
 

@@ -28,6 +28,7 @@ namespace DownBelow.Spells
         private List<CharacterEntity> _targets;
         private Spell _spellRef;
 
+        public GameObject FXPrefab;
         public virtual void Execute(List<CharacterEntity> targets, Spell spellRef)
         {
             this._spellRef = spellRef;
@@ -35,7 +36,11 @@ namespace DownBelow.Spells
             this.HasEnded = false;
             this.Result = new SpellResult();
             this.Result.Init(this._targets, this._spellRef.Caster,this);
-
+            if(FXPrefab!= null) {
+                for (int i = 0;i < targets.Count;i++) {
+                    Destroy(Instantiate(FXPrefab,targets[i].transform.position,Quaternion.identity),6f);
+                }
+            }
             spellRef.Caster.SubToSpell(this);
         }
         public void FireOnDamageDealt(SpellEventData data) {

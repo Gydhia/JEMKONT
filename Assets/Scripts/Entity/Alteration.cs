@@ -81,11 +81,14 @@ namespace DownBelow.Spells.Alterations {
         public virtual bool ClassicCountdown { get => true; }
         public virtual void Setup(CharacterEntity entity) {
             Target = entity;
+            //SetupFx?
         }
         public virtual void Apply(CharacterEntity entity) {
         }
 
-        public virtual void WearsOff(CharacterEntity entity) { }
+        public virtual void WearsOff(CharacterEntity entity) {
+        //FxGoAway?
+        }
         public virtual void DecrementAlterationCountdown(Events.EventData data) {
 
             Cooldown--;
@@ -97,6 +100,10 @@ namespace DownBelow.Spells.Alterations {
         }
         public Alteration(int Cooldown) {
             this.Cooldown = Cooldown;
+        }
+        public override string ToString() {
+            string cc = ClassicCountdown ? "(Can also decrement with other conditions)" : "";
+            return $"{ToEnum()} for {Cooldown} turns.\n";
         }
     }
 }
