@@ -226,7 +226,7 @@ namespace DownBelow.Managers {
         }
 
 
-        public void CastSpell(ScriptableCard spellToCast, Cell cell) 
+        public void AskCastSpell(ScriptableCard spellToCast, Cell cell) 
         {
             this.photonView.RPC("RPC_CastSpell", RpcTarget.All, spellToCast.UID.ToString(), cell.PositionInGrid.longitude, cell.PositionInGrid.latitude); ;
         }
@@ -236,7 +236,7 @@ namespace DownBelow.Managers {
         {
             ScriptableCard cardToPlay = CardsManager.Instance.ScriptableCards[System.Guid.Parse(spellName)];
             if (cardToPlay != null) 
-                CombatManager.Instance.ExecuteSpells(CombatManager.Instance.CurrentPlayingGrid.Cells[longitude, latittude], cardToPlay);
+                CombatManager.Instance.ExecuteSpells(CombatManager.Instance.CurrentPlayingGrid.Cells[latittude, longitude], cardToPlay);
         }
         #endregion
 

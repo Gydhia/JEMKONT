@@ -21,6 +21,7 @@ public class UIPlayerItem : MonoBehaviour
     {
         this.PlayerName.text = playerName;
         this.UserID = playerID;
+        this.ReadyToggle.isOn = false;
     }
 
     public void OnClickReady()

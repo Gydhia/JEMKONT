@@ -24,8 +24,7 @@ MonoBehaviour:
   Health: 80
   BaseShield: 0
   Strength: 200
-  Dexterity: 0
   Mana: 4
-  Movement: 5
+  Speed: 3
   Defense: 0
   Range: 5

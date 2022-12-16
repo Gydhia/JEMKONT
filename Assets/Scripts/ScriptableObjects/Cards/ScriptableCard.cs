@@ -1,3 +1,4 @@
+using DownBelow.Entity;
 using DownBelow.Spells;
 using Sirenix.OdinInspector;
 using System;
@@ -30,7 +31,7 @@ namespace DownBelow.Mechanics
 
         public void CastSpell(GridSystem.Cell cell)
         {
-            Managers.NetworkManager.Instance.CastSpell(this, cell);
+            Managers.NetworkManager.Instance.AskCastSpell(this, cell);
         }
 
         private void _updateUID()

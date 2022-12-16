@@ -26,9 +26,9 @@ namespace DownBelow.Spells
         public Dictionary<CharacterEntity, int> HealingDone;
         public int SelfHealingReceived = 0;
 
-        public Dictionary<CharacterEntity,StatModification> StatModified;
-        public Dictionary<EntityStatistics,int> SelfStatModified;
-        public Dictionary<CharacterEntity,EAlterationType> alterationGiven;
+        public Dictionary<CharacterEntity, StatModification> StatModified;
+        public Dictionary<EntityStatistics, int> SelfStatModified;
+        public Dictionary<CharacterEntity,EAlterationType> AlterationGiven;
         private CharacterEntity caster;
         private SpellAction _action;
         //Je le met en français psq jsuis vener mais c'est un SPELL result,
@@ -38,6 +38,11 @@ namespace DownBelow.Spells
             this.DamagesDealt = new Dictionary<CharacterEntity, int>();
             this.DamagesOnShield = new Dictionary<CharacterEntity, int>();
             this.HealingDone = new Dictionary<CharacterEntity, int>();
+
+            this.StatModified = new Dictionary<CharacterEntity, StatModification>();
+            this.SelfStatModified = new Dictionary<EntityStatistics, int>();
+            this.AlterationGiven = new Dictionary<CharacterEntity, EAlterationType>();
+
             this.caster = caster;
             this._action = action;
 
@@ -70,25 +75,25 @@ namespace DownBelow.Spells
 
         }
 
-        private void _updateStat(SpellEventData data) {
-            //YES there is a underscore, YES Thomas did this... Can we go over it please?
+        private void _updateStat(SpellEventData data)
+        {
             if (!this.StatModified.ContainsKey(data.Entity))
                 this.StatModified.Add(data.Entity,new(data.Stat,0));
-            _action.FireOnStatModified(data);
+            this._action.FireOnStatModified(data);
             this.StatModified[data.Entity].value += data.Value;
         }
-        private void _updateSelfStat(SpellEventData data) {
-            //YES there is a underscore, YES Thomas did this... Can we go over it please?
+        private void _updateSelfStat(SpellEventData data) 
+        {
             if (!this.SelfStatModified.ContainsKey(data.Stat))
                 this.SelfStatModified.Add(data.Stat,data.Value);
-            _action.FireOnDamageDealt(data);
-            this.DamagesDealt[data.Entity] += data.Value;
+            this._action.FireOnStatModified(data);
+            this.SelfStatModified[data.Stat] += data.Value;
         }
         private void _updateDamages(SpellEventData data)
         {
             if (!this.DamagesDealt.ContainsKey(data.Entity))
                 this.DamagesDealt.Add(data.Entity, 0);
-            _action.FireOnDamageDealt(data);
+            this._action.FireOnDamageDealt(data);
             this.DamagesDealt[data.Entity] += data.Value;
         }
 
@@ -96,7 +101,7 @@ namespace DownBelow.Spells
         {
             if (!this.DamagesOnShield.ContainsKey(data.Entity))
                 this.DamagesOnShield.Add(data.Entity, 0);
-            _action.FireOnShieldRemoved(data);
+            this._action.FireOnShieldRemoved(data);
             this.DamagesOnShield[data.Entity] += data.Value;
         }
 
@@ -104,7 +109,7 @@ namespace DownBelow.Spells
         {
             if (!this.HealingDone.ContainsKey(data.Entity))
                 this.HealingDone.Add(data.Entity, 0);
-            _action.FireOnHealGiven(data);
+            this._action.FireOnHealGiven(data);
             this.HealingDone[data.Entity] += data.Value;
         }
 
@@ -116,17 +121,17 @@ namespace DownBelow.Spells
         private void _updateSelfDamages(SpellEventData data)
         {
             this.SelfDamagesReceived += data.Value;
-            _action.FireOnDamageDealt(data);
+            this._action.FireOnDamageDealt(data);
         }
         private void _updateSelfShieldDamages(SpellEventData data)
         {
             this.SelfDamagesOverShieldReceived += data.Value;
-            _action.FireOnShieldRemoved(data);
+            this._action.FireOnShieldRemoved(data);
         }
         
         private void _updateSelfHealings(SpellEventData data)
         {
-            _action.FireOnHealReceived(data);
+            this._action.FireOnHealReceived(data);
             this.SelfHealingReceived += data.Value;
         }
 

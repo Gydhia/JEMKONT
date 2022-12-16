@@ -14,7 +14,7 @@ namespace DownBelow.Managers
         public Dictionary<Guid, DeckPreset> DeckPresets;
         public Dictionary<Guid, ScriptableCard> ScriptableCards;
 
-        public override void Awake()
+        public void Init()
         {
             this._loadScriptableCards();
         }

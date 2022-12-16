@@ -63,6 +63,13 @@ namespace DownBelow.UI
         {
             this.MoveText.text = value.ToString();
         }
+
+        public void UpdateAllTexts()
+        {
+            this.SetManaText(GameManager.Instance.SelfPlayer.Mana);
+            this.SetHealthText(GameManager.Instance.SelfPlayer.Health);
+            this.SetMoveText(GameManager.Instance.SelfPlayer.Speed);
+        }
     }
 
 }

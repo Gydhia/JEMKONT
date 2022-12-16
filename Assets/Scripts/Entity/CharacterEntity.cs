@@ -126,8 +126,8 @@ namespace DownBelow.Entity
         /// <returns>the auto attack spell of this entity. Can be any Spell.</returns>
         public abstract Spell AutoAttackSpell();
 
-        public bool TryGoTo(Cell destination,int cost) {
-            this.ApplyStat(EntityStatistics.Speed,-cost);
+        public bool TryGoTo(Cell destination,int cost) 
+        {
 
             this.EntityCell.EntityIn = null;
 
@@ -200,8 +200,13 @@ namespace DownBelow.Entity
                     yield return null;
                 }
 
+                this.EntityCell.Datas.state = CellState.Walkable;
+                this.EntityCell.EntityIn = null;
+
                 this.EntityCell = CurrentPath[targetCell];
+
                 this.EntityCell.Datas.state = CellState.EntityIn;
+                this.EntityCell.EntityIn = this;
 
                 currentCell++;
                 targetCell++;
@@ -224,7 +229,7 @@ namespace DownBelow.Entity
                 //Normally already verified. Just in case
                 //Calculate straight path, see if obstacle.
                 this.CanAutoAttack = false;
-                GridManager.Instance.FindPath(this,cellToAttack.PositionInGrid,true);
+                GridManager.Instance.FindPath(this,cellToAttack.PositionInGrid);
                 var notwalkable = GridManager.Instance.Path.Find(x => x.Datas.state != CellState.Walkable);
                 if (notwalkable != null) {
                     switch (notwalkable.Datas.state) {
@@ -248,31 +253,40 @@ namespace DownBelow.Entity
                 }
             }
         }
-        protected void CastAutoAttack(Cell cell) {
+        protected void CastAutoAttack(Cell cell) 
+        {
             AutoAttackSpell().ExecuteSpell(this,cell);
         }
-        public bool isInAttackRange(Cell cell) {
+        public bool isInAttackRange(Cell cell) 
+        {
             bool res = Range >= Mathf.Abs(cell.PositionInGrid.latitude - EntityCell.PositionInGrid.latitude) + Mathf.Abs(cell.PositionInGrid.longitude - EntityCell.PositionInGrid.longitude);
             return res;
         }
-        public virtual void EndTurn() {
+        public virtual void EndTurn() 
+        {
             CanAutoAttack = false;
             foreach (Alteration Alter in Alterations) {
                 Alter.Apply(this);
             }
             OnTurnEnded?.Invoke(new());
         }
-        public virtual void StartTurn() {
+        public virtual void StartTurn() 
+        {
             OnTurnBegun?.Invoke(new());
             CanAutoAttack = !Disarmed;//CanAutoAttack = true if !Disarmed
-            this.ReinitializeStat(EntityStatistics.Speed);//bruh.
+
+            this.ReinitializeStat(EntityStatistics.Speed);
             this.ReinitializeStat(EntityStatistics.Mana);
 
-            if (Stunned || Sleeping) EndTurn();
-            GridManager.Instance.ShowPossibleCombatMovements(this);
+            UIManager.Instance.PlayerInfos.UpdateAllTexts();
 
+            if (this.Stunned || this.Sleeping) 
+                EndTurn();
+
+            GridManager.Instance.ShowPossibleCombatMovements(this);
         }
-        public virtual void Init(EntityStats stats,Cell refCell,WorldGrid refGrid,int order = 0) {
+        public virtual void Init(EntityStats stats,Cell refCell,WorldGrid refGrid,int order = 0) 
+        {
             this.transform.position = refCell.WorldPosition;
             this.EntityCell = refCell;
             this.CurrentGrid = refGrid;
@@ -325,58 +339,111 @@ namespace DownBelow.Entity
         /// <param name="stat">The statistic to modify.</param>
         /// <param name="value">The value to modify the stat for (negative or positive.)</param>
         /// <param name="overShield">Only used to determined if a damage stat should pierce through shieldHP. Will be ignored if stat != health value is positive.</param>
-        public void ApplyStat(EntityStatistics stat,int value,bool overShield = false) {
-            switch (stat) {
-                case EntityStatistics.Health:
-                    if (value > 0) {
-                        // Check overheal
-                        if (this.Health + value > this.RefStats.Health)
-                            value = this.RefStats.Health - Statistics[EntityStatistics.Health];
-                        //else
-                        //Statistics[EntityStatistics.Health] += value;
-                        //value stays at its primary value.
-                        OnHealthAdded?.Invoke(new(this,value));
-                    } else {
-                        value = Mathf.Max(0,Defense - value);
-                        if (Bubbled) {
-                            value = 0;
-                        }
-                        if (Dodge) {
-                            if (Random.Range(0,1) == 0) value = 0;
-                        }
-                        int onShield = this.Shield - value > 0 ? value : this.Shield;
-                        int onLife = overShield ? value : -(onShield - value);
-                        value = -onLife;
-                        if (!overShield) {
-                            Statistics[EntityStatistics.Shield] -= onShield;//Only exception where we
-                            this.OnShieldRemoved?.Invoke(new SpellEventData(this,onShield));
-                        }
-                        this.OnHealthRemoved?.Invoke(new SpellEventData(this,onLife));
-                        if (value != 0) this.OnDamageTaken?.Invoke(new());
-                    }
-                    break;
-                case EntityStatistics.Shield:
-                    if (value > 0) OnShieldAdded?.Invoke(new(this,value)); else OnShieldRemoved?.Invoke(new(this,-value));
-                    break;
-                case EntityStatistics.Mana:
-                    if (value > 0) OnManaAdded?.Invoke(new(this,value)); else OnManaRemoved?.Invoke(new(this,-value));
-                    break;
-                case EntityStatistics.Speed:
-                    if (value > 0) OnSpeedAdded?.Invoke(new(this,value)); else OnSpeedRemoved?.Invoke(new(this,-value));
-                    break;
-                case EntityStatistics.Strength:
-                    if (value > 0) OnStrengthAdded?.Invoke(new(this,value)); else OnStrengthRemoved?.Invoke(new(this,-value));
-                    break;
-                case EntityStatistics.Defense:
-                    if (value > 0) OnDefenseAdded?.Invoke(new(this,value)); else OnDefenseRemoved?.Invoke(new(this,-value));
-                    break;
-                case EntityStatistics.Range:
-                    if (value > 0) OnRangeAdded?.Invoke(new(this,value)); else OnRangeRemoved?.Invoke(new(this,-value));
-                    break;
-            }
+        public void ApplyStat(EntityStatistics stat,int value,bool overShield = false) 
+        {
             Statistics[stat] += value;
+
+            switch (stat) 
+            {
+                case EntityStatistics.Health:
+                    this._applyHealth(value, overShield); break;
+                case EntityStatistics.Shield: 
+                    this._applyShield(value); break;
+                case EntityStatistics.Mana: 
+                    this._applyMana(value); break;
+                case EntityStatistics.Speed:
+                    this._applySpeed(value); break;
+                case EntityStatistics.Strength:
+                    this._applyStrength(value); break;
+                case EntityStatistics.Defense:
+                    this._applyDefense(value); break;
+                case EntityStatistics.Range:
+                    this._applyRange(value); break;
+            }
         }
-       
+
+        private void _applyHealth(int value, bool overShield)
+        {
+            if (value > 0)
+            {
+                // Check overheal
+                if (this.Health + value > this.RefStats.Health)
+                    value = this.RefStats.Health - Statistics[EntityStatistics.Health];
+                //else
+                //Statistics[EntityStatistics.Health] += value;
+                //value stays at its primary value.
+                this.OnHealthAdded?.Invoke(new(this, value));
+            }
+            else
+            {
+                value = Mathf.Max(0, Defense - value);
+                if (this.Bubbled)
+                {
+                    value = 0;
+                }
+                if (this.Dodge)
+                {
+                    if (Random.Range(0, 1) == 0) value = 0;
+                }
+                int onShield = this.Shield - value > 0 ? value : this.Shield;
+                int onLife = overShield ? value : -(onShield - value);
+                value = -onLife;
+                if (!overShield)
+                {
+                    this.Statistics[EntityStatistics.Shield] -= onShield;//Only exception where we
+                    this.OnShieldRemoved?.Invoke(new SpellEventData(this, onShield));
+                }
+
+                this.OnHealthRemoved?.Invoke(new SpellEventData(this, onLife));
+                if (value != 0) this.OnDamageTaken?.Invoke(new());
+            }
+        }
+
+        private void _applyShield(int value)
+        {
+            if (value > 0)
+                OnShieldAdded?.Invoke(new(this, value));
+            else 
+                OnShieldRemoved?.Invoke(new(this, -value));
+        }
+        private void _applyMana(int value)
+        {
+            if (value > 0)
+                OnManaAdded?.Invoke(new(this, value));
+            else
+                OnManaRemoved?.Invoke(new(this, -value));
+        }
+        private void _applySpeed(int value)
+        {
+            if (value > 0)
+                OnSpeedAdded?.Invoke(new(this, value));
+            else
+                OnSpeedRemoved?.Invoke(new(this, -value));
+        }
+        private void _applyStrength(int value)
+        {
+            if (value > 0)
+                OnStrengthAdded?.Invoke(new(this, value));
+            else
+                OnStrengthRemoved?.Invoke(new(this, -value));
+        }
+        private void _applyDefense(int value)
+        {
+            if (value > 0)
+                OnDefenseAdded?.Invoke(new(this, value));
+            else
+                OnDefenseRemoved?.Invoke(new(this, -value));
+        }
+
+        private void _applyRange(int value)
+        {
+            if (value > 0)
+                OnRangeAdded?.Invoke(new(this, value));
+            else
+                OnRangeRemoved?.Invoke(new(this, -value));
+        }
+
+
         public override string ToString() {
             return @$"Name : {name}
 IsAlly : {IsAlly}

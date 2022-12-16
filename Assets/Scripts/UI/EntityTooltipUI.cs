@@ -18,13 +18,16 @@ namespace DownBelow.UI
         [SerializeField] private TextMeshProUGUI _healthStat;
         [SerializeField] private TextMeshProUGUI _rangeStat;
 
+
+        // /!\
+        // TODO : When initing, sub this to entity events
+
         public void Init(CharacterEntity Entity)
         {
             _attackStat.text = Entity.Strength.ToString();
-            _defenseStat.text = Entity.ShieldFill.ToString();
-            _healthStat.text = Entity.HealthFill.ToString();
+            _defenseStat.text = Entity.Shield.ToString();
+            _healthStat.text = Entity.Health.ToString();
             _rangeStat.text = Entity.Range.ToString();
-
         }
     }
 

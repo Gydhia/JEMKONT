@@ -52,8 +52,8 @@ namespace DownBelow.Managers
         {
             UIManager.Instance.Init();
             GridManager.Instance.Init();
+            CardsManager.Instance.Init();
             NetworkManager.Instance.SubToGameEvents();
-
 
             this.ProcessPlayerWelcoming();
         }

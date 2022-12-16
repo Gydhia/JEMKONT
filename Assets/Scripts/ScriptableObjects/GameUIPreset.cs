@@ -13,4 +13,9 @@ public class GameUIPreset : SerializedScriptableObject
     public Sprite ItemCase;
 
     public int[] SlotsByPlayer;
+
+    [Header("CARDS")]
+    public Color AttackColor;
+    public Color PowerColor;
+    public Color SkillColor;
 }

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 559503cbc8aa225459309d515bf15158, type: 3}
-  m_Name: TestStatistics
+  m_Name: MVPPlayerStat
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -24,8 +24,7 @@ MonoBehaviour:
   Health: 80
   BaseShield: 0
   Strength: 200
-  Dexterity: 0
   Mana: 4
-  Movement: 5
+  Speed: 3
   Defense: 0
   Range: 5
