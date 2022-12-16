@@ -118,7 +118,7 @@ namespace DownBelow.Managers {
             if (selfPlayer.CurrentGrid.IsCombatGrid) 
             {
                 // When not grabbing card
-                if(CombatManager.Instance.CurrentCard != null)
+                if(CombatManager.Instance.CurrentCard == null)
                 {
 
                     if (selfPlayer.IsAutoAttacking)
@@ -128,15 +128,13 @@ namespace DownBelow.Managers {
                             if (!selfPlayer.isInAttackRange(LastHoveredCell)) selfPlayer.IsAutoAttacking = false; else selfPlayer.AutoAttack(LastHoveredCell);
                         }
                     }
-                    else if (this.Path.Contains(this.LastHoveredCell) && this.LastHoveredCell.Datas.state == CellState.Walkable)
+                    else if (this.LastHoveredCell.Datas.state == CellState.Walkable && this._possiblePath.Contains(this.LastHoveredCell))
                     {
                         //TODO: Rework the combat /out-of - combat network callbacks and structure
                         selfPlayer.AskToGo(this.LastHoveredCell, string.Empty);
 
                         selfPlayer.EntityCell
                             .ChangeCellState(CellState.Walkable);
-
-                        this.ShowPossibleCombatMovements(GameManager.Instance.SelfPlayer);
 
                         selfPlayer.CurrentGrid
                             .Cells[this.LastHoveredCell.Datas.heightPos, this.LastHoveredCell.Datas.widthPos]
@@ -210,7 +208,13 @@ namespace DownBelow.Managers {
             }
         }
 
-        public void ShowPossibleCombatMovements(CharacterEntity entity) {
+        /// <summary>
+        /// To pre-calculate the possible cells where the entity can go in combat
+        /// </summary>
+        /// <param name="entity">The entity focused to calcualte the cells</param>
+        /// <param name="cell">an override to the entity cell</param>
+        public void ShowPossibleCombatMovements(CharacterEntity entity) 
+        {
             int movePoints = entity.Speed;
             Cell entityCell = entity.EntityCell;
 
@@ -225,7 +229,7 @@ namespace DownBelow.Managers {
                     int checkY = entityCell.Datas.heightPos + y;
 
                     if (checkX >= 0 && checkX < entity.CurrentGrid.GridWidth && checkY >= 0 && checkY < entity.CurrentGrid.GridHeight) {
-                        this.FindPath(entity,entity.CurrentGrid.Cells[checkY,checkX].PositionInGrid,entity.CurrentGrid);
+                        this.FindPath(entity,entity.CurrentGrid.Cells[checkY,checkX].PositionInGrid);
 
                         if (this.Path.Contains(entity.CurrentGrid.Cells[checkY,checkX]) && this.Path.Count <= movePoints && (entity.CurrentGrid.Cells[checkY,checkX].Datas.state == CellState.Walkable)) {
                             this._possiblePath.Add(entity.CurrentGrid.Cells[checkY,checkX]);
@@ -312,7 +316,8 @@ namespace DownBelow.Managers {
         /// While calculate the closest path to a target, storing it in the Path var of the GridManager
         /// </summary>
         /// <param name="target"></param>
-        public void FindPath(CharacterEntity entity,GridPosition target,bool directPath = false) {
+        public void FindPath(CharacterEntity entity, GridPosition target)
+        {
             if (entity == null)
                 return;
 
@@ -345,7 +350,7 @@ namespace DownBelow.Managers {
 
                 List<Cell> actNeighbours = entity.CurrentGrid.IsCombatGrid ? GetCombatNeighbours(currentCell,entity.CurrentGrid) : GetNormalNeighbours(currentCell,entity.CurrentGrid);
                 foreach (Cell neighbour in actNeighbours) {
-                    if ((neighbour.Datas.state == CellState.Blocked || neighbour.Datas.state == CellState.Shared || closedSet.Contains(neighbour)) || directPath)
+                    if ((neighbour.Datas.state == CellState.Blocked || neighbour.Datas.state == CellState.Shared || closedSet.Contains(neighbour)))
                         continue;
 
                     int newMovementCostToNeightbour = currentCell.gCost + GetDistance(currentCell,neighbour);
@@ -415,7 +420,8 @@ namespace DownBelow.Managers {
         /// </summary>
         /// <param name="cell"></param>
         /// <returns></returns>
-        public List<Cell> GetCombatNeighbours(Cell cell,WorldGrid grid) {
+        public List<Cell> GetCombatNeighbours(Cell cell,WorldGrid grid) 
+        {
             List<Cell> neighbours = new List<Cell>();
 
             for (int x = -1;x <= 1;x++) {

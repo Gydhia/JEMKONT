@@ -18,8 +18,6 @@ namespace DownBelow.UI
 
         [SerializeField] private Image _lifeFill;
 
-
-
         public void Init()
         {
             this.gameObject.SetActive(true);
@@ -64,6 +62,13 @@ namespace DownBelow.UI
         public void SetMoveText(int value)
         {
             this.MoveText.text = value.ToString();
+        }
+
+        public void UpdateAllTexts()
+        {
+            this.SetManaText(GameManager.Instance.SelfPlayer.Mana);
+            this.SetHealthText(GameManager.Instance.SelfPlayer.Health);
+            this.SetMoveText(GameManager.Instance.SelfPlayer.Speed);
         }
     }
 

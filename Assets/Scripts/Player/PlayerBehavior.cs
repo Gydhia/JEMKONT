@@ -104,9 +104,11 @@ namespace DownBelow.Entity
         }
 
         #region MOVEMENTS
-        public override void MoveWithPath(List<Cell> newPath,string otherGrid) {
+        public override void MoveWithPath(List<Cell> newPath, string otherGrid) 
+        {
             // Useless to animate hidden players
-            if (!this.gameObject.activeSelf) {
+            if (!this.gameObject.activeSelf) 
+            {
                 // /!\ TEMPORY ONLY, SET THE CELL AS THE LAST ONE OF PATH
                 // We should have events instead for later on
                 if(newPath.Count > 0)
@@ -114,18 +116,30 @@ namespace DownBelow.Entity
                 return;
             }
 
+            if (this.CurrentGrid.IsCombatGrid)
+            {
+                if (this.IsMoving)
+                    return;
+
+                this.ApplyStat(EntityStatistics.Speed, -newPath.Count);
+            }
+                
+
             if (this._gatheringCor != null)
                 NetworkManager.Instance.PlayerCanceledInteract(this._currentResource.RefCell);
 
             this._nextGrid = otherGrid;
 
-            if (this.moveCor == null) {
+            if (this.moveCor == null) 
+            {
                 this.CurrentPath = newPath;
                 // That's ugly, find a clean way to build the path instead
                 if (!this.CurrentPath.Contains(this.EntityCell))
                     this.CurrentPath.Insert(0,this.EntityCell);
                 this.moveCor = StartCoroutine(FollowPath());
-            } else {
+            } 
+            else 
+            {
                 this.NextPath = newPath;
                 if(this._nextInteract != null)
                     this._nextInteract = null;
@@ -145,10 +159,17 @@ namespace DownBelow.Entity
                     yield return null;
                 }
 
+                // TODO : process these with events only
                 this.FireExitedCell(this.EntityCell);
+
+                this.EntityCell.Datas.state = CellState.Walkable;
+                this.EntityCell.EntityIn = null;
+
                 this.EntityCell = CurrentPath[targetCell];
-                // TODO : Process this directly in cells with events
+
                 this.EntityCell.Datas.state = CellState.EntityIn;
+                this.EntityCell.EntityIn = this;
+
                 this.FireEnteredCell(this.EntityCell);
 
                 if (this.NextPath != null) {
@@ -166,6 +187,11 @@ namespace DownBelow.Entity
             this.moveCor = null;
             this.IsMoving = false;
 
+            // TODO: parse these values in a different way later
+            if (this.CurrentGrid.IsCombatGrid)
+            {
+                GridManager.Instance.ShowPossibleCombatMovements(this);
+            }
             if (this.NextPath != null)
             {
                 this.MoveWithPath(this.NextPath, _nextGrid);

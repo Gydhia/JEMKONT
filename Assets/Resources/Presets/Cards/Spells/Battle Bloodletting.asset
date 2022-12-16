@@ -26,6 +26,7 @@ MonoBehaviour:
       Data: f458d00c6f1f3bacecca9b6125042668
   Title: Battle Bloodletting
   Cost: 2
+  CardType: 3
   Description: Teleport to an ally and heal them for 10
   IllustrationImage: {fileID: 21300000, guid: caacc182410eb214eac15f5f672be178, type: 3}
   Spells:

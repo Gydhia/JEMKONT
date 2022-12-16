@@ -46,12 +46,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5601400ce3110d43803dbaf924faec1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TurnOrder: 0
-  IsAlly: 1
-  CurrentGrid: {fileID: 0}
-  Invocations: []
   HealthFill: {fileID: 5765953131729133563}
   ShieldFill: {fileID: 2783142741432871015}
+  TurnOrder: 0
+  IsAlly: 1
+  UID: 
+  CurrentGrid: {fileID: 0}
+  IsMoving: 0
+  EntityCell: {fileID: 0}
+  NextCell: {fileID: 0}
+  CurrentPath: []
+  Summons: []
+  CanAutoAttack: 0
+  EnemyStyle: {fileID: 11400000, guid: ed8c7df3d95b8e64bb72a70fd2fcd8b6, type: 2}
 --- !u!1 &2631315521512209035
 GameObject:
   m_ObjectHideFlags: 0

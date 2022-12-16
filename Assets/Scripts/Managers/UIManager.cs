@@ -28,12 +28,22 @@ namespace DownBelow.Managers
         public Button StartCombatButton;
         public void Init()
         {
+            this.StartCombatButton.gameObject.SetActive(false);
             this.TurnSection.gameObject.SetActive(false);
             this.PlayerInfos.gameObject.SetActive(false);
             this.CardSection.gameObject.SetActive(false);
             this.EntityTooltipUI.gameObject.SetActive(false);
 
             GameManager.Instance.OnPlayersWelcomed += _subscribe;
+            GameManager.Instance.OnEnteredGrid += _showHideStartButton;
+        }
+
+        private void _showHideStartButton(EntityEventData Data)
+        {
+            if (Data.Entity == GameManager.Instance.SelfPlayer && Data.Entity.CurrentGrid.IsCombatGrid)
+            {
+                this.StartCombatButton.gameObject.SetActive(true);
+            }
         }
 
         private void _subscribe(GameEventData Data)

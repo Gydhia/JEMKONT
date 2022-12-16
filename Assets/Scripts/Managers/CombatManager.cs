@@ -77,8 +77,14 @@ namespace DownBelow.Managers {
 
         public void ExecuteSpells(Cell target, ScriptableCard spell) 
         {
-            this._currentSpells = spell.Spells;
-            StartCoroutine(this._waitForSpell(target));
+            //TODO : maybe create a method for this
+            if(spell.Cost <= this.CurrentPlayingEntity.Mana)
+            {
+                this.CurrentPlayingEntity.ApplyStat(EntityStatistics.Mana, -spell.Cost);
+
+                this._currentSpells = spell.Spells;
+                StartCoroutine(this._waitForSpell(target));
+            }
         }
 
         public void WelcomePlayerInCombat(EntityEventData Data) 
@@ -175,7 +181,7 @@ namespace DownBelow.Managers {
 
                 if (canExecute) {
                     this._currentSpells[i].CurrentAction = Instantiate(this._currentSpells[i].ActionData,Vector3.zero,Quaternion.identity,CombatManager.Instance.CurrentPlayingEntity.gameObject.transform);
-                    this._currentSpells[i].ExecuteSpell(CurrentPlayingEntity,target);
+                    this._currentSpells[i].ExecuteSpell(this.CurrentPlayingEntity, target);
                     while (!this._currentSpells[i].CurrentAction.HasEnded) {
                         yield return new WaitForSeconds(Time.deltaTime);
                     }
@@ -203,20 +209,26 @@ namespace DownBelow.Managers {
 
         private void _cardEndDrag(CellEventData Data)
         {
+            this._cardEndDrag(Data, false);
+        }
+
+        private void _cardEndDrag(CellEventData Data, bool canceled)
+        {
             // If we aren't dragging card or outside the grid, return
             if (this.CurrentCard == null)
                 return;
 
             // If there is no selected Cell, the card should return to hand
-            if(Data.Cell == null || !Data.InCurrentGrid)
+            if(Data.Cell == null || !Data.InCurrentGrid || canceled)
             {
                 this.FireCardEndDrag(this.CurrentCard, Data.Cell, false);
                 return;
             }
-            
             // Lastly, cast the card's spell and say that the card has been played
             else if (this.CurrentCard != null)
+            {
                 this.CurrentCard.CastSpell(Data.Cell);
+            }
 
             this.FireCardEndDrag(this.CurrentCard, Data.Cell, true);
 
@@ -228,7 +240,7 @@ namespace DownBelow.Managers {
             // If we right click while dragging a card, cancel
             if(this.CurrentCard != null)
             {
-                this._cardEndDrag(Data);
+                this._cardEndDrag(Data, true);
             }
         }
 
@@ -249,7 +261,9 @@ namespace DownBelow.Managers {
                 
                 await this.HandPile[^1].DrawCardFromPile();
 
-                if (HandPile.Count > 7) {
+                if (HandPile.Count > 7) 
+                {
+                    StartCoroutine(this.HandPile[^1].GoToPile(0.28f, UIManager.Instance.CardSection.DiscardPile.transform.position));
                     this.HandPile[^1].Burn();
                     this.HandPile.Remove(this.HandPile[^1]);
                 }

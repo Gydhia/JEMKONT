@@ -26,6 +26,7 @@ MonoBehaviour:
       Data: 01bcf5121d9ef4902aff29a6a9aca0fe
   Title: Unseen Aid
   Cost: 2
+  CardType: 3
   Description: Gives an ally "Camouflage" for 1 turn and "Critical"
   IllustrationImage: {fileID: 21300000, guid: df7bdf15de7d3fe4fb2e14e2c817f68c, type: 3}
   Spells:

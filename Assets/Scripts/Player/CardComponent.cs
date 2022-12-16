@@ -10,12 +10,14 @@ using DownBelow.Managers;
 using DownBelow.Mechanics;
 using System.Threading.Tasks;
 using DG.Tweening;
+using DownBelow.Events;
 
-public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler 
+public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler, IPointerDownHandler, IPointerExitHandler 
 {
     public ScriptableCard CardData;
     public Image IllustrationImage;
     public Image ShineImage;
+
     public TextMeshProUGUI CostText;
     public TextMeshProUGUI TitleText;
     public TextMeshProUGUI DescText;
@@ -46,20 +48,34 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
         this.IllustrationImage.sprite = CardData.IllustrationImage;
         this._thisRectTransform = this.GetComponent<RectTransform>();
         this._originPosition = _thisRectTransform.anchoredPosition;
-       // _parent = this.GetComponentInParent<HorizontalLayoutGroup>();
+
+        switch (cardData.CardType)
+        {
+            case CardType.Attack:
+                ShineImage.color = SettingsManager.Instance.GameUIPreset.AttackColor;
+                break;
+            case CardType.Power:
+                ShineImage.color = SettingsManager.Instance.GameUIPreset.PowerColor;
+                break;
+            case CardType.Skill:
+                ShineImage.color = SettingsManager.Instance.GameUIPreset.SkillColor;
+                break;
+            default:
+                break;
+        }
     }
 
     public void ApplyCost(int much) 
     {
-
-        if (CardData)
-            CardData.Cost += much;
+        if (this.CardData)
+            this.CardData.Cost += much;
         else
             Debug.LogError("NO CARD SETUP");
     }
     public void Burn() 
     {
-        Destroy(this.gameObject);
+        // TODO: Find a better way than destroying after 2s
+        Destroy(this.gameObject, 2f);
     }
     public void Update()
     {
@@ -70,6 +86,9 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
         }
         if (isPressed) 
         {
+            if (this.CardData.Cost > CombatManager.Instance.CurrentPlayingEntity.Mana)
+                return;
+
             //Check with sensivity:
             var min = this.MinimumDragPosition();
             var minTransform = this.MinimumDragTransformPosition();
@@ -78,47 +97,40 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
                 this.isDragged = true;
 
                 if (!this._hasScaledDown && (minTransform.x < mousePos.x || min.y <= mousePos.y)) 
-                {   
+                {
+                    CombatManager.Instance.OnCardEndDrag += _processEndDrag;
                     CombatManager.Instance.FireCardBeginDrag(this.CardData);
                     StartCoroutine(ScaleDown(0.25f));
                 }
             }
         }
     }
-    public void Dissapear() 
+
+    private void _processEndDrag(CardEventData Data)
     {
-        //Idfk
-        //TODO : MAke card dissapear + FX appears?
-        IllustrationImage.SetAlpha(0);
-        isInPlacingMode = true;
+        CombatManager.Instance.OnCardEndDrag -= _processEndDrag;
+
+        if (Data.Played)
+        {
+            StartCoroutine(GoToPile(0.28f, UIManager.Instance.CardSection.DiscardPile.transform.position));
+            this.Burn();
+        }
+        else
+        {
+            isPressed = false;
+            isDragged = false;
+
+            GoBackToHand();
+        }
     }
+
     public void ReAppear() 
     {
         //In case you cancel the spell or anything.
         //IllustrationImage.SetAlpha(1);
         isInPlacingMode = false;
     }
-    public void Hydrate(ScriptableCard CardData) 
-    {
-        this.CardData = CardData;
-        this.IllustrationImage.sprite = CardData.IllustrationImage;
-        this.CostText.text = CardData.Cost.ToString();
-        this.TitleText.text = CardData.Title;
-        this.DescText.text = CardData.Description;
-    }
-    public void Hydrate() 
-    {
-        //CardData is already the card we want:
-        this.IllustrationImage.sprite = this.CardData.IllustrationImage;
-        this.CostText.text = this.CardData.Cost.ToString();
-        this.TitleText.text = this.CardData.Title;
-        this.DescText.text = this.CardData.Description;
-    }
-    public void CastSpell(Cell cellToCastSpellOn) 
-    {
-        // /!\ position might be off.
-        StartCoroutine(this.GoToPile(0.28f,UIManager.Instance.CardSection.DiscardPile.transform.position));
-    }
+  
     #region pointerHandlers&Drag
     private Vector2 MinimumDragPosition() 
     {
@@ -163,17 +175,7 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
         this.ShineImage.enabled = false;
         isHovered = false;
     }
-    public void OnPointerUp(PointerEventData eventData) 
-    {
-        if (isInPlacingMode && GridManager.Instance.LastHoveredCell != null) {
-            
-        } else {
-            isPressed = false;
-            isDragged = false;
-            this.GoBackToHand();
-            //Card is going to be reset anyways.
-        }
-    }
+
     private void Drag(Vector2 mousePos) {
         
         Vector2 pos = transform.position;
@@ -197,7 +199,8 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
         if (this._hasScaledDown)
             StartCoroutine(ScaleUp(0.25f));
     }
-    public IEnumerator GoToHand(float time) {
+    public IEnumerator GoToHand(float time) 
+    {
         Vector2 target = UIManager.Instance.CardSection.CardsHolder.transform.position;
         Vector2 basePos = this.transform.position;
 

@@ -26,6 +26,7 @@ MonoBehaviour:
       Data: 9b4adf0bd655a4909c37c4dd2fb44af0
   Title: Strange Mushroom
   Cost: 2
+  CardType: 3
   Description: Swap a unit's power and health.
   IllustrationImage: {fileID: 21300000, guid: 542278a8e24ab0748b54c81e3acc69f1, type: 3}
   Spells:

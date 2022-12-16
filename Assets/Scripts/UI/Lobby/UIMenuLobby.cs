@@ -62,7 +62,14 @@ public class UIMenuLobby : MonoBehaviour
         this.PlayerNameInput.interactable = false;
         this.LobbyName.text = PhotonNetwork.CurrentRoom.Name;
 
-        this.StartBtn.interactable = PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.PlayerCount == 1;
+        if(PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.PlayerCount == 1)
+        {
+            this._playerList[0].ReadyToggle.isOn = true;
+            this.StartBtn.interactable = true;
+        }
+        else
+            this.StartBtn.interactable = false;
+        
         OnRoomJoined?.Invoke();
     }
 

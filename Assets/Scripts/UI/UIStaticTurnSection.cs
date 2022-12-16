@@ -32,6 +32,9 @@ namespace DownBelow.UI
                     this.CombatEntities[i].transform.GetChild(0).gameObject.SetActive(false);
             }
 
+            this.NextTurnButton.onClick.RemoveAllListeners();
+            this.NextTurnButton.onClick.AddListener(AskEndOfTurn);
+
             CombatManager.Instance.OnTurnStarted += this._updateTurn;
             CombatManager.Instance.OnTurnEnded+= this._updateTurn;
         }

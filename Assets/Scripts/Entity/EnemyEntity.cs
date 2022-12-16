@@ -38,7 +38,7 @@ namespace DownBelow.Entity {
                 EndTurn();
 
             var TargetPosition = GetTargetPosition();
-            GridManager.Instance.FindPath(this,TargetPosition,true);
+            GridManager.Instance.FindPath(this, TargetPosition);
 
             if (GridManager.Instance.Path.Count > 0 && this.Speed > 0) {
                 GridManager.Instance.ShowPossibleCombatMovements(this);
@@ -79,13 +79,13 @@ namespace DownBelow.Entity {
 
             for (int i = 0;i < Allies.Count;i++) {
                 CharacterEntity item = Allies[i];
-                GridManager.Instance.FindPath(this,item.EntityCell.PositionInGrid,true);
+                GridManager.Instance.FindPath(this,item.EntityCell.PositionInGrid);
                 distances[i] = GridManager.Instance.Path.Count;
             }
 
             for (int i = 0;i < Provoking.Count;i++) {
                 CharacterEntity item = Provoking[i];
-                GridManager.Instance.FindPath(this,item.EntityCell.PositionInGrid,true);
+                GridManager.Instance.FindPath(this,item.EntityCell.PositionInGrid);
                 provokingDistances[i] = GridManager.Instance.Path.Count;
             }
 
