@@ -39,12 +39,3 @@ MonoBehaviour:
     ApplyToAll: 0
     CurrentAction: {fileID: 0}
     Caster: {fileID: 0}
-  - ConditionData: {fileID: 0}
-    ActionData: {fileID: 2751658137429229534, guid: 424af433c4e712c4f8bd7d80b026429a, type: 3}
-    ApplyToCell: 1
-    ApplyToSelf: 0
-    ApplyToAllies: 0
-    ApplyToEnemies: 0
-    ApplyToAll: 0
-    CurrentAction: {fileID: 0}
-    Caster: {fileID: 0}

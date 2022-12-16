@@ -45,5 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HasEnded: 0
+  FXPrefab: {fileID: 7385442801184268036, guid: 4873ade85befa8e42b268370137a5e0e, type: 3}
   ModifiedStatistic: 0
   StatisticValue: 10
