@@ -16,8 +16,9 @@ namespace DownBelow.Spells
 
             foreach (CharacterEntity entity in targets)
             {
-                if (ModifiedStatistic == EntityStatistics.Health && spellRef.Caster.Critical && StatisticValue < 0) StatisticValue *= 2;
-                entity.ApplyStat(this.ModifiedStatistic,StatisticValue,false);
+                if (ModifiedStatistic == EntityStatistics.Health && spellRef.Caster.Critical && StatisticValue < 0)
+                    StatisticValue *= 2;
+                entity.ApplyStat(this.ModifiedStatistic, this.StatisticValue, false);;
             }
             this.HasEnded = true;
 

@@ -28,5 +28,5 @@ MonoBehaviour:
   Healing: 0
   OneHealedTarget: 0
   Heal: 0
-  IsDebuff: 0
+  IsAltered: 0
   Buff: 0

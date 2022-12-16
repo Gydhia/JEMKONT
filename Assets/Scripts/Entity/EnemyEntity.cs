@@ -17,7 +17,9 @@ using Math = System.Math;
 
 
 namespace DownBelow.Entity {
-    public class EnemyEntity : CharacterEntity {
+    public class EnemyEntity : CharacterEntity 
+    {
+
         public EntityPreset EnemyStyle;
         CharacterEntity cachedAllyToAttack;
 
@@ -53,8 +55,8 @@ namespace DownBelow.Entity {
             
         }
 
-        public override void StartTurn() {
-
+        public override void StartTurn()
+        {
             this.ReinitializeStat(EntityStatistics.Speed);
             this.ReinitializeStat(EntityStatistics.Mana);
             if (Stunned || Sleeping)

@@ -37,7 +37,7 @@ namespace DownBelow.Inventory
             this.ToNearestStorageBtn.onClick.AddListener(this.MoveToNearestStorage);
         }
 
-        private void _updateChestInteract(PositionEventData Data)
+        private void _updateChestInteract(CellEventData Data)
         {
             List<Cell> cells = GridUtility.GetSurroundingCells(CellState.Interactable, Data.Cell);
             foreach (Cell cell in cells)

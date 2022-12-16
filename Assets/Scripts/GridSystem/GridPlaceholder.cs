@@ -122,7 +122,6 @@ public class GridPlaceholder : SerializedMonoBehaviour
             {
                 setEntities.Add(spawnable.Key, GridManager.Instance.SpawnablesPresets[spawnable.Value]);
                 refCells[spawnable.Key.latitude, spawnable.Key.longitude].state = GridManager.Instance.SpawnablesPresets[spawnable.Value].AffectingState;
-
             }
             else
             {

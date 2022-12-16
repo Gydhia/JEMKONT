@@ -15,6 +15,7 @@ namespace DownBelow.Managers
         public UIStaticTurnSection TurnSection;
         public UIPlayerInfos PlayerInfos;
         public UICardSection CardSection;
+        public EntityTooltipUI EntityTooltipUI;
 
         public UIPlayerInventory PlayerInventory;
         public UIStorage Storage;
@@ -23,13 +24,26 @@ namespace DownBelow.Managers
         public Slider GatheringSlider;
         public TextMeshProUGUI GatheringName;
 
+        public Button NextTurnButton;
+        public Button StartCombatButton;
         public void Init()
         {
+            this.StartCombatButton.gameObject.SetActive(false);
             this.TurnSection.gameObject.SetActive(false);
             this.PlayerInfos.gameObject.SetActive(false);
             this.CardSection.gameObject.SetActive(false);
+            this.EntityTooltipUI.gameObject.SetActive(false);
 
             GameManager.Instance.OnPlayersWelcomed += _subscribe;
+            GameManager.Instance.OnEnteredGrid += _showHideStartButton;
+        }
+
+        private void _showHideStartButton(EntityEventData Data)
+        {
+            if (Data.Entity == GameManager.Instance.SelfPlayer && Data.Entity.CurrentGrid.IsCombatGrid)
+            {
+                this.StartCombatButton.gameObject.SetActive(true);
+            }
         }
 
         private void _subscribe(GameEventData Data)
@@ -39,6 +53,11 @@ namespace DownBelow.Managers
             GameManager.Instance.SelfPlayer.OnGatheringStarted += StartGather;
             GameManager.Instance.SelfPlayer.OnGatheringEnded += EndGather;
             GameManager.Instance.SelfPlayer.OnGatheringCanceled += EndGather;
+
+            CombatManager.Instance.OnCardBeginDrag += this._beginCardDrag;
+            CombatManager.Instance.OnCardEndDrag += this._endCardDrag;
+
+            InputManager.Instance.OnCellRightClick += this.UpdateEntityToolTip;
         }
 
         public void StartGather(GatheringEventData Data)
@@ -53,6 +72,17 @@ namespace DownBelow.Managers
             this.GatheringName.gameObject.SetActive(true);
 
             this._gatheringCor = StartCoroutine(this._gather(resource));
+        }
+
+        public void UpdateEntityToolTip(CellEventData Data)
+        {
+            if (Data.Cell.EntityIn == null)
+                return;
+            // TODO: Make sure the entity notice well the cell they're in while entering a grid
+                
+            this.EntityTooltipUI.Init(Data.Cell.EntityIn);
+            this.EntityTooltipUI.gameObject.SetActive(!this.EntityTooltipUI.isActiveAndEnabled);
+            //UPDATES TOOLTIP UI
         }
 
         public void EndGather(GatheringEventData Data)
@@ -99,6 +129,18 @@ namespace DownBelow.Managers
             this.TurnSection.gameObject.SetActive(false);
             this.PlayerInfos.gameObject.SetActive(false);
             this.CardSection.gameObject.SetActive(false);
+        }
+
+        private void _beginCardDrag(CardEventData Data)
+        {
+            InputManager.Instance.ChangeCursorAppearance(CursorAppearance.Card);
+
+        }
+
+        private void _endCardDrag(CardEventData Data)
+        {
+            InputManager.Instance.ChangeCursorAppearance(CursorAppearance.Idle);
+
         }
     }
 }

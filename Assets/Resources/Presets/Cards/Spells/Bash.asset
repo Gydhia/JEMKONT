@@ -20,11 +20,15 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: UID
+      Entry: 2
+      Data: 08ff2470de60abc61519a3f71c7d8779
   Title: Bash
   Cost: 1
+  CardType: 2
   Description: Deals damage.
-  IllustrationImage: {fileID: 0}
+  IllustrationImage: {fileID: 21300000, guid: 99c022fcb87ec6a40971f49f33d6fbb9, type: 3}
   Spells:
   - ConditionData: {fileID: 0}
     ActionData: {fileID: 5045551162097057043, guid: 55db8f1444856544ea1312461bd2c418, type: 3}

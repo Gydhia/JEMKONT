@@ -1,6 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scenes/UI/Nino_Combat_UI.unity.meta
+guid: 08365d0795c4fc14fa099611b693b6a1
+========
 guid: 259be6faf77c8974d82f2591595effc1
 folderAsset: yes
+>>>>>>>> origin/JT-25_Combat_turn_system:Assets/Arrow.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

@@ -20,9 +20,13 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: UID
+      Entry: 2
+      Data: ec9f70457bf0a30bd8cd9821c7bd991c
   Title: Nurture Soil
   Cost: 1
+  CardType: 3
   Description: Give an ally +3/+3
   IllustrationImage: {fileID: 0}
   Spells:

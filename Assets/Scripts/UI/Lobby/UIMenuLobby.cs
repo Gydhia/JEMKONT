@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class UIMenuLobby : MonoBehaviour
 {
@@ -25,10 +26,30 @@ public class UIMenuLobby : MonoBehaviour
 
     public TMP_InputField PlayerNameInput;
 
+    [SerializeField] private Button _validationPlayerNameButton;
+
+    public Action OnPlayerNameValidated;
+    public Action OnRoomJoined;
+
+    private void OnEnable()
+    {
+        _validationPlayerNameButton.onClick.AddListener(ValidatePlayerName);
+    }
+
+    private void OnDisable()
+    {
+        _validationPlayerNameButton.onClick.RemoveListener(ValidatePlayerName);
+    }
+
     private void Start()
     {
         this.PlayerNameInput.onValueChanged.AddListener(x => NetworkManager.Instance.UpdateOwnerName(this.PlayerNameInput.text));
         this.LeaveRoomBtn.interactable = false;
+    }
+
+    private void ValidatePlayerName()
+    {
+        OnPlayerNameValidated?.Invoke();
     }
 
     public void OnJoinedRoom()
@@ -41,7 +62,15 @@ public class UIMenuLobby : MonoBehaviour
         this.PlayerNameInput.interactable = false;
         this.LobbyName.text = PhotonNetwork.CurrentRoom.Name;
 
-        this.StartBtn.interactable = PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.PlayerCount == 1;
+        if(PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.PlayerCount == 1)
+        {
+            this._playerList[0].ReadyToggle.isOn = true;
+            this.StartBtn.interactable = true;
+        }
+        else
+            this.StartBtn.interactable = false;
+        
+        OnRoomJoined?.Invoke();
     }
 
     public void OnSelfLeftRoom()
