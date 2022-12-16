@@ -46,7 +46,7 @@ public class CombatFeedbacks : MonoBehaviour
     {
         if(Data.Value > 0)
         {
-            this._healthFeedback.transform.LookAt(Camera.main.transform.position);
+            //this._healthFeedback.transform.LookAt(Camera.main.transform.position);
 
             _healthFeedback.text = "-" + Data.Value.ToString();
             _healthFeedback.color = _healthRemovedColor;
@@ -60,7 +60,7 @@ public class CombatFeedbacks : MonoBehaviour
     {
         if(Data.Value > 0)
         {
-            this._healthFeedback.transform.LookAt(Camera.main.transform.position);
+            //this._healthFeedback.transform.LookAt(Camera.main.transform.position);
 
             _healthFeedback.text = "+" + Data.Value.ToString();
             _healthFeedback.color = _healthAddedColor;
