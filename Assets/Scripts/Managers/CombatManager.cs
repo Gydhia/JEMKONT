@@ -125,7 +125,7 @@ namespace DownBelow.Managers {
             this.CurrentPlayingEntity = this.PlayingEntities[this.TurnNumber % this.PlayingEntities.Count];
             this.FireTurnStarted(this.CurrentPlayingEntity);
 
-            for (int i = 0;i < SettingsManager.Instance.CombatPreset.CardsToDraw; i++) 
+            for (int i = 0;i < SettingsManager.Instance.CombatPreset.CardsToDrawAtStart; i++) 
                 DrawCard();
         }
 
@@ -148,7 +148,7 @@ namespace DownBelow.Managers {
             // We draw cards at end of turn
             if (GameManager.Instance.SelfPlayer == this.CurrentPlayingEntity)
             {
-                for (int i = 0; i < SettingsManager.Instance.CombatPreset.CardsToDraw; i++)
+                for (int i = 0; i < SettingsManager.Instance.CombatPreset.CardsToDrawAtTurn; i++)
                     DrawCard();
             }
 

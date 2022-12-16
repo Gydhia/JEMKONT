@@ -218,7 +218,7 @@ namespace DownBelow.Entity
         public void EnterNewGrid(CombatGrid grid) 
         {
             Cell closestCell = GridUtility.GetClosestAvailableCombatCell(this.CurrentGrid,grid,this.EntityCell.PositionInGrid);
-            Debug.LogError("Just passed well from top ;)");
+
             while (closestCell.Datas.state != CellState.Walkable) {
                 List<Cell> neighbours = GridManager.Instance.GetCombatNeighbours(closestCell,grid);
                 closestCell = neighbours.First(cell => cell.Datas.state == CellState.Walkable);
