@@ -7,9 +7,9 @@ using UnityEngine;
 
 public class SpellDraw : SpellAction {
     [Min(0)] public int NumberOfCardsToDraw;
-    public override async void Execute(List<CharacterEntity> targets,Spell spellRef) {
+    public override void Execute(List<CharacterEntity> targets,Spell spellRef) {
         for (int i = 0;i < NumberOfCardsToDraw;i++) {
-            await CombatManager.Instance.DrawCard();
+            CombatManager.Instance.DrawCard();
         }
     }
 }
