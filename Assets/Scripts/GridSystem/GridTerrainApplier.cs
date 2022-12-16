@@ -9,10 +9,10 @@ public class GridTerrainApplier : MonoBehaviour
     //Properties
     private float CellsSize => SettingsManager.Instance.GridsPreset.CellsSize;
 
-    public int RayDistance = 2;
-    public int RayStartHeight = -1;
-    public int BoxCastDistance = 5;
-    public int BoxCastStartHeight = -5;
+    public float RayDistance = 2;
+    public float RayStartHeight = -1;
+    public float BoxCastDistance = 5;
+    public float BoxCastStartHeight = -5;
 
 
     // Start is called before the first frame update
@@ -42,7 +42,7 @@ public class GridTerrainApplier : MonoBehaviour
         Vector3 position = transform.position + new Vector3(Cell.widthPos * CellsSize + CellsSize / 2, BoxCastStartHeight, -Cell.heightPos - 1 * CellsSize + CellsSize / 2);
         Vector3 Direction = Vector3.up * (BoxCastDistance);
         Debug.DrawRay(position, Direction, Color.red, 3);
-        Physics.BoxCast(position, new Vector3(CellsSize, CellsSize, CellsSize), Direction, out RaycastHit hit, new Quaternion(), BoxCastDistance, layer);
+        Physics.BoxCast(position, new Vector3(CellsSize/2, CellsSize/2, CellsSize/2), Direction, out RaycastHit hit, new Quaternion(), BoxCastDistance, layer);
         return hit;
     }
 
