@@ -320,7 +320,7 @@ namespace DownBelow.Managers {
             if (entity == null)
                 return;
 
-            Cell startCell = entity.IsMoving ? entity.NextCell : entity.EntityCell;
+            Cell startCell = entity.IsMoving && entity.NextCell != null ? entity.NextCell : entity.EntityCell;
             Cell targetCell = entity.CurrentGrid.Cells[target.latitude,target.longitude];
 
             List<Cell> openSet = new List<Cell>();
@@ -641,7 +641,7 @@ namespace DownBelow.Managers {
 #if UNITY_EDITOR
                     DestroyImmediate(child.gameObject);
 #else
-                Destroy(child.gameObject);
+                    Destroy(child.gameObject);
 #endif
                 }
             }
@@ -654,7 +654,7 @@ namespace DownBelow.Managers {
 
             Color[] Colors = new Color[world.GridHeight * world.GridWidth];
             for (int i = 0; i < world.GridHeight * world.GridWidth; i++)
-                Colors[i] = Color.black;
+                Colors[i] = editor ? Color.black : Color.green;
 
             this.BitmapTexture.SetPixels(0, 0, world.GridWidth, world.GridHeight, Colors);
 
@@ -675,25 +675,25 @@ namespace DownBelow.Managers {
         {
             // We use innergrid to determine we have a parent
 
-            if(innerGrid == null)
+            if (innerGrid == null)
             {
                 foreach (var item in world.CellDatas)
                 {
-                    this.BitmapTexture.SetPixel(item.widthPos, world.GridHeight - item.heightPos, this._getBitmapColor(item.state));
+                    this.BitmapTexture.SetPixel(item.widthPos, world.GridHeight - item.heightPos, Color.black); //this._getBitmapColor(item.state));
                 }
             }
             for (int y = 0; y < world.GridHeight; y++)
             {
                 for (int x = 0; x < world.GridWidth; x++)
                 {
-                    if(innerGrid != null)
+                    if (innerGrid != null)
                         this.BitmapTexture.SetPixel(x, world.GridHeight - y, Color.black);
-                    else if (this.BitmapTexture.GetPixel(x, world.GridHeight - y) == Color.black)
-                        this.BitmapTexture.SetPixel(x, world.GridHeight - y, Color.green);
+                    //else if (this.BitmapTexture.GetPixel(x, world.GridHeight - y) == Color.black)
+                    //    this.BitmapTexture.SetPixel(x, world.GridHeight - y, Color.green);
                 }
             }
-            
-            if(innerGrid != null)
+
+            if (innerGrid != null)
             {
                 int xOffset = innerGrid.Longitude;
                 int yOffset = innerGrid.Latitude;
@@ -754,10 +754,10 @@ namespace DownBelow.Managers {
 
         private Color _getBitmapColor(CellState state)
         {
-            Color newColor = Color.red;
+            Color newColor = Color.black;
             switch (state)
             {
-                case CellState.Walkable: newColor = Color.black; break;
+                case CellState.Blocked: newColor = Color.black; break;
                 case CellState.EntityIn: newColor = Color.green; break;
                 case CellState.Interactable: newColor = Color.blue; break;
             }
