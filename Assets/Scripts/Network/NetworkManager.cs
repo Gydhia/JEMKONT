@@ -236,7 +236,7 @@ namespace DownBelow.Managers {
         {
             ScriptableCard cardToPlay = CardsManager.Instance.ScriptableCards[System.Guid.Parse(spellName)];
             if (cardToPlay != null) 
-                CombatManager.Instance.ExecuteSpells(CombatManager.Instance.CurrentPlayingGrid.Cells[latittude, longitude], cardToPlay);
+                CombatManager.Instance.ExecuteSpells(CombatManager.Instance.CurrentPlayingGrid.Cells[longitude, longitude], cardToPlay);
         }
         #endregion
 
