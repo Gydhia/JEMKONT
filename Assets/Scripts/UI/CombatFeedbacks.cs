@@ -53,6 +53,8 @@ public class CombatFeedbacks : MonoBehaviour
         {
             _healthFeedback.text = "-" + Data.Value.ToString();
             _healthFeedback.color = _healthRemovedColor;
+            _healthFeedback.transform.LookAt(_mainCam.transform.position);
+            _healthFeedback.transform.Rotate(new Vector3(0, 180f, 0));
             _healthFeedback.gameObject.SetActive(true);
             _healthFeedback.rectTransform.DOShakePosition(1.5f, 0.5f,5).SetEase(Ease.InExpo).OnComplete(() => _healthFeedback.gameObject.SetActive(false));
         }
@@ -65,6 +67,8 @@ public class CombatFeedbacks : MonoBehaviour
         {
             _healthFeedback.text = "+" + Data.Value.ToString();
             _healthFeedback.color = _healthAddedColor;
+            _healthFeedback.transform.LookAt(_mainCam.transform.position);
+            _healthFeedback.transform.Rotate(new Vector3(0f, 180f, 0));
             _healthFeedback.gameObject.SetActive(true);
             _healthFeedback.rectTransform.DOShakePosition(1.5f, 0.5f, 5).SetEase(Ease.InExpo).OnComplete(() => _healthFeedback.gameObject.SetActive(false));
         }
