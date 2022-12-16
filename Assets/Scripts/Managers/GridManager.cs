@@ -307,7 +307,7 @@ namespace DownBelow.Managers {
         /// While calculate the closest path to a target, storing it in the Path var of the GridManager
         /// </summary>
         /// <param name="target"></param>
-        public void FindPath(CharacterEntity entity,GridPosition target,bool directPath = false) {
+        public void FindPath(CharacterEntity entity,GridPosition target,bool directPath = false, int Range = -1) {
             if (entity == null)
                 return;
 
@@ -330,7 +330,11 @@ namespace DownBelow.Managers {
                 openSet.Remove(currentCell);
                 closedSet.Add(currentCell);
 
-                if (currentCell == targetCell) {
+                if (currentCell == targetCell || Range > 0 && IsInRange(currentCell.PositionInGrid, targetCell.PositionInGrid, Range)) {
+                    if (Range > 0)
+                    {
+                        Debug.Log("1 : " + currentCell.PositionInGrid);
+                    } 
                     this.RetracePath(startCell,targetCell);
                     if (this.Path.Count > 0 && this.Path[^1].Datas.state == CellState.EntityIn) {
                         this.Path.RemoveAt(Path.Count - 1);
@@ -340,7 +344,7 @@ namespace DownBelow.Managers {
 
                 List<Cell> actNeighbours = entity.CurrentGrid.IsCombatGrid ? GetCombatNeighbours(currentCell,entity.CurrentGrid) : GetNormalNeighbours(currentCell,entity.CurrentGrid);
                 foreach (Cell neighbour in actNeighbours) {
-                    if ((neighbour.Datas.state == CellState.Blocked || neighbour.Datas.state == CellState.Shared || closedSet.Contains(neighbour)) || directPath)
+                    if ((neighbour.Datas.state == CellState.Blocked && directPath == false || neighbour.Datas.state == CellState.Shared || closedSet.Contains(neighbour)))
                         continue;
 
                     int newMovementCostToNeightbour = currentCell.gCost + GetDistance(currentCell,neighbour);
@@ -354,22 +358,41 @@ namespace DownBelow.Managers {
                     }
                 }
             }
-
         }
 
         public void RetracePath(Cell startCell,Cell endCell) {
             List<Cell> path = new List<Cell>();
             Cell currentCell = endCell;
-            string debug = "";
+
             while (currentCell != startCell) {
-                debug = debug.Insert(0,$"{currentCell}\n");
                 path.Add(currentCell);
                 currentCell = currentCell.parent;
             }
+
             path.Reverse();
-            Debug.Log("PATH: " + debug);
             this.Path = path;
         }
+
+        private bool IsInRange(GridPosition CurrentPosition, GridPosition TargetPosition, int Range)
+        {
+            bool latitudeOnRange = false;
+            bool longitudeOnRange = false;
+            if (TargetPosition.latitude-Range <= CurrentPosition.latitude && CurrentPosition.latitude <= TargetPosition.latitude + Range)
+            {
+                latitudeOnRange = true;
+            }
+            if (TargetPosition.longitude - Range <= CurrentPosition.longitude && CurrentPosition.longitude <= TargetPosition.longitude + Range)
+            {
+                longitudeOnRange = true;
+            }
+
+            if (latitudeOnRange && longitudeOnRange)
+            {
+                return true;
+            }
+            return false;
+        }
+
         /// <summary>
         /// To get the 8 neighbours around a cell. Used for out of combat walk.
         /// </summary>
