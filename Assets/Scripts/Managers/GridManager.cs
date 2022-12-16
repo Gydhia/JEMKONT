@@ -340,10 +340,6 @@ namespace DownBelow.Managers {
                 closedSet.Add(currentCell);
 
                 if (currentCell == targetCell || Range > 0 && IsInRange(currentCell.PositionInGrid, targetCell.PositionInGrid, Range)) {
-                    if (Range > 0)
-                    {
-                        Debug.Log("1 : " + currentCell.PositionInGrid);
-                    } 
                     this.RetracePath(startCell,targetCell);
                     if (this.Path.Count > 0 && this.Path[^1].Datas.state == CellState.EntityIn) {
                         this.Path.RemoveAt(Path.Count - 1);
@@ -367,6 +363,64 @@ namespace DownBelow.Managers {
                     }
                 }
             }
+        }
+
+        public List<Cell> FindPathAndReturn(CharacterEntity entity, GridPosition target, bool directPath = false, int Range = -1)
+        {
+            if (entity == null)
+                return null;
+
+            Cell startCell = entity.IsMoving ? entity.NextCell : entity.EntityCell;
+            Cell targetCell = entity.CurrentGrid.Cells[target.latitude, target.longitude];
+
+            List<Cell> openSet = new List<Cell>();
+            HashSet<Cell> closedSet = new HashSet<Cell>();
+
+            openSet.Add(startCell);
+
+            while (openSet.Count > 0)
+            {
+                Cell currentCell = openSet[0];
+                for (int i = 1; i < openSet.Count; i++)
+                {
+                    if (openSet[i].fCost < currentCell.fCost || openSet[i].fCost == currentCell.fCost && openSet[i].hCost < currentCell.hCost)
+                    {
+                        currentCell = openSet[i];
+                    }
+                }
+
+                openSet.Remove(currentCell);
+                closedSet.Add(currentCell);
+
+                if (currentCell == targetCell || Range > 0 && IsInRange(currentCell.PositionInGrid, targetCell.PositionInGrid, Range))
+                {
+                    targetCell = currentCell;
+                    this.RetracePath(startCell, targetCell);
+                    if (this.Path.Count > 0 && this.Path[^1].Datas.state == CellState.EntityIn)
+                    {
+                        this.Path.RemoveAt(Path.Count - 1);
+                    }
+                    return this.Path;
+                }
+                List<Cell> actNeighbours = entity.CurrentGrid.IsCombatGrid ? GetCombatNeighbours(currentCell, entity.CurrentGrid) : GetNormalNeighbours(currentCell, entity.CurrentGrid);
+                foreach (Cell neighbour in actNeighbours)
+                {
+                    if ((neighbour.Datas.state == CellState.Blocked && directPath == false || neighbour.Datas.state == CellState.Shared || closedSet.Contains(neighbour)))
+                        continue;
+
+                    int newMovementCostToNeightbour = currentCell.gCost + GetDistance(currentCell, neighbour);
+                    if (newMovementCostToNeightbour < neighbour.gCost || !openSet.Contains(neighbour))
+                    {
+                        neighbour.gCost = newMovementCostToNeightbour;
+                        neighbour.hCost = GetDistance(neighbour, targetCell);
+                        neighbour.parent = currentCell;
+
+                        if (!openSet.Contains(neighbour))
+                            openSet.Add(neighbour);
+                    }
+                }
+            }
+            return null;
         }
 
         public void RetracePath(Cell startCell,Cell endCell) {
