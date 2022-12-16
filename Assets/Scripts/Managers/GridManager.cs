@@ -560,11 +560,14 @@ namespace DownBelow.Managers {
 
             foreach (Transform child in this.transform)
             {
+                if(!child.TryGetComponent(out ArrowRenderer rend))
+                {
 #if UNITY_EDITOR
-                DestroyImmediate(child.gameObject);
+                    DestroyImmediate(child.gameObject);
 #else
                 Destroy(child.gameObject);
 #endif
+                }
             }
 
             this.GridShader = Instantiate(SettingsManager.Instance.GridsPreset.GridShader, this.transform);

@@ -199,6 +199,7 @@ namespace DownBelow.Entity
             }
             else if (this._nextGrid != string.Empty)
             {
+                Debug.LogError("ASKED ENTER GRID");
                 NetworkManager.Instance.PlayerAsksToEnterGrid(this, this.CurrentGrid, this._nextGrid);
                 this.NextCell = null;
                 this._nextGrid = string.Empty;
@@ -210,9 +211,10 @@ namespace DownBelow.Entity
             }
         }
 
-        public void EnterNewGrid(CombatGrid grid) {
+        public void EnterNewGrid(CombatGrid grid) 
+        {
             Cell closestCell = GridUtility.GetClosestAvailableCombatCell(this.CurrentGrid,grid,this.EntityCell.PositionInGrid);
-
+            Debug.LogError("Just passed well from top ;)");
             while (closestCell.Datas.state != CellState.Walkable) {
                 List<Cell> neighbours = GridManager.Instance.GetCombatNeighbours(closestCell,grid);
                 closestCell = neighbours.First(cell => cell.Datas.state == CellState.Walkable);

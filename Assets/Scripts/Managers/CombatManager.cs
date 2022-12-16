@@ -99,7 +99,7 @@ namespace DownBelow.Managers {
             }
         }
 
-        public async void StartCombat(CombatGrid startingGrid) 
+        public void StartCombat(CombatGrid startingGrid) 
         {
             if (this.CurrentPlayingGrid != null && this.CurrentPlayingGrid.HasStarted)
                 return;
@@ -126,7 +126,7 @@ namespace DownBelow.Managers {
             this.FireTurnStarted(this.CurrentPlayingEntity);
 
             for (int i = 0;i < SettingsManager.Instance.CombatPreset.CardsToDraw; i++) 
-                await DrawCard();
+                DrawCard();
         }
 
         public void ProcessStartTurn(string entityID)
@@ -141,7 +141,7 @@ namespace DownBelow.Managers {
                 this._turnCoroutine = StartCoroutine(this._startTurnTimer());
         }
 
-        public async void ProcessEndTurn(string entityID)
+        public void ProcessEndTurn(string entityID)
         {
             this.CurrentPlayingEntity.EndTurn();
 
@@ -149,7 +149,7 @@ namespace DownBelow.Managers {
             if (GameManager.Instance.SelfPlayer == this.CurrentPlayingEntity)
             {
                 for (int i = 0; i < SettingsManager.Instance.CombatPreset.CardsToDraw; i++)
-                    await DrawCard();
+                    DrawCard();
             }
 
             // Reset the time slider
@@ -252,14 +252,14 @@ namespace DownBelow.Managers {
             this.DiscardPile.Add(card);
         }
 
-        public async Task DrawCard()
+        public void DrawCard()
         {
             if (this.DrawPile.Count > 0) 
             {
                 this.HandPile.Add(Instantiate(CardPrefab,UIManager.Instance.CardSection.DrawPile.transform).GetComponent<CardComponent>());
                 this.HandPile[^1].Init(DrawPile.DrawCard());
                 
-                await this.HandPile[^1].DrawCardFromPile();
+                this.HandPile[^1].DrawCardFromPile();
 
                 if (HandPile.Count > 7) 
                 {
@@ -299,11 +299,27 @@ namespace DownBelow.Managers {
                 enemies[i].TurnOrder = i;
 
             this.PlayingEntities = new List<CharacterEntity>();
-            for (int i = 0;i < enemies.Count;i++) {
-                this.PlayingEntities.Add(enemies[i]);
-                if (i < players.Count)
-                    this.PlayingEntities.Add(players[i]);
+
+            // We check both for the tests, if we have more allies than ennemies or inverse
+            if(enemies.Count >= players.Count)
+            {
+                for (int i = 0; i < enemies.Count; i++)
+                {
+                    this.PlayingEntities.Add(enemies[i]);
+                    if (i < players.Count)
+                        this.PlayingEntities.Add(players[i]);
+                }
             }
+            else
+            {
+                for (int i = 0; i < players.Count; i++)
+                {
+                    this.PlayingEntities.Add(players[i]);
+                    if (i < enemies.Count)
+                        this.PlayingEntities.Add(enemies[i]);
+                }
+            }
+            
             this.PlayingEntities = this.PlayingEntities.OrderBy(x => x.Inspired).ToList();
         }
     }
