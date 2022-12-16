@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3eb73038b662871489a966a0f3936d94, type: 3}
+  m_Script: {fileID: 11500000, guid: 87a770909d29fe946b131a27f672071f, type: 3}
   m_Name: AkWwiseProjectData
   m_EditorClassIdentifier: 
   AcousticTextureWwu:
@@ -24,7 +24,7 @@ MonoBehaviour:
     ParentPath: Virtual Acoustics\Default Work Unit
     guid: 6adbcdce49052b4b9aeb10f52b2cf7ea
     GuidInternal: 
-    m_lastTime: -8585305997542869398
+    m_lastTime: -8585304911543113211
     List: []
   AuxBusWwu:
   - PhysicalPath: Master-Mixer Hierarchy\Default Work Unit.wwu
@@ -38,7 +38,7 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy\Default Work Unit
     guid: 482dc15fdb6a434b883d07304f613018
     GuidInternal: 
-    m_lastTime: -8585305997544015565
+    m_lastTime: -8585304911543153079
     List:
     - name: Master Audio Bus
       guid: d8a41415a61d2a41a17e75ca0c2149f3
@@ -66,7 +66,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: 192de397071d114d9f1f966b80edd569
     GuidInternal: 
-    m_lastTime: -8585305997543088669
+    m_lastTime: -8585304911543123178
     List: []
   EventWwu:
   - PhysicalPath: Events\Default Work Unit.wwu
@@ -80,7 +80,7 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: 949bd9bfeea3b740b316a7f992c54fb1
     GuidInternal: 
-    m_lastTime: -8585305997543925867
+    m_lastTime: -8585304911543192947
     List: []
   RtpcWwu:
   - PhysicalPath: Game Parameters\Default Work Unit.wwu
@@ -94,7 +94,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\Default Work Unit
     guid: ff666b964546ef4e9c0e4a1de8f844b7
     GuidInternal: 
-    m_lastTime: -8585305997543367736
+    m_lastTime: -8585304911543192947
     List: []
   StateWwu:
   - PhysicalPath: States\Default Work Unit.wwu
@@ -108,8 +108,90 @@ MonoBehaviour:
     ParentPath: States\Default Work Unit
     guid: 4357da42963e2141a2fff533c2aaa80c
     GuidInternal: 
-    m_lastTime: -8585305997543407598
-    List: []
+    m_lastTime: -8585304208044495182
+    List:
+    - name: Layers
+      guid: 32472acbdfceb946825b5f434b80a263
+      id: 3298531235
+      PathAndIcons:
+      - ElementName: States
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 4357da42963e2141a2fff533c2aaa80c
+      - ElementName: Layers
+        ObjectType: 9
+        guid: 32472acbdfceb946825b5f434b80a263
+      Path: States\Default Work Unit\Layers
+      values:
+      - name: Layers0
+        guid: 872962e9ea65b84c96cae8c70608af3b
+        id: 602912169
+        PathAndIcons:
+        - ElementName: States
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: 4357da42963e2141a2fff533c2aaa80c
+        - ElementName: Layers
+          ObjectType: 9
+          guid: 32472acbdfceb946825b5f434b80a263
+        - ElementName: Layers0
+          ObjectType: 8
+          guid: 872962e9ea65b84c96cae8c70608af3b
+      - name: Layers1
+        guid: 34483cc4d1666c4ba74c50262d378df7
+        id: 602912168
+        PathAndIcons:
+        - ElementName: States
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: 4357da42963e2141a2fff533c2aaa80c
+        - ElementName: Layers
+          ObjectType: 9
+          guid: 32472acbdfceb946825b5f434b80a263
+        - ElementName: Layers1
+          ObjectType: 8
+          guid: 34483cc4d1666c4ba74c50262d378df7
+      - name: Layers2
+        guid: 62ffa7c0fe995d429bdc929ee8b7d3ce
+        id: 602912171
+        PathAndIcons:
+        - ElementName: States
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: 4357da42963e2141a2fff533c2aaa80c
+        - ElementName: Layers
+          ObjectType: 9
+          guid: 32472acbdfceb946825b5f434b80a263
+        - ElementName: Layers2
+          ObjectType: 8
+          guid: 62ffa7c0fe995d429bdc929ee8b7d3ce
+      - name: Layers3
+        guid: 04d042b4228add4cb5f38bb6505989ac
+        id: 602912170
+        PathAndIcons:
+        - ElementName: States
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: 4357da42963e2141a2fff533c2aaa80c
+        - ElementName: Layers
+          ObjectType: 9
+          guid: 32472acbdfceb946825b5f434b80a263
+        - ElementName: Layers3
+          ObjectType: 8
+          guid: 04d042b4228add4cb5f38bb6505989ac
+      ValueGuids: []
+      ValueIcons: []
+      valuesInternal: []
   SwitchWwu:
   - PhysicalPath: Switches\Default Work Unit.wwu
     PathAndIcons:
@@ -122,7 +204,7 @@ MonoBehaviour:
     ParentPath: Switches\Default Work Unit
     guid: 727aa02a69d7354da76e03849372a4fe
     GuidInternal: 
-    m_lastTime: -8585305997543885997
+    m_lastTime: -8585304911543113211
     List: []
   TriggerWwu:
   - PhysicalPath: Triggers\Default Work Unit.wwu
@@ -136,7 +218,7 @@ MonoBehaviour:
     ParentPath: Triggers\Default Work Unit
     guid: 059de49afdf0cf4fb646f586885de550
     GuidInternal: 
-    m_lastTime: -8585305997543796298
+    m_lastTime: -8585304911543113211
     List: []
   ExpandedFileSystemItemIds: 
   ExpandedWaapiItemIds: 

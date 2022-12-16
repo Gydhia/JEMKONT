@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{42DA5743-3E96-4121-A2FF-F533C2AAA80C}" SchemaVersion="110">
 	<States>
-		<WorkUnit Name="Default Work Unit" ID="{42DA5743-3E96-4121-A2FF-F533C2AAA80C}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{42DA5743-3E96-4121-A2FF-F533C2AAA80C}" PersistMode="Standalone">
+			<ChildrenList>
+				<StateGroup Name="Layers" ID="{CB2A4732-CEDF-46B9-825B-5F434B80A263}">
+					<ChildrenList>
+						<State Name="Layers3" ID="{B442D004-8A22-4CDD-B5F3-8BB6505989AC}"/>
+						<State Name="Layers0" ID="{E9622987-65EA-4CB8-96CA-E8C70608AF3B}"/>
+						<State Name="Layers2" ID="{C0A7FF62-99FE-425D-9BDC-929EE8B7D3CE}"/>
+						<State Name="Layers1" ID="{C43C4834-66D1-4B6C-A74C-50262D378DF7}"/>
+					</ChildrenList>
+				</StateGroup>
+			</ChildrenList>
+		</WorkUnit>
 	</States>
 </WwiseDocument>
