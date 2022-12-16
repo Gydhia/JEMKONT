@@ -38,7 +38,7 @@ namespace DownBelow.Spells
             this.Result.Init(this._targets, this._spellRef.Caster,this);
             if(FXPrefab!= null) {
                 for (int i = 0;i < targets.Count;i++) {
-                    Instantiate(FXPrefab,targets[i].transform.position,Quaternion.identity);
+                    Destroy(Instantiate(FXPrefab,targets[i].transform.position,Quaternion.identity),6f);
                 }
             }
             spellRef.Caster.SubToSpell(this);
