@@ -78,7 +78,7 @@ namespace DownBelow.Entity
         public bool Snared { get => Alterations.Any(x => x.GetType() == typeof(SnareAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Snare].Contains(x.ToEnum())); }//DONE
         public bool Stunned { get => Alterations.Any(x => x.GetType() == typeof(StunAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Stun].Contains(x.ToEnum())); }//DONE
         public bool Disarmed { get => Alterations.Any(x => x.GetType() == typeof(DisarmedAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Disarmed].Contains(x.ToEnum())); }//DONE
-        public bool Critical { get => Alterations.Any(x => x.GetType() == typeof(CriticalAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Critical].Contains(x.ToEnum())); }//Ouille. On met ça de côté le temps d'un gros refactor. impossible.
+        public bool Critical { get => Alterations.Any(x => x.GetType() == typeof(CriticalAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Critical].Contains(x.ToEnum())); }//Ouille. On met ï¿½a de cï¿½tï¿½ le temps d'un gros refactor. impossible.
         public bool Dodge { get => Alterations.Any(x => x.GetType() == typeof(DodgeAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Dodge].Contains(x.ToEnum())); }//DONE
         public bool Camouflage { get => Alterations.Any(x => x.GetType() == typeof(CamouflageAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Camouflage].Contains(x.ToEnum())); }//DONE
         public bool Provoke { get => Alterations.Any(x => x.GetType() == typeof(ProvokeAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Provoke].Contains(x.ToEnum())); }//DONE
@@ -220,37 +220,35 @@ namespace DownBelow.Entity
         }
 
         #endregion
+
+        #region ATTACKS
         /// <summary>
         /// Tries to attack the given cell.
         /// </summary>
         /// <param name="cellToAttack">The cell to attack.</param>
         public void AutoAttack(Cell cellToAttack) {
-            if (isInAttackRange(cellToAttack)) {
-                //Normally already verified. Just in case
-                //Calculate straight path, see if obstacle.
-                this.CanAutoAttack = false;
-                GridManager.Instance.FindPath(this,cellToAttack.PositionInGrid);
-                var notwalkable = GridManager.Instance.Path.Find(x => x.Datas.state != CellState.Walkable);
-                if (notwalkable != null) {
-                    switch (notwalkable.Datas.state) {
-                        case CellState.Walkable:
-                            // :)
-                            break;
-                        case CellState.Blocked:
-                            //TODO : This blocked? What do we do? At least we do not attack. but it counts.
-                            break;
-                        case CellState.Shared:
-                            //TODO: figure out wtf does that mean
-                            break;
-                        case CellState.EntityIn:
-                            CastAutoAttack(notwalkable);
-                            break;
-                    }
-                } else {
-                    //There isn't any obstacle in the path, so the attack should go for it.
-                    CastAutoAttack(cellToAttack);
-                    //TODO: Shield/overheal? What do i do? Have we got shield in the game??????????????????????
+            if (!isInAttackRange(cellToAttack)) {
+                return;
+            }
+            //Normally already verified. Just in case
+            //Calculate straight path, see if obstacle.
+            this.CanAutoAttack = false;
+            GridManager.Instance.FindPath(this,cellToAttack.PositionInGrid, true);
+            var notwalkable = GridManager.Instance.Path.Find(x => x.Datas.state != CellState.Walkable);
+            if (notwalkable != null) {
+                switch (notwalkable.Datas.state) {
+                    case CellState.Blocked:
+                        break;
+                    case CellState.Shared:
+                        break;
+                    case CellState.EntityIn:
+                        CastAutoAttack(notwalkable);
+                        break;
                 }
+            } else {
+                //There isn't any obstacle in the path, so the attack should go for it.
+                CastAutoAttack(cellToAttack);
+                //TODO: Shield/overheal? What do i do? Have we got shield in the game??????????????????????
             }
         }
         protected void CastAutoAttack(Cell cell) 
@@ -262,6 +260,9 @@ namespace DownBelow.Entity
             bool res = Range >= Mathf.Abs(cell.PositionInGrid.latitude - EntityCell.PositionInGrid.latitude) + Mathf.Abs(cell.PositionInGrid.longitude - EntityCell.PositionInGrid.longitude);
             return res;
         }
+        #endregion
+
+        #region TURNS
         public virtual void EndTurn() 
         {
             CanAutoAttack = false;
@@ -285,8 +286,10 @@ namespace DownBelow.Entity
 
             GridManager.Instance.ShowPossibleCombatMovements(this);
         }
-        public virtual void Init(EntityStats stats,Cell refCell,WorldGrid refGrid,int order = 0) 
-        {
+        #endregion
+
+        #region STATS
+        public virtual void Init(EntityStats stats,Cell refCell,WorldGrid refGrid,int order = 0) {
             this.transform.position = refCell.WorldPosition;
             this.EntityCell = refCell;
             this.CurrentGrid = refGrid;
@@ -319,20 +322,7 @@ namespace DownBelow.Entity
                 case EntityStatistics.Range: this.Statistics[EntityStatistics.Range] = this.RefStats.Range; break;
             }
         }
-        public void AreYouAlive(SpellEventData data) {
-            if (this.Health <= 0) Die();
-        }
-        public virtual void Die() {
-            while (Alterations.Count > 0) {
-                Alteration alt = Alterations[0];
-                alt.WearsOff(this);
-                RemoveAlteration(alt);//You know what? Fuck you *unsubs your alterations*
-                Alterations.RemoveAt(0);
-            }
-            //???
-            OnDeath?.Invoke(new());
-            Destroy(this.gameObject);
-        }
+
         /// <summary>
         /// Applies any value on any stat.
         /// </summary>
@@ -453,7 +443,8 @@ GridPos : {EntityCell}";
             OnAlterationReceived?.Invoke(new SpellEventDataAlteration(this,duration,type));
             Debug.Log($"Alteration: {type} to {this.name}");
             Alteration alteration;
-            alteration = type switch {
+            alteration = type switch
+            {
                 EAlterationType.Stun => new StunAlteration(duration),
                 EAlterationType.Snare => new SnareAlteration(duration),
                 EAlterationType.Disarmed => new DisarmedAlteration(duration),
@@ -464,27 +455,34 @@ GridPos : {EntityCell}";
                 EAlterationType.Ephemeral => new EphemeralAlteration(duration),
                 EAlterationType.Confusion => new ConfusionAlteration(duration),
                 EAlterationType.Shattered => new ShatteredAlteration(duration),
-                EAlterationType.DoT => new DoTAlteration(duration,2),//Idfk how much dmg
+                EAlterationType.DoT => new DoTAlteration(duration, 2),//Idfk how much dmg
                 EAlterationType.Bubbled => new BubbledAlteration(duration),
                 EAlterationType.MindControl => new MindControlAlteration(duration),
-                EAlterationType.SpeedUpDown => new SpeedUpDownAlteration(duration,value),
-                EAlterationType.DmgUpDown => new DmgUpDownAlteration(duration,value),
+                EAlterationType.SpeedUpDown => new SpeedUpDownAlteration(duration, value),
+                EAlterationType.DmgUpDown => new DmgUpDownAlteration(duration, value),
                 EAlterationType.Inspiration => new InspirationAlteration(duration),
                 EAlterationType.Sleep => new SleepAlteration(duration),
                 _ => throw new System.NotImplementedException($"NEED TO IMPLEMENT ENUM MEMBER {type}"),
             };
             var found = Alterations.Find(x => x.GetType() == alteration.GetType());
-            if (found != null) {
+            if (found != null)
+            {
                 //TODO : GD? Add Duration? Set duration?
-            } else {
+            }
+            else
+            {
                 Alterations.Add(alteration);
             }
 
             alteration.Setup(this);
-            if (alteration.ClassicCountdown) {
+            if (alteration.ClassicCountdown)
+            {
                 this.OnTurnEnded += alteration.DecrementAlterationCountdown;
-            } else {
-                switch (alteration) {
+            }
+            else
+            {
+                switch (alteration)
+                {
                     case CriticalAlteration crit:
                         //Don't worry guys
                         //Edit: WHY???? WHERE DID I- WHAT???? HELP
@@ -519,11 +517,16 @@ GridPos : {EntityCell}";
                 }
             }
         }
-        public void RemoveAlteration(Alteration alteration) {
-            if (alteration.ClassicCountdown) {
+        public void RemoveAlteration(Alteration alteration)
+        {
+            if (alteration.ClassicCountdown)
+            {
                 this.OnTurnEnded += alteration.DecrementAlterationCountdown;
-            } else {
-                switch (alteration) {
+            }
+            else
+            {
+                switch (alteration)
+                {
                     case CriticalAlteration crit:
                         //Don't worry guys
                         //Edit: WHY???? WHERE DID I- WHAT???? HELP
@@ -558,6 +561,26 @@ GridPos : {EntityCell}";
                 }
             }
         }
+        #endregion
+
+        #region INSTANCE
+        public void AreYouAlive(SpellEventData data) {
+            if (this.Health <= 0) Die();
+        }
+        public virtual void Die() {
+            while (Alterations.Count > 0) {
+                Alteration alt = Alterations[0];
+                alt.WearsOff(this);
+                RemoveAlteration(alt);//You know what? Fuck you *unsubs your alterations*
+                Alterations.RemoveAt(0);
+            }
+            //???
+            OnDeath?.Invoke(new());
+            Destroy(this.gameObject);
+        }
+        #endregion
+
+        #region SKILLS
         public void SubToSpell(SpellAction Action) {
             //oh
             foreach (var item in Alterations) {
@@ -595,6 +618,7 @@ GridPos : {EntityCell}";
             }
             return res;
         }
+        #endregion
     }
 }
 

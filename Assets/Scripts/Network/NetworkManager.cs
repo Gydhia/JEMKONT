@@ -83,7 +83,15 @@ namespace DownBelow.Managers {
         #endregion
 
         #region Players_Callbacks
-        public void EntityAsksForPath(CharacterEntity entity,Cell target,WorldGrid refGrid) 
+        public void EntityAsksForPath(CharacterEntity entity, WorldGrid refGrid)
+        {
+            string mainGrid = refGrid is CombatGrid cGrid ? cGrid.ParentGrid.UName : refGrid.UName;
+            string innerGrid = mainGrid == refGrid.UName ? string.Empty : refGrid.UName;
+            int[] positions = GridManager.Instance.SerializePathData();
+
+            this.photonView.RPC("RPC_RespondWithEntityProcessedPath", RpcTarget.All, entity.UID, positions, mainGrid, innerGrid);
+        }
+        public void EntityAsksForPath(CharacterEntity entity, Cell target, WorldGrid refGrid)
         {
             string mainGrid = refGrid is CombatGrid cGrid ? cGrid.ParentGrid.UName : refGrid.UName;
             string innerGrid = mainGrid == refGrid.UName ? string.Empty : refGrid.UName;
