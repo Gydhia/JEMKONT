@@ -41,15 +41,20 @@ public class CombatFeedbacks : MonoBehaviour
         _entity.OnHealthAdded -= OnHealthAdded;
     }
 
+    private void LateUpdate()
+    {
+      //  this.HealthFill.transform.LookAt(Camera.main.transform.position);
+        //this.ShieldFill.transform.LookAt(Camera.main.transform.position);
+    }
 
     private void OnHealthRemoved(SpellEventData Data)
     {
         if(Data.Value > 0)
         {
-            //this._healthFeedback.transform.LookAt(Camera.main.transform.position);
-
             _healthFeedback.text = "-" + Data.Value.ToString();
             _healthFeedback.color = _healthRemovedColor;
+            _healthFeedback.transform.LookAt(_mainCam.transform.position);
+            _healthFeedback.transform.Rotate(new Vector3(0, 180f, 0));
             _healthFeedback.gameObject.SetActive(true);
             _healthFeedback.rectTransform.DOShakePosition(1.5f, 0.5f,5).SetEase(Ease.InExpo).OnComplete(() => _healthFeedback.gameObject.SetActive(false));
         }
@@ -58,14 +63,16 @@ public class CombatFeedbacks : MonoBehaviour
 
     private void OnHealthAdded(SpellEventData Data)
     {
-        if(Data.Value > 0)
+        if(Data.Value < 0)
         {
-            //this._healthFeedback.transform.LookAt(Camera.main.transform.position);
-
-            _healthFeedback.text = "+" + Data.Value.ToString();
+            _healthFeedback.text = "+" + Mathf.Abs(Data.Value).ToString();
             _healthFeedback.color = _healthAddedColor;
+            _healthFeedback.transform.LookAt(_mainCam.transform.position);
+            _healthFeedback.transform.Rotate(new Vector3(0f, 180f, 0));
             _healthFeedback.gameObject.SetActive(true);
             _healthFeedback.rectTransform.DOShakePosition(1.5f, 0.5f, 5).SetEase(Ease.InExpo).OnComplete(() => _healthFeedback.gameObject.SetActive(false));
         }
+
+      
     }
 }
