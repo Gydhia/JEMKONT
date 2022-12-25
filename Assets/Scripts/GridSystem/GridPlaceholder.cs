@@ -64,7 +64,7 @@ public class GridPlaceholder : SerializedMonoBehaviour
             return;
         }
         ApplyTerrainButtonName = "Applying terrain to grid..";
-        gridTerrainApplier.ApplyTerrainToGrid(CellDatas);
+        gridTerrainApplier.ApplyTerrainToGrid(this.CellDatas, this.InnerGrids);
         ApplyTerrainButtonName = "Apply terrain to grid";
     }
 

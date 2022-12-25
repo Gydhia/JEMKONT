@@ -316,12 +316,11 @@ namespace DownBelow.Managers {
         /// While calculate the closest path to a target, storing it in the Path var of the GridManager
         /// </summary>
         /// <param name="target"></param>
-        public void FindPath(CharacterEntity entity, GridPosition target)
-        {
+        public void FindPath(CharacterEntity entity,GridPosition target,bool directPath = false, int Range = -1) {
             if (entity == null)
                 return;
 
-            Cell startCell = entity.IsMoving ? entity.NextCell : entity.EntityCell;
+            Cell startCell = entity.IsMoving && entity.NextCell != null ? entity.NextCell : entity.EntityCell;
             Cell targetCell = entity.CurrentGrid.Cells[target.latitude,target.longitude];
 
             List<Cell> openSet = new List<Cell>();
@@ -340,7 +339,7 @@ namespace DownBelow.Managers {
                 openSet.Remove(currentCell);
                 closedSet.Add(currentCell);
 
-                if (currentCell == targetCell) {
+                if (currentCell == targetCell || Range > 0 && IsInRange(currentCell.PositionInGrid, targetCell.PositionInGrid, Range)) {
                     this.RetracePath(startCell,targetCell);
                     if (this.Path.Count > 0 && this.Path[^1].Datas.state == CellState.EntityIn) {
                         this.Path.RemoveAt(Path.Count - 1);
@@ -350,7 +349,7 @@ namespace DownBelow.Managers {
 
                 List<Cell> actNeighbours = entity.CurrentGrid.IsCombatGrid ? GetCombatNeighbours(currentCell,entity.CurrentGrid) : GetNormalNeighbours(currentCell,entity.CurrentGrid);
                 foreach (Cell neighbour in actNeighbours) {
-                    if ((neighbour.Datas.state == CellState.Blocked || neighbour.Datas.state == CellState.Shared || closedSet.Contains(neighbour)))
+                    if ((neighbour.Datas.state == CellState.Blocked && directPath == false || neighbour.Datas.state == CellState.Shared || closedSet.Contains(neighbour)))
                         continue;
 
                     int newMovementCostToNeightbour = currentCell.gCost + GetDistance(currentCell,neighbour);
@@ -364,22 +363,99 @@ namespace DownBelow.Managers {
                     }
                 }
             }
+        }
 
+        public List<Cell> FindPathAndReturn(CharacterEntity entity, GridPosition target, bool directPath = false, int Range = -1)
+        {
+            if (entity == null)
+                return null;
+
+            Cell startCell = entity.IsMoving ? entity.NextCell : entity.EntityCell;
+            Cell targetCell = entity.CurrentGrid.Cells[target.latitude, target.longitude];
+
+            List<Cell> openSet = new List<Cell>();
+            HashSet<Cell> closedSet = new HashSet<Cell>();
+
+            openSet.Add(startCell);
+
+            while (openSet.Count > 0)
+            {
+                Cell currentCell = openSet[0];
+                for (int i = 1; i < openSet.Count; i++)
+                {
+                    if (openSet[i].fCost < currentCell.fCost || openSet[i].fCost == currentCell.fCost && openSet[i].hCost < currentCell.hCost)
+                    {
+                        currentCell = openSet[i];
+                    }
+                }
+
+                openSet.Remove(currentCell);
+                closedSet.Add(currentCell);
+
+                if (currentCell == targetCell || Range > 0 && IsInRange(currentCell.PositionInGrid, targetCell.PositionInGrid, Range))
+                {
+                    targetCell = currentCell;
+                    this.RetracePath(startCell, targetCell);
+                    if (this.Path.Count > 0 && this.Path[^1].Datas.state == CellState.EntityIn)
+                    {
+                        this.Path.RemoveAt(Path.Count - 1);
+                    }
+                    return this.Path;
+                }
+                List<Cell> actNeighbours = entity.CurrentGrid.IsCombatGrid ? GetCombatNeighbours(currentCell, entity.CurrentGrid) : GetNormalNeighbours(currentCell, entity.CurrentGrid);
+                foreach (Cell neighbour in actNeighbours)
+                {
+                    if ((neighbour.Datas.state == CellState.Blocked && directPath == false || neighbour.Datas.state == CellState.Shared || closedSet.Contains(neighbour)))
+                        continue;
+
+                    int newMovementCostToNeightbour = currentCell.gCost + GetDistance(currentCell, neighbour);
+                    if (newMovementCostToNeightbour < neighbour.gCost || !openSet.Contains(neighbour))
+                    {
+                        neighbour.gCost = newMovementCostToNeightbour;
+                        neighbour.hCost = GetDistance(neighbour, targetCell);
+                        neighbour.parent = currentCell;
+
+                        if (!openSet.Contains(neighbour))
+                            openSet.Add(neighbour);
+                    }
+                }
+            }
+            return null;
         }
 
         public void RetracePath(Cell startCell,Cell endCell) {
             List<Cell> path = new List<Cell>();
             Cell currentCell = endCell;
-            string debug = "";
+
             while (currentCell != startCell) {
-                debug = debug.Insert(0,$"{currentCell}\n");
                 path.Add(currentCell);
                 currentCell = currentCell.parent;
             }
+
             path.Reverse();
-            Debug.Log("PATH: " + debug);
             this.Path = path;
         }
+
+        private bool IsInRange(GridPosition CurrentPosition, GridPosition TargetPosition, int Range)
+        {
+            bool latitudeOnRange = false;
+            bool longitudeOnRange = false;
+            if (TargetPosition.latitude-Range <= CurrentPosition.latitude && CurrentPosition.latitude <= TargetPosition.latitude + Range)
+            {
+                latitudeOnRange = true;
+            }
+            if (TargetPosition.longitude - Range <= CurrentPosition.longitude && CurrentPosition.longitude <= TargetPosition.longitude + Range)
+            {
+                longitudeOnRange = true;
+            }
+
+            if (latitudeOnRange && longitudeOnRange)
+            {
+                return true;
+            }
+            return false;
+        }
+
         /// <summary>
         /// To get the 8 neighbours around a cell. Used for out of combat walk.
         /// </summary>
@@ -560,11 +636,14 @@ namespace DownBelow.Managers {
 
             foreach (Transform child in this.transform)
             {
+                if(!child.TryGetComponent(out ArrowRenderer rend))
+                {
 #if UNITY_EDITOR
-                DestroyImmediate(child.gameObject);
+                    DestroyImmediate(child.gameObject);
 #else
-                Destroy(child.gameObject);
+                    Destroy(child.gameObject);
 #endif
+                }
             }
 
             this.GridShader = Instantiate(SettingsManager.Instance.GridsPreset.GridShader, this.transform);
@@ -575,7 +654,7 @@ namespace DownBelow.Managers {
 
             Color[] Colors = new Color[world.GridHeight * world.GridWidth];
             for (int i = 0; i < world.GridHeight * world.GridWidth; i++)
-                Colors[i] = Color.black;
+                Colors[i] = editor ? Color.black : Color.green;
 
             this.BitmapTexture.SetPixels(0, 0, world.GridWidth, world.GridHeight, Colors);
 
@@ -596,25 +675,25 @@ namespace DownBelow.Managers {
         {
             // We use innergrid to determine we have a parent
 
-            if(innerGrid == null)
+            if (innerGrid == null)
             {
                 foreach (var item in world.CellDatas)
                 {
-                    this.BitmapTexture.SetPixel(item.widthPos, world.GridHeight - item.heightPos, this._getBitmapColor(item.state));
+                    this.BitmapTexture.SetPixel(item.widthPos, world.GridHeight - item.heightPos, Color.black); //this._getBitmapColor(item.state));
                 }
             }
             for (int y = 0; y < world.GridHeight; y++)
             {
                 for (int x = 0; x < world.GridWidth; x++)
                 {
-                    if(innerGrid != null)
+                    if (innerGrid != null)
                         this.BitmapTexture.SetPixel(x, world.GridHeight - y, Color.black);
-                    else if (this.BitmapTexture.GetPixel(x, world.GridHeight - y) == Color.black)
-                        this.BitmapTexture.SetPixel(x, world.GridHeight - y, Color.green);
+                    //else if (this.BitmapTexture.GetPixel(x, world.GridHeight - y) == Color.black)
+                    //    this.BitmapTexture.SetPixel(x, world.GridHeight - y, Color.green);
                 }
             }
-            
-            if(innerGrid != null)
+
+            if (innerGrid != null)
             {
                 int xOffset = innerGrid.Longitude;
                 int yOffset = innerGrid.Latitude;
@@ -675,10 +754,10 @@ namespace DownBelow.Managers {
 
         private Color _getBitmapColor(CellState state)
         {
-            Color newColor = Color.red;
+            Color newColor = Color.black;
             switch (state)
             {
-                case CellState.Walkable: newColor = Color.black; break;
+                case CellState.Blocked: newColor = Color.black; break;
                 case CellState.EntityIn: newColor = Color.green; break;
                 case CellState.Interactable: newColor = Color.blue; break;
             }

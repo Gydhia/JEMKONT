@@ -184,11 +184,10 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
         transform.position = pos;
     }
 
-    public async Task DrawCardFromPile() {
+    public void DrawCardFromPile() {
         this.gameObject.SetActive(true);
         this.transform.position = UIManager.Instance.CardSection.DrawPile.transform.position;
         StartCoroutine(GoToHand(0.28f));
-        await new WaitForSeconds(0.28f);
     }
     public void GoBackToHand()
     {

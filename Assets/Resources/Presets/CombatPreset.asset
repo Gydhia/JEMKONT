@@ -22,4 +22,5 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   TurnTime: 32
-  CardsToDraw: 3
+  CardsToDrawAtStart: 3
+  CardsToDrawAtTurn: 2

@@ -128,7 +128,10 @@ namespace DownBelow.Entity
             if (this._gatheringCor != null)
                 NetworkManager.Instance.PlayerCanceledInteract(this._currentResource.RefCell);
 
-            this._nextGrid = otherGrid;
+            // TODO: Process this in network directly
+            // We don't want another player to ask 2 times to enter grid
+            if(Photon.Pun.PhotonNetwork.LocalPlayer.UserId == this.PlayerID)
+                this._nextGrid = otherGrid;
 
             if (this.moveCor == null) 
             {
@@ -199,7 +202,9 @@ namespace DownBelow.Entity
             }
             else if (this._nextGrid != string.Empty)
             {
-                NetworkManager.Instance.PlayerAsksToEnterGrid(this, this.CurrentGrid, this._nextGrid);
+                // TODO: This means we shouldn't ask network to change grid, it's made up when moving
+                if (Photon.Pun.PhotonNetwork.LocalPlayer.UserId == GameManager.Instance.SelfPlayer.PlayerID)
+                    NetworkManager.Instance.PlayerAsksToEnterGrid(this, this.CurrentGrid, this._nextGrid);
                 this.NextCell = null;
                 this._nextGrid = string.Empty;
             }
@@ -210,7 +215,8 @@ namespace DownBelow.Entity
             }
         }
 
-        public void EnterNewGrid(CombatGrid grid) {
+        public void EnterNewGrid(CombatGrid grid) 
+        {
             Cell closestCell = GridUtility.GetClosestAvailableCombatCell(this.CurrentGrid,grid,this.EntityCell.PositionInGrid);
 
             while (closestCell.Datas.state != CellState.Walkable) {
