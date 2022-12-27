@@ -233,8 +233,9 @@ namespace DownBelow.Entity
             //Normally already verified. Just in case
             //Calculate straight path, see if obstacle.
             this.CanAutoAttack = false;
-            GridManager.Instance.FindPath(this,cellToAttack.PositionInGrid, true);
-            var notwalkable = GridManager.Instance.Path.Find(x => x.Datas.state != CellState.Walkable);
+            var path = GridManager.Instance.FindPath(this,cellToAttack.PositionInGrid, true);
+
+            var notwalkable = path.Find(x => x.Datas.state != CellState.Walkable);
             if (notwalkable != null) {
                 switch (notwalkable.Datas.state) {
                     case CellState.Blocked:

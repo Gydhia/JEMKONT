@@ -84,6 +84,10 @@ namespace DownBelow.Managers
         {
             if (PhotonNetwork.PlayerList.Length >= 1)
             {
+                // Try do remove dat shit
+                //System.Guid spawnId = GridManager.Instance.SpawnablesPresets.First(k => k is SpawnPreset).Key;
+                //var spawnLocations = GridManager.Instance.MainWorldGrid.SelfData.SpawnablePresets.Where(k => k.Value == spawnId).ToList();
+                //List < GridPosition > positions = spawnLocations[0].value
                 this.Players = new Dictionary<string, PlayerBehavior>();
                 int counter = 0;
                 foreach (var player in PhotonNetwork.PlayerList)

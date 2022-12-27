@@ -87,7 +87,7 @@ namespace DownBelow.Managers {
         {
             string mainGrid = refGrid is CombatGrid cGrid ? cGrid.ParentGrid.UName : refGrid.UName;
             string innerGrid = mainGrid == refGrid.UName ? string.Empty : refGrid.UName;
-            int[] positions = GridManager.Instance.SerializePathData();
+            int[] positions = GridManager.Instance.SerializePathData(entity.CurrentPath);
 
             this.photonView.RPC("RPC_RespondWithEntityProcessedPath", RpcTarget.All, entity.UID, positions, mainGrid, innerGrid);
         }
@@ -96,8 +96,8 @@ namespace DownBelow.Managers {
             string mainGrid = refGrid is CombatGrid cGrid ? cGrid.ParentGrid.UName : refGrid.UName;
             string innerGrid = mainGrid == refGrid.UName ? string.Empty : refGrid.UName;
 
-            GridManager.Instance.FindPath(entity,target.PositionInGrid);
-            int[] positions = GridManager.Instance.SerializePathData();
+            var path = GridManager.Instance.FindPath(entity,target.PositionInGrid);
+            int[] positions = GridManager.Instance.SerializePathData(path);
 
             this.photonView.RPC("RPC_RespondWithEntityProcessedPath",RpcTarget.All,entity.UID,positions,mainGrid,innerGrid);
         }
@@ -114,10 +114,11 @@ namespace DownBelow.Managers {
             entity.MoveWithPath(GridManager.Instance.DeserializePathData(entity,pathResult),string.Empty);
         }
 
-        public void PlayerAsksForPath(PlayerBehavior player,GridSystem.Cell target,string otherGrid) {
-            GridManager.Instance.FindPath(GameManager.Instance.Players[player.PlayerID],target.PositionInGrid);
+        public void PlayerAsksForPath(PlayerBehavior player,GridSystem.Cell target,string otherGrid) 
+        {
+            var path = GridManager.Instance.FindPath(GameManager.Instance.Players[player.PlayerID], target.PositionInGrid);
 
-            int[] positions = GridManager.Instance.SerializePathData();
+            int[] positions = GridManager.Instance.SerializePathData(path);
 
             this.photonView.RPC("RPC_RespondWithProcessedPath",RpcTarget.All,player.PlayerID,positions,otherGrid);
         }

@@ -101,10 +101,10 @@ namespace DownBelow.Entity {
         private void MovementStraight()
         {
             GridPosition targPosition = CurrentTarget.EntityCell.PositionInGrid;
-            GridManager.Instance.FindPath(this, targPosition);
-            if (GridManager.Instance.Path.Count > this.Speed)
+            var path = GridManager.Instance.FindPath(this, targPosition);
+            if (path.Count > this.Speed)
             {
-                NetworkManager.Instance.EntityAsksForPath(this, GridManager.Instance.Path[this.Speed], this.CurrentGrid);
+                NetworkManager.Instance.EntityAsksForPath(this, path[this.Speed], this.CurrentGrid);
             }
             NetworkManager.Instance.EntityAsksForPath(this, this.CurrentGrid);
         }
@@ -115,16 +115,15 @@ namespace DownBelow.Entity {
         private void MovementStraightToRange()
         {
             GridPosition targPosition = CurrentTarget.EntityCell.PositionInGrid;
-            List<Cell> Path =  GridManager.Instance.FindPathAndReturn(this, targPosition, false, this.Range);
-            if (Path.Count == 0)
-            {
+            List<Cell> path = GridManager.Instance.FindPath(this, targPosition, false, this.Range);
+
+            if (path == null || path.Count == 0)
                 return;
-            }
-            if (Path.Count > this.Speed)
-            {
-                NetworkManager.Instance.EntityAsksForPath(this, Path[this.Speed], this.CurrentGrid);
-            }
-            NetworkManager.Instance.EntityAsksForPath(this, Path[Path.Count - 1], this.CurrentGrid);
+
+            if (path.Count > this.Speed)
+                NetworkManager.Instance.EntityAsksForPath(this, path[this.Speed], this.CurrentGrid);
+            else
+                NetworkManager.Instance.EntityAsksForPath(this, path[path.Count - 1], this.CurrentGrid);
         }
         #endregion
 
@@ -178,15 +177,18 @@ namespace DownBelow.Entity {
         /// Returns Players ordered from closest to farthest / farthest to Closest. If an entity is provoking, clones it to put in index 0 of the array.
         /// Arguments : Type = "Min" or "Max" depending on getting the closest or farthest
         /// </summary>
-        public CharacterEntity[] PlayersOrderedByDistance(string type,out int sameDist) {
+        public CharacterEntity[] PlayersOrderedByDistance(string type,out int sameDist) 
+        {
             var Players = CurrentGrid.GridEntities.FindAll(x => x.IsAlly);
             var Provoking = Players.FindAll(x => x.Provoke);
+
             int[] distances = new int[Players.Count];
             //Get all distances to player (from path) and set them in distances
-            for (int i = 0; i < Players.Count; i++) {
+            for (int i = 0; i < Players.Count; i++) 
+            {
                 CharacterEntity item = Players[i];
-                GridManager.Instance.FindPath(this,item.EntityCell.PositionInGrid);
-                distances[i] = GridManager.Instance.Path.Count;
+                var path = GridManager.Instance.FindPath(this,item.EntityCell.PositionInGrid);
+                distances[i] = path == null ? int.MaxValue : path.Count;
             }
             CharacterEntity[] orderedAllies = new CharacterEntity[distances.Length];
             int ActualPlayer = 0;
@@ -235,7 +237,8 @@ namespace DownBelow.Entity {
             {
                 orderedAllies[ActualPlayer] = Players[Index];
             }
-            ArrayUtility.RemoveAt(ref distances, Index);
+            ArrayHelper.RemoveAt(ref distances, Index);;
+
             return Dist;
         }
 
@@ -247,7 +250,7 @@ namespace DownBelow.Entity {
                 {
                     continue;
                 }
-                ArrayUtility.Insert(ref array, i, provoked);
+                ArrayHelper.Insert(ref array, i, provoked);
                 break;
             }
         }
