@@ -114,7 +114,7 @@ namespace DownBelow.GridSystem
                 }
             }
             // Bottom
-            else if (entityPos.latitude > latitude + height)
+            else if (entityPos.latitude >= latitude + height)
             {
                 // Are we horizontally inside ?
                 if (entityPos.longitude >= longitude && entityPos.longitude <= longitude + width)
