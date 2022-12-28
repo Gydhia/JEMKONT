@@ -114,7 +114,7 @@ namespace DownBelow.Managers {
             PlayerBehavior selfPlayer = GameManager.Instance.SelfPlayer;
 
             // Combat behavior
-            if (selfPlayer.CurrentGrid.IsCombatGrid) 
+            if (selfPlayer.CurrentGrid.IsCombatGrid && selfPlayer.IsPlayingEntity) 
             {
                 // When not grabbing card
                 if(CombatManager.Instance.CurrentCard == null)
@@ -143,7 +143,7 @@ namespace DownBelow.Managers {
                 }
             }
             // When out of combat
-            else 
+            else if (this.LastHoveredCell.Datas.state != CellState.Blocked)
             {
                 Cell closestCell = this.LastHoveredCell;
                 string otherGrid = string.Empty;
@@ -151,8 +151,16 @@ namespace DownBelow.Managers {
                 if (InputManager.Instance.LastInteractable != null)
                 {
                     Cell cell = InputManager.Instance.LastInteractable.RefCell;
-                    closestCell = GridUtility.GetClosestCellToShape(selfPlayer.CurrentGrid, cell.Datas.heightPos, cell.Datas.widthPos, 0, 0, selfPlayer.EntityCell.PositionInGrid);
-                    selfPlayer._nextInteract = InputManager.Instance.LastInteractable;
+                    closestCell = GridUtility.GetClosestCellToShape(selfPlayer.CurrentGrid, cell.Datas.heightPos, cell.Datas.widthPos, 1, 1, selfPlayer.EntityCell.PositionInGrid);
+                    selfPlayer.NextInteract = InputManager.Instance.LastInteractable;
+
+                    if (GridUtility.IsNeighbourCell(closestCell, selfPlayer.EntityCell))
+                    {
+                        NetworkManager.Instance.PlayerAsksToInteract(selfPlayer.NextInteract.RefCell);
+                        selfPlayer.NextInteract = null;
+
+                        return;
+                    }   
                 }
                 else
                 {

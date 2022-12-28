@@ -19,7 +19,7 @@ namespace DownBelow.GridSystem
         }
         public override void Interact(Entity.PlayerBehavior player)
         {
-            UIManager.Instance.Storage.SetStorageAndShow(this.Storage);
+            UIManager.Instance.CurrentStorage.SetStorageAndShow(this.Storage);
         }
     }
 }

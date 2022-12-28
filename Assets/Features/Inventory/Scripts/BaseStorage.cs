@@ -48,7 +48,7 @@ namespace DownBelow.Inventory
             else
                 this.StorageItems[item] = -1;
 
-            this.FireItemChanged(item, this.StorageItems[item]);
+            this.FireItemChanged(item, quantity);
         }
 
         /// <summary>

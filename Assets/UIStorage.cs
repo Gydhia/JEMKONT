@@ -70,6 +70,7 @@ namespace DownBelow.Inventory
         private void _updateStorage(ItemEventData Data)
         {
             // Ugly for now, rework this method later
+            Debug.Log("Trying to add " + Data.Quantity + " to the storage");
             List<UIInventoryItem> existingItems = this.Items.Where(i => i.ItemPreset == Data.Item).ToList();
 
             int stacksToAdd = Mathf.CeilToInt((float)Data.Quantity / Data.Item.MaxStack);

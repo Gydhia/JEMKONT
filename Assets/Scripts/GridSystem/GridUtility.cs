@@ -118,14 +118,14 @@ namespace DownBelow.GridSystem
             {
                 // Are we horizontally inside ?
                 if (entityPos.longitude >= longitude && entityPos.longitude <= longitude + width)
-                    return refGrid.Cells[latitude + height + 1, entityPos.longitude];
+                    return refGrid.Cells[latitude + height, entityPos.longitude];
                 // Are we on the right or left ?
                 else
                 {
                     if (entityPos.longitude < longitude)
-                        return refGrid.Cells[latitude + height + 1, longitude];
+                        return refGrid.Cells[latitude + height, longitude];
                     else
-                        return refGrid.Cells[latitude + height + 1, longitude + width - 1];
+                        return refGrid.Cells[latitude + height, longitude + width - 1];
                 }
             }
             // Right
@@ -161,13 +161,13 @@ namespace DownBelow.GridSystem
                     return innerGrid.Cells[0, entityPos.longitude - innerGrid.Longitude];
                 }
                 // Bottom
-                else if (entityPos.latitude > innerGrid.Latitude + innerGrid.GridHeight)
+                else if (entityPos.latitude >= innerGrid.Latitude + innerGrid.GridHeight)
                 {
                     bot = true;
                     return innerGrid.Cells[innerGrid.GridHeight - 1, entityPos.longitude - innerGrid.Longitude];
                 }
                 // Right
-                else if (entityPos.longitude > innerGrid.Longitude + innerGrid.GridWidth)
+                else if (entityPos.longitude >= innerGrid.Longitude + innerGrid.GridWidth)
                 {
                     right = true;
                     return innerGrid.Cells[entityPos.latitude - innerGrid.Latitude, innerGrid.GridWidth - 1];
@@ -190,6 +190,10 @@ namespace DownBelow.GridSystem
                 return null;
             }
         }
-        
+
+        public static bool IsNeighbourCell(Cell fCell, Cell sCell)
+        {
+            return Mathf.Abs(fCell.Datas.widthPos - sCell.Datas.widthPos) <= 1 && Mathf.Abs(fCell.Datas.heightPos - sCell.Datas.heightPos) <= 1;
+        }
     }
 }
