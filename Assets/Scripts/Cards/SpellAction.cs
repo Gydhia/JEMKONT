@@ -1,17 +1,18 @@
 using DownBelow.Entity;
 using DownBelow.Events;
+using DownBelow.GridSystem;
+using DownBelow.Mechanics;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
-
-namespace DownBelow.Spells
-{
-    public abstract class SpellAction : MonoBehaviour
-    {
+using DG.Tweening;
+namespace DownBelow.Spells {
+    public abstract class SpellAction : MonoBehaviour {
         public SpellResult Result;
-     
+
         public event SpellEventData.Event OnDamageDealt;
         public event SpellEventData.Event OnHealReceived;
         public event SpellEventData.Event OnHealGiven;
@@ -27,21 +28,39 @@ namespace DownBelow.Spells
 
         private List<CharacterEntity> _targets;
         private Spell _spellRef;
+        public ScriptableSFX SFXData;
 
-        public GameObject FXPrefab;
-        public virtual void Execute(List<CharacterEntity> targets, Spell spellRef)
-        {
+        public virtual void Execute(List<CharacterEntity> targets, Spell spellRef) {
             this._spellRef = spellRef;
             this._targets = targets;
             this.HasEnded = false;
             this.Result = new SpellResult();
-            this.Result.Init(this._targets, this._spellRef.Caster,this);
-            if(FXPrefab!= null) {
-                for (int i = 0;i < targets.Count;i++) {
-                    Destroy(Instantiate(FXPrefab,targets[i].transform.position,Quaternion.identity),6f);
-                }
-            }
+            this.Result.Init(this._targets, this._spellRef.Caster, this);
+
             spellRef.Caster.SubToSpell(this);
+        }
+
+        public virtual async Task DoSFX(CharacterEntity caster, Cell target) {
+            switch (SFXData.TravelType) {
+                case ESFXTravelType.ProjectileToEnemy:
+                    if (SFXData != null) {
+                        GameObject proj = Instantiate(SFXData.Prefab, caster.transform.position, Quaternion.identity);
+                        //TODO: quaternion.LookRotation to target?
+                        proj.transform.DOMoveX(target.transform.position.x, 0.35f);
+                        proj.transform.DOMoveZ(target.transform.position.z, 0.35f);
+                        //TODO : MoveY To have an arching projectile? Also, easings? tweaking? Polishing?
+                        await new WaitForSeconds(0.35f);
+                        Destroy(proj);
+                    }
+                    break;
+                case ESFXTravelType.Instantaneous:
+                    //prout
+                    if (SFXData != null) {
+                        Destroy(Instantiate(SFXData.Prefab, target.transform.position, Quaternion.identity), 6f);
+                        //TODO: quaternion.LookRotation to target?
+                    }
+                    break;
+            }
         }
         public void FireOnDamageDealt(SpellEventData data) {
             OnDamageDealt?.Invoke(data);
@@ -64,14 +83,14 @@ namespace DownBelow.Spells
         public void FireOnStatModified(SpellEventData data) {
             switch (data.Stat) {
                 case EntityStatistics.Health:
-                    if(data.Value >= 0) {
+                    if (data.Value >= 0) {
                         OnDamageDealt?.Invoke(data);
                     } else {
                         OnHealGiven?.Invoke(data);
                     }
                     break;
                 case EntityStatistics.Shield:
-                    if(data.Value >= 0) {
+                    if (data.Value >= 0) {
                         OnShieldAdded?.Invoke(data);
                     } else {
                         OnShieldRemoved?.Invoke(data);

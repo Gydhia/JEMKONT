@@ -1,5 +1,6 @@
 using DownBelow.Entity;
 using DownBelow.Managers;
+using DownBelow.Mechanics;
 using Sirenix.OdinInspector;
 using System;
 using System.Collections;
@@ -23,6 +24,7 @@ namespace DownBelow.Spells
         [EnableIf("@!this.ApplyToEnemies && !this.ApplyToAllies")]
         public bool ApplyToAll = false;
 
+
         // The instantiated spell
         [HideInInspector]
         public SpellAction CurrentAction;
@@ -37,6 +39,7 @@ namespace DownBelow.Spells
             this.ApplyToAllies = ApplyToAllies;
             this.ApplyToAll = ApplyToAll;
         }
+
         public void ExecuteSpell(CharacterEntity caster, GridSystem.Cell cellTarget)
         {
             this.Caster = caster;

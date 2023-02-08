@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HasEnded: 0
+  SFXData: {fileID: 0}
 --- !u!114 &-2018030893080846226
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59,5 +60,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HasEnded: 0
+  SFXData: {fileID: 11400000, guid: 9931d0474c8af454aaf91e2aa393da5e, type: 2}
   ModifiedStatistic: 0
   StatisticValue: 10
