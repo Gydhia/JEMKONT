@@ -45,12 +45,13 @@ namespace DownBelow.Spells {
                 case ESFXTravelType.ProjectileToEnemy:
                     if (SFXData != null) {
                         GameObject proj = Instantiate(SFXData.Prefab, caster.transform.position, Quaternion.identity);
-                        //TODO: quaternion.LookRotation to target?
+                        proj.transform.DOLookAt(target.transform.position,0f);
                         proj.transform.DOMoveX(target.transform.position.x, 0.35f);
                         proj.transform.DOMoveZ(target.transform.position.z, 0.35f);
                         //TODO : MoveY To have an arching projectile? Also, easings? tweaking? Polishing?
                         await new WaitForSeconds(0.35f);
                         Destroy(proj);
+                        //TODO: hit effect?
                     }
                     break;
                 case ESFXTravelType.Instantaneous:
