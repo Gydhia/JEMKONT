@@ -61,7 +61,7 @@ namespace DownBelow.Entity
         private InteractableResource _currentResource = null;
         
         
-        public Interactable _nextInteract = null;
+        public Interactable NextInteract = null;
 
         public MeshRenderer PlayerBody;
         public string PlayerID;
@@ -128,7 +128,10 @@ namespace DownBelow.Entity
             if (this._gatheringCor != null)
                 NetworkManager.Instance.PlayerCanceledInteract(this._currentResource.RefCell);
 
-            this._nextGrid = otherGrid;
+            // TODO: Process this in network directly
+            // We don't want another player to ask 2 times to enter grid
+            if(Photon.Pun.PhotonNetwork.LocalPlayer.UserId == this.PlayerID)
+                this._nextGrid = otherGrid;
 
             if (this.moveCor == null) 
             {
@@ -141,8 +144,8 @@ namespace DownBelow.Entity
             else 
             {
                 this.NextPath = newPath;
-                if(this._nextInteract != null)
-                    this._nextInteract = null;
+                if(this.NextInteract != null)
+                    this.NextInteract = null;
             }
         }
 
@@ -199,22 +202,23 @@ namespace DownBelow.Entity
             }
             else if (this._nextGrid != string.Empty)
             {
-                Debug.LogError("ASKED ENTER GRID");
-                NetworkManager.Instance.PlayerAsksToEnterGrid(this, this.CurrentGrid, this._nextGrid);
+                // TODO: This means we shouldn't ask network to change grid, it's made up when moving
+                if (Photon.Pun.PhotonNetwork.LocalPlayer.UserId == GameManager.Instance.SelfPlayer.PlayerID)
+                    NetworkManager.Instance.PlayerAsksToEnterGrid(this, this.CurrentGrid, this._nextGrid);
                 this.NextCell = null;
                 this._nextGrid = string.Empty;
             }
-            else if (this._nextInteract != null)
+            else if (this.NextInteract != null)
             {
-                NetworkManager.Instance.PlayerAsksToInteract(_nextInteract.RefCell);
-                this._nextInteract = null;
+                NetworkManager.Instance.PlayerAsksToInteract(NextInteract.RefCell);
+                this.NextInteract = null;
             }
         }
 
         public void EnterNewGrid(CombatGrid grid) 
         {
             Cell closestCell = GridUtility.GetClosestAvailableCombatCell(this.CurrentGrid,grid,this.EntityCell.PositionInGrid);
-            Debug.LogError("Just passed well from top ;)");
+
             while (closestCell.Datas.state != CellState.Walkable) {
                 List<Cell> neighbours = GridManager.Instance.GetCombatNeighbours(closestCell,grid);
                 closestCell = neighbours.First(cell => cell.Datas.state == CellState.Walkable);

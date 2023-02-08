@@ -3,11 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace DownBelow.UI.Inventory
 {
-    public class UIInventoryItem : MonoBehaviour
+    public class UIInventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
         [SerializeField] private Image icon;
         [SerializeField] private TextMeshProUGUI quantity;
@@ -15,6 +16,8 @@ namespace DownBelow.UI.Inventory
 
         public int TotalQuantity = 0;
         public ItemPreset ItemPreset;
+
+        private Transform _parentAfterDrag;
 
         private void Start()
         {
@@ -28,7 +31,7 @@ namespace DownBelow.UI.Inventory
             if(preset != null)
             {
                 this.icon.sprite = preset.InventoryIcon;
-                this.TotalQuantity += quantity;
+                this.TotalQuantity = quantity;
                 this.quantity.text = this.TotalQuantity.ToString();
             }
             else
@@ -55,5 +58,22 @@ namespace DownBelow.UI.Inventory
             this.quantity.text = string.Empty;
             this.TotalQuantity = 0;
         }
+
+        public void OnBeginDrag(PointerEventData eventData)
+        {
+            this._parentAfterDrag = transform.parent;
+            this.transform.SetParent(transform.root);
+            this.transform.SetAsLastSibling();
+        }
+
+        public void OnDrag(PointerEventData eventData)
+        {
+            this.transform.position = Input.mousePosition;
+        }
+        public void OnEndDrag(PointerEventData eventData)
+        {
+            transform.SetParent(this._parentAfterDrag);
+        }
+
     }
 }

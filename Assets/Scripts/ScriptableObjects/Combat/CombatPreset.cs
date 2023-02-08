@@ -12,6 +12,9 @@ namespace DownBelow.GameData
         public float TurnTime = 60f;
 
         [Range(0f, 10f)]
-        public int CardsToDraw = 3;
+        public int CardsToDrawAtStart = 3;
+
+        [Range(0f, 10f)]
+        public int CardsToDrawAtTurn = 3;
     }
 }
