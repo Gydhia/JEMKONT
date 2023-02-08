@@ -3,6 +3,7 @@ using DownBelow.GridSystem;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace DownBelow.Managers
 {
@@ -35,6 +36,7 @@ namespace DownBelow.Managers
         #endregion
 
         public Interactable LastInteractable;
+        public EventSystem EventSystem;
 
         private void Update()
         {
@@ -80,31 +82,22 @@ namespace DownBelow.Managers
                 this.LastInteractable = null;   
             }
             #endregion
-            if (Input.GetMouseButtonUp(1))
+            if (!EventSystem.IsPointerOverGameObject())
             {
-                if (GridManager.Instance.LastHoveredCell != null)
-                    this.FireCellRightClick(GridManager.Instance.LastHoveredCell);
-            }
-            if (Input.GetMouseButtonUp(0))
-            {
-                if(GridManager.Instance.LastHoveredCell != null)
-                    this.FireCellClickedUp(GridManager.Instance.LastHoveredCell);
-            }
-            if (Input.GetMouseButtonDown(0)) {
-                if (GridManager.Instance.LastHoveredCell != null)
-                    this.FireCellClickedDown(GridManager.Instance.LastHoveredCell);
-            }
-
-            // UTILITY : To mark a cell as non-walkable
-            if (Input.GetMouseButtonUp(1))
-            {
-                // layer 7 = Cell
-                if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 7))
+                if (Input.GetMouseButtonUp(1))
                 {
-                    if (hit.collider.TryGetComponent(out Cell cell))
-                    {
-                        cell.ChangeCellState(cell.Datas.state == CellState.Blocked ? CellState.Walkable : CellState.Blocked);
-                    }
+                    if (GridManager.Instance.LastHoveredCell != null)
+                        this.FireCellRightClick(GridManager.Instance.LastHoveredCell);
+                }
+                if (Input.GetMouseButtonUp(0))
+                {
+                    if (GridManager.Instance.LastHoveredCell != null)
+                        this.FireCellClickedUp(GridManager.Instance.LastHoveredCell);
+                }
+                if (Input.GetMouseButtonDown(0))
+                {
+                    if (GridManager.Instance.LastHoveredCell != null)
+                        this.FireCellClickedDown(GridManager.Instance.LastHoveredCell);
                 }
             }
         }

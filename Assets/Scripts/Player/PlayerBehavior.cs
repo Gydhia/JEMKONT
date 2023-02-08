@@ -61,7 +61,7 @@ namespace DownBelow.Entity
         private InteractableResource _currentResource = null;
         
         
-        public Interactable _nextInteract = null;
+        public Interactable NextInteract = null;
 
         public MeshRenderer PlayerBody;
         public string PlayerID;
@@ -144,8 +144,8 @@ namespace DownBelow.Entity
             else 
             {
                 this.NextPath = newPath;
-                if(this._nextInteract != null)
-                    this._nextInteract = null;
+                if(this.NextInteract != null)
+                    this.NextInteract = null;
             }
         }
 
@@ -208,10 +208,10 @@ namespace DownBelow.Entity
                 this.NextCell = null;
                 this._nextGrid = string.Empty;
             }
-            else if (this._nextInteract != null)
+            else if (this.NextInteract != null)
             {
-                NetworkManager.Instance.PlayerAsksToInteract(_nextInteract.RefCell);
-                this._nextInteract = null;
+                NetworkManager.Instance.PlayerAsksToInteract(NextInteract.RefCell);
+                this.NextInteract = null;
             }
         }
 

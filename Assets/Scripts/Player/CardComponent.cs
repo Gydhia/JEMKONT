@@ -79,6 +79,9 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
     }
     public void Update()
     {
+        if (!GameManager.Instance.SelfPlayer.IsPlayingEntity)
+            return;
+
         Vector2 mousePos = Input.mousePosition;
         if (isDragged)
         {

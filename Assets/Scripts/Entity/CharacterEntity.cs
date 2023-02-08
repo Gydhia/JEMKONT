@@ -56,6 +56,7 @@ namespace DownBelow.Entity
 
         public int TurnOrder;
         public bool IsAlly = true;
+        public bool IsPlayingEntity = false;
         // Used for NPC. Determined UID to parse over network. 
         // TODO: Change it to a real Guid later
         public string UID = string.Empty;
@@ -233,8 +234,9 @@ namespace DownBelow.Entity
             //Normally already verified. Just in case
             //Calculate straight path, see if obstacle.
             this.CanAutoAttack = false;
-            GridManager.Instance.FindPath(this,cellToAttack.PositionInGrid, true);
-            var notwalkable = GridManager.Instance.Path.Find(x => x.Datas.state != CellState.Walkable);
+            var path = GridManager.Instance.FindPath(this,cellToAttack.PositionInGrid, true);
+
+            var notwalkable = path.Find(x => x.Datas.state != CellState.Walkable);
             if (notwalkable != null) {
                 switch (notwalkable.Datas.state) {
                     case CellState.Blocked:
@@ -269,10 +271,14 @@ namespace DownBelow.Entity
             foreach (Alteration Alter in Alterations) {
                 Alter.Apply(this);
             }
+
+            this.IsPlayingEntity = false;
             OnTurnEnded?.Invoke(new());
         }
         public virtual void StartTurn() 
         {
+            this.IsPlayingEntity = true;
+
             OnTurnBegun?.Invoke(new());
             CanAutoAttack = !Disarmed;//CanAutoAttack = true if !Disarmed
 
