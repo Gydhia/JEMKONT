@@ -21,7 +21,9 @@ namespace DownBelow.GridSystem
             this.GatheredMesh.gameObject.SetActive(true);
             ResourcePreset rPreset = this.InteractablePreset as ResourcePreset;
 
-            NetworkManager.Instance.GiftOrRemovePlayerItem(player.PlayerID, rPreset.ResourceItem, Random.Range(rPreset.MinGathering, rPreset.MaxGathering));
+            int gathered = Random.Range(rPreset.MinGathering, rPreset.MaxGathering);
+            Debug.Log("Gathered " + gathered + " of " + rPreset.UName);
+            NetworkManager.Instance.GiftOrRemovePlayerItem(player.PlayerID, rPreset.ResourceItem, gathered);
         }
     }
 }

@@ -80,8 +80,8 @@ public class GridPlaceholder : SerializedMonoBehaviour
         {
             this.TopLeftOffset = newGrid.TopLeftOffset;
             this.transform.position = this.TopLeftOffset;
-            if (GridManager.Instance.SpawnablesPresets == null)
-                GridManager.Instance.LoadEveryEntities();
+            
+            GridManager.Instance.LoadEveryEntities();
 
             this.GenerateGrid(newGrid.GridHeight, newGrid.GridWidth);
 
@@ -277,7 +277,7 @@ public class GridPlaceholder : SerializedMonoBehaviour
             int counter = 0;
             foreach (var entity in this.Spawnables)
             {
-                drawString(counter.ToString(), new Vector3(entity.Key.longitude * cellsWidth + TopLeftOffset.x + (cellsWidth / 2), cellBounds.y / 2f + 0.15f, -entity.Key.latitude * cellsWidth + TopLeftOffset.z - (cellsWidth / 2)));
+                drawString(counter.ToString(), new Vector3(entity.Key.longitude * cellsWidth + TopLeftOffset.x + (cellsWidth / 2), TopLeftOffset.y + (cellBounds.y / 2f + 0.15f), -entity.Key.latitude * cellsWidth + TopLeftOffset.z - (cellsWidth / 2)));
                 counter++;
             }
             foreach (var grid in this.InnerGrids)

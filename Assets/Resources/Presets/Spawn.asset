@@ -23,6 +23,6 @@ MonoBehaviour:
     SerializationNodes:
     - Name: UID
       Entry: 2
-      Data: 00000000000000000000000000000000
-  UName: 
+      Data: dbddd14f8fd77c7fdcd62e926266611e
+  UName: Spawn
   AffectingState: 0
