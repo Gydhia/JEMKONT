@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace DownBelow.Inventory
+namespace DownBelow.UI.Inventory
 {
     public class UIStorage : MonoBehaviour
     {
@@ -36,6 +36,9 @@ namespace DownBelow.Inventory
         /// </summary>
         private void _init()
         {
+            for (int i = 0; i < this.Items.Count; i++)
+                this.Items[i].Init(null, 0, this);
+
             int gap = this.Items.Count <= 0 ?
                 0 : this.Storage.MaxSlots - this.Items.Count;
 
@@ -44,7 +47,7 @@ namespace DownBelow.Inventory
                 for (int i = 0; i < gap; i++)
                 {
                     this.Items.Add(Instantiate(SettingsManager.Instance.GameUIPreset.ItemPrefab, ItemsHolder));
-                    this.Items[^1].Init(null, 0);
+                    this.Items[^1].Init(null, 0, this);
                 }
             }
             else
@@ -56,7 +59,7 @@ namespace DownBelow.Inventory
             int counter = 0;
             foreach (var item in this.Storage.StorageItems)
             {
-                this.Items[counter].Init(item.Key, item.Value);
+                this.Items[counter].Init(item.Key, item.Value, this);
                 counter++;
             }
 
@@ -81,7 +84,7 @@ namespace DownBelow.Inventory
                 for (int i = 0; i < stacksToAdd; i++)
                 {
                     int nbToAdd = remainings >= Data.Item.MaxStack ? Data.Item.MaxStack : remainings;
-                    this.Items[_getAvailableSlot()].Init(Data.Item, nbToAdd);
+                    this.Items[_getAvailableSlot()].Init(Data.Item, nbToAdd, this);
                     remainings -= nbToAdd;
                 }
             }
@@ -117,7 +120,7 @@ namespace DownBelow.Inventory
                     for (int i = 0; i < stacksToAdd; i++)
                     {
                         int nbToAdd = remainings >= Data.Item.MaxStack ? Data.Item.MaxStack : remainings;
-                        this.Items[_getAvailableSlot()].Init(Data.Item, nbToAdd);
+                        this.Items[_getAvailableSlot()].Init(Data.Item, nbToAdd, this);
                         remainings -= nbToAdd;
                     }
                 }
@@ -130,6 +133,11 @@ namespace DownBelow.Inventory
                 if (this.Items[i].ItemPreset == null)
                     return i;
             return -1;
+        }
+
+        public void AddItemAtIndex(UIInventoryItem fromItem, UIInventoryItem toItem)
+        {
+            this.Storage.AddItem(fromItem.ItemPreset, fromItem.TotalQuantity);
         }
 
         public void HideStorage()

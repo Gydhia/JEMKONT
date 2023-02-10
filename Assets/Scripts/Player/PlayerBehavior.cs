@@ -3,6 +3,7 @@ using DownBelow.GridSystem;
 using DownBelow.Inventory;
 using DownBelow.Managers;
 using DownBelow.Spells;
+using DownBelow.UI.Inventory;
 using MyBox;
 using Photon.Pun;
 using Photon.Realtime;

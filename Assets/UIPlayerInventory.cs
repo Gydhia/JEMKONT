@@ -9,7 +9,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace DownBelow.Inventory
+namespace DownBelow.UI.Inventory
 {
     public class UIPlayerInventory : MonoBehaviour
     {

@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DownBelow.Inventory
+namespace DownBelow.UI.Inventory
 {
     public class BaseStorage
     {
@@ -36,7 +36,7 @@ namespace DownBelow.Inventory
         /// </summary>
         /// <param name="item">The item preset</param>
         /// <param name="quantity">The number to add, -1 if infinite</param>
-        public void AddItem(ItemPreset item, int quantity = -1)
+        public void AddItem(ItemPreset item, int quantity = -1, bool notify = true)
         {
             if(quantity > 0)
             {
@@ -48,7 +48,8 @@ namespace DownBelow.Inventory
             else
                 this.StorageItems[item] = -1;
 
-            this.FireItemChanged(item, quantity);
+            if(notify)
+                this.FireItemChanged(item, quantity);
         }
 
         /// <summary>
