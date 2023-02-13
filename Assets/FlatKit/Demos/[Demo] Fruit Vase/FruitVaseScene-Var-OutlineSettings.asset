@@ -12,18 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 130791d3e20646d2b6d81688877b0909, type: 3}
   m_Name: FruitVaseScene-Var-OutlineSettings
   m_EditorClassIdentifier: 
-  edgeColor: {r: 0, g: 0, b: 0, a: 1}
-  thickness: 0
+  edgeColor: {r: 0, g: 0, b: 0, a: 0.76862746}
+  thickness: 1
   resolutionInvariant: 0
   useDepth: 1
-  useNormals: 1
+  useNormals: 0
   useColor: 1
   minDepthThreshold: 1
   maxDepthThreshold: 10
   minNormalsThreshold: 0.5
   maxNormalsThreshold: 0.75
   minColorThreshold: 0
-  maxColorThreshold: 0.25
+  maxColorThreshold: 0.35
   renderEvent: 500
   outlineOnly: 0
   applyInSceneView: 1
