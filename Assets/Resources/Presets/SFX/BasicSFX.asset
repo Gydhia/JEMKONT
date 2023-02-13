@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed9d74509586bda4f9ecae3a2dda3c20, type: 3}
   m_Name: BasicSFX
   m_EditorClassIdentifier: 
-  Prefab: {fileID: 392772867228603928, guid: 3a29017fd4dcb114b9d1e5a6296f24fd, type: 3}
+  Prefab: {fileID: 1990380580032880, guid: 46b312e00ed9c1f459ea9f0e55bfac77, type: 3}
   TravelType: 1
+  TravelTime: 0.35

@@ -45,4 +45,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HasEnded: 0
-  FXPrefab: {fileID: 782190285946635262, guid: a262d68e8d1662645821b86a332d5b3d, type: 3}
+  SFXData: {fileID: 11400000, guid: 62217a3b5d134cd48b9b76ba20d012bb, type: 2}

@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HasEnded: 0
-  SFXData: {fileID: 11400000, guid: 9931d0474c8af454aaf91e2aa393da5e, type: 2}
+  SFXData: {fileID: 11400000, guid: 62217a3b5d134cd48b9b76ba20d012bb, type: 2}
   AlterationType: 2
   Duration: 1
   value: 0

@@ -47,8 +47,9 @@ namespace DownBelow.Spells {
             ProjTransform.transform.DOMoveZ(Target.position.z, TravelTime);
             //TODO : MoveY To have an arching projectile? Also, easings? tweaking? Polishing?
             await new WaitForSeconds(TravelTime);
+            ProjTransform.GetComponent<Rigidbody>().isKinematic = false;
         }
-        public virtual async Task DoSFX(CharacterEntity caster, Cell target) {
+        public virtual async Task DoSFX(CharacterEntity caster, Cell target, Spell spell) {
             GameObject proj = null;
             Animator anim = null;
             float TravelTime = SFXData.TravelTime;
@@ -58,6 +59,7 @@ namespace DownBelow.Spells {
             } else {
                 landTime = (float)0f;
             }
+            
             if (SFXData != null) switch (SFXData.TravelType) {
                     case ESFXTravelType.ProjectileToEnemy:
                         proj = Instantiate(SFXData.Prefab, caster.transform.position, Quaternion.identity);
@@ -66,12 +68,11 @@ namespace DownBelow.Spells {
                         await ProjectileGoTo(proj.transform, target.transform, TravelTime);
                         //Landed!
                         if (anim != null) anim.SetTrigger("Landed");
-                        Debug.Log(landTime);
                         Destroy(proj, landTime);
                         break;
                     case ESFXTravelType.Instantaneous:
                         //prout
-                        Destroy(Instantiate(SFXData.Prefab, target.transform.position, Quaternion.identity), 6f);
+                        Destroy(Instantiate(SFXData.Prefab, spell.ApplyToSelf?caster.transform.position:target.transform.position, Quaternion.identity), 6f);
                         //TODO: quaternion.LookRotation to target?
                         break;
                     case ESFXTravelType.ProjectileFromEnemy:

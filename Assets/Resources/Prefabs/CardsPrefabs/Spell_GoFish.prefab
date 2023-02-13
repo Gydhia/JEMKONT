@@ -45,4 +45,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HasEnded: 0
+  SFXData: {fileID: 11400000, guid: 38d905773eff14546b34bb9fb4f91e87, type: 2}
   NumberOfCardsToDraw: 3
