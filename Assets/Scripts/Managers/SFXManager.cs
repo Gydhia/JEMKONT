@@ -7,8 +7,9 @@ using Sirenix.Serialization;
 
 namespace DownBelow.Managers {
     [ShowOdinSerializedPropertiesInInspector]
-    public class SFXManager : _baseManager<SFXManager> {
-        public Dictionary<EAlterationType, GameObject> AlterationSFX = new Dictionary<EAlterationType, GameObject>();
+    public class SFXManager : _baseManager<SFXManager> 
+        {
+        public ScriptableSFXAlterationList AlterationSFXList;
 
         public void RefreshAlterationSFX(Entity.CharacterEntity entity) {
             foreach (Alteration alt in entity.Alterations) {
@@ -20,7 +21,8 @@ namespace DownBelow.Managers {
             if (alt.InstanciatedFXAnimator != null) {
                 alt.InstanciatedFXAnimator.SetTrigger("Reminder");
             } else {
-                alt.InstanciatedFXAnimator = Instantiate(AlterationSFX[alt.ToEnum()], ent.transform).GetComponent<Animator>();
+                var go = Instantiate(AlterationSFXList.AlterationsSFX[alt.ToEnum()], ent.transform);
+                alt.InstanciatedFXAnimator = go.GetComponent<Animator>();
             }
         }
     }

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
+using Sirenix.Serialization;
 
 namespace DownBelow.Entity
 {
@@ -49,7 +50,7 @@ namespace DownBelow.Entity
 
         protected EntityStats RefStats;
 
-        public List<Alteration> Alterations = new();
+        [OdinSerialize] public List<Alteration> Alterations = new();
 
         public UnityEngine.UI.Slider HealthFill;
         public UnityEngine.UI.Slider ShieldFill;

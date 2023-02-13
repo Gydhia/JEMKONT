@@ -59436,6 +59436,10 @@ PrefabInstance:
       propertyPath: EventSystem
       value: 
       objectReference: {fileID: 110923007}
+    - target: {fileID: 8322103470459949579, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: AlterationSFXList
+      value: 
+      objectReference: {fileID: 11400000, guid: 980541b1f93667242bc13db4e6b0d359, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
 --- !u!114 &5162589613231053291

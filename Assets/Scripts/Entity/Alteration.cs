@@ -2,6 +2,7 @@ using DownBelow.Entity;
 using DownBelow.Events;
 using DownBelow.Managers;
 using MyBox;
+using Sirenix.Serialization;
 using System;
 using System.CodeDom;
 using System.Collections;
