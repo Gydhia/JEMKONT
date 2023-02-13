@@ -5,6 +5,7 @@
 			<ChildrenList>
 				<StateGroup Name="Layers" ID="{CB2A4732-CEDF-46B9-825B-5F434B80A263}">
 					<ChildrenList>
+						<State Name="None" ID="{61FFC9D6-2F88-4B5E-B7B5-EEABABD4C73B}"/>
 						<State Name="Layers3" ID="{B442D004-8A22-4CDD-B5F3-8BB6505989AC}"/>
 						<State Name="Layers0" ID="{E9622987-65EA-4CB8-96CA-E8C70608AF3B}"/>
 						<State Name="Layers2" ID="{C0A7FF62-99FE-425D-9BDC-929EE8B7D3CE}"/>

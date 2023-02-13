@@ -20,9 +20,13 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: UID
+      Entry: 2
+      Data: f85e7d97d93465af46179bd52e87a2d5
   Title: Pick In The Dark
   Cost: 1
+  CardType: 2
   Description: Deals 7 damage to all units around you.
   IllustrationImage: {fileID: 0}
   Spells:

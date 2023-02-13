@@ -1,4 +1,4 @@
-using Jemkont.Managers;
+using DownBelow.Managers;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
@@ -6,9 +6,9 @@ using UnityEditor;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using System;
-using Jemkont.Entity;
+using DownBelow.Entity;
 
-namespace Jemkont.GridSystem
+namespace DownBelow.GridSystem
 {
     public class WorldGrid : SerializedMonoBehaviour
     {
@@ -25,6 +25,7 @@ namespace Jemkont.GridSystem
 
         [HideInInspector]
         public Cell[,] Cells;
+        public GridData SelfData;
 
         public List<CharacterEntity> GridEntities;
 
@@ -36,9 +37,11 @@ namespace Jemkont.GridSystem
             this.GridWidth = data.GridWidth;
             this.IsCombatGrid = data.IsCombatGrid;
 
+            this.SelfData = data;
+
             this.GenerateGrid(data);
             if(data.InnerGrids != null)
-                this.GenerateInnerGrids(data.InnerGrids);
+                this.GenerateInnerGrids(data.InnerGrids, this.TopLeftOffset);
             this.RedrawGrid();
 
             GameManager.Instance.OnEnteredGrid += _entityEnteredGrid;
@@ -93,34 +96,18 @@ namespace Jemkont.GridSystem
             }
 
             this.GridEntities = new List<CharacterEntity>();
-            if(gridData.EntitiesSpawns != null)
+            if(gridData.SpawnablePresets != null)
             {
                 // Used to generate UID
-                int counter = 0;
-                foreach (var entity in gridData.EntitiesSpawns)
-                {
-                    if (entity.Value != null)
-                    {
-                        if (GridManager.Instance.EnemiesSpawnSO.TryGetValue(entity.Value, out EntitySpawn entitySO))
-                        {
+                foreach (var spawnable in gridData.SpawnablePresets)
+                    if (spawnable.Value != null)
+                        if (GridManager.Instance.SpawnablesPresets.TryGetValue(spawnable.Value, out BaseSpawnablePreset spawnSO))
                             // TODO: Differentiate enemies and NPC. For now they'll be enemies
-                            this.Cells[entity.Key.longitude, entity.Key.latitude].Datas.state = CellState.EntityIn;
-
-                            EnemyEntity newEntity = Instantiate(entitySO.Entity, this.Cells[entity.Key.longitude, entity.Key.latitude].WorldPosition, Quaternion.identity, this.transform) as EnemyEntity;
-                            newEntity.IsAlly = false;
-                            newEntity.EnemyStyle = entitySO;
-                            newEntity.Init(entitySO.Statistics, this.Cells[entity.Key.longitude, entity.Key.latitude], this, counter);
-                            newEntity.gameObject.SetActive(false);
-                            this.GridEntities.Add(newEntity);
-
-                            counter++;
-                        }
-                    }
-                }
+                            spawnSO.Init(this.Cells[spawnable.Key.latitude, spawnable.Key.longitude]);
             }
         }
 
-        public void GenerateInnerGrids(List<GridData> innerGrids)
+        public void GenerateInnerGrids(List<GridData> innerGrids, Vector3 parentTLOffset)
         {
             int count = 0;
             this.InnerCombatGrids = new Dictionary<string, CombatGrid>();
@@ -150,17 +137,16 @@ namespace Jemkont.GridSystem
             this.GridWidth = width;
 
             this.Cells = new Cell[height, width];
+            this.TopLeftOffset = this.IsCombatGrid ? this.transform.parent.transform.position : this.transform.position;
 
             // Generate the grid with new cells
             for (int i = 0; i < this.Cells.GetLength(0); i++)
             {
                 for (int j = 0; j < this.Cells.GetLength(1); j++)
                 {
-                    this.CreateAddCell(i, j, new Vector3((j + longitude) * cellsWidth + widthOffset, 0.1f, -(i + latitude) * cellsWidth - widthOffset));
+                    this.CreateAddCell(i, j, new Vector3((j + longitude) * cellsWidth + widthOffset, this.TopLeftOffset.y + 0.1f, -(i + latitude) * cellsWidth - widthOffset));
                 }
             }
-
-            this.TopLeftOffset = this.transform.position;
         }
 
         public void CreateAddCell(int height, int width, Vector3 position)
@@ -168,9 +154,7 @@ namespace Jemkont.GridSystem
             Cell newCell = Instantiate(GridManager.Instance.CellPrefab, position, Quaternion.identity, this.gameObject.transform);
 
             newCell.Init(height, width, CellState.Walkable, this);
-            if(this.IsCombatGrid)
-                newCell.SelfPlane.gameObject.SetActive(false);
-
+            
             this.Cells[height, width] = newCell;
         }
 
@@ -182,16 +166,6 @@ namespace Jemkont.GridSystem
                     if(this.Cells[i, j] != null)
                         this.Cells[i, j].RefreshCell();
         }
-
-        public void ShowHideGrid(bool show)
-        {
-            // /!\ TODO: Avoid iterating over all of these when already disabled
-            for (int i = 0; i < this.Cells.GetLength(0); i++)
-                for (int j = 0; j < this.Cells.GetLength(1); j++)
-                    if (this.Cells[i, j] != null)
-                        this.Cells[i, j].SelfPlane.gameObject.SetActive(show);
-        }
-
 
         #region Utility_methods
         public void ResizeGrid(Cell[,] newCells)
@@ -287,13 +261,13 @@ namespace Jemkont.GridSystem
             this.Longitude = Longitude;
             this.Latitude = Latitude;
             this.CellDatas = CellDatas;
-            this.EntitiesSpawns = EntitiesSpawns;
+            this.SpawnablePresets = EntitiesSpawns;
         }
 
         /// <summary>
         /// /!\ Constructor made for the WorldGrids
         /// </summary>
-        public GridData(bool IsCombatGrid, int GridHeight, int GridWidth, Vector3 TopLeftOffset, bool ToLoad, List<CellData> CellDatas, List<GridData> InnerGridsData, Dictionary<GridPosition, Guid> EntitiesSpawns)
+        public GridData(bool IsCombatGrid, int GridHeight, int GridWidth, Vector3 TopLeftOffset, bool ToLoad, List<CellData> CellDatas, List<GridData> InnerGridsData, Dictionary<GridPosition, Guid> Spawnables)
         {
             this.IsCombatGrid = IsCombatGrid;
             this.GridHeight = GridHeight;
@@ -302,7 +276,7 @@ namespace Jemkont.GridSystem
             this.ToLoad = ToLoad;
             this.CellDatas = CellDatas;
             this.InnerGrids = InnerGridsData;
-            this.EntitiesSpawns = EntitiesSpawns;
+            this.SpawnablePresets = Spawnables;
         }
         public bool ToLoad { get; set; }
         public bool IsCombatGrid { get; set; }
@@ -315,6 +289,6 @@ namespace Jemkont.GridSystem
         public List<GridData> InnerGrids;
         public List<CellData> CellDatas { get; set; }
         [Newtonsoft.Json.JsonConverter(typeof(JSONGridConverter))]
-        public Dictionary<GridPosition, Guid> EntitiesSpawns { get; set; }
+        public Dictionary<GridPosition, Guid> SpawnablePresets { get; set; }
     }
 }

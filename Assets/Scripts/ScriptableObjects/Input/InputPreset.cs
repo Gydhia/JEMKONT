@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Jemkont.GameData
+namespace DownBelow.GameData
 {
     [CreateAssetMenu(menuName = "Presets/InputPreset")]
     public class InputPreset : SerializedScriptableObject

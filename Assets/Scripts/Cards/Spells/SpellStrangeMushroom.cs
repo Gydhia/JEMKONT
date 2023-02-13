@@ -1,7 +1,7 @@
-using Jemkont.Entity;
-using Jemkont.GridSystem;
-using Jemkont.Managers;
-using Jemkont.Spells;
+using DownBelow.Entity;
+using DownBelow.GridSystem;
+using DownBelow.Managers;
+using DownBelow.Spells;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,12 +16,12 @@ public class SpellStrangeMushroom : SpellAction {
     }
     private void SwapHealthPower(CharacterEntity target) {
         var health = target.Health;
-        var strength = target.Strenght;
+        var strength = target.Strength;
         var AmountOfHealthToApply = strength - health;
         var AmountOfStrengthToApply = -AmountOfHealthToApply;
         if (strength > target.MaxHealth) target.MaxHealth = strength;
-        target.ApplyHealth(AmountOfHealthToApply,false);
-        target.ApplyStrenght(AmountOfStrengthToApply);
+        target.ApplyStat(EntityStatistics.Health,AmountOfHealthToApply,false);
+        target.ApplyStat(EntityStatistics.Strength,AmountOfStrengthToApply);
         CombatManager.Instance.DrawCard();
     }
 }

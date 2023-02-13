@@ -6,7 +6,7 @@
 				<SoundcasterSession Name="New Soundcaster Session" ID="{1B29AC6C-45BE-447E-99CA-F83C7C4BF3C4}">
 					<RTPCValueList ShowAll="true"/>
 					<CurrentStateList ShowAll="true">
-						<CurrentStateRef Name="Layers0" ID="{E9622987-65EA-4CB8-96CA-E8C70608AF3B}"/>
+						<CurrentStateRef Name="None" ID="{61FFC9D6-2F88-4B5E-B7B5-EEABABD4C73B}"/>
 					</CurrentStateList>
 					<CurrentSwitchList ShowAll="true"/>
 				</SoundcasterSession>

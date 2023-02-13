@@ -9,6 +9,36 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
+		<SoundBank Id="513513905" Type="User" Language="SFX" Hash="{9DF81C0C-AEAC-A558-A595-3B2CAA9782A1}">
+			<ShortName>SB_FARM</ShortName>
+			<Path>SB_FARM.bnk</Path>
+		</SoundBank>
+		<SoundBank Id="1129547629" Type="User" Language="SFX" Hash="{A829BB00-D1BD-367C-0499-3B403CF51789}">
+			<ShortName>SB_AMBIANCE</ShortName>
+			<Path>SB_AMBIANCE.bnk</Path>
+			<Media>
+				<File Id="488747114" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>hihats loop.wav</ShortName>
+					<CachePath>SFX/hihats loop_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="708396059" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>kalimba loop.wav</ShortName>
+					<CachePath>SFX/kalimba loop_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="920520952" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>bass piano loop.wav</ShortName>
+					<CachePath>SFX/bass piano loop_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="1002096085" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harp loop.wav</ShortName>
+					<CachePath>SFX/harp loop_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="1002181933" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>reverb piano loop.wav</ShortName>
+					<CachePath>SFX/reverb piano loop_D79FB2B7.wem</CachePath>
+				</File>
+			</Media>
+		</SoundBank>
 		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{0E5E9DA9-0AE4-D3C9-BF45-DC115125741D}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
@@ -28,10 +58,15 @@
 						<State Id="602912169" Name="Layers0"/>
 						<State Id="602912170" Name="Layers3"/>
 						<State Id="602912171" Name="Layers2"/>
+						<State Id="748895195" Name="None"/>
 					</States>
 				</StateGroup>
 			</StateGroups>
 		</SoundBank>
+		<SoundBank Id="2497815141" Type="User" Language="SFX" Hash="{F89595BA-B665-C607-2B3B-288438B0081E}">
+			<ShortName>SB_COMBAT</ShortName>
+			<Path>SB_COMBAT.bnk</Path>
+		</SoundBank>
 	</SoundBanks>
-	<FileHash>{6550F4E6-A8E6-FD8D-E7A3-1BE1C1303FA2}</FileHash>
+	<FileHash>{11EFD328-F24A-050F-45C8-8728CA3C5F49}</FileHash>
 </SoundBanksInfo>

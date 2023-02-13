@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{277D41B8-7D18-41D8-BFBF-88A00100C0C8}" SchemaVersion="110">
 	<AudioObjects>
-		<WorkUnit Name="Default Work Unit" ID="{277D41B8-7D18-41D8-BFBF-88A00100C0C8}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{277D41B8-7D18-41D8-BFBF-88A00100C0C8}" PersistMode="Standalone">
+			<ChildrenList>
+				<Folder Name="New Virtual Folder" ID="{C832FC90-0B21-4670-8700-0006F887D1E6}" ShortID="1018090979">
+					<PropertyList>
+						<Property Name="Color" Type="int16" Value="10"/>
+						<Property Name="OverrideColor" Type="bool" Value="True"/>
+					</PropertyList>
+				</Folder>
+			</ChildrenList>
+		</WorkUnit>
 	</AudioObjects>
 </WwiseDocument>

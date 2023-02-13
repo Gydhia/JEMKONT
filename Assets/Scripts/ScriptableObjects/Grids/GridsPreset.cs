@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
 
-namespace Jemkont.GameData
+namespace DownBelow.GameData
 {
     [CreateAssetMenu(fileName = "GridsPreset", menuName = "Jemkont/Grids Preset", order = 1)]
     public class GridsPreset : SerializedScriptableObject
@@ -13,6 +13,10 @@ namespace Jemkont.GameData
 
         [Range(0f, 2f)]
         public float CellsEdgeOffset = 0.1f;
+
+        public GameObject GridShader;
+
+        public ArrowRenderer SpellArrowPrefab;
     }
 
 }

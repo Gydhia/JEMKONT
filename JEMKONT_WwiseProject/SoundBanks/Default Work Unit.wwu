@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{97E32D19-1D07-4D11-9F1F-966B80EDD569}" SchemaVersion="110">
 	<SoundBanks>
-		<WorkUnit Name="Default Work Unit" ID="{97E32D19-1D07-4D11-9F1F-966B80EDD569}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{97E32D19-1D07-4D11-9F1F-966B80EDD569}" PersistMode="Standalone">
+			<ChildrenList>
+				<SoundBank Name="SB_AMBIANCE" ID="{90D5AC90-E0B5-4089-906F-111A2FE8F772}">
+					<ObjectInclusionList>
+						<ObjectRef Name="Combat" ID="{8C9EECF1-FF08-4800-9315-D4B53D57B391}" WorkUnitID="{A7B6054A-C5DE-4175-A27F-8806369B3987}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="bass piano loop" ID="{021D757F-9BC3-4961-8DF8-21B7CECC0A51}" WorkUnitID="{A7B6054A-C5DE-4175-A27F-8806369B3987}" Origin="Manual" Filter="7"/>
+					</ObjectInclusionList>
+					<ObjectExclusionList/>
+					<GameSyncExclusionList/>
+				</SoundBank>
+				<SoundBank Name="SB_COMBAT" ID="{EEB768B0-4F95-4216-BB99-D5E7D2CE8161}">
+					<ObjectInclusionList/>
+					<ObjectExclusionList/>
+					<GameSyncExclusionList/>
+				</SoundBank>
+				<SoundBank Name="SB_FARM" ID="{68E82DF9-8906-4DCF-BF02-425EBAAD8F17}">
+					<ObjectInclusionList>
+						<ObjectRef Name="Combat" ID="{36A3C285-DD3C-4651-A61C-407A34C1BDD7}" WorkUnitID="{A7B6054A-C5DE-4175-A27F-8806369B3987}" Origin="Manual" Filter="7"/>
+					</ObjectInclusionList>
+					<ObjectExclusionList/>
+					<GameSyncExclusionList/>
+				</SoundBank>
+			</ChildrenList>
+		</WorkUnit>
 	</SoundBanks>
 </WwiseDocument>

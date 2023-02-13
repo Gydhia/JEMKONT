@@ -5,12 +5,9 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
   - enabled: 1
-    path: Assets/Scenes/WIP/Killian_Lobby.unity
-    guid: 1b8d351443e2957428439e8411856f00
+    path: Assets/Scenes/UI/Nino_Lobby.unity
+    guid: 3534d1d84814a354293c7685b38ffb58
   - enabled: 1
     path: Assets/Scenes/WIP/Killian.unity
     guid: 8b1a269f52f74604b825ea41beb964dd

@@ -20,11 +20,15 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: UID
+      Entry: 2
+      Data: 3fcc946ded1236487e35cd9f9e2dc781
   Title: Shock
   Cost: 2
+  CardType: 3
   Description: Stuns a unit.
-  IllustrationImage: {fileID: 0}
+  IllustrationImage: {fileID: 21300000, guid: 5888f96b569d30b4eae01fbde5cd8cd9, type: 3}
   Spells:
   - ConditionData: {fileID: 0}
     ActionData: {fileID: 8713967515153432227, guid: 16422b07e19446c40a5c02a19d4aad08, type: 3}

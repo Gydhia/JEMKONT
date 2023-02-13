@@ -1,12 +1,12 @@
-using Jemkont.Entity;
-using Jemkont.Managers;
+using DownBelow.Entity;
+using DownBelow.Managers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace Jemkont.GridSystem
+namespace DownBelow.GridSystem
 {
     public static class GridUtility
     {
@@ -29,6 +29,25 @@ namespace Jemkont.GridSystem
                         if (oldCells[i, j] == null)
                             oldCells[i, j] = new CellData(i, j, CellState.Walkable);
             }
+        }
+        public static List<Cell> GetSurroundingCells(CellState? specifiedState, Cell cell)
+        {
+            List<Cell> foundCells = new List<Cell>();
+            for (int x = -1; x <= 1; x++)
+            {
+                for (int y = -1; y <= 1; y++)
+                {
+                    int checkX = cell.Datas.widthPos + x;
+                    int checkY = cell.Datas.heightPos + y;
+
+                    if (checkX >= 0 && checkX < cell.RefGrid.GridWidth && checkY >= 0 && checkY < cell.RefGrid.GridHeight)
+                    {
+                        if (specifiedState == null || (cell.RefGrid.Cells[checkY, checkX] != null && cell.RefGrid.Cells[checkY, checkX].Datas.state == specifiedState))
+                            foundCells.Add(cell.RefGrid.Cells[checkY, checkX]);
+                    }
+                }
+            }
+            return foundCells;
         }
 
         public static WorldGrid GetIncludingGrid(WorldGrid worldGrid, Managers.GridPosition target)
@@ -65,51 +84,59 @@ namespace Jemkont.GridSystem
             return false;
         }
 
+        
+
         /// <summary>
         /// Find the closest cell to reach the shape (=innerGrid). Priority for top and bottom
         /// </summary>
         /// <returns></returns>
         public static Cell GetClosestCellToShape(WorldGrid refGrid, CombatGrid innerGrid, GridPosition entityPos)
         {
+            return GetClosestCellToShape(refGrid, innerGrid.Latitude, innerGrid.Longitude, innerGrid.GridHeight, innerGrid.GridWidth, entityPos);
+        }
+        public static Cell GetClosestCellToShape(WorldGrid refGrid, int latitude, int longitude, int height, int width, GridPosition entityPos)
+        {
+            // T0DO: Width and height aren't returning the expected result
+
             // Top
-            if (entityPos.latitude < innerGrid.Latitude)
+            if (entityPos.latitude < latitude)
             {
                 // Are we horizontally inside ?
-                if (entityPos.longitude >= innerGrid.Longitude && entityPos.longitude <= innerGrid.Longitude + innerGrid.GridWidth)
-                    return refGrid.Cells[innerGrid.Latitude - 1, entityPos.longitude];
+                if (entityPos.longitude >= longitude && entityPos.longitude <= longitude + width)
+                    return refGrid.Cells[latitude - 1, entityPos.longitude];
                 // Are we on the right or left ?
                 else
                 {
-                    if(entityPos.longitude < innerGrid.Longitude)
-                        return refGrid.Cells[innerGrid.Latitude - 1, innerGrid.Longitude];
+                    if (entityPos.longitude < longitude)
+                        return refGrid.Cells[latitude - 1, longitude];
                     else
-                        return refGrid.Cells[innerGrid.Latitude - 1, innerGrid.Longitude + innerGrid.GridWidth - 1];
+                        return refGrid.Cells[latitude - 1, longitude + width - 1];
                 }
             }
             // Bottom
-            else if (entityPos.latitude > innerGrid.Latitude + innerGrid.GridHeight)
+            else if (entityPos.latitude >= latitude + height)
             {
                 // Are we horizontally inside ?
-                if (entityPos.longitude >= innerGrid.Longitude && entityPos.longitude <= innerGrid.Longitude + innerGrid.GridWidth)
-                    return refGrid.Cells[innerGrid.Latitude + innerGrid.GridHeight + 1, entityPos.longitude];
+                if (entityPos.longitude >= longitude && entityPos.longitude <= longitude + width)
+                    return refGrid.Cells[latitude + height, entityPos.longitude];
                 // Are we on the right or left ?
                 else
                 {
-                    if (entityPos.longitude < innerGrid.Longitude)
-                        return refGrid.Cells[innerGrid.Latitude + innerGrid.GridHeight + 1, innerGrid.Longitude];
+                    if (entityPos.longitude < longitude)
+                        return refGrid.Cells[latitude + height, longitude];
                     else
-                        return refGrid.Cells[innerGrid.Latitude + innerGrid.GridHeight + 1, innerGrid.Longitude + innerGrid.GridWidth - 1];
+                        return refGrid.Cells[latitude + height, longitude + width - 1];
                 }
             }
             // Right
-            else if (entityPos.longitude > innerGrid.Longitude + innerGrid.GridWidth)
+            else if (entityPos.longitude > longitude + width)
             {
-                return refGrid.Cells[entityPos.latitude, innerGrid.Longitude + innerGrid.GridWidth];
+                return refGrid.Cells[entityPos.latitude, longitude + width];
             }
             // Left
             else
             {
-                return refGrid.Cells[entityPos.latitude, innerGrid.Longitude - 1];
+                return refGrid.Cells[entityPos.latitude, longitude - 1];
             }
         }
         /// <summary> 
@@ -121,37 +148,52 @@ namespace Jemkont.GridSystem
         /// <returns></returns>
         public static Cell GetClosestAvailableCombatCell(WorldGrid refGrid, CombatGrid innerGrid, GridPosition entityPos)
         {
+            bool top = false;
+            bool bot = false;
+            bool left = false;
+            bool right = false;
             try
             {
                 // Top
                 if (entityPos.latitude < innerGrid.Latitude)
                 {
+                    top = true;
                     return innerGrid.Cells[0, entityPos.longitude - innerGrid.Longitude];
                 }
                 // Bottom
-                else if (entityPos.latitude > innerGrid.Latitude + innerGrid.GridHeight)
+                else if (entityPos.latitude >= innerGrid.Latitude + innerGrid.GridHeight)
                 {
+                    bot = true;
                     return innerGrid.Cells[innerGrid.GridHeight - 1, entityPos.longitude - innerGrid.Longitude];
-
                 }
                 // Right
-                else if (entityPos.longitude > innerGrid.Longitude + innerGrid.GridWidth)
+                else if (entityPos.longitude >= innerGrid.Longitude + innerGrid.GridWidth)
                 {
+                    right = true;
                     return innerGrid.Cells[entityPos.latitude - innerGrid.Latitude, innerGrid.GridWidth - 1];
                 }
                 // Left
                 else
                 {
+                    left = true;
                     return innerGrid.Cells[entityPos.latitude - innerGrid.Latitude, 0];
                 }
             }
             catch(Exception ex)
             {
-                Debug.LogError("Couldn't find closest Cell because Entity[" + entityPos.latitude + ", " + entityPos.longitude + 
-                    "] failed innerGrid[" + innerGrid.Latitude + ", " + innerGrid.Longitude + "] for size of [" + innerGrid.GridHeight + ", " + innerGrid.GridWidth + "]");
+                Debug.LogError("Couldn't find closest Cell because Entity[" + entityPos.latitude + ", " + entityPos.longitude +
+                    "] failed innerGrid[" + innerGrid.Latitude + ", " + innerGrid.Longitude + "] for size of [" + innerGrid.GridHeight + ", " + innerGrid.GridWidth + "]\n" +
+                    "top : " + top +
+                    "bot : " + bot +
+                    "left : " + left +
+                    "right : " + right) ;
                 return null;
             }
         }
-        
+
+        public static bool IsNeighbourCell(Cell fCell, Cell sCell)
+        {
+            return Mathf.Abs(fCell.Datas.widthPos - sCell.Datas.widthPos) <= 1 && Mathf.Abs(fCell.Datas.heightPos - sCell.Datas.heightPos) <= 1;
+        }
     }
 }

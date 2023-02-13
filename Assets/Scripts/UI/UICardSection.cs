@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using DownBelow.Mechanics;
 
-namespace Jemkont.UI
+namespace DownBelow.UI
 {
     public class UICardSection : MonoBehaviour
     {
-        public GameObject HandPile;
+
+        public GameObject CardsHolder;
 
         public Image DrawPile;
         public TextMeshProUGUI DrawNumber;
@@ -27,6 +29,7 @@ namespace Jemkont.UI
             this.CardsInDraw += number;
             this.DrawNumber.text = this.CardsInDraw.ToString();
         }
+
     }
 
 }

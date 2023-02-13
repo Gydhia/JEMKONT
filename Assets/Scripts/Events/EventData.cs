@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Jemkont.Events
+namespace DownBelow.Events
 {
     public abstract class EventData
     {

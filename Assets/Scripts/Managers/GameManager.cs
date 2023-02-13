@@ -1,17 +1,25 @@
-using Jemkont.Entity;
-using Jemkont.Events;
+using DownBelow.Entity;
+using DownBelow.Events;
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-namespace Jemkont.Managers
+namespace DownBelow.Managers
 {
     public class GameManager : _baseManager<GameManager>
     {
         #region EVENTS
+        public event GameEventData.Event OnPlayersWelcomed;
+
         public event EntityEventData.Event OnEnteredGrid;
         public event EntityEventData.Event OnExitingGrid;
+
+        public void FirePlayersWelcomed()
+        {
+            this.OnPlayersWelcomed?.Invoke(new());
+        }
 
         public void FireEntityEnteredGrid(string entityID)
         {
@@ -38,11 +46,16 @@ namespace Jemkont.Managers
         public Dictionary<string, PlayerBehavior> Players;
         public PlayerBehavior SelfPlayer;
 
+        public static bool GameStarted = false;
+
         private void Start()
         {
-            this.ProcessPlayerWelcoming();
-
             UIManager.Instance.Init();
+            GridManager.Instance.Init();
+            CardsManager.Instance.Init();
+            NetworkManager.Instance.SubToGameEvents();
+
+            this.ProcessPlayerWelcoming();
         }
 
         public void ProcessPlayerWelcoming()
@@ -64,29 +77,24 @@ namespace Jemkont.Managers
 
         public void WelcomePlayerLately()
         {
-            PhotonNetwork.CreateRoom("SoloRoom");
+            PhotonNetwork.CreateRoom("SoloRoom" + UnityEngine.Random.Range(0,100000));
         }
 
         public void WelcomePlayers()
         {
             if (PhotonNetwork.PlayerList.Length >= 1)
             {
+                System.Guid spawnId = GridManager.Instance.SpawnablesPresets.First(k => k.Value is SpawnPreset).Key;
+                var spawnLocations = GridManager.Instance.MainWorldGrid.SelfData.SpawnablePresets.Where(k => k.Value == spawnId).Select(kv => kv.Key);
+
                 this.Players = new Dictionary<string, PlayerBehavior>();
                 int counter = 0;
                 foreach (var player in PhotonNetwork.PlayerList)
                 {
                     PlayerBehavior newPlayer = Instantiate(this._playerPrefab, Vector3.zero, Quaternion.identity, this.transform);
-                    GridPosition spawnPosition;
-
-                    switch (counter)
-                    {
-                        case 0: spawnPosition = new GridPosition((int)GridManager.Instance.FirstSpawn.x, (int)GridManager.Instance.FirstSpawn.y); break;
-                        case 1: spawnPosition = new GridPosition((int)GridManager.Instance.SecondSpawn.x, (int)GridManager.Instance.SecondSpawn.y); break;
-                        case 2: spawnPosition = new GridPosition((int)GridManager.Instance.ThirdSpawn.x, (int)GridManager.Instance.ThirdSpawn.y); break;
-                        default: spawnPosition = new GridPosition((int)GridManager.Instance.FourthSpawn.x, (int)GridManager.Instance.FourthSpawn.y); break;
-                    }
-
-                    newPlayer.Init(SettingsManager.Instance.PlayerStats, GridManager.Instance.MainWorldGrid.Cells[spawnPosition.latitude, spawnPosition.longitude], GridManager.Instance.MainWorldGrid);
+                    newPlayer.Deck = CardsManager.Instance.DeckPresets.Values.Single(d => d.Name == "TestDeck").Copy();
+                 
+                    newPlayer.Init(SettingsManager.Instance.PlayerStats, GridManager.Instance.MainWorldGrid.Cells[spawnLocations.ElementAt(counter).latitude, spawnLocations.ElementAt(counter).longitude], GridManager.Instance.MainWorldGrid);
                     // TODO: make it works with world grids
                     newPlayer.PlayerID = player.UserId;
 
@@ -99,6 +107,9 @@ namespace Jemkont.Managers
                     this.Players.Add(player.UserId, newPlayer);
                     counter++;
                 }
+
+                GameStarted = true;
+                this.FirePlayersWelcomed();
             }
         }
     }

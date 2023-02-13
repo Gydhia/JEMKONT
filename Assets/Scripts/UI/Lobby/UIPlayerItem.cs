@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using Photon.Pun;
-using Jemkont.Managers;
+using DownBelow.Managers;
 
 public class UIPlayerItem : MonoBehaviour
 {
@@ -21,11 +21,12 @@ public class UIPlayerItem : MonoBehaviour
     {
         this.PlayerName.text = playerName;
         this.UserID = playerID;
+        this.ReadyToggle.SetIsOnWithoutNotify(false);
     }
 
-    public void OnClickReady()
+    public void OnClickReady(bool value)
     {
-        this.IsReady = !this.IsReady;
+        this.IsReady = value;
         this.PlayerProperties["isReady"] = this.IsReady;
 
         // Notify the other players that we changed our state

@@ -1,22 +1,49 @@
-using Jemkont.Events;
-using Jemkont.GridSystem;
+using DownBelow.Events;
+using DownBelow.GridSystem;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-namespace Jemkont.Managers
+namespace DownBelow.Managers
 {
     public class InputManager : _baseManager<InputManager>
     {
-        public event PositionEventData.Event OnCellClicked;
+        #region EVENTS
+        public event CellEventData.Event OnCellRightClick;
 
-        public void FireCellClicked(GridPosition position)
+        public event CellEventData.Event OnCellClickedUp;
+        public event CellEventData.Event OnCellClickedDown;
+
+        public event CellEventData.Event OnNewCellHovered;
+
+        public void FireCellRightClick(Cell Cell)
         {
-            this.OnCellClicked?.Invoke(new PositionEventData(position));
+            this.OnCellRightClick?.Invoke(new CellEventData(Cell));
         }
+        public void FireCellClickedUp(Cell Cell)
+        {
+            this.OnCellClickedUp?.Invoke(new CellEventData(Cell));
+        }
+        public void FireCellClickedDown(Cell Cell)
+        {
+            this.OnCellClickedDown?.Invoke(new CellEventData(Cell));
+        }
+        public void FireNewCellHovered(Cell Cell)
+        {
+            this.OnNewCellHovered?.Invoke(new CellEventData(Cell));
+        }
+        #endregion
+
+        public Interactable LastInteractable;
+        public EventSystem EventSystem;
 
         private void Update()
         {
+            if (!GameManager.GameStarted)
+                return;
+
+            #region CELLS_RAYCAST
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             // layer 7 = Cell
@@ -26,33 +53,51 @@ namespace Jemkont.Managers
                 {
                     // Avoid executing this code when it has already been done
                     if (cell != GridManager.Instance.LastHoveredCell)
-                    {
-                        GridManager.Instance.OnNewCellHovered(GameManager.Instance.SelfPlayer, cell);
-                    }
+                        this.FireNewCellHovered(cell);
                 }
             }
             else
             {
                 GridManager.Instance.LastHoveredCell = null;
             }
-
-            // Teleport player to location
-            if (Input.GetMouseButtonUp(0))
+            #endregion
+            #region INTERACTABLEs_RAYCAST
+            // layer 8 = Interactable
+            if(Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 8))
             {
-                if(GridManager.Instance.LastHoveredCell != null)
-                    this.FireCellClicked(GridManager.Instance.LastHoveredCell.PositionInGrid);
-            }
-
-            // UTILITY : To mark a cell as non-walkable
-            if (Input.GetMouseButtonUp(1))
-            {
-                // layer 7 = Cell
-                if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 7))
+                if (hit.collider != null && hit.collider.TryGetComponent(out Interactable interactable))
                 {
-                    if (hit.collider.TryGetComponent(out Cell cell))
+                    if(interactable != this.LastInteractable)
                     {
-                        cell.ChangeCellState(cell.Datas.state == CellState.Blocked ? CellState.Walkable : CellState.Blocked);
+                        if (LastInteractable != null)
+                            this.LastInteractable.OnUnfocused();
+                        this.LastInteractable = interactable;
+                        this.LastInteractable.OnFocused();
                     }
+                }
+            }
+            else if (this.LastInteractable != null)
+            {
+                this.LastInteractable.OnUnfocused();
+                this.LastInteractable = null;   
+            }
+            #endregion
+            if (!EventSystem.IsPointerOverGameObject())
+            {
+                if (Input.GetMouseButtonUp(1))
+                {
+                    if (GridManager.Instance.LastHoveredCell != null)
+                        this.FireCellRightClick(GridManager.Instance.LastHoveredCell);
+                }
+                if (Input.GetMouseButtonUp(0))
+                {
+                    if (GridManager.Instance.LastHoveredCell != null)
+                        this.FireCellClickedUp(GridManager.Instance.LastHoveredCell);
+                }
+                if (Input.GetMouseButtonDown(0))
+                {
+                    if (GridManager.Instance.LastHoveredCell != null)
+                        this.FireCellClickedDown(GridManager.Instance.LastHoveredCell);
                 }
             }
         }

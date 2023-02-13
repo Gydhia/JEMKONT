@@ -40,13 +40,20 @@ MonoBehaviour:
   - Fire
   - RespawnSpaceship
   - RPC_ProcessAskedPath
+  - RPC_RespondWithProcessedPath
   - RPC_ProcessAskStartCombat
   - RPC_ProcessEnterGrid
+  - RPC_ProcessEntityAskedPath
   - RPC_RespondToEnterGrid
   - RPC_RespondToStartCombat
-  - RPC_RespondWithProcessedPath
-  - RPC_ProcessEntityAskedPath
   - RPC_RespondWithEntityProcessedPath
+  - RPC_RespondToGather
+  - RPC_RespondToInteract
+  - RPC_RespondCancelInteract
+  - RPC_RespondGiftOrRemovePlayerItem
+  - RPC_OnTurnBegan
+  - RPC_CastSpell
+  - RPC_OnTurnEnded
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

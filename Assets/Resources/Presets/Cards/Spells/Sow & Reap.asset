@@ -20,9 +20,13 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: UID
+      Entry: 2
+      Data: 1c9f3be6e43a4ac38bd8e37c0337d935
   Title: Sow & Reap
   Cost: 2
+  CardType: 1
   Description: Draw a card, reduce the cost of all your cards by 1
   IllustrationImage: {fileID: 0}
   Spells:

@@ -20,11 +20,15 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: UID
+      Entry: 2
+      Data: 0a71df4fc2820eff841df98c98d135a4
   Title: Protein Bar
   Cost: 2
+  CardType: 1
   Description: Increases your power.
-  IllustrationImage: {fileID: 0}
+  IllustrationImage: {fileID: 21300000, guid: cda643946961d5c4f8e0acd3db96b7c0, type: 3}
   Spells:
   - ConditionData: {fileID: 0}
     ActionData: {fileID: 5045551162097057043, guid: a72e089aef4ab6d499730e3d10eeb072, type: 3}

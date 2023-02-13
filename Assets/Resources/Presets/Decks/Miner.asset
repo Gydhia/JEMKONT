@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0229511ea5185984eb5833ff13151ec4, type: 3}
+  m_Name: Miner
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: UID
+      Entry: 2
+      Data: 79e98bcd653228301ca164057c665c8f
+  Name: BaseMiner
+  Class: 3
+  Deck:
+    Cards:
+    - {fileID: 11400000, guid: 17cca61da856a0a4abc846a9ec5ce6a4, type: 2}
+    - {fileID: 11400000, guid: 931eb095137ef8148bc5a6f656a17390, type: 2}
+    - {fileID: 11400000, guid: 931eb095137ef8148bc5a6f656a17390, type: 2}
+    - {fileID: 11400000, guid: e6089736fe0b82948952e94e53c3ba6b, type: 2}
+    - {fileID: 11400000, guid: e6089736fe0b82948952e94e53c3ba6b, type: 2}
+    - {fileID: 11400000, guid: c8ec0ab5a83846d438943c97c32b320c, type: 2}
+    - {fileID: 11400000, guid: c8ec0ab5a83846d438943c97c32b320c, type: 2}
+    - {fileID: 11400000, guid: 33a72a420cd0f99489654a79543ebc3c, type: 2}
+    - {fileID: 11400000, guid: 33a72a420cd0f99489654a79543ebc3c, type: 2}
+    - {fileID: 11400000, guid: e1dc70314cde4324da42748300aedede, type: 2}
+    - {fileID: 11400000, guid: e1dc70314cde4324da42748300aedede, type: 2}
+    - {fileID: 11400000, guid: 75be3a1d1991621458e58c6e9e89ed4a, type: 2}
+    - {fileID: 11400000, guid: 75be3a1d1991621458e58c6e9e89ed4a, type: 2}
+    - {fileID: 11400000, guid: 75be3a1d1991621458e58c6e9e89ed4a, type: 2}

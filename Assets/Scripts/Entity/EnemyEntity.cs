@@ -1,5 +1,9 @@
-using Jemkont.GridSystem;
-using Jemkont.Managers;
+using EODE.Wonderland;
+
+using DownBelow.Spells;
+using DownBelow.Spells.Alterations;
+using DownBelow.GridSystem;
+using DownBelow.Managers;
 using MyBox;
 using Sirenix.Utilities;
 using System;
@@ -8,63 +12,261 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
+using UnityEditor;
+using Math = System.Math;
 
-namespace Jemkont.Entity
-{
-    public class EnemyEntity : CharacterEntity
+
+namespace DownBelow.Entity {
+    public class EnemyEntity : CharacterEntity 
     {
-        public EntitySpawn EnemyStyle;
 
-        public override void Init(EntityStats stats, Cell refCell, WorldGrid refGrid, int order = 0)
-        {
-            base.Init(stats, refCell, refGrid);
+        public EntityPreset EnemyStyle;
+        CharacterEntity cachedAllyToAttack;
+
+        public CharacterEntity CurrentTarget;
+
+        #region Movement
+        public enum MovementType {Straight, StraightToRange, Flee, Kite};
+        public MovementType movementType = MovementType.Straight;
+        private Dictionary<MovementType, System.Action> MovementBehaviors = new Dictionary<MovementType, System.Action>();
+        #endregion
+
+        #region Attack
+        public enum AttackType { ClosestRandom, FarthestRandom, LowestRandom, HighestRandom, Random};
+        public AttackType attackType = AttackType.ClosestRandom;
+        private Dictionary<AttackType, System.Action> AttackBehaviors = new Dictionary<AttackType, System.Action>();
+        #endregion
+
+        #region Target
+        public AttackType TargetType = AttackType.ClosestRandom;
+        private Dictionary<AttackType, System.Action> TargetBehaviors = new Dictionary<AttackType, System.Action>();
+        #endregion
+
+
+        public override void Init(EntityStats stats,Cell refCell,WorldGrid refGrid,int order = 0) {
+            base.Init(stats,refCell,refGrid);
 
             this.UID = refGrid.UName + this.EnemyStyle.UName + order;
+            MovementBehaviors.Add(MovementType.Straight, MovementStraight);
+            MovementBehaviors.Add(MovementType.StraightToRange, MovementStraightToRange);
+            AttackBehaviors.Add(AttackType.ClosestRandom, AttackClosestRandom);
+            TargetBehaviors.Add(AttackType.ClosestRandom, TargetClosestRandom);
+            TargetBehaviors.Add(AttackType.FarthestRandom, TargetFarthestRandom);
+            
         }
 
-        public override void StartTurn() {
-            this.ReinitializeStat(EntityStatistics.Movement);
+        public override void StartTurn()
+        {
+            CanAutoAttack = !Disarmed;//CanAutoAttack = true if !Disarmed
+            this.ReinitializeStat(EntityStatistics.Speed);
             this.ReinitializeStat(EntityStatistics.Mana);
-            var TargetPosition = GetTargetPosition();
-
-            GridManager.Instance.FindPath(this,TargetPosition, true);
-
-            if(GridManager.Instance.Path.Count > 0 && this.Movement > 0)
+            if (Stunned || Sleeping)
             {
-                string mainGrid = this.CurrentGrid is CombatGrid cGrid ? cGrid.ParentGrid.UName : CurrentGrid.UName;
-                string innerGrid = mainGrid == this.CurrentGrid.UName ? string.Empty : this.CurrentGrid.UName;
-
-                NetworkManager.Instance.EntityAsksForPath(this.UID, GridManager.Instance.Path[GridManager.Instance.Path.Count - 1], mainGrid, innerGrid);
+                EndTurn();
             }
-            //TODO: ENEMY SPELL
-            //OPTIONAL TODO : TAKE INTO ACCOUNT ENEMY SPELL RANGE TO NOT MOVE HIM IF HES IN RANGE
+
+            TargetBehaviors[TargetType]();
+            MovementBehaviors[movementType]();
+            AttackBehaviors[attackType]();
+            Debug.Log("ENDTURN");
+            EndTurn();
+            CombatManager.Instance.ProcessEndTurn(this.UID);
+
+            /*
+            var TargetPosition = GetTargetPosition();
+            Debug.Log("123456 1: " + TargetPosition.latitude +" : " + TargetPosition.longitude);
+            GridManager.Instance.FindPath(this,TargetPosition,true);
+
+            Debug.Log("123456 2: " + this.Speed);
+            if (GridManager.Instance.Path.Count > 0 && this.Speed > 0) {
+                Debug.Log("123456 3: " + this.Speed);
+                GridManager.Instance.ShowPossibleCombatMovements(this);
+                if (!Confused) NetworkManager.Instance.EntityAsksForPath(this, GridManager.Instance.Path[GridManager.Instance.Path.Count - 1], this.CurrentGrid);
+            }
+            //Moved (or not if was in range); and will now Autoattack:
+            if (CanAutoAttack) {
+                if (cachedAllyToAttack != null) {
+                    //LETSGOOOOOO FIREEEEEEEEEEEEE
+                    AutoAttack(cachedAllyToAttack.EntityCell);
+                }
+            }*/
+            //TODO: ENEMY SPELL?
         }
+
+        // All Movement Behaviours
+        #region Movement Behaviours
         /// <summary>
-        /// gets the position the enemy should go, depending on it's AI.
+        /// Will Go straight to the target's location
         /// </summary>
-        public GridPosition GetTargetPosition() {
-            return AlliesOrdered()[0].EntityCell.PositionInGrid;
+        private void MovementStraight()
+        {
+            GridPosition targPosition = CurrentTarget.EntityCell.PositionInGrid;
+            var path = GridManager.Instance.FindPath(this, targPosition);
+            if (path.Count > this.Speed)
+            {
+                NetworkManager.Instance.EntityAsksForPath(this, path[this.Speed], this.CurrentGrid);
+            }
+            NetworkManager.Instance.EntityAsksForPath(this, this.CurrentGrid);
         }
+
         /// <summary>
-        /// Returns entities ordered from closest to farthest
+        /// Will Go straight to the target stops when in range
         /// </summary>
-        public CharacterEntity[] AlliesOrdered() {
-            var Allies = CurrentGrid.GridEntities.FindAll(x => x.IsAlly);
-            int[] distances = new int[Allies.Count];
-            for (int i = 0;i < Allies.Count;i++) {
-                CharacterEntity item = Allies[i];
-                GridManager.Instance.FindPath(this,item.EntityCell.PositionInGrid,true);
-                distances[i] = GridManager.Instance.Path.Count;
+        private void MovementStraightToRange()
+        {
+            GridPosition targPosition = CurrentTarget.EntityCell.PositionInGrid;
+            List<Cell> path = GridManager.Instance.FindPath(this, targPosition, false, this.Range);
+
+            if (path == null || path.Count == 0)
+                return;
+
+            if (path.Count > this.Speed)
+                NetworkManager.Instance.EntityAsksForPath(this, path[this.Speed], this.CurrentGrid);
+            else
+                NetworkManager.Instance.EntityAsksForPath(this, path[path.Count - 1], this.CurrentGrid);
+        }
+        #endregion
+
+        // All Attack Behaviours
+        #region Attack Behaviours
+        /// <summary>
+        /// Will attack the closest player (random btwn two at same range)
+        /// </summary>
+        private void AttackClosestRandom()
+        {
+            if (!CanAutoAttack)
+            {
+                return;
+            }
+            TargetBehaviors[attackType]();
+            if (cachedAllyToAttack != null)
+            {
+                AutoAttack(cachedAllyToAttack.EntityCell);
+            }
+        }
+        #endregion
+
+        // All Target Behaviours (target is used for the movement)
+        #region Target Behaviours
+        /// <summary>
+        /// Will target the closest player (random btwn two at the same range)
+        /// </summary>
+        private void TargetClosestRandom()
+        {
+            CharacterEntity[] PlayersByDistance = PlayersOrderedByDistance("Min", out int sameDist);
+            var ClosestPlayer = PlayersByDistance[UnityEngine.Random.Range(0, sameDist)];
+
+            CurrentTarget = ClosestPlayer;
+        }
+
+        /// <summary>
+        /// Will target the closest player (random btwn two at the same range)
+        /// </summary>
+        private void TargetFarthestRandom()
+        {
+            CharacterEntity[] PlayersByDistance = PlayersOrderedByDistance("Max", out int sameDist);
+            var FarthestPlayer = PlayersByDistance[UnityEngine.Random.Range(0, sameDist)];
+
+            CurrentTarget = FarthestPlayer;
+        }
+        #endregion
+
+
+        #region Player Sensors
+        /// <summary>
+        /// Returns Players ordered from closest to farthest / farthest to Closest. If an entity is provoking, clones it to put in index 0 of the array.
+        /// Arguments : Type = "Min" or "Max" depending on getting the closest or farthest
+        /// </summary>
+        public CharacterEntity[] PlayersOrderedByDistance(string type,out int sameDist) 
+        {
+            var Players = CurrentGrid.GridEntities.FindAll(x => x.IsAlly);
+            var Provoking = Players.FindAll(x => x.Provoke);
+
+            int[] distances = new int[Players.Count];
+            //Get all distances to player (from path) and set them in distances
+            for (int i = 0; i < Players.Count; i++) 
+            {
+                CharacterEntity item = Players[i];
+                var path = GridManager.Instance.FindPath(this,item.EntityCell.PositionInGrid);
+                distances[i] = path == null ? int.MaxValue : path.Count;
             }
             CharacterEntity[] orderedAllies = new CharacterEntity[distances.Length];
             int ActualPlayer = 0;
-            while (distances.Length > 0) {
-                int minIndex = distances.IndexOfItem(distances.Min());
-                orderedAllies[ActualPlayer] = Allies[minIndex];
-                distances = distances.RemoveAt(minIndex);
+            int TotalOfSameDist = 0;
+            bool recordSameDist = true;
+            int LastDist = -1;
+            int length = distances.Length;
+            //for all distances take the smallest 
+            for (int i = 0; i < length; i++)
+            {
+                int Dist = SetPlayerPositionInTargetList(i, type, ref distances, Players, ref orderedAllies, ActualPlayer);
+                if (LastDist == Dist && recordSameDist)
+                {
+                    TotalOfSameDist++;
+                }
+                else if (i > 0)
+                {
+                    recordSameDist = false;
+                }
+                ActualPlayer++;
+                LastDist = Dist;
             }
-            //Distances[i] = x tel que x = la distance entre l'enemy et le players[i]. trouver i => Distance[i] est le plus petit de tous, return players[i]
+            sameDist = TotalOfSameDist;
             return orderedAllies;
+        }
+
+        private int SetPlayerPositionInTargetList(int i, string type, ref int[] distances, List<CharacterEntity> Players, ref CharacterEntity[] orderedAllies, int ActualPlayer)
+        {
+            int Dist;
+            // Depending on the type of distance (close or far) get the good distances
+            if (type == "Min")
+            {
+                Dist = distances.Min();
+            }
+            else
+            {
+                Dist = distances.Max();
+            }
+            int Index = distances.IndexOfItem(Dist);
+            //if the player is provoking then make it first priority
+            if (Players[Index].Provoke)
+            {
+                MakeProvokedFirst(Players[Index], ref orderedAllies, Players);
+            }
+            else
+            {
+                orderedAllies[ActualPlayer] = Players[Index];
+            }
+            ArrayHelper.RemoveAt(ref distances, Index);;
+
+            return Dist;
+        }
+
+        private void MakeProvokedFirst(CharacterEntity provoked, ref CharacterEntity[] array, List<CharacterEntity> players)
+        {
+            for (int i = 0; i < array.Length; i++)
+            {
+                if (players[i].Provoke)
+                {
+                    continue;
+                }
+                ArrayHelper.Insert(ref array, i, provoked);
+                break;
+            }
+        }
+        #endregion
+
+        public override Spell AutoAttackSpell() {
+            return new Spell(CombatManager.Instance.PossibleAutoAttacks.Find(x => x.Is<DamageStrengthSpellAction>()));
+
+            Cell RandomCellInRange() {
+                List<Cell> cells = new();
+                foreach (var item in CurrentGrid.Cells) {
+                    cells.Add(item);
+                }
+                return cells.FindAll(x => (Mathf.Abs(x.PositionInGrid.latitude - this.EntityCell.PositionInGrid.latitude) + Mathf.Abs(x.PositionInGrid.longitude - this.EntityCell.PositionInGrid.longitude)) >= Speed).GetRandom();
+
+            }
         }
     }
 }
