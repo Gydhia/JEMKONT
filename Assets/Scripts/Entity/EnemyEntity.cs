@@ -12,7 +12,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
-using UnityEditor;
 using Math = System.Math;
 
 
@@ -235,7 +234,8 @@ namespace DownBelow.Entity {
             {
                 orderedAllies[ActualPlayer] = Players[Index];
             }
-            ArrayUtility.RemoveAt(ref distances, Index);
+
+            distances.RemoveAt(Index);
             return Dist;
         }
 
@@ -247,7 +247,10 @@ namespace DownBelow.Entity {
                 {
                     continue;
                 }
-                ArrayUtility.Insert(ref array, i, provoked);
+
+                List<CharacterEntity> templist = array.ToList();
+                templist.Insert(i, provoked);
+                array = templist.ToArray();
                 break;
             }
         }
