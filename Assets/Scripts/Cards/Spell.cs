@@ -12,7 +12,7 @@ namespace DownBelow.Spells
     [Serializable]
     public class Spell
     {
-        public SpellCondition ConditionData;
+        public SpellConditionBase ConditionData;
         public SpellAction ActionData;
 
         public bool ApplyToCell = true;
@@ -31,7 +31,7 @@ namespace DownBelow.Spells
         [HideInInspector]
         public CharacterEntity Caster;
 
-        public Spell(SpellAction ActionData,SpellCondition ConditionData = null,bool ApplyToCell = true, bool ApplyToSelf = false,bool ApplyToAllies=false, bool ApplyToAll=false) {
+        public Spell(SpellAction ActionData,SpellConditionBase ConditionData = null,bool ApplyToCell = true, bool ApplyToSelf = false,bool ApplyToAllies=false, bool ApplyToAll=false) {
             this.ActionData = ActionData;
             this.ConditionData = ConditionData;
             this.ApplyToCell = ApplyToCell;

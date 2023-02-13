@@ -1,5 +1,6 @@
 using DownBelow.Entity;
 using DownBelow.Events;
+using DownBelow.Managers;
 using MyBox;
 using System;
 using System.CodeDom;
@@ -79,22 +80,26 @@ namespace DownBelow.Spells.Alterations {
         public int Cooldown;
         public CharacterEntity Target;
 
+        [ReadOnly] public Animator InstanciatedFXAnimator;
+
         public virtual bool ClassicCountdown { get => true; }
 
         public virtual void Setup(CharacterEntity entity) {
             Target = entity;
             //SetupFx?
+            SFXManager.Instance.RefreshAlterationSFX(entity);
         }
 
         public virtual void Apply(CharacterEntity entity) {
+            SFXManager.Instance.RefreshAlterationSFX(entity);
         }
 
         public virtual void WearsOff(CharacterEntity entity) {
             //FxGoAway?
+            SFXManager.Instance.RefreshAlterationSFX(entity);
         }
 
         public virtual void DecrementAlterationCountdown(Events.EventData data) {
-
             Cooldown--;
             if (Cooldown <= 0) {
                 Target.Alterations.Remove(this);

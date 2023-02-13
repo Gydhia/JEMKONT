@@ -159,7 +159,7 @@ namespace DownBelow.Managers {
 
                 if (this._currentSpells[i].ConditionData != null)
                     if (i - 1 >= 0)
-                        if (!this._currentSpells[i].ConditionData.Check(this._currentSpells[i - 1].CurrentAction.Result))
+                        if (!this._currentSpells[i].ConditionData.Validated(this._currentSpells[i - 1].CurrentAction.Result))
                             canExecute = false;
 
                 if (canExecute) {
