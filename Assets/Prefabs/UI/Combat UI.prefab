@@ -579,6 +579,38 @@ PrefabInstance:
       propertyPath: m_Name
       value: CardsSection
       objectReference: {fileID: 0}
+    - target: {fileID: 9123825442910001026, guid: d47697b3d0d1e924eaead537ef6cad1b, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 9123825442910001026, guid: d47697b3d0d1e924eaead537ef6cad1b, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.75600004
+      objectReference: {fileID: 0}
+    - target: {fileID: 9123825442910001026, guid: d47697b3d0d1e924eaead537ef6cad1b, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9123825442910001026, guid: d47697b3d0d1e924eaead537ef6cad1b, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9123825442910001026, guid: d47697b3d0d1e924eaead537ef6cad1b, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9123825442910001026, guid: d47697b3d0d1e924eaead537ef6cad1b, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9123825442910001026, guid: d47697b3d0d1e924eaead537ef6cad1b, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9123825442910001026, guid: d47697b3d0d1e924eaead537ef6cad1b, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d47697b3d0d1e924eaead537ef6cad1b, type: 3}
 --- !u!224 &1432938575163897506 stripped

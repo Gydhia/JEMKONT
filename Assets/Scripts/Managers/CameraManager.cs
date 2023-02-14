@@ -12,17 +12,17 @@ namespace DownBelow.Managers
 {
     public class CameraManager : _baseManager<CameraManager>
     {
-        [SerializeField]
-        private CinemachineVirtualCamera VirtualCamera;
-        [SerializeField]
-        private Camera MainCamera;
+        [SerializeField] private CinemachineVirtualCamera VirtualCamera;
+        [SerializeField] private Camera MainCamera;
 
         [SerializeField] private float _zoomCoefficient = 0.3f;
-        [SerializeField] private float _maxZoom = 20f;
-        [SerializeField] private float _minZoom = 15f;
+        [SerializeField] private float _maxZoomVirtualCam = 20f;
+        [SerializeField] private float _minZoomVirtualCam = 15f;
+        [SerializeField] private float _minZoomMainCam = 20f;
+        [SerializeField] private float _maxZoomMainCam = 30f;
 
         private CinemachineTransposer _transposer;
-
+        
         private void Start()
         {
             _transposer = VirtualCamera.GetCinemachineComponent<CinemachineTransposer>();
@@ -41,41 +41,67 @@ namespace DownBelow.Managers
         {
             if (GameManager.Instance.SelfPlayer == Data.Entity)
             {
-                if (GameManager.Instance.SelfPlayer.CurrentGrid.IsCombatGrid) 
+                if (GameManager.Instance.SelfPlayer.CurrentGrid.IsCombatGrid)
                 {
                     this.VirtualCamera.Follow = null;
 
-                    this.VirtualCamera.transform.position = new Vector3(52f, 25f, -45f);
+                    this.VirtualCamera.transform.position = new Vector3(52f, 25f, -46f);
                     this.VirtualCamera.transform.eulerAngles = new Vector3(70f, 0f, 0f);
+
+                    StartCoroutine(WaitBeforeDisabling());
                 }
                 else
                 {
+                    this.VirtualCamera.gameObject.SetActive(true);
+                    
                     this.VirtualCamera.Follow = Data.Entity.transform;
                     this.VirtualCamera.LookAt = Data.Entity.transform;
-                    
-                    Vector3 pos = this.VirtualCamera.transform.position;
-                    
+
                 }
 
-                
+
             }
-   
+
         }
 
         private void Update()
         {
-            Vector3 pos = this.VirtualCamera.transform.position;
-            float newY = Input.mouseScrollDelta.y * _zoomCoefficient;
-            Debug.Log(pos.y + newY);
-            if (_transposer.m_FollowOffset.y + newY >= _minZoom && _transposer.m_FollowOffset.y + newY <= _maxZoom)
-            {
-                Debug.Log("test");
-                _transposer.m_FollowOffset = new Vector3(_transposer.m_FollowOffset.x,
-                    _transposer.m_FollowOffset.y + newY, _transposer.m_FollowOffset.z);
-            }
 
+            if (GameManager.Instance.SelfPlayer.CurrentGrid.IsCombatGrid)
+            {
+                Vector3 pos = this.MainCamera.transform.position;
+                float newY = Input.mouseScrollDelta.y * (-_zoomCoefficient);
+                
+                if(pos.y + newY >= _minZoomMainCam && pos.y + newY <= _maxZoomMainCam)
+                    MainCamera.transform.position = new Vector3(pos.x, pos.y + newY, pos.z);
+                
+
+
+
+            }
+            else
+            {
+                Vector3 pos = this.VirtualCamera.transform.position;
+                float newY = Input.mouseScrollDelta.y * (-_zoomCoefficient);
+
+                if (_transposer.m_FollowOffset.y + newY >= _minZoomVirtualCam && _transposer.m_FollowOffset.y + newY <= _maxZoomVirtualCam)
+                {
+                    _transposer.m_FollowOffset = new Vector3(_transposer.m_FollowOffset.x,
+                        _transposer.m_FollowOffset.y + newY, _transposer.m_FollowOffset.z);
+                }
+
+
+
+            }
+            
 
         }
-    }
 
+        private IEnumerator WaitBeforeDisabling()
+        {
+            yield return new WaitForSeconds(0.1f);
+            this.VirtualCamera.gameObject.SetActive(false);
+        }
+
+    }
 }
