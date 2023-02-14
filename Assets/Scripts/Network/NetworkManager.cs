@@ -87,7 +87,7 @@ namespace DownBelow.Managers {
         {
             string mainGrid = refGrid is CombatGrid cGrid ? cGrid.ParentGrid.UName : refGrid.UName;
             string innerGrid = mainGrid == refGrid.UName ? string.Empty : refGrid.UName;
-            int[] positions = GridManager.Instance.SerializePathData();
+            int[] positions = GridManager.Instance.SerializePathData(entity.CurrentPath);
 
             this.photonView.RPC("RPC_RespondWithEntityProcessedPath", RpcTarget.All, entity.UID, positions, mainGrid, innerGrid);
         }
@@ -96,8 +96,8 @@ namespace DownBelow.Managers {
             string mainGrid = refGrid is CombatGrid cGrid ? cGrid.ParentGrid.UName : refGrid.UName;
             string innerGrid = mainGrid == refGrid.UName ? string.Empty : refGrid.UName;
 
-            GridManager.Instance.FindPath(entity,target.PositionInGrid);
-            int[] positions = GridManager.Instance.SerializePathData();
+            var path = GridManager.Instance.FindPath(entity,target.PositionInGrid);
+            int[] positions = GridManager.Instance.SerializePathData(path);
 
             this.photonView.RPC("RPC_RespondWithEntityProcessedPath",RpcTarget.All,entity.UID,positions,mainGrid,innerGrid);
         }
@@ -114,10 +114,11 @@ namespace DownBelow.Managers {
             entity.MoveWithPath(GridManager.Instance.DeserializePathData(entity,pathResult),string.Empty);
         }
 
-        public void PlayerAsksForPath(PlayerBehavior player,GridSystem.Cell target,string otherGrid) {
-            GridManager.Instance.FindPath(GameManager.Instance.Players[player.PlayerID],target.PositionInGrid);
+        public void PlayerAsksForPath(PlayerBehavior player,GridSystem.Cell target,string otherGrid) 
+        {
+            var path = GridManager.Instance.FindPath(GameManager.Instance.Players[player.PlayerID], target.PositionInGrid);
 
-            int[] positions = GridManager.Instance.SerializePathData();
+            int[] positions = GridManager.Instance.SerializePathData(path);
 
             this.photonView.RPC("RPC_RespondWithProcessedPath",RpcTarget.All,player.PlayerID,positions,otherGrid);
         }
@@ -127,6 +128,10 @@ namespace DownBelow.Managers {
             PlayerBehavior movingPlayer = GameManager.Instance.Players[pathDatas[0].ToString()];
             // We manage the fact that 2 players won't obv be on the same grid, so we send the player
             movingPlayer.MoveWithPath(GridManager.Instance.DeserializePathData(movingPlayer,(int[])pathDatas[1]),pathDatas[2].ToString());
+
+            // TODO: For now we only need to notify the UIManager, think about creating an event later if there are further needs
+            if (GameManager.Instance.SelfPlayer == movingPlayer)
+                UIManager.Instance.PlayerMoved();
         }
 
         public void PlayerAsksToEnterGrid(PlayerBehavior player,WorldGrid mainGrid,string targetGrid) {
@@ -181,7 +186,7 @@ namespace DownBelow.Managers {
             player.Interact(player.CurrentGrid.Cells[latitude,longitude]);
         }
 
-        public void GiftOrRemovePlayerItem(string playerID,ItemPreset item,int quantity) 
+        public void GiftOrRemovePlayerItem(string playerID, ItemPreset item, int quantity) 
         {
             this.photonView.RPC("RPC_RespondGiftOrRemovePlayerItem", RpcTarget.All, GameManager.Instance.SelfPlayer.PlayerID, item.UID.ToString(), quantity);
         }
@@ -189,7 +194,7 @@ namespace DownBelow.Managers {
         [PunRPC]
         public void RPC_RespondGiftOrRemovePlayerItem(string playerID,string itemID,int quantity) 
         {
-            GameManager.Instance.Players[playerID].TakeResources(GridManager.Instance.ItemsPresets[System.Guid.Parse(itemID)],quantity);
+            GameManager.Instance.Players[playerID].TakeResources(GridManager.Instance.ItemsPresets[System.Guid.Parse(itemID)], quantity);
         }
 
         public void TurnBegan(EntityEventData EntityData) 
@@ -267,6 +272,7 @@ namespace DownBelow.Managers {
 
         public override void OnPlayerEnteredRoom(Player newPlayer) {
             this.UILobby?.UpdatePlayersList();
+            this.UILobby?.UpdatePlayersState();
         }
 
         public override void OnLeftRoom() {

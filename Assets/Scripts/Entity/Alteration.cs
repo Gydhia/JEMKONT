@@ -1,5 +1,8 @@
 using DownBelow.Entity;
 using DownBelow.Events;
+using DownBelow.Managers;
+
+using Sirenix.Serialization;
 using System;
 using System.CodeDom;
 using System.Collections;
@@ -77,16 +80,30 @@ namespace DownBelow.Spells.Alterations {
         public abstract EAlterationType ToEnum();
         public int Cooldown;
         public CharacterEntity Target;
+
+        public Animator InstanciatedFXAnimator;
+
         public virtual bool ClassicCountdown { get => true; }
+
         public virtual void Setup(CharacterEntity entity) {
             Target = entity;
+            //SetupFx?
+            SFXManager.Instance.RefreshAlterationSFX(entity);
+            Debug.Log(entity.AlterationBools());
         }
+
         public virtual void Apply(CharacterEntity entity) {
+            SFXManager.Instance.RefreshAlterationSFX(entity);
+            Debug.Log(entity.AlterationBools());
         }
 
-        public virtual void WearsOff(CharacterEntity entity) { }
-        public virtual void DecrementAlterationCountdown(Events.EventData data) {
+        public virtual void WearsOff(CharacterEntity entity) {
+            //FxGoAway?
+            SFXManager.Instance.RefreshAlterationSFX(entity);
+            Debug.Log(entity.AlterationBools());
+        }
 
+        public virtual void DecrementAlterationCountdown(Events.EventData data) {
             Cooldown--;
             if (Cooldown <= 0) {
                 Target.Alterations.Remove(this);
@@ -94,8 +111,14 @@ namespace DownBelow.Spells.Alterations {
                 Target.OnTurnEnded -= DecrementAlterationCountdown; //TODO: call this when you die.
             }
         }
+
         public Alteration(int Cooldown) {
             this.Cooldown = Cooldown;
+        }
+
+        public override string ToString() {
+            string cc = ClassicCountdown ? "\n(Can also decrement with other conditions)" : "";
+            return $"{ToEnum()} for {Cooldown} turns.{cc}";
         }
     }
 }

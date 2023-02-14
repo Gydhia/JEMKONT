@@ -6,6 +6,7 @@ using UnityEngine;
 [System.Serializable]
 public class Deck
 {
+    private System.Random rng = new System.Random();
     public List<ScriptableCard> Cards;
     public int Count => Cards.Count;
     public void ShuffleDeck() {

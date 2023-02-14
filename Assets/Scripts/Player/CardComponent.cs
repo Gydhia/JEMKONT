@@ -10,6 +10,7 @@ using DownBelow.Mechanics;
 using System.Threading.Tasks;
 using DG.Tweening;
 using DownBelow.Events;
+using Sirenix.Utilities;
 
 public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler, IPointerDownHandler, IPointerExitHandler 
 {
@@ -78,6 +79,9 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
     }
     public void Update()
     {
+        if (!GameManager.Instance.SelfPlayer.IsPlayingEntity)
+            return;
+
         Vector2 mousePos = Input.mousePosition;
         if (isDragged)
         {
@@ -183,11 +187,10 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
         transform.position = pos;
     }
 
-    public async Task DrawCardFromPile() {
+    public void DrawCardFromPile() {
         this.gameObject.SetActive(true);
         this.transform.position = UIManager.Instance.CardSection.DrawPile.transform.position;
         StartCoroutine(GoToHand(0.28f));
-        await new WaitForSeconds(0.28f);
     }
     public void GoBackToHand()
     {
@@ -239,7 +242,7 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
 
     public IEnumerator ScaleDown(float time) {
         this._hasScaledDown = true;
-
+        GetComponentsInChildren<Image>().ForEach(i=>i.gameObject.SetActive(false));
         float timer = time;
         while (timer > 0f) {
             float value = timer * (1 / time);
@@ -251,6 +254,7 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
     }
     public IEnumerator ScaleUp(float time) {
         float timer = 0f;
+        GetComponentsInChildren<Image>(true).ForEach(i=>i.gameObject.SetActive(true));
         while (timer < time) {
             float value = timer * (1 / time);
             this.transform.localScale = new Vector3(value,value,value);

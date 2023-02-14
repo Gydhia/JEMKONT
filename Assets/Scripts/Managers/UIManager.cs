@@ -2,6 +2,7 @@ using DownBelow.Events;
 using DownBelow.GridSystem;
 using DownBelow.Inventory;
 using DownBelow.UI;
+using DownBelow.UI.Inventory;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -18,7 +19,7 @@ namespace DownBelow.Managers
         public EntityTooltipUI EntityTooltipUI;
 
         public UIPlayerInventory PlayerInventory;
-        public UIStorage Storage;
+        public UIStorage CurrentStorage;
 
         private Coroutine _gatheringCor;
         public Slider GatheringSlider;
@@ -26,6 +27,7 @@ namespace DownBelow.Managers
 
         public Button NextTurnButton;
         public Button StartCombatButton;
+
         public void Init()
         {
             this.StartCombatButton.gameObject.SetActive(false);
@@ -58,6 +60,16 @@ namespace DownBelow.Managers
             CombatManager.Instance.OnCardEndDrag += this._endCardDrag;
 
             InputManager.Instance.OnCellRightClick += this.UpdateEntityToolTip;
+
+            
+        }
+
+        /// <summary>
+        /// To process the UI when a player moved
+        /// </summary>
+        public void PlayerMoved()
+        {
+            this.CurrentStorage.HideStorage();
         }
 
         public void StartGather(GatheringEventData Data)
@@ -123,12 +135,16 @@ namespace DownBelow.Managers
             this.TurnSection.gameObject.SetActive(true);
             this.PlayerInfos.gameObject.SetActive(true);
             this.CardSection.gameObject.SetActive(true);
+
+            this.PlayerInventory.gameObject.SetActive(false);
         }
         private void _setupOutOfCombatInterface()
         {
             this.TurnSection.gameObject.SetActive(false);
             this.PlayerInfos.gameObject.SetActive(false);
             this.CardSection.gameObject.SetActive(false);
+
+            this.PlayerInventory.gameObject.SetActive(true);
         }
 
         private void _beginCardDrag(CardEventData Data)

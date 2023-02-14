@@ -1,5 +1,5 @@
-using DownBelow.Inventory;
 using DownBelow.Managers;
+using DownBelow.UI.Inventory;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,7 +19,7 @@ namespace DownBelow.GridSystem
         }
         public override void Interact(Entity.PlayerBehavior player)
         {
-            UIManager.Instance.Storage.SetStorageAndShow(this.Storage);
+            UIManager.Instance.CurrentStorage.SetStorageAndShow(this.Storage);
         }
     }
 }

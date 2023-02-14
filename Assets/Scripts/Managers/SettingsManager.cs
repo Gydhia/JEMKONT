@@ -13,7 +13,6 @@ namespace DownBelow.Managers
         public GameUIPreset GameUIPreset;
 
         // for test
-        public EntityStats PlayerStats;
         public EntityStats FishermanStats;
         public EntityStats MinerStats;
         public EntityStats FarmerStats;

@@ -84,24 +84,17 @@ namespace DownBelow.Managers
         {
             if (PhotonNetwork.PlayerList.Length >= 1)
             {
+                System.Guid spawnId = GridManager.Instance.SpawnablesPresets.First(k => k.Value is SpawnPreset).Key;
+                var spawnLocations = GridManager.Instance.MainWorldGrid.SelfData.SpawnablePresets.Where(k => k.Value == spawnId).Select(kv => kv.Key);
+
                 this.Players = new Dictionary<string, PlayerBehavior>();
                 int counter = 0;
                 foreach (var player in PhotonNetwork.PlayerList)
                 {
                     PlayerBehavior newPlayer = Instantiate(this._playerPrefab, Vector3.zero, Quaternion.identity, this.transform);
                     newPlayer.Deck = CardsManager.Instance.DeckPresets.Values.Single(d => d.Name == "TestDeck").Copy();
-                    //TO CHANGE WITH TOOL. FOR TESTING ONLY
-                    GridPosition spawnPosition;
-
-                    switch (counter)
-                    {
-                        case 0: spawnPosition = new GridPosition((int)GridManager.Instance.FirstSpawn.x, (int)GridManager.Instance.FirstSpawn.y); break;
-                        case 1: spawnPosition = new GridPosition((int)GridManager.Instance.SecondSpawn.x, (int)GridManager.Instance.SecondSpawn.y); break;
-                        case 2: spawnPosition = new GridPosition((int)GridManager.Instance.ThirdSpawn.x, (int)GridManager.Instance.ThirdSpawn.y); break;
-                        default: spawnPosition = new GridPosition((int)GridManager.Instance.FourthSpawn.x, (int)GridManager.Instance.FourthSpawn.y); break;
-                    }
-
-                    newPlayer.Init(SettingsManager.Instance.PlayerStats, GridManager.Instance.MainWorldGrid.Cells[spawnPosition.latitude, spawnPosition.longitude], GridManager.Instance.MainWorldGrid);
+                 
+                    newPlayer.Init(SettingsManager.Instance.FishermanStats, GridManager.Instance.MainWorldGrid.Cells[spawnLocations.ElementAt(counter).latitude, spawnLocations.ElementAt(counter).longitude], GridManager.Instance.MainWorldGrid);
                     // TODO: make it works with world grids
                     newPlayer.PlayerID = player.UserId;
 
