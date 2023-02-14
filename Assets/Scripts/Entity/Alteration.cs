@@ -89,15 +89,18 @@ namespace DownBelow.Spells.Alterations {
             Target = entity;
             //SetupFx?
             SFXManager.Instance.RefreshAlterationSFX(entity);
+            Debug.Log(entity.AlterationBools());
         }
 
         public virtual void Apply(CharacterEntity entity) {
             SFXManager.Instance.RefreshAlterationSFX(entity);
+            Debug.Log(entity.AlterationBools());
         }
 
         public virtual void WearsOff(CharacterEntity entity) {
             //FxGoAway?
             SFXManager.Instance.RefreshAlterationSFX(entity);
+            Debug.Log(entity.AlterationBools());
         }
 
         public virtual void DecrementAlterationCountdown(Events.EventData data) {

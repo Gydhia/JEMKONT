@@ -205,7 +205,7 @@ namespace DownBelow.Entity {
             } else {
                 Dist = distances.Max();
             }
-            int Index = distances.ToList().Find(x => x == Dist);
+            int Index = Array.IndexOf(distances, Dist);
             //if the player is provoking then make it first priority
             if (Players[Index].Provoke) {
                 MakeProvokedFirst(Players[Index], ref orderedAllies, Players);
@@ -230,15 +230,14 @@ namespace DownBelow.Entity {
 
         public override Spell AutoAttackSpell() {
             return new Spell(CombatManager.Instance.PossibleAutoAttacks.Find(x => x is DamageStrengthSpellAction));
-
-            Cell RandomCellInRange() {
-                List<Cell> cells = new();
-                foreach (var item in CurrentGrid.Cells) {
-                    cells.Add(item);
-                }
-                return cells.FindAll(x => (Mathf.Abs(x.PositionInGrid.latitude - this.EntityCell.PositionInGrid.latitude) + Mathf.Abs(x.PositionInGrid.longitude - this.EntityCell.PositionInGrid.longitude)) >= Speed).Random();
-
+        }
+        Cell RandomCellInRange() {
+            List<Cell> cells = new();
+            foreach (var item in CurrentGrid.Cells) {
+                cells.Add(item);
             }
+            return cells.FindAll(x => (Mathf.Abs(x.PositionInGrid.latitude - this.EntityCell.PositionInGrid.latitude) + Mathf.Abs(x.PositionInGrid.longitude - this.EntityCell.PositionInGrid.longitude)) >= Speed).Random();
+                
         }
     }
 }

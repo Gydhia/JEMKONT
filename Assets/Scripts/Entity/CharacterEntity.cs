@@ -80,7 +80,7 @@ namespace DownBelow.Entity
         public bool Snared { get => Alterations.Any(x => x.GetType() == typeof(SnareAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Snare].Contains(x.ToEnum())); }//DONE
         public bool Stunned { get => Alterations.Any(x => x.GetType() == typeof(StunAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Stun].Contains(x.ToEnum())); }//DONE
         public bool Disarmed { get => Alterations.Any(x => x.GetType() == typeof(DisarmedAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Disarmed].Contains(x.ToEnum())); }//DONE
-        public bool Critical { get => Alterations.Any(x => x.GetType() == typeof(CriticalAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Critical].Contains(x.ToEnum())); }//Ouille. On met �a de c�t� le temps d'un gros refactor. impossible.
+        public bool Critical { get => Alterations.Any(x => x.GetType() == typeof(CriticalAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Critical].Contains(x.ToEnum())); }//Ouille. On met �a de c�t� le temps d'un gros refactor. impossible. Edit ah? 
         public bool Dodge { get => Alterations.Any(x => x.GetType() == typeof(DodgeAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Dodge].Contains(x.ToEnum())); }//DONE
         public bool Camouflage { get => Alterations.Any(x => x.GetType() == typeof(CamouflageAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Camouflage].Contains(x.ToEnum())); }//DONE
         public bool Provoke { get => Alterations.Any(x => x.GetType() == typeof(ProvokeAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Provoke].Contains(x.ToEnum())); }//DONE
@@ -628,6 +628,12 @@ GridPos : {EntityCell}";
                 }
             }
             return res;
+        }
+        #endregion
+
+        #region DEBUG
+        public string AlterationBools() {
+            return $"{nameof(Snared)}:{Snared}\n{nameof(Stunned)}:{Stunned}\n{nameof(Disarmed)}:{Disarmed}\n{nameof(Critical)}:{Critical}\n{nameof(Dodge)}:{Dodge}\n{nameof(Camouflage)}:{Camouflage}\n{nameof(Provoke)}:{Provoke}\n{nameof(Ephemeral)}:{Ephemeral}\n{nameof(Confused)}:{Confused}\n{nameof(Shattered)}:{Shattered}\n{nameof(DoT)}:{DoT}\n{nameof(Inspired)}:{Inspired}\n{nameof(Bubbled)}:{Bubbled}\n{nameof(MindControl)}:{MindControl}\n{nameof(Sleeping)}:{Sleeping}\n";
         }
         #endregion
     }
