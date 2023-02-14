@@ -1,6 +1,5 @@
 using DownBelow.Spells;
 using DownBelow.Spells.Alterations;
-using MyBox;
 using DownBelow.Events;
 using DownBelow.GridSystem;
 using DownBelow.Managers;
@@ -98,7 +97,7 @@ namespace DownBelow.Entity
         /// </summary>
         public int DmgUpDown {
             get {
-                var alt = Alterations.Find(x => x.Is<DmgUpDownAlteration>());
+                var alt = Alterations.Find(x => x is DmgUpDownAlteration);
                 if (alt != null && !Alterations.Any(x => Alteration.overrides[EAlterationType.DmgUpDown].Contains(x.ToEnum()))) return ((DmgUpDownAlteration)alt).value;
                 return 0;
             }
@@ -108,7 +107,7 @@ namespace DownBelow.Entity
         /// </summary>
         public int SpeedUpDown {
             get {
-                var alt = Alterations.Find(x => x.Is<SpeedUpDownAlteration>());
+                var alt = Alterations.Find(x => x is SpeedUpDownAlteration);
                 if (alt != null && !Alterations.Any(x => Alteration.overrides[EAlterationType.SpeedUpDown].Contains(x.ToEnum()))) return ((SpeedUpDownAlteration)alt).value;
                 return 0;
             }

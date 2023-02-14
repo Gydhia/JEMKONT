@@ -3,7 +3,6 @@ using DownBelow.GridSystem;
 using DownBelow.Inventory;
 using DownBelow.Managers;
 using DownBelow.Spells;
-using MyBox;
 using Photon.Pun;
 using Photon.Realtime;
 using System;
@@ -275,7 +274,7 @@ namespace DownBelow.Entity {
         #endregion
 
         public override Spell AutoAttackSpell() {
-            return new Spell(CombatManager.Instance.PossibleAutoAttacks.Find(x => x.Is<DamageStrengthSpellAction>()));
+            return new Spell(CombatManager.Instance.PossibleAutoAttacks.Find(x => x is DamageStrengthSpellAction));
         }
     }
 }

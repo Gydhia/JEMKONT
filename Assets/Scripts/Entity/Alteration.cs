@@ -1,7 +1,7 @@
 using DownBelow.Entity;
 using DownBelow.Events;
 using DownBelow.Managers;
-using MyBox;
+
 using Sirenix.Serialization;
 using System;
 using System.CodeDom;
@@ -81,7 +81,7 @@ namespace DownBelow.Spells.Alterations {
         public int Cooldown;
         public CharacterEntity Target;
 
-        [ReadOnly] public Animator InstanciatedFXAnimator;
+        public Animator InstanciatedFXAnimator;
 
         public virtual bool ClassicCountdown { get => true; }
 
