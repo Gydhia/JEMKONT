@@ -28,3 +28,4 @@ MonoBehaviour:
   Speed: 4
   Defense: 0
   Range: 5
+  MaxMana: 6

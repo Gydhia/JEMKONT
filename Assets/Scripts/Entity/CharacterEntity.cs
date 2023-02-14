@@ -121,9 +121,10 @@ namespace DownBelow.Entity
         public int Shield { get => Statistics[EntityStatistics.Shield]; }
         public int Strength { get => Statistics[EntityStatistics.Strength]; }
         public int Speed { get => Snared ? 0 : Statistics[EntityStatistics.Speed] + SpeedUpDown; }
-        public int Mana { get => Statistics[EntityStatistics.Mana]; }
+        public virtual int Mana { get => Statistics[EntityStatistics.Mana]; }
         public int Defense { get => Shattered ? 0 : Statistics[EntityStatistics.Defense]; }
         public int Range { get => Statistics[EntityStatistics.Range]; }
+        public int NumberOfTurnsPlayed = 0;
         /// <summary>
         /// </summary>
         /// <returns>the auto attack spell of this entity. Can be any Spell.</returns>
@@ -270,11 +271,11 @@ namespace DownBelow.Entity
         #region TURNS
         public virtual void EndTurn() 
         {
+            NumberOfTurnsPlayed++;
             CanAutoAttack = false;
             foreach (Alteration Alter in Alterations) {
                 Alter.Apply(this);
             }
-
             this.IsPlayingEntity = false;
             OnTurnEnded?.Invoke(new());
         }
@@ -306,6 +307,7 @@ namespace DownBelow.Entity
             this.RefStats = stats;
             this.Statistics = new Dictionary<EntityStatistics,int>();
 
+            this.Statistics.Add(EntityStatistics.MaxMana,stats.MaxMana);
             this.Statistics.Add(EntityStatistics.Health,stats.Health);
             this.Statistics.Add(EntityStatistics.Shield,stats.BaseShield);
             this.Statistics.Add(EntityStatistics.Strength,stats.Strength);
