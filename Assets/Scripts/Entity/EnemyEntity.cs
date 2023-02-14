@@ -4,7 +4,6 @@ using DownBelow.Spells;
 using DownBelow.Spells.Alterations;
 using DownBelow.GridSystem;
 using DownBelow.Managers;
-using MyBox;
 using Sirenix.Utilities;
 using System;
 using System.Collections;
@@ -225,7 +224,7 @@ namespace DownBelow.Entity {
             {
                 Dist = distances.Max();
             }
-            int Index = distances.IndexOfItem(Dist);
+            int Index = Array.IndexOf(distances, Dist);
             //if the player is provoking then make it first priority
             if (Players[Index].Provoke)
             {
@@ -254,16 +253,16 @@ namespace DownBelow.Entity {
         #endregion
 
         public override Spell AutoAttackSpell() {
-            return new Spell(CombatManager.Instance.PossibleAutoAttacks.Find(x => x.Is<DamageStrengthSpellAction>()));
+            return new Spell(CombatManager.Instance.PossibleAutoAttacks.Find(x => x is DamageStrengthSpellAction ));
 
-            Cell RandomCellInRange() {
-                List<Cell> cells = new();
-                foreach (var item in CurrentGrid.Cells) {
-                    cells.Add(item);
-                }
-                return cells.FindAll(x => (Mathf.Abs(x.PositionInGrid.latitude - this.EntityCell.PositionInGrid.latitude) + Mathf.Abs(x.PositionInGrid.longitude - this.EntityCell.PositionInGrid.longitude)) >= Speed).GetRandom();
-
+        }
+        Cell RandomCellInRange() {
+            List<Cell> cells = new List<Cell>();
+            foreach (var item in CurrentGrid.Cells) {
+                cells.Add(item);
             }
+            return cells.FindAll(x => (Mathf.Abs(x.PositionInGrid.latitude - this.EntityCell.PositionInGrid.latitude) + Mathf.Abs(x.PositionInGrid.longitude - this.EntityCell.PositionInGrid.longitude)) >= Speed).Random();
+
         }
     }
 }

@@ -1,5 +1,4 @@
 using DownBelow.Mechanics;
-using MyBox;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,7 +9,14 @@ public class Deck
     public List<ScriptableCard> Cards;
     public int Count => Cards.Count;
     public void ShuffleDeck() {
-        Cards.Shuffle();
+        for (int i = 0; i < Cards.Count; i++)
+        {
+            ScriptableCard temp = Cards[i];
+            int randomIndex = Random.Range(i, Cards.Count);
+            Cards[i] = Cards[randomIndex];
+            Cards[randomIndex] = temp;
+        }
+
     }
     public ScriptableCard DrawCard() {
         var res = Cards[0];
