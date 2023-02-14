@@ -4,7 +4,6 @@ using DownBelow.Spells;
 using DownBelow.Spells.Alterations;
 using DownBelow.GridSystem;
 using DownBelow.Managers;
-using MyBox;
 using Sirenix.Utilities;
 using System;
 using System.Collections;
@@ -17,8 +16,7 @@ using Math = System.Math;
 
 
 namespace DownBelow.Entity {
-    public class EnemyEntity : CharacterEntity 
-    {
+    public class EnemyEntity : CharacterEntity {
 
         public EntityPreset EnemyStyle;
         CharacterEntity cachedAllyToAttack;
@@ -26,13 +24,13 @@ namespace DownBelow.Entity {
         public CharacterEntity CurrentTarget;
 
         #region Movement
-        public enum MovementType {Straight, StraightToRange, Flee, Kite};
+        public enum MovementType { Straight, StraightToRange, Flee, Kite };
         public MovementType movementType = MovementType.Straight;
         private Dictionary<MovementType, System.Action> MovementBehaviors = new Dictionary<MovementType, System.Action>();
         #endregion
 
         #region Attack
-        public enum AttackType { ClosestRandom, FarthestRandom, LowestRandom, HighestRandom, Random};
+        public enum AttackType { ClosestRandom, FarthestRandom, LowestRandom, HighestRandom, Random };
         public AttackType attackType = AttackType.ClosestRandom;
         private Dictionary<AttackType, System.Action> AttackBehaviors = new Dictionary<AttackType, System.Action>();
         #endregion
@@ -43,8 +41,8 @@ namespace DownBelow.Entity {
         #endregion
 
 
-        public override void Init(EntityStats stats,Cell refCell,WorldGrid refGrid,int order = 0) {
-            base.Init(stats,refCell,refGrid);
+        public override void Init(EntityStats stats, Cell refCell, WorldGrid refGrid, int order = 0) {
+            base.Init(stats, refCell, refGrid);
 
             this.UID = refGrid.UName + this.EnemyStyle.UName + order;
             MovementBehaviors.Add(MovementType.Straight, MovementStraight);
@@ -52,16 +50,14 @@ namespace DownBelow.Entity {
             AttackBehaviors.Add(AttackType.ClosestRandom, AttackClosestRandom);
             TargetBehaviors.Add(AttackType.ClosestRandom, TargetClosestRandom);
             TargetBehaviors.Add(AttackType.FarthestRandom, TargetFarthestRandom);
-            
+
         }
 
-        public override void StartTurn()
-        {
+        public override void StartTurn() {
             CanAutoAttack = !Disarmed;//CanAutoAttack = true if !Disarmed
             this.ReinitializeStat(EntityStatistics.Speed);
             this.ReinitializeStat(EntityStatistics.Mana);
-            if (Stunned || Sleeping)
-            {
+            if (Stunned || Sleeping) {
                 EndTurn();
             }
 
@@ -98,12 +94,10 @@ namespace DownBelow.Entity {
         /// <summary>
         /// Will Go straight to the target's location
         /// </summary>
-        private void MovementStraight()
-        {
+        private void MovementStraight() {
             GridPosition targPosition = CurrentTarget.EntityCell.PositionInGrid;
             var path = GridManager.Instance.FindPath(this, targPosition);
-            if (path.Count > this.Speed)
-            {
+            if (path.Count > this.Speed) {
                 NetworkManager.Instance.EntityAsksForPath(this, path[this.Speed], this.CurrentGrid);
             }
             NetworkManager.Instance.EntityAsksForPath(this, this.CurrentGrid);
@@ -112,8 +106,7 @@ namespace DownBelow.Entity {
         /// <summary>
         /// Will Go straight to the target stops when in range
         /// </summary>
-        private void MovementStraightToRange()
-        {
+        private void MovementStraightToRange() {
             GridPosition targPosition = CurrentTarget.EntityCell.PositionInGrid;
             List<Cell> path = GridManager.Instance.FindPath(this, targPosition, false, this.Range);
 
@@ -132,15 +125,12 @@ namespace DownBelow.Entity {
         /// <summary>
         /// Will attack the closest player (random btwn two at same range)
         /// </summary>
-        private void AttackClosestRandom()
-        {
-            if (!CanAutoAttack)
-            {
+        private void AttackClosestRandom() {
+            if (!CanAutoAttack) {
                 return;
             }
             TargetBehaviors[attackType]();
-            if (cachedAllyToAttack != null)
-            {
+            if (cachedAllyToAttack != null) {
                 AutoAttack(cachedAllyToAttack.EntityCell);
             }
         }
@@ -151,8 +141,7 @@ namespace DownBelow.Entity {
         /// <summary>
         /// Will target the closest player (random btwn two at the same range)
         /// </summary>
-        private void TargetClosestRandom()
-        {
+        private void TargetClosestRandom() {
             CharacterEntity[] PlayersByDistance = PlayersOrderedByDistance("Min", out int sameDist);
             var ClosestPlayer = PlayersByDistance[UnityEngine.Random.Range(0, sameDist)];
 
@@ -162,8 +151,7 @@ namespace DownBelow.Entity {
         /// <summary>
         /// Will target the closest player (random btwn two at the same range)
         /// </summary>
-        private void TargetFarthestRandom()
-        {
+        private void TargetFarthestRandom() {
             CharacterEntity[] PlayersByDistance = PlayersOrderedByDistance("Max", out int sameDist);
             var FarthestPlayer = PlayersByDistance[UnityEngine.Random.Range(0, sameDist)];
 
@@ -177,17 +165,15 @@ namespace DownBelow.Entity {
         /// Returns Players ordered from closest to farthest / farthest to Closest. If an entity is provoking, clones it to put in index 0 of the array.
         /// Arguments : Type = "Min" or "Max" depending on getting the closest or farthest
         /// </summary>
-        public CharacterEntity[] PlayersOrderedByDistance(string type,out int sameDist) 
-        {
+        public CharacterEntity[] PlayersOrderedByDistance(string type, out int sameDist) {
             var Players = CurrentGrid.GridEntities.FindAll(x => x.IsAlly);
             var Provoking = Players.FindAll(x => x.Provoke);
 
             int[] distances = new int[Players.Count];
             //Get all distances to player (from path) and set them in distances
-            for (int i = 0; i < Players.Count; i++) 
-            {
+            for (int i = 0;i < Players.Count;i++) {
                 CharacterEntity item = Players[i];
-                var path = GridManager.Instance.FindPath(this,item.EntityCell.PositionInGrid);
+                var path = GridManager.Instance.FindPath(this, item.EntityCell.PositionInGrid);
                 distances[i] = path == null ? int.MaxValue : path.Count;
             }
             CharacterEntity[] orderedAllies = new CharacterEntity[distances.Length];
@@ -197,15 +183,11 @@ namespace DownBelow.Entity {
             int LastDist = -1;
             int length = distances.Length;
             //for all distances take the smallest 
-            for (int i = 0; i < length; i++)
-            {
+            for (int i = 0;i < length;i++) {
                 int Dist = SetPlayerPositionInTargetList(i, type, ref distances, Players, ref orderedAllies, ActualPlayer);
-                if (LastDist == Dist && recordSameDist)
-                {
+                if (LastDist == Dist && recordSameDist) {
                     TotalOfSameDist++;
-                }
-                else if (i > 0)
-                {
+                } else if (i > 0) {
                     recordSameDist = false;
                 }
                 ActualPlayer++;
@@ -215,39 +197,29 @@ namespace DownBelow.Entity {
             return orderedAllies;
         }
 
-        private int SetPlayerPositionInTargetList(int i, string type, ref int[] distances, List<CharacterEntity> Players, ref CharacterEntity[] orderedAllies, int ActualPlayer)
-        {
+        private int SetPlayerPositionInTargetList(int i, string type, ref int[] distances, List<CharacterEntity> Players, ref CharacterEntity[] orderedAllies, int ActualPlayer) {
             int Dist;
             // Depending on the type of distance (close or far) get the good distances
-            if (type == "Min")
-            {
+            if (type == "Min") {
                 Dist = distances.Min();
-            }
-            else
-            {
+            } else {
                 Dist = distances.Max();
             }
-            int Index = distances.IndexOfItem(Dist);
+            int Index = Array.IndexOf(distances, Dist);
             //if the player is provoking then make it first priority
-            if (Players[Index].Provoke)
-            {
+            if (Players[Index].Provoke) {
                 MakeProvokedFirst(Players[Index], ref orderedAllies, Players);
-            }
-            else
-            {
+            } else {
                 orderedAllies[ActualPlayer] = Players[Index];
             }
-            ArrayHelper.RemoveAt(ref distances, Index);;
+            ArrayHelper.RemoveAt(ref distances, Index); ;
 
             return Dist;
         }
 
-        private void MakeProvokedFirst(CharacterEntity provoked, ref CharacterEntity[] array, List<CharacterEntity> players)
-        {
-            for (int i = 0; i < array.Length; i++)
-            {
-                if (players[i].Provoke)
-                {
+        private void MakeProvokedFirst(CharacterEntity provoked, ref CharacterEntity[] array, List<CharacterEntity> players) {
+            for (int i = 0;i < array.Length;i++) {
+                if (players[i].Provoke) {
                     continue;
                 }
                 ArrayHelper.Insert(ref array, i, provoked);
@@ -257,16 +229,15 @@ namespace DownBelow.Entity {
         #endregion
 
         public override Spell AutoAttackSpell() {
-            return new Spell(CombatManager.Instance.PossibleAutoAttacks.Find(x => x.Is<DamageStrengthSpellAction>()));
-
-            Cell RandomCellInRange() {
-                List<Cell> cells = new();
-                foreach (var item in CurrentGrid.Cells) {
-                    cells.Add(item);
-                }
-                return cells.FindAll(x => (Mathf.Abs(x.PositionInGrid.latitude - this.EntityCell.PositionInGrid.latitude) + Mathf.Abs(x.PositionInGrid.longitude - this.EntityCell.PositionInGrid.longitude)) >= Speed).GetRandom();
-
+            return new Spell(CombatManager.Instance.PossibleAutoAttacks.Find(x => x is DamageStrengthSpellAction));
+        }
+        Cell RandomCellInRange() {
+            List<Cell> cells = new();
+            foreach (var item in CurrentGrid.Cells) {
+                cells.Add(item);
             }
+            return cells.FindAll(x => (Mathf.Abs(x.PositionInGrid.latitude - this.EntityCell.PositionInGrid.latitude) + Mathf.Abs(x.PositionInGrid.longitude - this.EntityCell.PositionInGrid.longitude)) >= Speed).Random();
+                
         }
     }
 }

@@ -17,4 +17,6 @@ public class EntityStats : SerializedScriptableObject
 
     public int Defense;
     public int Range;
+
+    public int MaxMana;
 }
