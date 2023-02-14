@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 559503cbc8aa225459309d515bf15158, type: 3}
-  m_Name: Miner
+  m_Name: MinerStats
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2

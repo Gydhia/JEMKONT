@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 559503cbc8aa225459309d515bf15158, type: 3}
-  m_Name: Herbalist
+  m_Script: {fileID: 11500000, guid: 130d9b84c5367fe47b06c4038738f937, type: 3}
+  m_Name: SnakeyPreset
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -20,11 +20,12 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
-  Health: 80
-  BaseShield: 0
-  Strength: 200
-  Mana: 4
-  Speed: 4
-  Defense: 0
-  Range: 5
+    SerializationNodes:
+    - Name: UID
+      Entry: 2
+      Data: 5f807b60e19771d49073e272af47be86
+  UName: Snakey
+  AffectingState: 2
+  Entity: {fileID: 2281775837897738858, guid: e4456af146632a74baebaafe41511228, type: 3}
+  IsPNJ: 0
+  Statistics: {fileID: 11400000, guid: c9058d4b494a7714f84f95b292811062, type: 2}

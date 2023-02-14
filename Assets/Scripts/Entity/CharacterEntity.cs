@@ -10,6 +10,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using Sirenix.Serialization;
+using System;
 
 namespace DownBelow.Entity
 {
@@ -250,7 +251,8 @@ namespace DownBelow.Entity
                 }
             } else {
                 //There isn't any obstacle in the path, so the attack should go for it.
-                CastAutoAttack(cellToAttack);
+                if(cellToAttack.Datas.state == CellState.EntityIn)
+                    CastAutoAttack(cellToAttack);
                 //TODO: Shield/overheal? What do i do? Have we got shield in the game??????????????????????
             }
         }
@@ -338,6 +340,7 @@ namespace DownBelow.Entity
         /// <param name="overShield">Only used to determined if a damage stat should pierce through shieldHP. Will be ignored if stat != health value is positive.</param>
         public void ApplyStat(EntityStatistics stat,int value,bool overShield = false) 
         {
+            Debug.Log($"Applied stat {stat}, {value}, {Environment.StackTrace} ");
             Statistics[stat] += value;
 
             switch (stat) 
@@ -380,7 +383,7 @@ namespace DownBelow.Entity
                 }
                 if (this.Dodge)
                 {
-                    if (Random.Range(0, 1) == 0) value = 0;
+                    if (UnityEngine.Random.Range(0, 1) == 0) value = 0;
                 }
                 int onShield = this.Shield - value > 0 ? value : this.Shield;
                 int onLife = overShield ? value : -(onShield - value);

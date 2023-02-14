@@ -242,7 +242,7 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
 
     public IEnumerator ScaleDown(float time) {
         this._hasScaledDown = true;
-
+        GetComponentsInChildren<Image>().ForEach(i=>i.gameObject.SetActive(false));
         float timer = time;
         while (timer > 0f) {
             float value = timer * (1 / time);
@@ -254,6 +254,7 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
     }
     public IEnumerator ScaleUp(float time) {
         float timer = 0f;
+        GetComponentsInChildren<Image>(true).ForEach(i=>i.gameObject.SetActive(true));
         while (timer < time) {
             float value = timer * (1 / time);
             this.transform.localScale = new Vector3(value,value,value);

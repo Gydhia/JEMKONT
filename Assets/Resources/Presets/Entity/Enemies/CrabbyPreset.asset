@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 559503cbc8aa225459309d515bf15158, type: 3}
-  m_Name: MVPPlayerStat
+  m_Script: {fileID: 11500000, guid: 130d9b84c5367fe47b06c4038738f937, type: 3}
+  m_Name: CrabbyPreset
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -20,11 +20,12 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
-  Health: 80
-  BaseShield: 0
-  Strength: 200
-  Mana: 4
-  Speed: 3
-  Defense: 0
-  Range: 5
+    SerializationNodes:
+    - Name: UID
+      Entry: 2
+      Data: f390892d4f61a93e69f412162da738dd
+  UName: Crabby
+  AffectingState: 2
+  Entity: {fileID: 2281775837897738858, guid: 10cdf3718853e83478224876a983a1f5, type: 3}
+  IsPNJ: 0
+  Statistics: {fileID: 11400000, guid: fe0044797eff9f54098ff0e0f69b9a43, type: 2}
