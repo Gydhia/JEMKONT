@@ -1,5 +1,5 @@
-using DownBelow.Inventory;
 using DownBelow.Managers;
+using DownBelow.UI.Inventory;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

@@ -1,25 +1,27 @@
 using DownBelow.Events;
+using DownBelow.Inventory;
 using DownBelow.UI.Inventory;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-namespace DownBelow.Inventory
+namespace DownBelow.UI.Inventory
 {
     public class BaseStorage
     {
-        #region EVENTS
-        public event ItemEventData.Event OnItemChanged;
+        public InventoryItem[] StorageItems;
+        public int MaxSlots;
 
-        public void FireItemChanged(ItemPreset Item, int Quantity) 
+        #region EVENTS
+        public event ItemEventData.Event OnStorageItemChanged;
+
+        public void FireStorageItemChanged(InventoryItem Item)
         {
-            this.OnItemChanged?.Invoke(new ItemEventData(Item, Quantity));
+            this.OnStorageItemChanged?.Invoke(new ItemEventData(Item));
         }
         #endregion
-
-        public Dictionary<ItemPreset, int> StorageItems = new Dictionary<ItemPreset, int>();
-        public int MaxSlots;
 
         public void Init(StoragePreset preset)
         {
@@ -29,62 +31,83 @@ namespace DownBelow.Inventory
         public void Init(int slots)
         {
             this.MaxSlots = slots;
+            this.StorageItems = new InventoryItem[slots];
+
+            for (int i = 0; i < this.StorageItems.Length; i++)
+                this.StorageItems[i] = new InventoryItem();
         }
 
-        /// <summary>
-        /// To add an item to the storage
-        /// </summary>
-        /// <param name="item">The item preset</param>
-        /// <param name="quantity">The number to add, -1 if infinite</param>
-        public void AddItem(ItemPreset item, int quantity = -1)
+        public int TryAddItem(ItemPreset preset, int quantity, int preferredSlot = -1, bool addAll = true)
         {
-            if(quantity > 0)
-            {
-                if (this.StorageItems.ContainsKey(item))
-                    StorageItems[item] += quantity;
-                else
-                    this.StorageItems.Add(item, quantity);
-            } 
-            else
-                this.StorageItems[item] = -1;
+            int remaining = quantity;
+            int slot = preferredSlot != -1 ? preferredSlot : _getAvailableSlot(preset);
 
-            this.FireItemChanged(item, quantity);
+            // NO slot of THIS item
+            if (slot == -1 || this.StorageItems[slot].ItemPreset == null)
+            {
+                slot = preferredSlot != -1 ? preferredSlot : _getAvailableSlot();
+
+                // NO remaining slots
+                if (slot == -1)
+                    return remaining;
+                // ADD into empty slot
+                else
+                {
+                    int nbToAdd = remaining >= preset.MaxStack ? preset.MaxStack : remaining;
+
+                    this.StorageItems[slot].Init(preset, slot, nbToAdd);
+                    remaining -= nbToAdd;
+                    this.FireStorageItemChanged(this.StorageItems[slot]);
+
+                    return (remaining > 0 && addAll) ? this.TryAddItem(preset, remaining) : remaining;
+                }
+            }
+            // EXISTING slot of THIS item, or SPECIFIED slot
+            else
+            {
+                int free = preset.MaxStack - this.StorageItems[slot].Quantity;
+                free = free > remaining ? remaining : free;
+
+                this.StorageItems[slot].AddQuantity(free);
+                remaining -= free;
+
+                this.FireStorageItemChanged(this.StorageItems[slot]);
+
+                return (remaining > 0 && addAll) ? this.TryAddItem(preset, remaining) : remaining;
+            }
         }
+
+
+        private int _getAvailableSlot(ItemPreset preset)
+        {
+            for (int i = 0; i < this.StorageItems.Length; i++)
+                if (this.StorageItems[i] != null && this.StorageItems[i].ItemPreset == preset)
+                    return i;
+            return -1;
+        }
+
+        private int _getAvailableSlot()
+        {
+            for (int i = 0; i < this.StorageItems.Length; i++)
+                if (this.StorageItems[i].ItemPreset == null)
+                    return i;
+            return -1;
+        }
+
 
         /// <summary>
         /// To remove item to the storage
         /// </summary>
         /// <param name="item">The item preset</param>
         /// <param name="quantity">The number to remove, -1 if everything</param>
-        public void RemoveItem(ItemPreset item, int quantity = -1)
+        public void RemoveItem(ItemPreset preset, int quantity, int preferredSlot = -1)
         {
-            if (quantity > 0)
+            int slot = preferredSlot != -1 ? preferredSlot : this._getAvailableSlot(preset);
+
+            if (slot != -1)
             {
-                if (this.StorageItems.ContainsKey(item))
-                {
-                    this.StorageItems[item] -= quantity;
-                    if(this.StorageItems[item] <= 0)
-                        this.StorageItems.Remove(item);
-                }
-                else
-                    this.StorageItems.Add(item, quantity);
+                this.StorageItems[slot].RemoveQuantity(quantity);
             }
-            else
-                this.StorageItems.Remove(item);
-
-            if (this.StorageItems.ContainsKey(item))
-                this.FireItemChanged(item, this.StorageItems[item]);
-            else
-                this.FireItemChanged(item, 0);
-        }
-
-        public int GetNumberByStacks()
-        {
-            int stackNumber = 0;
-            foreach (KeyValuePair<ItemPreset, int> item in this.StorageItems)
-                stackNumber += item.Value % item.Key.MaxStack;
-
-            return stackNumber;
         }
     }
 

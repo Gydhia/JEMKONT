@@ -135,8 +135,7 @@ namespace DownBelow.Managers {
 
             if (this.TurnNumber >= 0)
                 UIManager.Instance.TurnSection.ChangeSelectedEntity(this.TurnNumber % this.PlayingEntities.Count);
-            // TODO : remove this when we'll no longer need to test enemies
-            //if (this.CurrentPlayingEntity.IsAlly)
+
             if(this.CurrentPlayingEntity is PlayerBehavior)
                 this._turnCoroutine = StartCoroutine(this._startTurnTimer());
         }

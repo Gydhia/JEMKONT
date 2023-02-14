@@ -3,6 +3,7 @@ using DownBelow.GridSystem;
 using DownBelow.Inventory;
 using DownBelow.Managers;
 using DownBelow.Spells;
+using DownBelow.UI.Inventory;
 using MyBox;
 using Photon.Pun;
 using Photon.Realtime;
@@ -301,7 +302,7 @@ namespace DownBelow.Entity
 
         public void TakeResources(ItemPreset resource, int quantity)
         {
-            this.PlayerInventory.AddItem(resource, quantity);
+            this.PlayerInventory.TryAddItem(resource, quantity);
         }
         #endregion
 
