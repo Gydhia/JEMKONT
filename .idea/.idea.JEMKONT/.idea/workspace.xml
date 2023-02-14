@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="f51ef5ce-4271-4853-a7ef-98596d968ffc" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/Assets/FlatKit/[Render Pipeline] Built-In.unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/FlatKit/[Render Pipeline] Universal (URP).unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Rendering/Cameras/Cameras.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Rendering/Cameras/Cameras.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/WIP/Killian.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/WIP/Killian.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/SpecialSkillsEffectsPack/Patch/Decals/HDRPdecal(Upper2020HDRP).unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/SpecialSkillsEffectsPack/Patch/Decals/HDRPdecal.unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/SpecialSkillsEffectsPack/Patch/Decals/HDRPdecalMatrixFix(Upper2020HDRP).unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/SpecialSkillsEffectsPack/Patch/Decals/URPdecal.unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/SpecialSkillsEffectsPack/Patch/Materials/GammaSpaceMaterials(WithoutNormal).unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/SpecialSkillsEffectsPack/Patch/Materials/GammaSpaceMaterials.unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/SpecialSkillsEffectsPack/Patch/Materials/LinearSpaceMaterials(WithoutNormal).unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/SpecialSkillsEffectsPack/Patch/Materials/LinearSpaceMaterials.unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/SpecialSkillsEffectsPack/Patch/Prefebs/OptimizedEffectsPrefebs.unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/SpecialSkillsEffectsPack/Patch/Prefebs/OriginalEffectsPrefebs(WithoutDistort).unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/SpecialSkillsEffectsPack/Patch/Prefebs/OriginalEffectsPrefebs.unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/SpecialSkillsEffectsPack/Patch/Toon/ToonTypeMaterial(GammaSpace).unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/SpecialSkillsEffectsPack/Patch/Toon/ToonTypeMaterial(LinearSpace).unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/SpecialSkillsEffectsPack/Patch/Toon/ToonTypeTextures_Part1.unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/SpecialSkillsEffectsPack/Patch/Toon/ToonTypeTextures_Part2.unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="mock://D:/projects/JEMKONT/Assets/Scripts/Managers/CameraManager.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/projects/JEMKONT/Assets/Scripts/Managers/CameraManager.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/projects/JEMKONT/Assets/Scripts/Managers/CameraManager.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/projects/JEMKONT/Assets/Scripts/Managers/CameraManager.cs" root0="SKIP_HIGHLIGHTING" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <changedPaths>
+      <option value="$PROJECT_DIR$/Assets/Scripts/Managers/CameraManager.cs" />
+    </changedPaths>
+  </component>
+  <component name="TaskManager">
+    <servers />
+  </component>
+  <component name="UnityProjectConfiguration" hasMinimizedUI="true" />
+  <component name="UnityUnitTestConfiguration" currentTestLauncher="Both" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+</project>
