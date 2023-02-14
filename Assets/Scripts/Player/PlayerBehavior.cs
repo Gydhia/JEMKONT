@@ -3,6 +3,8 @@ using DownBelow.GridSystem;
 using DownBelow.Inventory;
 using DownBelow.Managers;
 using DownBelow.Spells;
+using DownBelow.UI.Inventory;
+
 using Photon.Pun;
 using Photon.Realtime;
 using System;
@@ -268,8 +270,9 @@ namespace DownBelow.Entity {
             this.FireGatheringEnded(_currentResource);
         }
 
-        public void TakeResources(ItemPreset resource, int quantity) {
-            this.PlayerInventory.AddItem(resource, quantity);
+        public void TakeResources(ItemPreset resource, int quantity)
+        {
+            this.PlayerInventory.TryAddItem(resource, quantity);
         }
         #endregion
 

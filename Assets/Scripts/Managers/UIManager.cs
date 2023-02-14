@@ -2,6 +2,7 @@ using DownBelow.Events;
 using DownBelow.GridSystem;
 using DownBelow.Inventory;
 using DownBelow.UI;
+using DownBelow.UI.Inventory;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -26,6 +27,7 @@ namespace DownBelow.Managers
 
         public Button NextTurnButton;
         public Button StartCombatButton;
+
         public void Init()
         {
             this.StartCombatButton.gameObject.SetActive(false);

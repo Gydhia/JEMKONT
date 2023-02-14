@@ -30,7 +30,6 @@ MonoBehaviour:
   m_Active: 1
   settings: {fileID: 11400000, guid: cc996c96443b6401080cd0f127ea39c9, type: 2}
   _effectMaterial: {fileID: 0}
-  _copyMaterial: {fileID: 0}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0

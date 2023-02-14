@@ -9,7 +9,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace DownBelow.Inventory
+namespace DownBelow.UI.Inventory
 {
     public class UIPlayerInventory : MonoBehaviour
     {
@@ -60,15 +60,12 @@ namespace DownBelow.Inventory
         {
             foreach (var item in this.Holder.PlayerInventory.StorageItems)
             {
-                this._nearestInteractable.Storage.AddItem(item.Key, item.Value);
-            }
-            for (int i = 0; i < this.Holder.PlayerInventory.StorageItems.Count; i++)
-            {
-                this.Holder.PlayerInventory.RemoveItem(
-                    this.Holder.PlayerInventory.StorageItems.ElementAt(0).Key,
-                    this.Holder.PlayerInventory.StorageItems.ElementAt(0).Value) ;
-            }
-            
+                if(item.ItemPreset != null)
+                {
+                    int remainings = this._nearestInteractable.Storage.TryAddItem(item.ItemPreset, item.Quantity);
+                    this.Holder.PlayerInventory.RemoveItem(item.ItemPreset, item.Quantity - remainings);
+                }
+            }            
         }
     }
 }

@@ -211,7 +211,6 @@ public class GridPlaceholder : SerializedMonoBehaviour
                 foreach (var spawnable in this.InnerGrids[i].Spawnables)
                     innerSpawnables.Add(spawnable.Key, spawnable.Value != null ? spawnable.Value.UID : Guid.Empty);
 
-            // TODO: ADD entities
             GridData innerData = new GridData(
                 true,
                 this.InnerGrids[i].GridHeight,
