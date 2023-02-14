@@ -1,4 +1,5 @@
-using DownBelow;
+using DownBelow.Events;
+using DownBelow.Inventory;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -17,8 +18,10 @@ namespace DownBelow.UI.Inventory
         [SerializeField] private Button selfButton;
 
         public int TotalQuantity = 0;
-        public ItemPreset ItemPreset;
+        public int Slot;
         public UIStorage SelfStorage;
+
+        public InventoryItem SelfItem => this.SelfStorage.Storage.StorageItems[this.Slot];
 
         private Transform _parentAfterDrag;
         private Vector3 _positionAfterDrag;
@@ -28,16 +31,35 @@ namespace DownBelow.UI.Inventory
             this.RemoveItem();
         }
 
-        public void Init(ItemPreset preset, int quantity, UIStorage refStorage)
+        public void Init(InventoryItem Item, UIStorage refStorage, int slot)
         {
-            Debug.Log("Inited InventoryItem");
-            this.ItemPreset = preset;
-            this.SelfStorage = refStorage;
+            this.gameObject.SetActive(true);
 
-            if(preset != null)
+            this.SelfStorage = refStorage;
+            this.Slot = slot;
+
+            this.SelfItem.OnItemChanged += RefreshItem;
+
+            if (this.SelfItem.ItemPreset != null)
             {
-                this.icon.sprite = preset.InventoryIcon;
-                this.TotalQuantity = quantity;
+                this.icon.sprite = Item.ItemPreset.InventoryIcon;
+                this.TotalQuantity = Item.Quantity;
+                this.quantity.text = this.TotalQuantity.ToString();
+            }
+            else
+            {
+                this.icon.sprite = Managers.SettingsManager.Instance.GameUIPreset.ItemCase;
+                this.quantity.text = string.Empty;
+                this.TotalQuantity = 0;
+            }
+        }
+
+        public void RefreshItem(ItemEventData Data)
+        {
+            if(Data.ItemData.Quantity > 0)
+            {
+                this.icon.sprite = Data.ItemData.ItemPreset.InventoryIcon;
+                this.TotalQuantity = Data.ItemData.Quantity;
                 this.quantity.text = this.TotalQuantity.ToString();
             }
             else
@@ -91,8 +113,11 @@ namespace DownBelow.UI.Inventory
             if (this.TotalQuantity == 0)
                 return;
 
-            if (LastHoveredItem)
-                LastHoveredItem.SelfStorage.AddItemAtIndex(this, LastHoveredItem);
+            if (LastHoveredItem && LastHoveredItem != this)
+            {
+                int remainings = LastHoveredItem.SelfStorage.Storage.TryAddItem(this.SelfItem.ItemPreset, this.TotalQuantity, LastHoveredItem.Slot);
+                this.SelfStorage.Storage.RemoveItem(this.SelfItem.ItemPreset, this.TotalQuantity - remainings, this.Slot);
+            }
 
             selfButton.image.raycastTarget = true;
             if (selfButton.targetGraphic != null)

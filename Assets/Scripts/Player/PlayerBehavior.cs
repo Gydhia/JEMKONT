@@ -302,7 +302,7 @@ namespace DownBelow.Entity
 
         public void TakeResources(ItemPreset resource, int quantity)
         {
-            this.PlayerInventory.AddItem(resource, quantity);
+            this.PlayerInventory.TryAddItem(resource, quantity);
         }
         #endregion
 
