@@ -1,0 +1,25 @@
+State Group	ID	Name			Wwise Object Path	Notes
+	3298531235	Layers			\Default Work Unit\Layers	
+
+State	ID	Name	State Group			Notes
+	602912168	Layers1	Layers			
+	602912169	Layers0	Layers			
+	602912170	Layers3	Layers			
+	602912171	Layers2	Layers			
+	748895195	None	Layers			
+
+Custom State	ID	Name	State Group	Owner		Notes
+	28508136	Layers2	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\Combat\Combat\bass piano loop		
+	474278211	Layers0	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\Combat\Combat\hihats loop		
+	503644836	Layers0	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\Combat\Combat\harp loop		
+	563894571	Layers1	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\Combat\Combat\harp loop		
+	564387403	Layers0	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\Combat\Combat\bass piano loop		
+	975108717	Layers1	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\Combat\Combat\bass piano loop		
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	488747114	hihats loop	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\hihats loop_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\Combat\Combat\hihats loop		1660380
+	708396059	kalimba loop	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\kalimba loop_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\Combat\Combat\kalimba loop		3320616
+	920520952	bass piano loop	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\bass piano loop_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\Combat\Combat\bass piano loop		1660380
+	1002096085	harp loop	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\harp loop_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\Combat\Combat\harp loop		6641084
+	1002181933	reverb piano loop	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\reverb piano loop_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\Combat\Combat\reverb piano loop		3320616
+
