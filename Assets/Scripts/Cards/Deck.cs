@@ -11,14 +11,14 @@ public class Deck
     public List<ScriptableCard> Cards;
     public int Count => Cards.Count;
     public void ShuffleDeck() {
-        int n = Cards.Count;
-        while (n > 1) {
-            n--;
-            int k = rng.Next(n + 1);
-            ScriptableCard value = Cards[k];
-            Cards[k] = Cards[n];
-            Cards[n] = value;
+        for (int i = 0; i < Cards.Count; i++)
+        {
+            ScriptableCard temp = Cards[i];
+            int randomIndex = Random.Range(i, Cards.Count);
+            Cards[i] = Cards[randomIndex];
+            Cards[randomIndex] = temp;
         }
+
     }
     public ScriptableCard DrawCard() {
         var res = Cards[0];

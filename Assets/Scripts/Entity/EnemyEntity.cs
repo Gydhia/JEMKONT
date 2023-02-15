@@ -229,15 +229,16 @@ namespace DownBelow.Entity {
         #endregion
 
         public override Spell AutoAttackSpell() {
-            return new Spell(CombatManager.Instance.PossibleAutoAttacks.Find(x => x is DamageStrengthSpellAction));
+            return new Spell(CombatManager.Instance.PossibleAutoAttacks.Find(x => x is DamageStrengthSpellAction ));
+
         }
         Cell RandomCellInRange() {
-            List<Cell> cells = new();
+            List<Cell> cells = new List<Cell>();
             foreach (var item in CurrentGrid.Cells) {
                 cells.Add(item);
             }
             return cells.FindAll(x => (Mathf.Abs(x.PositionInGrid.latitude - this.EntityCell.PositionInGrid.latitude) + Mathf.Abs(x.PositionInGrid.longitude - this.EntityCell.PositionInGrid.longitude)) >= Speed).Random();
-                
+
         }
     }
 }

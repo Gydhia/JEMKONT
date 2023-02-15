@@ -22,7 +22,7 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
     public TextMeshProUGUI TitleText;
     public TextMeshProUGUI DescText;
 
-     public bool isInPlacingMode;
+    public bool isInPlacingMode;
 
     public bool isHovered;
     public bool isPressed;
