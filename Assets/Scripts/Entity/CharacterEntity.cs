@@ -1,6 +1,5 @@
 using DownBelow.Spells;
 using DownBelow.Spells.Alterations;
-using MyBox;
 using DownBelow.Events;
 using DownBelow.GridSystem;
 using DownBelow.Managers;
@@ -9,6 +8,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
+using Sirenix.Serialization;
+using System;
 
 namespace DownBelow.Entity
 {
@@ -49,7 +50,7 @@ namespace DownBelow.Entity
 
         protected EntityStats RefStats;
 
-        public List<Alteration> Alterations = new();
+        [OdinSerialize] public List<Alteration> Alterations = new();
 
         public UnityEngine.UI.Slider HealthFill;
         public UnityEngine.UI.Slider ShieldFill;
@@ -79,7 +80,7 @@ namespace DownBelow.Entity
         public bool Snared { get => Alterations.Any(x => x.GetType() == typeof(SnareAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Snare].Contains(x.ToEnum())); }//DONE
         public bool Stunned { get => Alterations.Any(x => x.GetType() == typeof(StunAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Stun].Contains(x.ToEnum())); }//DONE
         public bool Disarmed { get => Alterations.Any(x => x.GetType() == typeof(DisarmedAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Disarmed].Contains(x.ToEnum())); }//DONE
-        public bool Critical { get => Alterations.Any(x => x.GetType() == typeof(CriticalAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Critical].Contains(x.ToEnum())); }//Ouille. On met �a de c�t� le temps d'un gros refactor. impossible.
+        public bool Critical { get => Alterations.Any(x => x.GetType() == typeof(CriticalAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Critical].Contains(x.ToEnum())); }//Ouille. On met �a de c�t� le temps d'un gros refactor. impossible. Edit ah? 
         public bool Dodge { get => Alterations.Any(x => x.GetType() == typeof(DodgeAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Dodge].Contains(x.ToEnum())); }//DONE
         public bool Camouflage { get => Alterations.Any(x => x.GetType() == typeof(CamouflageAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Camouflage].Contains(x.ToEnum())); }//DONE
         public bool Provoke { get => Alterations.Any(x => x.GetType() == typeof(ProvokeAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Provoke].Contains(x.ToEnum())); }//DONE
@@ -96,7 +97,7 @@ namespace DownBelow.Entity
         /// </summary>
         public int DmgUpDown {
             get {
-                var alt = Alterations.Find(x => x.Is<DmgUpDownAlteration>());
+                var alt = Alterations.Find(x => x is DmgUpDownAlteration);
                 if (alt != null && !Alterations.Any(x => Alteration.overrides[EAlterationType.DmgUpDown].Contains(x.ToEnum()))) return ((DmgUpDownAlteration)alt).value;
                 return 0;
             }
@@ -106,7 +107,7 @@ namespace DownBelow.Entity
         /// </summary>
         public int SpeedUpDown {
             get {
-                var alt = Alterations.Find(x => x.Is<SpeedUpDownAlteration>());
+                var alt = Alterations.Find(x => x is SpeedUpDownAlteration);
                 if (alt != null && !Alterations.Any(x => Alteration.overrides[EAlterationType.SpeedUpDown].Contains(x.ToEnum()))) return ((SpeedUpDownAlteration)alt).value;
                 return 0;
             }
@@ -119,9 +120,10 @@ namespace DownBelow.Entity
         public int Shield { get => Statistics[EntityStatistics.Shield]; }
         public int Strength { get => Statistics[EntityStatistics.Strength]; }
         public int Speed { get => Snared ? 0 : Statistics[EntityStatistics.Speed] + SpeedUpDown; }
-        public int Mana { get => Statistics[EntityStatistics.Mana]; }
+        public virtual int Mana { get => Statistics[EntityStatistics.Mana]; }
         public int Defense { get => Shattered ? 0 : Statistics[EntityStatistics.Defense]; }
         public int Range { get => Statistics[EntityStatistics.Range]; }
+        public int NumberOfTurnsPlayed = 0;
         /// <summary>
         /// </summary>
         /// <returns>the auto attack spell of this entity. Can be any Spell.</returns>
@@ -249,7 +251,8 @@ namespace DownBelow.Entity
                 }
             } else {
                 //There isn't any obstacle in the path, so the attack should go for it.
-                CastAutoAttack(cellToAttack);
+                if(cellToAttack.Datas.state == CellState.EntityIn)
+                    CastAutoAttack(cellToAttack);
                 //TODO: Shield/overheal? What do i do? Have we got shield in the game??????????????????????
             }
         }
@@ -267,11 +270,11 @@ namespace DownBelow.Entity
         #region TURNS
         public virtual void EndTurn() 
         {
+            NumberOfTurnsPlayed++;
             CanAutoAttack = false;
             foreach (Alteration Alter in Alterations) {
                 Alter.Apply(this);
             }
-
             this.IsPlayingEntity = false;
             OnTurnEnded?.Invoke(new());
         }
@@ -303,6 +306,7 @@ namespace DownBelow.Entity
             this.RefStats = stats;
             this.Statistics = new Dictionary<EntityStatistics,int>();
 
+            this.Statistics.Add(EntityStatistics.MaxMana,stats.MaxMana);
             this.Statistics.Add(EntityStatistics.Health,stats.Health);
             this.Statistics.Add(EntityStatistics.Shield,stats.BaseShield);
             this.Statistics.Add(EntityStatistics.Strength,stats.Strength);
@@ -337,6 +341,7 @@ namespace DownBelow.Entity
         /// <param name="overShield">Only used to determined if a damage stat should pierce through shieldHP. Will be ignored if stat != health value is positive.</param>
         public void ApplyStat(EntityStatistics stat,int value,bool overShield = false) 
         {
+            Debug.Log($"Applied stat {stat}, {value}, {Environment.StackTrace} ");
             Statistics[stat] += value;
 
             switch (stat) 
@@ -379,7 +384,7 @@ namespace DownBelow.Entity
                 }
                 if (this.Dodge)
                 {
-                    if (Random.Range(0, 1) == 0) value = 0;
+                    if (UnityEngine.Random.Range(0, 1) == 0) value = 0;
                 }
                 int onShield = this.Shield - value > 0 ? value : this.Shield;
                 int onLife = overShield ? value : -(onShield - value);
@@ -623,6 +628,12 @@ GridPos : {EntityCell}";
                 }
             }
             return res;
+        }
+        #endregion
+
+        #region DEBUG
+        public string AlterationBools() {
+            return $"{nameof(Snared)}:{Snared}\n{nameof(Stunned)}:{Stunned}\n{nameof(Disarmed)}:{Disarmed}\n{nameof(Critical)}:{Critical}\n{nameof(Dodge)}:{Dodge}\n{nameof(Camouflage)}:{Camouflage}\n{nameof(Provoke)}:{Provoke}\n{nameof(Ephemeral)}:{Ephemeral}\n{nameof(Confused)}:{Confused}\n{nameof(Shattered)}:{Shattered}\n{nameof(DoT)}:{DoT}\n{nameof(Inspired)}:{Inspired}\n{nameof(Bubbled)}:{Bubbled}\n{nameof(MindControl)}:{MindControl}\n{nameof(Sleeping)}:{Sleeping}\n";
         }
         #endregion
     }

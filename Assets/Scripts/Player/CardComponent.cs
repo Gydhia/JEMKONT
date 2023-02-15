@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using MyBox;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
@@ -11,6 +10,7 @@ using DownBelow.Mechanics;
 using System.Threading.Tasks;
 using DG.Tweening;
 using DownBelow.Events;
+using Sirenix.Utilities;
 
 public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler, IPointerDownHandler, IPointerExitHandler 
 {
@@ -22,11 +22,11 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
     public TextMeshProUGUI TitleText;
     public TextMeshProUGUI DescText;
 
-    [ReadOnly] public bool isInPlacingMode;
+    public bool isInPlacingMode;
 
-    [ReadOnly] public bool isHovered;
-    [ReadOnly] public bool isPressed;
-    [ReadOnly] public bool isDragged;
+    public bool isHovered;
+    public bool isPressed;
+    public bool isDragged;
 
     public float dragSensivity = 60f;
     public float transformDragSensitivity = 180f;
@@ -242,7 +242,7 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
 
     public IEnumerator ScaleDown(float time) {
         this._hasScaledDown = true;
-
+        GetComponentsInChildren<Image>().ForEach(i=>i.gameObject.SetActive(false));
         float timer = time;
         while (timer > 0f) {
             float value = timer * (1 / time);
@@ -254,6 +254,7 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
     }
     public IEnumerator ScaleUp(float time) {
         float timer = 0f;
+        GetComponentsInChildren<Image>(true).ForEach(i=>i.gameObject.SetActive(true));
         while (timer < time) {
             float value = timer * (1 / time);
             this.transform.localScale = new Vector3(value,value,value);

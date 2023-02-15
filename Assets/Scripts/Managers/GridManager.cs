@@ -12,7 +12,7 @@ using System;
 using DownBelow.Events;
 using UnityEngine.Rendering;
 using EODE.Wonderland;
-using MyBox;
+
 
 namespace DownBelow.Managers {
     public class GridManager : _baseManager<GridManager> 
@@ -249,7 +249,7 @@ namespace DownBelow.Managers {
 
             if (entity.Confused) 
             {
-                if(entity.Is<PlayerBehavior>())
+                if(entity is PlayerBehavior)
                     NetworkManager.Instance.PlayerAsksForPath((PlayerBehavior)entity,_possiblePath.Random(),string.Empty);
                 else 
                     NetworkManager.Instance.EntityAsksForPath(entity, _possiblePath.Random(), entity.CurrentGrid);

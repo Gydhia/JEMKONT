@@ -1,4 +1,5 @@
 using DownBelow;
+using DownBelow.Inventory;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,13 +8,11 @@ namespace DownBelow.Events
 {
     public class ItemEventData : EventData<ItemEventData>
     {
-        public ItemPreset Item;
-        public int Quantity;
+        public InventoryItem ItemData;
 
-        public ItemEventData(ItemPreset Item, int Quantity)
+        public ItemEventData(InventoryItem ItemData)
         {
-            this.Item = Item;
-            this.Quantity = Quantity;
+            this.ItemData = ItemData;
         }
     }
 }

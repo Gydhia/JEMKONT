@@ -142,6 +142,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LastInteractable: {fileID: 0}
+  EventSystem: {fileID: 0}
 --- !u!1 &2265214080651548676
 GameObject:
   m_ObjectHideFlags: 0
@@ -289,6 +290,50 @@ MonoBehaviour:
   PossibleAutoAttacks:
   - {fileID: 7485489964714345042, guid: b98ebecdecac8f441bc6d16057650f22, type: 3}
   TurnNumber: 0
+--- !u!1 &4145856202392196912
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1112587114581908483}
+  - component: {fileID: 8322103470459949579}
+  m_Layer: 0
+  m_Name: SFXManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1112587114581908483
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4145856202392196912}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6008253201538663047}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8322103470459949579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4145856202392196912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b677cfc4c3f91154ea576620b2e2b3da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4684062575287771609
 GameObject:
   m_ObjectHideFlags: 0
@@ -342,7 +387,6 @@ MonoBehaviour:
   _objectsHandler: {fileID: 0}
   _gridsDataHandler: {fileID: 0}
   InCombat: 1
-  Path: []
   MainWorldGrid: {fileID: 0}
   BitmapTexture: {fileID: 2800000, guid: 774cf7acc1c321844b3f8ee5e9f215b8, type: 3}
   BitmapShader: {fileID: 2100000, guid: 0349616ade0e9a54cbd7bfb285ede134, type: 2}
@@ -477,6 +521,7 @@ Transform:
   - {fileID: 6052729958245106439}
   - {fileID: 1534578390672292061}
   - {fileID: 1966428021}
+  - {fileID: 1112587114581908483}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -527,8 +572,9 @@ MonoBehaviour:
   TurnSection: {fileID: 0}
   PlayerInfos: {fileID: 0}
   CardSection: {fileID: 0}
+  EntityTooltipUI: {fileID: 0}
   PlayerInventory: {fileID: 0}
-  Storage: {fileID: 0}
+  CurrentStorage: {fileID: 0}
   GatheringSlider: {fileID: 0}
   GatheringName: {fileID: 0}
   NextTurnButton: {fileID: 0}
