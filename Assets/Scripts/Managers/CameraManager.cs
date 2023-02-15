@@ -4,6 +4,7 @@ using DownBelow.Events;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 namespace DownBelow.Managers
 {
@@ -13,12 +14,13 @@ namespace DownBelow.Managers
         private CinemachineVirtualCamera VirtualCamera;
         [SerializeField]
         private Camera MainCamera;
-
         public void AttachPlayerToCamera(PlayerBehavior player)
         {
             this.VirtualCamera.Follow = player.gameObject.transform;
 
             GameManager.Instance.OnEnteredGrid += this._setupCamera;
+ 
+      
         }
 
         private void _setupCamera(EntityEventData Data)
@@ -37,10 +39,14 @@ namespace DownBelow.Managers
                     this.VirtualCamera.Follow = Data.Entity.transform;
                 }
 
-                
-            }
-   
+
+             
+
+    }
+
         }
+
+       
     }
 
 }
