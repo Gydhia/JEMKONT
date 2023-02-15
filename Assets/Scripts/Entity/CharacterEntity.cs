@@ -231,6 +231,7 @@ namespace DownBelow.Entity
         /// <param name="cellToAttack">The cell to attack.</param>
         public void AutoAttack(Cell cellToAttack) {
             if (!isInAttackRange(cellToAttack)) {
+                Debug.Log("IsNotInRange ");
                 return;
             }
             //Normally already verified. Just in case
@@ -256,14 +257,23 @@ namespace DownBelow.Entity
                 //TODO: Shield/overheal? What do i do? Have we got shield in the game??????????????????????
             }
         }
-        protected void CastAutoAttack(Cell cell) 
+        protected void CastAutoAttack(Cell cell)
         {
+            Debug.Log("AUTO ATTACKING");
             AutoAttackSpell().ExecuteSpell(this,cell);
         }
         public bool isInAttackRange(Cell cell) 
         {
-            bool res = Range >= Mathf.Abs(cell.PositionInGrid.latitude - EntityCell.PositionInGrid.latitude) + Mathf.Abs(cell.PositionInGrid.longitude - EntityCell.PositionInGrid.longitude);
-            return res;
+            bool latitudeOnRange = false;
+            bool longitudeOnRange = false;
+
+            if (cell.PositionInGrid.latitude - Range <= EntityCell.PositionInGrid.latitude && EntityCell.PositionInGrid.latitude <= cell.PositionInGrid.latitude + Range)
+                latitudeOnRange = true;
+
+            if (cell.PositionInGrid.longitude - Range <= EntityCell.PositionInGrid.longitude && EntityCell.PositionInGrid.longitude <= cell.PositionInGrid.longitude + Range)
+                longitudeOnRange = true;
+
+            return latitudeOnRange && longitudeOnRange;
         }
         #endregion
 

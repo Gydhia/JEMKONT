@@ -67,7 +67,9 @@ namespace DownBelow.Entity {
 
             TargetBehaviors[TargetType]();
             MovementBehaviors[movementType]();
+            CurrentTarget = null;
             AttackBehaviors[attackType]();
+            CurrentTarget = null;
             Debug.Log("ENDTURN");
             EndTurn();
             CombatManager.Instance.ProcessEndTurn(this.UID);
@@ -104,7 +106,7 @@ namespace DownBelow.Entity {
             if (path.Count > this.Speed) {
                 NetworkManager.Instance.EntityAsksForPath(this, path[this.Speed], this.CurrentGrid);
             }
-            NetworkManager.Instance.EntityAsksForPath(this, this.CurrentGrid);
+            NetworkManager.Instance.EntityAsksForPath(this, path[path.Count-1], this.CurrentGrid);
         }
 
         /// <summary>
@@ -148,29 +150,43 @@ namespace DownBelow.Entity {
                     if (checkX < 0 || checkX >= this.CurrentGrid.GridWidth || checkY < 0 || checkY >= this.CurrentGrid.GridHeight)
                         continue;
 
-                    int dist = (Math.Abs(targPosition.longitude - x) + Math.Abs(targPosition.latitude - y))/2;
-                    if (dist > highestDist) {
+                    int dist = (Math.Abs(targPosition.longitude - checkX) + Math.Abs(targPosition.latitude - checkY));
+                    if (dist > highestDist && this.CurrentGrid.Cells[checkX, checkY].Datas.state == CellState.Walkable) {
                         highestDist = dist;
-                        highestX = x;
-                        highestY = y;
+                        highestX = checkX;
+                        highestY = checkY;
                     }
                 }
             }
 
             GridPosition toPosition = new GridPosition(highestX, highestY);
-
             List<Cell> path = GridManager.Instance.FindPath(this, toPosition);
 
             if (path == null || path.Count == 0)
                 return;
 
-            NetworkManager.Instance.EntityAsksForPath(this, path[this.Speed], this.CurrentGrid);
+            NetworkManager.Instance.EntityAsksForPath(this, path[path.Count-1], this.CurrentGrid);
         }
 
         /// <summary>
         /// Will flee target but will stay in attack range.
         /// </summary>
         private void MovementKite()
+        {
+            int xPos = this.EntityCell.Datas.widthPos;
+            int yPos = this.EntityCell.Datas.heightPos;
+            GridPosition targPosition = CurrentTarget.EntityCell.PositionInGrid;
+            int dist = (Math.Abs(targPosition.longitude - xPos) + Math.Abs(targPosition.latitude - yPos));
+
+            if (dist > this.Range) {
+                MovementStraightToRange();
+            }
+            else {
+                FleeToRange();
+            }
+        }
+
+        private void FleeToRange()
         {
             GridPosition targPosition = CurrentTarget.EntityCell.PositionInGrid;
             int movePoints = this.Speed;
@@ -193,24 +209,23 @@ namespace DownBelow.Entity {
                     if (checkX < 0 || checkX >= this.CurrentGrid.GridWidth || checkY < 0 || checkY >= this.CurrentGrid.GridHeight)
                         continue;
 
-                    int dist = (Math.Abs(targPosition.longitude - x) + Math.Abs(targPosition.latitude - y)) / 2;
-                    if (dist > highestDist && dist <= this.Range)
+                    int dist = (Math.Abs(targPosition.longitude - checkX) + Math.Abs(targPosition.latitude - checkY));
+                    if (dist > highestDist && dist <= this.Range && this.CurrentGrid.Cells[checkX, checkY].Datas.state == CellState.Walkable)
                     {
                         highestDist = dist;
-                        highestX = x;
-                        highestY = y;
+                        highestX = checkX;
+                        highestY = checkY;
                     }
                 }
             }
 
             GridPosition toPosition = new GridPosition(highestX, highestY);
-
             List<Cell> path = GridManager.Instance.FindPath(this, toPosition);
 
             if (path == null || path.Count == 0)
                 return;
 
-            NetworkManager.Instance.EntityAsksForPath(this, path[this.Speed], this.CurrentGrid);
+            NetworkManager.Instance.EntityAsksForPath(this, path[path.Count - 1], this.CurrentGrid);
         }
 
         #endregion
@@ -225,8 +240,9 @@ namespace DownBelow.Entity {
                 return;
             }
             TargetBehaviors[attackType]();
-            if (cachedAllyToAttack != null) {
-                AutoAttack(cachedAllyToAttack.EntityCell);
+            if (CurrentTarget != null) {
+                Debug.Log("Try to aa");
+                AutoAttack(CurrentTarget.EntityCell);
             }
         }
         #endregion

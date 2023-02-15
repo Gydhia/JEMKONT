@@ -62,7 +62,7 @@ MonoBehaviour:
   NumberOfTurnsPlayed: 0
   EnemyStyle: {fileID: 0}
   CurrentTarget: {fileID: 0}
-  movementType: 2
+  movementType: 3
   attackType: 0
   TargetType: 1
 --- !u!1001 &3875368923666618312
@@ -145,6 +145,10 @@ PrefabInstance:
     - target: {fileID: 1502728201928284735, guid: 2b8f56245ad001342801b2cd883ea423, type: 3}
       propertyPath: m_Name
       value: Combat Feedbacks
+      objectReference: {fileID: 0}
+    - target: {fileID: 4592713481425640892, guid: 2b8f56245ad001342801b2cd883ea423, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5599948551974239672, guid: 2b8f56245ad001342801b2cd883ea423, type: 3}
       propertyPath: m_Pivot.x

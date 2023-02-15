@@ -354,7 +354,7 @@ namespace DownBelow.Managers {
                 if (currentCell == targetCell || Range > 0 && IsInRange(currentCell.PositionInGrid, targetCell.PositionInGrid, Range)) 
                 {
                     // Once done, get the correct path
-                    finalPath = this.RetracePath(startCell,targetCell);
+                    finalPath = this.RetracePath(startCell, currentCell);
                     // If the last cell of the path isn't walkable, stop right before
                     if (finalPath.Count > 0 && finalPath[^1].Datas.state == CellState.EntityIn) {
                         finalPath.RemoveAt(finalPath.Count - 1);
