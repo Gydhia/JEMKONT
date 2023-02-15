@@ -12,8 +12,7 @@ using DG.Tweening;
 using DownBelow.Events;
 using Sirenix.Utilities;
 
-public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler, IPointerDownHandler, IPointerExitHandler 
-{
+public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler, IPointerDownHandler, IPointerExitHandler {
     public ScriptableCard CardData;
     public Image IllustrationImage;
     public Image ShineImage;
@@ -21,6 +20,8 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
     public TextMeshProUGUI CostText;
     public TextMeshProUGUI TitleText;
     public TextMeshProUGUI DescText;
+
+    public bool IsDeckbuilding;
 
     public bool isInPlacingMode;
 
@@ -37,8 +38,7 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
 
     HorizontalLayoutGroup _parent;
 
-    public void Init(ScriptableCard cardData)
-    {
+    public void Init(ScriptableCard cardData) {
         this.CardData = cardData;
 
         this.ShineImage.enabled = false;
@@ -49,8 +49,7 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
         this._thisRectTransform = this.GetComponent<RectTransform>();
         this._originPosition = _thisRectTransform.anchoredPosition;
 
-        switch (cardData.CardType)
-        {
+        switch (cardData.CardType) {
             case CardType.Attack:
                 ShineImage.color = SettingsManager.Instance.GameUIPreset.AttackColor;
                 break;
@@ -65,61 +64,59 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
         }
     }
 
-    public void ApplyCost(int much) 
-    {
+    public void ApplyCost(int much) {
         if (this.CardData)
             this.CardData.Cost += much;
         else
             Debug.LogError("NO CARD SETUP");
     }
-    public void Burn() 
-    {
+    public void Burn() {
         // TODO: Find a better way than destroying after 2s
         Destroy(this.gameObject, 2f);
     }
-    public void Update()
-    {
-        if (!GameManager.Instance.SelfPlayer.IsPlayingEntity)
-            return;
-
-        Vector2 mousePos = Input.mousePosition;
-        if (isDragged)
-        {
-            this.Drag(mousePos);
-        }
-        if (isPressed) 
-        {
-            if (this.CardData.Cost > CombatManager.Instance.CurrentPlayingEntity.Mana)
+    public void Update() {
+        if (!IsDeckbuilding) {
+            if (!GameManager.Instance.SelfPlayer.IsPlayingEntity) {
                 return;
+            }
 
-            //Check with sensivity:
-            var min = this.MinimumDragPosition();
-            var minTransform = this.MinimumDragTransformPosition();
-            if (min.x <= mousePos.x || min.y <= mousePos.y) 
-            {
-                this.isDragged = true;
-
-                if (!this._hasScaledDown && (minTransform.x < mousePos.x || min.y <= mousePos.y)) 
-                {
-                    CombatManager.Instance.OnCardEndDrag += _processEndDrag;
-                    CombatManager.Instance.FireCardBeginDrag(this.CardData);
-                    StartCoroutine(ScaleDown(0.25f));
+            Vector2 mousePos = Input.mousePosition;
+            if (isDragged) {
+                this.Drag(mousePos);
+            }
+            if (isPressed) {
+                if (!IsDeckbuilding && this.CardData.Cost > CombatManager.Instance.CurrentPlayingEntity.Mana) {
+                    isPressed = false;
+                    return;
                 }
+                //Check with sensivity:
+                var min = this.MinimumDragPosition();
+                var minTransform = this.MinimumDragTransformPosition();
+                if (min.x <= mousePos.x || min.y <= mousePos.y) {
+                    this.isDragged = true;
+
+                    if (!this._hasScaledDown && (minTransform.x < mousePos.x || min.y <= mousePos.y)) {
+                        CombatManager.Instance.OnCardEndDrag += _processEndDrag;
+                        CombatManager.Instance.FireCardBeginDrag(this.CardData);
+                        StartCoroutine(ScaleDown(0.25f));
+                    }
+                }
+            }
+        } else {
+            Vector2 mousePos = Input.mousePosition;
+            if (isDragged) {
+                this.Drag(mousePos);
             }
         }
     }
 
-    private void _processEndDrag(CardEventData Data)
-    {
+    private void _processEndDrag(CardEventData Data) {
         CombatManager.Instance.OnCardEndDrag -= _processEndDrag;
 
-        if (Data.Played)
-        {
+        if (Data.Played) {
             StartCoroutine(GoToPile(0.28f, UIManager.Instance.CardSection.DiscardPile.transform.position));
             this.Burn();
-        }
-        else
-        {
+        } else {
             isPressed = false;
             isDragged = false;
 
@@ -127,24 +124,21 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
         }
     }
 
-    public void ReAppear() 
-    {
+    public void ReAppear() {
         //In case you cancel the spell or anything.
         //IllustrationImage.SetAlpha(1);
         isInPlacingMode = false;
     }
-  
+
     #region pointerHandlers&Drag
-    private Vector2 MinimumDragPosition() 
-    {
+    private Vector2 MinimumDragPosition() {
         //Corresponds to the minimum drag we have to do before the cards begins to get dragged
         Vector2 pos = this.transform.position;
         pos.x += dragSensivity;
         pos.y += dragSensivity;
         return pos;
     }
-    private Vector2 MinimumDragTransformPosition() 
-    {
+    private Vector2 MinimumDragTransformPosition() {
         //Corresponds to the minimum drag we have to do before the cards begins to get dragged
         Vector2 pos = this.transform.position;
         pos.x += transformDragSensitivity;
@@ -152,38 +146,33 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
         return pos;
     }
 
-    private void RefreshLayoutGroup()
-    {
+    private void RefreshLayoutGroup() {
         _parent.enabled = false;
         _parent.enabled = true;
     }
-    public void OnPointerClick(PointerEventData eventData) 
-    {
+    public void OnPointerClick(PointerEventData eventData) {
         //System design
     }
-    public void OnPointerDown(PointerEventData eventData) 
-    {
+    public void OnPointerDown(PointerEventData eventData) {
         if (isPressed || isHovered) {
             //Selected?
             isPressed = true;
         }
     }
-    public void OnPointerEnter(PointerEventData eventData) 
-    {
+    public void OnPointerEnter(PointerEventData eventData) {
         this.ShineImage.enabled = true;
         isHovered = true;
     }
-    public void OnPointerExit(PointerEventData eventData) 
-    {
+    public void OnPointerExit(PointerEventData eventData) {
         this.ShineImage.enabled = false;
         isHovered = false;
     }
 
     private void Drag(Vector2 mousePos) {
-        
+
         Vector2 pos = transform.position;
-        pos.x = Mathf.Lerp(pos.x,mousePos.x,0.1f);
-        pos.y = Mathf.Lerp(pos.y,mousePos.y,0.1f);
+        pos.x = Mathf.Lerp(pos.x, mousePos.x, 0.1f);
+        pos.y = Mathf.Lerp(pos.y, mousePos.y, 0.1f);
         transform.position = pos;
     }
 
@@ -192,8 +181,7 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
         this.transform.position = UIManager.Instance.CardSection.DrawPile.transform.position;
         StartCoroutine(GoToHand(0.28f));
     }
-    public void GoBackToHand()
-    {
+    public void GoBackToHand() {
         _thisRectTransform.DOAnchorPos(_originPosition, 0f);
         RefreshLayoutGroup();
         ReAppear();
@@ -201,8 +189,7 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
         if (this._hasScaledDown)
             StartCoroutine(ScaleUp(0.25f));
     }
-    public IEnumerator GoToHand(float time) 
-    {
+    public IEnumerator GoToHand(float time) {
         Vector2 target = UIManager.Instance.CardSection.CardsHolder.transform.position;
         Vector2 basePos = this.transform.position;
 
@@ -211,8 +198,8 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
 
         while (timer < time) {
             float value = timer * (1 / time);
-            this.transform.localScale = new Vector3(value,value,value);
-            this.transform.position = Vector2.Lerp(basePos,target,value);
+            this.transform.localScale = new Vector3(value, value, value);
+            this.transform.position = Vector2.Lerp(basePos, target, value);
 
             timer += Time.deltaTime;
             yield return new WaitForSeconds(Time.deltaTime);
@@ -224,14 +211,14 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
     }
 
 
-    public IEnumerator GoToPile(float time,Vector2 target) {
+    public IEnumerator GoToPile(float time, Vector2 target) {
         float timer = 0f;
         Vector2 basePos = this.transform.position;
 
         while (timer < time) {
             float value = timer * (1 / time);
-            this.transform.localScale = new Vector3(1 - value,1 - value,1 - value);
-            this.transform.position = Vector2.Lerp(basePos,target,value);
+            this.transform.localScale = new Vector3(1 - value, 1 - value, 1 - value);
+            this.transform.position = Vector2.Lerp(basePos, target, value);
 
             timer += Time.deltaTime;
             yield return new WaitForSeconds(Time.deltaTime);
@@ -242,11 +229,11 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
 
     public IEnumerator ScaleDown(float time) {
         this._hasScaledDown = true;
-        GetComponentsInChildren<Image>().ForEach(i=>i.gameObject.SetActive(false));
+        GetComponentsInChildren<Image>().ForEach(i => i.gameObject.SetActive(false));
         float timer = time;
         while (timer > 0f) {
             float value = timer * (1 / time);
-            this.transform.localScale = new Vector3(value,value,value);
+            this.transform.localScale = new Vector3(value, value, value);
 
             timer -= Time.deltaTime;
             yield return new WaitForSeconds(Time.deltaTime);
@@ -254,10 +241,10 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
     }
     public IEnumerator ScaleUp(float time) {
         float timer = 0f;
-        GetComponentsInChildren<Image>(true).ForEach(i=>i.gameObject.SetActive(true));
+        GetComponentsInChildren<Image>(true).ForEach(i => i.gameObject.SetActive(true));
         while (timer < time) {
             float value = timer * (1 / time);
-            this.transform.localScale = new Vector3(value,value,value);
+            this.transform.localScale = new Vector3(value, value, value);
 
             timer += Time.deltaTime;
             yield return new WaitForSeconds(Time.deltaTime);
