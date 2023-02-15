@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace DownBelow.Spells
 {
-    public class SpellApplyStat : SpellAction
+    public class SpellApplyStat : SpellDealer
     {
         public EntityStatistics ModifiedStatistic;
         public int StatisticValue = 1;

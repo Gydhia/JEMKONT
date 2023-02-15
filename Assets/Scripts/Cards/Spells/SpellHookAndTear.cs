@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpellHookAndTear : SpellAction {
+public class SpellHookAndTear : SpellDealer {
     [Min(1)] public int damageMultiplier = 3;
     public override void Execute(List<CharacterEntity> targets,Spell spellRef) {
         base.Execute(targets,spellRef);

@@ -98,7 +98,7 @@ namespace DownBelow.Entity {
         }
 
         #region MOVEMENTS
-        public override void MoveWithPath(List<Cell> newPath, string otherGrid) {
+        public override void MoveWithPath(List<Cell> newPath, string otherGrid, System.Action AtEnd = null) {
             // Useless to animate hidden players
             if (!this.gameObject.activeSelf) {
                 // /!\ TEMPORY ONLY, SET THE CELL AS THE LAST ONE OF PATH
@@ -277,7 +277,7 @@ namespace DownBelow.Entity {
         #endregion
 
         public override Spell AutoAttackSpell() {
-            return new Spell(CombatManager.Instance.PossibleAutoAttacks.Find(x => x is DamageStrengthSpellAction));
+            return new Spell(CombatManager.Instance.PossibleAutoAttacks.Find(x => x is DamageStrengthSpellDealer));
         }
     }
 }

@@ -47,7 +47,7 @@ namespace DownBelow.Entity
         public event GameEventData.Event OnDamageTaken;
         public event GameEventData.Event OnDeath;
 
-
+        protected List<EntityAction> actionsBuffer;
         protected EntityStats RefStats;
 
         [OdinSerialize] public List<Alteration> Alterations = new();
@@ -172,7 +172,7 @@ namespace DownBelow.Entity
 
         #region MOVEMENTS
 
-        public virtual void MoveWithPath(List<Cell> newPath,string otherGrid) {
+        public virtual void MoveWithPath(List<Cell> newPath, string otherGrid, System.Action AtEnd = null) {
             // Useless to animate hidden players
             if (!this.gameObject.activeSelf) {
                 // /!\ TEMPORY ONLY, SET THE CELL AS THE LAST ONE OF PATH
@@ -592,7 +592,7 @@ GridPos : {EntityCell}";
         #endregion
 
         #region SKILLS
-        public void SubToSpell(SpellAction Action) {
+        public void SubToSpell(SpellDealer Action) {
             //oh
             foreach (var item in Alterations) {
                 switch (item) {
@@ -604,7 +604,7 @@ GridPos : {EntityCell}";
                 }
             }
         }
-        public void UnsubToSpell(SpellAction Action) {
+        public void UnsubToSpell(SpellDealer Action) {
             foreach (var item in Alterations) {
                 switch (item) {
                     case CriticalAlteration crit:

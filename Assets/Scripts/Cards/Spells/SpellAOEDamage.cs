@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpellAOEDamage : SpellAction
+public class SpellAOEDamage : SpellDealer
 {
     [Min(1)] public int Radius;
     [Min(0)] public int damage;

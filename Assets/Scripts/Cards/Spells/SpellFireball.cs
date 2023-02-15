@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace DownBelow.Spells
 {
-    public class SpellFireball : SpellAction
+    public class SpellFireball : SpellDealer
     {
         public int BaseDamages = 8;
         public float TimeToReach = 1f;

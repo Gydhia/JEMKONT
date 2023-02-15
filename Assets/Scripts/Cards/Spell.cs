@@ -13,7 +13,7 @@ namespace DownBelow.Spells
     public class Spell
     {
         public SpellConditionBase ConditionData;
-        public SpellAction ActionData;
+        public SpellDealer ActionData;
 
         public bool ApplyToCell = true;
         public bool ApplyToSelf = false;
@@ -27,11 +27,12 @@ namespace DownBelow.Spells
 
         // The instantiated spell
         [HideInInspector]
-        public SpellAction CurrentAction;
+        public SpellDealer CurrentAction;
         [HideInInspector]
         public CharacterEntity Caster;
+        public GridSystem.Cell TargetCell;
 
-        public Spell(SpellAction ActionData,SpellConditionBase ConditionData = null,bool ApplyToCell = true, bool ApplyToSelf = false,bool ApplyToAllies=false, bool ApplyToAll=false) {
+        public Spell(SpellDealer ActionData,SpellConditionBase ConditionData = null,bool ApplyToCell = true, bool ApplyToSelf = false,bool ApplyToAllies=false, bool ApplyToAll=false) {
             this.ActionData = ActionData;
             this.ConditionData = ConditionData;
             this.ApplyToCell = ApplyToCell;
@@ -43,9 +44,16 @@ namespace DownBelow.Spells
         public void ExecuteSpell(CharacterEntity caster, GridSystem.Cell cellTarget)
         {
             this.Caster = caster;
+            this.TargetCell = cellTarget;
 
             this.CurrentAction = UnityEngine.Object.Instantiate(this.ActionData, Vector3.zero, Quaternion.identity, CombatManager.Instance.CurrentPlayingEntity.gameObject.transform);
             this.CurrentAction.Execute(this.GetTargets(caster, cellTarget), this);            
+        }
+
+        protected void ExecuteActions()
+        {
+            this.CurrentAction = UnityEngine.Object.Instantiate(this.ActionData, Vector3.zero, Quaternion.identity, CombatManager.Instance.CurrentPlayingEntity.gameObject.transform);
+            this.CurrentAction.Execute(this.GetTargets(this.Caster, this.TargetCell), this);
         }
 
         public List<CharacterEntity> GetTargets(CharacterEntity caster, GridSystem.Cell cellTarget)

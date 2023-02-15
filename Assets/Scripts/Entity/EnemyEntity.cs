@@ -26,44 +26,43 @@ namespace DownBelow.Entity {
         #region Movement
         public enum MovementType { Straight, StraightToRange, Flee, Kite };
         public MovementType movementType = MovementType.Straight;
-        private Dictionary<MovementType, System.Action> MovementBehaviors = new Dictionary<MovementType, System.Action>();
+        private Dictionary<MovementType, System.Action> _movementBehaviors = new Dictionary<MovementType, System.Action>();
         #endregion
 
         #region Attack
         public enum AttackType { ClosestRandom, FarthestRandom, LowestRandom, HighestRandom, Random };
         public AttackType attackType = AttackType.ClosestRandom;
-        private Dictionary<AttackType, System.Action> AttackBehaviors = new Dictionary<AttackType, System.Action>();
+        private Dictionary<AttackType, System.Action> _attackBehaviors = new Dictionary<AttackType, System.Action>();
         #endregion
 
         #region Target
         public AttackType TargetType = AttackType.ClosestRandom;
-        private Dictionary<AttackType, System.Action> TargetBehaviors = new Dictionary<AttackType, System.Action>();
+        private Dictionary<AttackType, System.Action> _targetBehaviors = new Dictionary<AttackType, System.Action>();
         #endregion
 
+
+        protected List<System.Action> _turnBehaviors = new List<Action>();
 
         public override void Init(EntityStats stats, Cell refCell, WorldGrid refGrid, int order = 0) {
             base.Init(stats, refCell, refGrid);
 
             this.UID = refGrid.UName + this.EnemyStyle.UName + order;
-            MovementBehaviors.Add(MovementType.Straight, MovementStraight);
-            MovementBehaviors.Add(MovementType.StraightToRange, MovementStraightToRange);
-            AttackBehaviors.Add(AttackType.ClosestRandom, AttackClosestRandom);
-            TargetBehaviors.Add(AttackType.ClosestRandom, TargetClosestRandom);
-            TargetBehaviors.Add(AttackType.FarthestRandom, TargetFarthestRandom);
+            _movementBehaviors.Add(MovementType.Straight, MovementStraight);
+            _movementBehaviors.Add(MovementType.StraightToRange, MovementStraightToRange);
+            _attackBehaviors.Add(AttackType.ClosestRandom, AttackClosestRandom);
+            _targetBehaviors.Add(AttackType.ClosestRandom, TargetClosestRandom);
+            _targetBehaviors.Add(AttackType.FarthestRandom, TargetFarthestRandom);
 
         }
 
-        public override void StartTurn() {
-            CanAutoAttack = !Disarmed;//CanAutoAttack = true if !Disarmed
-            this.ReinitializeStat(EntityStatistics.Speed);
-            this.ReinitializeStat(EntityStatistics.Mana);
-            if (Stunned || Sleeping) {
-                EndTurn();
-            }
+        public override void StartTurn() 
+        {
+            base.StartTurn();
 
-            TargetBehaviors[TargetType]();
-            MovementBehaviors[movementType]();
-            AttackBehaviors[attackType]();
+            this._turnBehaviors.Add(this._targetBehaviors[TargetType]);
+            this._turnBehaviors.Add(this._movementBehaviors[movementType]);
+            this._turnBehaviors.Add(this._attackBehaviors[attackType]);
+
             Debug.Log("ENDTURN");
             EndTurn();
             CombatManager.Instance.ProcessEndTurn(this.UID);
@@ -87,6 +86,11 @@ namespace DownBelow.Entity {
                 }
             }*/
             //TODO: ENEMY SPELL?
+        }
+
+        protected void processTurnActions()
+        {
+
         }
 
         // All Movement Behaviours
@@ -129,7 +133,7 @@ namespace DownBelow.Entity {
             if (!CanAutoAttack) {
                 return;
             }
-            TargetBehaviors[attackType]();
+            _targetBehaviors[attackType]();
             if (cachedAllyToAttack != null) {
                 AutoAttack(cachedAllyToAttack.EntityCell);
             }
@@ -229,7 +233,7 @@ namespace DownBelow.Entity {
         #endregion
 
         public override Spell AutoAttackSpell() {
-            return new Spell(CombatManager.Instance.PossibleAutoAttacks.Find(x => x is DamageStrengthSpellAction ));
+            return new Spell(CombatManager.Instance.PossibleAutoAttacks.Find(x => x is DamageStrengthSpellDealer ));
 
         }
         Cell RandomCellInRange() {

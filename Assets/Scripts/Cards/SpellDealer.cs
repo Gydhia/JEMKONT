@@ -12,7 +12,8 @@ using DG.Tweening;
 using EODE.Wonderland;
 
 namespace DownBelow.Spells {
-    public abstract class SpellAction : MonoBehaviour {
+    public abstract class SpellDealer : MonoBehaviour 
+    {
         public SpellResult Result;
 
         public event SpellEventData.Event OnDamageDealt;

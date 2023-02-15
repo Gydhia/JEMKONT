@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpellModifyHandCost : SpellAction
+public class SpellModifyHandCost : SpellDealer
 {
      public int howMuch;
     public override void Execute(List<CharacterEntity> targets,Spell spellRef) {

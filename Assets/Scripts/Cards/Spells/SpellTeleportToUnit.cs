@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Net;
 using UnityEngine;
 
-public class SpellTeleportToUnit : SpellAction {
+public class SpellTeleportToUnit : SpellDealer {
     public override void Execute(List<CharacterEntity> targets,Spell spellRef) {
         base.Execute(targets,spellRef);
         if (targets.Count != 1) {

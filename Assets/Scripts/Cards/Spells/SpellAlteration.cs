@@ -6,7 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 namespace DownBelow.Spells {
-    public class SpellAlteration : SpellAction {
+    public class SpellAlteration : SpellDealer {
         public EAlterationType AlterationType;
         [ShowIf("@AlterationType != EAlterationType.Critical && AlterationType != EAlterationType.Dodge")]
         [Tooltip("(in turns)"), Range(1,15)] public int Duration = 1;

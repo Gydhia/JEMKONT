@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public class SpellStrangeMushroom : SpellAction {
+public class SpellStrangeMushroom : SpellDealer {
     public override void Execute(List<CharacterEntity> targets,Spell spellRef) {
         base.Execute(targets,spellRef);
         foreach (CharacterEntity target in targets) {

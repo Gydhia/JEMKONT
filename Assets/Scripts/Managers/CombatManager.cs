@@ -55,7 +55,7 @@ namespace DownBelow.Managers {
         public List<CardComponent> HandPile;
 
         public GameObject CardPrefab;
-        public List<SpellAction> PossibleAutoAttacks;
+        public List<SpellDealer> PossibleAutoAttacks;
 
         public int TurnNumber;
         #endregion

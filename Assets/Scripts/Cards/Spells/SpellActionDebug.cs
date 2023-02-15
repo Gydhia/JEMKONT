@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpellActionDebug : SpellAction {
+public class SpellDealerDebug : SpellDealer {
     public string MessageToPrint;
     public override void Execute(List<CharacterEntity> targets,Spell spellRef) {
         Debug.Log(MessageToPrint);

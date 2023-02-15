@@ -30,10 +30,10 @@ namespace DownBelow.Spells
         public Dictionary<EntityStatistics, int> SelfStatModified;
         public Dictionary<CharacterEntity,EAlterationType> AlterationGiven;
         private CharacterEntity caster;
-        private SpellAction _action;
+        private SpellDealer _action;
         //Je le met en français psq jsuis vener mais c'est un SPELL result,
         //ça devrais pas être lié au caster/pas de diff entre le self healing et healing. Du moins, pas explicite.
-        public void Init(List<CharacterEntity> targets, CharacterEntity caster, SpellAction action)
+        public void Init(List<CharacterEntity> targets, CharacterEntity caster, SpellDealer action)
         {
             this.DamagesDealt = new Dictionary<CharacterEntity, int>();
             this.DamagesOnShield = new Dictionary<CharacterEntity, int>();
