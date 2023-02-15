@@ -317,6 +317,7 @@ MonoBehaviour:
   CostText: {fileID: 2881650663093787906}
   TitleText: {fileID: 7592525668707456867}
   DescText: {fileID: 8266263323093915107}
+  IsDeckbuilding: 1
   isInPlacingMode: 0
   isHovered: 0
   isPressed: 0
