@@ -3,11 +3,132 @@
 	<AudioObjects>
 		<WorkUnit Name="Default Work Unit" ID="{277D41B8-7D18-41D8-BFBF-88A00100C0C8}" PersistMode="Standalone">
 			<ChildrenList>
-				<Folder Name="New Virtual Folder" ID="{C832FC90-0B21-4670-8700-0006F887D1E6}" ShortID="1018090979">
+				<Folder Name="MENU_SSFX" ID="{C832FC90-0B21-4670-8700-0006F887D1E6}" ShortID="1018090979">
 					<PropertyList>
 						<Property Name="Color" Type="int16" Value="10"/>
 						<Property Name="OverrideColor" Type="bool" Value="True"/>
 					</PropertyList>
+					<ChildrenList>
+						<RandomSequenceContainer Name="Click" ID="{19540006-339D-492A-98A4-1305E78DBB44}" ShortID="828848807">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{86B68257-100F-4BF5-A2A8-7B8994EA0037}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{5FC12D48-6ADB-4B43-883D-07304F613018}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="CLICK1" ID="{CEEFBBFD-1357-4DBC-8B40-6452B1982A4F}" ShortID="499255291">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{86B68257-100F-4BF5-A2A8-7B8994EA0037}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{5FC12D48-6ADB-4B43-883D-07304F613018}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="UI_Click_Distinct_mono" ID="{3D8FD8D5-2ADC-438D-AF5B-5729CC79212E}">
+											<Language>SFX</Language>
+											<AudioFile>UI_Click_Distinct_mono.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="78472428"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="UI_Click_Distinct_mono" ID="{3D8FD8D5-2ADC-438D-AF5B-5729CC79212E}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="CLICK2" ID="{2234A2B0-8811-481B-AEA2-6B0821A0E29C}" ShortID="989514235">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{86B68257-100F-4BF5-A2A8-7B8994EA0037}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{5FC12D48-6ADB-4B43-883D-07304F613018}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="UI_Click_Subtle_mono" ID="{3AABA29F-61EA-4172-82AD-8219C6F526E5}">
+											<Language>SFX</Language>
+											<AudioFile>UI_Click_Subtle_mono.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="36056990"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="UI_Click_Subtle_mono" ID="{3AABA29F-61EA-4172-82AD-8219C6F526E5}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="CLICK3" ID="{FD52FD35-71CA-4D28-9995-AA10D30EF5FE}" ShortID="378165197">
+									<PropertyList>
+										<Property Name="Pitch" Type="int32">
+											<ValueList>
+												<Value>-300</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{86B68257-100F-4BF5-A2A8-7B8994EA0037}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{5FC12D48-6ADB-4B43-883D-07304F613018}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="UI_Click_Cut_mono" ID="{4D19CE4B-B4D4-4F7A-A95A-9D01FFF6DB98}">
+											<Language>SFX</Language>
+											<AudioFile>UI_Click_Cut_mono.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="823762247"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="UI_Click_Cut_mono" ID="{4D19CE4B-B4D4-4F7A-A95A-9D01FFF6DB98}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+						<RandomSequenceContainer Name="Impossible" ID="{A3C274FA-D64D-4420-A779-6221D7FBFDFF}" ShortID="7529528">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{86B68257-100F-4BF5-A2A8-7B8994EA0037}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{5FC12D48-6ADB-4B43-883D-07304F613018}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="BLOCK1" ID="{CD441DC4-E8AD-4037-B141-7DCCE1757FE1}" ShortID="665804087">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{86B68257-100F-4BF5-A2A8-7B8994EA0037}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{5FC12D48-6ADB-4B43-883D-07304F613018}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="UI_Click_Tap_Subtle_mono" ID="{C3BE2011-C96E-4135-AFED-0B194FA233CB}">
+											<Language>SFX</Language>
+											<AudioFile>UI_Click_Tap_Subtle_mono.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="822974898"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="UI_Click_Tap_Subtle_mono" ID="{C3BE2011-C96E-4135-AFED-0B194FA233CB}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+					</ChildrenList>
 				</Folder>
 			</ChildrenList>
 		</WorkUnit>

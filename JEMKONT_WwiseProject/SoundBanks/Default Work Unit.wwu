@@ -20,6 +20,13 @@
 					<ObjectExclusionList/>
 					<GameSyncExclusionList/>
 				</SoundBank>
+				<SoundBank Name="SB_MENU" ID="{EF1D5B3F-F363-40F6-9D83-9EF33914A153}">
+					<ObjectInclusionList>
+						<ObjectRef Name="MENU_SSFX" ID="{C832FC90-0B21-4670-8700-0006F887D1E6}" WorkUnitID="{277D41B8-7D18-41D8-BFBF-88A00100C0C8}" Origin="Manual" Filter="7"/>
+					</ObjectInclusionList>
+					<ObjectExclusionList/>
+					<GameSyncExclusionList/>
+				</SoundBank>
 			</ChildrenList>
 		</WorkUnit>
 	</SoundBanks>

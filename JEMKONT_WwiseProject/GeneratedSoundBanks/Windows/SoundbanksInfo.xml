@@ -9,6 +9,28 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
+		<SoundBank Id="135602584" Type="User" Language="SFX" Hash="{80258DEB-F5D0-AD27-B720-DB1A05E83330}">
+			<ShortName>SB_MENU</ShortName>
+			<Path>SB_MENU.bnk</Path>
+			<Media>
+				<File Id="36056990" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>UI_Click_Subtle_mono.wav</ShortName>
+					<CachePath>SFX/UI_Click_Subtle_mono_10C4C929.wem</CachePath>
+				</File>
+				<File Id="78472428" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>UI_Click_Distinct_mono.wav</ShortName>
+					<CachePath>SFX/UI_Click_Distinct_mono_10C4C929.wem</CachePath>
+				</File>
+				<File Id="822974898" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>UI_Click_Tap_Subtle_mono.wav</ShortName>
+					<CachePath>SFX/UI_Click_Tap_Subtle_mono_10C4C929.wem</CachePath>
+				</File>
+				<File Id="823762247" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>UI_Click_Cut_mono.wav</ShortName>
+					<CachePath>SFX/UI_Click_Cut_mono_10C4C929.wem</CachePath>
+				</File>
+			</Media>
+		</SoundBank>
 		<SoundBank Id="513513905" Type="User" Language="SFX" Hash="{9DF81C0C-AEAC-A558-A595-3B2CAA9782A1}">
 			<ShortName>SB_FARM</ShortName>
 			<Path>SB_FARM.bnk</Path>
@@ -68,5 +90,5 @@
 			<Path>SB_COMBAT.bnk</Path>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{11EFD328-F24A-050F-45C8-8728CA3C5F49}</FileHash>
+	<FileHash>{80FA46E1-506C-E679-64DE-1E63963C3760}</FileHash>
 </SoundBanksInfo>
