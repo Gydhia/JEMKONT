@@ -163,9 +163,8 @@ namespace DownBelow.Managers {
 
                 if (canExecute) {
                     this._currentSpells[i].CurrentAction = Instantiate(this._currentSpells[i].ActionData, Vector3.zero, Quaternion.identity, CombatManager.Instance.CurrentPlayingEntity.gameObject.transform);
-                    yield return this._currentSpells[i].CurrentAction.DoSFX(this.CurrentPlayingEntity, target, _currentSpells[i]);
                     this._currentSpells[i].ExecuteSpell(this.CurrentPlayingEntity, target);
-
+                    //TODO?: still sfx if !target.EntityIn?
                     while (!this._currentSpells[i].CurrentAction.HasEnded) {
                         yield return new WaitForSeconds(Time.deltaTime);
                     }

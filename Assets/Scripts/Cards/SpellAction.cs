@@ -32,15 +32,20 @@ namespace DownBelow.Spells {
         private Spell _spellRef;
         public ScriptableSFX SFXData;
 
-        public virtual void Execute(List<CharacterEntity> targets, Spell spellRef) {
+        public async virtual void Execute(List<CharacterEntity> targets, Spell spellRef) {
             this._spellRef = spellRef;
             this._targets = targets;
             this.HasEnded = false;
             this.Result = new SpellResult();
+            foreach(CharacterEntity target in targets) {
+                await DoSFX(spellRef.Caster,target.EntityCell,spellRef);
+                //If we do it this we, TODO: make it impossible to cast spells on an empty cell (or we'll have no SFX on that (Issue : we lose a spell card with no feedbacks at all))
+            }
             this.Result.Init(this._targets, this._spellRef.Caster, this);
-
+            
             spellRef.Caster.SubToSpell(this);
         }
+
         async Task ProjectileGoTo(Transform ProjTransform, Transform Target, float TravelTime) {
             ProjTransform.transform.DOLookAt(Target.position, 0f);
             ProjTransform.transform.DOMoveX(Target.position.x, TravelTime);
@@ -49,6 +54,7 @@ namespace DownBelow.Spells {
             await new WaitForSeconds(TravelTime);
             ProjTransform.GetComponent<Rigidbody>().isKinematic = false;
         }
+
         public virtual async Task DoSFX(CharacterEntity caster, Cell target, Spell spell) {
             GameObject proj = null;
             Animator anim = null;
