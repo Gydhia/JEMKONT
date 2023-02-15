@@ -11,7 +11,7 @@ namespace DownBelow.Managers
     [ShowOdinSerializedPropertiesInInspector]
     public class CardsManager : _baseManager<CardsManager>
     {
-        public Dictionary<Guid, DeckScriptable> DeckPresets;
+        public Dictionary<Guid, DeckPreset> DeckPresets;
         public Dictionary<Guid, ScriptableCard> ScriptableCards;
 
         public void Init()
@@ -21,9 +21,9 @@ namespace DownBelow.Managers
 
         private void _loadScriptableCards()
         {
-            List<DeckScriptable> decks = Resources.LoadAll<DeckScriptable>("Presets/Decks").ToList();
+            List<DeckPreset> decks = Resources.LoadAll<DeckPreset>("Presets/Decks").ToList();
 
-            this.DeckPresets = new Dictionary<Guid, DeckScriptable>();
+            this.DeckPresets = new Dictionary<Guid, DeckPreset>();
             this.ScriptableCards = new Dictionary<Guid, ScriptableCard>();
 
             foreach (var deck in decks)

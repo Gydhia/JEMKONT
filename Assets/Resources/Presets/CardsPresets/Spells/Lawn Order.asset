@@ -27,6 +27,7 @@ MonoBehaviour:
   Title: Lawn Order
   Cost: 2
   CardType: 2
+  Collection: 3
   Description: Deal 6 damage in a 3x3 square
   IllustrationImage: {fileID: 0}
   Spells:

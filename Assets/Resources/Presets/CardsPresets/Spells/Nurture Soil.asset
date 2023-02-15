@@ -27,6 +27,7 @@ MonoBehaviour:
   Title: Nurture Soil
   Cost: 1
   CardType: 3
+  Collection: 3
   Description: Give an ally +3/+3
   IllustrationImage: {fileID: 0}
   Spells:

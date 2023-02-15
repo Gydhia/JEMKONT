@@ -7,20 +7,20 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace DownBelow.Mechanics
-{
+namespace DownBelow.Mechanics {
     public enum ECardType { Melee, Ranged, Special }
 
+    public enum ECollection { Common, Miner, Herbalist, Farmer, Fisherman }
     [CreateAssetMenu(menuName = "Card")]
-    public class ScriptableCard : SerializedScriptableObject
-    {
+    public class ScriptableCard : SerializedScriptableObject {
         [ReadOnly]
         public Guid UID;
         [OnValueChanged("_updateUID")]
         public string Title;
         public int Cost;
         public CardType CardType;
-        [TextArea] 
+        public ECollection Collection;
+        [TextArea]
         public string Description;
         public Sprite IllustrationImage;
 
@@ -29,26 +29,22 @@ namespace DownBelow.Mechanics
             Title = name;
         }
 
-        public void CastSpell(GridSystem.Cell cell)
-        {
+        public void CastSpell(GridSystem.Cell cell) {
             Managers.NetworkManager.Instance.AskCastSpell(this, cell);
         }
 
-        private void _updateUID()
-        {
-            using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
-            {
+        private void _updateUID() {
+            using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create()) {
                 byte[] hash = md5.ComputeHash(System.Text.Encoding.UTF8.GetBytes(Title));
                 this.UID = new Guid(hash);
             }
         }
 
         public bool IsTrackable() => this.Spells.Length > 0 && this.Spells[0].ApplyToCell;
-    
+
     }
 
-    public enum CardType
-    {
+    public enum CardType {
         None = 0,
         // Yellow
         Skill = 1,
@@ -58,10 +54,8 @@ namespace DownBelow.Mechanics
         Power = 3
     }
 
-    public class CardComparer : IComparer<ScriptableCard>
-    {
-        public int Compare(ScriptableCard x, ScriptableCard y)
-        {
+    public class CardComparer : IComparer<ScriptableCard> {
+        public int Compare(ScriptableCard x, ScriptableCard y) {
             return x.Title.CompareTo(y.Title);
         }
     }

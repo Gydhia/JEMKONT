@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 [CreateAssetMenu(fileName ="NewDeckPreset.asset",menuName ="Presets/DeckPreset")]
-public class DeckScriptable : SerializedScriptableObject
+public class DeckPreset : SerializedScriptableObject
 {
     [ReadOnly]
     public Guid UID;

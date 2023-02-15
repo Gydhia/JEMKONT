@@ -17,6 +17,9 @@ namespace DownBelow.Managers
         public EntityStats MinerStats;
         public EntityStats FarmerStats;
         public EntityStats HerbalistStats;
+
+        //ActualPlayerDeck
+        public Deck PlayerDeck;
     }
 
 }

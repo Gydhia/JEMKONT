@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3056297163709099092}
   - component: {fileID: 2182463304612896007}
   m_Layer: 5
-  m_Name: TabButton
+  m_Name: TabButton (0)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -121,7 +121,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3056297163709099092}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7881817469195481690}
+        m_TargetAssemblyTypeName: DownBelow.Managers.DeckbuildingSystem, Assembly-CSharp
+        m_MethodName: ChangeCollectionDisplayed
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &618127306521571884
 GameObject:
   m_ObjectHideFlags: 0
@@ -225,7 +237,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Button
+  m_text: Common
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -453,7 +465,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1120794481452621943}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7881817469195481690}
+        m_TargetAssemblyTypeName: DownBelow.Managers.DeckbuildingSystem, Assembly-CSharp
+        m_MethodName: ChangeCollectionDisplayed
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2275797153314180784
 GameObject:
   m_ObjectHideFlags: 0
@@ -520,7 +544,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Button
+  m_text: Fisherman
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -655,7 +679,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Button
+  m_text: Farmer
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -845,7 +869,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6532496841078742810}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7881817469195481690}
+        m_TargetAssemblyTypeName: DownBelow.Managers.DeckbuildingSystem, Assembly-CSharp
+        m_MethodName: ChangeCollectionDisplayed
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3282535642026459449
 GameObject:
   m_ObjectHideFlags: 0
@@ -937,7 +973,7 @@ GameObject:
   - component: {fileID: 2956626147231612052}
   - component: {fileID: 8907169052040734810}
   m_Layer: 5
-  m_Name: ActualCardsDisplayedLabel
+  m_Name: DeckHeader
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1214,11 +1250,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BigCardPrefab: {fileID: 1236948560037684, guid: 7250e005de6f2bb40b1fdeb8fe7b952c, type: 3}
   LittleCardPrefab: {fileID: 8448169737759229617, guid: 4b01c6b711efd2b468b7c2159e0df17a, type: 3}
-  DeckSelectingButtons: []
+  DeckSelectingButtons:
+  - {fileID: 2182463304612896007}
+  - {fileID: 4504518361487422452}
+  - {fileID: 8136090530625229102}
+  - {fileID: 9166906010062550861}
+  - {fileID: 1872494669223060764}
+  CollectionHeader: {fileID: 1412220622108233604}
   SmallCardsParent: {fileID: 6198179161952745015}
   BigCardsParent: {fileID: 317986368268448264}
   ActualDeck: {fileID: 11400000, guid: afde972ffb51c2945915475e3cbd72a0, type: 2}
-  CardCollections: {fileID: 11400000, guid: f871ad00c8f7e1f47a81043c67d24c8d, type: 2}
+  CardList: {fileID: 11400000, guid: 1516c1f5e11c4b54583bc033dfdbda09, type: 2}
+  CollectionToDisplay: 0
 --- !u!1 &4618162525593257991
 GameObject:
   m_ObjectHideFlags: 0
@@ -1523,7 +1566,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6650648244035419305}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7881817469195481690}
+        m_TargetAssemblyTypeName: DownBelow.Managers.DeckbuildingSystem, Assembly-CSharp
+        m_MethodName: ChangeCollectionDisplayed
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 3
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7818923668622757694
 GameObject:
   m_ObjectHideFlags: 0
@@ -1762,7 +1817,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Button
+  m_text: Miner
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2004,7 +2059,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Button
+  m_text: Herbalist
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2194,7 +2249,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3396942100888757579}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7881817469195481690}
+        m_TargetAssemblyTypeName: DownBelow.Managers.DeckbuildingSystem, Assembly-CSharp
+        m_MethodName: ChangeCollectionDisplayed
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 4
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &8798681554739907715
 GameObject:
   m_ObjectHideFlags: 0
