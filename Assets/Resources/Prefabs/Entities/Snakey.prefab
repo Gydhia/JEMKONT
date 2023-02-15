@@ -59,9 +59,10 @@ MonoBehaviour:
   CurrentPath: []
   Summons: []
   CanAutoAttack: 0
+  NumberOfTurnsPlayed: 0
   EnemyStyle: {fileID: 0}
   CurrentTarget: {fileID: 0}
-  movementType: 1
+  movementType: 2
   attackType: 0
   TargetType: 1
 --- !u!1001 &3875368923666618312
