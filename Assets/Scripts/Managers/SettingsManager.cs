@@ -1,4 +1,5 @@
 using DownBelow.GameData;
+using DownBelow.Mechanics;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,6 +21,8 @@ namespace DownBelow.Managers
 
         //ActualPlayerDeck
         public Deck PlayerDeck;
+        public EClass PlayerClass;
+        
     }
 
 }

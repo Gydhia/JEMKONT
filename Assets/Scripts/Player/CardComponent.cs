@@ -38,6 +38,7 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
 
     HorizontalLayoutGroup _parent;
 
+
     public void Init(ScriptableCard cardData) {
         this.CardData = cardData;
 
@@ -154,11 +155,14 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
         //System design
     }
     public void OnPointerDown(PointerEventData eventData) {
-        if (isPressed || isHovered) {
+        if (IsDeckbuilding) {
+            DeckbuildingSystem.Instance.TryAddCopy(CardData);
+        } else if (isPressed || isHovered) {
             //Selected?
             isPressed = true;
         }
     }
+
     public void OnPointerEnter(PointerEventData eventData) {
         this.ShineImage.enabled = true;
         isHovered = true;

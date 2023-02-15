@@ -1,4 +1,5 @@
 using DownBelow.Mechanics;
+using EODE.Wonderland;
 using Sirenix.OdinInspector;
 using System;
 using System.Collections;
@@ -88,14 +89,19 @@ namespace DownBelow.Managers {
         public void DisplayDeck(Deck deck) {
             ActualDeck = deck;
             foreach (var item in deck.Cards) {
-                TryAddCard(item);
+                TryAddCopy(item);
             }
             Debug.Log(DeckNumbers.Count);
             RefreshDeckDrawing();
         }
-
+        ECollection classToCollection(EClass PlayerClass) {
+            int Collection = (int)PlayerClass;
+            return (ECollection)Collection;
+        }
         void RefreshDeckDrawing() {
             var count = SmallCardsParent.childCount;
+            DeckNumbers.RemoveAll(x => x.Value <= 0);
+           // DeckNumbers.RemoveAll(x => (x.Key.Collection != ECollection.Common && x.Key.Collection != classToCollection(SettingsManager.Instance.PlayerClass)));
             for (int i = count - 1;i >= 0;i--) {
                 Destroy(SmallCardsParent.GetChild(i).gameObject);
             }
@@ -105,7 +111,7 @@ namespace DownBelow.Managers {
             }
         }
 
-        void TryAddCard(ScriptableCard card) {
+        public void TryAddCopy(ScriptableCard card) {
             if (DeckNumbers.TryGetValue(card, out var number)) {
                 if (number >= MAXSAMECARDNUMBER) {
                     //TODO: ERROR: can't add more than 3 cards
@@ -117,10 +123,14 @@ namespace DownBelow.Managers {
                 DeckNumbers.Add(card, 0);
             }
             DeckNumbers[card]++;
+            RefreshDeckDrawing();
         }
 
         void RemoveOneCopy(ScriptableCard card) {
-            if (!DeckNumbers.ContainsKey(card)) return; else DeckNumbers[card]--;
+            if (!DeckNumbers.ContainsKey(card)) return; else { 
+                DeckNumbers[card]--;
+                RefreshDeckDrawing();
+            }
         }
         #endregion
 

@@ -9,8 +9,8 @@ using UnityEngine;
 
 namespace DownBelow.Mechanics {
     public enum ECardType { Melee, Ranged, Special }
-
-    public enum ECollection { Common, Miner, Herbalist, Farmer, Fisherman }
+    
+    public enum ECollection { Common=-1, Miner, Herbalist, Farmer, Fisherman }
     [CreateAssetMenu(menuName = "Card")]
     public class ScriptableCard : SerializedScriptableObject {
         [ReadOnly]

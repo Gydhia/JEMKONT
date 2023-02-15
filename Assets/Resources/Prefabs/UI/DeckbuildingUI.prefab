@@ -1259,7 +1259,6 @@ MonoBehaviour:
   CollectionHeader: {fileID: 1412220622108233604}
   SmallCardsParent: {fileID: 6198179161952745015}
   BigCardsParent: {fileID: 317986368268448264}
-  ActualDeck: {fileID: 11400000, guid: afde972ffb51c2945915475e3cbd72a0, type: 2}
   CardList: {fileID: 11400000, guid: 1516c1f5e11c4b54583bc033dfdbda09, type: 2}
   CollectionToDisplay: 0
 --- !u!1 &4618162525593257991
@@ -1334,7 +1333,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.00048828125}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4798872512801928405

@@ -92,11 +92,33 @@ MonoBehaviour:
   InputPreset: {fileID: 11400000, guid: 86ac5624b923f774094430ad4ab04493, type: 2}
   CombatPreset: {fileID: 11400000, guid: a26fd800d9da29548a4b431ecf6ed845, type: 2}
   GameUIPreset: {fileID: 11400000, guid: b4f43fb59e111b349865a00b17dd32dc, type: 2}
-  PlayerStats: {fileID: 11400000, guid: 749d1a933eed5214c9209d8ec792b76b, type: 2}
   FishermanStats: {fileID: 11400000, guid: 4d576a35a0dcc0e4cb45e35dc060d9d9, type: 2}
   MinerStats: {fileID: 11400000, guid: 378e4726dcac3c94390835d65888d60c, type: 2}
   FarmerStats: {fileID: 11400000, guid: acc2fcfe067f4a548a44a691816601e8, type: 2}
   HerbalistStats: {fileID: 11400000, guid: 431193b9be546b642821e7c04419e789, type: 2}
+  PlayerDeck:
+    Cards:
+    - {fileID: 11400000, guid: 17cca61da856a0a4abc846a9ec5ce6a4, type: 2}
+    - {fileID: 11400000, guid: 931eb095137ef8148bc5a6f656a17390, type: 2}
+    - {fileID: 11400000, guid: 931eb095137ef8148bc5a6f656a17390, type: 2}
+    - {fileID: 11400000, guid: e6089736fe0b82948952e94e53c3ba6b, type: 2}
+    - {fileID: 11400000, guid: e6089736fe0b82948952e94e53c3ba6b, type: 2}
+    - {fileID: 11400000, guid: c8ec0ab5a83846d438943c97c32b320c, type: 2}
+    - {fileID: 11400000, guid: c8ec0ab5a83846d438943c97c32b320c, type: 2}
+    - {fileID: 11400000, guid: 33a72a420cd0f99489654a79543ebc3c, type: 2}
+    - {fileID: 11400000, guid: 33a72a420cd0f99489654a79543ebc3c, type: 2}
+    - {fileID: 11400000, guid: e1dc70314cde4324da42748300aedede, type: 2}
+    - {fileID: 11400000, guid: e1dc70314cde4324da42748300aedede, type: 2}
+    - {fileID: 11400000, guid: df3af346f5c9d3e42adc01d9ff4cfb39, type: 2}
+    - {fileID: 11400000, guid: df3af346f5c9d3e42adc01d9ff4cfb39, type: 2}
+    - {fileID: 11400000, guid: df3af346f5c9d3e42adc01d9ff4cfb39, type: 2}
+    - {fileID: 11400000, guid: 13877796ab985c344ac1ece8f2afe63b, type: 2}
+    - {fileID: 11400000, guid: 13877796ab985c344ac1ece8f2afe63b, type: 2}
+    - {fileID: 11400000, guid: 13877796ab985c344ac1ece8f2afe63b, type: 2}
+    - {fileID: 11400000, guid: a4bd6d4842e41b347a6c5e845162e976, type: 2}
+    - {fileID: 11400000, guid: a4bd6d4842e41b347a6c5e845162e976, type: 2}
+    - {fileID: 11400000, guid: a4bd6d4842e41b347a6c5e845162e976, type: 2}
+  PlayerClass: 3
 --- !u!1 &1709003694304920991
 GameObject:
   m_ObjectHideFlags: 0
@@ -334,6 +356,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b677cfc4c3f91154ea576620b2e2b3da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AlterationSFXList: {fileID: 0}
 --- !u!1 &4684062575287771609
 GameObject:
   m_ObjectHideFlags: 0
