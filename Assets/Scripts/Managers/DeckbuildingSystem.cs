@@ -9,8 +9,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace DownBelow.Managers {
-    public class DeckbuildingSystem : _baseManager<DeckbuildingSystem> {
+namespace DownBelow.Managers
+{
+    public class DeckbuildingSystem : _baseManager<DeckbuildingSystem>
+    {
         private enum EDeckBuildState { Shown, CanShow, Hidden }//Shown => we're dblding, CanShow => the "Show Deckbuilding" button is shown, Hidden => even this button is hidden
 
         [BoxGroup("Prefabs")]
@@ -38,7 +40,8 @@ namespace DownBelow.Managers {
         public ScriptableCardList CardList;
         [BoxGroup("Presets")]
         public EClass CollectionToDisplay;
-        private int maxCardsDisplayed {
+        private int maxCardsDisplayed
+        {
             get => CardList.MaxCollectionCount();
         }
 
@@ -47,7 +50,8 @@ namespace DownBelow.Managers {
         const int MAXSAMECARDNUMBER = 3;
 
         #region ButtonMethods
-        public void ShowDeckBuilding() {
+        public void ShowDeckBuilding()
+        {
             state = EDeckBuildState.Shown;
             ToggleShowButton(false);
             BG.SetActive(true);
@@ -61,52 +65,64 @@ namespace DownBelow.Managers {
 
         }
 
-        public void SaveDeck() {
-            foreach (var item in DeckNumbers) {
+        public void SaveDeck()
+        {
+            foreach (var item in DeckNumbers)
+            {
                 ActualDeck.Cards.Clear();
-                for (int i = 0;i < item.Value;i++) {
+                for (int i = 0;i < item.Value;i++)
+                {
                     ActualDeck.Cards.Add(item.Key);
                 }
             }
         }
 
-        public void SaveAndExit() {
+        public void SaveAndExit()
+        {
             SaveDeck();
             HideDeckBuilding();
         }
 
-        public void Exit() {
+        public void Exit()
+        {
             HideDeckBuilding();
         }
         #endregion
-        public override void Awake() {
+        public override void Awake()
+        {
             base.Awake();
             Init();
         }
-        private void Start() {
-           //ShowDeckBuilding();
+        private void Start()
+        {
+            //ShowDeckBuilding();
         }
-        void Init() {
+        void Init()
+        {
             state = EDeckBuildState.CanShow;
             //Instanciating card pool
-            for (int i = 0;i < maxCardsDisplayed;i++) {
+            for (int i = 0;i < maxCardsDisplayed;i++)
+            {
                 var go = Instantiate(BigCardPrefab, BigCardsParent).GetComponent<CardComponent>();
                 go.gameObject.SetActive(false);
                 CardPool.Add(go);
             }
         }
 
-        
-        void HideAllUI() {
+
+        void HideAllUI()
+        {
             state = EDeckBuildState.Hidden;
             ToggleShowButton(false);
         }
 
-        void ToggleShowButton(bool on) {
+        void ToggleShowButton(bool on)
+        {
             ShowDeckBuildButton.SetActive(on);
         }
 
-        void HideDeckBuilding() {
+        void HideDeckBuilding()
+        {
             state = EDeckBuildState.CanShow;
             BG.SetActive(false);
             ToggleShowButton(true);
@@ -114,44 +130,56 @@ namespace DownBelow.Managers {
         }
 
         #region ACTUALDECKDRAWING
-        public void DisplayDeck(Deck deck) {
+        public void DisplayDeck(Deck deck)
+        {
             ActualDeck = deck;
-            foreach (var item in deck.Cards) {
+            foreach (var item in deck.Cards)
+            {
                 TryAddCopy(item);
             }
             Debug.Log(DeckNumbers.Count);
             RefreshDeckDrawing();
         }
 
-        void RefreshDeckDrawing() {
+        void RefreshDeckDrawing()
+        {
             var count = SmallCardsParent.childCount;
             DeckNumbers.RemoveAll(x => x.Value <= 0);
-            for (int i = count - 1;i >= 0;i--) {
+            for (int i = count - 1;i >= 0;i--)
+            {
                 Destroy(SmallCardsParent.GetChild(i).gameObject);
             }
-            foreach (KeyValuePair<ScriptableCard, int> pair in DeckNumbers) {
+            foreach (KeyValuePair<ScriptableCard, int> pair in DeckNumbers)
+            {
                 var card = Instantiate(LittleCardPrefab, SmallCardsParent).GetComponent<SmallCardDeckbuilding>();
                 card.Init(pair.Key, pair.Value, () => RemoveOneCopy(pair.Key));
             }
         }
 
-        public void TryAddCopy(ScriptableCard card) {
-            if (DeckNumbers.TryGetValue(card, out var number)) {
-                if (number >= MAXSAMECARDNUMBER) {
+        public void TryAddCopy(ScriptableCard card)
+        {
+            if (DeckNumbers.TryGetValue(card, out var number))
+            {
+                if (number >= MAXSAMECARDNUMBER)
+                {
                     //TODO: ERROR: can't add more than 3 cards
                     Debug.LogError($"ERROR: trying to have more than 3 {card.Title} in deck actual deck.");
                     return;
                 }
             }
-            if (!DeckNumbers.ContainsKey(card)) {
+            if (!DeckNumbers.ContainsKey(card))
+            {
                 DeckNumbers.Add(card, 0);
             }
             DeckNumbers[card]++;
             RefreshDeckDrawing();
         }
 
-        void RemoveOneCopy(ScriptableCard card) {
-            if (!DeckNumbers.ContainsKey(card)) return; else { 
+        void RemoveOneCopy(ScriptableCard card)
+        {
+            if (!DeckNumbers.ContainsKey(card)) return;
+            else
+            {
                 DeckNumbers[card]--;
                 RefreshDeckDrawing();
             }
@@ -159,12 +187,14 @@ namespace DownBelow.Managers {
         #endregion
 
         #region ActualCollectionDrawing
-        public void ChangeCollectionDisplayed(int intcollection) {
+        public void ChangeCollectionDisplayed(int intcollection)
+        {
             EClass collection = (EClass)intcollection;
             //Fuck les keufs
             CardPool.FindAll(x => x.gameObject.activeSelf).ForEach(card => { card.gameObject.SetActive(false); });
 
-            for (int i = 0;i < CardList.CollectionCards(collection).Count;i++) {
+            for (int i = 0;i < CardList.CollectionCards(collection).Count;i++)
+            {
                 CardPool[i].gameObject.SetActive(true);
                 CardPool[i].AddToDeckOnClick = collection == SettingsManager.Instance.PlayerClass;
                 CardPool[i].Init(CardList.CollectionCards(collection)[i]);
