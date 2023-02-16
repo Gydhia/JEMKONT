@@ -27,7 +27,7 @@ MonoBehaviour:
   Title: Sow & Reap
   Cost: 2
   CardType: 1
-  Collection: 3
+  Class: 2
   Description: Draw a card, reduce the cost of all your cards by 1
   IllustrationImage: {fileID: 0}
   Spells:

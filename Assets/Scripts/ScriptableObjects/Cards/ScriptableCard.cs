@@ -10,7 +10,6 @@ using UnityEngine;
 namespace DownBelow.Mechanics {
     public enum ECardType { Melee, Ranged, Special }
     
-    public enum ECollection { Common=-1, Miner, Herbalist, Farmer, Fisherman }
     [CreateAssetMenu(menuName = "Card")]
     public class ScriptableCard : SerializedScriptableObject {
         [ReadOnly]
@@ -19,7 +18,7 @@ namespace DownBelow.Mechanics {
         public string Title;
         public int Cost;
         public CardType CardType;
-        public ECollection Collection;
+        public EClass Class;
         [TextArea]
         public string Description;
         public Sprite IllustrationImage;

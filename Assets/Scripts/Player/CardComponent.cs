@@ -22,6 +22,7 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
     public TextMeshProUGUI DescText;
 
     public bool IsDeckbuilding;
+    public bool AddToDeckOnClick;
 
     public bool isInPlacingMode;
 
@@ -155,8 +156,9 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
         //System design
     }
     public void OnPointerDown(PointerEventData eventData) {
-        if (IsDeckbuilding) {
+        if (IsDeckbuilding && AddToDeckOnClick) {
             DeckbuildingSystem.Instance.TryAddCopy(CardData);
+
         } else if (isPressed || isHovered) {
             //Selected?
             isPressed = true;

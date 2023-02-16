@@ -8,13 +8,13 @@ using UnityEngine;
 public class ScriptableCardList : SerializedScriptableObject {
     public List<ScriptableCard> AllCards;
 
-    public List<ScriptableCard> CollectionCards(ECollection collection) {
-        return AllCards.FindAll(x => x.Collection == collection);
+    public List<ScriptableCard> CollectionCards(EClass collection) {
+        return AllCards.FindAll(x => x.Class == collection);
     }
     public int MaxCollectionCount() {
         int max = 0;
-        foreach (var item in Enum.GetValues(typeof(ECollection))) {
-            max = Mathf.Max(max,CollectionCards((ECollection)item).Count);
+        foreach (var item in Enum.GetValues(typeof(EClass))) {
+            max = Mathf.Max(max,CollectionCards((EClass)item).Count);
         }
         return max;
     }
