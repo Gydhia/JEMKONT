@@ -26,6 +26,8 @@ namespace DownBelow.Entity {
         public event GatheringEventData.Event OnGatheringEnded;
 
         public void FireEnteredCell(Cell cell) {
+            //Cell contains grabbable item? Pick it up. 
+
             this.OnEnteredCell?.Invoke(new CellEventData(cell));
         }
 
@@ -54,7 +56,6 @@ namespace DownBelow.Entity {
 
         private InteractableResource _currentResource = null;
 
-
         public Interactable NextInteract = null;
 
         public MeshRenderer PlayerBody;
@@ -64,18 +65,21 @@ namespace DownBelow.Entity {
         public List<Cell> NextPath { get; private set; }
         public bool CanEnterGrid => true;
 
-        public Tool ActiveTool;
+        public ToolItem ActiveTool;
         public bool IsAutoAttacking = false;
-        public Deck Deck { get => testingDeck; set => testingDeck = value; }
+        public Deck Deck { get => ActiveTool != null ? ActiveTool.Deck : null; }
         Deck testingDeck;
-
+        
         public override int Mana { get => Mathf.Min(Statistics[EntityStatistics.Mana] + NumberOfTurnsPlayed, Statistics[EntityStatistics.MaxMana]); }
+        
         #region cards constants
         public const int MAXCARDSINHAND = 7;
         public const int CARDSTOSTARTTURNWITH = 3;
         public const int MAXMANA = 6;
         public const int MAXMANAHARDCAP = 7;
         #endregion
+
+        float timeWhenPressedR = 0;
 
         public override void Init(EntityStats stats, Cell refCell, WorldGrid refGrid, int order = 0) {
             base.Init(stats, refCell, refGrid, order);
@@ -85,7 +89,22 @@ namespace DownBelow.Entity {
                 SettingsManager.Instance.GameUIPreset.SlotsByPlayer[Photon.Pun.PhotonNetwork.PlayerList.Length - 1]);
         }
 
-        public void SetActiveTool(Tool activeTool) {
+        private void Update()
+        {
+            if(Input.GetKeyDown(KeyCode.R)) timeWhenPressedR = Time.time;
+            if (Input.GetKey(KeyCode.R))
+            {
+                if(Time.time - timeWhenPressedR > 2f)
+                {
+                    ActiveTool.Drop();
+                    //Drop
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.R)) timeWhenPressedR = 0;
+
+        }
+
+        public void SetActiveTool(ToolItem activeTool) {
             activeTool.ActualPlayer = this;
             this.ActiveTool = activeTool;
             this.RefStats = ToolsManager.Instance.ToolStats[activeTool.Class];

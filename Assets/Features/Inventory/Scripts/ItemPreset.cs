@@ -22,9 +22,15 @@ namespace DownBelow
         public Outline ItemPrefab;
 
         public int MaxStack = 1;
+        public GameObject DroppedItemPrefab;
 
         //Fields
-
+        public void Drop()
+        {
+            //Player.ActualItem = null;
+            //Instanciate dropped item prefab;
+            //
+        }
         private void _updateUID()
         {
             using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())

@@ -45,8 +45,7 @@ namespace DownBelow.UI.Inventory
                 this.icon.sprite = Item.ItemPreset.InventoryIcon;
                 this.TotalQuantity = Item.Quantity;
                 this.quantity.text = this.TotalQuantity.ToString();
-            }
-            else
+            } else
             {
                 this.icon.sprite = Managers.SettingsManager.Instance.GameUIPreset.ItemCase;
                 this.quantity.text = string.Empty;
@@ -56,13 +55,12 @@ namespace DownBelow.UI.Inventory
 
         public void RefreshItem(ItemEventData Data)
         {
-            if(Data.ItemData.Quantity > 0)
+            if (Data.ItemData.Quantity > 0)
             {
                 this.icon.sprite = Data.ItemData.ItemPreset.InventoryIcon;
                 this.TotalQuantity = Data.ItemData.Quantity;
                 this.quantity.text = this.TotalQuantity.ToString();
-            }
-            else
+            } else
             {
                 this.icon.sprite = Managers.SettingsManager.Instance.GameUIPreset.ItemCase;
                 this.quantity.text = string.Empty;
@@ -104,7 +102,7 @@ namespace DownBelow.UI.Inventory
                 return;
 
             selfButton.image.raycastTarget = false;
-            if(selfButton.targetGraphic != null)
+            if (selfButton.targetGraphic != null)
                 selfButton.targetGraphic.raycastTarget = false;
             selfButton.transform.position = Input.mousePosition;
         }
@@ -113,11 +111,7 @@ namespace DownBelow.UI.Inventory
             if (this.TotalQuantity == 0)
                 return;
 
-            if (LastHoveredItem && LastHoveredItem != this)
-            {
-                int remainings = LastHoveredItem.SelfStorage.Storage.TryAddItem(this.SelfItem.ItemPreset, this.TotalQuantity, LastHoveredItem.Slot);
-                this.SelfStorage.Storage.RemoveItem(this.SelfItem.ItemPreset, this.TotalQuantity - remainings, this.Slot);
-            }
+            processEndDrag(eventData);
 
             selfButton.image.raycastTarget = true;
             if (selfButton.targetGraphic != null)
@@ -125,7 +119,14 @@ namespace DownBelow.UI.Inventory
             selfButton.transform.position = this._positionAfterDrag;
             selfButton.transform.SetParent(this._parentAfterDrag);
         }
-
+        protected virtual void processEndDrag(PointerEventData eventData)
+        {
+            if (LastHoveredItem && LastHoveredItem != this)
+            {
+                int remainings = LastHoveredItem.SelfStorage.Storage.TryAddItem(this.SelfItem.ItemPreset, this.TotalQuantity, LastHoveredItem.Slot);
+                this.SelfStorage.Storage.RemoveItem(this.SelfItem.ItemPreset, this.TotalQuantity - remainings, this.Slot);
+            }
+        }
         public void OnPointerEnter(PointerEventData eventData)
         {
             LastHoveredItem = this;

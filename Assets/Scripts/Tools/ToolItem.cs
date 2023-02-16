@@ -1,3 +1,4 @@
+using DownBelow;
 using DownBelow.Entity;
 using Photon.Pun.UtilityScripts;
 using System.Collections;
@@ -5,11 +6,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class Tool 
+    [CreateAssetMenu(fileName = "Tool", menuName = "DownBelow/ScriptableObject/ToolItem", order = 1)]
+public class ToolItem : ItemPreset
 {
     public Deck Deck;
     public EClass Class;
     public PlayerBehavior ActualPlayer;
+
     public virtual void WorldAction() 
     {
         switch (Class) {
@@ -24,6 +27,7 @@ public class Tool
                 break;
         }
     }
+   
 }
 public enum EClass {
     Fisherman,

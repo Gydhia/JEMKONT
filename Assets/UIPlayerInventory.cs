@@ -13,7 +13,7 @@ namespace DownBelow.UI.Inventory
 {
     public class UIPlayerInventory : MonoBehaviour
     {
-        public UIInventoryItem ClassItem;
+        public UIInventoryTool ClassItem;
         public UIInventoryItem SelectedItem;
 
         public UIStorage PlayerStorage;
