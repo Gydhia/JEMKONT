@@ -124,6 +124,9 @@ namespace DownBelow.Entity
         public int Defense { get => Shattered ? 0 : Statistics[EntityStatistics.Defense]; }
         public int Range { get => Statistics[EntityStatistics.Range]; }
         public int NumberOfTurnsPlayed = 0;
+
+        public BaseSpawnablePreset Preset;
+        
         /// <summary>
         /// </summary>
         /// <returns>the auto attack spell of this entity. Can be any Spell.</returns>
@@ -298,10 +301,12 @@ namespace DownBelow.Entity
         #endregion
 
         #region STATS
-        public virtual void Init(EntityStats stats,Cell refCell,WorldGrid refGrid,int order = 0) {
+        public virtual void Init(EntityStats stats,Cell refCell,WorldGrid refGrid,BaseSpawnablePreset preset, int order = 0) {
+            
             this.transform.position = refCell.WorldPosition;
             this.EntityCell = refCell;
             this.CurrentGrid = refGrid;
+            this.Preset = preset;
 
             this.RefStats = stats;
             this.Statistics = new Dictionary<EntityStatistics,int>();

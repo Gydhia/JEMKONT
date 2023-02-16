@@ -30,13 +30,19 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
 
     public float dragSensivity = 60f;
     public float transformDragSensitivity = 180f;
+    public RectTransform ContentRectTransform;
 
     private RectTransform _thisRectTransform;
     private bool _hasScaledDown = false;
     private Vector2 _originPosition;
+    public float _hoverCoeffcient = 1.8f;
+    private HorizontalLayoutGroup _layoutGroup;
+    private Vector3 _scale;
+    private Vector2 maxAnchors;
+    private Vector2 minAnchors;
+    private int childOrder;
 
-    HorizontalLayoutGroup _parent;
-
+    private bool hasBeenInit = false;
     public void Init(ScriptableCard cardData)
     {
         this.CardData = cardData;
@@ -48,6 +54,12 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
         this.IllustrationImage.sprite = CardData.IllustrationImage;
         this._thisRectTransform = this.GetComponent<RectTransform>();
         this._originPosition = _thisRectTransform.anchoredPosition;
+        this._scale = this.transform.localScale;
+        this.maxAnchors = this._thisRectTransform.anchorMax;
+        this.maxAnchors = this._thisRectTransform.anchorMin;
+        
+
+
 
         switch (cardData.CardType)
         {
@@ -77,6 +89,7 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
         // TODO: Find a better way than destroying after 2s
         Destroy(this.gameObject, 2f);
     }
+    
     public void Update()
     {
         if (!GameManager.Instance.SelfPlayer.IsPlayingEntity)
@@ -154,8 +167,8 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
 
     private void RefreshLayoutGroup()
     {
-        _parent.enabled = false;
-        _parent.enabled = true;
+        _layoutGroup.enabled = false;
+        _layoutGroup.enabled = true;
     }
     public void OnPointerClick(PointerEventData eventData) 
     {
@@ -171,12 +184,55 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
     public void OnPointerEnter(PointerEventData eventData) 
     {
         this.ShineImage.enabled = true;
-        isHovered = true;
+        if (!isHovered)
+        {
+           // Hover();
+            isHovered = true;
+        }
+        
+        
     }
     public void OnPointerExit(PointerEventData eventData) 
     {
         this.ShineImage.enabled = false;
-        isHovered = false;
+        if (isHovered)
+        {
+           // StopHover();
+            isHovered = false;
+        }
+        
+       
+    }
+
+    private void Hover()
+    {
+        _layoutGroup.enabled = false;
+        
+        this.transform.SetSiblingIndex(_layoutGroup.transform.childCount - 1); 
+
+        this.ContentRectTransform.DOAnchorMax(new Vector2(maxAnchors.x + 0.3f, maxAnchors.y + 0.3f), 0.3f)
+            .SetEase(Ease.OutQuad);
+        
+        this.ContentRectTransform.DOAnchorMin(new Vector2(maxAnchors.x - 0.3f, maxAnchors.y - 0.3f), 0.3f)
+            .SetEase(Ease.OutQuad);
+        
+        this.ContentRectTransform.DOAnchorPosY(0.2f, 0.3f).SetEase(Ease.OutQuad);
+        
+    }
+
+    private void StopHover()
+    {
+        this.transform.SetSiblingIndex(childOrder); 
+        
+        this.ContentRectTransform.DOAnchorMax(new Vector2(maxAnchors.x - 0.3f, maxAnchors.y - 0.3f), 0.3f)
+            .SetEase(Ease.OutQuad);
+        
+        this.ContentRectTransform.DOAnchorMin(new Vector2(maxAnchors.x + 0.3f, maxAnchors.y + 0.3f), 0.3f)
+            .SetEase(Ease.OutQuad);
+        
+        this.ContentRectTransform.DOAnchorPosY(0, 0.3f).SetEase(Ease.OutQuad).OnComplete((() =>  _layoutGroup.enabled = true));
+        
+       
     }
 
     private void Drag(Vector2 mousePos) {
@@ -195,11 +251,12 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
     public void GoBackToHand()
     {
         _thisRectTransform.DOAnchorPos(_originPosition, 0f);
-        RefreshLayoutGroup();
+        
         ReAppear();
         InputManager.Instance.ChangeCursorAppearance(CursorAppearance.Idle);
         if (this._hasScaledDown)
             StartCoroutine(ScaleUp(0.25f));
+        RefreshLayoutGroup();
     }
     public IEnumerator GoToHand(float time) 
     {
@@ -218,8 +275,22 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
             yield return new WaitForSeconds(Time.deltaTime);
         }
 
-        _parent = this.transform.parent.GetComponent<HorizontalLayoutGroup>();
-        RefreshLayoutGroup();
+        if (!hasBeenInit)
+        {
+            _layoutGroup = this.transform.parent.GetComponent<HorizontalLayoutGroup>();
+        
+            for (int i = 0; i < _layoutGroup.transform.childCount; i++)
+            {
+                if (_layoutGroup.transform.GetChild(i) == this.transform)
+                {
+                    this.childOrder = i;
+                    i = _layoutGroup.transform.childCount;
+                }
+            }
+
+            RefreshLayoutGroup();
+            hasBeenInit = true;
+        }
 
     }
 
@@ -264,6 +335,7 @@ public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickH
         }
         this._hasScaledDown = false;
     }
+    
     #endregion
 
     #region Spells_handling

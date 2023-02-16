@@ -109,8 +109,8 @@ RectTransform:
   m_Father: {fileID: 3903237730759300584}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.3, y: 0.23}
-  m_AnchorMax: {x: 0.78, y: 1}
+  m_AnchorMin: {x: 0.32, y: 0.2}
+  m_AnchorMax: {x: 0.45, y: 0.9}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -132,7 +132,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: -90
+  m_Spacing: -110
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -552,7 +552,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 927e7db90a8d295428f19e4de064aca1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CardsHolder: {fileID: 0}
+  CardsHolder: {fileID: 3525050511889781521}
   DrawPile: {fileID: 1601488957049640963}
   DrawNumber: {fileID: 2681435136693674027}
   CardsInDraw: 0

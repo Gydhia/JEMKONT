@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using DownBelow.Entity;
 using DownBelow.Events;
+using DownBelow.Managers;
 
 namespace DownBelow.UI
 {
@@ -20,6 +21,8 @@ namespace DownBelow.UI
         [SerializeField] private TextMeshProUGUI _rangeStat;
 
         private CharacterEntity _currentEntity;
+
+        private EntityPreset _spawnablePreset;
         // /!\
         // TODO : When initing, sub this to entity events
 
@@ -35,13 +38,18 @@ namespace DownBelow.UI
             }
 
             _currentEntity = Entity;
+            _spawnablePreset = Entity.Preset as EntityPreset;
 
             SetEvents();
-            _entityName.text = _currentEntity.name;
+            _entityName.text = _spawnablePreset.UName;
+            _entityIllustrations.sprite = _spawnablePreset.Icon;
             _attackStat.text = _currentEntity.Strength.ToString();
             _defenseStat.text = _currentEntity.Shield.ToString();
             _healthStat.text = _currentEntity.Health.ToString();
             _rangeStat.text = _currentEntity.Range.ToString();
+            
+            
+            
         }
         private void SetEvents()
         {

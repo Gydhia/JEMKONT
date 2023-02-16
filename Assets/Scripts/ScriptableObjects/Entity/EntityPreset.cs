@@ -14,14 +14,14 @@ public class EntityPreset : BaseSpawnablePreset
     public bool IsPNJ = false;
 
     public EntityStats Statistics;
-
+    public Sprite Icon;
     public override void Init(Cell attachedCell)
     {
         EnemyEntity newEntity = Instantiate(this.Entity, attachedCell.WorldPosition, Quaternion.identity, attachedCell.RefGrid.transform) as EnemyEntity;
        
         newEntity.IsAlly = IsPNJ && !attachedCell.RefGrid.IsCombatGrid;
         newEntity.EnemyStyle = this;
-        newEntity.Init(this.Statistics, attachedCell, attachedCell.RefGrid, attachedCell.PositionInGrid.longitude  );
+        newEntity.Init(this.Statistics, attachedCell, attachedCell.RefGrid, this, attachedCell.PositionInGrid.longitude  );
         newEntity.gameObject.SetActive(false);
 
         attachedCell.RefGrid.GridEntities.Add(newEntity);

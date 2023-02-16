@@ -77,8 +77,8 @@ namespace DownBelow.Entity {
         public const int MAXMANAHARDCAP = 7;
         #endregion
 
-        public override void Init(EntityStats stats, Cell refCell, WorldGrid refGrid, int order = 0) {
-            base.Init(stats, refCell, refGrid, order);
+        public override void Init(EntityStats stats, Cell refCell, WorldGrid refGrid, BaseSpawnablePreset preset, int order = 0) {
+            base.Init(stats, refCell, refGrid, preset, order);
 
             this.PlayerInventory = new BaseStorage();
             this.PlayerInventory.Init(

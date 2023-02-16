@@ -323,6 +323,8 @@ MonoBehaviour:
   isDragged: 0
   dragSensivity: 60
   transformDragSensitivity: 180
+  ContentRectTransform: {fileID: 8470581299613062704}
+  _hoverCoeffcient: 1.8
 --- !u!222 &4094393223376925304
 CanvasRenderer:
   m_ObjectHideFlags: 0

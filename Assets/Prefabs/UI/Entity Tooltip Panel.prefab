@@ -32,7 +32,7 @@ RectTransform:
   m_Father: {fileID: 173368017210584257}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.52}
+  m_AnchorMin: {x: 0, y: 0.545}
   m_AnchorMax: {x: 0.17, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
@@ -47,6 +47,7 @@ GameObject:
   m_Component:
   - component: {fileID: 173368017210584257}
   - component: {fileID: 7655199397315007396}
+  - component: {fileID: 5062212599057991374}
   m_Layer: 5
   m_Name: Entity Tooltip Panel
   m_TagString: Untagged
@@ -93,6 +94,27 @@ MonoBehaviour:
   _defenseStat: {fileID: 5216926850871945825}
   _healthStat: {fileID: 5216926851474381430}
   _rangeStat: {fileID: 3184546232859668919}
+--- !u!223 &5062212599057991374
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6449343710522276808}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 25
+  m_SortingLayerID: 0
+  m_SortingOrder: 10
+  m_TargetDisplay: 0
 --- !u!1001 &420599564750627578
 PrefabInstance:
   m_ObjectHideFlags: 0

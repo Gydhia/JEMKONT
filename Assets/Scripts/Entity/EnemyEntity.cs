@@ -41,8 +41,8 @@ namespace DownBelow.Entity {
         #endregion
 
 
-        public override void Init(EntityStats stats, Cell refCell, WorldGrid refGrid, int order = 0) {
-            base.Init(stats, refCell, refGrid);
+        public override void Init(EntityStats stats, Cell refCell, WorldGrid refGrid, BaseSpawnablePreset preset, int order = 0) {
+            base.Init(stats, refCell, refGrid, preset);
 
             this.UID = refGrid.UName + this.EnemyStyle.UName + order;
             MovementBehaviors.Add(MovementType.Straight, MovementStraight);

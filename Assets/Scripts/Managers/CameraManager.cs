@@ -74,9 +74,6 @@ namespace DownBelow.Managers
                 
                 if(pos.y + newY >= _minZoomMainCam && pos.y + newY <= _maxZoomMainCam)
                     MainCamera.transform.position = new Vector3(pos.x, pos.y + newY, pos.z);
-                
-
-
 
             }
             else
