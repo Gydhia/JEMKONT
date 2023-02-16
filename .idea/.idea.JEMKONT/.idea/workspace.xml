@@ -3,20 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="f51ef5ce-4271-4853-a7ef-98596d968ffc" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.JEMKONT/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.JEMKONT/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Hovl Studio/Toon Projectiles 2/Demo scene/Toon projectiles 2.unity.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Hovl Studio/Toon Projectiles 2/Demo scene/Toon projectiles 2.unity.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/UI/Combat UI.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/UI/Combat UI.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/UI/Entity Tooltip Panel.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/UI/Entity Tooltip Panel.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/SpellCard.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/SpellCard.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/UI/CardsSection.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/UI/CardsSection.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/UI/WorldSpace/Combat Feedbacks.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/UI/WorldSpace/Combat Feedbacks.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Entities/Crabby.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Entities/Crabby.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/WIP/Killian.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/WIP/Killian.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Entity/CharacterEntity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Entity/CharacterEntity.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Entity/EnemyEntity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Entity/EnemyEntity.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Managers/CameraManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Managers/CameraManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Managers/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Managers/GameManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/CardComponent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/CardComponent.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerBehavior.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerBehavior.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ScriptableObjects/Entity/EntityPreset.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ScriptableObjects/Entity/EntityPreset.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/EntityTooltipUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/EntityTooltipUI.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/CombatFeedbacks.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/CombatFeedbacks.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/URPProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/URPProjectSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,17 +17,24 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/UI/AlterationsFeedback.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/UI/AlterationDictionnary.cs" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
       <option value="$PROJECT_DIR$/Assets/Scripts/UI/UICardSection.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Managers/CameraManager.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/CardComponent.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Player/PlayerBehavior.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Entity/CharacterEntity.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Managers/GameManager.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/UI/EntityTooltipUI.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Entity/EnemyEntity.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/ScriptableObjects/Entity/EntityPreset.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Player/PlayerBehavior.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Entity/EnemyEntity.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Entity/CharacterEntity.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/UI/AlterationsFeedback.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/UI/AlterationDictionnary.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/UI/CombatFeedbacks.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="2LlnWbtq5m8UtJUsVDiSNgZQYa8" />
@@ -91,7 +89,7 @@
       <option name="presentableId" value="Default" />
       <updated>1676454606207</updated>
       <workItem from="1676454699195" duration="16213000" />
-      <workItem from="1676540287856" duration="6158000" />
+      <workItem from="1676540287856" duration="10322000" />
     </task>
     <servers />
   </component>
@@ -101,6 +99,15 @@
   <component name="UnityProjectConfiguration" hasMinimizedUI="true" />
   <component name="UnityUnitTestConfiguration" currentTestLauncher="EditMode" />
   <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">

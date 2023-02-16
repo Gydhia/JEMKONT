@@ -20657,6 +20657,10 @@ PrefabInstance:
       propertyPath: CardsHolder
       value: 
       objectReference: {fileID: 1949338515}
+    - target: {fileID: 8611393696656359215, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
 --- !u!114 &808257836 stripped
