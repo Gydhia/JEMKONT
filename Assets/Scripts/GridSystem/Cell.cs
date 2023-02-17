@@ -84,11 +84,11 @@ namespace DownBelow.GridSystem
             {
                 qtyRemainingInItem -= player.PlayerInventory.TryAddItem(ItemContained.ItemPreset, ItemContained.Quantity);
             }
-            ItemContained.RemoveQuantity(ItemContained.Quantity-qtyRemainingInItem);
+            /*ItemContained.RemoveQuantity(ItemContained.Quantity-qtyRemainingInItem);
             if (ItemContained.Quantity <= 0)
             {
                 Destroy(ItemContainedObject);
-            }
+            }*/
         }
     }
 
