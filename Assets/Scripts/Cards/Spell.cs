@@ -10,10 +10,11 @@ using UnityEngine;
 namespace DownBelow.Spells
 {
     [Serializable]
-    public class Spell
+    public class Spell : EntityAction
     {
-        public SpellConditionBase ConditionData;
-        public SpellDealer ActionData;
+        public Spell ParentSpell;
+        public SpellCondition ConditionData;
+        public SpellAction ActionData;
 
         public bool ApplyToCell = true;
         public bool ApplyToSelf = false;
@@ -27,12 +28,12 @@ namespace DownBelow.Spells
 
         // The instantiated spell
         [HideInInspector]
-        public SpellDealer CurrentAction;
+        public SpellAction CurrentAction;
         [HideInInspector]
         public CharacterEntity Caster;
         public GridSystem.Cell TargetCell;
 
-        public Spell(SpellDealer ActionData,SpellConditionBase ConditionData = null,bool ApplyToCell = true, bool ApplyToSelf = false,bool ApplyToAllies=false, bool ApplyToAll=false) {
+        public Spell(SpellAction ActionData, SpellCondition ConditionData = null,bool ApplyToCell = true, bool ApplyToSelf = false,bool ApplyToAllies=false, bool ApplyToAll=false) {
             this.ActionData = ActionData;
             this.ConditionData = ConditionData;
             this.ApplyToCell = ApplyToCell;
@@ -40,6 +41,20 @@ namespace DownBelow.Spells
             this.ApplyToAllies = ApplyToAllies;
             this.ApplyToAll = ApplyToAll;
         }
+
+        public void Init(CharacterEntity caster, GridSystem.Cell targetCell, Spell parentSpell)
+        {
+            this.Caster = caster;
+            this.TargetCell = targetCell;
+            this.ParentSpell = parentSpell;
+        }
+
+        //public override void ExecuteAction(CharacterEntity RefEntity, Action EndCallback)
+        //{
+        //    base.ExecuteAction(RefEntity, EndCallback);
+
+        //    this.ExecuteSpell(RefEntity, null);
+        //}
 
         public void ExecuteSpell(CharacterEntity caster, GridSystem.Cell cellTarget)
         {
@@ -50,17 +65,11 @@ namespace DownBelow.Spells
             this.CurrentAction.Execute(this.GetTargets(caster, cellTarget), this);            
         }
 
-        protected void ExecuteActions()
-        {
-            this.CurrentAction = UnityEngine.Object.Instantiate(this.ActionData, Vector3.zero, Quaternion.identity, CombatManager.Instance.CurrentPlayingEntity.gameObject.transform);
-            this.CurrentAction.Execute(this.GetTargets(this.Caster, this.TargetCell), this);
-        }
-
         public List<CharacterEntity> GetTargets(CharacterEntity caster, GridSystem.Cell cellTarget)
         {
             List<CharacterEntity> targets = new List<CharacterEntity>();
             //TODO: If getTarget doesn't get a target in a cell, cancel the spell?
-            if (this.ApplyToCell && cellTarget.EntityIn != null && !cellTarget.EntityIn.Camouflage)
+            if (this.ApplyToCell && cellTarget.EntityIn != null)
                 targets.Add(cellTarget.EntityIn);
 
             if (this.ApplyToSelf && !targets.Contains(caster))

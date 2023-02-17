@@ -246,14 +246,6 @@ namespace DownBelow.Managers {
                     }
                 }
             }
-
-            if (entity.Confused) 
-            {
-                if(entity is PlayerBehavior)
-                    NetworkManager.Instance.PlayerAsksForPath((PlayerBehavior)entity,_possiblePath.Random(),string.Empty);
-                else 
-                    NetworkManager.Instance.EntityAsksForPath(entity, _possiblePath.Random(), entity.CurrentGrid);
-            }
         }
         public Cell RandomCellInPossiblePath()
         {

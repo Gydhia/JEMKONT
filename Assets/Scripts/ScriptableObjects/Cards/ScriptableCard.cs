@@ -25,10 +25,8 @@ namespace DownBelow.Mechanics
         public Sprite IllustrationImage;
 
         public Spell[] Spells;
-        public SpellAction TotalSpells;
         private void OnValidate() {
             Title = name;
-            this.TotalSpells = new();
         }
 
         public void CastSpell(GridSystem.Cell cell)

@@ -55,7 +55,7 @@ namespace DownBelow.Managers {
         public List<CardComponent> HandPile;
 
         public GameObject CardPrefab;
-        public List<SpellDealer> PossibleAutoAttacks;
+        public List<SpellAction> PossibleAutoAttacks;
 
         public int TurnNumber;
         #endregion
@@ -74,7 +74,6 @@ namespace DownBelow.Managers {
                 this.CurrentPlayingEntity.ApplyStat(EntityStatistics.Mana, -spell.Cost);
 
                 this._currentSpells = spell.Spells;
-                StartCoroutine(this._waitForSpell(target));
             }
         }
 
@@ -150,29 +149,6 @@ namespace DownBelow.Managers {
             this.CurrentPlayingEntity = this.PlayingEntities[this.TurnNumber % this.PlayingEntities.Count];
 
             this.FireTurnStarted(this.CurrentPlayingEntity);
-        }
-
-        private IEnumerator _waitForSpell(DownBelow.GridSystem.Cell target) {
-            for (int i = 0;i < this._currentSpells.Length;i++) {
-                bool canExecute = true;
-
-                if (this._currentSpells[i].ConditionData != null)
-                    if (i - 1 >= 0)
-                        if (!this._currentSpells[i].ConditionData.Validated(this._currentSpells[i - 1].CurrentAction.Result))
-                            canExecute = false;
-
-                if (canExecute) {
-                    this._currentSpells[i].CurrentAction = Instantiate(this._currentSpells[i].ActionData, Vector3.zero, Quaternion.identity, CombatManager.Instance.CurrentPlayingEntity.gameObject.transform);
-                    yield return this._currentSpells[i].CurrentAction.DoSFX(this.CurrentPlayingEntity, target, _currentSpells[i]);
-                    this._currentSpells[i].ExecuteSpell(this.CurrentPlayingEntity, target);
-
-                    while (!this._currentSpells[i].CurrentAction.HasEnded) {
-                        yield return new WaitForSeconds(Time.deltaTime);
-                    }
-                    CurrentPlayingEntity.UnsubToSpell(this._currentSpells[i].ActionData);
-                }
-            }
-
         }
 
         private void _setupEnemyEntities() {
@@ -283,8 +259,6 @@ namespace DownBelow.Managers {
                         this.PlayingEntities.Add(enemies[i]);
                 }
             }
-
-            this.PlayingEntities = this.PlayingEntities.OrderBy(x => x.Inspired).ToList();
         }
     }
 }

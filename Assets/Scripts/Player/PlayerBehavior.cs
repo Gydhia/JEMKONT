@@ -276,8 +276,5 @@ namespace DownBelow.Entity {
         }
         #endregion
 
-        public override Spell AutoAttackSpell() {
-            return new Spell(CombatManager.Instance.PossibleAutoAttacks.Find(x => x is DamageStrengthSpellDealer));
-        }
     }
 }

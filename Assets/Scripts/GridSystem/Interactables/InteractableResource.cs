@@ -7,6 +7,8 @@ namespace DownBelow.GridSystem
 {
     public class InteractableResource : Interactable
     {
+        public MeshRenderer GatheredMesh;
+
         public override void Init(InteractablePreset InteractableRef, Cell RefCell)
         {
             base.Init(InteractableRef, RefCell);

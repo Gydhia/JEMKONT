@@ -79,18 +79,9 @@ namespace DownBelow.Entity
         #region alterationBooleans
         public bool Snared { get => Alterations.Any(x => x.GetType() == typeof(SnareAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Snare].Contains(x.ToEnum())); }//DONE
         public bool Stunned { get => Alterations.Any(x => x.GetType() == typeof(StunAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Stun].Contains(x.ToEnum())); }//DONE
-        public bool Disarmed { get => Alterations.Any(x => x.GetType() == typeof(DisarmedAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Disarmed].Contains(x.ToEnum())); }//DONE
-        public bool Critical { get => Alterations.Any(x => x.GetType() == typeof(CriticalAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Critical].Contains(x.ToEnum())); }//Ouille. On met �a de c�t� le temps d'un gros refactor. impossible. Edit ah? 
-        public bool Dodge { get => Alterations.Any(x => x.GetType() == typeof(DodgeAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Dodge].Contains(x.ToEnum())); }//DONE
-        public bool Camouflage { get => Alterations.Any(x => x.GetType() == typeof(CamouflageAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Camouflage].Contains(x.ToEnum())); }//DONE
-        public bool Provoke { get => Alterations.Any(x => x.GetType() == typeof(ProvokeAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Provoke].Contains(x.ToEnum())); }//DONE
-        public bool Ephemeral { get => Alterations.Any(x => x.GetType() == typeof(EphemeralAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Ephemeral].Contains(x.ToEnum())); }//DONE
-        public bool Confused { get => Alterations.Any(x => x.GetType() == typeof(ConfusionAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Confusion].Contains(x.ToEnum())); }//DONE
         public bool Shattered { get => Alterations.Any(x => x.GetType() == typeof(ShatteredAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Shattered].Contains(x.ToEnum())); }//DONE
         public bool DoT { get => Alterations.Any(x => x.GetType() == typeof(DoTAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.DoT].Contains(x.ToEnum())); }//DONE
-        public bool Inspired { get => Alterations.Any(x => x.GetType() == typeof(InspirationAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Inspiration].Contains(x.ToEnum())); }//DONE 
         public bool Bubbled { get => Alterations.Any(x => x.GetType() == typeof(BubbledAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Bubbled].Contains(x.ToEnum())); }//DONE
-        public bool MindControl { get => Alterations.Any(x => x.GetType() == typeof(MindControlAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.MindControl].Contains(x.ToEnum())); }//FUCK YOU
         public bool Sleeping { get => Alterations.Any(x => x.GetType() == typeof(SleepAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Sleep].Contains(x.ToEnum())); }//DONE
         /// <summary>
         /// Returns the current Damage Up/Down alteration value. returns 0 of there isn't any.
@@ -124,14 +115,10 @@ namespace DownBelow.Entity
         public int Defense { get => Shattered ? 0 : Statistics[EntityStatistics.Defense]; }
         public int Range { get => Statistics[EntityStatistics.Range]; }
         public int NumberOfTurnsPlayed = 0;
-        /// <summary>
-        /// </summary>
-        /// <returns>the auto attack spell of this entity. Can be any Spell.</returns>
-        public abstract Spell AutoAttackSpell();
 
-        public bool TryGoTo(Cell destination,int cost) 
+
+        public bool TryGoTo(Cell destination, int cost) 
         {
-
             this.EntityCell.EntityIn = null;
 
             this.EntityCell = destination;
@@ -141,7 +128,8 @@ namespace DownBelow.Entity
             return true;
         }
 
-        public void Start() {
+        public void Start()
+        {
             this.OnHealthAdded += UpdateUILife;
             this.OnHealthRemoved += UpdateUILife;
             this.OnHealthRemoved += AreYouAlive;
@@ -157,22 +145,26 @@ namespace DownBelow.Entity
             this.ShieldFill.minValue = 0;
             this.ShieldFill.value = 0;
         }
-        public void UpdateUILife(SpellEventData data) {
+        public void UpdateUILife(SpellEventData data)
+        {
             this.HealthFill.value = this.Health;
         }
 
-        public void UpdateUIShield(SpellEventData data) {
+        public void UpdateUIShield(SpellEventData data)
+        {
             this.ShieldFill.value = this.Shield;
         }
 
-        private void LateUpdate() {
+        private void LateUpdate() 
+        {
             this.HealthFill.transform.LookAt(Camera.main.transform.position);
             this.ShieldFill.transform.LookAt(Camera.main.transform.position);
         }
 
         #region MOVEMENTS
 
-        public virtual void MoveWithPath(List<Cell> newPath, string otherGrid, System.Action AtEnd = null) {
+        public virtual void MoveWithPath(List<Cell> newPath, string otherGrid, System.Action AtEnd = null) 
+        {
             // Useless to animate hidden players
             if (!this.gameObject.activeSelf) {
                 // /!\ TEMPORY ONLY, SET THE CELL AS THE LAST ONE OF PATH
@@ -246,20 +238,17 @@ namespace DownBelow.Entity
                     case CellState.Shared:
                         break;
                     case CellState.EntityIn:
-                        CastAutoAttack(notwalkable);
+                        //CastAutoAttack(notwalkable);
                         break;
                 }
             } else {
                 //There isn't any obstacle in the path, so the attack should go for it.
-                if(cellToAttack.Datas.state == CellState.EntityIn)
-                    CastAutoAttack(cellToAttack);
+                //if(cellToAttack.Datas.state == CellState.EntityIn)
+                //    CastAutoAttack(cellToAttack);
                 //TODO: Shield/overheal? What do i do? Have we got shield in the game??????????????????????
             }
         }
-        protected void CastAutoAttack(Cell cell) 
-        {
-            AutoAttackSpell().ExecuteSpell(this,cell);
-        }
+
         public bool isInAttackRange(Cell cell) 
         {
             bool res = Range >= Mathf.Abs(cell.PositionInGrid.latitude - EntityCell.PositionInGrid.latitude) + Mathf.Abs(cell.PositionInGrid.longitude - EntityCell.PositionInGrid.longitude);
@@ -283,7 +272,6 @@ namespace DownBelow.Entity
             this.IsPlayingEntity = true;
 
             OnTurnBegun?.Invoke(new());
-            CanAutoAttack = !Disarmed;//CanAutoAttack = true if !Disarmed
 
             this.ReinitializeStat(EntityStatistics.Speed);
             this.ReinitializeStat(EntityStatistics.Mana);
@@ -382,10 +370,7 @@ namespace DownBelow.Entity
                 {
                     value = 0;
                 }
-                if (this.Dodge)
-                {
-                    if (UnityEngine.Random.Range(0, 1) == 0) value = 0;
-                }
+
                 int onShield = this.Shield - value > 0 ? value : this.Shield;
                 int onLife = overShield ? value : -(onShield - value);
                 value = -onLife;
@@ -458,20 +443,11 @@ GridPos : {EntityCell}";
             {
                 EAlterationType.Stun => new StunAlteration(duration),
                 EAlterationType.Snare => new SnareAlteration(duration),
-                EAlterationType.Disarmed => new DisarmedAlteration(duration),
-                EAlterationType.Critical => new CriticalAlteration(duration),
-                EAlterationType.Dodge => new DodgeAlteration(duration),
-                EAlterationType.Camouflage => new CamouflageAlteration(duration),
-                EAlterationType.Provoke => new ProvokeAlteration(duration),
-                EAlterationType.Ephemeral => new EphemeralAlteration(duration),
-                EAlterationType.Confusion => new ConfusionAlteration(duration),
                 EAlterationType.Shattered => new ShatteredAlteration(duration),
                 EAlterationType.DoT => new DoTAlteration(duration, 2),//Idfk how much dmg
                 EAlterationType.Bubbled => new BubbledAlteration(duration),
-                EAlterationType.MindControl => new MindControlAlteration(duration),
                 EAlterationType.SpeedUpDown => new SpeedUpDownAlteration(duration, value),
                 EAlterationType.DmgUpDown => new DmgUpDownAlteration(duration, value),
-                EAlterationType.Inspiration => new InspirationAlteration(duration),
                 EAlterationType.Sleep => new SleepAlteration(duration),
                 _ => throw new System.NotImplementedException($"NEED TO IMPLEMENT ENUM MEMBER {type}"),
             };
@@ -494,23 +470,6 @@ GridPos : {EntityCell}";
             {
                 switch (alteration)
                 {
-                    case CriticalAlteration crit:
-                        //Don't worry guys
-                        //Edit: WHY???? WHERE DID I- WHAT???? HELP
-                        //Re-Edit : yeah check SubToSpell
-                        break;
-                    case DodgeAlteration dodge:
-                        this.OnHealthRemoved += alteration.DecrementAlterationCountdown;
-                        break;
-                    case CamouflageAlteration camo:
-                        this.OnTurnEnded += camo.DecrementAlterationCountdown;
-                        this.OnHealthRemoved += camo.DecrementAlterationCountdown;
-                        break;
-                    case ProvokeAlteration prov:
-                        this.OnTurnEnded += prov.DecrementAlterationCountdown;
-                        this.OnHealthRemoved += prov.DecrementAlterationCountdown;
-                        //OnDamageReceived too? tf
-                        break;
                     case ShatteredAlteration shat:
                         this.OnTurnEnded += shat.DecrementAlterationCountdown;
                         this.OnHealthRemoved += shat.DecrementAlterationCountdown;
@@ -538,23 +497,6 @@ GridPos : {EntityCell}";
             {
                 switch (alteration)
                 {
-                    case CriticalAlteration crit:
-                        //Don't worry guys
-                        //Edit: WHY???? WHERE DID I- WHAT???? HELP
-                        //Re-Edit : yeah check SubToSpell
-                        break;
-                    case DodgeAlteration dodge:
-                        this.OnHealthRemoved -= alteration.DecrementAlterationCountdown;
-                        break;
-                    case CamouflageAlteration camo:
-                        this.OnTurnEnded -= camo.DecrementAlterationCountdown;
-                        this.OnHealthRemoved -= camo.DecrementAlterationCountdown;
-                        break;
-                    case ProvokeAlteration prov:
-                        this.OnTurnEnded -= prov.DecrementAlterationCountdown;
-                        //OnDamageReceived too? tf
-                        this.OnHealthRemoved -= prov.DecrementAlterationCountdown;
-                        break;
                     case ShatteredAlteration shat:
                         this.OnTurnEnded -= shat.DecrementAlterationCountdown;
                         this.OnHealthRemoved -= shat.DecrementAlterationCountdown;
@@ -592,28 +534,11 @@ GridPos : {EntityCell}";
         #endregion
 
         #region SKILLS
-        public void SubToSpell(SpellDealer Action) {
-            //oh
-            foreach (var item in Alterations) {
-                switch (item) {
-                    case CriticalAlteration crit:
-                        Action.OnDamageDealt += crit.DecrementAlterationCountdown;
-                        break;
-                    default:
-                        break;
-                }
-            }
+        public void SubToSpell(SpellAction Action) {
+    
         }
-        public void UnsubToSpell(SpellDealer Action) {
-            foreach (var item in Alterations) {
-                switch (item) {
-                    case CriticalAlteration crit:
-                        Action.OnDamageDealt -= crit.DecrementAlterationCountdown;
-                        break;
-                    default:
-                        break;
-                }
-            }
+        public void UnsubToSpell(SpellAction Action) {
+         
         }
 
         internal void FireOnAlterationGiven(SpellEventData Data) {
@@ -631,9 +556,39 @@ GridPos : {EntityCell}";
         }
         #endregion
 
-        #region DEBUG
-        public string AlterationBools() {
-            return $"{nameof(Snared)}:{Snared}\n{nameof(Stunned)}:{Stunned}\n{nameof(Disarmed)}:{Disarmed}\n{nameof(Critical)}:{Critical}\n{nameof(Dodge)}:{Dodge}\n{nameof(Camouflage)}:{Camouflage}\n{nameof(Provoke)}:{Provoke}\n{nameof(Ephemeral)}:{Ephemeral}\n{nameof(Confused)}:{Confused}\n{nameof(Shattered)}:{Shattered}\n{nameof(DoT)}:{DoT}\n{nameof(Inspired)}:{Inspired}\n{nameof(Bubbled)}:{Bubbled}\n{nameof(MindControl)}:{MindControl}\n{nameof(Sleeping)}:{Sleeping}\n";
+        #region ENTITY_ACTIONS
+        public void ExecuteSpell(Mechanics.ScriptableCard spellDatas, GridSystem.Cell targetCell, int index = 0)
+        {
+            for (int i = 0; i < spellDatas.Spells.Length; i++)
+                spellDatas.Spells[i].Init(this, targetCell, i > 0 ? spellDatas.Spells[i - 1] : null);
+
+            this.actionsBuffer.AddRange(spellDatas.Spells);
+        }
+
+        public void ExecuteMovement(Cell targetCell)
+        {
+            MovementAction movement = new MovementAction();
+            movement.Init(this, targetCell, "");
+            this.actionsBuffer.Add(movement);
+        }
+
+        public void InsertToBuffer(EntityAction action)
+        {
+            this.actionsBuffer.Insert(0, action);
+
+        }
+
+        protected void updateBuffer()
+        {
+            if(this.actionsBuffer.Count > 1)
+            {
+                this.actionsBuffer[0].SetCallback(this.actionsBuffer[1].ExecuteAction);
+                this.actionsBuffer[0].ExecuteAction();
+            }
+            else if(this.actionsBuffer.Count > 0)
+            {
+                this.actionsBuffer[0].ExecuteAction();
+            }
         }
         #endregion
     }

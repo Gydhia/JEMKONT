@@ -171,7 +171,6 @@ namespace DownBelow.Entity {
         /// </summary>
         public CharacterEntity[] PlayersOrderedByDistance(string type, out int sameDist) {
             var Players = CurrentGrid.GridEntities.FindAll(x => x.IsAlly);
-            var Provoking = Players.FindAll(x => x.Provoke);
 
             int[] distances = new int[Players.Count];
             //Get all distances to player (from path) and set them in distances
@@ -210,12 +209,9 @@ namespace DownBelow.Entity {
                 Dist = distances.Max();
             }
             int Index = Array.IndexOf(distances, Dist);
-            //if the player is provoking then make it first priority
-            if (Players[Index].Provoke) {
-                MakeProvokedFirst(Players[Index], ref orderedAllies, Players);
-            } else {
-                orderedAllies[ActualPlayer] = Players[Index];
-            }
+
+            orderedAllies[ActualPlayer] = Players[Index];
+            
             ArrayHelper.RemoveAt(ref distances, Index); ;
 
             return Dist;
@@ -223,19 +219,12 @@ namespace DownBelow.Entity {
 
         private void MakeProvokedFirst(CharacterEntity provoked, ref CharacterEntity[] array, List<CharacterEntity> players) {
             for (int i = 0;i < array.Length;i++) {
-                if (players[i].Provoke) {
-                    continue;
-                }
                 ArrayHelper.Insert(ref array, i, provoked);
                 break;
             }
         }
         #endregion
 
-        public override Spell AutoAttackSpell() {
-            return new Spell(CombatManager.Instance.PossibleAutoAttacks.Find(x => x is DamageStrengthSpellDealer ));
-
-        }
         Cell RandomCellInRange() {
             List<Cell> cells = new List<Cell>();
             foreach (var item in CurrentGrid.Cells) {
