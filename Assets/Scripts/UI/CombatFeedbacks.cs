@@ -21,6 +21,7 @@ public class CombatFeedbacks : MonoBehaviour
     [SerializeField] private RectTransform _horizontalLayoutGroup;
     [SerializeField] private GameObject _alterationPrefab;
     [SerializeField] private AlterationDictionnary _dictionnary;
+    [SerializeField] private Transform _parentTransform;
 
     #endregion
 
@@ -32,6 +33,7 @@ public class CombatFeedbacks : MonoBehaviour
     {
         _entity.OnHealthRemoved += OnHealthRemoved;
         _entity.OnHealthAdded += OnHealthAdded;
+        _entity.OnAlterationReceived += OnAlterationAdded;
         _healthFeedback.gameObject.SetActive(false);
 
         //Maybe for later add feedbacks for the other effects
@@ -46,12 +48,12 @@ public class CombatFeedbacks : MonoBehaviour
     {
         _entity.OnHealthRemoved -= OnHealthRemoved;
         _entity.OnHealthAdded -= OnHealthAdded;
+        _entity.OnAlterationReceived -= OnAlterationAdded;
     }
 
     private void LateUpdate()
     {
-        //  this.HealthFill.transform.LookAt(Camera.main.transform.position);
-        //this.ShieldFill.transform.LookAt(Camera.main.transform.position);
+
     }
 
     private void OnHealthRemoved(SpellEventData Data)
@@ -82,12 +84,14 @@ public class CombatFeedbacks : MonoBehaviour
         }
     }
 
-    private void OnAlterationAdded(EAlterationType alteration)
+    private void OnAlterationAdded(SpellEventData data)
     {
+       SpellEventDataAlteration  alterationData = data as SpellEventDataAlteration;
+        
         GameObject go = Instantiate(_alterationPrefab, _horizontalLayoutGroup);
 
         _alterationsObjects.Add(go);
         
-        go.GetComponent<AlterationsFeedback>().SetAlteration(_dictionnary.DictionaryAlterations[alteration]);
+        go.GetComponent<AlterationsFeedback>().SetAlteration(_dictionnary.DictionaryAlterations[alterationData.EAlterationType]);
     }
 }

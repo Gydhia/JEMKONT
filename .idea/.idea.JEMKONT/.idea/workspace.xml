@@ -3,11 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="f51ef5ce-4271-4853-a7ef-98596d968ffc" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.JEMKONT/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.JEMKONT/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/UI/Combat UI.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/UI/Combat UI.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Prefabs/UI/WorldSpace/Combat Feedbacks.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/UI/WorldSpace/Combat Feedbacks.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Entities/Crabby.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Entities/Crabby.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/WIP/Killian.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/WIP/Killian.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/CombatFeedbacks.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/CombatFeedbacks.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/URPProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/URPProjectSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/EntityTooltipUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/EntityTooltipUI.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,13 +27,13 @@
       <option value="$PROJECT_DIR$/Assets/Scripts/Managers/CameraManager.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/CardComponent.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Managers/GameManager.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/UI/EntityTooltipUI.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/ScriptableObjects/Entity/EntityPreset.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/PlayerBehavior.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Entity/EnemyEntity.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Entity/CharacterEntity.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/UI/AlterationsFeedback.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/UI/AlterationDictionnary.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/UI/EntityTooltipUI.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/UI/CombatFeedbacks.cs" />
     </changedPaths>
   </component>
@@ -89,7 +89,8 @@
       <option name="presentableId" value="Default" />
       <updated>1676454606207</updated>
       <workItem from="1676454699195" duration="16213000" />
-      <workItem from="1676540287856" duration="10322000" />
+      <workItem from="1676540287856" duration="14662000" />
+      <workItem from="1676641394300" duration="227000" />
     </task>
     <servers />
   </component>

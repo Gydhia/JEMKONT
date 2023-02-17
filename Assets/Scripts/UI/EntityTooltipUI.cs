@@ -53,7 +53,6 @@ namespace DownBelow.UI
         }
         private void SetEvents()
         {
-            _currentEntity.OnAlterationReceived += SetAlterations;
             _currentEntity.OnDefenseAdded += SetDefense;
             _currentEntity.OnDefenseRemoved += SetDefense;
             _currentEntity.OnStrengthAdded += SetAttack;
@@ -65,7 +64,6 @@ namespace DownBelow.UI
         }
         private void ResetEvents()
         {
-            _currentEntity.OnAlterationReceived -= SetAlterations;
             _currentEntity.OnDefenseAdded -= SetDefense;
             _currentEntity.OnDefenseRemoved -= SetDefense;
             _currentEntity.OnStrengthAdded -= SetAttack;
@@ -74,10 +72,6 @@ namespace DownBelow.UI
             _currentEntity.OnHealthRemoved -= SetHealth;
             _currentEntity.OnRangeAdded -= SetRange;
             _currentEntity.OnRangeRemoved -= SetRange;
-        }
-        private void SetAlterations(SpellEventData Data)
-        {
-
         }
         private void SetDefense(SpellEventData Data)
         {
