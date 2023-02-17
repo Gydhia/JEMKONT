@@ -5,6 +5,7 @@ using DownBelow.Inventory;
 using DownBelow.Managers;
 using Sirenix.OdinInspector;
 using System;
+using DownBelow.Entity;
 
 namespace DownBelow
 {
@@ -25,7 +26,7 @@ namespace DownBelow
         public GameObject DroppedItemPrefab;
 
         //Fields
-        public void Drop()
+        public void Drop(PlayerBehavior player)
         {
             //Player.ActualItem = null;
             //Instanciate dropped item prefab;

@@ -11,9 +11,10 @@ namespace DownBelow.UI.Inventory
 {
     public class UIInventoryTool : UIInventoryItem
     {
-        protected override void processEndDrag(PointerEventData eventData)
+        protected override bool DroppableOverUI => false;
+        protected override void dropOverUI(PointerEventData eventData)
         {
-
+            //RIEN
         }
     }
 }

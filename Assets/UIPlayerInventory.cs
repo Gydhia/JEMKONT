@@ -17,6 +17,7 @@ namespace DownBelow.UI.Inventory
         public UIInventoryItem SelectedItem;
 
         public UIStorage PlayerStorage;
+        public UIStorage PlayerSpecialStorage;
         public PlayerBehavior Holder;
 
         private InteractableStorage _nearestInteractable;
@@ -32,6 +33,7 @@ namespace DownBelow.UI.Inventory
             this.Holder = GameManager.Instance.SelfPlayer;
 
             this.PlayerStorage.SetStorageAndShow(Holder.PlayerInventory);
+            this.PlayerSpecialStorage.SetStorageAndShow(Holder.PlayerSpecialSlot);
 
             this.Holder.OnEnteredCell += _updateChestInteract;
             this.ToNearestStorageBtn.onClick.AddListener(this.MoveToNearestStorage);

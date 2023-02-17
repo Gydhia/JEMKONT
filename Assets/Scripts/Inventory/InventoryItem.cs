@@ -7,6 +7,7 @@ using UnityEngine;
 
 namespace DownBelow.Inventory
 {
+    [Serializable]
     public class InventoryItem
     {
         #region EVENTS

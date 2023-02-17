@@ -1,5 +1,6 @@
 using DownBelow.Events;
 using DownBelow.Inventory;
+using DownBelow.Managers;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -25,6 +26,9 @@ namespace DownBelow.UI.Inventory
 
         private Transform _parentAfterDrag;
         private Vector3 _positionAfterDrag;
+
+        protected virtual bool DroppableOverUI => true;
+        protected virtual bool DroppableOverWorld => true;
 
         private void Start()
         {
@@ -110,8 +114,13 @@ namespace DownBelow.UI.Inventory
         {
             if (this.TotalQuantity == 0)
                 return;
-
-            processEndDrag(eventData);
+            if (this.DroppableOverWorld && GridManager.Instance.LastHoveredCell != null)
+            {
+                this.dropOverWorld(eventData);
+            } else if (this.DroppableOverUI && LastHoveredItem != null && LastHoveredItem != this)
+            {
+                this.dropOverUI(eventData);
+            }
 
             selfButton.image.raycastTarget = true;
             if (selfButton.targetGraphic != null)
@@ -119,13 +128,18 @@ namespace DownBelow.UI.Inventory
             selfButton.transform.position = this._positionAfterDrag;
             selfButton.transform.SetParent(this._parentAfterDrag);
         }
-        protected virtual void processEndDrag(PointerEventData eventData)
+        protected virtual void dropOverUI(PointerEventData eventData)
         {
             if (LastHoveredItem && LastHoveredItem != this)
             {
                 int remainings = LastHoveredItem.SelfStorage.Storage.TryAddItem(this.SelfItem.ItemPreset, this.TotalQuantity, LastHoveredItem.Slot);
                 this.SelfStorage.Storage.RemoveItem(this.SelfItem.ItemPreset, this.TotalQuantity - remainings, this.Slot);
             }
+        }
+        protected virtual void dropOverWorld(PointerEventData eventData)
+        {
+            GridManager.Instance.LastHoveredCell.DropDownItem(SelfItem);
+            SelfStorage.Storage.RemoveItem(SelfItem.ItemPreset, SelfItem.Quantity);
         }
         public void OnPointerEnter(PointerEventData eventData)
         {

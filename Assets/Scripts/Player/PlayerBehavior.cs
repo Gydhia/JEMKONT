@@ -27,7 +27,8 @@ namespace DownBelow.Entity {
 
         public void FireEnteredCell(Cell cell) {
             //Cell contains grabbable item? Pick it up. 
-
+            if (cell.ItemContained.ItemPreset != null) 
+                cell.TryPickUpItem(this);
             this.OnEnteredCell?.Invoke(new CellEventData(cell));
         }
 
@@ -48,6 +49,7 @@ namespace DownBelow.Entity {
         #endregion
 
         public BaseStorage PlayerInventory;
+        public BaseStorage PlayerSpecialSlot;
 
         private DateTime _lastTimeAsked = DateTime.Now;
         private string _nextGrid = string.Empty;
@@ -87,6 +89,8 @@ namespace DownBelow.Entity {
             this.PlayerInventory = new BaseStorage();
             this.PlayerInventory.Init(
                 SettingsManager.Instance.GameUIPreset.SlotsByPlayer[Photon.Pun.PhotonNetwork.PlayerList.Length - 1]);
+            this.PlayerSpecialSlot = new BaseStorage();
+            this.PlayerSpecialSlot.Init(1);
         }
 
         private void Update()
@@ -96,8 +100,7 @@ namespace DownBelow.Entity {
             {
                 if(Time.time - timeWhenPressedR > 2f)
                 {
-                    ActiveTool.Drop();
-                    //Drop
+                    //DROP? Non fuck ok merci de rien 
                 }
             }
             if (Input.GetKeyDown(KeyCode.R)) timeWhenPressedR = 0;
@@ -176,6 +179,7 @@ namespace DownBelow.Entity {
                 this.EntityCell.EntityIn = null;
 
                 this.EntityCell = CurrentPath[targetCell];
+
 
                 this.EntityCell.Datas.state = CellState.EntityIn;
                 this.EntityCell.EntityIn = this;

@@ -4,6 +4,9 @@ using System.Runtime.Serialization;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using DownBelow.Entity;
+using DownBelow.Inventory;
+using Unity.Mathematics;
+using DownBelow.UI;
 
 namespace DownBelow.GridSystem
 {
@@ -13,6 +16,8 @@ namespace DownBelow.GridSystem
 
         public WorldGrid RefGrid;
 
+        public InventoryItem ItemContained = null;
+        private GameObject ItemContainedObject = null;
         #region Datas
         public CellData Datas;
 
@@ -56,10 +61,34 @@ namespace DownBelow.GridSystem
                 return;
             this.Datas.state = newState;
         }
-        
+
         public void RefreshCell()
         {
             this.ChangeCellState(this.Datas.state, true);
+        }
+
+        public void DropDownItem(InventoryItem item)
+        {
+            ItemContained = item;
+            ItemContainedObject = Instantiate(ItemContained.ItemPreset.DroppedItemPrefab, this.transform.position, quaternion.identity);
+            //Mettre un animator sur le prefab pour le faire tourner ou jsp
+        }
+
+        public void TryPickUpItem(PlayerBehavior player)
+        {
+            int qtyRemainingInItem = ItemContained.Quantity;
+            if (ItemContained.ItemPreset is ToolItem)
+            {
+                qtyRemainingInItem -= player.PlayerSpecialSlot.TryAddItem(ItemContained.ItemPreset, ItemContained.Quantity);
+            } else
+            {
+                qtyRemainingInItem -= player.PlayerInventory.TryAddItem(ItemContained.ItemPreset, ItemContained.Quantity);
+            }
+            ItemContained.RemoveQuantity(ItemContained.Quantity-qtyRemainingInItem);
+            if (ItemContained.Quantity <= 0)
+            {
+                Destroy(ItemContainedObject);
+            }
         }
     }
 
