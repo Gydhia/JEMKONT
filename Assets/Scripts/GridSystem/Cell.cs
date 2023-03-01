@@ -7,6 +7,7 @@ using DownBelow.Entity;
 using DownBelow.Inventory;
 using Unity.Mathematics;
 using DownBelow.UI;
+using UnityEditor;
 
 namespace DownBelow.GridSystem
 {
@@ -17,7 +18,7 @@ namespace DownBelow.GridSystem
         public WorldGrid RefGrid;
 
         public InventoryItem ItemContained = null;
-        private GameObject ItemContainedObject = null;
+        [SerializeField] private GameObject ItemContainedObject = null;
         #region Datas
         public CellData Datas;
 
@@ -72,6 +73,10 @@ namespace DownBelow.GridSystem
             ItemContained = item;
             ItemContainedObject = Instantiate(ItemContained.ItemPreset.DroppedItemPrefab, this.transform.position, quaternion.identity);
             //Mettre un animator sur le prefab pour le faire tourner ou jsp
+#if UNITY_EDITOR
+            EditorGUIUtility.PingObject(this);
+            Selection.activeObject = this;
+#endif
         }
 
         public void TryPickUpItem(PlayerBehavior player)
@@ -80,15 +85,22 @@ namespace DownBelow.GridSystem
             if (ItemContained.ItemPreset is ToolItem)
             {
                 qtyRemainingInItem -= player.PlayerSpecialSlot.TryAddItem(ItemContained.ItemPreset, ItemContained.Quantity);
+                player.ActiveTool = (ToolItem)ItemContained.ItemPreset;
             } else
             {
                 qtyRemainingInItem -= player.PlayerInventory.TryAddItem(ItemContained.ItemPreset, ItemContained.Quantity);
             }
-            /*ItemContained.RemoveQuantity(ItemContained.Quantity-qtyRemainingInItem);
+            ItemContained.RemoveQuantity(qtyRemainingInItem);
             if (ItemContained.Quantity <= 0)
             {
                 Destroy(ItemContainedObject);
-            }*/
+                ItemContained = null; ItemContainedObject = null;
+            }
+#if UNITY_EDITOR
+           // Debug.Log($"Actual Quantity : {ItemContained.Quantity}, Quantity returned: {qtyRemainingInItem}");
+            EditorGUIUtility.PingObject(this);
+            Selection.activeObject = this;
+#endif
         }
     }
 

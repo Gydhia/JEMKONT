@@ -9,6 +9,7 @@ using UnityEngine;
 
 namespace DownBelow.UI.Inventory
 {
+    [Serializable]
     public class BaseStorage
     {
         public InventoryItem[] StorageItems;
