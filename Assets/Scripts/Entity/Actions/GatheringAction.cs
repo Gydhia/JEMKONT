@@ -36,6 +36,7 @@ namespace DownBelow.Entity
                 {
                     ((PlayerBehavior)this.RefEntity).FireGatheringCanceled(CurrentRessource);
                     this.abortAction = false;
+                    EndAction();
                     yield break;
                 }
             }

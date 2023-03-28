@@ -205,40 +205,6 @@ namespace DownBelow.Managers
                 this.ExecuteNextFromCombatBuffer();
         }
 
-        // TODO : Since we're using BuffAction now, remove this later when no longer needed
-        public void BuffMovement(Cell targetCell, CharacterEntity refEntity, bool resetBuffer)
-        {
-            MovementAction movement = new MovementAction(refEntity, targetCell);
-
-            if (refEntity.CurrentGrid.IsCombatGrid)
-            {
-                CombatActionsBuffer.Add(movement);
-
-                if (!IsUsingCombatBuffer)
-                    this.ExecuteNextFromCombatBuffer();
-            } else
-            {
-                if (!NormalActionsBuffer.ContainsKey(refEntity))
-                    NormalActionsBuffer.Add(refEntity, new List<EntityAction>());
-
-                if (resetBuffer && NormalActionsBuffer[refEntity].Count > 0)
-                {
-                    // Abort the action if it's ongoing
-                    if (NormalActionsBuffer[refEntity][0] is ProgressiveAction pAction)
-                        pAction.AbortAction();
-
-                    // Remove everything after the first entry since we're not going to use it anymore
-                    if (NormalActionsBuffer[refEntity].Count > 1)
-                        NormalActionsBuffer[refEntity].RemoveRange(1, NormalActionsBuffer[refEntity].Count - 1);
-                }
-
-                NormalActionsBuffer[refEntity].Add(movement);
-
-                if (!IsUsingNormalBuffer)
-                    this.ExecuteNextNormalBuffer(refEntity);
-            }
-        }
-
         /// <summary>
         /// Used to buff any action into the combat or normal buffer according to the grid containing the entity
         /// </summary>
