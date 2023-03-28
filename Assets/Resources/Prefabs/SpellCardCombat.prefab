@@ -239,7 +239,7 @@ GameObject:
   - component: {fileID: 2577900669534779065}
   - component: {fileID: 4094393223376925304}
   m_Layer: 0
-  m_Name: SpellCard
+  m_Name: SpellCardCombat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
