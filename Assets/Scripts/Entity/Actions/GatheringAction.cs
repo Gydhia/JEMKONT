@@ -10,15 +10,10 @@ namespace DownBelow.Entity
     {
         public InteractableResource CurrentRessource = null;
 
-        public GatheringAction(CharacterEntity RefEntity, Cell TargetCell, InteractableResource CurrentRessource) 
+        public GatheringAction(CharacterEntity RefEntity, Cell TargetCell ) 
             : base(RefEntity, TargetCell)
         {
-            this.CurrentRessource = CurrentRessource;
-        }
-
-        public void Init(InteractableResource CurrentRessource)
-        {
-            this.CurrentRessource = CurrentRessource;
+            this.CurrentRessource = (InteractableResource)TargetCell.AttachedInteract;
         }
 
         public override void ExecuteAction()
@@ -41,22 +36,26 @@ namespace DownBelow.Entity
                 {
                     ((PlayerBehavior)this.RefEntity).FireGatheringCanceled(CurrentRessource);
                     this.abortAction = false;
+                    EndAction();
                     yield break;
                 }
             }
             CurrentRessource.Interact(this.RefEntity as PlayerBehavior);
 
             ((PlayerBehavior)this.RefEntity).FireGatheringEnded(CurrentRessource);
+
+            if (!this.abortAction)
+                EndAction();
         }
 
         public override object[] GetDatas()
         {
-            return new object[] { this.CurrentRessource };
+            return new object[0];
         }
 
         public override void SetDatas(object[] Datas)
         {
-            this.CurrentRessource = Datas[0] as InteractableResource;
+           
         }
     }
 }

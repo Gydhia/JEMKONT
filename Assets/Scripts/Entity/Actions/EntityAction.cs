@@ -26,13 +26,20 @@ namespace DownBelow.Entity
 
         public abstract void ExecuteAction();
 
+        /// <summary>
+        /// Notifies the buffer that the action is over. Normally, when overriding, you NEED to call the base.
+        /// </summary>
         public virtual void EndAction()
         {
             // Remove this action since we ended it, or it'll create an infinite loop
             GameManager.Instance.RemoveTopFromBuffer(this.RefEntity);
 
             if (this.EndCallback != null)
+            { 
+                Debug.Log($"Before invoking endcallback\n{this.EndCallback.Method.Name}.\n{GameManager.Instance.BufferStatus()}");
                 this.EndCallback.Invoke();
+                Debug.Log($"Invoked endcallback\n{this.EndCallback.Method.Name}.\n{GameManager.Instance.BufferStatus()}");
+            }
         }
 
         public abstract object[] GetDatas();

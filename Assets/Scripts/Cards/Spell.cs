@@ -53,6 +53,7 @@ namespace DownBelow.Spells
         {
             this.CurrentAction = UnityEngine.Object.Instantiate(this.ActionData, Vector3.zero, Quaternion.identity, CombatManager.Instance.CurrentPlayingEntity.gameObject.transform);
             this.CurrentAction.Execute(this.GetTargets(RefEntity, TargetCell), this);
+            EndAction();
         }
 
         public List<CharacterEntity> GetTargets(CharacterEntity caster, GridSystem.Cell cellTarget)
