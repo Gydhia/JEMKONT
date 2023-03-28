@@ -216,6 +216,7 @@ namespace DownBelow.Managers
             {
                 //If the entity is on a combat grid,simply queue the action and do it whenever it's your turn.
                 CombatActionsBuffer.Add(action);
+                action.RefBuffer = CombatActionsBuffer;
 
                 //Idk what that means
                 if (!IsUsingCombatBuffer)
@@ -242,6 +243,7 @@ namespace DownBelow.Managers
 
                 //Adding action to buffer
                 NormalActionsBuffer[action.RefEntity].Add(action);
+                action.RefBuffer = NormalActionsBuffer[action.RefEntity];
 
                 //Still don't know what that means
                 if (!IsUsingNormalBuffer)
@@ -252,17 +254,6 @@ namespace DownBelow.Managers
         public void BuffEnterGrid(string grid, CharacterEntity refEntity)
         {
 
-        }
-
-        public void RemoveTopFromBuffer(CharacterEntity refEntity)
-        {
-            if (refEntity.CurrentGrid.IsCombatGrid)
-            {
-                CombatActionsBuffer.RemoveAt(0);
-            } else
-            {
-                NormalActionsBuffer[refEntity].RemoveAt(0);
-            }
         }
 
         public void InsertToBuffer(EntityAction action)

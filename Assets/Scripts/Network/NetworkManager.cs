@@ -119,7 +119,7 @@ namespace DownBelow.Managers
         /// <param name="action"> The Action to buff.</param>
         public void EntityAskToBuffAction(EntityAction action)
         {
-            this.EntityAskToBuffAction(action, true);
+            this.EntityAskToBuffAction(action, !InputManager.Instance.IsPressingShift);
         }
 
         /// <summary>

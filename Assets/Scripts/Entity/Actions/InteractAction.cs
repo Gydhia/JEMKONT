@@ -7,7 +7,6 @@ namespace DownBelow.Entity
 {
     public class InteractAction : EntityAction
     {
-
         public InteractAction(CharacterEntity RefEntity, Cell TargetCell)
             : base(RefEntity, TargetCell)
         {
