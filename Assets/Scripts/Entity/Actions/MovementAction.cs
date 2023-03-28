@@ -36,7 +36,7 @@ namespace DownBelow.Entity
             // Useless to animate hidden players
             if (!this.RefEntity.gameObject.activeSelf)
             {
-                // /!\ TEMPORY ONLY, SET THE CELL AS THE LAST ONE OF PATH
+                // /!\ TEMPORARY ONLY, SET THE CELL AS THE LAST ONE OF PATH
                 // We should have events instead for later on
                 if (this.calculatedPath.Count > 0)
                     this.RefEntity.EntityCell = this.calculatedPath[^1];

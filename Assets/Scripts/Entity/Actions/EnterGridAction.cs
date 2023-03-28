@@ -26,6 +26,9 @@ namespace DownBelow.Entity
             player.EnterNewGrid(GridManager.Instance.GetGridFromName(this.TargetGrid) as CombatGrid);
 
             GameManager.Instance.FireEntityEnteredGrid(player);
+
+            //TODO: Abort all actions?
+            EndAction();
         }
 
         public override object[] GetDatas()

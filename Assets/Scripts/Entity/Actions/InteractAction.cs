@@ -18,6 +18,7 @@ namespace DownBelow.Entity
         public override void ExecuteAction()
         {
             TargetCell.AttachedInteract.Interact(this.RefEntity as PlayerBehavior);
+            EndAction();
         }
 
         public override object[] GetDatas()

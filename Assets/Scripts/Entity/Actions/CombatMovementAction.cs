@@ -7,6 +7,8 @@ namespace DownBelow.Entity
 {
     public class CombatMovementAction : MovementAction
     {
+
+
         public CombatMovementAction(CharacterEntity RefEntity, Cell TargetCell) : base(RefEntity, TargetCell)
         {
         }
