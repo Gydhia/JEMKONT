@@ -14,6 +14,9 @@ namespace DownBelow.GameData
         [Range(0f, 2f)]
         public float CellsEdgeOffset = 0.1f;
 
+        [Range(0.01f, 2f)]
+        public float TimeToCrossCell = 0.12f;
+
         public GameObject GridShader;
 
         public ArrowRenderer SpellArrowPrefab;

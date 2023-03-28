@@ -101,10 +101,10 @@ namespace DownBelow.Entity {
         private void MovementStraight() {
             GridPosition targPosition = CurrentTarget.EntityCell.PositionInGrid;
             var path = GridManager.Instance.FindPath(this, targPosition);
-            if (path.Count > this.Speed) {
-                NetworkManager.Instance.EntityAsksForPath(this, path[this.Speed], this.CurrentGrid);
-            }
-            NetworkManager.Instance.EntityAsksForPath(this, this.CurrentGrid);
+            if (path.Count > this.Speed) 
+                NetworkManager.Instance.EntityAskToBuffAction(new CombatMovementAction(this, path[this.Speed]));
+            else
+                NetworkManager.Instance.EntityAskToBuffAction(new CombatMovementAction(this, CurrentTarget.EntityCell));
         }
 
         /// <summary>
@@ -118,9 +118,9 @@ namespace DownBelow.Entity {
                 return;
 
             if (path.Count > this.Speed)
-                NetworkManager.Instance.EntityAsksForPath(this, path[this.Speed], this.CurrentGrid);
+                NetworkManager.Instance.EntityAskToBuffAction(new CombatMovementAction(this, path[this.Speed]));
             else
-                NetworkManager.Instance.EntityAsksForPath(this, path[path.Count - 1], this.CurrentGrid);
+                NetworkManager.Instance.EntityAskToBuffAction(new CombatMovementAction(this, path[path.Count - 1]));
         }
         #endregion
 

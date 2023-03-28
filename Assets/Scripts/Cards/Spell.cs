@@ -1,4 +1,5 @@
 using DownBelow.Entity;
+using DownBelow.GridSystem;
 using DownBelow.Managers;
 using DownBelow.Mechanics;
 using Sirenix.OdinInspector;
@@ -31,9 +32,10 @@ namespace DownBelow.Spells
         public SpellAction CurrentAction;
         [HideInInspector]
         public CharacterEntity Caster;
-        public GridSystem.Cell TargetCell;
 
-        public Spell(SpellAction ActionData, SpellCondition ConditionData = null,bool ApplyToCell = true, bool ApplyToSelf = false,bool ApplyToAllies=false, bool ApplyToAll=false) {
+        public Spell(CharacterEntity RefEntity, Cell TargetCell, SpellAction ActionData, SpellCondition ConditionData = null,bool ApplyToCell = true, bool ApplyToSelf = false,bool ApplyToAllies=false, bool ApplyToAll=false) 
+            : base (RefEntity, TargetCell)
+        {
             this.ActionData = ActionData;
             this.ConditionData = ConditionData;
             this.ApplyToCell = ApplyToCell;
@@ -42,27 +44,15 @@ namespace DownBelow.Spells
             this.ApplyToAll = ApplyToAll;
         }
 
-        public void Init(CharacterEntity caster, GridSystem.Cell targetCell, Spell parentSpell)
+        public void Init(Spell parentSpell)
         {
-            this.Caster = caster;
-            this.TargetCell = targetCell;
             this.ParentSpell = parentSpell;
         }
 
-        //public override void ExecuteAction(CharacterEntity RefEntity, Action EndCallback)
-        //{
-        //    base.ExecuteAction(RefEntity, EndCallback);
-
-        //    this.ExecuteSpell(RefEntity, null);
-        //}
-
-        public void ExecuteSpell(CharacterEntity caster, GridSystem.Cell cellTarget)
+        public override void ExecuteAction()
         {
-            this.Caster = caster;
-            this.TargetCell = cellTarget;
-
             this.CurrentAction = UnityEngine.Object.Instantiate(this.ActionData, Vector3.zero, Quaternion.identity, CombatManager.Instance.CurrentPlayingEntity.gameObject.transform);
-            this.CurrentAction.Execute(this.GetTargets(caster, cellTarget), this);            
+            this.CurrentAction.Execute(this.GetTargets(RefEntity, TargetCell), this);
         }
 
         public List<CharacterEntity> GetTargets(CharacterEntity caster, GridSystem.Cell cellTarget)
@@ -103,6 +93,17 @@ namespace DownBelow.Spells
             }
 
             return targets;
+        }
+
+        public override object[] GetDatas()
+        {
+            // temporary
+            return new object[0];
+        }
+
+        public override void SetDatas(object[] Datas)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,5 +1,6 @@
 using DownBelow.Entity;
 using DownBelow.Events;
+using DownBelow.GridSystem;
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
@@ -47,6 +48,18 @@ namespace DownBelow.Managers
         public PlayerBehavior SelfPlayer;
 
         public static bool GameStarted = false;
+
+        #region Players_Actions_Buffer
+
+        public static List<EntityAction> CombatActionsBuffer = new List<EntityAction>();
+        public static Dictionary<CharacterEntity, List<EntityAction>> NormalActionsBuffer =
+            new Dictionary<CharacterEntity, List<EntityAction>>();
+
+        public static bool IsUsingCombatBuffer = false;
+        public static bool IsUsingNormalBuffer = false;
+
+
+        #endregion
 
         private void Start()
         {
@@ -112,5 +125,154 @@ namespace DownBelow.Managers
                 this.FirePlayersWelcomed();
             }
         }
+
+
+        #region ENTITY_ACTIONS
+
+
+
+        private IEnumerator bufferWithDelay()
+        {
+            yield return new WaitForSeconds(SettingsManager.Instance.CombatPreset.DelayBetweenActions);
+            this.ExecuteNextFromCombatBuffer();
+        }
+        private void _executeNextFromCombatBufferDelayed()
+        {
+            StartCoroutine(this.bufferWithDelay());
+        }
+
+        public void ExecuteNextFromCombatBuffer()
+        {
+            if (CombatActionsBuffer.Count > 0) 
+            {
+                IsUsingCombatBuffer = true;
+
+                CombatActionsBuffer[0].SetCallback(_executeNextFromCombatBufferDelayed);
+                CombatActionsBuffer[0].ExecuteAction();
+            }
+            else
+                IsUsingCombatBuffer = false;
+        }
+
+        public void ExecuteNextNormalBuffer(CharacterEntity refEntity)
+        {
+            if(NormalActionsBuffer[refEntity].Count > 0)
+            {
+                IsUsingNormalBuffer = true;
+
+                NormalActionsBuffer[refEntity][0].SetCallback(() => ExecuteNextNormalBuffer(refEntity));
+                NormalActionsBuffer[refEntity][0].ExecuteAction();
+            }
+            else
+                IsUsingNormalBuffer = false;
+        }
+
+        public void BuffSpell(Mechanics.ScriptableCard spellDatas, Cell targetCell, CharacterEntity refEntity)
+        {
+            // TODO : Not working since we're not using the constructor, when refactoring the combat find a way to do so
+            for (int i = 0; i < spellDatas.Spells.Length; i++)
+                spellDatas.Spells[i].Init(i > 0 ? spellDatas.Spells[i - 1] : null);
+
+            CombatActionsBuffer.AddRange(spellDatas.Spells);
+
+            if (!IsUsingCombatBuffer)
+                this.ExecuteNextFromCombatBuffer();
+        }
+
+        // TODO : Since we're using BuffAction now, remove this later when no longer needed
+        public void BuffMovement(Cell targetCell, CharacterEntity refEntity, bool resetBuffer = true)
+        {
+            MovementAction movement = new MovementAction(refEntity, targetCell);
+
+            if (refEntity.CurrentGrid.IsCombatGrid)
+            {
+                CombatActionsBuffer.Add(movement);
+
+                if (!IsUsingCombatBuffer)
+                    this.ExecuteNextFromCombatBuffer();
+            }
+            else 
+            {
+                if (!NormalActionsBuffer.ContainsKey(refEntity))
+                    NormalActionsBuffer.Add(refEntity, new List<EntityAction>());
+
+                if (resetBuffer && NormalActionsBuffer[refEntity].Count > 0)
+                {
+                    // Abort the action if it's ongoing
+                    if(NormalActionsBuffer[refEntity][0] is ProgressiveAction pAction)
+                        pAction.AbortAction();
+
+                    // Remove everything after the first entry since we're not going to use it anymore
+                    if (NormalActionsBuffer[refEntity].Count > 1)
+                        NormalActionsBuffer[refEntity].RemoveRange(1, NormalActionsBuffer[refEntity].Count - 1);
+                }
+
+                NormalActionsBuffer[refEntity].Add(movement);
+
+                if (!IsUsingNormalBuffer)
+                    this.ExecuteNextNormalBuffer(refEntity);
+            }
+        }
+
+        /// <summary>
+        /// Used to buff any action into the combat or normal buffer according to the grid containing the entity
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="resetBuffer">If we empty all the buffer to only keep the passed action</param>
+        public void BuffAction(EntityAction action, bool resetBuffer = true)
+        {
+            if (action.RefEntity.CurrentGrid.IsCombatGrid)
+            {
+                CombatActionsBuffer.Add(action);
+
+                if (!IsUsingCombatBuffer)
+                    this.ExecuteNextFromCombatBuffer();
+            }
+            else
+            {
+                if (!NormalActionsBuffer.ContainsKey(action.RefEntity))
+                    NormalActionsBuffer.Add(action.RefEntity, new List<EntityAction>());
+
+                if (resetBuffer && NormalActionsBuffer[action.RefEntity].Count > 0)
+                {
+                    // Abort the action if it's ongoing
+                    if (NormalActionsBuffer[action.RefEntity][0] is ProgressiveAction pAction)
+                        pAction.AbortAction();
+
+                    // Remove everything after the first entry since we're not going to use it anymore
+                    if (NormalActionsBuffer[action.RefEntity].Count > 1)
+                        NormalActionsBuffer[action.RefEntity].RemoveRange(1, NormalActionsBuffer[action.RefEntity].Count - 1);
+                }
+
+                NormalActionsBuffer[action.RefEntity].Add(action);
+
+                if (!IsUsingNormalBuffer)
+                    this.ExecuteNextNormalBuffer(action.RefEntity);
+            }
+        }
+
+        public void BuffEnterGrid(string grid, CharacterEntity refEntity)
+        {
+
+        }
+
+        public void RemoveTopFromBuffer(CharacterEntity refEntity)
+        {
+            if (refEntity.CurrentGrid.IsCombatGrid)
+            {
+                CombatActionsBuffer.RemoveAt(0);
+            }
+            else
+            {
+                NormalActionsBuffer[refEntity].RemoveAt(0);
+            }
+        }
+
+        public void InsertToBuffer(EntityAction action)
+        {
+            CombatActionsBuffer.Insert(0, action);
+        }
+
+        #endregion
     }
 }

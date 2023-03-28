@@ -59,6 +59,22 @@ namespace DownBelow.Managers {
 
         private ArrowRenderer _spellArrow;
 
+        public WorldGrid GetGridFromName(string name)
+        {
+            if (this.WorldGrids.ContainsKey(name))
+                return this.WorldGrids[name];
+            else
+            {
+                foreach (var worldGrid in this.WorldGrids)
+                {
+                    if (worldGrid.Value.InnerCombatGrids.ContainsKey(name))
+                        return worldGrid.Value.InnerCombatGrids[name];
+                }
+            }
+
+            return null;
+        }
+
         public void Init() 
         {
             base.Awake();
@@ -119,7 +135,6 @@ namespace DownBelow.Managers {
                 // When not grabbing card
                 if(CombatManager.Instance.CurrentCard == null)
                 {
-
                     if (selfPlayer.IsAutoAttacking)
                     {
                         if (LastHoveredCell.Datas.state == CellState.EntityIn)
@@ -129,17 +144,8 @@ namespace DownBelow.Managers {
                     }
                     else if (this.LastHoveredCell.Datas.state == CellState.Walkable && this._possiblePath.Contains(this.LastHoveredCell))
                     {
-                        //TODO: Rework the combat /out-of - combat network callbacks and structure
-                        selfPlayer.AskToGo(this.LastHoveredCell, string.Empty);
-
-                        selfPlayer.EntityCell
-                            .ChangeCellState(CellState.Walkable);
-
-                        selfPlayer.CurrentGrid
-                            .Cells[this.LastHoveredCell.Datas.heightPos, this.LastHoveredCell.Datas.widthPos]
-                                .ChangeCellState(CellState.EntityIn);
+                        NetworkManager.Instance.EntityAskToBuffAction(new CombatMovementAction(selfPlayer, this.LastHoveredCell));
                     }
-
                 }
             }
             // When out of combat
@@ -154,13 +160,14 @@ namespace DownBelow.Managers {
                     closestCell = GridUtility.GetClosestCellToShape(selfPlayer.CurrentGrid, cell.Datas.heightPos, cell.Datas.widthPos, 1, 1, selfPlayer.EntityCell.PositionInGrid);
                     selfPlayer.NextInteract = InputManager.Instance.LastInteractable;
 
-                    if (GridUtility.IsNeighbourCell(closestCell, selfPlayer.EntityCell))
+                    if (!GridUtility.IsNeighbourCell(closestCell, selfPlayer.EntityCell))
                     {
-                        NetworkManager.Instance.PlayerAsksToInteract(selfPlayer.NextInteract.RefCell);
-                        selfPlayer.NextInteract = null;
+                        NetworkManager.Instance.EntityAskToBuffAction(new MovementAction(selfPlayer, closestCell));
+                    }
 
-                        return;
-                    }   
+                    NetworkManager.Instance.EntityAskToBuffAction(new InteractAction(selfPlayer, cell));
+
+                    return;
                 }
                 else
                 {
@@ -170,9 +177,13 @@ namespace DownBelow.Managers {
                         otherGrid = this.LastHoveredCell.RefGrid.UName;
                     }
                 }
-
+                
                 if (closestCell != null)
-                    selfPlayer.AskToGo(closestCell, otherGrid);
+                {
+                    NetworkManager.Instance.EntityAskToBuffAction(new MovementAction(selfPlayer, closestCell));
+                    if(!string.IsNullOrEmpty(otherGrid))
+                        NetworkManager.Instance.EntityAskToBuffAction(new EnterGridAction(selfPlayer, closestCell, otherGrid));
+                }
             }
         }
         public void ProcessCellClickDown(CellEventData data) 

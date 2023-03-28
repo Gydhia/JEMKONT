@@ -83,72 +83,49 @@ namespace DownBelow.Managers {
         #endregion
 
         #region Players_Callbacks
-        public void EntityAsksForPath(CharacterEntity entity, WorldGrid refGrid)
+
+        public void EntityAskToBuffAction(EntityAction action)
         {
-            string mainGrid = refGrid is CombatGrid cGrid ? cGrid.ParentGrid.UName : refGrid.UName;
-            string innerGrid = mainGrid == refGrid.UName ? string.Empty : refGrid.UName;
-            int[] positions = GridManager.Instance.SerializePathData(entity.CurrentPath);
-
-            this.photonView.RPC("RPC_RespondWithEntityProcessedPath", RpcTarget.All, entity.UID, positions, mainGrid, innerGrid);
-        }
-        public void EntityAsksForPath(CharacterEntity entity, Cell target, WorldGrid refGrid)
-        {
-            string mainGrid = refGrid is CombatGrid cGrid ? cGrid.ParentGrid.UName : refGrid.UName;
-            string innerGrid = mainGrid == refGrid.UName ? string.Empty : refGrid.UName;
-
-            var path = GridManager.Instance.FindPath(entity,target.PositionInGrid);
-            int[] positions = GridManager.Instance.SerializePathData(path);
-
-            this.photonView.RPC("RPC_RespondWithEntityProcessedPath",RpcTarget.All,entity.UID,positions,mainGrid,innerGrid);
+            this.photonView.RPC("RPC_RespondWithProcessedBuffedAction", RpcTarget.All,
+                action.RefEntity.UID,
+                action.RefEntity.CurrentGrid.UName,
+                new int[2] { action.TargetCell.PositionInGrid.latitude, action.TargetCell.PositionInGrid.longitude },
+                action.GetType().ToString(),
+                action.GetDatas()
+             );
         }
 
         [PunRPC]
-        public void RPC_RespondWithEntityProcessedPath(string entityID,int[] pathResult,string mainGrid,string innerGrid) 
+        public void RPC_RespondWithProcessedBuffedAction(string entityID, string grid, int[] gridLocation, string actionType, object[] datas)
         {
-            // TODO : remove dat Ugly func
-            EnemyEntity entity = innerGrid != string.Empty ?
-                GridManager.Instance.WorldGrids[mainGrid].InnerCombatGrids[innerGrid].GridEntities.First(e => e.UID == entityID) as EnemyEntity :
-                GridManager.Instance.WorldGrids[mainGrid].GridEntities.First(e => e.UID == entityID) as EnemyEntity;
+            WorldGrid entityGrid = GridManager.Instance.GetGridFromName(grid);
+            Cell targetCell = entityGrid.Cells[gridLocation[0], gridLocation[1]];
+            CharacterEntity entity = entityGrid.GridEntities.Single(e => e.UID == entityID);
 
-            // We manage the fact that 2 players won't obv be on the same grid, so we send the player
-            entity.MoveWithPath(GridManager.Instance.DeserializePathData(entity,pathResult),string.Empty);
+            object[] fullDatas = new object[datas.Length + 2];
+            fullDatas[0] = entity;
+            fullDatas[1] = targetCell;
+            for (int i = 2; i < fullDatas.Length; i++)
+                fullDatas[i] = datas[i - 2];
+
+            Type type = Type.GetType(actionType);
+            EntityAction myAction = Activator.CreateInstance(type, fullDatas) as EntityAction;
+
+            myAction.RefEntity = entity;
+            // 0 is latitude (height), 1 is longitude (width)
+            myAction.TargetCell = targetCell;
+
+            myAction.SetDatas(datas);
+
+            GameManager.Instance.BuffAction(myAction);
         }
 
-        public void PlayerAsksForPath(PlayerBehavior player,GridSystem.Cell target,string otherGrid) 
-        {
-            var path = GridManager.Instance.FindPath(GameManager.Instance.Players[player.PlayerID], target.PositionInGrid);
 
-            int[] positions = GridManager.Instance.SerializePathData(path);
+        // /IMPORTANT\ REPLUG IT KILLIAN PLEASE
+        //// TODO: For now we only need to notify the UIManager, think about creating an event later if there are further needs
+        //if (GameManager.Instance.SelfPlayer == movingPlayer)
+        //    UIManager.Instance.PlayerMoved();
 
-            this.photonView.RPC("RPC_RespondWithProcessedPath",RpcTarget.All,player.PlayerID,positions,otherGrid);
-        }
-
-        [PunRPC]
-        public void RPC_RespondWithProcessedPath(object[] pathDatas) {
-            PlayerBehavior movingPlayer = GameManager.Instance.Players[pathDatas[0].ToString()];
-            // We manage the fact that 2 players won't obv be on the same grid, so we send the player
-            movingPlayer.MoveWithPath(GridManager.Instance.DeserializePathData(movingPlayer,(int[])pathDatas[1]),pathDatas[2].ToString());
-
-            // TODO: For now we only need to notify the UIManager, think about creating an event later if there are further needs
-            if (GameManager.Instance.SelfPlayer == movingPlayer)
-                UIManager.Instance.PlayerMoved();
-        }
-
-        public void PlayerAsksToEnterGrid(PlayerBehavior player,WorldGrid mainGrid,string targetGrid) {
-            this.photonView.RPC("RPC_RespondToEnterGrid",RpcTarget.All,player.PlayerID,mainGrid.UName,targetGrid);
-        }
-
-        [PunRPC]
-        public void RPC_RespondToEnterGrid(string playerID,string mainGrid,string targetGrid) {
-            GameManager.Instance.FireEntityExitingGrid(playerID);
-
-            if (!GridManager.Instance.WorldGrids[mainGrid].InnerCombatGrids.ContainsKey(targetGrid))
-                Debug.LogError("Couldn't find mainGrid's inner grid called : " + targetGrid + ". Count of innerGrids is : " + GridManager.Instance.WorldGrids[mainGrid].InnerCombatGrids.Count);
-
-            GameManager.Instance.Players[playerID].EnterNewGrid(GridManager.Instance.WorldGrids[mainGrid].InnerCombatGrids[targetGrid] as CombatGrid);
-
-            GameManager.Instance.FireEntityEnteredGrid(playerID);
-        }
 
         // /!\ Only one combat can be active at the moment, that is important
         public void PlayerAsksToStartCombat()
@@ -160,30 +137,6 @@ namespace DownBelow.Managers {
         public void RPC_RespondToStartCombat(string playerID) 
         {
             CombatManager.Instance.StartCombat(GameManager.Instance.Players[playerID].CurrentGrid as CombatGrid);
-        }
-
-        public void PlayerAsksToInteract(Cell interaction)
-        {
-            this.photonView.RPC("RPC_RespondToInteract",RpcTarget.All,GameManager.Instance.SelfPlayer.PlayerID,interaction.PositionInGrid.latitude,interaction.PositionInGrid.longitude);
-        }
-
-        [PunRPC]
-        public void RPC_RespondToInteract(string playerID,int latitude,int longitude)
-        {
-            PlayerBehavior player = GameManager.Instance.Players[playerID];
-            player.Interact(player.CurrentGrid.Cells[latitude,longitude]);
-        }
-
-        public void PlayerCanceledInteract(Cell interaction) 
-        {
-            this.photonView.RPC("RPC_RespondCancelInteract",RpcTarget.All,GameManager.Instance.SelfPlayer.PlayerID,interaction.PositionInGrid.latitude,interaction.PositionInGrid.longitude);
-        }
-
-        [PunRPC]
-        public void RPC_RespondCancelInteract(string playerID,int latitude,int longitude) 
-        {
-            PlayerBehavior player = GameManager.Instance.Players[playerID];
-            player.Interact(player.CurrentGrid.Cells[latitude,longitude]);
         }
 
         public void GiftOrRemovePlayerItem(string playerID, ItemPreset item, int quantity) 

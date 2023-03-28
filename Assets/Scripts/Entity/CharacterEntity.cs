@@ -47,7 +47,27 @@ namespace DownBelow.Entity
         public event GameEventData.Event OnDamageTaken;
         public event GameEventData.Event OnDeath;
 
-        protected List<EntityAction> actionsBuffer;
+
+        public event CellEventData.Event OnEnteredCell;
+        public event CellEventData.Event OnExitedCell;
+
+        public void FireExitedCell()
+        {
+            this.EntityCell.Datas.state = CellState.Walkable;
+            this.EntityCell.EntityIn = null;
+
+            this.OnEnteredCell?.Invoke(new CellEventData(this.EntityCell));
+        }
+
+        public void FireEnteredCell(Cell cell)
+        {
+            this.EntityCell = cell;
+            this.EntityCell.EntityIn = this;
+            this.EntityCell.Datas.state = CellState.EntityIn;
+
+            this.OnExitedCell?.Invoke(new CellEventData(cell));
+        }
+
         protected EntityStats RefStats;
 
         [OdinSerialize] public List<Alteration> Alterations = new();
@@ -117,6 +137,8 @@ namespace DownBelow.Entity
         public int NumberOfTurnsPlayed = 0;
 
 
+        public List<EntityAction> EntityActionsBuffer = new List<EntityAction>();
+
         public bool TryGoTo(Cell destination, int cost) 
         {
             this.EntityCell.EntityIn = null;
@@ -160,61 +182,6 @@ namespace DownBelow.Entity
             this.HealthFill.transform.LookAt(Camera.main.transform.position);
             this.ShieldFill.transform.LookAt(Camera.main.transform.position);
         }
-
-        #region MOVEMENTS
-
-        public virtual void MoveWithPath(List<Cell> newPath, string otherGrid, System.Action AtEnd = null) 
-        {
-            // Useless to animate hidden players
-            if (!this.gameObject.activeSelf) {
-                // /!\ TEMPORY ONLY, SET THE CELL AS THE LAST ONE OF PATH
-                // We should have events instead for later on
-                this.EntityCell = newPath[^1];
-                return;
-            }
-
-            if (this.moveCor == null) {
-                this.CurrentPath = newPath;
-                // That's ugly, find a clean way to build the path instead
-                if (!this.CurrentPath.Contains(this.EntityCell))
-                    this.CurrentPath.Insert(0,this.EntityCell);
-                this.moveCor = StartCoroutine(FollowPath());
-            }
-        }
-
-        public virtual IEnumerator FollowPath() {
-            this.IsMoving = true;
-            int currentCell = 0, targetCell = 1;
-
-            float timer;
-            while (currentCell < this.CurrentPath.Count - 1) {
-                timer = 0f;
-                while (timer <= 0.2f) {
-                    this.transform.position = Vector3.Lerp(CurrentPath[currentCell].gameObject.transform.position,CurrentPath[targetCell].gameObject.transform.position,timer / 0.2f);
-                    timer += Time.deltaTime;
-                    yield return null;
-                }
-
-                this.EntityCell.Datas.state = CellState.Walkable;
-                this.EntityCell.EntityIn = null;
-
-                this.EntityCell = CurrentPath[targetCell];
-
-                this.EntityCell.Datas.state = CellState.EntityIn;
-                this.EntityCell.EntityIn = this;
-
-                currentCell++;
-                targetCell++;
-
-                if (targetCell <= this.CurrentPath.Count - 1)
-                    this.NextCell = CurrentPath[targetCell];
-            }
-
-            this.moveCor = null;
-            this.IsMoving = false;
-        }
-
-        #endregion
 
         #region ATTACKS
         /// <summary>
@@ -556,41 +523,6 @@ GridPos : {EntityCell}";
         }
         #endregion
 
-        #region ENTITY_ACTIONS
-        public void ExecuteSpell(Mechanics.ScriptableCard spellDatas, GridSystem.Cell targetCell, int index = 0)
-        {
-            for (int i = 0; i < spellDatas.Spells.Length; i++)
-                spellDatas.Spells[i].Init(this, targetCell, i > 0 ? spellDatas.Spells[i - 1] : null);
-
-            this.actionsBuffer.AddRange(spellDatas.Spells);
-        }
-
-        public void ExecuteMovement(Cell targetCell)
-        {
-            MovementAction movement = new MovementAction();
-            movement.Init(this, targetCell, "");
-            this.actionsBuffer.Add(movement);
-        }
-
-        public void InsertToBuffer(EntityAction action)
-        {
-            this.actionsBuffer.Insert(0, action);
-
-        }
-
-        protected void updateBuffer()
-        {
-            if(this.actionsBuffer.Count > 1)
-            {
-                this.actionsBuffer[0].SetCallback(this.actionsBuffer[1].ExecuteAction);
-                this.actionsBuffer[0].ExecuteAction();
-            }
-            else if(this.actionsBuffer.Count > 0)
-            {
-                this.actionsBuffer[0].ExecuteAction();
-            }
-        }
-        #endregion
     }
 }
 
