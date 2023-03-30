@@ -9,6 +9,9 @@ namespace DownBelow.Entity
 {
     public abstract class EntityAction
     {
+        // Since we have the reference here, we can remove ourself without any help
+        public List<EntityAction> RefBuffer;
+
         public CharacterEntity RefEntity;
         public Cell TargetCell;
         protected System.Action EndCallback;
@@ -32,7 +35,7 @@ namespace DownBelow.Entity
         public virtual void EndAction()
         {
             // Remove this action since we ended it, or it'll create an infinite loop
-            GameManager.Instance.RemoveTopFromBuffer(this.RefEntity);
+            this.RefBuffer.Remove(this);
 
             if (this.EndCallback != null)
             { 

@@ -152,7 +152,7 @@ namespace DownBelow.Managers
                 }
             }
             // When out of combat
-            else if (this.LastHoveredCell.Datas.state != CellState.Blocked)
+            else if (!selfPlayer.CurrentGrid.IsCombatGrid && this.LastHoveredCell.Datas.state != CellState.Blocked)
             {
                 Cell closestCell = this.LastHoveredCell;
                 string otherGrid = string.Empty;
@@ -169,10 +169,10 @@ namespace DownBelow.Managers
                     }
                     if (cell.AttachedInteract is InteractableResource)
                     {
-                        NetworkManager.Instance.EntityAskToBuffAction(new GatheringAction(selfPlayer, cell), false);
+                        NetworkManager.Instance.EntityAskToBuffAction(new GatheringAction(selfPlayer, cell));
                     } else
                     {
-                        NetworkManager.Instance.EntityAskToBuffAction(new InteractAction(selfPlayer, cell), false);
+                        NetworkManager.Instance.EntityAskToBuffAction(new InteractAction(selfPlayer, cell));
                     }
 
                     return;
@@ -187,9 +187,14 @@ namespace DownBelow.Managers
 
                 if (closestCell != null)
                 {
-                    NetworkManager.Instance.EntityAskToBuffAction(new MovementAction(selfPlayer, closestCell));
-                    if (!string.IsNullOrEmpty(otherGrid))
-                        NetworkManager.Instance.EntityAskToBuffAction(new EnterGridAction(selfPlayer, closestCell, otherGrid));
+                    if (string.IsNullOrEmpty(otherGrid))
+                        NetworkManager.Instance.EntityAskToBuffAction(new MovementAction(selfPlayer, closestCell));
+                    else
+                        NetworkManager.Instance.EntityAskToBuffActions(new EntityAction[2]
+                        {
+                            new MovementAction(selfPlayer, closestCell),
+                            new EnterGridAction(selfPlayer, closestCell, otherGrid)
+                        });
                 }
             }
         }

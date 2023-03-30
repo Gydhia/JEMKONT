@@ -12,7 +12,7 @@ using DG.Tweening;
 using DownBelow.Events;
 using Sirenix.Utilities;
 
-public class CardComponent : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler, IPointerDownHandler, IPointerExitHandler 
+public class DraggableCard : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler, IPointerDownHandler, IPointerExitHandler 
 {
     public ScriptableCard CardData;
     public Image IllustrationImage;

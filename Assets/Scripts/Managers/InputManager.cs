@@ -38,10 +38,14 @@ namespace DownBelow.Managers
         public Interactable LastInteractable;
         public EventSystem EventSystem;
 
+        public bool IsPressingShift = false;
+
         private void Update()
         {
             if (!GameManager.GameStarted)
                 return;
+
+            this.IsPressingShift = Input.GetKey(KeyCode.LeftShift);
 
             #region CELLS_RAYCAST
             RaycastHit hit;

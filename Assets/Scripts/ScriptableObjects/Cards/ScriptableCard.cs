@@ -1,6 +1,7 @@
 using DownBelow.Entity;
 using DownBelow.Spells;
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -24,6 +25,7 @@ namespace DownBelow.Mechanics
         public string Description;
         public Sprite IllustrationImage;
 
+        [OdinSerialize]
         public Spell[] Spells;
         private void OnValidate() {
             Title = name;

@@ -3,19 +3,44 @@ using DownBelow.GridSystem;
 using DownBelow.Managers;
 using DownBelow.Mechanics;
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
+using Sirenix.Utilities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 namespace DownBelow.Spells
 {
-    [Serializable]
     public class Spell : EntityAction
     {
         public Spell ParentSpell;
         public SpellCondition ConditionData;
         public SpellAction ActionData;
+
+        [TableMatrix(DrawElementMethod = "_drawCell"), OdinSerialize]
+        public bool[,] CastingMatrix;
+
+        [TableMatrix(DrawElementMethod = "_drawCell"), OdinSerialize]
+        public bool[,] SpellShapeMatrix = new bool[5, 5];
+
+        private static bool _drawCell(Rect rect, bool value)
+        {
+            if(Event.current.type == EventType.MouseDown && rect.Contains(Event.current.mousePosition))
+            {
+                value = !value;
+                GUI.changed = true;
+                Event.current.Use();
+            }
+
+            EditorGUI.DrawRect(
+                rect.Padding(1),
+                value ? new Color(0.1f, 0.8f, 0.2f)
+                : new Color(0f, 0f, 0f, 0.5f));
+
+            return value;
+        }
 
         public bool ApplyToCell = true;
         public bool ApplyToSelf = false;
