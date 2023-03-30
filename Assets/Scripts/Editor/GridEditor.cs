@@ -106,7 +106,7 @@ public class GridEditor : OdinEditor
 
                     GridUtility.ResizeGrid(
                         ref this._target.InnerGrids[i].CellDatas,
-                        this.ResizeArrayTwo(currGrid.CellDatas, currGrid.GridHeight, currGrid.GridWidth, resizeDown));
+                        ArrayHelper.ResizeArrayTwo(currGrid.CellDatas, currGrid.GridHeight, currGrid.GridWidth, resizeDown));
 
                     this._setInnerGrid(ref g, currGrid);
                 }
@@ -134,7 +134,7 @@ public class GridEditor : OdinEditor
                 resizeDown = true;
 
             GridUtility.ResizeGrid(ref this._target.CellDatas,
-                this.ResizeArrayTwo(_target.CellDatas, this._target.GridHeight, this._target.GridWidth, resizeDown));
+                ArrayHelper.ResizeArrayTwo(_target.CellDatas, this._target.GridHeight, this._target.GridWidth, resizeDown));
 
             this._oldWidth = this._target.GridWidth;
             this._oldHeight = this._target.GridHeight;
@@ -291,27 +291,5 @@ public class GridEditor : OdinEditor
         }
     }
 
-    protected T[,] ResizeArrayTwo<T>(T[,] original, int newCoNum, int newRoNum, bool resizeDown)
-    {
-        var newArray = new T[newCoNum, newRoNum];
-        int columnCount = original.GetLength(1);
-        int columnCount2 = newRoNum;
-        int columns = original.GetUpperBound(0);
-        if (resizeDown)
-        {
-            // Since 2D arrays are only one line of elements, we need to offset the difference if we go from 5 to 3 or else
-            if(newRoNum < columnCount)
-                for (int co = 0; co <= columns; co++)
-                    Array.Copy(original, co * newRoNum + (co * (columnCount - newRoNum)), newArray, co * columnCount2, newRoNum);
-            // For columns we shouldn't try to copy in the new array more than we have
-            else
-                for (int co = 0; co < newCoNum; co++)
-                    Array.Copy(original, co * columnCount, newArray, co * columnCount2, columnCount);
-        }
-        else
-            for (int co = 0; co <= columns; co++)
-                Array.Copy(original, co * columnCount, newArray, co * columnCount2, columnCount);
-        
-        return newArray;
-    }
+   
 }
