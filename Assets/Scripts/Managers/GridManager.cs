@@ -19,17 +19,11 @@ namespace DownBelow.Managers
     public class GridManager : _baseManager<GridManager>
     {
         #region Assets_reference
-
-        public Vector2 FirstSpawn;
-        public Vector2 SecondSpawn;
-        public Vector2 ThirdSpawn;
-        public Vector2 FourthSpawn;
-
         public Cell CellPrefab;
 
         [SerializeField] public WorldGrid CombatGridPrefab;
         [SerializeField] private Transform _objectsHandler;
-        [SerializeField] private Transform _gridsDataHandler;
+        [SerializeField] public Transform _gridsDataHandler;
 
         #endregion
 
@@ -53,8 +47,6 @@ namespace DownBelow.Managers
         public Texture2D BitmapTexture;
         public Material BitmapShader;
         public GameObject GridShader;
-
-        public GameObject TestPlane;
 
         public Cell LastHoveredCell;
 
@@ -648,6 +640,7 @@ namespace DownBelow.Managers
 
             foreach (Transform child in this.transform)
             {
+                // TODO : still need this ?
                 if (!child.TryGetComponent(out ArrowRenderer rend))
                 {
 #if UNITY_EDITOR
@@ -658,7 +651,26 @@ namespace DownBelow.Managers
                 }
             }
 
+            if (!Application.isPlaying)
+            {
+                if (this.GridShader == null)
+                {
+                    GameObject gridChild = null;
+                    foreach (Transform child in this._gridsDataHandler)
+                        if (child.name.Contains("GridDisplay"))
+                            gridChild = child.gameObject;
+
+                    if (gridChild == null)
+                        this.GridShader = Instantiate(SettingsManager.Instance.GridsPreset.GridShader, this._gridsDataHandler);
+                    else
+
+                        this.GridShader = gridChild;
+                }
+            }
+            else
             this.GridShader = Instantiate(SettingsManager.Instance.GridsPreset.GridShader, this.transform);
+
+
             this.GridShader.transform.localScale = new Vector3((float)world.GridWidth / 10f, 1f, (float)world.GridHeight / 10f);
             this.GridShader.transform.position = new Vector3(world.TopLeftOffset.x + (world.GridWidth * cellSize) / 2f, world.TopLeftOffset.y, world.TopLeftOffset.z + -(world.GridHeight * cellSize) / 2f);
 
@@ -799,7 +811,7 @@ namespace DownBelow.Managers
             this.BitmapTexture.Apply();
         }
 
-        #endregion
+#endregion
     }
 
     [Serializable]

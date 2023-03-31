@@ -10,6 +10,13 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "EditorGridData", menuName = "DownBelow/Editor/EditorGridData", order = 0)]
 public class GridDataScriptableObject : SerializedBigDataScriptableObject<EditorGridData>
 {
+    #region Comparator_values
+    private int _oldHeight = -1;
+    private int _oldWidth = -1;
+
+    private Vector3 _oldPosition;
+    #endregion
+
     public float cellsWidth => SettingsManager.Instance.GridsPreset.CellsSize;
 
     [HideInInspector]
@@ -25,10 +32,7 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
     [Button(ButtonSizes.Large), HorizontalGroup("De_Serialization", 0.5f), BoxGroup("De_Serialization/Modifications"), GUIColor(1f, 0.9f, 0.75f)]
     public void Apply()
     {
-        this.ResizePlane();
-        //GridManager.Instance.GenerateShaderBitmap(newGrid, null, true);
-        int wi = this.LazyLoadedData.GridWidth;
-        int he = this.LazyLoadedData.GridHeight;
+        this.ApplyModifications();
     }
 
     private string PenButtonName = "DRAW";
@@ -49,6 +53,7 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
     public void SaveGrid()
     {
         GridManager.Instance.SaveGridAsJSON(this.GetGridData(), this.SelectedGrid);
+        this.ReloadGrid();
     }
 
 
@@ -96,7 +101,7 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
         if (GridManager.Instance.SavedGrids.TryGetValue(this.SelectedGrid, out GridData newGrid))
         {
             this.LazyLoadedData.TopLeftOffset = newGrid.TopLeftOffset;
-            GridManager.Instance.transform.position = this.LazyLoadedData.TopLeftOffset;
+            GridManager.Instance._gridsDataHandler.position = this.LazyLoadedData.TopLeftOffset;
 
             GridManager.Instance.LoadEveryEntities();
 
@@ -126,6 +131,11 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
                 this.LazyLoadedData.Spawnables.Clear();
 
             GridManager.Instance.GenerateShaderBitmap(newGrid, null, true);
+            this.ResizePlane();
+
+            this._oldHeight = this.LazyLoadedData.GridHeight;
+            this._oldWidth = this.LazyLoadedData.GridWidth;
+            this._oldPosition= this.LazyLoadedData.TopLeftOffset;
         }
     }
 
@@ -176,13 +186,14 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
                 this.PlanePrefab,
                 new Vector3(
                     (this.LazyLoadedData.GridWidth * cellsWidth) / 2,
-                    0f,
+                    -0.01f,
                     -(this.LazyLoadedData.GridHeight * cellsWidth) / 2 + (cellsWidth / 2)),
                 Quaternion.identity,
-                GridManager.Instance.gameObject.transform
+                GridManager.Instance._gridsDataHandler.transform
             );
         }
-            
+
+        GridManager.Instance._gridsDataHandler.position = this.LazyLoadedData.TopLeftOffset;
         this._plane.transform.localScale = new Vector3(this.LazyLoadedData.GridWidth * (cellsWidth / 10f), 0f, this.LazyLoadedData.GridHeight * (cellsWidth / 10f));
         this._plane.transform.localPosition = new Vector3((this.LazyLoadedData.GridWidth * cellsWidth) / 2, 0f, -(this.LazyLoadedData.GridHeight * cellsWidth) / 2);
     }
@@ -190,7 +201,7 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
     public GridPosition GetGridIndexFromWorld(Vector3 worldPos)
     {
         float cellSize = SettingsManager.Instance.GridsPreset.CellsSize;
-        int height = (int)(Mathf.Abs(Mathf.Abs(worldPos.z) - Mathf.Abs(this.LazyLoadedData.TopLeftOffset.z)) / cellSize);
+        int height = (int)(Mathf.Abs(Mathf.Abs(worldPos.z) + Mathf.Abs(this.LazyLoadedData.TopLeftOffset.z)) / cellSize);
         int width = (int)(Mathf.Abs(Mathf.Abs(worldPos.x) - Mathf.Abs(this.LazyLoadedData.TopLeftOffset.x)) / cellSize);
 
         return new GridPosition(width, height);
@@ -397,27 +408,36 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
         }
     }
 
-    protected T[,] ResizeArrayTwo<T>(T[,] original, int newCoNum, int newRoNum, bool resizeDown)
-    {
-        var newArray = new T[newCoNum, newRoNum];
-        int columnCount = original.GetLength(1);
-        int columnCount2 = newRoNum;
-        int columns = original.GetUpperBound(0);
-        if (resizeDown)
-        {
-            // Since 2D arrays are only one line of elements, we need to offset the difference if we go from 5 to 3 or else
-            if (newRoNum < columnCount)
-                for (int co = 0; co <= columns; co++)
-                    Array.Copy(original, co * newRoNum + (co * (columnCount - newRoNum)), newArray, co * columnCount2, newRoNum);
-            // For columns we shouldn't try to copy in the new array more than we have
-            else
-                for (int co = 0; co < newCoNum; co++)
-                    Array.Copy(original, co * columnCount, newArray, co * columnCount2, columnCount);
-        }
-        else
-            for (int co = 0; co <= columns; co++)
-                Array.Copy(original, co * columnCount, newArray, co * columnCount2, columnCount);
 
-        return newArray;
+    public void ApplyModifications()
+    {
+        if (this._oldPosition != this.LazyLoadedData.TopLeftOffset)
+        {
+            this._oldPosition = this.LazyLoadedData.TopLeftOffset;
+        }
+
+        if (this.LazyLoadedData.GridWidth != this._oldWidth || this.LazyLoadedData.GridHeight != this._oldHeight)
+        {
+            bool resizeDown = false;
+            if (this.LazyLoadedData.GridWidth < this._oldWidth || this.LazyLoadedData.GridHeight < this._oldHeight)
+                resizeDown = true;
+
+            GridUtility.ResizeGrid(ref this.LazyLoadedData.CellDatas,
+                ArrayHelper.ResizeArrayTwo(this.LazyLoadedData.CellDatas, this.LazyLoadedData.GridHeight, this.LazyLoadedData.GridWidth, resizeDown));
+
+            this._oldWidth = this.LazyLoadedData.GridWidth;
+            this._oldHeight = this.LazyLoadedData.GridHeight;
+        }
+
+        GridManager.Instance.GenerateShaderBitmap(this.GetGridData(), null, true);
+
+        this._oldHeight = this.LazyLoadedData.GridHeight;
+        this._oldWidth = this.LazyLoadedData.GridWidth;
+        this._oldPosition = this.LazyLoadedData.TopLeftOffset;
+
+        this.Save(this.LazyLoadedData);
+        
+        this.ResizePlane();
     }
+    
 }
