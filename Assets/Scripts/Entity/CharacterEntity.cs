@@ -202,8 +202,6 @@ namespace DownBelow.Entity
                 switch (notwalkable.Datas.state) {
                     case CellState.Blocked:
                         break;
-                    case CellState.Shared:
-                        break;
                     case CellState.EntityIn:
                         //CastAutoAttack(notwalkable);
                         break;
