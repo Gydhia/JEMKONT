@@ -15,8 +15,17 @@ MonoBehaviour:
   cachedFileName: EditorGridData
   unityObjectReferences:
   - {fileID: 11400000, guid: 43243b76698031a4b81b140c629c985c, type: 2}
+  - {fileID: 11400000, guid: 884093700e88f0742b307d440fa708d2, type: 2}
+  - {fileID: 11400000, guid: ed8c7df3d95b8e64bb72a70fd2fcd8b6, type: 2}
   - {fileID: 11400000, guid: 5bbeea932be5f4e49a7ff88f7b5d597f, type: 2}
+  - {fileID: 11400000, guid: 710edac696a8d534f844d188132ab11e, type: 2}
+  - {fileID: 11400000, guid: 22705731f513aa24ba27cace6926da2c, type: 2}
+  - {fileID: 11400000, guid: 642c940542ec73d46943d53925a69e08, type: 2}
+  - {fileID: 11400000, guid: 00c8b570434ec1d43b4f8b156656f673, type: 2}
+  - {fileID: 11400000, guid: af7a2443919972147a1b1b66cf69db82, type: 2}
   IsPainting: 1
   _plane: {fileID: 0}
   PlanePrefab: {fileID: 913962143815404576, guid: 7141923bd86c41143a35f9d656e8949b, type: 3}
+  HowToUse: "Click on \"DRAW\", then use the numpad to paint cells\n   0 - Walkable\n  
+    1 - Blocked\n   2 - Preset In -> Cross in inspector to delete"
   SelectedGrid: InGameTest

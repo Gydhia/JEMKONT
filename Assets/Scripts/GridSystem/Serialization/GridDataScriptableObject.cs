@@ -27,6 +27,14 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
     private GameObject _plane;
     public GameObject PlanePrefab;
 
+    [FoldoutGroup("README"), TextArea(4, 10), ReadOnly]
+    public string HowToUse = 
+        "Click on \"DRAW\", then use the numpad to paint cells\n" +
+        "   0 - Walkable\n" + 
+        "   1 - Blocked\n" +
+        "   2 - Preset In -> Cross in inspector to delete"  ;
+
+
     [ValueDropdown("GetSavedGrids"), OnValueChanged("LoadSelectedGrid")]
     public string SelectedGrid;
 
