@@ -84,7 +84,6 @@ namespace DownBelow.GridSystem
             return false;
         }
 
-        
 
         /// <summary>
         /// Find the closest cell to reach the shape (=innerGrid). Priority for top and bottom
