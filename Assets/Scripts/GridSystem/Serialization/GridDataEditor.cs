@@ -1,5 +1,6 @@
 using DownBelow.GridSystem;
 using DownBelow.Managers;
+using mattmc3.dotmore.Collections.Generic;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ public class EditorGridData
     [FoldoutGroup("Datas")]
     public bool IsCombatGrid = false;
     [FoldoutGroup("Datas")]
-    public List<SubgridPlaceholder> InnerGrids;
+    public List<InnerGridData> InnerGrids;
     [FoldoutGroup("Datas")]
-    public Dictionary<GridPosition, BaseSpawnablePreset> Spawnables;
+    public OrderedDictionary<GridPosition, BaseSpawnablePreset> Spawnables;
 }

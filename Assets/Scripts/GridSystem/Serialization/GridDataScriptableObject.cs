@@ -1,5 +1,6 @@
 using DownBelow.GridSystem;
 using DownBelow.Managers;
+using mattmc3.dotmore.Collections.Generic;
 using Sirenix.OdinInspector;
 using System;
 using System.Collections;
@@ -18,7 +19,7 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
     #endregion
 
     public float cellsWidth => SettingsManager.Instance.GridsPreset.CellsSize;
-
+    public GridPosition AAAAAAAAAH;
     [HideInInspector]
     public bool IsPainting = false;
 
@@ -68,9 +69,9 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
     public void AddInnerGrid()
     {
         if (this.LazyLoadedData.InnerGrids == null)
-            this.LazyLoadedData.InnerGrids = new List<SubgridPlaceholder>();
+            this.LazyLoadedData.InnerGrids = new List<InnerGridData>();
 
-        this.LazyLoadedData.InnerGrids.Add(new SubgridPlaceholder());
+        this.LazyLoadedData.InnerGrids.Add(new InnerGridData());
         this.LazyLoadedData.InnerGrids[^1].GenerateGrid(2, 2, 0, 0);
     }
 
@@ -110,12 +111,12 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
             foreach (CellData cellData in newGrid.CellDatas)
                 this.LazyLoadedData.CellDatas[cellData.heightPos, cellData.widthPos].state = cellData.state;
 
-            this.LazyLoadedData.InnerGrids = new List<SubgridPlaceholder>();
+            this.LazyLoadedData.InnerGrids = new List<InnerGridData>();
             if (newGrid.InnerGrids != null)
             {
                 foreach (var innerGrid in newGrid.InnerGrids)
                 {
-                    this.LazyLoadedData.InnerGrids.Add(new SubgridPlaceholder());
+                    this.LazyLoadedData.InnerGrids.Add(new InnerGridData());
                     this.LazyLoadedData.InnerGrids[^1].GenerateGrid(innerGrid.GridHeight, innerGrid.GridWidth, innerGrid.Longitude, innerGrid.Latitude);
 
                     foreach (CellData cellData in innerGrid.CellDatas)
@@ -135,13 +136,13 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
 
             this._oldHeight = this.LazyLoadedData.GridHeight;
             this._oldWidth = this.LazyLoadedData.GridWidth;
-            this._oldPosition= this.LazyLoadedData.TopLeftOffset;
+            this._oldPosition = this.LazyLoadedData.TopLeftOffset;
         }
     }
 
-    private Dictionary<GridPosition, BaseSpawnablePreset> _setSpawnablePresets(CellData[,] refCells, Dictionary<GridPosition, Guid> refEntities)
+    private OrderedDictionary<GridPosition, BaseSpawnablePreset> _setSpawnablePresets(CellData[,] refCells, Dictionary<GridPosition, Guid> refEntities)
     {
-        Dictionary<GridPosition, BaseSpawnablePreset> setEntities = new Dictionary<GridPosition, BaseSpawnablePreset>();
+        OrderedDictionary<GridPosition, BaseSpawnablePreset> setEntities = new OrderedDictionary<GridPosition, BaseSpawnablePreset>();
 
         foreach (var spawnable in refEntities)
         {
@@ -282,6 +283,8 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
     /// </summary>
     public void OnSceneGUI(SceneView sceneView)
     {
+        this.DrawGUIDatas();
+        
         /// check if the mouse is on a cell
         Ray ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
         if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, 1 << 6))
@@ -311,9 +314,130 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
                 PenType = CellState.EntityIn;
                 this.MakeEntity(hit.point); ;
                 break;
+            case KeyCode.F:
+                this.FindDictionaryKey(hit.point);
+                break;
         }
     }
 
+    public void FindDictionaryKey(Vector3 WorldPosition)
+    {
+        GridPosition refPos = this.GetGridIndexFromWorld(WorldPosition);
+
+        if (GridUtility.GetIncludingSubGrid(this.LazyLoadedData.InnerGrids, refPos, out InnerGridData includingGrid))
+        {
+            refPos = new GridPosition(refPos.longitude - includingGrid.Longitude, refPos.latitude - includingGrid.Latitude);
+            if (includingGrid.Spawnables.ContainsKey(refPos))
+                Debug.Log(this.LazyLoadedData.Spawnables[refPos]);
+        }
+        else
+        {
+            if (this.LazyLoadedData.Spawnables.ContainsKey(refPos))
+                Debug.Log(this.LazyLoadedData.Spawnables[refPos]);
+        }
+    }
+
+    public void DrawGUIDatas()
+    {
+        if (this.LazyLoadedData.CellDatas == null)
+            return;
+
+        float cellsWidth = SettingsManager.Instance.GridsPreset.CellsSize;
+        Vector3 cellBounds = new Vector3(cellsWidth - cellsWidth / 15f, cellsWidth / 6f, cellsWidth - cellsWidth / 15f);
+
+        for (int i = 0; i < this.LazyLoadedData.InnerGrids.Count; i++)
+        {
+            Gizmos.color = Color.black;
+
+            Vector3 topLeft = new Vector3(this.LazyLoadedData.TopLeftOffset.x + this.LazyLoadedData.InnerGrids[i].Longitude * cellsWidth, this.LazyLoadedData.TopLeftOffset.y, this.LazyLoadedData.InnerGrids[i].Latitude * cellsWidth - this.LazyLoadedData.TopLeftOffset.z);
+            Vector3 botRight = new Vector3(this.LazyLoadedData.TopLeftOffset.x + (this.LazyLoadedData.InnerGrids[i].Longitude + this.LazyLoadedData.InnerGrids[i].GridWidth) * cellsWidth, this.LazyLoadedData.TopLeftOffset.y, (this.LazyLoadedData.InnerGrids[i].Latitude + this.LazyLoadedData.InnerGrids[i].GridHeight) * cellsWidth - this.LazyLoadedData.TopLeftOffset.z);
+
+            float midLong = this.LazyLoadedData.InnerGrids[i].GridWidth * cellsWidth / 2f;
+            float midLat = this.LazyLoadedData.InnerGrids[i].GridHeight * cellsWidth / 2f;
+
+            Vector3 left = new Vector3(topLeft.x, cellBounds.y / 3f + topLeft.y, -(topLeft.z + midLat));
+            Vector3 right = new Vector3(botRight.x, cellBounds.y / 3f + botRight.y, -(botRight.z - midLat));
+            Vector3 top = new Vector3(topLeft.x + midLong, cellBounds.y / 3f + topLeft.y, -topLeft.z);
+            Vector3 bot = new Vector3(botRight.x - midLong, cellBounds.y / 3f + botRight.y, -botRight.z);
+            Gizmos.color = Color.cyan;
+            Handles.DrawWireCube(top, new Vector3(this.LazyLoadedData.InnerGrids[i].GridWidth, 0.05f, 0.05f));
+            Handles.DrawWireCube(bot, new Vector3(this.LazyLoadedData.InnerGrids[i].GridWidth, 0.05f, 0.05f));
+            Handles.DrawWireCube(left, new Vector3(0.05f, 0.05f, this.LazyLoadedData.InnerGrids[i].GridHeight));
+            Handles.DrawWireCube(right, new Vector3(0.05f, 0.05f, this.LazyLoadedData.InnerGrids[i].GridHeight));
+        }
+
+        if (this.LazyLoadedData.Spawnables != null)
+        {
+            float height = this.LazyLoadedData.TopLeftOffset.y + (cellBounds.y / 2f + 0.15f);
+
+            int counter = 0;
+            foreach (var entity in this.LazyLoadedData.Spawnables)
+            {
+                drawString(
+                    counter.ToString() + " - " + (entity.Value == null ? "NONE" : entity.Value.UName), 
+                    new Vector3(entity.Key.longitude * cellsWidth + this.LazyLoadedData.TopLeftOffset.x + (cellsWidth / 2), height, -entity.Key.latitude * cellsWidth + this.LazyLoadedData.TopLeftOffset.z - (cellsWidth / 2)));
+                counter++;
+            }
+            foreach (var grid in this.LazyLoadedData.InnerGrids)
+            {
+                counter = 0;
+                if (grid.Spawnables != null)
+                {
+                    foreach (var entity in grid.Spawnables)
+                    {
+                        drawString(
+                            counter.ToString() + " - " + (entity.Value == null ? "NONE" : entity.Value.UName),
+                            new Vector3((entity.Key.longitude + grid.Longitude) * cellsWidth + this.LazyLoadedData.TopLeftOffset.x + (cellsWidth / 2), height, -(entity.Key.latitude + grid.Latitude) * cellsWidth + this.LazyLoadedData.TopLeftOffset.z - (cellsWidth / 2)));
+                        counter++;
+                    }
+                }
+            }
+        }
+    }
+
+    
+
+    #region draw_string_editor
+    static public void drawString(string text, Vector3 worldPos, float oX = 0, float oY = 0, Color? colour = null)
+    {
+
+#if UNITY_EDITOR
+        UnityEditor.Handles.BeginGUI();
+
+        var restoreColor = Color.white;
+
+        if (colour.HasValue) GUI.color = colour.Value;
+        var view = SceneView.currentDrawingSceneView;
+        Vector3 screenPos = view.camera.WorldToScreenPoint(worldPos);
+
+        if (screenPos.y < 0 || screenPos.y > Screen.height || screenPos.x < 0 || screenPos.x > Screen.width || screenPos.z < 0)
+        {
+            GUI.color = restoreColor;
+            UnityEditor.Handles.EndGUI();
+            return;
+        }
+
+        UnityEditor.Handles.Label(TransformByPixel(worldPos, oX, oY), text);
+
+        GUI.color = restoreColor;
+        UnityEditor.Handles.EndGUI();
+#endif
+    }
+
+    static Vector3 TransformByPixel(Vector3 position, float x, float y)
+    {
+        return TransformByPixel(position, new Vector3(x, y));
+    }
+
+    static Vector3 TransformByPixel(Vector3 position, Vector3 translateBy)
+    {
+        Camera cam = UnityEditor.SceneView.currentDrawingSceneView.camera;
+        if (cam)
+            return cam.ScreenToWorldPoint(cam.WorldToScreenPoint(position) + translateBy);
+        else
+            return position;
+    }
+    #endregion
 
     public void MakeBlock(Vector3 WorldPosition)
     {
@@ -357,7 +481,7 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
     {
         CellData[,] refDatas;
         //Either in a sub grid or in the original grid : apply position and ref datas variables.
-        if (GridUtility.GetIncludingSubGrid(this.LazyLoadedData.InnerGrids, pos, out SubgridPlaceholder includingGrid))
+        if (GridUtility.GetIncludingSubGrid(this.LazyLoadedData.InnerGrids, pos, out InnerGridData includingGrid))
         {
             refDatas = includingGrid.CellDatas;
             positionInCurrentGrid = new GridPosition(pos.longitude - includingGrid.Longitude, pos.latitude - includingGrid.Latitude);
@@ -376,14 +500,14 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
     public void MakeEntity(Vector3 WorldPosition)
     {
         if (this.LazyLoadedData.Spawnables == null)
-            this.LazyLoadedData.Spawnables = new Dictionary<GridPosition, BaseSpawnablePreset>();
+            this.LazyLoadedData.Spawnables = new OrderedDictionary<GridPosition, BaseSpawnablePreset>();
 
         GridPosition pos = this.GetGridIndexFromWorld(WorldPosition);
 
-        if (GridUtility.GetIncludingSubGrid(this.LazyLoadedData.InnerGrids, pos, out SubgridPlaceholder includingGrid))
+        if (GridUtility.GetIncludingSubGrid(this.LazyLoadedData.InnerGrids, pos, out InnerGridData includingGrid))
         {
             if (includingGrid.Spawnables == null)
-                includingGrid.Spawnables = new Dictionary<GridPosition, BaseSpawnablePreset>();
+                includingGrid.Spawnables = new OrderedDictionary<GridPosition, BaseSpawnablePreset>();
 
             this.AllocateSpawnable(includingGrid.Spawnables, includingGrid.CellDatas, new GridPosition(pos.longitude - includingGrid.Longitude, pos.latitude - includingGrid.Latitude));
         }
@@ -391,12 +515,15 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
         {
             this.AllocateSpawnable(this.LazyLoadedData.Spawnables, this.LazyLoadedData.CellDatas, pos);
         }
-        GridManager.Instance.ChangeBitmapCell(pos, this.LazyLoadedData.GridHeight, CellState.EntityIn, true);
 
+        GridManager.Instance.ChangeBitmapCell(pos, this.LazyLoadedData.GridHeight, CellState.EntityIn, true);
     }
 
-    public void AllocateSpawnable(Dictionary<GridPosition, BaseSpawnablePreset> spawnablesRef, CellData[,] cellsRef, GridPosition pos)
+
+
+    public void AllocateSpawnable(OrderedDictionary<GridPosition, BaseSpawnablePreset> spawnablesRef, CellData[,] cellsRef, GridPosition pos)
     {
+        // Then we remove it
         if (cellsRef[pos.latitude, pos.longitude].state == PenType)
         {
             return;
@@ -436,8 +563,8 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
         this._oldPosition = this.LazyLoadedData.TopLeftOffset;
 
         this.Save(this.LazyLoadedData);
-        
+
         this.ResizePlane();
     }
-    
+
 }

@@ -66,9 +66,9 @@ namespace DownBelow.GridSystem
             return worldGrid;
         }
 
-        public static bool GetIncludingSubGrid(List<SubgridPlaceholder> innerGrids, Managers.GridPosition target, out SubgridPlaceholder includingGrid)
+        public static bool GetIncludingSubGrid(List<InnerGridData> innerGrids, Managers.GridPosition target, out InnerGridData includingGrid)
         {
-            foreach (SubgridPlaceholder innerGrid in innerGrids)
+            foreach (InnerGridData innerGrid in innerGrids)
             {
                 if (target.longitude >= innerGrid.Longitude
                  && target.longitude <= innerGrid.Longitude + innerGrid.GridWidth - 1

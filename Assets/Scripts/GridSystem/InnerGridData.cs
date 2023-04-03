@@ -4,13 +4,22 @@ using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Specialized;
+using mattmc3.dotmore.Collections.Generic;
 
-public class SubgridPlaceholder
+public class InnerGridData
 {
+    public class DicPosition
+    {
+        public int index;
+        public GridPosition position;
+    }
+
+
     [HideInInspector]
     public CellData[,] CellDatas;
 
-    public Dictionary<GridPosition, BaseSpawnablePreset> Spawnables;
+    public OrderedDictionary<GridPosition, BaseSpawnablePreset> Spawnables;
 
     public int GridHeight;
     public int GridWidth;
