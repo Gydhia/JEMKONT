@@ -115,11 +115,10 @@ namespace DownBelow.Spells
             SpellShapeMatrix ??= new bool[5, 5];
         }
         
-        [Button]
+        [Button("Rotate Shape by 90°")]
         public void RotateSpellShape()
         {
             this.SpellShapeMatrix = GridUtility.RotateSpellMatrix(this.SpellShapeMatrix, 90);
-        
         }
 
 #endif

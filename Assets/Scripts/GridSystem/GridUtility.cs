@@ -199,10 +199,10 @@ namespace DownBelow.GridSystem
 
         public static bool[,] RotateSpellMatrix(bool[,] baseMatrix, Cell origin, Cell target)
         {
-            int angle = GetMostFittingAngle(origin, target);
+            int angle = GetRotationForMatrix(origin, target);
 
             // This means it's the current rotation
-            if (angle == -1)
+            if (angle == 0)
                 return baseMatrix;
             else
                 return RotateSpellMatrix(baseMatrix, angle);
@@ -254,40 +254,33 @@ namespace DownBelow.GridSystem
             return outputMatrix;
         }
 
-        public static int GetMostFittingAngle(Cell origin, Cell target)
+        /// <summary>
+        /// We assume to use this method for matrixes. So we'll return a rotation considering the base direction is top
+        /// </summary>
+        /// <param name="origin"></param>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        public static int GetRotationForMatrix(Cell origin, Cell target)
         {
             int dx = target.Datas.widthPos - origin.Datas.widthPos;
             int dy = target.Datas.heightPos - origin.Datas.heightPos;
 
-            if (dx == 0 && dy == 0)
-            {
-                return -1;
-            }
-            else if (dx == 0)
-            {
-                return dy > 0 ? 90 : 270;
-            }
-            else if (dy == 0)
-            {
-                return dx > 0 ? -1 : 180;
-            }
-            else if (dx > 0 && dy > 0)
-            {
-                return Math.Abs(dx) == Math.Abs(dy) ? -1 : 90;
-            }
-            else if (dx < 0 && dy > 0)
-            {
-                return Math.Abs(dx) == Math.Abs(dy) ? 180 : 270;
-            }
-            else if (dx < 0 && dy < 0)
-            {
-                return Math.Abs(dx) == Math.Abs(dy) ? -1 : 270;
-            }
+            // /!\ rotations are counterclockwise (as matrixes should rotate)
+
+            // right
+            if (dx > 0)
+                return 270;
+            // left
+            else if (dx < 0)
+                return 90;
+            // top -> base
+            else if (dy > 0)
+                return 0;
+            // bottom
             else
-            {
-                return Math.Abs(dx) == Math.Abs(dy) ? 180 : 90;
-            }
+                return 180;
         }
+
         #endregion
     }
 }
