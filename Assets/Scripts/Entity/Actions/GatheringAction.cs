@@ -10,7 +10,7 @@ namespace DownBelow.Entity
     {
         public InteractableResource CurrentRessource = null;
 
-        public GatheringAction(CharacterEntity RefEntity, Cell TargetCell ) 
+        public GatheringAction(CharacterEntity RefEntity, Cell TargetCell)
             : base(RefEntity, TargetCell)
         {
             this.CurrentRessource = (InteractableResource)TargetCell.AttachedInteract;
@@ -18,7 +18,9 @@ namespace DownBelow.Entity
 
         public override void ExecuteAction()
         {
-            GameManager.Instance.StartCoroutine(this._gatherResource());
+            if (CurrentRessource != null && CurrentRessource.isMature)
+                GameManager.Instance.StartCoroutine(this._gatherResource());
+            else EndAction();
         }
 
         public IEnumerator _gatherResource()
@@ -55,7 +57,7 @@ namespace DownBelow.Entity
 
         public override void SetDatas(object[] Datas)
         {
-           
+
         }
     }
 }

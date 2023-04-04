@@ -389,7 +389,7 @@ namespace DownBelow.Managers
                 List<Cell> actNeighbours = entity.CurrentGrid.IsCombatGrid ? GetCombatNeighbours(currentCell, entity.CurrentGrid) : GetNormalNeighbours(currentCell, entity.CurrentGrid);
                 foreach (Cell neighbour in actNeighbours)
                 {
-                    if (neighbour.Datas.state == CellState.Blocked && directPath == false || neighbour.Datas.state == CellState.Shared || closedSet.Contains(neighbour))
+                    if (CellState.NonWalkable.HasFlag(neighbour.Datas.state) && directPath == false || closedSet.Contains(neighbour))
                         continue;
 
                     int newMovementCostToNeightbour = currentCell.gCost + GetDistance(currentCell, neighbour);
@@ -464,7 +464,7 @@ namespace DownBelow.Managers
                     int checkY = cell.Datas.heightPos + y;
 
                     if (directpath || ((checkX >= 0 && checkX < grid.GridWidth && checkY >= 0 && checkY < grid.GridHeight)
-                        && (grid.Cells[checkY, checkX] != null && grid.Cells[checkY, checkX].Datas.state != CellState.Blocked)))
+                        && (grid.Cells[checkY, checkX] != null && grid.Cells[checkY, checkX].Datas.state != CellState.NonWalkable)))
                     {
                         if (Mathf.Abs(x) == 1 && Mathf.Abs(y) == 1)
                         {
