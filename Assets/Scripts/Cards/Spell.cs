@@ -83,12 +83,13 @@ namespace DownBelow.Spells
         }
         private static bool _drawCell(Rect rect, bool value, int x, int y)
         {
-            Color color = value ? color = SelectedColor : NotSelectedColor;
+            Color color = value ? SelectedColor : NotSelectedColor;
             if (x == 2 && y == 2)
             {
                 EditorGUI.DrawRect(
-              rect.Padding(1),
-              AnchorColor);
+                    rect.Padding(1),
+                    AnchorColor
+                );
                 EditorGUI.DrawRect(
                     new Rect(rect)
                     {
@@ -101,8 +102,9 @@ namespace DownBelow.Spells
             else
             {
                 EditorGUI.DrawRect(
-                              rect.Padding(1),
-                              color);
+                    rect.Padding(1),
+                    color
+                );
             }
             return value;
         }
@@ -112,7 +114,19 @@ namespace DownBelow.Spells
             CastingMatrix ??= new bool[5, 5];
             SpellShapeMatrix ??= new bool[5, 5];
         }
+        
+        [Button]
+        public void RotateSpellShape()
+        {
+            this.SpellShapeMatrix = GridUtility.RotateSpellMatrix(this.SpellShapeMatrix, 90);
+        
+        }
+
 #endif
+        [ShowIf("@this.SpellShapeMatrix != null")]
+        public bool RotateShapeWithCast = false;
+
+
         public bool ApplyToCell = true;
         public bool ApplyToSelf = false;
         [EnableIf("@!this.ApplyToEnemies && !this.ApplyToAll")]

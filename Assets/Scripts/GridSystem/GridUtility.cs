@@ -194,5 +194,100 @@ namespace DownBelow.GridSystem
         {
             return Mathf.Abs(fCell.Datas.widthPos - sCell.Datas.widthPos) <= 1 && Mathf.Abs(fCell.Datas.heightPos - sCell.Datas.heightPos) <= 1;
         }
+
+        #region SPELLS
+
+        public static bool[,] RotateSpellMatrix(bool[,] baseMatrix, Cell origin, Cell target)
+        {
+            int angle = GetMostFittingAngle(origin, target);
+
+            // This means it's the current rotation
+            if (angle == -1)
+                return baseMatrix;
+            else
+                return RotateSpellMatrix(baseMatrix, angle);
+        }
+
+        public static bool[,] RotateSpellMatrix(bool[,] baseMatrix, int angle)
+        {
+            int numRows = baseMatrix.GetLength(0);
+            int numCols = baseMatrix.GetLength(1);
+            bool[,] outputMatrix = new bool[numCols, numRows];
+
+            switch (angle)
+            {
+                case 90:
+                    for (int i = 0; i < numRows; i++)
+                    {
+                        for (int j = 0; j < numCols; j++)
+                        {
+                            outputMatrix[j, numRows - i - 1] = baseMatrix[i, j];
+                        }
+                    }
+                    break;
+
+                case 180:
+                    for (int i = 0; i < numRows; i++)
+                    {
+                        for (int j = 0; j < numCols; j++)
+                        {
+                            outputMatrix[numRows - i - 1, numCols - j - 1] = baseMatrix[i, j];
+                        }
+                    }
+                    break;
+
+                case 270:
+                    for (int i = 0; i < numRows; i++)
+                    {
+                        for (int j = 0; j < numCols; j++)
+                        {
+                            outputMatrix[numCols - j - 1, i] = baseMatrix[i, j];
+                        }
+                    }
+                    break;
+
+                default:
+                    Console.WriteLine("Invalid angle. Please enter 90, 180, or 270.");
+                    break;
+            }
+
+            return outputMatrix;
+        }
+
+        public static int GetMostFittingAngle(Cell origin, Cell target)
+        {
+            int dx = target.Datas.widthPos - origin.Datas.widthPos;
+            int dy = target.Datas.heightPos - origin.Datas.heightPos;
+
+            if (dx == 0 && dy == 0)
+            {
+                return -1;
+            }
+            else if (dx == 0)
+            {
+                return dy > 0 ? 90 : 270;
+            }
+            else if (dy == 0)
+            {
+                return dx > 0 ? -1 : 180;
+            }
+            else if (dx > 0 && dy > 0)
+            {
+                return Math.Abs(dx) == Math.Abs(dy) ? -1 : 90;
+            }
+            else if (dx < 0 && dy > 0)
+            {
+                return Math.Abs(dx) == Math.Abs(dy) ? 180 : 270;
+            }
+            else if (dx < 0 && dy < 0)
+            {
+                return Math.Abs(dx) == Math.Abs(dy) ? -1 : 270;
+            }
+            else
+            {
+                return Math.Abs(dx) == Math.Abs(dy) ? 180 : 90;
+            }
+        }
+        #endregion
     }
 }
