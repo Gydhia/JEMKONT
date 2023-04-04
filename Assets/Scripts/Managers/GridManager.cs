@@ -137,7 +137,8 @@ namespace DownBelow.Managers
                         {
                             if (!selfPlayer.isInAttackRange(LastHoveredCell)) selfPlayer.IsAutoAttacking = false; else selfPlayer.AutoAttack(LastHoveredCell);
                         }
-                    } else if (this.LastHoveredCell.Datas.state == CellState.Walkable && this._possiblePath.Contains(this.LastHoveredCell))
+                    }
+                    else if (this.LastHoveredCell.Datas.state == CellState.Walkable && this._possiblePath.Contains(this.LastHoveredCell))
                     {
                         NetworkManager.Instance.EntityAskToBuffAction(new CombatMovementAction(selfPlayer, this.LastHoveredCell));
                     }
@@ -155,20 +156,22 @@ namespace DownBelow.Managers
                     closestCell = GridUtility.GetClosestCellToShape(selfPlayer.CurrentGrid, cell.Datas.heightPos, cell.Datas.widthPos, 1, 1, selfPlayer.EntityCell.PositionInGrid);
                     selfPlayer.NextInteract = InputManager.Instance.LastInteractable;
 
+                    EntityAction[] actions = new EntityAction[2];
+
+                    // Buff the movement action if we're too far away
                     if (!GridUtility.IsNeighbourCell(closestCell, selfPlayer.EntityCell))
-                    {
-                        NetworkManager.Instance.EntityAskToBuffAction(new MovementAction(selfPlayer, closestCell));
-                    }
-                    if (cell.AttachedInteract is InteractableResource)
-                    {
-                        NetworkManager.Instance.EntityAskToBuffAction(new GatheringAction(selfPlayer, cell));
-                    } else
-                    {
-                        NetworkManager.Instance.EntityAskToBuffAction(new InteractAction(selfPlayer, cell));
-                    }
+                        actions[0] = new MovementAction(selfPlayer, closestCell);
+
+                    // Then buff the interact/gather action to process after the movement
+                    actions[1] = cell.AttachedInteract is InteractableResource ?
+                        new GatheringAction(selfPlayer, cell) :
+                        new InteractAction(selfPlayer, cell);
+
+                    NetworkManager.Instance.EntityAskToBuffActions(actions);
 
                     return;
-                } else
+                }
+                else
                 {
                     if (selfPlayer.CurrentGrid != this.LastHoveredCell.RefGrid)
                     {
@@ -243,9 +246,9 @@ namespace DownBelow.Managers
 
             this._possiblePath.Clear();
 
-            for (int x = -movePoints;x <= movePoints;x++)
+            for (int x = -movePoints; x <= movePoints; x++)
             {
-                for (int y = -movePoints;y <= movePoints;y++)
+                for (int y = -movePoints; y <= movePoints; y++)
                 {
                     if (x == 0 && y == 0 || (Mathf.Abs(x) + Mathf.Abs(y) > movePoints))
                         continue;
@@ -300,7 +303,8 @@ namespace DownBelow.Managers
                         Data.Entity.gameObject.SetActive(false);
                     else
                         Data.Entity.gameObject.SetActive(false);
-                } else
+                }
+                else
                 {
                     if (Photon.Pun.PhotonNetwork.IsMasterClient)
                         Data.Entity.gameObject.SetActive(true);
@@ -321,7 +325,7 @@ namespace DownBelow.Managers
         public int[] SerializePathData(List<Cell> path)
         {
             int[] positions = new int[path.Count * 2];
-            for (int i = 0;i < path.Count;i++)
+            for (int i = 0; i < path.Count; i++)
             {
                 positions[i * 2] = path[i].PositionInGrid.longitude;
                 positions[i * 2 + 1] = path[i].PositionInGrid.latitude;
@@ -333,7 +337,7 @@ namespace DownBelow.Managers
         public List<Cell> DeserializePathData(CharacterEntity entity, int[] positions)
         {
             List<Cell> result = new List<Cell>();
-            for (int i = 0;i < positions.Length;i += 2)
+            for (int i = 0; i < positions.Length; i += 2)
                 result.Add(entity.CurrentGrid.Cells[positions[i + 1], positions[i]]);
 
             return result;
@@ -361,7 +365,7 @@ namespace DownBelow.Managers
             while (openSet.Count > 0)
             {
                 Cell currentCell = openSet[0];
-                for (int i = 1;i < openSet.Count;i++)
+                for (int i = 1; i < openSet.Count; i++)
                 {
                     if (openSet[i].fCost < currentCell.fCost || openSet[i].fCost == currentCell.fCost && openSet[i].hCost < currentCell.hCost)
                     {
@@ -453,9 +457,9 @@ namespace DownBelow.Managers
         {
             List<Cell> neighbours = new List<Cell>();
 
-            for (int x = -1;x <= 1;x++)
+            for (int x = -1; x <= 1; x++)
             {
-                for (int y = -1;y <= 1;y++)
+                for (int y = -1; y <= 1; y++)
                 {
                     if (x == 0 && y == 0)
                         continue;
@@ -476,7 +480,8 @@ namespace DownBelow.Managers
                             {
                                 neighbours.Add(grid.Cells[checkY, checkX]);
                             }
-                        } else
+                        }
+                        else
                             neighbours.Add(grid.Cells[checkY, checkX]);
                     }
                 }
@@ -494,9 +499,9 @@ namespace DownBelow.Managers
         {
             List<Cell> neighbours = new List<Cell>();
 
-            for (int x = -1;x <= 1;x++)
+            for (int x = -1; x <= 1; x++)
             {
-                for (int y = -1;y <= 1;y++)
+                for (int y = -1; y <= 1; y++)
                 {
                     if ((x == 0 && y == 0) || (Mathf.Abs(x) == 1 && Mathf.Abs(y) == 1))
                         continue;
@@ -556,8 +561,8 @@ namespace DownBelow.Managers
             List<CellData> savedCells = new List<CellData>();
 
             // Get the non walkable cells only
-            for (int i = 0;i < grid.Cells.GetLength(0);i++)
-                for (int j = 0;j < grid.Cells.GetLength(1);j++)
+            for (int i = 0; i < grid.Cells.GetLength(0); i++)
+                for (int j = 0; j < grid.Cells.GetLength(1); j++)
                     if (grid.Cells[i, j].Datas.state != CellState.Walkable)
                         savedCells.Add(grid.Cells[i, j].Datas);
 
@@ -575,8 +580,8 @@ namespace DownBelow.Managers
                 return;
 
             List<CellData> savedCells = new List<CellData>();
-            for (int i = 0;i < cellDatas.GetLength(0);i++)
-                for (int j = 0;j < cellDatas.GetLength(1);j++)
+            for (int i = 0; i < cellDatas.GetLength(0); i++)
+                for (int j = 0; j < cellDatas.GetLength(1); j++)
                     if (cellDatas[i, j].state != CellState.Walkable)
                         savedCells.Add(cellDatas[i, j]);
 
@@ -668,7 +673,7 @@ namespace DownBelow.Managers
                 }
             }
             else
-            this.GridShader = Instantiate(SettingsManager.Instance.GridsPreset.GridShader, this.transform);
+                this.GridShader = Instantiate(SettingsManager.Instance.GridsPreset.GridShader, this.transform);
 
 
             this.GridShader.transform.localScale = new Vector3((float)world.GridWidth / 10f, 1f, (float)world.GridHeight / 10f);
@@ -677,7 +682,7 @@ namespace DownBelow.Managers
             this.BitmapTexture = new Texture2D(world.GridWidth, world.GridHeight, TextureFormat.ARGB32, false);
 
             Color[] Colors = new Color[world.GridHeight * world.GridWidth];
-            for (int i = 0;i < world.GridHeight * world.GridWidth;i++)
+            for (int i = 0; i < world.GridHeight * world.GridWidth; i++)
                 Colors[i] = editor ? Color.black : Color.green;
 
             this.BitmapTexture.SetPixels(0, 0, world.GridWidth, world.GridHeight, Colors);
@@ -706,9 +711,9 @@ namespace DownBelow.Managers
                     this.BitmapTexture.SetPixel(item.widthPos, world.GridHeight - item.heightPos, Color.black); //this._getBitmapColor(item.state));
                 }
             }
-            for (int y = 0;y < world.GridHeight;y++)
+            for (int y = 0; y < world.GridHeight; y++)
             {
-                for (int x = 0;x < world.GridWidth;x++)
+                for (int x = 0; x < world.GridWidth; x++)
                 {
                     if (innerGrid != null)
                         this.BitmapTexture.SetPixel(x, world.GridHeight - y, Color.black);
@@ -735,7 +740,7 @@ namespace DownBelow.Managers
             // If this is a main grid, iterate over its CombatGrid to hide them
             else
             {
-                for (int i = 0;i < world.InnerGrids.Count;i++)
+                for (int i = 0; i < world.InnerGrids.Count; i++)
                 {
                     this.BitmapTexture.SetPixels(
                         world.InnerGrids[i].Longitude, world.GridHeight - (world.InnerGrids[i].Latitude - 1) - world.InnerGrids[i].GridHeight,
@@ -753,9 +758,9 @@ namespace DownBelow.Managers
                 this.BitmapTexture.SetPixel(item.widthPos, world.GridHeight - item.heightPos, this._getBitmapEditorColor(item.state));
             }
 
-            for (int y = 0;y < world.GridHeight;y++)
+            for (int y = 0; y < world.GridHeight; y++)
             {
-                for (int x = 0;x < world.GridWidth;x++)
+                for (int x = 0; x < world.GridWidth; x++)
                 {
                     if (world.IsCombatGrid)
                         this.BitmapTexture.SetPixel(x, world.GridHeight - y, Color.black);
@@ -764,7 +769,7 @@ namespace DownBelow.Managers
                 }
             }
 
-            for (int i = 0;i < world.InnerGrids.Count;i++)
+            for (int i = 0; i < world.InnerGrids.Count; i++)
             {
                 int xOffset = world.InnerGrids[i].Longitude;
                 int yOffset = world.InnerGrids[i].Latitude;
@@ -811,7 +816,7 @@ namespace DownBelow.Managers
             this.BitmapTexture.Apply();
         }
 
-#endregion
+        #endregion
     }
 
     [Serializable]

@@ -130,7 +130,8 @@ namespace DownBelow.Managers
         {
             foreach (var item in actions)
             {
-                EntityAskToBuffAction(item, false);
+                if(item != null)
+                    EntityAskToBuffAction(item, false);
             }
         }
 

@@ -82,17 +82,17 @@ namespace DownBelow.GridSystem
         public CellState state { get; set; }
     }
 
-    [System.Serializable, Flags]
+    [System.Serializable]
     public enum CellState
     {
         [EnumMember(Value = "Walkable")]
-        Walkable = 0,
+        Walkable = 1 << 0,
         [EnumMember(Value = "Blocked")]
-        Blocked = 1,
+        Blocked = 1 << 1,
         [EnumMember(Value = "EntityIn")]
-        EntityIn = 2,
+        EntityIn = 1 << 2,
         [EnumMember(Value = "Interactable")]
-        Interactable = 4,
+        Interactable = 1 << 3,
 
         NonWalkable = Blocked | EntityIn | Interactable
     }
