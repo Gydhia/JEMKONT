@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class DraggedCard : MonoBehaviour, IPointerEnterHandler, IPointerDownHandler, IPointerExitHandler
 {
@@ -31,18 +32,11 @@ public class DraggedCard : MonoBehaviour, IPointerEnterHandler, IPointerDownHand
     private void Start()
     {
         this.m_RectTransform = this.GetComponent<RectTransform>();
-    }
 
-    private void Update()
-    {
-        if (Input.GetMouseButtonUp(1))
-        {
-            this._onRightClick();
-        }
-        if (Input.GetMouseButtonUp(0))
-        {
-            this._onLeftClickUp();
-        }
+        PlayerInputs.player_l_click.performed += _onLeftClickDown;
+        PlayerInputs.player_l_click.canceled += _onLeftClickUp;
+
+        PlayerInputs.player_r_click.canceled += _onRightClick;
     }
 
     public void Init()
@@ -57,6 +51,7 @@ public class DraggedCard : MonoBehaviour, IPointerEnterHandler, IPointerDownHand
     }
 
     // Player is trying to drag the card
+    private void _onLeftClickDown(InputAction.CallbackContext ctx) => this._onLeftClickDown();
     private void _onLeftClickDown()
     {
         if(HoveredCard == this)
@@ -69,13 +64,14 @@ public class DraggedCard : MonoBehaviour, IPointerEnterHandler, IPointerDownHand
     }
 
     // Player released the card.
+    private void _onLeftClickUp(InputAction.CallbackContext ctx) => this._onLeftClickUp();
     private void _onLeftClickUp()
     {
         if(this._followCoroutine != null)
             StopCoroutine(this._followCoroutine);
         this._followCoroutine = null;
 
-        if (Input.mousePosition.y / Screen.height > this.BottomDeadPercents / 100f)
+        if (Mouse.current.position.ReadValue().y / Screen.height > this.BottomDeadPercents / 100f)
         {
             this.PinCardToScreen();
         }
@@ -86,6 +82,7 @@ public class DraggedCard : MonoBehaviour, IPointerEnterHandler, IPointerDownHand
         }
     }
 
+    private void _onRightClick(InputAction.CallbackContext ctx) => this._onRightClick();
     private void _onRightClick()
     {
         if(this._pinUpdateCoroutine != null)
@@ -131,7 +128,7 @@ public class DraggedCard : MonoBehaviour, IPointerEnterHandler, IPointerDownHand
     {
         while (!this.IsDragged)
         {
-            if(Vector2.Distance(this._startDragPos, Input.mousePosition) > this.DistanceToDrag)
+            if(Vector2.Distance(this._startDragPos, Mouse.current.position.ReadValue()) > this.DistanceToDrag)
             {
                 this.StartDrag();
             }
@@ -151,8 +148,8 @@ public class DraggedCard : MonoBehaviour, IPointerEnterHandler, IPointerDownHand
             timer += Time.unscaledDeltaTime;       
 
             Vector2 newPos = new Vector2(
-                Mathf.Lerp(lastPos.x, Input.mousePosition.x, timer / this.FollowSensivity),
-                Mathf.Lerp(lastPos.y, Input.mousePosition.y, timer / this.FollowSensivity)
+                Mathf.Lerp(lastPos.x, Mouse.current.position.ReadValue().x, timer / this.FollowSensivity),
+                Mathf.Lerp(lastPos.y, Mouse.current.position.ReadValue().y, timer / this.FollowSensivity)
             );
 
             if (newPos != lastPos)
@@ -171,8 +168,8 @@ public class DraggedCard : MonoBehaviour, IPointerEnterHandler, IPointerDownHand
             yield return null;
 
             if(this.PinnedLeft ?
-                Input.mousePosition.x / Screen.width < this.PinUpdatePercents / 100f :
-                Input.mousePosition.x / Screen.width > 1f - (this.PinUpdatePercents / 100f))
+                Mouse.current.position.ReadValue().x / Screen.width < this.PinUpdatePercents / 100f :
+                Mouse.current.position.ReadValue().x / Screen.width > 1f - (this.PinUpdatePercents / 100f))
             {
                 // Temporary values, create anchors later on
                 this.PinnedLeft = !this.PinnedLeft;

@@ -24,29 +24,20 @@ MonoBehaviour:
     - Name: UID
       Entry: 2
       Data: 00000000000000000000000000000000
+    - Name: Spells
+      Entry: 7
+      Data: 0|DownBelow.Spells.Spell[], Assembly-CSharp
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   Title: Lifesteal_Spell
   Cost: 2
   CardType: 0
   Description: Damage the enemy and heal for the damaged health
   IllustrationImage: {fileID: 21300000, guid: 362d9d767515f41458b56dcb08f3f189, type: 3}
-  Spells:
-  - ConditionData: {fileID: 0}
-    ActionData: {fileID: 5524453869168674111, guid: e08706a65b6641f4282ff930713f007e, type: 3}
-    ApplyToCell: 1
-    ApplyToSelf: 0
-    ApplyToAllies: 0
-    ApplyToEnemies: 0
-    ApplyToAll: 0
-    CurrentAction: {fileID: 0}
-    Caster: {fileID: 0}
-    TargetCell: {fileID: 0}
-  - ConditionData: {fileID: 0}
-    ActionData: {fileID: 6083591090785791959, guid: 451f5c9c14c31c440bba8a2da5572cef, type: 3}
-    ApplyToCell: 0
-    ApplyToSelf: 1
-    ApplyToAllies: 0
-    ApplyToEnemies: 0
-    ApplyToAll: 0
-    CurrentAction: {fileID: 0}
-    Caster: {fileID: 0}
-    TargetCell: {fileID: 0}

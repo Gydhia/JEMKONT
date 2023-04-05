@@ -92,7 +92,6 @@ MonoBehaviour:
   InputPreset: {fileID: 11400000, guid: 86ac5624b923f774094430ad4ab04493, type: 2}
   CombatPreset: {fileID: 11400000, guid: a26fd800d9da29548a4b431ecf6ed845, type: 2}
   GameUIPreset: {fileID: 11400000, guid: b4f43fb59e111b349865a00b17dd32dc, type: 2}
-  PlayerStats: {fileID: 11400000, guid: 749d1a933eed5214c9209d8ec792b76b, type: 2}
   FishermanStats: {fileID: 11400000, guid: 4d576a35a0dcc0e4cb45e35dc060d9d9, type: 2}
   MinerStats: {fileID: 11400000, guid: 378e4726dcac3c94390835d65888d60c, type: 2}
   FarmerStats: {fileID: 11400000, guid: acc2fcfe067f4a548a44a691816601e8, type: 2}
@@ -141,8 +140,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1aae1154c31eeef4698052cf88c90f2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerInput: {fileID: 0}
+  InputActionAsset: {fileID: -944628639613478452, guid: 8437688490ff0c445ab6d3355fa471ed, type: 3}
   LastInteractable: {fileID: 0}
   EventSystem: {fileID: 0}
+  IsPressingShift: 0
 --- !u!1 &2265214080651548676
 GameObject:
   m_ObjectHideFlags: 0
@@ -288,7 +290,7 @@ MonoBehaviour:
   HandPile: []
   CardPrefab: {fileID: 0}
   PossibleAutoAttacks:
-  - {fileID: 7485489964714345042, guid: b98ebecdecac8f441bc6d16057650f22, type: 3}
+  - {fileID: 0}
   TurnNumber: 0
 --- !u!1 &4145856202392196912
 GameObject:
@@ -334,6 +336,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b677cfc4c3f91154ea576620b2e2b3da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AlterationSFXList: {fileID: 0}
 --- !u!1 &4684062575287771609
 GameObject:
   m_ObjectHideFlags: 0
@@ -378,10 +381,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44d26ebafca7f944f8be0cb5daa95a73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FirstSpawn: {x: 2, y: 3}
-  SecondSpawn: {x: 2, y: 0}
-  ThirdSpawn: {x: 0, y: 2}
-  FourthSpawn: {x: 2, y: 1}
   CellPrefab: {fileID: 7726041531083266328, guid: 790fb0bae6a6d344fbb3f0d1b7bd1f5d, type: 3}
   CombatGridPrefab: {fileID: 2420647313775234594, guid: 309f24f78f459eb4d809b4e078f52ee1, type: 3}
   _objectsHandler: {fileID: 0}
@@ -391,7 +390,6 @@ MonoBehaviour:
   BitmapTexture: {fileID: 2800000, guid: 774cf7acc1c321844b3f8ee5e9f215b8, type: 3}
   BitmapShader: {fileID: 2100000, guid: 0349616ade0e9a54cbd7bfb285ede134, type: 2}
   GridShader: {fileID: 0}
-  TestPlane: {fileID: 913962143815404576, guid: 7141923bd86c41143a35f9d656e8949b, type: 3}
   LastHoveredCell: {fileID: 0}
 --- !u!1 &4708042891339228753
 GameObject:
@@ -483,6 +481,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57a4408e0e3d1e24c9a6b0a4401a17d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OwnedCards: []
 --- !u!1 &7177147408384528591
 GameObject:
   m_ObjectHideFlags: 0

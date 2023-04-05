@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.UI;
-
+using UnityEngine.InputSystem;
 
 public class MainMenuButton : MonoBehaviour
 {
@@ -20,12 +20,12 @@ public class MainMenuButton : MonoBehaviour
 
     private void Update()
     {
-        if(!_isOnButton && RectTransformUtility.RectangleContainsScreenPoint(_buttonTransform, Input.mousePosition))
+        if(!_isOnButton && RectTransformUtility.RectangleContainsScreenPoint(_buttonTransform, Mouse.current.position.ReadValue()))
         {
             _isOnButton = true;
             OnMouseOverButton?.Invoke(Type);
         }
-        else if (_isOnButton && !RectTransformUtility.RectangleContainsScreenPoint(_buttonTransform, Input.mousePosition))
+        else if (_isOnButton && !RectTransformUtility.RectangleContainsScreenPoint(_buttonTransform, Mouse.current.position.ReadValue()))
         {
             _isOnButton = false;
             OnMouseExitButton?.Invoke();

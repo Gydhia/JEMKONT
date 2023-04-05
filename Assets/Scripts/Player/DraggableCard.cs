@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using DG.Tweening;
 using DownBelow.Events;
 using Sirenix.Utilities;
+using UnityEngine.InputSystem;
 
 public class DraggableCard : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler, IPointerDownHandler, IPointerExitHandler 
 {
@@ -82,7 +83,7 @@ public class DraggableCard : MonoBehaviour, IPointerEnterHandler, IPointerClickH
         if (!GameManager.Instance.SelfPlayer.IsPlayingEntity)
             return;
 
-        Vector2 mousePos = Input.mousePosition;
+        Vector2 mousePos = Mouse.current.position.ReadValue();
         if (isDragged)
         {
             this.Drag(mousePos);

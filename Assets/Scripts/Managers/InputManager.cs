@@ -4,11 +4,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 namespace DownBelow.Managers
 {
     public class InputManager : _baseManager<InputManager>
     {
+        #region INPUT_SYSTEM
+
+        public PlayerInput PlayerInput;
+        public InputActionAsset InputActionAsset;
+
+        #endregion
+
         #region EVENTS
         public event CellEventData.Event OnCellRightClick;
 
@@ -40,16 +48,39 @@ namespace DownBelow.Managers
 
         public bool IsPressingShift = false;
 
+
+        public override void Awake()
+        {
+            base.Awake();
+
+            PlayerInputs.Init(this.InputActionAsset);
+
+            this.SubscribeToInputEvents();
+        }
+
+        public void SubscribeToInputEvents()
+        {
+            PlayerInputs.player_l_click.performed += this._onLeftClickDown;
+            PlayerInputs.player_l_click.canceled += this._onLeftClickUp;
+
+            PlayerInputs.player_r_click.canceled += this._onRightClickDown;
+
+            PlayerInputs.player_interact.canceled += this._onInteract;
+
+            PlayerInputs.player_escape.canceled += this._onEscape;
+        }
+
         private void Update()
         {
             if (!GameManager.GameStarted)
                 return;
 
-            this.IsPressingShift = Input.GetKey(KeyCode.LeftShift);
+
+            this.IsPressingShift = Keyboard.current.shiftKey.IsPressed();
 
             #region CELLS_RAYCAST
             RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
             // layer 7 = Cell
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 7))
             {
@@ -67,11 +98,11 @@ namespace DownBelow.Managers
             #endregion
             #region INTERACTABLEs_RAYCAST
             // layer 8 = Interactable
-            if(Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 8))
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 8))
             {
                 if (hit.collider != null && hit.collider.TryGetComponent(out Interactable interactable))
                 {
-                    if(interactable != this.LastInteractable)
+                    if (interactable != this.LastInteractable)
                     {
                         if (LastInteractable != null)
                             this.LastInteractable.OnUnfocused();
@@ -83,28 +114,50 @@ namespace DownBelow.Managers
             else if (this.LastInteractable != null)
             {
                 this.LastInteractable.OnUnfocused();
-                this.LastInteractable = null;   
+                this.LastInteractable = null;
             }
             #endregion
-            if (!EventSystem.IsPointerOverGameObject())
-            {
-                if (Input.GetMouseButtonUp(1))
-                {
-                    if (GridManager.Instance.LastHoveredCell != null)
-                        this.FireCellRightClick(GridManager.Instance.LastHoveredCell);
-                }
-                if (Input.GetMouseButtonUp(0))
-                {
-                    if (GridManager.Instance.LastHoveredCell != null)
-                        this.FireCellClickedUp(GridManager.Instance.LastHoveredCell);
-                }
-                if (Input.GetMouseButtonDown(0))
-                {
-                    if (GridManager.Instance.LastHoveredCell != null)
-                        this.FireCellClickedDown(GridManager.Instance.LastHoveredCell);
-                }
-            }
         }
+
+        private void _onLeftClickDown(InputAction.CallbackContext ctx) => this.OnLeftClickDown();
+        public void OnLeftClickDown()
+        {
+            if (EventSystem.IsPointerOverGameObject()) return;
+
+            if (GridManager.Instance.LastHoveredCell != null)
+                this.FireCellClickedDown(GridManager.Instance.LastHoveredCell);
+        }
+
+        private void _onLeftClickUp(InputAction.CallbackContext ctx) => this.OnLeftClickUp();
+        public void OnLeftClickUp()
+        {
+            if (EventSystem.IsPointerOverGameObject()) return;
+
+            if (GridManager.Instance.LastHoveredCell != null)
+                this.FireCellClickedUp(GridManager.Instance.LastHoveredCell);
+        }
+
+        private void _onRightClickDown(InputAction.CallbackContext ctx) => this.OnRightClickDown();
+        public void OnRightClickDown()
+        {
+            if (EventSystem.IsPointerOverGameObject()) return;
+
+            if (GridManager.Instance.LastHoveredCell != null)
+                this.FireCellRightClick(GridManager.Instance.LastHoveredCell);
+        }
+
+        private void _onInteract(InputAction.CallbackContext ctx) => this.OnInteract();
+        public void OnInteract()
+        {
+
+        }
+
+        private void _onEscape(InputAction.CallbackContext ctx) => this.OnEscape();
+        public void OnEscape()
+        {
+
+        }
+
 
         public void ChangeCursorAppearance(CursorAppearance newAppearance)
         {
