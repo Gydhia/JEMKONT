@@ -13,6 +13,7 @@ namespace DownBelow.Managers
 {
     public class UIManager : _baseManager<UIManager>
     {
+        public UIStaticCombat CombatSection;
         public UIStaticTurnSection TurnSection;
         public UIPlayerInfos PlayerInfos;
         public UICardSection CardSection;

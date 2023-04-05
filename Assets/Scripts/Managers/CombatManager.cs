@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 using DownBelow.Mechanics;
+using DownBelow.UI;
 
 namespace DownBelow.Managers {
     public class CombatManager : _baseManager<CombatManager> {
@@ -50,9 +51,9 @@ namespace DownBelow.Managers {
         public List<CharacterEntity> PlayingEntities;
 
         public ScriptableCard CurrentCard;
-        public List<DraggableCard> DiscardPile;
+        public List<DraggedCard> DiscardPile;
         public Deck DrawPile;
-        public List<DraggableCard> HandPile;
+        public List<DraggedCard> HandPile;
 
         public GameObject CardPrefab;
         public List<SpellAction> PossibleAutoAttacks;
@@ -195,7 +196,7 @@ namespace DownBelow.Managers {
             }
         }
 
-        public void DiscardCard(DraggableCard card) {
+        public void DiscardCard(DraggedCard card) {
             UIManager.Instance.CardSection.AddDiscardCard(1);
 
             this.HandPile.Remove(card);
@@ -204,13 +205,13 @@ namespace DownBelow.Managers {
 
         public void DrawCard() {
             if (this.DrawPile.Count > 0) {
-                this.HandPile.Add(Instantiate(CardPrefab, UIManager.Instance.CardSection.DrawPile.transform).GetComponent<DraggableCard>());
-                this.HandPile[^1].Init(DrawPile.DrawCard());
+                this.HandPile.Add(Instantiate(CardPrefab, UIManager.Instance.CardSection.DrawPile.transform).GetComponent<DraggedCard>());
+                this.HandPile[^1].CardVisual.Init(DrawPile.DrawCard());
 
-                this.HandPile[^1].DrawCardFromPile();
+                this.HandPile[^1].DrawFromPile();
 
                 if (HandPile.Count > 7) {
-                    StartCoroutine(this.HandPile[^1].GoToPile(0.28f, UIManager.Instance.CardSection.DiscardPile.transform.position));
+                    this.HandPile[^1].DiscardToPile();
                     this.HandPile[^1].Burn();
                     this.HandPile.Remove(this.HandPile[^1]);
                 }

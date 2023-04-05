@@ -21051,6 +21051,17 @@ PrefabInstance:
       objectReference: {fileID: 1949338515}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
+--- !u!114 &808257835 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9154537930383799830, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
+  m_PrefabInstance: {fileID: 808257834}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6df827ee0894fdb4f91b50a923ef3ffc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &808257836 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8444803123620909949, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
@@ -59689,6 +59700,10 @@ PrefabInstance:
       propertyPath: TurnSection
       value: 
       objectReference: {fileID: 808257838}
+    - target: {fileID: 942809737677840814, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: CombatSection
+      value: 
+      objectReference: {fileID: 808257835}
     - target: {fileID: 942809737677840814, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
       propertyPath: GatheringName
       value: 
