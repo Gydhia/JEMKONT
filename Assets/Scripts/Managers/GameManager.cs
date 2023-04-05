@@ -69,6 +69,25 @@ namespace DownBelow.Managers
             NetworkManager.Instance.SubToGameEvents();
 
             this.ProcessPlayerWelcoming();
+
+            // Maybe that the nested events aren't a great idea
+            CombatManager.Instance.OnCombatStarted += this._subscribeForCombatBuffer;
+        }
+
+        private void _subscribeForCombatBuffer(GridEventData Data)
+        {
+            CombatManager.Instance.OnCardEndUse += this.BuffSpell;
+
+            CombatManager.Instance.OnCombatStarted -= this._subscribeForCombatBuffer;
+            CombatManager.Instance.OnCombatEnded += this._unsubscribeForCombatBuffer;
+        }
+
+        private void _unsubscribeForCombatBuffer(GridEventData Data)
+        {
+            CombatManager.Instance.OnCardEndUse -= this.BuffSpell;
+
+            CombatManager.Instance.OnCombatStarted += this._subscribeForCombatBuffer;
+            CombatManager.Instance.OnCombatEnded -= _unsubscribeForCombatBuffer;
         }
 
         public void ProcessPlayerWelcoming()
@@ -193,13 +212,15 @@ namespace DownBelow.Managers
                 IsUsingNormalBuffer = false;
         }
 
-        public void BuffSpell(Mechanics.ScriptableCard spellDatas, Cell targetCell, CharacterEntity refEntity)
+        public void BuffSpell(CardEventData Data)
         {
-            // TODO : Not working since we're not using the constructor, when refactoring the combat find a way to do so
-            for (int i = 0;i < spellDatas.Spells.Length;i++)
-                spellDatas.Spells[i].Init(i > 0 ? spellDatas.Spells[i - 1] : null);
+            if (!Data.Played)
+                return;
 
-            CombatActionsBuffer.AddRange(spellDatas.Spells);
+            for (int i = 0; i < Data.GeneratedSpells.Length; i++)
+                Data.GeneratedSpells[i].RefBuffer = CombatActionsBuffer;
+            
+            CombatActionsBuffer.AddRange(Data.GeneratedSpells);
 
             if (!IsUsingCombatBuffer)
                 this.ExecuteNextFromCombatBuffer();

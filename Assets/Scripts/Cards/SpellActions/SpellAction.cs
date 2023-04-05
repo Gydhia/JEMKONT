@@ -11,7 +11,8 @@ using UnityEngine.Events;
 using DG.Tweening;
 using EODE.Wonderland;
 
-namespace DownBelow.Spells {
+namespace DownBelow.Spells 
+{
     public abstract class SpellAction : MonoBehaviour 
     {
         public SpellResult Result;
@@ -76,7 +77,7 @@ namespace DownBelow.Spells {
                         break;
                     case ESFXTravelType.Instantaneous:
                         //prout
-                        Destroy(Instantiate(SFXData.Prefab, spell.ApplyToSelf?caster.transform.position:target.transform.position, Quaternion.identity), 6f);
+                        Destroy(Instantiate(SFXData.Prefab, caster.transform.position, Quaternion.identity), 6f);
                         //TODO: quaternion.LookRotation to target?
                         break;
                     case ESFXTravelType.ProjectileFromEnemy:

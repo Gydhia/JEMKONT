@@ -10,9 +10,12 @@ namespace DownBelow.Entity
     public abstract class EntityAction
     {
         // Since we have the reference here, we can remove ourself without any help
+        [HideInInspector]
         public List<EntityAction> RefBuffer;
 
+        [HideInInspector]
         public CharacterEntity RefEntity;
+        [HideInInspector]
         public Cell TargetCell;
         protected System.Action EndCallback;
 

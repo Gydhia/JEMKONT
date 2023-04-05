@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using DownBelow.Mechanics;
+using System.Linq;
 
 namespace DownBelow.UI
 {
@@ -25,6 +27,7 @@ namespace DownBelow.UI
         }
 
         public CardVisual CardVisual;
+        public ScriptableCard CardReference;
 
         // In %, which part of the bottom screen won't Pin the card ?
         public int PinUpdatePercents = 33;
@@ -35,19 +38,29 @@ namespace DownBelow.UI
         public bool IsDragged = false;
         public bool PinnedToScreen = false;
         public bool PinnedLeft = false;
+        public bool PinnedForMultipleActions = false;
 
         private RectTransform m_RectTransform;
         // Cached when card clicked. Reference 
         private Vector2 _startDragPos;
+        // TODO: Temporary, later on it'll be handled by the card pile
+        private Vector2 _spawnPosition;
 
         private Coroutine _followCoroutine = null;
         private Coroutine _compareCoroutine = null;
         private Coroutine _pinUpdateCoroutine = null;
 
-        private void Start()
+        public void Init(ScriptableCard CardReference)
         {
             this.m_RectTransform = this.GetComponent<RectTransform>();
             this.CardVisual ??= this.GetComponent<CardVisual>();
+
+            this.CardReference = CardReference;
+            this.CardVisual.Init(CardReference);
+
+            this.m_RectTransform.localPosition= new Vector2(Random.Range(50, 1500) ,m_RectTransform.position.y);
+            this._spawnPosition = m_RectTransform.position;
+            this.PinnedForMultipleActions = this.CardReference.Spells.Where(s => s.RequiresTargetting).Count() > 1;
 
             this._subToEvents();
         }
@@ -62,7 +75,8 @@ namespace DownBelow.UI
         private void _onLeftClickDown(InputAction.CallbackContext ctx) => this._onLeftClickDown();
         private void _onLeftClickDown()
         {
-            if (HoveredCard == this)
+            // Forbid the card drag if currently using another one
+            if (HoveredCard == this && SelectedCard == null)
             {
                 SelectedCard = this;
                 this._startDragPos = Mouse.current.position.ReadValue();
@@ -75,12 +89,11 @@ namespace DownBelow.UI
         private void _onLeftClickUp(InputAction.CallbackContext ctx) => this._onLeftClickUp();
         private void _onLeftClickUp()
         {
-            if (SelectedCard != this)
+            if (SelectedCard != this || this.PinnedToScreen)
                 return;
 
-            if (this._followCoroutine != null)
-                StopCoroutine(this._followCoroutine);
-            this._followCoroutine = null;
+            this._abortCoroutine(ref this._followCoroutine);
+            Debug.Log("Left click on card " + this.name.ToString());
 
             if (Mouse.current.position.ReadValue().y / Screen.height > this.BottomDeadPercents / 100f)
             {
@@ -96,8 +109,6 @@ namespace DownBelow.UI
         private void _onRightClick(InputAction.CallbackContext ctx) => this._onRightClick();
         private void _onRightClick()
         {
-            if (this._pinUpdateCoroutine != null)
-                StopCoroutine(this._pinUpdateCoroutine);
             this.DiscardToPile();
         }
 
@@ -114,18 +125,28 @@ namespace DownBelow.UI
 
         public void StartDrag()
         {
-            this.IsDragged = true;
+            this._abortCoroutine(ref this._compareCoroutine);
 
-            if (this._compareCoroutine != null)
-                StopCoroutine(this._compareCoroutine);
-            this._compareCoroutine = null;
-
-            this._followCoroutine = StartCoroutine(this._followCursor());
+            // Do we require to pin the card for 2 or more inputs ?
+            if (this.PinnedForMultipleActions)
+            {
+                this.IsDragged = true;
+                this._followCoroutine = StartCoroutine(this._followCursor());
+            }
+            else
+            {
+                // TODO : Instead of brutally pinning it right away, make it go to the cursor then fade to pin
+                this.PinCardToScreen();
+            }
         }
         public void PinCardToScreen()
         {
+
+            Debug.Log("Pinned card to screen " + this.name.ToString());
             this.PinnedToScreen = true;
             this.PinnedLeft = true;
+
+            CombatManager.Instance.FireCardBeginUse(this.CardReference);
 
             this._pinUpdateCoroutine = StartCoroutine(_updatePinnedPosition());
         }
@@ -137,6 +158,11 @@ namespace DownBelow.UI
 
         public void DiscardToPile()
         {
+            this._abortCoroutine(ref this._pinUpdateCoroutine);
+            this.PinnedToScreen = this.IsDragged = false;
+
+            // TODO : smoothly go back
+            this.m_RectTransform.position = this._spawnPosition;
             SelectedCard = null;
         }
 
@@ -199,6 +225,13 @@ namespace DownBelow.UI
                     this._pinInverse();
                 }
             }
+        }
+
+        private void _abortCoroutine(ref Coroutine coroutine)
+        {
+            if (coroutine != null)
+                StopCoroutine(coroutine);
+            coroutine = null;
         }
 
         private void _pinInverse()

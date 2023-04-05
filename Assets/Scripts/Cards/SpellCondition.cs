@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace DownBelow.Spells
 {
-    [CreateAssetMenu(menuName = "Spells/SpellCondition")]
+    [CreateAssetMenu(menuName = "Cards/Condition_SO")]
     public class SpellCondition : SerializedScriptableObject
     {
         private SpellResult _currentResult;

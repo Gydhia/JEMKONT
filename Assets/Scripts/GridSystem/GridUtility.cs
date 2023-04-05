@@ -281,6 +281,22 @@ namespace DownBelow.GridSystem
                 return 180;
         }
 
+        public static bool IsCellWithinPlayerRange(ref bool[,] playerRange, GridPosition playerPos, GridPosition targetCell)
+        {
+            int xMin = Mathf.RoundToInt(playerPos.longitude - playerRange.GetLength(1) / 2f);
+            int yMin = Mathf.RoundToInt(playerPos.latitude - playerRange.GetLength(0) / 2f);
+
+            int xOffset = targetCell.longitude - xMin;
+            int yOffset = targetCell.latitude - yMin;
+
+            if (xOffset >= 0 && yOffset >= 0 && xOffset < playerRange.GetLength(1) && yOffset < playerRange.GetLength(0))
+            {
+                return playerRange[xOffset, yOffset];
+            }
+
+            return false;
+        }
+
         #endregion
     }
 }

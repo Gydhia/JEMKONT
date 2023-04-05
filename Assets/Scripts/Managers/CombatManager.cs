@@ -15,27 +15,38 @@ namespace DownBelow.Managers {
     public class CombatManager : _baseManager<CombatManager> {
         #region EVENTS
         public event GridEventData.Event OnCombatStarted;
+        public event GridEventData.Event OnCombatEnded;
         public event EntityEventData.Event OnTurnStarted;
         public event EntityEventData.Event OnTurnEnded;
 
-        public event CardEventData.Event OnCardBeginDrag;
-        public event CardEventData.Event OnCardEndDrag;
+        public event CardEventData.Event OnCardBeginUse;
+        public event CardEventData.Event OnCardEndUse;
 
-        public void FireCombatStarted(WorldGrid Grid) {
+        public void FireCombatStarted(WorldGrid Grid)
+        {
             this.OnCombatStarted?.Invoke(new GridEventData(Grid));
         }
-        public void FireTurnStarted(CharacterEntity Entity) {
+        public void FireCombatEnded(WorldGrid Grid)
+        {
+            this.OnCombatEnded?.Invoke(new GridEventData(Grid));
+        }
+
+        public void FireTurnStarted(CharacterEntity Entity) 
+        {
             this.OnTurnStarted?.Invoke(new EntityEventData(Entity));
         }
-        public void FireTurnEnded(CharacterEntity Entity) {
+        public void FireTurnEnded(CharacterEntity Entity) 
+        {
             this.OnTurnEnded?.Invoke(new EntityEventData(Entity));
         }
 
-        public void FireCardBeginDrag(ScriptableCard Card, Cell Cell = null, bool Played = false) {
-            this.OnCardBeginDrag?.Invoke(new CardEventData(Card, Cell, Played));
+        public void FireCardBeginUse(ScriptableCard Card, Spell[] GeneratedSpells = null, Cell Cell = null, bool Played = false) 
+        {
+            this.OnCardBeginUse?.Invoke(new CardEventData(Card, GeneratedSpells, Cell, Played));
         }
-        public void FireCardEndDrag(ScriptableCard Card, Cell Cell = null, bool Played = false) {
-            this.OnCardEndDrag?.Invoke(new CardEventData(Card, Cell, Played));
+        public void FireCardEndUse(ScriptableCard Card, Spell[] GeneratedSpells = null, Cell Cell = null, bool Played = false) 
+        {
+            this.OnCardEndUse?.Invoke(new CardEventData(Card, GeneratedSpells, Cell, Played));
         }
 
         #endregion
@@ -50,7 +61,6 @@ namespace DownBelow.Managers {
         public CombatGrid CurrentPlayingGrid;
         public List<CharacterEntity> PlayingEntities;
 
-        public ScriptableCard CurrentCard;
         public List<DraggableCard> DiscardPile;
         public Deck DrawPile;
         public List<DraggableCard> HandPile;
@@ -61,21 +71,11 @@ namespace DownBelow.Managers {
         public int TurnNumber;
         #endregion
 
-        private void Start() {
+        private void Start()
+        {
             GameManager.Instance.OnEnteredGrid += this.WelcomePlayerInCombat;
 
-            this.OnCardBeginDrag += _cardDrag;
-            InputManager.Instance.OnCellClickedUp += _cardEndDrag;
-            InputManager.Instance.OnCellRightClick += _processCellClickUp;
-        }
-
-        public void ExecuteSpells(Cell target, ScriptableCard spell) {
-            //TODO : maybe create a method for this
-            if (spell.Cost <= this.CurrentPlayingEntity.Mana) {
-                this.CurrentPlayingEntity.ApplyStat(EntityStatistics.Mana, -spell.Cost);
-
-                this._currentSpells = spell.Spells;
-            }
+            this.OnCardBeginUse += this._beginUseSpell;
         }
 
         public void WelcomePlayerInCombat(EntityEventData Data) {
@@ -116,6 +116,11 @@ namespace DownBelow.Managers {
 
             for (int i = 0;i < SettingsManager.Instance.CombatPreset.CardsToDrawAtStart;i++)
                 DrawCard();
+        }
+
+        public void EndCombat()
+        {
+            this.FireCombatEnded(this.CurrentPlayingGrid.ParentGrid);
         }
 
         public void ProcessStartTurn(string entityID) {
@@ -161,38 +166,62 @@ namespace DownBelow.Managers {
         }
 
         #region CARDS
-        private void _cardDrag(CardEventData Data) {
-            this.CurrentCard = Data.Card;
+        private void _beginUseSpell(CardEventData data)
+        {
+            // Copy it to avoid erasing datas
+            this._currentSpells = new Spell[data.Card.Spells.Length];
+            data.Card.Spells.CopyTo(this._currentSpells, 0);
+
+            DraggableCard.SelectedCard.CardReference.CurrentSpellTargetting = 0;
+
+            InputManager.Instance.OnCellRightClick += _abortUsedSpell;
+            InputManager.Instance.OnCellClickedUp += _processSpellClick;
         }
 
-        private void _cardEndDrag(CellEventData Data) {
-            this._cardEndDrag(Data, false);
+        private void _abortUsedSpell(CellEventData Data)
+        {
+            this.FireCardEndUse(DraggableCard.SelectedCard.CardReference, this._currentSpells, null, false);
+
+            this._currentSpells = null;
+            DraggableCard.SelectedCard.DiscardToPile();
+
+            InputManager.Instance.OnCellRightClick -= _abortUsedSpell;
+            InputManager.Instance.OnCellClickedUp -= _processSpellClick;
         }
 
-        private void _cardEndDrag(CellEventData Data, bool canceled) {
-            // If we aren't dragging card or outside the grid, return
-            if (this.CurrentCard == null)
+        private void _processSpellClick(CellEventData Data)
+        {
+            // No clicked cell -> no need to do anything
+            if (Data.Cell == null)
                 return;
 
-            // If there is no selected Cell, the card should return to hand
-            if (Data.Cell == null || !Data.InCurrentGrid || canceled) {
-                this.FireCardEndDrag(this.CurrentCard, Data.Cell, false);
+            ScriptableCard currentCard = DraggableCard.SelectedCard.CardReference;
+            Spell currentSpell = this._currentSpells[currentCard.CurrentSpellTargetting];
+
+            // If the selected cell isn't of wanted type or isn't within range, same as before
+            if (!currentSpell.TargetType.ValidateTarget(Data.Cell) ||
+                (currentSpell.CastingMatrix != null &&
+                 !GridUtility.IsCellWithinPlayerRange(
+                     ref currentSpell.CastingMatrix,
+                     this.CurrentPlayingEntity.EntityCell.PositionInGrid,
+                     Data.Cell.PositionInGrid
+                  )))
+            {
                 return;
             }
-            // Lastly, cast the card's spell and say that the card has been played
-            else if (this.CurrentCard != null) {
-                this.CurrentCard.CastSpell(Data.Cell);
-            }
 
-            this.FireCardEndDrag(this.CurrentCard, Data.Cell, true);
+            currentSpell.TargetCell = Data.Cell;
 
-            this.CurrentCard = null;
-        }
+            // Means that there are no more targetting spells in the array, so we finished
+            if(currentCard.GetNextTargettingSpellIndex() == -1)
+            {
+                this.FireCardEndUse(currentCard, this._currentSpells, Data.Cell, true);
 
-        private void _processCellClickUp(CellEventData Data) {
-            // If we right click while dragging a card, cancel
-            if (this.CurrentCard != null) {
-                this._cardEndDrag(Data, true);
+                // TODO: make it go to discard pile instead
+                DraggableCard.SelectedCard.DiscardToPile();
+
+                InputManager.Instance.OnCellRightClick -= _abortUsedSpell;
+                InputManager.Instance.OnCellClickedUp -= _processSpellClick;
             }
         }
 
@@ -203,14 +232,17 @@ namespace DownBelow.Managers {
             this.DiscardPile.Add(card);
         }
 
-        public void DrawCard() {
-            if (this.DrawPile.Count > 0) {
+        public void DrawCard() 
+        {
+            if (this.DrawPile.Count > 0) 
+            {
                 this.HandPile.Add(Instantiate(CardPrefab, UIManager.Instance.CardSection.DrawPile.transform).GetComponent<DraggableCard>());
-                this.HandPile[^1].CardVisual.Init(DrawPile.DrawCard());
+                this.HandPile[^1].Init(DrawPile.DrawCard());
 
                 this.HandPile[^1].DrawFromPile();
 
-                if (HandPile.Count > 7) {
+                if (HandPile.Count > 7) 
+                {
                     this.HandPile[^1].DiscardToPile();
                     this.HandPile[^1].Burn();
                     this.HandPile.Remove(this.HandPile[^1]);

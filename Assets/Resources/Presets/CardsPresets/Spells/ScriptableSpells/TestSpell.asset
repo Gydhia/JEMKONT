@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c24d5ac1331fdca479c3c82f04555faf, type: 3}
-  m_Name: Battle Bloodletting
+  m_Script: {fileID: 11500000, guid: a4f5359deb8112447931bee2db9981df, type: 3}
+  m_Name: TestSpell
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
-    SerializedBytes: 
+    SerializedBytes: []
     ReferencedUnityObjects: []
     SerializedBytesString: 
     Prefab: {fileID: 0}
@@ -23,121 +23,10 @@ MonoBehaviour:
     SerializationNodes:
     - Name: UID
       Entry: 2
-      Data: f458d00c6f1f3bacecca9b6125042668
-    - Name: Spells
-      Entry: 7
-      Data: 0|DownBelow.Spells.Spell[], Assembly-CSharp
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 1|DownBelow.Spells.Spell, Assembly-CSharp
-    - Name: RefBuffer
-      Entry: 6
-      Data: 
-    - Name: RefEntity
-      Entry: 6
-      Data: 
-    - Name: TargetCell
-      Entry: 6
-      Data: 
-    - Name: RequiresTargetting
-      Entry: 5
-      Data: true
-    - Name: SpellShapeMatrix
-      Entry: 7
-      Data: 2|System.Boolean[,], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 25
-    - Name: ranks
-      Entry: 1
-      Data: 5|5
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
+      Data: 020f64a03273573025e951a32438bd43
     - Name: CastingMatrix
       Entry: 7
-      Data: 3|System.Boolean[,], mscorlib
+      Data: 0|System.Boolean[,], mscorlib
     - Name: 
       Entry: 12
       Data: 25
@@ -167,16 +56,7 @@ MonoBehaviour:
       Data: false
     - Name: 
       Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
       Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: true
     - Name: 
       Entry: 5
       Data: false
@@ -188,7 +68,10 @@ MonoBehaviour:
       Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
     - Name: 
       Entry: 5
       Data: false
@@ -197,7 +80,13 @@ MonoBehaviour:
       Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
     - Name: 
       Entry: 5
       Data: false
@@ -225,39 +114,97 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: RotateShapeWithCast
+    - Name: SpellShapeMatrix
+      Entry: 7
+      Data: 1|System.Boolean[,], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 25
+    - Name: ranks
+      Entry: 1
+      Data: 5|5
+    - Name: 
       Entry: 5
       Data: false
-    - Name: TargetType
-      Entry: 3
-      Data: 7
-    - Name: ParentSpell
-      Entry: 6
-      Data: 
-    - Name: ConditionData
-      Entry: 6
-      Data: 
-    - Name: ActionData
-      Entry: 6
-      Data: 
-    - Name: CurrentAction
-      Entry: 6
-      Data: 
-    - Name: Caster
-      Entry: 6
-      Data: 
     - Name: 
-      Entry: 8
-      Data: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
     - Name: 
       Entry: 13
       Data: 
     - Name: 
       Entry: 8
       Data: 
-  Title: Battle Bloodletting
-  Cost: 2
-  CardType: 3
-  Description: Teleport to an ally and heal them for 10
-  IllustrationImage: {fileID: 21300000, guid: caacc182410eb214eac15f5f672be178, type: 3}
-  CurrentSpellTargetting: 0
+  Title: AZe
+  CanTargetAnyEntityOnGrid: 0
+  RotateShapeWithCast: 0
+  TargetType: 1

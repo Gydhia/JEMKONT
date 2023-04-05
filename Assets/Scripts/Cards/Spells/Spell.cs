@@ -13,25 +13,81 @@ using UnityEngine;
 
 namespace DownBelow.Spells
 {
+    [System.Flags]
+    public enum TargetType
+    {
+        Self = 0,
+
+        Enemy = 1 << 0,
+        Ally = 1 << 1,
+
+        Empty = 1 << 2,
+
+        Entities = Enemy | Ally,
+        All = Enemy | Ally | Empty
+    }
+
+    public static class TargetTypeHelper
+    {
+        public static bool ValidateTarget(this TargetType value, Cell cell)
+        {
+            switch (value)
+            {
+                case TargetType.Self: return cell.EntityIn == GameManager.Instance.SelfPlayer;
+                case TargetType.Enemy: return cell.EntityIn != null && cell.EntityIn is EnemyEntity;
+                case TargetType.Ally: return cell.EntityIn != null && cell.EntityIn is PlayerBehavior;
+                case TargetType.Empty: return cell.Datas.state == CellState.Walkable;
+                case TargetType.Entities: return cell.Datas.state == CellState.EntityIn;
+                case TargetType.All: return cell.Datas.state != CellState.Blocked;
+            }
+
+            return true;
+        }
+    }
+
     public class Spell : EntityAction
     {
-        public Spell ParentSpell;
-        public SpellCondition ConditionData;
-        public SpellAction ActionData;
+        #region DATA
+        public Spell(CharacterEntity RefEntity, Cell TargetCell, SpellAction ActionData, SpellCondition ConditionData = null)
+           : base(RefEntity, TargetCell)
+        {
+            this.ActionData = ActionData;
+            this.ConditionData = ConditionData;
+        }
 
         public static Color AnchorColor = new(.584313725f, .741176471f, 1f, 1f);
         public static Color SelectedColor = new(.874509804f, 1f, .847058824f, 1f);
         public static Color NotSelectedColor = new(0f, 0f, 0f, 0.5f);
 
+        // TODO : define it  according to casting matrix and target type later ?
+        public bool RequiresTargetting = true;
 
-        public bool CanTargetAnyEntityOnGrid;
-        [DetailedInfoBox("Infos", "Cette grille représente les cases où le sort peut-être lancé. Légende:\nBleu: Position relative du joueur sur la grille.\nVert: case sur laquelle le joueur peut caster son spell.\nNoir: case sur laquelle le joueur ne peut pas caster son spell.")]
-        [TableMatrix(DrawElementMethod = "_processDrawSpellCasting", SquareCells = true, ResizableColumns = false, HorizontalTitle = nameof(CastingMatrix)), OdinSerialize, ShowIf("@CanTargetAnyEntityOnGrid == false"), HorizontalGroup("Grids")]
+        [Button("Rotate Shape 90°"), FoldoutGroup("Spell Targeting"), HorizontalGroup("Spell Targeting/Rotation", Width = 0.5f, Order = -1, MaxWidth = 200)]
+        public void RotateSpellShape() { this.SpellShapeMatrix = GridUtility.RotateSpellMatrix(this.SpellShapeMatrix, 90); }
+
+        [Button, FoldoutGroup("Spell Targeting"), HorizontalGroup("Spell Targeting/Buttons", Width = 0.5f, Order = 0, MaxWidth = 200)]
+        public void RegenerateShape() { SpellShapeMatrix = new bool[5, 5]; }
+
+        [Button, FoldoutGroup("Spell Targeting"), HorizontalGroup("Spell Targeting/Buttons", Width = 0.5f, Order = 0, MaxWidth = 200)]
+        public void RegenerateCasting() { CastingMatrix = new bool[5, 5]; }
+
+        [TableMatrix(DrawElementMethod = "_processDrawSpellShape", SquareCells = true, ResizableColumns = false, HorizontalTitle = nameof(SpellShapeMatrix)), OdinSerialize]
+        [FoldoutGroup("Spell Targeting"), HorizontalGroup("Spell Targeting/Grids", Width = 0.5f, Order = 1, MaxWidth = 200)]
+        public bool[,] SpellShapeMatrix = new bool[5, 5];
+
+        [TableMatrix(DrawElementMethod = "_processDrawSpellCasting", SquareCells = true, ResizableColumns = false, HorizontalTitle = nameof(CastingMatrix)), OdinSerialize]
+        [FoldoutGroup("Spell Targeting"), HorizontalGroup("Spell Targeting/Grids", Width = 0.5f, Order = 1, MaxWidth = 200)]
         public bool[,] CastingMatrix;
 
-        [DetailedInfoBox("Infos", "Cette grille représente l'aire d'effet du sort. Légende:\nBleu: Position relative de la case où le spell sera cast sur la grille.\nVert: cases que le spell affecte.\nNoir: cases que le spell n'affecte pas.")]
-        [TableMatrix(DrawElementMethod = "_processDrawSpellShape", SquareCells = true, ResizableColumns = false, HorizontalTitle = nameof(SpellShapeMatrix)), OdinSerialize, HorizontalGroup("Grids")]
-        public bool[,] SpellShapeMatrix = new bool[5, 5];
+
+        [ShowIf("@this.SpellShapeMatrix != null")]
+        [FoldoutGroup("Spell Targeting"), HorizontalGroup("Spell Targeting/RotationValue", Width = 0.5f, Order = 2, MaxWidth = 100)]
+        public bool RotateShapeWithCast = false;
+
+        [FoldoutGroup("Spell Targeting"), HorizontalGroup("Spell Targeting/TargetType", Order = 3)]
+        public TargetType TargetType;
+
+
 #if UNITY_EDITOR
         private bool _processDrawSpellShape(Rect rect, bool value, int x, int y)
         {
@@ -98,7 +154,7 @@ namespace DownBelow.Spells
                         y = rect.y + (rect.size.y / 4)
                     }, color);
                 //Achor cell
-            } 
+            }
             else
             {
                 EditorGUI.DrawRect(
@@ -108,50 +164,29 @@ namespace DownBelow.Spells
             }
             return value;
         }
+
         [OnInspectorInit]
         private void InitData()
         {
             CastingMatrix ??= new bool[5, 5];
             SpellShapeMatrix ??= new bool[5, 5];
         }
-        
-        [Button("Rotate Shape by 90°")]
-        public void RotateSpellShape()
-        {
-            this.SpellShapeMatrix = GridUtility.RotateSpellMatrix(this.SpellShapeMatrix, 90);
-        }
 
 #endif
-        [ShowIf("@this.SpellShapeMatrix != null")]
-        public bool RotateShapeWithCast = false;
+        #endregion
 
+        #region PLAYABLE
 
-        public bool ApplyToCell = true;
-        public bool ApplyToSelf = false;
-        [EnableIf("@!this.ApplyToEnemies && !this.ApplyToAll")]
-        public bool ApplyToAllies = false;
-        [EnableIf("@!this.ApplyToAllies && !this.ApplyToAll")]
-        public bool ApplyToEnemies = false;
-        [EnableIf("@!this.ApplyToEnemies && !this.ApplyToAllies")]
-        public bool ApplyToAll = false;
-
+        [HideInInspector]
+        public Spell ParentSpell;
+        public SpellCondition ConditionData;
+        public SpellAction ActionData;
 
         // The instantiated spell
         [HideInInspector]
         public SpellAction CurrentAction;
         [HideInInspector]
         public CharacterEntity Caster;
-
-        public Spell(CharacterEntity RefEntity, Cell TargetCell, SpellAction ActionData, SpellCondition ConditionData = null, bool ApplyToCell = true, bool ApplyToSelf = false, bool ApplyToAllies = false, bool ApplyToAll = false)
-            : base(RefEntity, TargetCell)
-        {
-            this.ActionData = ActionData;
-            this.ConditionData = ConditionData;
-            this.ApplyToCell = ApplyToCell;
-            this.ApplyToSelf = ApplyToSelf;
-            this.ApplyToAllies = ApplyToAllies;
-            this.ApplyToAll = ApplyToAll;
-        }
 
         public void Init(Spell parentSpell)
         {
@@ -160,47 +195,14 @@ namespace DownBelow.Spells
 
         public override void ExecuteAction()
         {
-            this.CurrentAction = UnityEngine.Object.Instantiate(this.ActionData, Vector3.zero, Quaternion.identity, CombatManager.Instance.CurrentPlayingEntity.gameObject.transform);
-            this.CurrentAction.Execute(this.GetTargets(RefEntity, TargetCell), this);
+            Debug.Log("Executed spell to " + this.TargetCell.ToString());
             EndAction();
         }
 
         public List<CharacterEntity> GetTargets(CharacterEntity caster, GridSystem.Cell cellTarget)
         {
             List<CharacterEntity> targets = new List<CharacterEntity>();
-            //TODO: If getTarget doesn't get a target in a cell, cancel the spell?
-            if (this.ApplyToCell && cellTarget.EntityIn != null)
-                targets.Add(cellTarget.EntityIn);
-
-            if (this.ApplyToSelf && !targets.Contains(caster))
-                targets.Add(caster);
-
-            if (this.ApplyToAllies)
-            {
-                foreach (CharacterEntity item in CombatManager.Instance.PlayingEntities)
-                {
-                    if (item.IsAlly && !targets.Contains(item))
-                        targets.Add(item);
-                }
-            }
-
-            if (this.ApplyToEnemies)
-            {
-                foreach (CharacterEntity item in CombatManager.Instance.PlayingEntities)
-                {
-                    if (!item.IsAlly && !targets.Contains(item))
-                        targets.Add(item);
-                }
-            }
-
-            if (this.ApplyToAll)
-            {
-                foreach (CharacterEntity item in CombatManager.Instance.PlayingEntities)
-                {
-                    if (!targets.Contains(item))
-                        targets.Add(item);
-                }
-            }
+           
 
             return targets;
         }
@@ -215,5 +217,7 @@ namespace DownBelow.Spells
         {
             throw new NotImplementedException();
         }
+
+        #endregion
     }
 }

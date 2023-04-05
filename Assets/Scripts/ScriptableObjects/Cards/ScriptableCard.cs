@@ -12,20 +12,30 @@ namespace DownBelow.Mechanics
 {
     public enum ECardType { Melee, Ranged, Special }
 
-    [CreateAssetMenu(menuName = "Card")]
+    [CreateAssetMenu(menuName = "Cards/SO_Card")]
     public class ScriptableCard : SerializedScriptableObject
     {
+        #region SERIALIZATION
         [ReadOnly]
         public Guid UID;
         [OnValueChanged("_updateUID")]
         public string Title;
+        private void _updateUID()
+        {
+            using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
+            {
+                byte[] hash = md5.ComputeHash(System.Text.Encoding.UTF8.GetBytes(Title));
+                this.UID = new Guid(hash);
+            }
+        }
+        #endregion
+
         public int Cost;
         public CardType CardType;
         [TextArea] 
         public string Description;
         public Sprite IllustrationImage;
 
-        [OdinSerialize]
         public Spell[] Spells;
         private void OnValidate() {
             Title = name;
@@ -36,17 +46,24 @@ namespace DownBelow.Mechanics
             Managers.NetworkManager.Instance.AskCastSpell(this, cell);
         }
 
-        private void _updateUID()
-        {
-            using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
-            {
-                byte[] hash = md5.ComputeHash(System.Text.Encoding.UTF8.GetBytes(Title));
-                this.UID = new Guid(hash);
-            }
-        }
+        public bool IsTrackable() => true; //this.Spells.Length > 0 && this.Spells[0].ApplyToCell;
 
-        public bool IsTrackable() => this.Spells.Length > 0 && this.Spells[0].ApplyToCell;
-    
+
+        public int CurrentSpellTargetting = 0;
+
+        public int GetNextTargettingSpellIndex()
+        {
+            for (int i = CurrentSpellTargetting + 1; i < this.Spells.Length; i++)
+            {
+                if (this.Spells[i].RequiresTargetting)
+                {
+                    CurrentSpellTargetting = i;
+                    return CurrentSpellTargetting;
+                }
+            }
+
+            return -1;
+        }
     }
 
     public enum CardType

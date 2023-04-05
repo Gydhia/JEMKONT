@@ -125,27 +125,15 @@ namespace DownBelow.Managers
 
             PlayerBehavior selfPlayer = GameManager.Instance.SelfPlayer;
 
-            // Combat behavior
-            if (selfPlayer.CurrentGrid.IsCombatGrid && selfPlayer.IsPlayingEntity)
-            {
-                // When not grabbing card
-                if (CombatManager.Instance.CurrentCard == null)
-                {
-                    if (selfPlayer.IsAutoAttacking)
-                    {
-                        if (LastHoveredCell.Datas.state == CellState.EntityIn)
-                        {
-                            if (!selfPlayer.isInAttackRange(LastHoveredCell)) selfPlayer.IsAutoAttacking = false; else selfPlayer.AutoAttack(LastHoveredCell);
-                        }
-                    }
-                    else if (this.LastHoveredCell.Datas.state == CellState.Walkable && this._possiblePath.Contains(this.LastHoveredCell))
-                    {
-                        NetworkManager.Instance.EntityAskToBuffAction(new CombatMovementAction(selfPlayer, this.LastHoveredCell));
-                    }
-                }
-            }
-            // When out of combat
-            else if (!selfPlayer.CurrentGrid.IsCombatGrid && this.LastHoveredCell.Datas.state != CellState.Blocked)
+            if (selfPlayer.CurrentGrid.IsCombatGrid)
+                this.ProcessCellClickUp_Combat(selfPlayer);
+            else
+                this.ProcessCellClickUp_Exploration(selfPlayer);
+        }
+
+        public void ProcessCellClickUp_Exploration(PlayerBehavior selfPlayer)
+        {
+            if (this.LastHoveredCell.Datas.state != CellState.Blocked)
             {
                 Cell closestCell = this.LastHoveredCell;
                 string otherGrid = string.Empty;
@@ -193,6 +181,31 @@ namespace DownBelow.Managers
                 }
             }
         }
+        public void ProcessCellClickUp_Combat(PlayerBehavior selfPlayer)
+        {
+            if (selfPlayer.IsPlayingEntity)
+            {
+                // When not grabbing card
+                if (UI.DraggableCard.SelectedCard == null)
+                {
+                    if (selfPlayer.IsAutoAttacking)
+                    {
+                        if (LastHoveredCell.Datas.state == CellState.EntityIn)
+                        {
+                            if (!selfPlayer.isInAttackRange(LastHoveredCell)) 
+                                selfPlayer.IsAutoAttacking = false; 
+                            else
+                                selfPlayer.AutoAttack(LastHoveredCell);
+                        }
+                    }
+                    else if (this.LastHoveredCell.Datas.state == CellState.Walkable && this._possiblePath.Contains(this.LastHoveredCell))
+                    {
+                        NetworkManager.Instance.EntityAskToBuffAction(new CombatMovementAction(selfPlayer, this.LastHoveredCell));
+                    }
+                }
+            }
+        }
+
         public void ProcessCellClickDown(CellEventData data)
         {
             if (this.LastHoveredCell == null)
@@ -200,12 +213,21 @@ namespace DownBelow.Managers
 
             PlayerBehavior selfPlayer = GameManager.Instance.SelfPlayer;
 
-            // Combat behavior
             if (selfPlayer.CurrentGrid.IsCombatGrid)
-            {
-                if (CombatManager.Instance.CurrentPlayingEntity == selfPlayer && selfPlayer.EntityCell == LastHoveredCell && selfPlayer.CanAutoAttack)
-                    selfPlayer.IsAutoAttacking = true;
-            }
+                this.ProcessCellClickDown_Combat(selfPlayer);
+            else
+                this.ProcessCellClickDown_Exploration(selfPlayer);
+        }
+
+        public void ProcessCellClickDown_Exploration(PlayerBehavior selfPlayer)
+        {
+
+        }
+
+        public void ProcessCellClickDown_Combat(PlayerBehavior selfPlayer)
+        {
+            if (CombatManager.Instance.CurrentPlayingEntity == selfPlayer && selfPlayer.EntityCell == LastHoveredCell && selfPlayer.CanAutoAttack)
+                selfPlayer.IsAutoAttacking = true;
         }
 
         public void ProcessNewCellHovered(CellEventData Data)

@@ -57,8 +57,8 @@ namespace DownBelow.Managers
             GameManager.Instance.SelfPlayer.OnGatheringEnded += EndGather;
             GameManager.Instance.SelfPlayer.OnGatheringCanceled += EndGather;
 
-            CombatManager.Instance.OnCardBeginDrag += this._beginCardDrag;
-            CombatManager.Instance.OnCardEndDrag += this._endCardDrag;
+            CombatManager.Instance.OnCardBeginUse += this._beginCardDrag;
+            CombatManager.Instance.OnCardEndUse += this._endCardDrag;
 
             InputManager.Instance.OnCellRightClick += this.UpdateEntityToolTip;
 
@@ -157,7 +157,6 @@ namespace DownBelow.Managers
         private void _endCardDrag(CardEventData Data)
         {
             InputManager.Instance.ChangeCursorAppearance(CursorAppearance.Idle);
-
         }
     }
 }

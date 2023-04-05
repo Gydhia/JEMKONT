@@ -10,8 +10,6 @@ namespace DownBelow.UI
 {
     public class CardVisual : MonoBehaviour
     {
-        public ScriptableCard CardReference;
-
         public Image IllustrationImage;
         public Image ShineImage;
 
@@ -20,13 +18,6 @@ namespace DownBelow.UI
         public TextMeshProUGUI DescText;
 
         public void Init(ScriptableCard CardReference)
-        {
-            this.CardReference = CardReference;
-
-            this.UpdateVisual();
-        }
-
-        public void UpdateVisual()
         {
             this.ShineImage.enabled = false;
             this.CostText.text = CardReference.Cost.ToString();
@@ -49,7 +40,6 @@ namespace DownBelow.UI
                     break;
             }
         }
-
         public void Hover()
         {
             this.ShineImage.enabled = true;

@@ -243,8 +243,8 @@ namespace DownBelow.Managers
         public void RPC_CastSpell(string spellName, int longitude, int latittude)
         {
             ScriptableCard cardToPlay = CardsManager.Instance.ScriptableCards[System.Guid.Parse(spellName)];
-            if (cardToPlay != null)
-                CombatManager.Instance.ExecuteSpells(CombatManager.Instance.CurrentPlayingGrid.Cells[latittude, longitude], cardToPlay);
+            //if (cardToPlay != null)
+            //    CombatManager.Instance.ExecuteSpells(CombatManager.Instance.CurrentPlayingGrid.Cells[latittude, longitude], cardToPlay);
         }
         #endregion
 
