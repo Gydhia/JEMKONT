@@ -43,6 +43,7 @@ namespace DownBelow.Spells {
 
             spellRef.Caster.SubToSpell(this);
         }
+
         async Task ProjectileGoTo(Transform ProjTransform, Transform Target, float TravelTime) {
             ProjTransform.transform.DOLookAt(Target.position, 0f);
             ProjTransform.transform.DOMoveX(Target.position.x, TravelTime);
@@ -51,6 +52,7 @@ namespace DownBelow.Spells {
             await new WaitForSeconds(TravelTime);
             ProjTransform.GetComponent<Rigidbody>().isKinematic = false;
         }
+
         public virtual async Task DoSFX(CharacterEntity caster, Cell target, Spell spell) {
             GameObject proj = null;
             Animator anim = null;
