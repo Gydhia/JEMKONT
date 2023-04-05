@@ -51,9 +51,9 @@ namespace DownBelow.Managers {
         public List<CharacterEntity> PlayingEntities;
 
         public ScriptableCard CurrentCard;
-        public List<DraggedCard> DiscardPile;
+        public List<DraggableCard> DiscardPile;
         public Deck DrawPile;
-        public List<DraggedCard> HandPile;
+        public List<DraggableCard> HandPile;
 
         public GameObject CardPrefab;
         public List<SpellAction> PossibleAutoAttacks;
@@ -196,7 +196,7 @@ namespace DownBelow.Managers {
             }
         }
 
-        public void DiscardCard(DraggedCard card) {
+        public void DiscardCard(DraggableCard card) {
             UIManager.Instance.CardSection.AddDiscardCard(1);
 
             this.HandPile.Remove(card);
@@ -205,7 +205,7 @@ namespace DownBelow.Managers {
 
         public void DrawCard() {
             if (this.DrawPile.Count > 0) {
-                this.HandPile.Add(Instantiate(CardPrefab, UIManager.Instance.CardSection.DrawPile.transform).GetComponent<DraggedCard>());
+                this.HandPile.Add(Instantiate(CardPrefab, UIManager.Instance.CardSection.DrawPile.transform).GetComponent<DraggableCard>());
                 this.HandPile[^1].CardVisual.Init(DrawPile.DrawCard());
 
                 this.HandPile[^1].DrawFromPile();

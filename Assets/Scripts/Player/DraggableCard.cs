@@ -8,12 +8,12 @@ using UnityEngine.InputSystem;
 
 namespace DownBelow.UI
 {
-    public class DraggedCard : MonoBehaviour, IPointerEnterHandler, IPointerDownHandler, IPointerExitHandler
+    public class DraggableCard : MonoBehaviour, IPointerEnterHandler, IPointerDownHandler, IPointerExitHandler
     {
-        public static DraggedCard SelectedCard;
+        public static DraggableCard SelectedCard;
 
-        private static DraggedCard _hoveredCard;
-        public static DraggedCard HoveredCard
+        private static DraggableCard _hoveredCard;
+        public static DraggableCard HoveredCard
         {
             get { return _hoveredCard; }
             set
