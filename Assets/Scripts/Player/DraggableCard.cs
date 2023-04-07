@@ -111,7 +111,8 @@ namespace DownBelow.UI
         private void _onRightClick(InputAction.CallbackContext ctx) => this._onRightClick();
         private void _onRightClick()
         {
-            this.DiscardToPile();
+            if(this.PinnedToScreen)
+                this.DiscardToPile();
         }
 
         public void OnPointerEnter(PointerEventData eventData)
@@ -183,7 +184,6 @@ namespace DownBelow.UI
             
 
             // TODO : smoothly go back
-          //  this.m_RectTransform.position = this._spawnPosition;
             this.m_RectTransform.DOMove(this._spawnPosition, 0.3f).SetEase(Ease.OutQuad);
             SelectedCard = null;
         }
