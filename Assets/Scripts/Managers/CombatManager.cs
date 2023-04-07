@@ -236,7 +236,7 @@ namespace DownBelow.Managers {
         {
             if (this.DrawPile.Count > 0) 
             {
-                this.HandPile.Add(Instantiate(CardPrefab, UIManager.Instance.CardSection.DrawPile.transform).GetComponent<DraggableCard>());
+                this.HandPile.Add(Instantiate(CardPrefab, UIManager.Instance.CardSection.CardsHolder.transform).GetComponent<DraggableCard>());
                 this.HandPile[^1].Init(DrawPile.DrawCard());
 
                 this.HandPile[^1].DrawFromPile();

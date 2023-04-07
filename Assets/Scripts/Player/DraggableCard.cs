@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using DownBelow.Mechanics;
 using System.Linq;
+using DG.Tweening;
 
 namespace DownBelow.UI
 {
@@ -58,8 +59,9 @@ namespace DownBelow.UI
             this.CardReference = CardReference;
             this.CardVisual.Init(CardReference);
 
-            this.m_RectTransform.localPosition= new Vector2(Random.Range(50, 1500) ,m_RectTransform.position.y);
-            this._spawnPosition = m_RectTransform.position;
+           // this.m_RectTransform.localPosition= new Vector2(Random.Range(50, 1500) ,m_RectTransform.position.y);
+            this._spawnPosition = m_RectTransform.position;  
+            this.m_RectTransform.DOLocalMoveY(this._spawnPosition.y, 0.3f);
             this.PinnedForMultipleActions = this.CardReference.Spells.Where(s => s.RequiresTargetting).Count() > 1;
 
             this._subToEvents();
@@ -115,18 +117,23 @@ namespace DownBelow.UI
         public void OnPointerEnter(PointerEventData eventData)
         {
             HoveredCard = this;
+            HoveredCard.Hover();
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
             if (HoveredCard == this)
+            {
+                HoveredCard.UnHover();
                 HoveredCard = null;
+            }
         }
 
         public void StartDrag()
         {
             this._abortCoroutine(ref this._compareCoroutine);
-
+          //  UIManager.Instance.CardSection.UpdateLayoutGroup();
+            
             // Do we require to pin the card for 2 or more inputs ?
             if (this.PinnedForMultipleActions)
             {
@@ -139,6 +146,17 @@ namespace DownBelow.UI
                 this.PinCardToScreen();
             }
         }
+
+        private void Hover()
+        {
+            HoveredCard.m_RectTransform.DOLocalMoveY(HoveredCard._spawnPosition.y + 100f, 0.3f);
+        }
+
+        private void UnHover()
+        {
+            HoveredCard.m_RectTransform.DOLocalMoveY(HoveredCard._spawnPosition.y, 0.3f);
+        }
+        
         public void PinCardToScreen()
         {
 
@@ -160,9 +178,13 @@ namespace DownBelow.UI
         {
             this._abortCoroutine(ref this._pinUpdateCoroutine);
             this.PinnedToScreen = this.IsDragged = false;
+            this.m_RectTransform.parent = UIManager.Instance.CardSection.CardsHolder.transform;
+            
+            
 
             // TODO : smoothly go back
-            this.m_RectTransform.position = this._spawnPosition;
+          //  this.m_RectTransform.position = this._spawnPosition;
+            this.m_RectTransform.DOMove(this._spawnPosition, 0.3f).SetEase(Ease.OutQuad);
             SelectedCard = null;
         }
 
@@ -242,7 +264,7 @@ namespace DownBelow.UI
                 UIManager.Instance.CombatSection.LeftPin :
                 UIManager.Instance.CombatSection.RightPin;
 
-            this.m_RectTransform.localPosition = Vector2.zero;
+            this.m_RectTransform.DOLocalMove(Vector2.zero, 0.3f).SetEase(Ease.InOutQuint);
         }
 
         private void _subToEvents()
