@@ -219,7 +219,11 @@ namespace DownBelow.Managers {
             }
         }
 
-        public void DiscardCard(CardComponent card) {
+        public void DiscardCard(CardComponent card)
+        {
+            card.OnHover -= SetCanCardsBeHovered;
+            card.OnHover -= ResetCardCanBeHovered;
+            
             UIManager.Instance.CardSection.AddDiscardCard(1);
 
             this.HandPile.Remove(card);
@@ -227,8 +231,17 @@ namespace DownBelow.Managers {
         }
 
         public void DrawCard() {
-            if (this.DrawPile.Count > 0) {
-                this.HandPile.Add(Instantiate(CardPrefab, UIManager.Instance.CardSection.DrawPile.transform).GetComponent<CardComponent>());
+            if (this.DrawPile.Count > 0)
+            {
+                GameObject go = Instantiate(CardPrefab, UIManager.Instance.CardSection.DrawPile.transform);
+                
+                CardComponent component = go.GetComponent<CardComponent>();
+                
+                this.HandPile.Add(component);
+
+                component.OnHover += SetCanCardsBeHovered;
+                component.OnStopHover += ResetCardCanBeHovered;
+                
                 this.HandPile[^1].Init(DrawPile.DrawCard());
 
                 this.HandPile[^1].DrawCardFromPile();
@@ -258,6 +271,26 @@ namespace DownBelow.Managers {
             this.FireTurnEnded(this.CurrentPlayingEntity);
         }
 
+        private void SetCanCardsBeHovered(CardComponent cardComponent)
+        {
+            foreach (CardComponent card in this.HandPile)
+            {
+                if (card != cardComponent)
+                {
+                    card.canBeHovered = false;
+                    Debug.Log(card.canBeHovered);
+                }
+            }
+        }
+
+        private void ResetCardCanBeHovered(CardComponent component)
+        {
+            foreach (CardComponent card in this.HandPile)
+            {
+                card.canBeHovered = true;
+            }
+        }
+        
         private void _defineEntitiesTurn() {
             List<CharacterEntity> enemies = this.CurrentPlayingGrid.GridEntities.Where(x => !x.IsAlly).ToList();
             List<CharacterEntity> players = this.CurrentPlayingGrid.GridEntities.Where(x => x.IsAlly).ToList();

@@ -3,11 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="f51ef5ce-4271-4853-a7ef-98596d968ffc" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.JEMKONT/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.JEMKONT/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/UI/Combat UI.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/UI/Combat UI.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/UI/WorldSpace/Combat Feedbacks.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/UI/WorldSpace/Combat Feedbacks.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/WIP/Killian.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/WIP/Killian.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/CombatFeedbacks.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/CombatFeedbacks.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/EntityTooltipUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/EntityTooltipUI.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/SpellCard.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/SpellCard.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Managers/CombatManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Managers/CombatManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/CardComponent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/CardComponent.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,14 +16,13 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/UI/AlterationsFeedback.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/UI/AlterationDictionnary.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/UI/AlterationsFeedback.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
       <option value="$PROJECT_DIR$/Assets/Scripts/UI/UICardSection.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Managers/CameraManager.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Player/CardComponent.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Managers/GameManager.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/ScriptableObjects/Entity/EntityPreset.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/PlayerBehavior.cs" />
@@ -35,7 +32,12 @@
       <option value="$PROJECT_DIR$/Assets/Scripts/UI/AlterationDictionnary.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/UI/EntityTooltipUI.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/UI/CombatFeedbacks.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Managers/CombatManager.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Player/CardComponent.cs" />
     </changedPaths>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2LlnWbtq5m8UtJUsVDiSNgZQYa8" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -43,18 +45,41 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="Discover.Launch.Via.Unity" value="true" />
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="vue.rearranger.settings.migration" value="true" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Discover.Launch.Via.Unity": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "rider.external.source.directories": [
+      "C:\\Users\\ninos\\AppData\\Roaming\\JetBrains\\Rider2022.3\\resharper-host\\DecompilerCache",
+      "C:\\Users\\ninos\\AppData\\Roaming\\JetBrains\\Rider2022.3\\resharper-host\\SourcesCache",
+      "C:\\Users\\ninos\\AppData\\Local\\Symbols\\src"
+    ]
+  }
+}]]></component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Standalone Player" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="E:/Builds/DownBelow\JEMKONT.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="E:\Builds\DownBelow" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
+      <option name="EXE_PATH" value="D:\Games\Editor\2021.3.10f1\Editor\Unity.exe" />
+      <option name="PROGRAM_PARAMETERS" value="-projectPath D:\projects\JEMKONT -debugCodeOptimization" />
+      <option name="WORKING_DIRECTORY" value="D:\projects\JEMKONT" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <method v="2" />
+    </configuration>
+    <configuration name="UnitTests (batch mode)" type="RunUnityExe" factoryName="Unity Executable">
+      <option name="EXE_PATH" value="D:\Games\Editor\2021.3.10f1\Editor\Unity.exe" />
+      <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath D:\projects\JEMKONT -testResults Logs/results.xml -testPlatform EditMode -debugCodeOptimization" />
+      <option name="WORKING_DIRECTORY" value="D:\projects\JEMKONT" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <method v="2" />
@@ -90,7 +115,9 @@
       <updated>1676454606207</updated>
       <workItem from="1676454699195" duration="16213000" />
       <workItem from="1676540287856" duration="14662000" />
-      <workItem from="1676641394300" duration="227000" />
+      <workItem from="1676641394300" duration="6607000" />
+      <workItem from="1677232338939" duration="514000" />
+      <workItem from="1677234673628" duration="1218000" />
     </task>
     <servers />
   </component>
@@ -109,7 +136,6 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
