@@ -75,7 +75,8 @@ namespace DownBelow.Managers
             if (!GameManager.GameStarted)
                 return;
 
-            this.IsPressingShift = Keyboard.current.shiftKey.IsPressed();
+            if(ReferenceEquals(Keyboard.current, null))
+                this.IsPressingShift = Keyboard.current.shiftKey.IsPressed();
 
             #region CELLS_RAYCAST
             RaycastHit hit;

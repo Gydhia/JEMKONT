@@ -280,7 +280,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Jemkont.Managers.NetworkManager, Assembly-CSharp
+        m_TargetAssemblyTypeName: DownBelow.Managers.NetworkManager, Assembly-CSharp
         m_MethodName: PlayerAsksToStartCombat
         m_Mode: 1
         m_Arguments:
@@ -643,7 +643,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3903237730759300584, guid: d47697b3d0d1e924eaead537ef6cad1b, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0.03
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3903237730759300584, guid: d47697b3d0d1e924eaead537ef6cad1b, type: 3}
       propertyPath: m_SizeDelta.x
@@ -651,7 +651,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3903237730759300584, guid: d47697b3d0d1e924eaead537ef6cad1b, type: 3}
       propertyPath: m_SizeDelta.y
-      value: -0.000030517578
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3903237730759300584, guid: d47697b3d0d1e924eaead537ef6cad1b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -705,13 +705,50 @@ PrefabInstance:
       propertyPath: m_Name
       value: CardsSection
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 5834470153229627447, guid: d47697b3d0d1e924eaead537ef6cad1b, type: 3}
+      propertyPath: CardsHolder
+      value: 
+      objectReference: {fileID: 1522984959716470875}
+    m_RemovedComponents:
+    - {fileID: 484240432393232711, guid: d47697b3d0d1e924eaead537ef6cad1b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: d47697b3d0d1e924eaead537ef6cad1b, type: 3}
 --- !u!224 &1432938575163897506 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3903237730759300584, guid: d47697b3d0d1e924eaead537ef6cad1b, type: 3}
   m_PrefabInstance: {fileID: 2722922970817651530}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1522984959716470875 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3525050511889781521, guid: d47697b3d0d1e924eaead537ef6cad1b, type: 3}
+  m_PrefabInstance: {fileID: 2722922970817651530}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1949338518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1522984959716470875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bc2695204dec334f9e74a7a0eff875b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  moveDuration: 0.3
+  m_ChildAlignment: 4
+  m_Spacing: -455
+  m_ChildForceExpandWidth: 0
+  m_ChildForceExpandHeight: 0
+  m_ChildControlWidth: 1
+  m_ChildControlHeight: 1
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!1001 &3585225362950765025
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -944,6 +981,10 @@ PrefabInstance:
     - target: {fileID: 7262511405115443703, guid: 82b4a94c4f8818c489c8ba97921777e8, type: 3}
       propertyPath: m_Name
       value: PlayerSection
+      objectReference: {fileID: 0}
+    - target: {fileID: 8713246594164556232, guid: 82b4a94c4f8818c489c8ba97921777e8, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 82b4a94c4f8818c489c8ba97921777e8, type: 3}

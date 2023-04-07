@@ -33,10 +33,10 @@ RectTransform:
   m_Father: {fileID: 8470581299613062704}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 0.4}
-  m_AnchoredPosition: {x: 0, y: 8}
-  m_SizeDelta: {x: -12, y: -8}
+  m_AnchorMin: {x: 0.1, y: 0}
+  m_AnchorMax: {x: 0.9, y: 0.4}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &3706166891534268863
 CanvasRenderer:
@@ -100,7 +100,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 8
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -149,6 +149,7 @@ GameObject:
   - component: {fileID: 1023476501226774683}
   - component: {fileID: 3441320804725292703}
   - component: {fileID: 4069808498464907337}
+  - component: {fileID: 3301511079063062290}
   m_Layer: 0
   m_Name: SpellCard
   m_TagString: Untagged
@@ -229,6 +230,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CardVisual: {fileID: 3441320804725292703}
+  CardReference: {fileID: 0}
   PinUpdatePercents: 33
   BottomDeadPercents: 20
   DistanceToDrag: 125
@@ -236,6 +238,7 @@ MonoBehaviour:
   IsDragged: 0
   PinnedToScreen: 0
   PinnedLeft: 0
+  PinnedForMultipleActions: 0
 --- !u!114 &3441320804725292703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -248,7 +251,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f94e3df0ac4d724c88d9a013d56c9e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CardReference: {fileID: 0}
   IllustrationImage: {fileID: 9096573638424049284}
   ShineImage: {fileID: 8600297445977905193}
   CostText: {fileID: 2881650663093787906}
@@ -268,6 +270,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_AspectMode: 1
   m_AspectRatio: 0.7062937
+--- !u!114 &3301511079063062290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1236948560037684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: 260
+  m_MinHeight: -1
+  m_PreferredWidth: -1
+  m_PreferredHeight: -1
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &1269627508535022
 GameObject:
   m_ObjectHideFlags: 0
@@ -343,8 +365,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1148,9 +1170,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 30a4687c302804bcc8a530c5f7467a3c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c0df7c292ebbe4b7b9b58701d5f51bd4, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
