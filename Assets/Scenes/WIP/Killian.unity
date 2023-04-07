@@ -1027,6 +1027,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1746934668972595159, guid: 7254b2bc37c3b9349bdcd633f69557e6, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1746934668972595159, guid: 7254b2bc37c3b9349bdcd633f69557e6, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
@@ -17021,6 +17025,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1859377504824037428, guid: 4ca2886ca8c874344a6e08aafdf4d9de, type: 3}
   m_PrefabInstance: {fileID: 642402162}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &643174471
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 643174472}
+  m_Layer: 0
+  m_Name: CellIndicatorPoolParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &643174472
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 643174471}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 14.06991, y: 32.11251, z: -30.312689}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 16
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &650639106
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -59740,6 +59775,10 @@ PrefabInstance:
       propertyPath: VirtualCamera
       value: 
       objectReference: {fileID: 127333210}
+    - target: {fileID: 4056352322092990697, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: PoolContainer
+      value: 
+      objectReference: {fileID: 643174471}
     - target: {fileID: 4946891328310257652, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
       propertyPath: sceneViewId
       value: 1

@@ -9,6 +9,6 @@ public class PoolManager : MonoSingleton<PoolManager>
 
     private void Start()
     {
-        CellIndicatorPool.InitPool(50);
+        CellIndicatorPool.InitPool(20);
     }
 }
