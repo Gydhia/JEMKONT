@@ -88,7 +88,7 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
     public void ApplyTerrainToGrid()
     {
         ApplyTerrainButtonName = "Getting gridTerrainApplier..";
-        GridTerrainApplier gridTerrainApplier = GridManager.Instance.gameObject.GetComponent<GridTerrainApplier>();
+        GridTerrainApplier gridTerrainApplier = GridManager.Instance._gridsDataHandler.GetComponent<GridTerrainApplier>();
         if (gridTerrainApplier == null)
         {
             ApplyTerrainButtonName = "No gridTerrainApplier found";
