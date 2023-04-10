@@ -29,16 +29,6 @@ namespace DownBelow.Entity
                 EndAction();
         }
 
-        public override void EndAction()
-        {
-            indic.ForEach(indicator =>
-            {
-                indicator.TryReleaseToPool();
-            });
-            indic.Clear();
-            base.EndAction();
-        }
-
         public virtual void MoveWithPath()
         {
             // Useless to animate hidden players
@@ -60,10 +50,7 @@ namespace DownBelow.Entity
         public IEnumerator FollowPath()
         {
             this.RefEntity.IsMoving = true;
-            indic = PoolManager.Instance.CellIndicatorPool.DisplayIndicators(new List<Cell>
-            {
-                this.calculatedPath[^1]
-            }, Color.green);
+            
             int currentCell = 0, targetCell = 1;
             float TimeToCrossCell = SettingsManager.Instance.GridsPreset.TimeToCrossCell;
             float timer;

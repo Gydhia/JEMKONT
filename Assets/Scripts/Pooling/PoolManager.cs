@@ -1,14 +1,18 @@
+using DownBelow.Pools;
 using EODE.Wonderland;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PoolManager : MonoSingleton<PoolManager>
+namespace DownBelow.Managers
 {
-    public CellIndicatorPool CellIndicatorPool;
-
-    private void Start()
+    public class PoolManager : _baseManager<PoolManager>
     {
-        CellIndicatorPool.InitPool(20);
+        public CellIndicatorPool CellIndicatorPool;
+
+        private void Start()
+        {
+            CellIndicatorPool.InitPool(20);
+        }
     }
 }

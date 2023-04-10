@@ -12,7 +12,8 @@ using DownBelow.Mechanics;
 using DownBelow.UI;
 
 namespace DownBelow.Managers {
-    public class CombatManager : _baseManager<CombatManager> {
+    public class CombatManager : _baseManager<CombatManager> 
+    {
         #region EVENTS
         public event GridEventData.Event OnCombatStarted;
         public event GridEventData.Event OnCombatEnded;

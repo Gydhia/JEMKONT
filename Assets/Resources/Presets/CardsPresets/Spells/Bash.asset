@@ -15,7 +15,9 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 0}
+    - {fileID: 0}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -50,8 +52,8 @@ MonoBehaviour:
       Entry: 6
       Data: 
     - Name: TargetCell
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 0
     - Name: RequiresTargetting
       Entry: 5
       Data: true
@@ -269,8 +271,8 @@ MonoBehaviour:
       Entry: 6
       Data: 
     - Name: TargetCell
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 1
     - Name: RequiresTargetting
       Entry: 5
       Data: true
@@ -459,7 +461,7 @@ MonoBehaviour:
       Data: false
     - Name: TargetType
       Entry: 3
-      Data: 0
+      Data: 7
     - Name: ParentSpell
       Entry: 6
       Data: 

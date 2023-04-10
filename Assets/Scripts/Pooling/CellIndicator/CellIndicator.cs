@@ -8,24 +8,23 @@ public class CellIndicator : MonoBehaviour, IPoolable
     public IObjectPool Pool { get; set; }
     public bool Pooled { get; set; }
 
+    public MeshRenderer CellRenderer;
     public Color Color
     {
         get
         {
-            return Color;
+            return CellRenderer.material.color;
         }
         set
         {
-            //TODO : Call Material Change?
+            // TODO : change this through Material Property Block instead
+            CellRenderer.material.color = value;
         }
     }
 
     public void DisableFromPool()
     {
-        // Tu reinitialises toutes les valeurs de l'objet / ou tu desabonnes aux events auxquels tu t'es potentiellement plug
-        Color = new(0, 0, 0, 0);
         Pooled = false;
-        //TODO: ResetParent?
         gameObject.SetActive(false);
     }
 
