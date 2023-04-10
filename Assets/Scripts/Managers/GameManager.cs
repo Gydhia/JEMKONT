@@ -257,7 +257,7 @@ namespace DownBelow.Managers
                         // Hide everything but the first one that is being played
                         if(action.RefEntity == this.SelfPlayer)
                             for (int i = 1; i < NormalActionsBuffer[action.RefEntity].Count; i++)
-                                PoolManager.Instance.CellIndicatorPool.HideIndicators(NormalActionsBuffer[action.RefEntity][i]);
+                                PoolManager.Instance.CellIndicatorPool.HideActionIndicators(NormalActionsBuffer[action.RefEntity][i]);
 
                         NormalActionsBuffer[action.RefEntity].RemoveRange(1, NormalActionsBuffer[action.RefEntity].Count - 1);
                     }
@@ -268,7 +268,7 @@ namespace DownBelow.Managers
                 action.RefBuffer = NormalActionsBuffer[action.RefEntity];
 
                 if (action.RefEntity == this.SelfPlayer)
-                    PoolManager.Instance.CellIndicatorPool.DisplayIndicators(action);
+                    PoolManager.Instance.CellIndicatorPool.DisplayActionIndicators(action);
 
                 //Still don't know what that means
                 if (!IsUsingNormalBuffer)

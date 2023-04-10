@@ -22,9 +22,13 @@ public class CellIndicator : MonoBehaviour, IPoolable
         }
     }
 
+    public bool IsOveridden = false;
+
+
     public void DisableFromPool()
     {
         Pooled = false;
+        IsOveridden = false;
         gameObject.SetActive(false);
     }
 

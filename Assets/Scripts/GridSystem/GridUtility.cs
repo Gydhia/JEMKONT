@@ -297,6 +297,36 @@ namespace DownBelow.GridSystem
             return false;
         }
 
+        public static List<Cell> TransposeShapeToCell(ref bool[,] shape, Cell cell)
+        {
+            List<Cell> cells = new List<Cell>();
+
+            // Calculate the position of the pattern relative to the player's cell
+            int offsetX = shape.GetLength(0) / 2;
+            int offsetY = shape.GetLength(1) / 2;
+
+            // Iterate over the cells in the pattern and add the corresponding cells in the grid to the list
+            for (int x = 0; x < shape.GetLength(0); x++)
+            {
+                for (int y = 0; y < shape.GetLength(1); y++)
+                {
+                    if (shape[x, y])
+                    {
+                        int gridX = cell.Datas.widthPos + x - offsetX;
+                        int gridY = cell.Datas.heightPos + y - offsetY;
+
+                        // Check if the grid position is within the bounds of the grid
+                        if (gridX >= 0 && gridX < cell.RefGrid.GridWidth && gridY >= 0 && gridY < cell.RefGrid.GridHeight)
+                        {
+                            cells.Add(cell.RefGrid.Cells[gridY, gridX]);
+                        }
+                    }
+                }
+            }
+
+            return cells;
+        }
+
         #endregion
     }
 }

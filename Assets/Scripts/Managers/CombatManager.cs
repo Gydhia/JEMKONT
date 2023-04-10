@@ -23,33 +23,22 @@ namespace DownBelow.Managers {
         public event CardEventData.Event OnCardBeginUse;
         public event CardEventData.Event OnCardEndUse;
 
-        public void FireCombatStarted(WorldGrid Grid)
-        {
-            this.OnCombatStarted?.Invoke(new GridEventData(Grid));
-        }
-        public void FireCombatEnded(WorldGrid Grid)
-        {
-            this.OnCombatEnded?.Invoke(new GridEventData(Grid));
-        }
+        public event SpellTargetEventData.Event OnSpellBeginTargetting;
+        public event SpellTargetEventData.Event OnSpellEndTargetting;
 
-        public void FireTurnStarted(CharacterEntity Entity) 
-        {
-            this.OnTurnStarted?.Invoke(new EntityEventData(Entity));
-        }
-        public void FireTurnEnded(CharacterEntity Entity) 
-        {
-            this.OnTurnEnded?.Invoke(new EntityEventData(Entity));
-        }
+        public void FireCombatStarted(WorldGrid Grid) => this.OnCombatStarted?.Invoke(new GridEventData(Grid));
+        public void FireCombatEnded(WorldGrid Grid) => this.OnCombatEnded?.Invoke(new GridEventData(Grid));
+
+        public void FireTurnStarted(CharacterEntity Entity) => this.OnTurnStarted?.Invoke(new EntityEventData(Entity));
+        public void FireTurnEnded(CharacterEntity Entity) => this.OnTurnEnded?.Invoke(new EntityEventData(Entity));
 
         public void FireCardBeginUse(ScriptableCard Card, Spell[] GeneratedSpells = null, Cell Cell = null, bool Played = false) 
-        {
-            this.OnCardBeginUse?.Invoke(new CardEventData(Card, GeneratedSpells, Cell, Played));
-        }
+           => this.OnCardBeginUse?.Invoke(new CardEventData(Card, GeneratedSpells, Cell, Played));
         public void FireCardEndUse(ScriptableCard Card, Spell[] GeneratedSpells = null, Cell Cell = null, bool Played = false) 
-        {
-            this.OnCardEndUse?.Invoke(new CardEventData(Card, GeneratedSpells, Cell, Played));
-        }
+           => this.OnCardEndUse?.Invoke(new CardEventData(Card, GeneratedSpells, Cell, Played));
 
+        public void FireSpellBeginTargetting(Spell TargetSpell, Cell Cell) => this.OnSpellBeginTargetting?.Invoke(new SpellTargetEventData(TargetSpell, Cell));
+        public void FireSpellEndTargetting(Spell TargetSpell, Cell Cell) => this.OnSpellEndTargetting?.Invoke(new SpellTargetEventData(TargetSpell, Cell));
         #endregion
 
         public bool BattleGoing;
@@ -173,7 +162,12 @@ namespace DownBelow.Managers {
             this._currentSpells = new Spell[data.Card.Spells.Length];
             data.Card.Spells.CopyTo(this._currentSpells, 0);
 
+            for (int i = 0; i < this._currentSpells.Length; i++)
+                this._currentSpells[i].Caster = this.CurrentPlayingEntity;
+
             DraggableCard.SelectedCard.CardReference.CurrentSpellTargetting = 0;
+
+            this.FireSpellBeginTargetting(this._currentSpells[0], data.Cell);
 
             InputManager.Instance.OnCellRightClick += _abortUsedSpell;
             InputManager.Instance.OnCellClickedUp += _processSpellClick;
@@ -188,6 +182,22 @@ namespace DownBelow.Managers {
 
             InputManager.Instance.OnCellRightClick -= _abortUsedSpell;
             InputManager.Instance.OnCellClickedUp -= _processSpellClick;
+            this.FireSpellEndTargetting(this._currentSpells[DraggableCard.SelectedCard.CardReference.CurrentSpellTargetting], Data.Cell);
+        }
+
+        public bool IsCellCastable(Cell cell, Spell spell)
+        {
+            return cell != null &&
+                   spell.TargetType.ValidateTarget(cell) &&
+                   (
+                       spell.CastingMatrix == null ||
+                       GridUtility.IsCellWithinPlayerRange
+                       (
+                            ref spell.CastingMatrix,
+                            this.CurrentPlayingEntity.EntityCell.PositionInGrid,
+                            cell.PositionInGrid
+                       )
+                   );
         }
 
         private void _processSpellClick(CellEventData Data)
@@ -200,21 +210,14 @@ namespace DownBelow.Managers {
             Spell currentSpell = this._currentSpells[currentCard.CurrentSpellTargetting];
 
             // If the selected cell isn't of wanted type or isn't within range, same as before
-            if (!currentSpell.TargetType.ValidateTarget(Data.Cell) ||
-                (currentSpell.CastingMatrix != null &&
-                 !GridUtility.IsCellWithinPlayerRange(
-                     ref currentSpell.CastingMatrix,
-                     this.CurrentPlayingEntity.EntityCell.PositionInGrid,
-                     Data.Cell.PositionInGrid
-                  )))
-            {
+            if (!this.IsCellCastable(Data.Cell, currentSpell))
                 return;
-            }
 
             currentSpell.TargetCell = Data.Cell;
+            this.FireSpellEndTargetting(currentSpell, Data.Cell);
 
             // Means that there are no more targetting spells in the array, so we finished
-            if(currentCard.GetNextTargettingSpellIndex() == -1)
+            if (currentCard.GetNextTargettingSpellIndex() == -1)
             {
                 this.FireCardEndUse(currentCard, this._currentSpells, Data.Cell, true);
 
@@ -223,6 +226,12 @@ namespace DownBelow.Managers {
 
                 InputManager.Instance.OnCellRightClick -= _abortUsedSpell;
                 InputManager.Instance.OnCellClickedUp -= _processSpellClick;
+            }
+            else
+            {
+                this.FireSpellBeginTargetting(
+                    this._currentSpells[DraggableCard.SelectedCard.CardReference.CurrentSpellTargetting], 
+                    Data.Cell);
             }
         }
 

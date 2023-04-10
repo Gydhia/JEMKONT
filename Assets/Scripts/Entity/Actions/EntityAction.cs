@@ -39,7 +39,7 @@ namespace DownBelow.Entity
         {
             // Remove this action since we ended it, or it'll create an infinite loop
             this.RefBuffer.Remove(this);
-            PoolManager.Instance.CellIndicatorPool.HideIndicators(this);
+            PoolManager.Instance.CellIndicatorPool.HideActionIndicators(this);
 
             if (this.EndCallback != null)
             { 
