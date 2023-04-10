@@ -79,7 +79,8 @@ namespace DownBelow.Managers {
             }
         }
 
-        public void StartCombat(CombatGrid startingGrid) {
+        public void StartCombat(CombatGrid startingGrid)
+        {
             if (this.CurrentPlayingGrid != null && this.CurrentPlayingGrid.HasStarted)
                 return;
 
@@ -113,7 +114,8 @@ namespace DownBelow.Managers {
             this.FireCombatEnded(this.CurrentPlayingGrid.ParentGrid);
         }
 
-        public void ProcessStartTurn(string entityID) {
+        public void ProcessStartTurn(string entityID)
+        {
             this.CurrentPlayingEntity.StartTurn();
 
             if (this.TurnNumber >= 0)
@@ -123,7 +125,8 @@ namespace DownBelow.Managers {
                 this._turnCoroutine = StartCoroutine(this._startTurnTimer());
         }
 
-        public void ProcessEndTurn(string entityID) {
+        public void ProcessEndTurn(string entityID) 
+        {
             this.CurrentPlayingEntity.EndTurn();
 
             // We draw cards at end of turn
@@ -147,8 +150,10 @@ namespace DownBelow.Managers {
             this.FireTurnStarted(this.CurrentPlayingEntity);
         }
 
-        private void _setupEnemyEntities() {
-            foreach (CharacterEntity enemy in this.CurrentPlayingGrid.GridEntities.Where(e => !e.IsAlly)) {
+        private void _setupEnemyEntities() 
+        {
+            foreach (CharacterEntity enemy in this.CurrentPlayingGrid.GridEntities.Where(e => !e.IsAlly)) 
+            {
                 enemy.ReinitializeAllStats();
                 enemy.EntityCell.EntityIn = enemy;
                 enemy.gameObject.SetActive(true);
@@ -163,7 +168,10 @@ namespace DownBelow.Managers {
             data.Card.Spells.CopyTo(this._currentSpells, 0);
 
             for (int i = 0; i < this._currentSpells.Length; i++)
+            {
                 this._currentSpells[i].Caster = this.CurrentPlayingEntity;
+                this._currentSpells[i].RefEntity = this.CurrentPlayingEntity;
+            }
 
             DraggableCard.SelectedCard.CardReference.CurrentSpellTargetting = 0;
 
