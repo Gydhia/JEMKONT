@@ -235,6 +235,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c037331c0fc3b6f48a6eea73b6e8ebe1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &4013940638012684539
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2166014156948314638}
+  - component: {fileID: 4056352322092990697}
+  m_Layer: 0
+  m_Name: CellIndicatorPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2166014156948314638
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4013940638012684539}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8991801970151260793}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4056352322092990697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4013940638012684539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97aa50397ca86744e834a47c5d985195, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PoolContainer: {fileID: 0}
+  ObjectPoolPrefab: {fileID: -1533889152465602718, guid: 6b66392a2fcea744daa73f902f83aa32, type: 3}
+  ForesightNumber: 20
 --- !u!1 &4022881952714262850
 GameObject:
   m_ObjectHideFlags: 0
@@ -283,7 +330,6 @@ MonoBehaviour:
   CurrentPlayingEntity: {fileID: 0}
   CurrentPlayingGrid: {fileID: 0}
   PlayingEntities: []
-  CurrentCard: {fileID: 0}
   DiscardPile: []
   DrawPile:
     Cards: []
@@ -437,6 +483,52 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerPrefab: {fileID: -4998914615591247022, guid: 1d1bd3328be7bc54eb7b01b391b42dc7, type: 3}
   SelfPlayer: {fileID: 0}
+--- !u!1 &5140326023786815020
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8991801970151260793}
+  - component: {fileID: 2809647320208606871}
+  m_Layer: 0
+  m_Name: PoolManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8991801970151260793
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5140326023786815020}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2166014156948314638}
+  m_Father: {fileID: 6008253201538663047}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2809647320208606871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5140326023786815020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e7cc395e421b9247a45071662098576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CellIndicatorPool: {fileID: 4056352322092990697}
 --- !u!1 &6162683752929045887
 GameObject:
   m_ObjectHideFlags: 0
@@ -521,6 +613,7 @@ Transform:
   - {fileID: 1534578390672292061}
   - {fileID: 1966428021}
   - {fileID: 1112587114581908483}
+  - {fileID: 8991801970151260793}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -568,6 +661,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a0934cf4d7c23d4a8b210eff82f44f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CombatSection: {fileID: 0}
   TurnSection: {fileID: 0}
   PlayerInfos: {fileID: 0}
   CardSection: {fileID: 0}

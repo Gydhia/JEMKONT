@@ -10,7 +10,7 @@ namespace DownBelow.Entity
     public class MovementAction : ProgressiveAction
     {
         protected List<Cell> calculatedPath;
-
+        private List<CellIndicator> indic;
         public MovementAction(CharacterEntity RefEntity, Cell TargetCell)
             : base(RefEntity, TargetCell)
         {
@@ -25,13 +25,17 @@ namespace DownBelow.Entity
                 this.calculatedPath.Insert(0, this.RefEntity.EntityCell);
 
                 this.MoveWithPath();
-            }
-            else
+            } else
                 EndAction();
         }
 
         public override void EndAction()
         {
+            indic.ForEach(indicator =>
+            {
+                indicator.TryReleaseToPool();
+            });
+            indic.Clear();
             base.EndAction();
         }
 
@@ -56,7 +60,10 @@ namespace DownBelow.Entity
         public IEnumerator FollowPath()
         {
             this.RefEntity.IsMoving = true;
-
+            indic = PoolManager.Instance.CellIndicatorPool.DisplayIndicators(new List<Cell>
+            {
+                this.calculatedPath[^1]
+            }, Color.green);
             int currentCell = 0, targetCell = 1;
             float TimeToCrossCell = SettingsManager.Instance.GridsPreset.TimeToCrossCell;
             float timer;
@@ -89,7 +96,7 @@ namespace DownBelow.Entity
                 if (targetCell <= this.calculatedPath.Count - 1)
                     this.RefEntity.NextCell = this.calculatedPath[targetCell];
             }
-            if(!this.abortAction)
+            if (!this.abortAction)
                 this.EndAction();
         }
 
