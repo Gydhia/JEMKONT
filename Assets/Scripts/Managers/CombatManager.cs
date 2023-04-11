@@ -221,17 +221,19 @@ namespace DownBelow.Managers
                 false
             );
 
-            this._currentSpells = null;
-            DraggableCard.SelectedCard.DiscardToPile();
-
-            InputManager.Instance.OnCellRightClick -= _abortUsedSpell;
-            InputManager.Instance.OnCellClickedUp -= _processSpellClick;
             this.FireSpellEndTargetting(
                 this._currentSpells[
                     DraggableCard.SelectedCard.CardReference.CurrentSpellTargetting
                 ],
                 Data.Cell
             );
+
+            this._currentSpells = null;
+
+            DraggableCard.SelectedCard.DiscardToPile();
+
+            InputManager.Instance.OnCellRightClick -= _abortUsedSpell;
+            InputManager.Instance.OnCellClickedUp -= _processSpellClick;
         }
 
         public bool IsCellCastable(Cell cell, Spell spell)

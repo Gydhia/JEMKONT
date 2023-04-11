@@ -246,7 +246,7 @@ namespace DownBelow.Entity
             if (this.Stunned || this.Sleeping) 
                 EndTurn();
 
-            GridManager.Instance.ShowPossibleCombatMovements(this);
+            GridManager.Instance.CalculatePossibleCombatMovements(this);
         }
         #endregion
 

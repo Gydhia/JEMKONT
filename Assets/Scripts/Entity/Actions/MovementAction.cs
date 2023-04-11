@@ -39,6 +39,7 @@ namespace DownBelow.Entity
                 if (this.calculatedPath.Count > 0)
                     this.RefEntity.EntityCell = this.calculatedPath[^1];
 
+                EndAction();
                 return;
             }
 
@@ -87,6 +88,11 @@ namespace DownBelow.Entity
                 this.EndAction();
         }
 
+        public override void EndAction()
+        {
+            this.RefEntity.IsMoving = false;
+            base.EndAction();
+        }
         public override object[] GetDatas()
         {
             return new object[0];

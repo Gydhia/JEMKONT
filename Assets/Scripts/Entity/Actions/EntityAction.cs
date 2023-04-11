@@ -19,6 +19,8 @@ namespace DownBelow.Entity
         public Cell TargetCell;
         protected System.Action EndCallback;
 
+        public virtual bool AllowedToProcess() { return true; }
+
         public EntityAction(CharacterEntity RefEntity, Cell TargetCell)
         {
             this.RefEntity = RefEntity;

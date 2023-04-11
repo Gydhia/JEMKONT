@@ -8,6 +8,7 @@ using Sirenix.Utilities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -47,13 +48,14 @@ namespace DownBelow.Spells
 
     public class Spell : EntityAction
     {
-        #region DATA
         public Spell(CharacterEntity RefEntity, Cell TargetCell, SpellAction ActionData, SpellCondition ConditionData = null)
            : base(RefEntity, TargetCell)
         {
             this.ActionData = ActionData;
             this.ConditionData = ConditionData;
         }
+
+        #region DATA_FAT_INSPECTOR
 
         public static Color AnchorColor = new(.584313725f, .741176471f, 1f, 1f);
         public static Color SelectedColor = new(.874509804f, 1f, .847058824f, 1f);
@@ -176,7 +178,8 @@ namespace DownBelow.Spells
         #endregion
 
         #region PLAYABLE
-
+        [HideInInspector]
+        public List<Cell> TargetCells;
         [HideInInspector]
         public Spell ParentSpell;
         public SpellCondition ConditionData;
@@ -201,10 +204,11 @@ namespace DownBelow.Spells
 
         public List<CharacterEntity> GetTargets(CharacterEntity caster, GridSystem.Cell cellTarget)
         {
-            List<CharacterEntity> targets = new List<CharacterEntity>();
-           
-
-            return targets;
+            return GridUtility
+                .TransposeShapeToCell(ref this.SpellShapeMatrix, cellTarget)
+                .Where(cell => cell.EntityIn != null)
+                .Select(cell => cell.EntityIn)
+                .ToList();
         }
 
         public override object[] GetDatas()

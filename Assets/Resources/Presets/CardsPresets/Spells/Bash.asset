@@ -15,9 +15,7 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects:
-    - {fileID: 0}
-    - {fileID: 0}
+    ReferencedUnityObjects: []
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -52,8 +50,8 @@ MonoBehaviour:
       Entry: 6
       Data: 
     - Name: TargetCell
-      Entry: 10
-      Data: 0
+      Entry: 6
+      Data: 
     - Name: RequiresTargetting
       Entry: 5
       Data: true
@@ -271,8 +269,8 @@ MonoBehaviour:
       Entry: 6
       Data: 
     - Name: TargetCell
-      Entry: 10
-      Data: 1
+      Entry: 6
+      Data: 
     - Name: RequiresTargetting
       Entry: 5
       Data: true
@@ -293,22 +291,7 @@ MonoBehaviour:
       Data: false
     - Name: 
       Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
       Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: true
     - Name: 
       Entry: 5
       Data: false
@@ -354,6 +337,21 @@ MonoBehaviour:
     - Name: 
       Entry: 5
       Data: true
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
     - Name: 
       Entry: 5
       Data: false
@@ -491,4 +489,4 @@ MonoBehaviour:
   CardType: 2
   Description: Deals damage.
   IllustrationImage: {fileID: 21300000, guid: 99c022fcb87ec6a40971f49f33d6fbb9, type: 3}
-  CurrentSpellTargetting: 1
+  CurrentSpellTargetting: 0

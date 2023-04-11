@@ -13,6 +13,7 @@ namespace DownBelow.Pools
     public class CellIndicatorPool : ObjectPool<CellIndicator>
     {
         private Dictionary<EntityAction, List<CellIndicator>> _actionsRef;
+        private List<CellIndicator> _pathRef;
         private Dictionary<Cell, CellIndicator> _spellsRef;
         private Spell _currentSpell;
 
@@ -26,6 +27,7 @@ namespace DownBelow.Pools
         private void Awake()
         {
             this._actionsRef = new Dictionary<EntityAction, List<CellIndicator>>();
+            this._pathRef = new List<CellIndicator>();
             this._spellsRef = new Dictionary<Cell, CellIndicator>();
 
             CombatManager.Instance.OnSpellBeginTargetting += this.beginShowSpellTargetting;
@@ -78,6 +80,36 @@ namespace DownBelow.Pools
             else
                 return action.RefBuffer[0] == action ? BlueColor : BlueColorTransparent;
         }
+        #endregion
+
+        #region BASICS
+        // Simple unoptimized func to show on the fly any path
+
+        public void DisplayPathIndicators(List<Cell> cells)
+        {
+            this.HidePathIndicators();
+
+            foreach (Cell cell in cells)
+            {
+                CellIndicator indicator = GetPooled();
+
+                indicator.gameObject.SetActive(true);
+                indicator.transform.position = cell.transform.position;
+                indicator.Color = GreenColor;
+
+                this._pathRef.Add(indicator);
+
+            }
+        }
+
+        public void HidePathIndicators()
+        {
+            foreach (CellIndicator cellIndicator in this._pathRef)
+                cellIndicator.TryReleaseToPool();
+
+            this._pathRef.Clear();
+        }
+
         #endregion
 
         #region SPELLS
