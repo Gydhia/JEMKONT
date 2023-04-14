@@ -2,6 +2,8 @@ using DownBelow.Entity;
 using DownBelow.Events;
 using DownBelow.GridSystem;
 using Photon.Pun;
+using Sirenix.Serialization;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -157,7 +159,7 @@ namespace DownBelow.Managers
                     res += $"\n\t{item.Key.name}:";
                     foreach (EntityAction e in item.Value)
                     {
-                        res+= "\n\t\t" + e.ToString();
+                        res += "\n\t\t" + e.ToString();
                     }
                 }
             }
@@ -217,7 +219,7 @@ namespace DownBelow.Managers
             if (!Data.Played)
                 return;
 
-            for (int i = 0; i < Data.GeneratedSpells.Length; i++)
+            for (int i = 0;i < Data.GeneratedSpells.Length;i++)
                 this.BuffAction(Data.GeneratedSpells[i], false);
         }
 
@@ -231,8 +233,9 @@ namespace DownBelow.Managers
             if (action.RefEntity.CurrentGrid.IsCombatGrid)
             {
                 //If the entity is on a combat grid,simply queue the action and do it whenever it's your turn.
-                CombatActionsBuffer.Add(action);
-                action.RefBuffer = CombatActionsBuffer;
+
+
+                SmartAddToBuffer(ref CombatActionsBuffer, action);
 
                 // Once the buffer is playing, it'll automatically process every actions until the end
                 // So don't call it twice to avoid double buffering which should NEVER happens
@@ -255,17 +258,16 @@ namespace DownBelow.Managers
                     if (NormalActionsBuffer[action.RefEntity].Count > 1)
                     {
                         // Hide everything but the first one that is being played
-                        if(action.RefEntity == this.SelfPlayer)
-                            for (int i = 1; i < NormalActionsBuffer[action.RefEntity].Count; i++)
+                        if (action.RefEntity == this.SelfPlayer)
+                            for (int i = 1;i < NormalActionsBuffer[action.RefEntity].Count;i++)
                                 PoolManager.Instance.CellIndicatorPool.HideActionIndicators(NormalActionsBuffer[action.RefEntity][i]);
 
                         NormalActionsBuffer[action.RefEntity].RemoveRange(1, NormalActionsBuffer[action.RefEntity].Count - 1);
                     }
                 }
-
-                //Adding action to buffer
-                NormalActionsBuffer[action.RefEntity].Add(action);
-                action.RefBuffer = NormalActionsBuffer[action.RefEntity];
+                //Switch on the actiontype, to see specific adding case. Just in case.
+                var buffer = NormalActionsBuffer[action.RefEntity];
+                SmartAddToBuffer(ref buffer, action);
 
                 if (action.RefEntity == this.SelfPlayer)
                     PoolManager.Instance.CellIndicatorPool.DisplayActionIndicators(action);
@@ -273,6 +275,27 @@ namespace DownBelow.Managers
                 //Still don't know what that means
                 if (!IsUsingNormalBuffer)
                     this.ExecuteNextNormalBuffer(action.RefEntity);
+            }
+        }
+
+        void SmartAddToBuffer(ref List<EntityAction> bufferRef, EntityAction action)
+        {
+            switch (action)
+            {
+                case MovementAction movAct:
+                    List<EntityAction> otherMovements = bufferRef.Where(x => x is MovementAction).ToList();
+                    if (otherMovements != null && otherMovements.Count > 0)
+                        if (movAct.TargetCell != otherMovements[^1].TargetCell)
+                        {
+                            bufferRef.Add(action);
+                            action.RefBuffer = bufferRef;
+                        }
+                    break;
+                default:
+                    //Adding action to buffer
+                    bufferRef.Add(action);
+                    action.RefBuffer = bufferRef;
+                    break;
             }
         }
 
