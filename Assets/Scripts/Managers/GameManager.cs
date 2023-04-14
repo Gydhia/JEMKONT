@@ -284,12 +284,11 @@ namespace DownBelow.Managers
             {
                 case MovementAction movAct:
                     List<EntityAction> otherMovements = bufferRef.Where(x => x is MovementAction).ToList();
-                    if (otherMovements != null && otherMovements.Count > 0)
-                        if (movAct.TargetCell != otherMovements[^1].TargetCell)
-                        {
-                            bufferRef.Add(action);
-                            action.RefBuffer = bufferRef;
-                        }
+                    if (otherMovements.Count == 0 || (movAct.TargetCell != otherMovements[^1].TargetCell))
+                    {
+                        bufferRef.Add(action);
+                        action.RefBuffer = bufferRef;
+                    }
                     break;
                 default:
                     //Adding action to buffer
