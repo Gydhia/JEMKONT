@@ -24,19 +24,13 @@ MonoBehaviour:
     - Name: UID
       Entry: 2
       Data: 11f1eb615f1e6fe6a1d2444cd8e9325c
+    - Name: Spells
+      Entry: 6
+      Data: 
   Title: Homemade Ointment
   Cost: 1
   CardType: 3
   Collection: 0
   Description: Heals a unit.
   IllustrationImage: {fileID: 21300000, guid: 9b75467b7bf3cf44bb573167d6cdc4af, type: 3}
-  Spells:
-  - ConditionData: {fileID: 0}
-    ActionData: {fileID: 5045551162097057043, guid: cfad56e398a940549a48a5c78f4ee4f6, type: 3}
-    ApplyToCell: 1
-    ApplyToSelf: 0
-    ApplyToAllies: 0
-    ApplyToEnemies: 0
-    ApplyToAll: 0
-    CurrentAction: {fileID: 0}
-    Caster: {fileID: 0}
+  CurrentSpellTargetting: -1

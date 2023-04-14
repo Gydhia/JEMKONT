@@ -115,8 +115,8 @@ public class ArrowRenderer : MonoBehaviour
 
     public void Init()
     {
-        CombatManager.Instance.OnCardBeginDrag += this._shouldFollowCard;
-        CombatManager.Instance.OnCardEndDrag += this._stopFollowCard;
+        CombatManager.Instance.OnCardBeginUse += this._shouldFollowCard;
+        CombatManager.Instance.OnCardEndUse += this._stopFollowCard;
     }
 
     private void _shouldFollowCard(CardEventData Data)

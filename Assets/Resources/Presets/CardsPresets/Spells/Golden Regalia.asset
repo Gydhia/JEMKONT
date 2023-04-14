@@ -24,19 +24,13 @@ MonoBehaviour:
     - Name: UID
       Entry: 2
       Data: de8c6688ef689291373467ecb1794427
+    - Name: Spells
+      Entry: 6
+      Data: 
   Title: Golden Regalia
   Cost: 3
   CardType: 1
   Collection: 1
   Description: Give yourself 20 shield points and "provoke" for 2 turns
   IllustrationImage: {fileID: 0}
-  Spells:
-  - ConditionData: {fileID: 0}
-    ActionData: {fileID: -6891807993022416823, guid: a0a6d98b78efe394bbdb8e81f1f17dc8, type: 3}
-    ApplyToCell: 0
-    ApplyToSelf: 1
-    ApplyToAllies: 0
-    ApplyToEnemies: 0
-    ApplyToAll: 0
-    CurrentAction: {fileID: 0}
-    Caster: {fileID: 0}
+  CurrentSpellTargetting: -1

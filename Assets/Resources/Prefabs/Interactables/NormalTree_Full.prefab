@@ -235,8 +235,10 @@ MonoBehaviour:
   InteractablePreset: {fileID: 0}
   RefCell: {fileID: 0}
   Mesh: {fileID: 9107493635244427062}
-  GatheredMesh: {fileID: 3428844111760161390}
   Outline: {fileID: 7405713865225625881}
+  GatheredMesh: {fileID: 3428844111760161390}
+  isMature: 0
+  TimeToGrowUp: 5
 --- !u!65 &717044911678835273
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -14,17 +14,22 @@ using DownBelow.Mechanics;
 using DownBelow.Events;
 using System;
 
-namespace DownBelow.Managers {
-    public class NetworkManager : MonoBehaviourPunCallbacks {
+namespace DownBelow.Managers
+{
+    public class NetworkManager : MonoBehaviourPunCallbacks
+    {
         public UIMenuLobby UILobby;
 
         public static NetworkManager Instance;
 
-        private void Awake() {
-            if (NetworkManager.Instance != null) {
-                if (NetworkManager.Instance != this) {
+        private void Awake()
+        {
+            if (NetworkManager.Instance != null)
+            {
+                if (NetworkManager.Instance != this)
+                {
 #if UNITY_EDITOR
-                    DestroyImmediate(this.gameObject,false);
+                    DestroyImmediate(this.gameObject, false);
 #else
                 Destroy(this.gameObject);
 #endif
@@ -37,7 +42,8 @@ namespace DownBelow.Managers {
             UnityEngine.Object.DontDestroyOnLoad(this);
         }
 
-        void Start() {
+        void Start()
+        {
             _connect();
         }
 
@@ -47,157 +53,147 @@ namespace DownBelow.Managers {
             CombatManager.Instance.OnTurnEnded += this.TurnEnded;
         }
 
-        public void UpdateOwnerName(string newName) {
+        public void UpdateOwnerName(string newName)
+        {
             PhotonNetwork.NickName = newName;
         }
 
-        private void _connect() {
+        private void _connect()
+        {
             PhotonNetwork.ConnectUsingSettings();
             PhotonNetwork.AutomaticallySyncScene = true;
         }
 
         #region UI_calls
-        public void ClickOnStart() {
-            if (PhotonNetwork.IsMasterClient) {
+        public void ClickOnStart()
+        {
+            if (PhotonNetwork.IsMasterClient)
+            {
                 PhotonNetwork.CurrentRoom.IsOpen = false;
                 PhotonNetwork.CurrentRoom.IsVisible = false;
                 PhotonNetwork.LoadLevel("Killian");
             }
         }
 
-        public void ClickOnLeave() {
+        public void ClickOnLeave()
+        {
             PhotonNetwork.LeaveRoom();
         }
 
 
-        public void JoinRoom(string roomName) {
+        public void JoinRoom(string roomName)
+        {
             PhotonNetwork.JoinRoom(roomName);
         }
 
-        public void CreateRoom() {
-            if (!string.IsNullOrEmpty(this.UILobby.RoomInput.text)) {
-                PhotonNetwork.CreateRoom(this.UILobby.RoomInput.text,new RoomOptions() { MaxPlayers = 4,BroadcastPropsChangeToAll = true,PublishUserId = true },null);
+        public void CreateRoom()
+        {
+            if (!string.IsNullOrEmpty(this.UILobby.RoomInput.text))
+            {
+                PhotonNetwork.CreateRoom(this.UILobby.RoomInput.text, new RoomOptions() { MaxPlayers = 4, BroadcastPropsChangeToAll = true, PublishUserId = true }, null);
             }
         }
 
         #endregion
 
         #region Players_Callbacks
-        public void EntityAsksForPath(CharacterEntity entity, WorldGrid refGrid)
-        {
-            string mainGrid = refGrid is CombatGrid cGrid ? cGrid.ParentGrid.UName : refGrid.UName;
-            string innerGrid = mainGrid == refGrid.UName ? string.Empty : refGrid.UName;
-            int[] positions = GridManager.Instance.SerializePathData(entity.CurrentPath);
 
-            this.photonView.RPC("RPC_RespondWithEntityProcessedPath", RpcTarget.All, entity.UID, positions, mainGrid, innerGrid);
+        /// <summary>
+        /// Will ask to buff an action, ABORTING ANY OTHER ACROSS THE WAY. Check other parameters.
+        /// </summary>
+        /// <param name="action"> The Action to buff.</param>
+        public void EntityAskToBuffAction(EntityAction action)
+        {
+            this.EntityAskToBuffAction(action, !InputManager.Instance.IsPressingShift);
         }
-        public void EntityAsksForPath(CharacterEntity entity, Cell target, WorldGrid refGrid)
+
+        /// <summary>
+        /// Will buff several actions, not cancelling one another.
+        /// </summary>
+        /// <param name="actions"></param>
+        public void EntityAskToBuffActions(EntityAction[] actions)
         {
-            string mainGrid = refGrid is CombatGrid cGrid ? cGrid.ParentGrid.UName : refGrid.UName;
-            string innerGrid = mainGrid == refGrid.UName ? string.Empty : refGrid.UName;
+            foreach (var item in actions)
+            {
+                if(item != null)
+                    EntityAskToBuffAction(item, false);
+            }
+        }
 
-            var path = GridManager.Instance.FindPath(entity,target.PositionInGrid);
-            int[] positions = GridManager.Instance.SerializePathData(path);
-
-            this.photonView.RPC("RPC_RespondWithEntityProcessedPath",RpcTarget.All,entity.UID,positions,mainGrid,innerGrid);
+        /// <summary>
+        /// Will ask to buff an action. If abortOthers = true; will abort other actions in the buffer for the entity.
+        /// </summary>
+        /// <param name="action"> The Action to buff.</param>
+        /// <param name="abortOthers">true if you want to abort any other action in process, false if you should just queue the action.</param>
+        public void EntityAskToBuffAction(EntityAction action, bool abortOthers)
+        {
+            this.photonView.RPC("RPC_RespondWithProcessedBuffedAction", RpcTarget.All,
+                action.RefEntity.UID,
+                action.RefEntity.CurrentGrid.UName,
+                new int[2] { action.TargetCell.PositionInGrid.latitude, action.TargetCell.PositionInGrid.longitude },
+                action.GetType().ToString(),
+                action.GetDatas(),
+                abortOthers
+             );
         }
 
         [PunRPC]
-        public void RPC_RespondWithEntityProcessedPath(string entityID,int[] pathResult,string mainGrid,string innerGrid) 
+        public void RPC_RespondWithProcessedBuffedAction(string entityID, string grid, int[] gridLocation, string actionType, object[] datas, bool abortOthers)
         {
-            // TODO : remove dat Ugly func
-            EnemyEntity entity = innerGrid != string.Empty ?
-                GridManager.Instance.WorldGrids[mainGrid].InnerCombatGrids[innerGrid].GridEntities.First(e => e.UID == entityID) as EnemyEntity :
-                GridManager.Instance.WorldGrids[mainGrid].GridEntities.First(e => e.UID == entityID) as EnemyEntity;
+            WorldGrid entityGrid = GridManager.Instance.GetGridFromName(grid);
+            Cell targetCell = entityGrid.Cells[gridLocation[0], gridLocation[1]];
+            //If there are multiple CharacterEntities with the same UID; an exception will be thrown. Could use First/Find instead?
+            CharacterEntity entity = entityGrid.GridEntities.Single(e => e.UID == entityID);
 
-            // We manage the fact that 2 players won't obv be on the same grid, so we send the player
-            entity.MoveWithPath(GridManager.Instance.DeserializePathData(entity,pathResult),string.Empty);
+            object[] fullDatas = new object[datas.Length + 2];
+            fullDatas[0] = entity;
+            fullDatas[1] = targetCell;
+            for (int i = 2;i < fullDatas.Length;i++)
+                fullDatas[i] = datas[i - 2];
+
+            Type type = Type.GetType(actionType);
+            EntityAction myAction = Activator.CreateInstance(type, fullDatas) as EntityAction;
+
+            myAction.RefEntity = entity;
+            // 0 is latitude (height), 1 is longitude (width)
+            myAction.TargetCell = targetCell;
+
+            myAction.SetDatas(datas);
+
+            GameManager.Instance.BuffAction(myAction, abortOthers);
         }
 
-        public void PlayerAsksForPath(PlayerBehavior player,GridSystem.Cell target,string otherGrid) 
-        {
-            var path = GridManager.Instance.FindPath(GameManager.Instance.Players[player.PlayerID], target.PositionInGrid);
 
-            int[] positions = GridManager.Instance.SerializePathData(path);
+        // /IMPORTANT\ REPLUG IT KILLIAN PLEASE
+        //// TODO: For now we only need to notify the UIManager, think about creating an event later if there are further needs
+        //if (GameManager.Instance.SelfPlayer == movingPlayer)
+        //    UIManager.Instance.PlayerMoved();
 
-            this.photonView.RPC("RPC_RespondWithProcessedPath",RpcTarget.All,player.PlayerID,positions,otherGrid);
-        }
-
-        [PunRPC]
-        public void RPC_RespondWithProcessedPath(object[] pathDatas) {
-            PlayerBehavior movingPlayer = GameManager.Instance.Players[pathDatas[0].ToString()];
-            // We manage the fact that 2 players won't obv be on the same grid, so we send the player
-            movingPlayer.MoveWithPath(GridManager.Instance.DeserializePathData(movingPlayer,(int[])pathDatas[1]),pathDatas[2].ToString());
-
-            // TODO: For now we only need to notify the UIManager, think about creating an event later if there are further needs
-            if (GameManager.Instance.SelfPlayer == movingPlayer)
-                UIManager.Instance.PlayerMoved();
-        }
-
-        public void PlayerAsksToEnterGrid(PlayerBehavior player,WorldGrid mainGrid,string targetGrid) {
-            this.photonView.RPC("RPC_RespondToEnterGrid",RpcTarget.All,player.PlayerID,mainGrid.UName,targetGrid);
-        }
-
-        [PunRPC]
-        public void RPC_RespondToEnterGrid(string playerID,string mainGrid,string targetGrid) {
-            GameManager.Instance.FireEntityExitingGrid(playerID);
-
-            if (!GridManager.Instance.WorldGrids[mainGrid].InnerCombatGrids.ContainsKey(targetGrid))
-                Debug.LogError("Couldn't find mainGrid's inner grid called : " + targetGrid + ". Count of innerGrids is : " + GridManager.Instance.WorldGrids[mainGrid].InnerCombatGrids.Count);
-
-            GameManager.Instance.Players[playerID].EnterNewGrid(GridManager.Instance.WorldGrids[mainGrid].InnerCombatGrids[targetGrid] as CombatGrid);
-
-            GameManager.Instance.FireEntityEnteredGrid(playerID);
-        }
 
         // /!\ Only one combat can be active at the moment, that is important
         public void PlayerAsksToStartCombat()
         {
-            this.photonView.RPC("RPC_RespondToStartCombat",RpcTarget.All,GameManager.Instance.SelfPlayer.PlayerID);
+            this.photonView.RPC("RPC_RespondToStartCombat", RpcTarget.All, GameManager.Instance.SelfPlayer.PlayerID);
         }
 
         [PunRPC]
-        public void RPC_RespondToStartCombat(string playerID) 
+        public void RPC_RespondToStartCombat(string playerID)
         {
             CombatManager.Instance.StartCombat(GameManager.Instance.Players[playerID].CurrentGrid as CombatGrid);
         }
 
-        public void PlayerAsksToInteract(Cell interaction)
-        {
-            this.photonView.RPC("RPC_RespondToInteract",RpcTarget.All,GameManager.Instance.SelfPlayer.PlayerID,interaction.PositionInGrid.latitude,interaction.PositionInGrid.longitude);
-        }
-
-        [PunRPC]
-        public void RPC_RespondToInteract(string playerID,int latitude,int longitude)
-        {
-            PlayerBehavior player = GameManager.Instance.Players[playerID];
-            player.Interact(player.CurrentGrid.Cells[latitude,longitude]);
-        }
-
-        public void PlayerCanceledInteract(Cell interaction) 
-        {
-            this.photonView.RPC("RPC_RespondCancelInteract",RpcTarget.All,GameManager.Instance.SelfPlayer.PlayerID,interaction.PositionInGrid.latitude,interaction.PositionInGrid.longitude);
-        }
-
-        [PunRPC]
-        public void RPC_RespondCancelInteract(string playerID,int latitude,int longitude) 
-        {
-            PlayerBehavior player = GameManager.Instance.Players[playerID];
-            player.Interact(player.CurrentGrid.Cells[latitude,longitude]);
-        }
-
-        public void GiftOrRemovePlayerItem(string playerID, ItemPreset item, int quantity) 
+        public void GiftOrRemovePlayerItem(string playerID, ItemPreset item, int quantity)
         {
             this.photonView.RPC("RPC_RespondGiftOrRemovePlayerItem", RpcTarget.All, GameManager.Instance.SelfPlayer.PlayerID, item.UID.ToString(), quantity);
         }
 
         [PunRPC]
-        public void RPC_RespondGiftOrRemovePlayerItem(string playerID,string itemID,int quantity) 
+        public void RPC_RespondGiftOrRemovePlayerItem(string playerID, string itemID, int quantity)
         {
             GameManager.Instance.Players[playerID].TakeResources(GridManager.Instance.ItemsPresets[System.Guid.Parse(itemID)], quantity);
         }
 
-        public void TurnBegan(EntityEventData EntityData) 
+        public void TurnBegan(EntityEventData EntityData)
         {
             if (!CombatManager.Instance.BattleGoing && GameManager.Instance.SelfPlayer.CurrentGrid.IsCombatGrid)
                 return;
@@ -206,11 +202,12 @@ namespace DownBelow.Managers {
         }
 
         [PunRPC]
-        public void RPC_OnTurnBegan(string entityID) 
+        public void RPC_OnTurnBegan(string entityID)
         {
             CombatManager.Instance.ProcessStartTurn(entityID);
             //If there is the client player in the battle;
-            if (entityID == GameManager.Instance.SelfPlayer.PlayerID) {
+            if (entityID == GameManager.Instance.SelfPlayer.PlayerID)
+            {
                 //If it is OUR turn;
                 UIManager.Instance.NextTurnButton.interactable = true;
             }
@@ -235,55 +232,62 @@ namespace DownBelow.Managers {
             {
                 //If it is OUR turn;
                 UIManager.Instance.NextTurnButton.interactable = true;
-            }            
+            }
         }
 
 
-        public void AskCastSpell(ScriptableCard spellToCast, Cell cell) 
+        public void AskCastSpell(ScriptableCard spellToCast, Cell cell)
         {
             this.photonView.RPC("RPC_CastSpell", RpcTarget.All, spellToCast.UID.ToString(), cell.PositionInGrid.longitude, cell.PositionInGrid.latitude); ;
         }
 
         [PunRPC]
-        public void RPC_CastSpell(string spellName, int longitude, int latittude) 
+        public void RPC_CastSpell(string spellName, int longitude, int latittude)
         {
             ScriptableCard cardToPlay = CardsManager.Instance.ScriptableCards[System.Guid.Parse(spellName)];
-            if (cardToPlay != null) 
-                CombatManager.Instance.ExecuteSpells(CombatManager.Instance.CurrentPlayingGrid.Cells[latittude, longitude], cardToPlay);
+            //if (cardToPlay != null)
+            //    CombatManager.Instance.ExecuteSpells(CombatManager.Instance.CurrentPlayingGrid.Cells[latittude, longitude], cardToPlay);
         }
         #endregion
 
         #region Photon_UI_callbacks
 
-        public override void OnRoomListUpdate(List<RoomInfo> roomList) {
+        public override void OnRoomListUpdate(List<RoomInfo> roomList)
+        {
             this.UILobby?.UpdateRoomList(roomList);
         }
 
-        public override void OnPlayerPropertiesUpdate(Player targetPlayer,ExitGames.Client.Photon.Hashtable changedProps) {
+        public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
+        {
             this.UILobby?.UpdatePlayersFromProperties(targetPlayer);
         }
 
-        public override void OnJoinedRoom() {
+        public override void OnJoinedRoom()
+        {
             if (this.UILobby != null)
                 this.UILobby?.OnJoinedRoom();
             else
                 GameManager.Instance.WelcomePlayers();
         }
 
-        public override void OnPlayerEnteredRoom(Player newPlayer) {
+        public override void OnPlayerEnteredRoom(Player newPlayer)
+        {
             this.UILobby?.UpdatePlayersList();
             this.UILobby?.UpdatePlayersState();
         }
 
-        public override void OnLeftRoom() {
+        public override void OnLeftRoom()
+        {
             this.UILobby?.OnSelfLeftRoom();
         }
 
-        public override void OnPlayerLeftRoom(Player otherPlayer) {
+        public override void OnPlayerLeftRoom(Player otherPlayer)
+        {
             this.UILobby?.OnPlayerLeftRoom();
         }
 
-        public override void OnConnectedToMaster() {
+        public override void OnConnectedToMaster()
+        {
             Debug.Log("Connected to master serv");
             if (this.UILobby != null)
                 PhotonNetwork.JoinLobby();
@@ -291,11 +295,13 @@ namespace DownBelow.Managers {
                 GameManager.Instance.WelcomePlayerLately();
         }
 
-        public override void OnDisconnected(DisconnectCause cause) {
+        public override void OnDisconnected(DisconnectCause cause)
+        {
             Debug.Log("Disconnected");
         }
 
-        public override void OnJoinedLobby() {
+        public override void OnJoinedLobby()
+        {
             base.OnJoinedLobby();
             Debug.Log("Joined Lobby !");
         }

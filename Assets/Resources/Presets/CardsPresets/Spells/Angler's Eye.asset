@@ -24,19 +24,282 @@ MonoBehaviour:
     - Name: UID
       Entry: 2
       Data: c386cea1a8e9ebbcb6199ffed716087f
+    - Name: Spells
+      Entry: 7
+      Data: 0|DownBelow.Spells.Spell[], Assembly-CSharp
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 1|DownBelow.Spells.Spell, Assembly-CSharp
+    - Name: RefBuffer
+      Entry: 6
+      Data: 
+    - Name: RefEntity
+      Entry: 6
+      Data: 
+    - Name: TargetCell
+      Entry: 6
+      Data: 
+    - Name: ParentSpell
+      Entry: 6
+      Data: 
+    - Name: ConditionData
+      Entry: 6
+      Data: 
+    - Name: ActionData
+      Entry: 6
+      Data: 
+    - Name: CanTargetAnyEntityOnGrid
+      Entry: 5
+      Data: false
+    - Name: CastingMatrix
+      Entry: 7
+      Data: 2|System.Boolean[,], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 35
+    - Name: ranks
+      Entry: 1
+      Data: 7|5
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: SpellShapeMatrix
+      Entry: 7
+      Data: 3|System.Boolean[,], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 25
+    - Name: ranks
+      Entry: 1
+      Data: 5|5
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: RotateShapeWithCast
+      Entry: 5
+      Data: false
+    - Name: ApplyToCell
+      Entry: 5
+      Data: false
+    - Name: ApplyToSelf
+      Entry: 5
+      Data: false
+    - Name: ApplyToAllies
+      Entry: 5
+      Data: false
+    - Name: ApplyToEnemies
+      Entry: 5
+      Data: false
+    - Name: ApplyToAll
+      Entry: 5
+      Data: false
+    - Name: CurrentAction
+      Entry: 6
+      Data: 
+    - Name: Caster
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   Title: Angler's Eye
   Cost: 1
   CardType: 3
   Class: 3
   Description: Gives a target "I cannot counterattack" for 1 turn.
   IllustrationImage: {fileID: 21300000, guid: a6c678293de3f7b42b102c9c37e563de, type: 3}
-  Spells:
-  - ConditionData: {fileID: 0}
-    ActionData: {fileID: 8713967515153432227, guid: 75d04e253b6bd5a40ad1f18383b2faae, type: 3}
-    ApplyToCell: 1
-    ApplyToSelf: 0
-    ApplyToAllies: 0
-    ApplyToEnemies: 0
-    ApplyToAll: 0
-    CurrentAction: {fileID: 0}
-    Caster: {fileID: 0}

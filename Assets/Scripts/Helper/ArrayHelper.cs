@@ -9,7 +9,7 @@ public static class ArrayHelper
         Array.Resize(ref array, array.Length + 1);
         array[array.Length - 1] = item;
     }
-
+ 
     public static bool ArrayEquals<T>(T[] lhs, T[] rhs)
     {
         if (lhs == null || rhs == null)
@@ -128,5 +128,29 @@ public static class ArrayHelper
     {
         Array.Clear(array, 0, array.Length);
         Array.Resize(ref array, 0);
+    }
+
+    public static T[,] ResizeArrayTwo<T>(T[,] original, int newCoNum, int newRoNum, bool resizeDown)
+    {
+        var newArray = new T[newCoNum, newRoNum];
+        int columnCount = original.GetLength(1);
+        int columnCount2 = newRoNum;
+        int columns = original.GetUpperBound(0);
+        if (resizeDown)
+        {
+            // Since 2D arrays are only one line of elements, we need to offset the difference if we go from 5 to 3 or else
+            if (newRoNum < columnCount)
+                for (int co = 0; co < newRoNum; co++)
+                    Array.Copy(original, co * newRoNum + (co * (columnCount - newRoNum)), newArray, co * columnCount2, newRoNum);
+            // For columns we shouldn't try to copy in the new array more than we have
+            else
+                for (int co = 0; co < newCoNum; co++)
+                    Array.Copy(original, co * columnCount, newArray, co * columnCount2, columnCount);
+        }
+        else
+            for (int co = 0; co <= columns; co++)
+                Array.Copy(original, co * columnCount, newArray, co * columnCount2, columnCount);
+
+        return newArray;
     }
 }

@@ -1,25 +1,38 @@
 using DownBelow.Entity;
 using DownBelow.Spells;
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace DownBelow.Mechanics {
+namespace DownBelow.Mechanics
+{
     public enum ECardType { Melee, Ranged, Special }
-    
-    [CreateAssetMenu(menuName = "Card")]
-    public class ScriptableCard : SerializedScriptableObject {
+
+    [CreateAssetMenu(menuName = "Cards/SO_Card")]
+    public class ScriptableCard : SerializedScriptableObject
+    {
+        #region SERIALIZATION
         [ReadOnly]
         public Guid UID;
         [OnValueChanged("_updateUID")]
         public string Title;
+        private void _updateUID()
+        {
+            using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
+            {
+                byte[] hash = md5.ComputeHash(System.Text.Encoding.UTF8.GetBytes(Title));
+                this.UID = new Guid(hash);
+            }
+        }
+        #endregion
+
         public int Cost;
         public CardType CardType;
-        public EClass Class;
-        [TextArea]
+        [TextArea] 
         public string Description;
         public Sprite IllustrationImage;
 
@@ -28,22 +41,33 @@ namespace DownBelow.Mechanics {
             Title = name;
         }
 
-        public void CastSpell(GridSystem.Cell cell) {
+        public void CastSpell(GridSystem.Cell cell)
+        {
             Managers.NetworkManager.Instance.AskCastSpell(this, cell);
         }
 
-        private void _updateUID() {
-            using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create()) {
-                byte[] hash = md5.ComputeHash(System.Text.Encoding.UTF8.GetBytes(Title));
-                this.UID = new Guid(hash);
+        public bool IsTrackable() => true; //this.Spells.Length > 0 && this.Spells[0].ApplyToCell;
+
+
+        public int CurrentSpellTargetting = 0;
+
+        public int GetNextTargettingSpellIndex()
+        {
+            for (int i = CurrentSpellTargetting + 1; i < this.Spells.Length; i++)
+            {
+                if (this.Spells[i].RequiresTargetting)
+                {
+                    CurrentSpellTargetting = i;
+                    return CurrentSpellTargetting;
+                }
             }
+
+            return -1;
         }
-
-        public bool IsTrackable() => this.Spells.Length > 0 && this.Spells[0].ApplyToCell;
-
     }
 
-    public enum CardType {
+    public enum CardType
+    {
         None = 0,
         // Yellow
         Skill = 1,
@@ -53,8 +77,10 @@ namespace DownBelow.Mechanics {
         Power = 3
     }
 
-    public class CardComparer : IComparer<ScriptableCard> {
-        public int Compare(ScriptableCard x, ScriptableCard y) {
+    public class CardComparer : IComparer<ScriptableCard>
+    {
+        public int Compare(ScriptableCard x, ScriptableCard y)
+        {
             return x.Title.CompareTo(y.Title);
         }
     }

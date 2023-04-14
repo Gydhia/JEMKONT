@@ -66,9 +66,9 @@ namespace DownBelow.GridSystem
             return worldGrid;
         }
 
-        public static bool GetIncludingSubGrid(List<SubgridPlaceholder> innerGrids, Managers.GridPosition target, out SubgridPlaceholder includingGrid)
+        public static bool GetIncludingSubGrid(List<InnerGridData> innerGrids, Managers.GridPosition target, out InnerGridData includingGrid)
         {
-            foreach (SubgridPlaceholder innerGrid in innerGrids)
+            foreach (InnerGridData innerGrid in innerGrids)
             {
                 if (target.longitude >= innerGrid.Longitude
                  && target.longitude <= innerGrid.Longitude + innerGrid.GridWidth - 1
@@ -84,7 +84,6 @@ namespace DownBelow.GridSystem
             return false;
         }
 
-        
 
         /// <summary>
         /// Find the closest cell to reach the shape (=innerGrid). Priority for top and bottom
@@ -195,5 +194,139 @@ namespace DownBelow.GridSystem
         {
             return Mathf.Abs(fCell.Datas.widthPos - sCell.Datas.widthPos) <= 1 && Mathf.Abs(fCell.Datas.heightPos - sCell.Datas.heightPos) <= 1;
         }
+
+        #region SPELLS
+
+        public static bool[,] RotateSpellMatrix(bool[,] baseMatrix, Cell origin, Cell target)
+        {
+            int angle = GetRotationForMatrix(origin, target);
+
+            // This means it's the current rotation
+            if (angle == 0)
+                return baseMatrix;
+            else
+                return RotateSpellMatrix(baseMatrix, angle);
+        }
+
+        public static bool[,] RotateSpellMatrix(bool[,] baseMatrix, int angle)
+        {
+            int numRows = baseMatrix.GetLength(0);
+            int numCols = baseMatrix.GetLength(1);
+            bool[,] outputMatrix = new bool[numCols, numRows];
+
+            switch (angle)
+            {
+                case 90:
+                    for (int i = 0; i < numRows; i++)
+                    {
+                        for (int j = 0; j < numCols; j++)
+                        {
+                            outputMatrix[j, numRows - i - 1] = baseMatrix[i, j];
+                        }
+                    }
+                    break;
+
+                case 180:
+                    for (int i = 0; i < numRows; i++)
+                    {
+                        for (int j = 0; j < numCols; j++)
+                        {
+                            outputMatrix[numRows - i - 1, numCols - j - 1] = baseMatrix[i, j];
+                        }
+                    }
+                    break;
+
+                case 270:
+                    for (int i = 0; i < numRows; i++)
+                    {
+                        for (int j = 0; j < numCols; j++)
+                        {
+                            outputMatrix[numCols - j - 1, i] = baseMatrix[i, j];
+                        }
+                    }
+                    break;
+
+                default:
+                    Console.WriteLine("Invalid angle. Please enter 90, 180, or 270.");
+                    break;
+            }
+
+            return outputMatrix;
+        }
+
+        /// <summary>
+        /// We assume to use this method for matrixes. So we'll return a rotation considering the base direction is top
+        /// </summary>
+        /// <param name="origin"></param>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        public static int GetRotationForMatrix(Cell origin, Cell target)
+        {
+            int dx = target.Datas.widthPos - origin.Datas.widthPos;
+            int dy = target.Datas.heightPos - origin.Datas.heightPos;
+
+            // /!\ rotations are counterclockwise (as matrixes should rotate)
+
+            // right
+            if (dx > 0)
+                return 270;
+            // left
+            else if (dx < 0)
+                return 90;
+            // top -> base
+            else if (dy > 0)
+                return 0;
+            // bottom
+            else
+                return 180;
+        }
+
+        public static bool IsCellWithinPlayerRange(ref bool[,] playerRange, GridPosition playerPos, GridPosition targetCell)
+        {
+            int xMin = Mathf.RoundToInt(playerPos.longitude - playerRange.GetLength(1) / 2f);
+            int yMin = Mathf.RoundToInt(playerPos.latitude - playerRange.GetLength(0) / 2f);
+
+            int xOffset = targetCell.longitude - xMin;
+            int yOffset = targetCell.latitude - yMin;
+
+            if (xOffset >= 0 && yOffset >= 0 && xOffset < playerRange.GetLength(1) && yOffset < playerRange.GetLength(0))
+            {
+                return playerRange[xOffset, yOffset];
+            }
+
+            return false;
+        }
+
+        public static List<Cell> TransposeShapeToCell(ref bool[,] shape, Cell cell)
+        {
+            List<Cell> cells = new List<Cell>();
+
+            // Calculate the position of the pattern relative to the player's cell
+            int offsetX = shape.GetLength(0) / 2;
+            int offsetY = shape.GetLength(1) / 2;
+
+            // Iterate over the cells in the pattern and add the corresponding cells in the grid to the list
+            for (int x = 0; x < shape.GetLength(0); x++)
+            {
+                for (int y = 0; y < shape.GetLength(1); y++)
+                {
+                    if (shape[x, y])
+                    {
+                        int gridX = cell.Datas.widthPos + x - offsetX;
+                        int gridY = cell.Datas.heightPos + y - offsetY;
+
+                        // Check if the grid position is within the bounds of the grid
+                        if (gridX >= 0 && gridX < cell.RefGrid.GridWidth && gridY >= 0 && gridY < cell.RefGrid.GridHeight)
+                        {
+                            cells.Add(cell.RefGrid.Cells[gridY, gridX]);
+                        }
+                    }
+                }
+            }
+
+            return cells;
+        }
+
+        #endregion
     }
 }
