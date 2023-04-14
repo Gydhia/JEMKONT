@@ -36,6 +36,8 @@ namespace DownBelow.Mechanics
         public string Description;
         public Sprite IllustrationImage;
 
+        public EClass Class;
+
         public Spell[] Spells;
         private void OnValidate() {
             Title = name;

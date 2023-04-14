@@ -1,4 +1,5 @@
 using DownBelow.Mechanics;
+using DownBelow.UI;
 using EODE.Wonderland;
 using Sirenix.OdinInspector;
 using System;
@@ -46,7 +47,7 @@ namespace DownBelow.Managers
         }
 
         Dictionary<ScriptableCard, int> DeckNumbers = new();
-        List<CardComponent> CardPool = new();
+        List<DraggableCard> CardPool = new();
         const int MAXSAMECARDNUMBER = 3;
 
         #region ButtonMethods
@@ -103,7 +104,7 @@ namespace DownBelow.Managers
             //Instanciating card pool
             for (int i = 0;i < maxCardsDisplayed;i++)
             {
-                var go = Instantiate(BigCardPrefab, BigCardsParent).GetComponent<CardComponent>();
+                var go = Instantiate(BigCardPrefab, BigCardsParent).GetComponent<DraggableCard>();
                 go.gameObject.SetActive(false);
                 CardPool.Add(go);
             }
@@ -196,7 +197,7 @@ namespace DownBelow.Managers
             for (int i = 0;i < CardList.CollectionCards(collection).Count;i++)
             {
                 CardPool[i].gameObject.SetActive(true);
-                CardPool[i].AddToDeckOnClick = collection == SettingsManager.Instance.PlayerClass;
+                //CardPool[i].AddToDeckOnClick = collection == SettingsManager.Instance.PlayerClass;
                 CardPool[i].Init(CardList.CollectionCards(collection)[i]);
             }
 
