@@ -75,12 +75,15 @@ namespace DownBelow.Spells
 
         [TableMatrix(DrawElementMethod = "_processDrawSpellShape", SquareCells = true, ResizableColumns = false, HorizontalTitle = nameof(SpellShapeMatrix)), OdinSerialize]
         [FoldoutGroup("Spell Targeting"), HorizontalGroup("Spell Targeting/Grids", Width = 0.5f, Order = 1, MaxWidth = 200)]
+        [OnValueChanged("_updateSpellShape")]
         public bool[,] SpellShapeMatrix = new bool[5, 5];
+        protected Vector2 SpellPosition = new Vector2(2, 2);
 
         [TableMatrix(DrawElementMethod = "_processDrawSpellCasting", SquareCells = true, ResizableColumns = false, HorizontalTitle = nameof(CastingMatrix)), OdinSerialize]
         [FoldoutGroup("Spell Targeting"), HorizontalGroup("Spell Targeting/Grids", Width = 0.5f, Order = 1, MaxWidth = 200)]
+        [OnValueChanged("_updateCastingShape")]
         public bool[,] CastingMatrix;
-
+        protected Vector2 CasterPosition = new Vector2(2, 2);
 
         [ShowIf("@this.SpellShapeMatrix != null")]
         [FoldoutGroup("Spell Targeting"), HorizontalGroup("Spell Targeting/RotationValue", Width = 0.5f, Order = 2, MaxWidth = 100)]
@@ -91,6 +94,47 @@ namespace DownBelow.Spells
 
 
 #if UNITY_EDITOR
+        private void _updateSpellShape() => this._updateMatrixShape(ref SpellShapeMatrix);
+        private void _updateCastingShape() => this._updateMatrixShape(ref CastingMatrix);
+
+        private void _updateMatrixShape(ref bool[,] array)
+        {
+            int rows = array.GetLength(0);
+            int cols = array.GetLength(1);
+
+            for (int i = 0; i < cols; i++)
+            {
+                // Top edge
+                if (array[0, i])
+                {
+                    SpellShapeMatrix = ArrayHelper.InsertEmptyRow(SpellShapeMatrix, 0);
+                    break;
+                }
+                // Bottom edge
+                else if (array[rows - 1, i])
+                {
+                    SpellShapeMatrix = ArrayHelper.ResizeArrayTwo(SpellShapeMatrix, SpellShapeMatrix.GetLength(0) + 1, SpellShapeMatrix.GetLength(1), false);
+                    break;
+                }
+            }
+
+            for (int i = 1; i < rows - 1; i++)
+            {
+                // Left edge
+                if (array[i, 0])
+                {
+                    SpellShapeMatrix = ArrayHelper.InsertEmptyColumn(array, 0);
+                    break;
+                }
+                // Right edge
+                if (array[i, cols - 1])
+                {
+                    SpellShapeMatrix = ArrayHelper.ResizeArrayTwo(SpellShapeMatrix, SpellShapeMatrix.GetLength(0), SpellShapeMatrix.GetLength(1) + 1, false);
+                    break;
+                }
+            }
+        }
+
         private bool _processDrawSpellShape(Rect rect, bool value, int x, int y)
         {
             if (Event.current.type == EventType.MouseDown && rect.Contains(Event.current.mousePosition))
@@ -98,23 +142,8 @@ namespace DownBelow.Spells
                 value = !value;
                 GUI.changed = true;
                 Event.current.Use();
-
-                //OnValueChanged!!!
-                Debug.Log($"OldLengthes:{SpellShapeMatrix.GetLength(0)} {SpellShapeMatrix.GetLength(1)}");
-                if (x == SpellShapeMatrix.GetLength(0) - 1)
-                {
-                    //Add column
-                    SpellShapeMatrix = ArrayHelper.ResizeArrayTwo(SpellShapeMatrix, SpellShapeMatrix.GetLength(0) + 1, SpellShapeMatrix.GetLength(1), false);
-                }
-                if (y == SpellShapeMatrix.GetLength(1) - 1)
-                {
-                    //Add line
-                    SpellShapeMatrix = ArrayHelper.ResizeArrayTwo(SpellShapeMatrix, SpellShapeMatrix.GetLength(0), SpellShapeMatrix.GetLength(1) + 1, false);
-                }
-                Debug.Log($"New Lengthes:{SpellShapeMatrix.GetLength(0)} {SpellShapeMatrix.GetLength(1)}");
-
             }
-            return _drawCell(rect, value, x, y);
+            return _drawCell(rect, value, x, y, SpellShapeMatrix.GetLength(0), SpellShapeMatrix.GetLength(1));
         }
         private bool _processDrawSpellCasting(Rect rect, bool value, int x, int y)
         {
@@ -123,26 +152,13 @@ namespace DownBelow.Spells
                 value = !value;
                 GUI.changed = true;
                 Event.current.Use();
-                //OnValueChanged!!!
-                Debug.Log($"OldLengthes:{CastingMatrix.GetLength(0)} {CastingMatrix.GetLength(1)}");
-                if (x == CastingMatrix.GetLength(0) - 1)
-                {
-                    //Add column
-                    CastingMatrix = ArrayHelper.ResizeArrayTwo(CastingMatrix, CastingMatrix.GetLength(0) + 1, CastingMatrix.GetLength(1), false);
-                }
-                if (y == CastingMatrix.GetLength(1) - 1)
-                {
-                    //Add line
-                    CastingMatrix = ArrayHelper.ResizeArrayTwo(CastingMatrix, CastingMatrix.GetLength(0), CastingMatrix.GetLength(1) + 1, false);
-                }
-                Debug.Log($"New Lengthes:{CastingMatrix.GetLength(0)} {CastingMatrix.GetLength(1)}");
             }
-            return _drawCell(rect, value, x, y);
+            return _drawCell(rect, value, x, y, CastingMatrix.GetLength(0), CastingMatrix.GetLength(1));
         }
-        private static bool _drawCell(Rect rect, bool value, int x, int y)
+        private static bool _drawCell(Rect rect, bool value, int x, int y, int width, int height)
         {
             Color color = value ? SelectedColor : NotSelectedColor;
-            if (x == 2 && y == 2)
+            if (x == width/ 2  && y == height / 2 )
             {
                 EditorGUI.DrawRect(
                     rect.Padding(1),

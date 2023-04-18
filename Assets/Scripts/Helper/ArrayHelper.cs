@@ -9,7 +9,7 @@ public static class ArrayHelper
         Array.Resize(ref array, array.Length + 1);
         array[array.Length - 1] = item;
     }
- 
+
     public static bool ArrayEquals<T>(T[] lhs, T[] rhs)
     {
         if (lhs == null || rhs == null)
@@ -150,6 +150,52 @@ public static class ArrayHelper
         else
             for (int co = 0; co <= columns; co++)
                 Array.Copy(original, co * columnCount, newArray, co * columnCount2, columnCount);
+
+        return newArray;
+    }
+
+    public static T[,] InsertEmptyRow<T>(T[,] originalArray, int index)
+    {
+        int rows = originalArray.GetLength(0);
+        int cols = originalArray.GetLength(1);
+        int newRows = rows + 1;
+        T[,] newArray = new T[newRows, cols];
+
+        for (int i = 0; i < newRows; i++)
+        {
+            if (i < index)
+                for (int j = 0; j < cols; j++)
+                    newArray[i, j] = originalArray[i, j];
+            else if (i == index)
+                for (int j = 0; j < cols; j++)
+                    newArray[i, j] = default(T);
+            else
+                for (int j = 0; j < cols; j++)
+                    newArray[i, j] = originalArray[i - 1, j];
+        }
+
+        return newArray;
+    }
+
+    public static T[,] InsertEmptyColumn<T>(T[,] originalArray, int index)
+    {
+        int rows = originalArray.GetLength(0);
+        int cols = originalArray.GetLength(1);
+        int newCols = cols + 1;
+        T[,] newArray = new T[rows, newCols];
+
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < newCols; j++)
+            {
+                if (j < index)
+                    newArray[i, j] = originalArray[i, j];
+                else if (j == index)
+                    newArray[i, j] = default(T);
+                else
+                    newArray[i, j] = originalArray[i, j - 1];
+            }
+        }
 
         return newArray;
     }
