@@ -167,8 +167,11 @@ namespace DownBelow.Managers
                     EntityAction[] actions = new EntityAction[2];
 
                     // Buff the movement action if we're too far away
-                    if (!GetCombatNeighbours(selfPlayer.EntityCell, selfPlayer.EntityCell.RefGrid).Contains(cell))
-                        actions[0] = new MovementAction(selfPlayer, closestCell);
+                    var path = FindPath(selfPlayer, closestCell.PositionInGrid);
+                    if (path != null)
+                        actions[0] = new MovementAction(selfPlayer, path[^1]);
+                    else
+                        return; //Because we found no path to this thingy.
 
                     // Then buff the interact/gather action to process after the movement
                     actions[1] =

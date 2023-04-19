@@ -84,51 +84,79 @@ namespace DownBelow.GridSystem
         {
             return GetClosestCellToShape(refGrid, innerGrid.Latitude, innerGrid.Longitude, innerGrid.GridHeight, innerGrid.GridWidth, entityPos);
         }
-        public static Cell GetClosestCellToShape(WorldGrid refGrid, int latitude, int longitude, int height, int width, GridPosition entityPos)
+        public static Cell GetClosestCellToShape(WorldGrid refGrid, int latitude, int longitude, int height, int width, GridPosition entityPos, bool closestOrNothing = false)
         {
             // T0DO: Width and height aren't returning the expected result
-
+            Cell res = null;
             // Top
-            if (entityPos.latitude < latitude)
+            if (closestOrNothing)
             {
-                // Are we vertically inside ?
-                if (entityPos.longitude >= longitude && entityPos.longitude <= (longitude - 1) + width)
-                    return refGrid.Cells[latitude - 1, entityPos.longitude];
-                // Are we on the right or left ?
+
+                if (entityPos.latitude < latitude)
+                {
+                    // Are we vertically inside ?
+                    if (entityPos.longitude >= longitude && entityPos.longitude <= (longitude - 1) + width)
+                        res = refGrid.Cells[latitude - 1, entityPos.longitude];
+
+                    // Are we on the right or left ?
+                    else
+                    {
+                        if (entityPos.longitude < longitude)
+                            res = refGrid.Cells[latitude - 1, longitude];
+                        else
+                            res = refGrid.Cells[latitude - 1, longitude + width - 1];
+                    }
+                }
+                // Bottom
+                else if (entityPos.latitude >= latitude + height)
+                {
+                    // Are we horizontally inside ?
+                    if (entityPos.longitude >= longitude && entityPos.longitude <= (longitude - 1) + width)
+                        res = refGrid.Cells[latitude + height, entityPos.longitude];
+                    // Are we on the right or left ?
+                    else
+                    {
+                        if (entityPos.longitude < longitude)
+                            res = refGrid.Cells[latitude + height, longitude];
+                        else
+                            res = refGrid.Cells[latitude + height, longitude + width - 1];
+                    }
+                }
+                // Right
+                else if (entityPos.longitude >= longitude + width)
+                {
+                    res = refGrid.Cells[entityPos.latitude, longitude + width];
+                }
+                // Left
                 else
                 {
-                    if (entityPos.longitude < longitude)
-                        return refGrid.Cells[latitude - 1, longitude];
-                    else
-                        return refGrid.Cells[latitude - 1, longitude + width - 1];
+                    res = refGrid.Cells[entityPos.latitude, longitude - 1];
                 }
-            }
-            // Bottom
-            else if (entityPos.latitude >= latitude + height)
+            } else
             {
-                // Are we horizontally inside ?
-                if (entityPos.longitude >= longitude && entityPos.longitude <= (longitude - 1) + width)
-                    return refGrid.Cells[latitude + height, entityPos.longitude];
-                // Are we on the right or left ?
-                else
+                List<Cell> possibleCells = new List<Cell>()
                 {
-                    if (entityPos.longitude < longitude)
-                        return refGrid.Cells[latitude + height, longitude];
-                    else
-                        return refGrid.Cells[latitude + height, longitude + width - 1];
-                }
+                    refGrid.Cells[latitude - 1, longitude],
+                    refGrid.Cells[latitude + 1, longitude],
+                    refGrid.Cells[latitude, longitude+1],
+                    refGrid.Cells[latitude, longitude-1],
+            };
+                return possibleCells.First((cell) => cell.Datas.state == CellState.Walkable);
             }
-            // Right
-            else if (entityPos.longitude >= longitude + width)
+            if (res.Datas.state != CellState.Walkable)
             {
-                return refGrid.Cells[entityPos.latitude, longitude + width];
-            }
-            // Left
-            else
+                //AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+                //Do something like GetClosestCellToShape(DontReallyNeedToBeTHEclosest = true);
+                return GetClosestCellToShape(refGrid, latitude, longitude, height, width, entityPos, true);
+                //Yeah that
+            } else
             {
-                return refGrid.Cells[entityPos.latitude, longitude - 1];
+                return res;
             }
         }
+
+
+
         /// <summary> 
         /// This method assume that the player is adjacent to the shape, don't use it outside of this context 
         /// </summary>
