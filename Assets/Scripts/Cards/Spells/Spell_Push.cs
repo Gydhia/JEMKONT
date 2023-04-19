@@ -17,7 +17,8 @@ namespace DownBelow.Spells
         Inside,
         Outside
     }
-    public class Spell_Push : Spell
+
+    public class SpellData_Push : SpellData
     {
         [FoldoutGroup("PUSH Spell Datas")]
         public PushType PushType;
@@ -30,21 +31,24 @@ namespace DownBelow.Spells
         [FoldoutGroup("PUSH Spell Datas")]
         [Range(0.1f, 2f)]
         public float PushDamagesMultiplier = 0.5f;
-        public Spell_Push(CharacterEntity RefEntity, Cell TargetCell, SpellAction ActionData, SpellCondition ConditionData = null) 
-            : base(RefEntity, TargetCell, ActionData, ConditionData)
+    }
+    public class Spell_Push : Spell<SpellData_Push>
+    {
+        public Spell_Push(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell)
+            : base(CopyData, RefEntity, TargetCell, ParentSpell)
         {
         }
 
-        Dictionary<CharacterEntity, List<Cell>> bn;
-
         public override void ExecuteAction()
         {
+            base.ExecuteAction();
+
             Managers.CombatManager.Instance.StartCoroutine(this.TryToPush());
         }
 
         public IEnumerator TryToPush()
         {
-            var pushedEntities = this.GetTargets(RefEntity, base.TargetCell);
+            var pushedEntities = this.GetTargets(base.TargetCell);
 
             int newX, offsetX;
             int newY, offsetY;
@@ -56,7 +60,7 @@ namespace DownBelow.Spells
             {
                 bool blockedOnce = false;
 
-                for (int i = 0; i < this.PushAmount; i++)
+                for (int i = 0; i < LocalData.PushAmount; i++)
                 {
                     newX = entity.EntityCell.PositionInGrid.longitude;
                     newY = entity.EntityCell.PositionInGrid.latitude;
@@ -64,7 +68,7 @@ namespace DownBelow.Spells
                     offsetX = newX - TargetCell.PositionInGrid.longitude;
                     offsetY = newY - TargetCell.PositionInGrid.latitude;
 
-                    switch (this.PushType)
+                    switch (LocalData.PushType)
                     {
                         case PushType.Left:
                             newX = Mathf.Max(0, entity.EntityCell.PositionInGrid.longitude - 1);
@@ -114,20 +118,19 @@ namespace DownBelow.Spells
 
                         entity.transform.position = newCell.transform.position;
 
-                        yield return new WaitForSeconds(this.PushDelay);
+                        yield return new WaitForSeconds(LocalData.PushDelay);
                     }
                     else if(!blockedOnce)
                     {
-                        entity.ApplyStat(EntityStatistics.Health, (int)(-(PushDamages * (this.PushAmount * PushDamagesMultiplier))), true);
+                        entity.ApplyStat(EntityStatistics.Health, (int)(-(LocalData.PushDamages * (LocalData.PushAmount * LocalData.PushDamagesMultiplier))), true);
                         blockedOnce = true;
 
-                        yield return new WaitForSeconds(this.PushDelay);
+                        yield return new WaitForSeconds(LocalData.PushDelay);
                     }
                 }
             }
 
             this.EndAction();
         }
-
     }
 }

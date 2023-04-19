@@ -285,7 +285,11 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
     {
         SceneView.duringSceneGui += OnSceneGUI;
     }
-
+    private void OnDestroy()
+    {
+        SceneView.duringSceneGui -= OnSceneGUI;
+    }
+    
     private void OnDisable()
     {
         SceneView.duringSceneGui -= OnSceneGUI;
@@ -299,6 +303,9 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
     /// </summary>
     public void OnSceneGUI(SceneView sceneView)
     {
+        if (GridManager.Instance == null)
+            return;
+
         this.DrawGUIDatas();
         
         /// check if the mouse is on a cell

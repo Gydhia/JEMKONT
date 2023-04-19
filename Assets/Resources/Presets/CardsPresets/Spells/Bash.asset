@@ -29,22 +29,12 @@ MonoBehaviour:
       Data: 0|DownBelow.Spells.Spell[], Assembly-CSharp
     - Name: 
       Entry: 12
-      Data: 2
+      Data: 1
     - Name: 
       Entry: 7
-      Data: 1|DownBelow.Spells.Spell, Assembly-CSharp
+      Data: 1|DownBelow.Spells.Spell_Stats, Assembly-CSharp
     - Name: RefBuffer
-      Entry: 7
-      Data: 2|System.Collections.Generic.List`1[[DownBelow.Entity.EntityAction, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
+      Entry: 6
       Data: 
     - Name: RefEntity
       Entry: 6
@@ -52,6 +42,9 @@ MonoBehaviour:
     - Name: TargetCell
       Entry: 6
       Data: 
+    - Name: Data
+      Entry: 7
+      Data: 2|DownBelow.Spells.SpellData_Stats, Assembly-CSharp
     - Name: RequiresTargetting
       Entry: 5
       Data: true
@@ -84,25 +77,10 @@ MonoBehaviour:
       Data: false
     - Name: 
       Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
       Data: false
     - Name: 
       Entry: 5
       Data: true
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
     - Name: 
       Entry: 5
       Data: false
@@ -120,7 +98,22 @@ MonoBehaviour:
       Data: false
     - Name: 
       Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
       Data: true
+    - Name: 
+      Entry: 5
+      Data: false
     - Name: 
       Entry: 5
       Data: false
@@ -142,6 +135,18 @@ MonoBehaviour:
     - Name: 
       Entry: 13
       Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: SpellPosition
+      Entry: 7
+      Data: UnityEngine.Vector2, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 2
+    - Name: 
+      Entry: 4
+      Data: 2
     - Name: 
       Entry: 8
       Data: 
@@ -156,48 +161,6 @@ MonoBehaviour:
       Data: 5|5
     - Name: 
       Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
       Data: false
     - Name: 
       Entry: 5
@@ -219,7 +182,10 @@ MonoBehaviour:
       Data: true
     - Name: 
       Entry: 5
-      Data: false
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: true
     - Name: 
       Entry: 5
       Data: false
@@ -229,228 +195,60 @@ MonoBehaviour:
     - Name: 
       Entry: 5
       Data: true
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
     - Name: 
       Entry: 13
       Data: 
     - Name: 
       Entry: 8
       Data: 
-    - Name: RotateShapeWithCast
-      Entry: 5
-      Data: false
-    - Name: TargetType
-      Entry: 3
-      Data: 7
-    - Name: ParentSpell
-      Entry: 6
-      Data: 
-    - Name: ConditionData
-      Entry: 6
-      Data: 
-    - Name: ActionData
-      Entry: 6
-      Data: 
-    - Name: CurrentAction
-      Entry: 6
-      Data: 
-    - Name: Caster
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
+    - Name: CasterPosition
       Entry: 7
-      Data: 5|DownBelow.Spells.Spell, Assembly-CSharp
-    - Name: RefBuffer
-      Entry: 9
+      Data: UnityEngine.Vector2, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
       Data: 2
-    - Name: RefEntity
-      Entry: 6
-      Data: 
-    - Name: TargetCell
-      Entry: 6
-      Data: 
-    - Name: RequiresTargetting
-      Entry: 5
-      Data: true
-    - Name: SpellShapeMatrix
-      Entry: 7
-      Data: 6|System.Boolean[,], mscorlib
     - Name: 
-      Entry: 12
-      Data: 25
-    - Name: ranks
-      Entry: 1
-      Data: 5|5
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: CastingMatrix
-      Entry: 7
-      Data: 7|System.Boolean[,], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 25
-    - Name: ranks
-      Entry: 1
-      Data: 5|5
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 13
-      Data: 
+      Entry: 4
+      Data: 2
     - Name: 
       Entry: 8
       Data: 
@@ -460,19 +258,28 @@ MonoBehaviour:
     - Name: TargetType
       Entry: 3
       Data: 7
+    - Name: IsNegativeEffect
+      Entry: 5
+      Data: true
+    - Name: Statistic
+      Entry: 3
+      Data: 0
+    - Name: StatAmount
+      Entry: 3
+      Data: 25
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: TargetCells
+      Entry: 6
+      Data: 
     - Name: ParentSpell
       Entry: 6
       Data: 
+    - Name: Result
+      Entry: 6
+      Data: 
     - Name: ConditionData
-      Entry: 6
-      Data: 
-    - Name: ActionData
-      Entry: 6
-      Data: 
-    - Name: CurrentAction
-      Entry: 6
-      Data: 
-    - Name: Caster
       Entry: 6
       Data: 
     - Name: 
@@ -489,4 +296,5 @@ MonoBehaviour:
   CardType: 2
   Description: Deals damage.
   IllustrationImage: {fileID: 21300000, guid: 99c022fcb87ec6a40971f49f33d6fbb9, type: 3}
+  Class: 0
   CurrentSpellTargetting: 0

@@ -287,7 +287,7 @@ namespace DownBelow.GridSystem
             return false;
         }
 
-        public static List<Cell> TransposeShapeToCell(ref bool[,] shape, Cell cell)
+        public static List<Cell> TransposeShapeToCells(ref bool[,] shape, Cell cell)
         {
             List<Cell> cells = new List<Cell>();
 

@@ -115,7 +115,7 @@ namespace DownBelow.Pools
         #region SPELLS
         private void _displaySpellIndicators(ref bool[,] matrix, Cell origin, bool isShape)
         {
-            var cells = GridUtility.TransposeShapeToCell(ref matrix, origin);
+            var cells = GridUtility.TransposeShapeToCells(ref matrix, origin);
 
             foreach (var cell in cells)
             {
@@ -164,10 +164,10 @@ namespace DownBelow.Pools
         protected void beginShowSpellTargetting(SpellTargetEventData Data)
         {
             this._currentSpell = Data.TargetSpell;
-            this._displaySpellIndicators(ref this._currentSpell.CastingMatrix, this._currentSpell.Caster.EntityCell, false);
+            this._displaySpellIndicators(ref this._currentSpell.Data.CastingMatrix, this._currentSpell.RefEntity.EntityCell, false);
 
             if (CombatManager.Instance.IsCellCastable(Data.Cell, this._currentSpell))
-                this._displaySpellIndicators(ref this._currentSpell.SpellShapeMatrix, Data.Cell, true);
+                this._displaySpellIndicators(ref this._currentSpell.Data.SpellShapeMatrix, Data.Cell, true);
 
             InputManager.Instance.OnNewCellHovered += this.updateSpellTargetting;
         }
@@ -177,7 +177,7 @@ namespace DownBelow.Pools
             this._hideShapeIndicators();
 
             if(CombatManager.Instance.IsCellCastable(Data.Cell, this._currentSpell))
-                this._displaySpellIndicators(ref this._currentSpell.SpellShapeMatrix, Data.Cell, true);
+                this._displaySpellIndicators(ref this._currentSpell.Data.SpellShapeMatrix, Data.Cell, true);
         }
 
         protected void endShowSpellTargetting(SpellTargetEventData Data)

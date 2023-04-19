@@ -397,8 +397,8 @@ namespace DownBelow.Entity
 
         public override string ToString() {
             return @$"Name : {name}
-IsAlly : {IsAlly}
-GridPos : {EntityCell}";
+            IsAlly : {IsAlly}
+            GridPos : {EntityCell}";
         }
         public void AddAlteration(EAlterationType type,int duration,int value) {
             OnAlterationReceived?.Invoke(new SpellEventDataAlteration(this,duration,type));
@@ -499,10 +499,10 @@ GridPos : {EntityCell}";
         #endregion
 
         #region SKILLS
-        public void SubToSpell(SpellAction Action) {
+        public void SubToSpell(SpellResult Action) {
     
         }
-        public void UnsubToSpell(SpellAction Action) {
+        public void UnsubToSpell(SpellResult Action) {
          
         }
 

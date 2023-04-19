@@ -75,7 +75,6 @@ namespace DownBelow.Managers
         public List<DraggableCard> HandPile;
 
         public GameObject CardPrefab;
-        public List<SpellAction> PossibleAutoAttacks;
 
         public int TurnNumber;
         #endregion
@@ -196,12 +195,18 @@ namespace DownBelow.Managers
         {
             // Copy it to avoid erasing datas
             this._currentSpells = new Spell[data.Card.Spells.Length];
-            data.Card.Spells.CopyTo(this._currentSpells, 0);
 
+            // We use the constructor since it's how EntityActions work, and only give de spellData to it with main datas
+            object[] fullDatas = new object[4];
             for (int i = 0; i < this._currentSpells.Length; i++)
             {
-                this._currentSpells[i].Caster = this.CurrentPlayingEntity;
-                this._currentSpells[i].RefEntity = this.CurrentPlayingEntity;
+                Type type = data.Card.Spells[i].GetType();
+
+                fullDatas[0] = data.Card.Spells[i].Data;
+                fullDatas[1] = this.CurrentPlayingEntity;
+                fullDatas[3] = i > 0 ? this._currentSpells[i - 1] : null;
+
+                this._currentSpells[i] = Activator.CreateInstance(type, fullDatas) as Spell;
             }
 
             DraggableCard.SelectedCard.CardReference.CurrentSpellTargetting = 0;
@@ -239,11 +244,11 @@ namespace DownBelow.Managers
         public bool IsCellCastable(Cell cell, Spell spell)
         {
             return cell != null
-                && spell.TargetType.ValidateTarget(cell)
+                && spell.Data.TargetType.ValidateTarget(cell)
                 && (
-                    spell.CastingMatrix == null
+                    spell.Data.CastingMatrix == null
                     || GridUtility.IsCellWithinPlayerRange(
-                        ref spell.CastingMatrix,
+                        ref spell.Data.CastingMatrix,
                         this.CurrentPlayingEntity.EntityCell.PositionInGrid,
                         cell.PositionInGrid
                     )
