@@ -56,7 +56,7 @@ namespace DownBelow.Entity
             this.EntityCell.Datas.state = CellState.Walkable;
             this.EntityCell.EntityIn = null;
 
-            this.OnEnteredCell?.Invoke(new CellEventData(this.EntityCell));
+            this.OnExitedCell?.Invoke(new CellEventData(this.EntityCell));
         }
 
         public void FireEnteredCell(Cell cell)
@@ -65,7 +65,7 @@ namespace DownBelow.Entity
             this.EntityCell.EntityIn = this;
             this.EntityCell.Datas.state = CellState.EntityIn;
 
-            this.OnExitedCell?.Invoke(new CellEventData(cell));
+            this.OnEnteredCell?.Invoke(new CellEventData(cell));
         }
 
         protected EntityStats RefStats;
