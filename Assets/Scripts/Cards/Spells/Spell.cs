@@ -68,10 +68,10 @@ namespace DownBelow.Spells
         public void RotateSpellShape() { this.SpellShapeMatrix = GridUtility.RotateSpellMatrix(this.SpellShapeMatrix, 90); }
 
         [Button, FoldoutGroup("Spell Targeting"), HorizontalGroup("Spell Targeting/Buttons", Width = 0.5f, Order = 0, MaxWidth = 200)]
-        public void RegenerateShape() { SpellShapeMatrix = new bool[5, 5]; }
+        public void RegenerateShape() { SpellShapeMatrix = new bool[5, 5]; SpellPosition = new Vector2(2, 2); }
 
         [Button, FoldoutGroup("Spell Targeting"), HorizontalGroup("Spell Targeting/Buttons", Width = 0.5f, Order = 0, MaxWidth = 200)]
-        public void RegenerateCasting() { CastingMatrix = new bool[5, 5]; }
+        public void RegenerateCasting() { CastingMatrix = new bool[5, 5]; CasterPosition = new Vector2(2, 2); }
 
         [TableMatrix(DrawElementMethod = "_processDrawSpellShape", SquareCells = true, ResizableColumns = false, HorizontalTitle = nameof(SpellShapeMatrix)), OdinSerialize]
         [FoldoutGroup("Spell Targeting"), HorizontalGroup("Spell Targeting/Grids", Width = 0.5f, Order = 1, MaxWidth = 200)]
@@ -94,44 +94,78 @@ namespace DownBelow.Spells
 
 
 #if UNITY_EDITOR
-        private void _updateSpellShape() => this._updateMatrixShape(ref SpellShapeMatrix);
-        private void _updateCastingShape() => this._updateMatrixShape(ref CastingMatrix);
+        private void _updateSpellShape() => this._updateMatrixShape(ref SpellShapeMatrix, ref SpellPosition);
+        private void _updateCastingShape() => this._updateMatrixShape(ref CastingMatrix, ref CasterPosition);
 
-        private void _updateMatrixShape(ref bool[,] array)
+        private void _updateMatrixShape(ref bool[,] array, ref Vector2 position)
         {
-            int rows = array.GetLength(0);
-            int cols = array.GetLength(1);
+            int cols = array.GetLength(0);
+            int rows = array.GetLength(1);
 
-            for (int i = 0; i < cols; i++)
+            bool removedEdge = false;
+            for (int i = 0; i < rows; i++)
             {
                 // Top edge
                 if (array[0, i])
                 {
-                    SpellShapeMatrix = ArrayHelper.InsertEmptyRow(SpellShapeMatrix, 0);
+                    array = ArrayHelper.InsertEmptyRow(array, 0);
+                    position.x++;
+                    removedEdge = true;
                     break;
                 }
                 // Bottom edge
-                else if (array[rows - 1, i])
+                else if (array[cols - 1, i])
                 {
-                    SpellShapeMatrix = ArrayHelper.ResizeArrayTwo(SpellShapeMatrix, SpellShapeMatrix.GetLength(0) + 1, SpellShapeMatrix.GetLength(1), false);
+                    array = ArrayHelper.ResizeArrayTwo(array, array.GetLength(0) + 1, array.GetLength(1), false);
+                    removedEdge = true;
                     break;
                 }
             }
 
-            for (int i = 1; i < rows - 1; i++)
+            if (!removedEdge && rows > 5)
+            {
+                bool anyTop = false;
+                bool anyBot = false;
+                for (int i = 0; i < cols; i++)
+                {
+                    if (array[i, 1]) anyTop = true;
+                    if (array[i, rows - 2]) anyBot = true;
+                }
+                if (!anyBot) { array = ArrayHelper.RemoveColumn(array, rows - 1); rows--; }
+                if (!anyTop) { array = ArrayHelper.RemoveColumn(array, 0); position.y--; rows--; }
+            }
+
+            removedEdge = false;
+            for (int i = 1; i < cols - 1; i++)
             {
                 // Left edge
                 if (array[i, 0])
                 {
-                    SpellShapeMatrix = ArrayHelper.InsertEmptyColumn(array, 0);
+                    array = ArrayHelper.InsertEmptyColumn(array, 0);
+                    position.y++;
+                    removedEdge = true;
                     break;
                 }
                 // Right edge
-                if (array[i, cols - 1])
+                if (array[i, rows - 1])
                 {
-                    SpellShapeMatrix = ArrayHelper.ResizeArrayTwo(SpellShapeMatrix, SpellShapeMatrix.GetLength(0), SpellShapeMatrix.GetLength(1) + 1, false);
+                    array = ArrayHelper.ResizeArrayTwo(array, array.GetLength(0), array.GetLength(1) + 1, false);
+                    removedEdge = true;
                     break;
                 }
+            }
+
+            if (!removedEdge && cols > 5)
+            {
+                bool anyLeft = false;
+                bool anyRight = false;
+                for (int i = 0; i < rows; i++)
+                {
+                    if (array[1, i]) anyLeft = true;
+                    if (array[cols - 2, i]) anyRight = true;
+                }
+                if (!anyRight) { array = ArrayHelper.RemoveRow(array, cols - 1); }
+                if (!anyLeft) { array = ArrayHelper.RemoveRow(array, 0); position.x--; }
             }
         }
 
@@ -143,7 +177,7 @@ namespace DownBelow.Spells
                 GUI.changed = true;
                 Event.current.Use();
             }
-            return _drawCell(rect, value, x, y, SpellShapeMatrix.GetLength(0), SpellShapeMatrix.GetLength(1));
+            return _drawCell(rect, value, x, y, SpellShapeMatrix.GetLength(0), SpellShapeMatrix.GetLength(1), SpellPosition);
         }
         private bool _processDrawSpellCasting(Rect rect, bool value, int x, int y)
         {
@@ -153,12 +187,12 @@ namespace DownBelow.Spells
                 GUI.changed = true;
                 Event.current.Use();
             }
-            return _drawCell(rect, value, x, y, CastingMatrix.GetLength(0), CastingMatrix.GetLength(1));
+            return _drawCell(rect, value, x, y, CastingMatrix.GetLength(0), CastingMatrix.GetLength(1), CasterPosition);
         }
-        private static bool _drawCell(Rect rect, bool value, int x, int y, int width, int height)
+        private static bool _drawCell(Rect rect, bool value, int x, int y, int width, int height, Vector2 basePos)
         {
             Color color = value ? SelectedColor : NotSelectedColor;
-            if (x == width/ 2  && y == height / 2 )
+            if (x == basePos.x && y == basePos.y)
             {
                 EditorGUI.DrawRect(
                     rect.Padding(1),

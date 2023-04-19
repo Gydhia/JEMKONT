@@ -199,4 +199,47 @@ public static class ArrayHelper
 
         return newArray;
     }
+
+    public static T[,] RemoveColumn<T>(T[,] array, int columnIndex)
+    {
+        int numRows = array.GetLength(0);
+        int numColumns = array.GetLength(1);
+
+        T[,] newArray = new T[numRows, numColumns - 1];
+
+        // Copy elements from the old array to the new array,
+        // skipping the column we want to remove.
+        for (int row = 0; row < numRows; row++)
+        {
+            int sourceIndex = row * numColumns;
+            int destinationIndex = row * (numColumns - 1);
+
+            Array.Copy(array, sourceIndex, newArray, destinationIndex, columnIndex);
+            Array.Copy(array, sourceIndex + columnIndex + 1, newArray, destinationIndex + columnIndex, numColumns - columnIndex - 1);
+        }
+
+        return newArray;
+    }
+
+    public static T[,] RemoveRow<T>(T[,] array, int rowIndex)
+    {
+        int numRows = array.GetLength(0);
+        int numColumns = array.GetLength(1);
+
+        T[,] newArray = new T[numRows - 1, numColumns];
+
+        // Copy elements from the old array to the new array,
+        // skipping the row we want to remove.
+        int destinationIndex = 0;
+        for (int sourceIndex = 0; sourceIndex < numRows; sourceIndex++)
+        {
+            if (sourceIndex != rowIndex)
+            {
+                Array.Copy(array, sourceIndex * numColumns, newArray, destinationIndex * numColumns, numColumns);
+                destinationIndex++;
+            }
+        }
+
+        return newArray;
+    }
 }

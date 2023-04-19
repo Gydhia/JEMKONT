@@ -878,8 +878,8 @@ namespace DownBelow.Managers
                     this.BitmapTexture.SetPixel(
                         item.widthPos,
                         world.GridHeight - item.heightPos,
-                        Color.black
-                    ); //this._getBitmapColor(item.state));
+                        this._getBitmapColor(item.state)
+                    );
                 }
             }
             for (int y = 0; y < world.GridHeight; y++)
@@ -990,7 +990,7 @@ namespace DownBelow.Managers
                     newColor = Color.green;
                     break;
                 case CellState.Interactable:
-                    newColor = Color.blue;
+                    newColor = Color.red;
                     break;
             }
 
