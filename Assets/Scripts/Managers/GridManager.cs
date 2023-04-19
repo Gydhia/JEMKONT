@@ -50,6 +50,7 @@ namespace DownBelow.Managers
         public WorldGrid MainWorldGrid;
         public Texture2D BitmapTexture;
         public Material BitmapShader;
+        public Material BitmapShaderEditor;
         public GameObject GridShader;
 
         public Cell LastHoveredCell;
@@ -822,23 +823,18 @@ namespace DownBelow.Managers
 
                         this.GridShader = gridChild;
                 }
-            }
-            else
-                this.GridShader = Instantiate(
-                    SettingsManager.Instance.GridsPreset.GridShader,
-                    this.transform
-                );
 
-            this.GridShader.transform.localScale = new Vector3(
-                (float)world.GridWidth / 10f,
-                1f,
-                (float)world.GridHeight / 10f
-            );
-            this.GridShader.transform.position = new Vector3(
-                world.TopLeftOffset.x + (world.GridWidth * cellSize) / 2f,
-                world.TopLeftOffset.y,
-                world.TopLeftOffset.z + -(world.GridHeight * cellSize) / 2f
-            );
+                this.GridShader.transform.localScale = new Vector3(
+                    (float)world.GridWidth / 10f,
+                    1f,
+                    (float)world.GridHeight / 10f
+                );
+                this.GridShader.transform.position = new Vector3(
+                    world.TopLeftOffset.x + (world.GridWidth * cellSize) / 2f,
+                    world.TopLeftOffset.y,
+                    world.TopLeftOffset.z + -(world.GridHeight * cellSize) / 2f
+                );
+            }
 
             this.BitmapTexture = new Texture2D(
                 world.GridWidth,
@@ -859,12 +855,22 @@ namespace DownBelow.Managers
                 this._generateShaderBitmap(world, innerGrid);
 
             this.BitmapTexture.Apply();
-            // -1 ? Don't know, just works
-            this.BitmapShader.SetVector(
-                "_Offset",
-                new Vector2(-world.TopLeftOffset.x, -(world.TopLeftOffset.z - 1))
-            );
-            this.BitmapShader.SetTexture("_Texture2D", this.BitmapTexture);
+            if (editor)
+            {
+                this.BitmapShaderEditor.SetVector(
+                    "_Offset",
+                    new Vector2(-world.TopLeftOffset.x, -(world.TopLeftOffset.z - 1))
+                );
+                this.BitmapShaderEditor.SetTexture("_Texture2D", this.BitmapTexture);
+            }
+            else {
+                this.BitmapShader.SetVector(
+                    "_Offset",
+                    new Vector2(-world.TopLeftOffset.x, -(world.TopLeftOffset.z - 1))
+                );
+                this.BitmapShader.SetTexture("_Texture2D", this.BitmapTexture);
+            }
+            
         }
 
         private void _generateShaderBitmap(GridData world, GridData innerGrid)
