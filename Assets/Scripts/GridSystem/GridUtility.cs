@@ -3,6 +3,7 @@ using DownBelow.Managers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
@@ -24,8 +25,8 @@ namespace DownBelow.GridSystem
             {
                 oldCells = newCells;
 
-                for (int i = 0; i < newHeight; i++)
-                    for (int j = 0; j < newWidth; j++)
+                for (int i = 0;i < newHeight;i++)
+                    for (int j = 0;j < newWidth;j++)
                         if (oldCells[i, j] == null)
                             oldCells[i, j] = new CellData(i, j, CellState.Walkable);
             }
@@ -33,9 +34,14 @@ namespace DownBelow.GridSystem
         public static List<Cell> GetSurroundingCells(CellState? specifiedState, Cell cell)
         {
             List<Cell> foundCells = new List<Cell>();
-            for (int x = -1; x <= 1; x++)
+            foundCells = GridManager.Instance.GetCombatNeighbours(cell, cell.RefGrid)
+                .Where((cell) => specifiedState == null ||
+                (cell != null && cell.Datas.state == specifiedState))
+                .ToList();
+            /*/OLD:
+            for (int x = -1;x <= 1;x++)
             {
-                for (int y = -1; y <= 1; y++)
+                for (int y = -1;y <= 1;y++)
                 {
                     int checkX = cell.Datas.widthPos + x;
                     int checkY = cell.Datas.heightPos + y;
@@ -47,6 +53,7 @@ namespace DownBelow.GridSystem
                     }
                 }
             }
+            //*/
             return foundCells;
         }
 
@@ -54,9 +61,9 @@ namespace DownBelow.GridSystem
         {
             foreach (CombatGrid innerGrid in worldGrid.InnerCombatGrids.Values)
             {
-                if(target.longitude >= innerGrid.Longitude 
-                 && target.longitude <= innerGrid.Longitude + innerGrid.GridWidth 
-                 && target.latitude >= innerGrid.Latitude 
+                if (target.longitude >= innerGrid.Longitude
+                 && target.longitude <= innerGrid.Longitude + innerGrid.GridWidth
+                 && target.latitude >= innerGrid.Latitude
                  && target.latitude <= innerGrid.Latitude + innerGrid.GridHeight)
                 {
                     return innerGrid;
@@ -177,15 +184,14 @@ namespace DownBelow.GridSystem
                     left = true;
                     return innerGrid.Cells[entityPos.latitude - innerGrid.Latitude, 0];
                 }
-            }
-            catch(Exception ex)
+            } catch (Exception ex)
             {
                 Debug.LogError("Couldn't find closest Cell because Entity[" + entityPos.latitude + ", " + entityPos.longitude +
                     "] failed innerGrid[" + innerGrid.Latitude + ", " + innerGrid.Longitude + "] for size of [" + innerGrid.GridHeight + ", " + innerGrid.GridWidth + "]\n" +
                     "top : " + top +
                     "bot : " + bot +
                     "left : " + left +
-                    "right : " + right) ;
+                    "right : " + right);
                 return null;
             }
         }
@@ -217,9 +223,9 @@ namespace DownBelow.GridSystem
             switch (angle)
             {
                 case 90:
-                    for (int i = 0; i < numRows; i++)
+                    for (int i = 0;i < numRows;i++)
                     {
-                        for (int j = 0; j < numCols; j++)
+                        for (int j = 0;j < numCols;j++)
                         {
                             outputMatrix[j, numRows - i - 1] = baseMatrix[i, j];
                         }
@@ -227,9 +233,9 @@ namespace DownBelow.GridSystem
                     break;
 
                 case 180:
-                    for (int i = 0; i < numRows; i++)
+                    for (int i = 0;i < numRows;i++)
                     {
-                        for (int j = 0; j < numCols; j++)
+                        for (int j = 0;j < numCols;j++)
                         {
                             outputMatrix[numRows - i - 1, numCols - j - 1] = baseMatrix[i, j];
                         }
@@ -237,9 +243,9 @@ namespace DownBelow.GridSystem
                     break;
 
                 case 270:
-                    for (int i = 0; i < numRows; i++)
+                    for (int i = 0;i < numRows;i++)
                     {
-                        for (int j = 0; j < numCols; j++)
+                        for (int j = 0;j < numCols;j++)
                         {
                             outputMatrix[numCols - j - 1, i] = baseMatrix[i, j];
                         }
@@ -306,9 +312,9 @@ namespace DownBelow.GridSystem
             int offsetY = shape.GetLength(1) / 2;
 
             // Iterate over the cells in the pattern and add the corresponding cells in the grid to the list
-            for (int x = 0; x < shape.GetLength(0); x++)
+            for (int x = 0;x < shape.GetLength(0);x++)
             {
-                for (int y = 0; y < shape.GetLength(1); y++)
+                for (int y = 0;y < shape.GetLength(1);y++)
                 {
                     if (shape[x, y])
                     {
