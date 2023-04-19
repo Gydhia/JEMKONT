@@ -47,7 +47,7 @@ MonoBehaviour:
       Data: 0
     - Name: $v
       Entry: 3
-      Data: 3
+      Data: 2
     - Name: 
       Entry: 8
       Data: 
@@ -88,7 +88,7 @@ MonoBehaviour:
       Entry: 8
       Data: 
   UName: Cards
-  AffectingState: 4
+  AffectingState: 8
   ObjectPrefab: {fileID: 2958236804319997038, guid: 45d057279f0a91f459697d8ff1b749c5, type: 3}
   OutlineColor: {r: 0.47668213, g: 0.78842044, b: 0.9811321, a: 0.6}
   InteractAnimation: {fileID: 0}

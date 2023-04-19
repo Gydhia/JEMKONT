@@ -218,6 +218,13 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
 
     public GridData GetGridData()
     {
+        void affectSpawnStates(CellData[,] cellDatas, OrderedDictionary<GridPosition, BaseSpawnablePreset> Spawnables)
+        {
+            foreach (var spawnable in Spawnables)            
+                cellDatas[spawnable.Key.latitude, spawnable.Key.longitude].state = spawnable.Value.AffectingState;
+        }
+
+        affectSpawnStates(this.LazyLoadedData.CellDatas, this.LazyLoadedData.Spawnables);
         // Main grid datas
         List<CellData> cellData = new List<CellData>();
         for (int i = 0; i < this.LazyLoadedData.CellDatas.GetLength(0); i++)
@@ -231,6 +238,7 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
         {
             List<CellData> innerCellData = new List<CellData>();
 
+            affectSpawnStates(this.LazyLoadedData.InnerGrids[i].CellDatas, this.LazyLoadedData.InnerGrids[i].Spawnables);
             for (int j = 0; j < this.LazyLoadedData.InnerGrids[i].CellDatas.GetLength(0); j++)
                 for (int k = 0; k < this.LazyLoadedData.InnerGrids[i].CellDatas.GetLength(1); k++)
                     if (this.LazyLoadedData.InnerGrids[i].CellDatas[j, k].state != CellState.Walkable)
