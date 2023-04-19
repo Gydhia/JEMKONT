@@ -15,9 +15,7 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects:
-    - {fileID: 0}
-    - {fileID: 0}
+    ReferencedUnityObjects: []
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -49,11 +47,11 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: RefEntity
-      Entry: 10
-      Data: 0
+      Entry: 6
+      Data: 
     - Name: TargetCell
-      Entry: 10
-      Data: 1
+      Entry: 6
+      Data: 
     - Name: RequiresTargetting
       Entry: 5
       Data: true
@@ -62,13 +60,61 @@ MonoBehaviour:
       Data: 3|System.Boolean[,], mscorlib
     - Name: 
       Entry: 12
-      Data: 25
+      Data: 49
     - Name: ranks
       Entry: 1
-      Data: 5|5
+      Data: 7|7
     - Name: 
       Entry: 5
       Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: true
     - Name: 
       Entry: 5
       Data: false
@@ -95,6 +141,36 @@ MonoBehaviour:
       Data: true
     - Name: 
       Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
       Data: false
     - Name: 
       Entry: 5
@@ -107,22 +183,16 @@ MonoBehaviour:
       Data: false
     - Name: 
       Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
       Data: false
     - Name: 
       Entry: 5
       Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
       Data: false
@@ -158,40 +228,34 @@ MonoBehaviour:
       Data: 5|5
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
     - Name: 
       Entry: 5
       Data: true
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
       Data: false
@@ -206,31 +270,37 @@ MonoBehaviour:
       Data: true
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
     - Name: 
       Entry: 5
       Data: true
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 13
       Data: 
@@ -259,17 +329,23 @@ MonoBehaviour:
       Entry: 6
       Data: 
     - Name: Caster
-      Entry: 10
-      Data: 0
+      Entry: 6
+      Data: 
     - Name: PushType
       Entry: 3
       Data: 1
+    - Name: PushDelay
+      Entry: 4
+      Data: 0
     - Name: PushAmount
       Entry: 3
       Data: 1
     - Name: PushDamages
       Entry: 3
       Data: 5
+    - Name: PushDamagesMultiplier
+      Entry: 4
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
