@@ -38,22 +38,6 @@ namespace DownBelow.GridSystem
                 .Where((cell) => specifiedState == null ||
                 (cell != null && cell.Datas.state == specifiedState))
                 .ToList();
-            /*/OLD:
-            for (int x = -1;x <= 1;x++)
-            {
-                for (int y = -1;y <= 1;y++)
-                {
-                    int checkX = cell.Datas.widthPos + x;
-                    int checkY = cell.Datas.heightPos + y;
-
-                    if (checkX >= 0 && checkX < cell.RefGrid.GridWidth && checkY >= 0 && checkY < cell.RefGrid.GridHeight)
-                    {
-                        if (specifiedState == null || (cell.RefGrid.Cells[checkY, checkX] != null && cell.RefGrid.Cells[checkY, checkX].Datas.state == specifiedState))
-                            foundCells.Add(cell.RefGrid.Cells[checkY, checkX]);
-                    }
-                }
-            }
-            //*/
             return foundCells;
         }
 
@@ -135,7 +119,7 @@ namespace DownBelow.GridSystem
                 }
             }
             // Right
-            else if (entityPos.longitude > longitude + width)
+            else if (entityPos.longitude >= longitude + width)
             {
                 return refGrid.Cells[entityPos.latitude, longitude + width];
             }
