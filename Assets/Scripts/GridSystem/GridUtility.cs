@@ -91,8 +91,8 @@ namespace DownBelow.GridSystem
             // Top
             if (entityPos.latitude < latitude)
             {
-                // Are we horizontally inside ?
-                if (entityPos.longitude >= longitude && entityPos.longitude <= longitude + width)
+                // Are we vertically inside ?
+                if (entityPos.longitude >= longitude && entityPos.longitude <= (longitude - 1) + width)
                     return refGrid.Cells[latitude - 1, entityPos.longitude];
                 // Are we on the right or left ?
                 else
@@ -107,7 +107,7 @@ namespace DownBelow.GridSystem
             else if (entityPos.latitude >= latitude + height)
             {
                 // Are we horizontally inside ?
-                if (entityPos.longitude >= longitude && entityPos.longitude <= longitude + width)
+                if (entityPos.longitude >= longitude && entityPos.longitude <= (longitude - 1) + width)
                     return refGrid.Cells[latitude + height, entityPos.longitude];
                 // Are we on the right or left ?
                 else
