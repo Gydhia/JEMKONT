@@ -10,6 +10,8 @@ using UnityEngine;
 using UnityEngine.Events;
 using Sirenix.Serialization;
 using System;
+using TMPro;
+using UnityEngine.Serialization;
 
 namespace DownBelow.Entity
 {
@@ -71,9 +73,8 @@ namespace DownBelow.Entity
         protected EntityStats RefStats;
 
         [OdinSerialize] public List<Alteration> Alterations = new();
-
-        public UnityEngine.UI.Slider HealthFill;
-        public UnityEngine.UI.Slider ShieldFill;
+        
+        public TextMeshProUGUI healthText;
 
         public int TurnOrder;
         public bool IsAlly = true;
@@ -159,28 +160,24 @@ namespace DownBelow.Entity
             this.OnShieldAdded += UpdateUIShield;
             this.OnShieldRemoved += UpdateUIShield;
 
-            this.HealthFill.maxValue = this.Statistics[EntityStatistics.Health];
-            this.HealthFill.minValue = 0;
-            this.HealthFill.value = this.Health;
-
-            this.ShieldFill.maxValue = this.Statistics[EntityStatistics.Health];
-            this.ShieldFill.minValue = 0;
-            this.ShieldFill.value = 0;
+            this.healthText.text = this.Statistics[EntityStatistics.Health].ToString();
+            this.healthText.text = this.Health.ToString();
+            
         }
         public void UpdateUILife(SpellEventData data)
         {
-            this.HealthFill.value = this.Health;
+            this.healthText.text = this.Health.ToString();
         }
 
         public void UpdateUIShield(SpellEventData data)
         {
-            this.ShieldFill.value = this.Shield;
+            //this.ShieldFill.value = this.Shield;
         }
 
         private void LateUpdate() 
         {
-            this.HealthFill.transform.LookAt(Camera.main.transform.position);
-            this.ShieldFill.transform.LookAt(Camera.main.transform.position);
+           // this.healthText.transform.LookAt(Camera.main.transform.position);
+           // this.ShieldFill.transform.LookAt(Camera.main.transform.position);
         }
 
         #region ATTACKS
