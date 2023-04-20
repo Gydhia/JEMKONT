@@ -18,6 +18,8 @@ namespace DownBelow.UI
 
         [SerializeField] private Image _lifeFill;
 
+        private int _previousHealthValue, _previousManaValue, _previousMoveValue;
+
         public void Init()
         {
             this.gameObject.SetActive(true);
@@ -34,15 +36,15 @@ namespace DownBelow.UI
             this._onMoveChanged(null);
         }
 
-        private void _onManaChanged(Events.SpellEventData data) { this.SetManaText(GameManager.Instance.SelfPlayer.Mana); }
-        private void _onHealthChanged(Events.SpellEventData data) { this.SetHealthText(GameManager.Instance.SelfPlayer.Health); }
-        private void _onMoveChanged(Events.SpellEventData data) { this.SetMoveText(GameManager.Instance.SelfPlayer.Speed); }
+        private void _onManaChanged(Events.SpellEventData data) { this.SetMana(GameManager.Instance.SelfPlayer.Mana); }
+        private void _onHealthChanged(Events.SpellEventData data) { this.SetHealth(GameManager.Instance.SelfPlayer.Health); }
+        private void _onMoveChanged(Events.SpellEventData data) { this.SetMove(GameManager.Instance.SelfPlayer.Speed); }
 
-        public void SetManaText(int value)
+        public void SetMana(int value, bool animated = true)
         {
             this.ManaText.text = value.ToString();
         }
-        public void SetHealthText(int value, bool animated = true)
+        public void SetHealth(int value, bool animated = true)
         {
             this.HealthText.text = value.ToString();
 
@@ -59,16 +61,16 @@ namespace DownBelow.UI
             }
             
         }
-        public void SetMoveText(int value)
+        public void SetMove(int value, bool animated = true)
         {
             this.MoveText.text = value.ToString();
         }
 
         public void UpdateAllTexts()
         {
-            this.SetManaText(GameManager.Instance.SelfPlayer.Mana);
-            this.SetHealthText(GameManager.Instance.SelfPlayer.Health);
-            this.SetMoveText(GameManager.Instance.SelfPlayer.Speed);
+            this.SetMana(GameManager.Instance.SelfPlayer.Mana);
+            this.SetHealth(GameManager.Instance.SelfPlayer.Health);
+            this.SetMove(GameManager.Instance.SelfPlayer.Speed);
         }
     }
 

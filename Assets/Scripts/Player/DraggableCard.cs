@@ -58,8 +58,7 @@ namespace DownBelow.UI
 
             this.CardReference = CardReference;
             this.CardVisual.Init(CardReference);
-
-           // this.m_RectTransform.localPosition= new Vector2(Random.Range(50, 1500) ,m_RectTransform.position.y);
+            
             this._spawnPosition = m_RectTransform.position;  
             this.m_RectTransform.DOLocalMoveY(this._spawnPosition.y, 0.3f);
             this.PinnedForMultipleActions = this.CardReference.Spells.Where(s => s.RequiresTargetting).Count() > 1;
@@ -143,19 +142,19 @@ namespace DownBelow.UI
             }
             else
             {
-                // TODO : Instead of brutally pinning it right away, make it go to the cursor then fade to pin
+               
                 this.PinCardToScreen();
             }
         }
 
         private void Hover()
         {
-            HoveredCard.m_RectTransform.DOLocalMoveY(HoveredCard._spawnPosition.y + 100f, 0.3f);
+            this.m_RectTransform.DOLocalMoveY(HoveredCard._spawnPosition.y + 400f, 0.3f);
         }
 
         private void UnHover()
         {
-            HoveredCard.m_RectTransform.DOLocalMoveY(HoveredCard._spawnPosition.y, 0.3f);
+            this.m_RectTransform.DOLocalMoveY(HoveredCard._spawnPosition.y + 100, 0.3f);
         }
         
         public void PinCardToScreen()
