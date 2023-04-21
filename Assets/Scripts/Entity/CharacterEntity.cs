@@ -12,6 +12,7 @@ using Sirenix.Serialization;
 using System;
 using TMPro;
 using UnityEngine.Serialization;
+using DG.Tweening;
 
 namespace DownBelow.Entity
 {
@@ -33,10 +34,12 @@ namespace DownBelow.Entity
         public event SpellEventData.Event OnDefenseAdded;
         public event SpellEventData.Event OnRangeRemoved;
         public event SpellEventData.Event OnRangeAdded;
+
         /// <summary>
         /// When you give an alteration to someone else.
         /// </summary>
         public event SpellEventData.Event OnAlterationGiven;
+
         /// <summary>
         /// When you receive an alteration from someone else.
         /// </summary>
@@ -73,12 +76,14 @@ namespace DownBelow.Entity
         protected EntityStats RefStats;
 
         [OdinSerialize] public List<Alteration> Alterations = new();
-        
+
         public TextMeshProUGUI healthText;
 
         public int TurnOrder;
         public bool IsAlly = true;
+
         public bool IsPlayingEntity = false;
+
         // Used for NPC. Determined UID to parse over network. 
         // TODO: Change it to a real Guid later
         public string UID = string.Empty;
@@ -98,49 +103,124 @@ namespace DownBelow.Entity
 
 
         #region alterationBooleans
-        public bool Snared { get => Alterations.Any(x => x.GetType() == typeof(SnareAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Snare].Contains(x.ToEnum())); }//DONE
-        public bool Stunned { get => Alterations.Any(x => x.GetType() == typeof(StunAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Stun].Contains(x.ToEnum())); }//DONE
-        public bool Shattered { get => Alterations.Any(x => x.GetType() == typeof(ShatteredAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Shattered].Contains(x.ToEnum())); }//DONE
-        public bool DoT { get => Alterations.Any(x => x.GetType() == typeof(DoTAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.DoT].Contains(x.ToEnum())); }//DONE
-        public bool Bubbled { get => Alterations.Any(x => x.GetType() == typeof(BubbledAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Bubbled].Contains(x.ToEnum())); }//DONE
-        public bool Sleeping { get => Alterations.Any(x => x.GetType() == typeof(SleepAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Sleep].Contains(x.ToEnum())); }//DONE
+
+        public bool Snared
+        {
+            get => Alterations.Any(x => x.GetType() == typeof(SnareAlteration)) &&
+                   !Alterations.Any(x => Alteration.overrides[EAlterationType.Snare].Contains(x.ToEnum()));
+        } //DONE
+
+        public bool Stunned
+        {
+            get => Alterations.Any(x => x.GetType() == typeof(StunAlteration)) &&
+                   !Alterations.Any(x => Alteration.overrides[EAlterationType.Stun].Contains(x.ToEnum()));
+        } //DONE
+
+        public bool Shattered
+        {
+            get => Alterations.Any(x => x.GetType() == typeof(ShatteredAlteration)) && !Alterations.Any(x =>
+                Alteration.overrides[EAlterationType.Shattered].Contains(x.ToEnum()));
+        } //DONE
+
+        public bool DoT
+        {
+            get => Alterations.Any(x => x.GetType() == typeof(DoTAlteration)) &&
+                   !Alterations.Any(x => Alteration.overrides[EAlterationType.DoT].Contains(x.ToEnum()));
+        } //DONE
+
+        public bool Bubbled
+        {
+            get => Alterations.Any(x => x.GetType() == typeof(BubbledAlteration)) &&
+                   !Alterations.Any(x => Alteration.overrides[EAlterationType.Bubbled].Contains(x.ToEnum()));
+        } //DONE
+
+        public bool Sleeping
+        {
+            get => Alterations.Any(x => x.GetType() == typeof(SleepAlteration)) &&
+                   !Alterations.Any(x => Alteration.overrides[EAlterationType.Sleep].Contains(x.ToEnum()));
+        } //DONE
+
         /// <summary>
         /// Returns the current Damage Up/Down alteration value. returns 0 of there isn't any.
         /// </summary>
-        public int DmgUpDown {
-            get {
+        public int DmgUpDown
+        {
+            get
+            {
                 var alt = Alterations.Find(x => x is DmgUpDownAlteration);
-                if (alt != null && !Alterations.Any(x => Alteration.overrides[EAlterationType.DmgUpDown].Contains(x.ToEnum()))) return ((DmgUpDownAlteration)alt).value;
+                if (alt != null &&
+                    !Alterations.Any(x => Alteration.overrides[EAlterationType.DmgUpDown].Contains(x.ToEnum())))
+                    return ((DmgUpDownAlteration)alt).value;
                 return 0;
             }
         }
+
         /// <summary>
         /// Returns the current Speed Up/Down alteration value. returns 0 of there isn't any.
         /// </summary>
-        public int SpeedUpDown {
-            get {
+        public int SpeedUpDown
+        {
+            get
+            {
                 var alt = Alterations.Find(x => x is SpeedUpDownAlteration);
-                if (alt != null && !Alterations.Any(x => Alteration.overrides[EAlterationType.SpeedUpDown].Contains(x.ToEnum()))) return ((SpeedUpDownAlteration)alt).value;
+                if (alt != null && !Alterations.Any(x =>
+                        Alteration.overrides[EAlterationType.SpeedUpDown].Contains(x.ToEnum())))
+                    return ((SpeedUpDownAlteration)alt).value;
                 return 0;
             }
         }
+
         #endregion
 
-        public int MaxHealth { get => RefStats.Health; set => RefStats.Health = value; }
-        public Dictionary<EntityStatistics,int> Statistics;
-        public int Health { get => Statistics[EntityStatistics.Health]; }
-        public int Shield { get => Statistics[EntityStatistics.Shield]; }
-        public int Strength { get => Statistics[EntityStatistics.Strength]; }
-        public int Speed { get => Snared ? 0 : Statistics[EntityStatistics.Speed] + SpeedUpDown; }
-        public virtual int Mana { get => Statistics[EntityStatistics.Mana]; }
-        public int Defense { get => Shattered ? 0 : Statistics[EntityStatistics.Defense]; }
-        public int Range { get => Statistics[EntityStatistics.Range]; }
+        public int MaxHealth
+        {
+            get => RefStats.Health;
+            set => RefStats.Health = value;
+        }
+
+        public Dictionary<EntityStatistics, int> Statistics;
+
+        public int Health
+        {
+            get => Statistics[EntityStatistics.Health];
+        }
+
+        public int Shield
+        {
+            get => Statistics[EntityStatistics.Shield];
+        }
+
+        public int Strength
+        {
+            get => Statistics[EntityStatistics.Strength];
+        }
+
+        public int Speed
+        {
+            get => Snared ? 0 : Statistics[EntityStatistics.Speed] + SpeedUpDown;
+        }
+
+        public virtual int Mana
+        {
+            get => Statistics[EntityStatistics.Mana];
+        }
+
+        public int Defense
+        {
+            get => Shattered ? 0 : Statistics[EntityStatistics.Defense];
+        }
+
+        public int Range
+        {
+            get => Statistics[EntityStatistics.Range];
+        }
+
         public int NumberOfTurnsPlayed = 0;
 
 
         public List<EntityAction> EntityActionsBuffer = new List<EntityAction>();
 
-        public bool TryGoTo(Cell destination, int cost) 
+        public bool TryGoTo(Cell destination, int cost)
         {
             this.EntityCell.EntityIn = null;
 
@@ -162,11 +242,25 @@ namespace DownBelow.Entity
 
             this.healthText.text = this.Statistics[EntityStatistics.Health].ToString();
             this.healthText.text = this.Health.ToString();
-            
         }
+
         public void UpdateUILife(SpellEventData data)
         {
-            this.healthText.text = this.Health.ToString();
+            int oldLife = int.Parse(this.healthText.text);
+            if (oldLife > this.Health)
+            {
+                this.healthText.DOColor(Color.red, 0.4f).SetEase(Ease.OutQuad);
+                this.healthText.transform.DOShakeRotation(0.8f).SetEase(Ease.OutQuad).OnComplete(() =>
+                    this.healthText.DOColor(Color.white, 0.2f).SetEase(Ease.OutQuad));
+                this.healthText.text = this.Health.ToString();
+            }
+            else
+            {
+                this.healthText.DOColor(Color.green, 0.4f).SetEase(Ease.OutQuad);
+                this.healthText.transform.DOPunchScale(Vector3.one * 1.3f, 0.8f).SetEase(Ease.OutQuad).OnComplete(() =>
+                    this.healthText.DOColor(Color.white, 0.2f).SetEase(Ease.OutQuad));
+                this.healthText.text = this.Health.ToString();
+            }
         }
 
         public void UpdateUIShield(SpellEventData data)
@@ -174,36 +268,44 @@ namespace DownBelow.Entity
             //this.ShieldFill.value = this.Shield;
         }
 
-        private void LateUpdate() 
+        private void LateUpdate()
         {
-           // this.healthText.transform.LookAt(Camera.main.transform.position);
-           // this.ShieldFill.transform.LookAt(Camera.main.transform.position);
+            // this.healthText.transform.LookAt(Camera.main.transform.position);
+            // this.ShieldFill.transform.LookAt(Camera.main.transform.position);
         }
 
         #region ATTACKS
+
         /// <summary>
         /// Tries to attack the given cell.
         /// </summary>
         /// <param name="cellToAttack">The cell to attack.</param>
-        public void AutoAttack(Cell cellToAttack) {
-            if (!isInAttackRange(cellToAttack)) {
+        public void AutoAttack(Cell cellToAttack)
+        {
+            if (!isInAttackRange(cellToAttack))
+            {
                 return;
             }
+
             //Normally already verified. Just in case
             //Calculate straight path, see if obstacle.
             this.CanAutoAttack = false;
-            var path = GridManager.Instance.FindPath(this,cellToAttack.PositionInGrid, true);
+            var path = GridManager.Instance.FindPath(this, cellToAttack.PositionInGrid, true);
 
             var notwalkable = path.Find(x => x.Datas.state != CellState.Walkable);
-            if (notwalkable != null) {
-                switch (notwalkable.Datas.state) {
+            if (notwalkable != null)
+            {
+                switch (notwalkable.Datas.state)
+                {
                     case CellState.Blocked:
                         break;
                     case CellState.EntityIn:
                         //CastAutoAttack(notwalkable);
                         break;
                 }
-            } else {
+            }
+            else
+            {
                 //There isn't any obstacle in the path, so the attack should go for it.
                 //if(cellToAttack.Datas.state == CellState.EntityIn)
                 //    CastAutoAttack(cellToAttack);
@@ -211,25 +313,31 @@ namespace DownBelow.Entity
             }
         }
 
-        public bool isInAttackRange(Cell cell) 
+        public bool isInAttackRange(Cell cell)
         {
-            bool res = Range >= Mathf.Abs(cell.PositionInGrid.latitude - EntityCell.PositionInGrid.latitude) + Mathf.Abs(cell.PositionInGrid.longitude - EntityCell.PositionInGrid.longitude);
+            bool res = Range >= Mathf.Abs(cell.PositionInGrid.latitude - EntityCell.PositionInGrid.latitude) +
+                Mathf.Abs(cell.PositionInGrid.longitude - EntityCell.PositionInGrid.longitude);
             return res;
         }
+
         #endregion
 
         #region TURNS
-        public virtual void EndTurn() 
+
+        public virtual void EndTurn()
         {
             NumberOfTurnsPlayed++;
             CanAutoAttack = false;
-            foreach (Alteration Alter in Alterations) {
+            foreach (Alteration Alter in Alterations)
+            {
                 Alter.Apply(this);
             }
+
             this.IsPlayingEntity = false;
             OnTurnEnded?.Invoke(new());
         }
-        public virtual void StartTurn() 
+
+        public virtual void StartTurn()
         {
             this.IsPlayingEntity = true;
 
@@ -240,46 +348,66 @@ namespace DownBelow.Entity
 
             UIManager.Instance.PlayerInfos.UpdateAllTexts();
 
-            if (this.Stunned || this.Sleeping) 
+            if (this.Stunned || this.Sleeping)
                 EndTurn();
 
             GridManager.Instance.ShowPossibleCombatMovements(this);
         }
+
         #endregion
 
         #region STATS
-        public virtual void Init(EntityStats stats,Cell refCell,WorldGrid refGrid,int order = 0) {
+
+        public virtual void Init(EntityStats stats, Cell refCell, WorldGrid refGrid, int order = 0)
+        {
             this.transform.position = refCell.WorldPosition;
             this.EntityCell = refCell;
             this.CurrentGrid = refGrid;
 
             this.RefStats = stats;
-            this.Statistics = new Dictionary<EntityStatistics,int>();
+            this.Statistics = new Dictionary<EntityStatistics, int>();
 
-            this.Statistics.Add(EntityStatistics.MaxMana,stats.MaxMana);
-            this.Statistics.Add(EntityStatistics.Health,stats.Health);
-            this.Statistics.Add(EntityStatistics.Shield,stats.BaseShield);
-            this.Statistics.Add(EntityStatistics.Strength,stats.Strength);
-            this.Statistics.Add(EntityStatistics.Speed,stats.Speed);
-            this.Statistics.Add(EntityStatistics.Mana,stats.Mana);
-            this.Statistics.Add(EntityStatistics.Defense,stats.Defense);
-            this.Statistics.Add(EntityStatistics.Range,stats.Range);
+            this.Statistics.Add(EntityStatistics.MaxMana, stats.MaxMana);
+            this.Statistics.Add(EntityStatistics.Health, stats.Health);
+            this.Statistics.Add(EntityStatistics.Shield, stats.BaseShield);
+            this.Statistics.Add(EntityStatistics.Strength, stats.Strength);
+            this.Statistics.Add(EntityStatistics.Speed, stats.Speed);
+            this.Statistics.Add(EntityStatistics.Mana, stats.Mana);
+            this.Statistics.Add(EntityStatistics.Defense, stats.Defense);
+            this.Statistics.Add(EntityStatistics.Range, stats.Range);
         }
 
-        public void ReinitializeAllStats() {
+        public void ReinitializeAllStats()
+        {
             foreach (EntityStatistics stat in System.Enum.GetValues(typeof(EntityStatistics)))
                 this.ReinitializeStat(stat);
         }
 
-        public void ReinitializeStat(EntityStatistics stat) {
-            switch (stat) {
-                case EntityStatistics.Health: this.Statistics[EntityStatistics.Health] = this.RefStats.Health; break;
-                case EntityStatistics.Shield: this.Statistics[EntityStatistics.Shield] = this.RefStats.BaseShield; break;
-                case EntityStatistics.Mana: this.Statistics[EntityStatistics.Mana] = this.RefStats.Mana; break;
-                case EntityStatistics.Speed: this.Statistics[EntityStatistics.Speed] = this.RefStats.Speed; break;
-                case EntityStatistics.Strength: this.Statistics[EntityStatistics.Strength] = this.RefStats.Strength; break;
-                case EntityStatistics.Defense: this.Statistics[EntityStatistics.Defense] = this.RefStats.Defense; break;
-                case EntityStatistics.Range: this.Statistics[EntityStatistics.Range] = this.RefStats.Range; break;
+        public void ReinitializeStat(EntityStatistics stat)
+        {
+            switch (stat)
+            {
+                case EntityStatistics.Health:
+                    this.Statistics[EntityStatistics.Health] = this.RefStats.Health;
+                    break;
+                case EntityStatistics.Shield:
+                    this.Statistics[EntityStatistics.Shield] = this.RefStats.BaseShield;
+                    break;
+                case EntityStatistics.Mana:
+                    this.Statistics[EntityStatistics.Mana] = this.RefStats.Mana;
+                    break;
+                case EntityStatistics.Speed:
+                    this.Statistics[EntityStatistics.Speed] = this.RefStats.Speed;
+                    break;
+                case EntityStatistics.Strength:
+                    this.Statistics[EntityStatistics.Strength] = this.RefStats.Strength;
+                    break;
+                case EntityStatistics.Defense:
+                    this.Statistics[EntityStatistics.Defense] = this.RefStats.Defense;
+                    break;
+                case EntityStatistics.Range:
+                    this.Statistics[EntityStatistics.Range] = this.RefStats.Range;
+                    break;
             }
         }
 
@@ -289,27 +417,34 @@ namespace DownBelow.Entity
         /// <param name="stat">The statistic to modify.</param>
         /// <param name="value">The value to modify the stat for (negative or positive.)</param>
         /// <param name="overShield">Only used to determined if a damage stat should pierce through shieldHP. Will be ignored if stat != health value is positive.</param>
-        public void ApplyStat(EntityStatistics stat,int value,bool overShield = false) 
+        public void ApplyStat(EntityStatistics stat, int value, bool overShield = false)
         {
             Debug.Log($"Applied stat {stat}, {value}, {Environment.StackTrace} ");
             Statistics[stat] += value;
 
-            switch (stat) 
+            switch (stat)
             {
                 case EntityStatistics.Health:
-                    this._applyHealth(value, overShield); break;
-                case EntityStatistics.Shield: 
-                    this._applyShield(value); break;
-                case EntityStatistics.Mana: 
-                    this._applyMana(value); break;
+                    this._applyHealth(value, overShield);
+                    break;
+                case EntityStatistics.Shield:
+                    this._applyShield(value);
+                    break;
+                case EntityStatistics.Mana:
+                    this._applyMana(value);
+                    break;
                 case EntityStatistics.Speed:
-                    this._applySpeed(value); break;
+                    this._applySpeed(value);
+                    break;
                 case EntityStatistics.Strength:
-                    this._applyStrength(value); break;
+                    this._applyStrength(value);
+                    break;
                 case EntityStatistics.Defense:
-                    this._applyDefense(value); break;
+                    this._applyDefense(value);
+                    break;
                 case EntityStatistics.Range:
-                    this._applyRange(value); break;
+                    this._applyRange(value);
+                    break;
             }
         }
 
@@ -338,7 +473,7 @@ namespace DownBelow.Entity
                 value = -onLife;
                 if (!overShield)
                 {
-                    this.Statistics[EntityStatistics.Shield] -= onShield;//Only exception where we
+                    this.Statistics[EntityStatistics.Shield] -= onShield; //Only exception where we
                     this.OnShieldRemoved?.Invoke(new SpellEventData(this, onShield));
                 }
 
@@ -351,9 +486,10 @@ namespace DownBelow.Entity
         {
             if (value > 0)
                 OnShieldAdded?.Invoke(new(this, value));
-            else 
+            else
                 OnShieldRemoved?.Invoke(new(this, -value));
         }
+
         private void _applyMana(int value)
         {
             if (value > 0)
@@ -361,6 +497,7 @@ namespace DownBelow.Entity
             else
                 OnManaRemoved?.Invoke(new(this, -value));
         }
+
         private void _applySpeed(int value)
         {
             if (value > 0)
@@ -368,6 +505,7 @@ namespace DownBelow.Entity
             else
                 OnSpeedRemoved?.Invoke(new(this, -value));
         }
+
         private void _applyStrength(int value)
         {
             if (value > 0)
@@ -375,6 +513,7 @@ namespace DownBelow.Entity
             else
                 OnStrengthRemoved?.Invoke(new(this, -value));
         }
+
         private void _applyDefense(int value)
         {
             if (value > 0)
@@ -392,13 +531,16 @@ namespace DownBelow.Entity
         }
 
 
-        public override string ToString() {
+        public override string ToString()
+        {
             return @$"Name : {name}
 IsAlly : {IsAlly}
 GridPos : {EntityCell}";
         }
-        public void AddAlteration(EAlterationType type,int duration,int value) {
-            OnAlterationReceived?.Invoke(new SpellEventDataAlteration(this,duration,type));
+
+        public void AddAlteration(EAlterationType type, int duration, int value)
+        {
+            OnAlterationReceived?.Invoke(new SpellEventDataAlteration(this, duration, type));
             Debug.Log($"Alteration: {type} to {this.name}");
             Alteration alteration;
             alteration = type switch
@@ -406,7 +548,7 @@ GridPos : {EntityCell}";
                 EAlterationType.Stun => new StunAlteration(duration),
                 EAlterationType.Snare => new SnareAlteration(duration),
                 EAlterationType.Shattered => new ShatteredAlteration(duration),
-                EAlterationType.DoT => new DoTAlteration(duration, 2),//Idfk how much dmg
+                EAlterationType.DoT => new DoTAlteration(duration, 2), //Idfk how much dmg
                 EAlterationType.Bubbled => new BubbledAlteration(duration),
                 EAlterationType.SpeedUpDown => new SpeedUpDownAlteration(duration, value),
                 EAlterationType.DmgUpDown => new DmgUpDownAlteration(duration, value),
@@ -449,6 +591,7 @@ GridPos : {EntityCell}";
                 }
             }
         }
+
         public void RemoveAlteration(Alteration alteration)
         {
             if (alteration.ClassicCountdown)
@@ -476,48 +619,63 @@ GridPos : {EntityCell}";
                 }
             }
         }
+
         #endregion
 
         #region INSTANCE
-        public void AreYouAlive(SpellEventData data) {
+
+        public void AreYouAlive(SpellEventData data)
+        {
             if (this.Health <= 0) Die();
         }
-        public virtual void Die() {
-            while (Alterations.Count > 0) {
+
+        public virtual void Die()
+        {
+            while (Alterations.Count > 0)
+            {
                 Alteration alt = Alterations[0];
                 alt.WearsOff(this);
-                RemoveAlteration(alt);//You know what? Fuck you *unsubs your alterations*
+                RemoveAlteration(alt); //You know what? Fuck you *unsubs your alterations*
                 Alterations.RemoveAt(0);
             }
+
             //???
             OnDeath?.Invoke(new());
             Destroy(this.gameObject);
         }
+
         #endregion
 
         #region SKILLS
-        public void SubToSpell(SpellAction Action) {
-    
-        }
-        public void UnsubToSpell(SpellAction Action) {
-         
+
+        public void SubToSpell(SpellAction Action)
+        {
         }
 
-        internal void FireOnAlterationGiven(SpellEventData Data) {
+        public void UnsubToSpell(SpellAction Action)
+        {
+        }
+
+        internal void FireOnAlterationGiven(SpellEventData Data)
+        {
             OnAlterationGiven?.Invoke(Data);
         }
-        public string AlterationStates() {
+
+        public string AlterationStates()
+        {
             string res = "";
-            if(Alterations.Count > 0) {
+            if (Alterations.Count > 0)
+            {
                 res += "Alterations of this Entity:\n";
-                foreach (Alteration item in Alterations) {
+                foreach (Alteration item in Alterations)
+                {
                     res += item.ToString();
                 }
             }
+
             return res;
         }
-        #endregion
 
+        #endregion
     }
 }
-

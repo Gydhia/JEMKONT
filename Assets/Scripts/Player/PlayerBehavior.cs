@@ -103,6 +103,7 @@ namespace DownBelow.Entity {
 
         public void EnterNewGrid(CombatGrid grid) 
         {
+            this.healthText.gameObject.SetActive(true);
             Cell closestCell = GridUtility.GetClosestAvailableCombatCell(this.CurrentGrid, grid, this.EntityCell.PositionInGrid);
 
             while (closestCell.Datas.state != CellState.Walkable) {
