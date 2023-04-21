@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9aa42fcadda9d7949bab6e2940ae6d69, type: 3}
-  m_Name: C_Dmg_Over_Shield
+  m_Name: C_Dmgs
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -21,8 +21,10 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  DmgsOverShield: 1
-  Dmgs: 0
+  TargetedEntities:
+  - {fileID: 0}
+  TargetType: 1
+  Dmgs: 1
   OneDamagedTarget: 0
   Damages: 1
   Healing: 0

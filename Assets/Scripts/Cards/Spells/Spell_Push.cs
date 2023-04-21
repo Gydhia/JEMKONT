@@ -34,8 +34,8 @@ namespace DownBelow.Spells
     }
     public class Spell_Push : Spell<SpellData_Push>
     {
-        public Spell_Push(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell)
-            : base(CopyData, RefEntity, TargetCell, ParentSpell)
+        public Spell_Push(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, SpellCondition ConditionData)
+            : base(CopyData, RefEntity, TargetCell, ParentSpell, ConditionData)
         {
         }
 
@@ -122,7 +122,7 @@ namespace DownBelow.Spells
                     }
                     else if(!blockedOnce)
                     {
-                        entity.ApplyStat(EntityStatistics.Health, (int)(-(LocalData.PushDamages * (LocalData.PushAmount * LocalData.PushDamagesMultiplier))), true);
+                        entity.ApplyStat(EntityStatistics.Health, (int)(-(LocalData.PushDamages * (LocalData.PushAmount * LocalData.PushDamagesMultiplier))));
                         blockedOnce = true;
 
                         yield return new WaitForSeconds(LocalData.PushDelay);
