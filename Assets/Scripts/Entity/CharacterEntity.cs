@@ -10,6 +10,8 @@ using UnityEngine;
 using UnityEngine.Events;
 using Sirenix.Serialization;
 using System;
+using TMPro;
+using DG.Tweening;
 
 namespace DownBelow.Entity
 {
@@ -72,8 +74,7 @@ namespace DownBelow.Entity
 
         [OdinSerialize] public List<Alteration> Alterations = new();
 
-        public UnityEngine.UI.Slider HealthFill;
-        public UnityEngine.UI.Slider ShieldFill;
+        public TextMeshProUGUI healthText;
 
         public int TurnOrder;
         public bool IsAlly = true;
@@ -158,29 +159,37 @@ namespace DownBelow.Entity
 
             this.OnShieldAdded += UpdateUIShield;
             this.OnShieldRemoved += UpdateUIShield;
-
-            this.HealthFill.maxValue = this.Statistics[EntityStatistics.Health];
-            this.HealthFill.minValue = 0;
-            this.HealthFill.value = this.Health;
-
-            this.ShieldFill.maxValue = this.Statistics[EntityStatistics.Health];
-            this.ShieldFill.minValue = 0;
-            this.ShieldFill.value = 0;
+            
+            this.healthText.text = this.Health.ToString();
+            
         }
         public void UpdateUILife(SpellEventData data)
         {
-            this.HealthFill.value = this.Health;
+            int oldLife = int.Parse(this.healthText.text);
+            if (oldLife > this.Health)
+            {
+                this.healthText.DOColor(Color.red, 0.4f).SetEase(Ease.OutQuad);
+                this.healthText.transform.DOShakeRotation(0.8f).SetEase(Ease.OutQuad).OnComplete(() =>
+                    this.healthText.DOColor(Color.white, 0.2f).SetEase(Ease.OutQuad));
+                this.healthText.text = this.Health.ToString();
+            }
+            else
+            {
+                this.healthText.DOColor(Color.green, 0.4f).SetEase(Ease.OutQuad);
+                this.healthText.transform.DOPunchScale(Vector3.one * 1.3f, 0.8f).SetEase(Ease.OutQuad).OnComplete(() =>
+                    this.healthText.DOColor(Color.white, 0.2f).SetEase(Ease.OutQuad));
+                this.healthText.text = this.Health.ToString();
+            }
         }
 
         public void UpdateUIShield(SpellEventData data)
         {
-            this.ShieldFill.value = this.Shield;
+
         }
 
         private void LateUpdate() 
         {
-            this.HealthFill.transform.LookAt(Camera.main.transform.position);
-            this.ShieldFill.transform.LookAt(Camera.main.transform.position);
+
         }
 
         #region ATTACKS
