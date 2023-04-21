@@ -29,6 +29,8 @@ namespace DownBelow.Spells
            : base(RefEntity, TargetCell)
         {
             this.Data = CopyData;
+            this.Data.RotatedShapeMatrix = this.Data.SpellShapeMatrix;
+            this.Data.RotatedShapePosition = this.Data.ShapePosition;
             this.ParentSpell = ParentSpell;
         }
 
@@ -64,7 +66,7 @@ namespace DownBelow.Spells
         public List<CharacterEntity> GetTargets(Cell cellTarget)
         {
             return GridUtility
-                .TransposeShapeToCells(ref Data.SpellShapeMatrix, cellTarget)
+                .TransposeShapeToCells(ref Data.SpellShapeMatrix, cellTarget, Data.ShapePosition)
                 .Where(cell => cell.EntityIn != null)
                 .Select(cell => cell.EntityIn)
                 .ToList();

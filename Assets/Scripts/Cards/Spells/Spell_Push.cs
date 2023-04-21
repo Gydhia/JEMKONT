@@ -48,7 +48,7 @@ namespace DownBelow.Spells
 
         public IEnumerator TryToPush()
         {
-            var pushedEntities = this.GetTargets(base.TargetCell);
+            var pushedEntities = this.GetTargets(this.TargetCell);
 
             int newX, offsetX;
             int newY, offsetY;

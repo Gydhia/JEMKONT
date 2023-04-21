@@ -57,7 +57,7 @@ namespace DownBelow.Spells
         public void RotateSpellShape() { this.SpellShapeMatrix = GridUtility.RotateSpellMatrix(this.SpellShapeMatrix, 90); }
 
         [Button, FoldoutGroup("Spell Targeting"), HorizontalGroup("Spell Targeting/Buttons", Width = 0.5f, Order = 0, MaxWidth = 200)]
-        public void RegenerateShape() { SpellShapeMatrix = new bool[5, 5]; SpellPosition = new Vector2(2, 2); }
+        public void RegenerateShape() { SpellShapeMatrix = new bool[5, 5]; ShapePosition = new Vector2(2, 2); }
 
         [Button, FoldoutGroup("Spell Targeting"), HorizontalGroup("Spell Targeting/Buttons", Width = 0.5f, Order = 0, MaxWidth = 200)]
         public void RegenerateCasting() { CastingMatrix = new bool[5, 5]; CasterPosition = new Vector2(2, 2); }
@@ -67,14 +67,19 @@ namespace DownBelow.Spells
         [OnValueChanged("_updateSpellShape")]
         public bool[,] SpellShapeMatrix = new bool[5, 5];
         [SerializeField]
-        protected Vector2 SpellPosition = new Vector2(2, 2);
+        public Vector2 ShapePosition = new Vector2(2, 2);
+
+        // Used in run-time to store the rotated shape from the base shape
+        [HideInInspector]
+        public bool[,] RotatedShapeMatrix;
+        public Vector2 RotatedShapePosition;
 
         [TableMatrix(DrawElementMethod = "_processDrawSpellCasting", SquareCells = true, ResizableColumns = false, HorizontalTitle = nameof(CastingMatrix)), OdinSerialize]
         [FoldoutGroup("Spell Targeting"), HorizontalGroup("Spell Targeting/Grids", Width = 0.5f, Order = 1, MaxWidth = 200)]
         [OnValueChanged("_updateCastingShape")]
         public bool[,] CastingMatrix;
         [SerializeField]
-        protected Vector2 CasterPosition = new Vector2(2, 2);
+        public Vector2 CasterPosition = new Vector2(2, 2);
 
         [ShowIf("@this.SpellShapeMatrix != null")]
         [FoldoutGroup("Spell Targeting"), HorizontalGroup("Spell Targeting/RotationValue", Width = 0.5f, Order = 2, MaxWidth = 100)]
@@ -85,7 +90,7 @@ namespace DownBelow.Spells
 
 
 #if UNITY_EDITOR
-        private void _updateSpellShape() => this._updateMatrixShape(ref SpellShapeMatrix, ref SpellPosition);
+        private void _updateSpellShape() => this._updateMatrixShape(ref SpellShapeMatrix, ref ShapePosition);
         private void _updateCastingShape() => this._updateMatrixShape(ref CastingMatrix, ref CasterPosition);
 
         private void _updateMatrixShape(ref bool[,] array, ref Vector2 position)
@@ -168,7 +173,7 @@ namespace DownBelow.Spells
                 GUI.changed = true;
                 Event.current.Use();
             }
-            return _drawCell(rect, value, x, y, SpellShapeMatrix.GetLength(0), SpellShapeMatrix.GetLength(1), SpellPosition);
+            return _drawCell(rect, value, x, y, SpellShapeMatrix.GetLength(0), SpellShapeMatrix.GetLength(1), ShapePosition);
         }
         private bool _processDrawSpellCasting(Rect rect, bool value, int x, int y)
         {

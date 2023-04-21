@@ -27,8 +27,8 @@ namespace DownBelow.Spells
         public override void ExecuteAction()
         {
             base.ExecuteAction();
-
-            var targets = this.GetTargets(TargetCell);
+            
+            var targets = this.GetTargets(this.TargetCell);
 
             foreach (var target in targets)
             {
