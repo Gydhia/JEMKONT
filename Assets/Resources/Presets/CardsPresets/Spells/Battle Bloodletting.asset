@@ -16,6 +16,8 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
+    - {fileID: 11400000, guid: 9931d0474c8af454aaf91e2aa393da5e, type: 2}
+    - {fileID: 11400000, guid: 38d905773eff14546b34bb9fb4f91e87, type: 2}
     - {fileID: 11400000, guid: 3d7a510e0a2dbfa48910da631121e6a8, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
@@ -149,15 +151,30 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: SpellPosition
+    - Name: ShapePosition
       Entry: 7
       Data: UnityEngine.Vector2, UnityEngine.CoreModule
     - Name: 
       Entry: 4
-      Data: 2
+      Data: 0
     - Name: 
       Entry: 4
-      Data: 2
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: RotatedShapeMatrix
+      Entry: 6
+      Data: 
+    - Name: RotatedShapePosition
+      Entry: 7
+      Data: UnityEngine.Vector2, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 4
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -437,6 +454,12 @@ MonoBehaviour:
     - Name: TargetType
       Entry: 3
       Data: 7
+    - Name: ProjectileSFX
+      Entry: 10
+      Data: 0
+    - Name: CellSFX
+      Entry: 10
+      Data: 1
     - Name: PushType
       Entry: 3
       Data: 5
@@ -459,6 +482,9 @@ MonoBehaviour:
       Entry: 6
       Data: 
     - Name: ParentSpell
+      Entry: 6
+      Data: 
+    - Name: Result
       Entry: 6
       Data: 
     - Name: ConditionData
@@ -575,15 +601,30 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: SpellPosition
+    - Name: ShapePosition
       Entry: 7
       Data: UnityEngine.Vector2, UnityEngine.CoreModule
     - Name: 
       Entry: 4
-      Data: 2
+      Data: 0
     - Name: 
       Entry: 4
-      Data: 2
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: RotatedShapeMatrix
+      Entry: 6
+      Data: 
+    - Name: RotatedShapePosition
+      Entry: 7
+      Data: UnityEngine.Vector2, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 4
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -695,6 +736,12 @@ MonoBehaviour:
     - Name: TargetType
       Entry: 3
       Data: 7
+    - Name: ProjectileSFX
+      Entry: 6
+      Data: 
+    - Name: CellSFX
+      Entry: 6
+      Data: 
     - Name: IsNegativeEffect
       Entry: 5
       Data: true
@@ -713,9 +760,12 @@ MonoBehaviour:
     - Name: ParentSpell
       Entry: 6
       Data: 
+    - Name: Result
+      Entry: 6
+      Data: 
     - Name: ConditionData
       Entry: 10
-      Data: 0
+      Data: 2
     - Name: 
       Entry: 8
       Data: 

@@ -54,12 +54,28 @@ namespace DownBelow.Spells
             return this.ConditionData.Check(ParentSpell.Result);
         }
 
-        public override void ExecuteAction()
+        public override async void ExecuteAction()
         {
             if (!this.ValidateConditions())
             {
                 EndAction();
                 return;
+            }
+            if (Data.ProjectileSFX != null)
+            {
+                await SFXManager.Instance.DOSFX(Data.ProjectileSFX, RefEntity, TargetCell, this);
+            }
+            if (Data.CellSFX != null && TargetCells != null && TargetCells.Count != 0)
+            {
+                for (int i = 0;i < TargetCells.Count;i++)
+                {
+                    Cell cell = this.TargetCells[i];
+                    if (cell != this.TargetCells[^1])
+                        SFXManager.Instance.DOSFX(Data.CellSFX, RefEntity, TargetCell, this);
+                    else
+                        await SFXManager.Instance.DOSFX(Data.CellSFX, RefEntity, TargetCell, this);
+                    //Not awaiting since we want to do it all
+                }
             }
         }
 
