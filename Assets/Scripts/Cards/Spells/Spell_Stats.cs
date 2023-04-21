@@ -21,8 +21,8 @@ namespace DownBelow.Spells
 
     public class Spell_Stats : Spell<SpellData_Stats>
     {
-        public Spell_Stats(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell)
-            : base(CopyData, RefEntity, TargetCell, ParentSpell) { }
+        public Spell_Stats(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, SpellCondition ConditionData)
+            : base(CopyData, RefEntity, TargetCell, ParentSpell, ConditionData) { }
 
         public override void ExecuteAction()
         {

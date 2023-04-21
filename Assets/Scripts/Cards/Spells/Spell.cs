@@ -18,27 +18,28 @@ namespace DownBelow.Spells
     {
         protected T LocalData => this.Data as T;
 
-        protected Spell(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell) : base(CopyData, RefEntity, TargetCell, ParentSpell)
+        protected Spell(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, SpellCondition ConditionData) : base(CopyData, RefEntity, TargetCell, ParentSpell, ConditionData)
         {
         }
     }
 
     public abstract class Spell : EntityAction
     {
-        public Spell(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell)
+        public Spell(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, SpellCondition ConditionData)
            : base(RefEntity, TargetCell)
         {
             this.Data = CopyData;
-            this.Data.RotatedShapeMatrix = this.Data.SpellShapeMatrix;
-            this.Data.RotatedShapePosition = this.Data.ShapePosition;
+            this.Data.Refresh();
             this.ParentSpell = ParentSpell;
+            this.ConditionData = ConditionData;
         }
 
         public SpellData Data;
 
         #region PLAYABLE
+        private List<Cell> TargetedCells;
         [HideInInspector]
-        public List<Cell> TargetCells;
+        public List<CharacterEntity> TargetEntities;
         [HideInInspector]
         public Spell ParentSpell;
         [HideInInspector]
@@ -60,32 +61,45 @@ namespace DownBelow.Spells
             {
                 EndAction();
                 return;
-            }
-            if (Data.ProjectileSFX != null)
+            } else
             {
-                await SFXManager.Instance.DOSFX(Data.ProjectileSFX, RefEntity, TargetCell, this);
-            }
-            if (Data.CellSFX != null && TargetCells != null && TargetCells.Count != 0)
-            {
-                for (int i = 0;i < TargetCells.Count;i++)
+                this.TargetEntities = this.GetTargets(this.TargetCell);
+                this.Result = new SpellResult();
+                this.Result.Setup(this.TargetEntities, this);
+                if (Data.ProjectileSFX != null)
                 {
-                    Cell cell = this.TargetCells[i];
-                    if (cell != this.TargetCells[^1])
-                        SFXManager.Instance.DOSFX(Data.CellSFX, RefEntity, TargetCell, this);
-                    else
-                        await SFXManager.Instance.DOSFX(Data.CellSFX, RefEntity, TargetCell, this);
-                    //Not awaiting since we want to do it all
+                    await SFXManager.Instance.DOSFX(Data.ProjectileSFX, RefEntity, TargetCell, this);
+                }
+                if (Data.CellSFX != null && TargetedCells != null && TargetedCells.Count != 0)
+                {
+                    for (int i = 0;i < TargetedCells.Count;i++)
+                    {
+                        var targetedCell = this.TargetedCells[i];
+                        if (i != TargetedCells.Count)
+                        //Not awaiting since we want to do it all
+                            SFXManager.Instance.DOSFX(Data.CellSFX, RefEntity, targetedCell, this);
+                        else
+                            await SFXManager.Instance.DOSFX(Data.CellSFX, RefEntity, targetedCell, this);
+                    }
                 }
             }
         }
-
         public List<CharacterEntity> GetTargets(Cell cellTarget)
         {
-            return GridUtility
-                .TransposeShapeToCells(ref Data.SpellShapeMatrix, cellTarget, Data.ShapePosition)
-                .Where(cell => cell.EntityIn != null)
-                .Select(cell => cell.EntityIn)
-                .ToList();
+            if (this.Data.RequiresTargetting)
+            {
+                TargetedCells = GridUtility.TransposeShapeToCells(ref Data.RotatedShapeMatrix, cellTarget, Data.RotatedShapePosition);
+                return TargetedCells
+                    .Where(cell => cell.EntityIn != null)
+                    .Select(cell => cell.EntityIn)
+                    .ToList();
+            } else if (this.ConditionData != null)
+            {
+                return this.ConditionData.GetValidatedTargets();
+            } else
+            {
+                return new List<CharacterEntity> { this.ParentSpell == null ? this.RefEntity : this.ParentSpell.RefEntity };
+            }
         }
 
         public override object[] GetDatas()

@@ -51,6 +51,15 @@ namespace DownBelow.Spells
         public static Color SelectedColor = new(.874509804f, 1f, .847058824f, 1f);
         public static Color NotSelectedColor = new(0f, 0f, 0f, 0.5f);
 
+        public void Refresh()
+        {
+            if (this.TargetType == TargetType.Self)
+                this.CastingMatrix = new bool[1, 1] { { true } };
+
+            this.RotatedShapeMatrix = this.SpellShapeMatrix;
+            this.RotatedShapePosition = this.ShapePosition;
+        }
+
         // TODO : define it  according to casting matrix and target type later ?
         public bool RequiresTargetting = true;
 
@@ -73,11 +82,13 @@ namespace DownBelow.Spells
         // Used in run-time to store the rotated shape from the base shape
         [HideInInspector]
         public bool[,] RotatedShapeMatrix;
+        [HideInInspector]
         public Vector2 RotatedShapePosition;
 
         [TableMatrix(DrawElementMethod = "_processDrawSpellCasting", SquareCells = true, ResizableColumns = false, HorizontalTitle = nameof(CastingMatrix)), OdinSerialize]
         [FoldoutGroup("Spell Targeting"), HorizontalGroup("Spell Targeting/Grids", Width = 0.5f, Order = 1, MaxWidth = 200)]
         [OnValueChanged("_updateCastingShape")]
+        [HideIf("TargetType", TargetType.Self)]
         public bool[,] CastingMatrix;
         [SerializeField]
         public Vector2 CasterPosition = new Vector2(2, 2);

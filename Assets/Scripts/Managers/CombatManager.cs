@@ -202,7 +202,7 @@ namespace DownBelow.Managers
             this._currentSpells = new Spell[data.Card.Spells.Length];
 
             // We use the constructor since it's how EntityActions work, and only give de spellData to it with main datas
-            object[] fullDatas = new object[4];
+            object[] fullDatas = new object[5];
             for (int i = 0; i < this._currentSpells.Length; i++)
             {
                 Type type = data.Card.Spells[i].GetType();
@@ -210,6 +210,7 @@ namespace DownBelow.Managers
                 fullDatas[0] = data.Card.Spells[i].Data;
                 fullDatas[1] = this.CurrentPlayingEntity;
                 fullDatas[3] = i > 0 ? this._currentSpells[i - 1] : null;
+                fullDatas[4] = data.Card.Spells[i].ConditionData;
 
                 this._currentSpells[i] = Activator.CreateInstance(type, fullDatas) as Spell;
             }
