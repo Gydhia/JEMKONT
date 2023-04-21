@@ -97,22 +97,7 @@ namespace DownBelow.Managers
         #endregion
 
         #region Players_Callbacks
-        /// <summary>
-        /// Will ask to buff an action. If abortOthers = true; will abort other actions in the buffer for the entity.
-        /// </summary>
-        /// <param name="action"> The Action to buff.</param>
-        /// <param name="abortOthers">true if you want to abort any other action in process, false if you should just queue the action.</param>
-        public void EntityAskToBuffAction(EntityAction action, bool abortOthers)
-        {
-            this.photonView.RPC("RPC_RespondWithProcessedBuffedAction", RpcTarget.All,
-                action.RefEntity.UID,
-                action.RefEntity.CurrentGrid.UName,
-                new int[2] { action.TargetCell.PositionInGrid.latitude, action.TargetCell.PositionInGrid.longitude },
-                action.GetType().ToString(),
-                action.GetDatas(),
-                abortOthers
-             );
-        }
+
         /// <summary>
         /// Will ask to buff an action, ABORTING ANY OTHER ACROSS THE WAY. Check other parameters.
         /// </summary>
@@ -133,6 +118,23 @@ namespace DownBelow.Managers
                 if(item != null)
                     EntityAskToBuffAction(item, false);
             }
+        }
+
+        /// <summary>
+        /// Will ask to buff an action. If abortOthers = true; will abort other actions in the buffer for the entity.
+        /// </summary>
+        /// <param name="action"> The Action to buff.</param>
+        /// <param name="abortOthers">true if you want to abort any other action in process, false if you should just queue the action.</param>
+        public void EntityAskToBuffAction(EntityAction action, bool abortOthers)
+        {
+            this.photonView.RPC("RPC_RespondWithProcessedBuffedAction", RpcTarget.All,
+                action.RefEntity.UID,
+                action.RefEntity.CurrentGrid.UName,
+                new int[2] { action.TargetCell.PositionInGrid.latitude, action.TargetCell.PositionInGrid.longitude },
+                action.GetType().ToString(),
+                action.GetDatas(),
+                abortOthers
+             );
         }
 
         [PunRPC]

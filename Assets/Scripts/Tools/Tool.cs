@@ -26,8 +26,5 @@ public class Tool
     }
 }
 public enum EClass {
-    Fisherman,
-    Farmer,
-    Herbalist,
-    Miner
+    Miner, Herbalist, Farmer, Fisherman
 }

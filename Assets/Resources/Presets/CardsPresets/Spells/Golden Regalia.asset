@@ -30,6 +30,7 @@ MonoBehaviour:
   Title: Golden Regalia
   Cost: 3
   CardType: 1
+  Collection: 1
   Description: Give yourself 20 shield points and "provoke" for 2 turns
   IllustrationImage: {fileID: 0}
   CurrentSpellTargetting: -1

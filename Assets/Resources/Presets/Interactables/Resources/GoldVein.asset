@@ -25,7 +25,7 @@ MonoBehaviour:
       Entry: 2
       Data: 6f6f9c9152a8e865c6b0b6deacfc6d87
   UName: Gold Vein
-  AffectingState: 4
+  AffectingState: 8
   ObjectPrefab: {fileID: 8025783147948518094, guid: 738118ed5a071db4d95b7ce47e639a4e, type: 3}
   OutlineColor: {r: 0.21725611, g: 0.5471698, b: 0.1264685, a: 1}
   InteractAnimation: {fileID: 0}

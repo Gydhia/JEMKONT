@@ -13,7 +13,6 @@ using DownBelow.Events;
 using UnityEngine.Rendering;
 using EODE.Wonderland;
 
-
 namespace DownBelow.Managers
 {
     public class GridManager : _baseManager<GridManager>
@@ -21,9 +20,14 @@ namespace DownBelow.Managers
         #region Assets_reference
         public Cell CellPrefab;
 
-        [SerializeField] public WorldGrid CombatGridPrefab;
-        [SerializeField] private Transform _objectsHandler;
-        [SerializeField] public Transform _gridsDataHandler;
+        [SerializeField]
+        public WorldGrid CombatGridPrefab;
+
+        [SerializeField]
+        private Transform _objectsHandler;
+
+        [SerializeField]
+        public Transform _gridsDataHandler;
 
         #endregion
 
@@ -46,6 +50,7 @@ namespace DownBelow.Managers
         public WorldGrid MainWorldGrid;
         public Texture2D BitmapTexture;
         public Material BitmapShader;
+        public Material BitmapShaderEditor;
         public GameObject GridShader;
 
         public Cell LastHoveredCell;
@@ -94,7 +99,10 @@ namespace DownBelow.Managers
             }
 
             // Pre-instantiate the spell's arrow indicator
-            this._spellArrow = Instantiate(SettingsManager.Instance.GridsPreset.SpellArrowPrefab, this.transform);
+            this._spellArrow = Instantiate(
+                SettingsManager.Instance.GridsPreset.SpellArrowPrefab,
+                this.transform
+            );
             this._spellArrow.Init();
             this._spellArrow.gameObject.SetActive(false);
 
@@ -108,7 +116,12 @@ namespace DownBelow.Managers
 
         public void GenerateGrid(GridData gridData, string gridId)
         {
-            WorldGrid newGrid = Instantiate(this.CombatGridPrefab, gridData.TopLeftOffset, Quaternion.identity, this._objectsHandler);
+            WorldGrid newGrid = Instantiate(
+                this.CombatGridPrefab,
+                gridData.TopLeftOffset,
+                Quaternion.identity,
+                this._objectsHandler
+            );
 
             newGrid.UName = gridId;
             newGrid.Init(gridData);
@@ -141,29 +154,40 @@ namespace DownBelow.Managers
                 if (InputManager.Instance.LastInteractable != null)
                 {
                     Cell cell = InputManager.Instance.LastInteractable.RefCell;
-                    closestCell = GridUtility.GetClosestCellToShape(selfPlayer.CurrentGrid, cell.Datas.heightPos, cell.Datas.widthPos, 1, 1, selfPlayer.EntityCell.PositionInGrid);
+                    closestCell = GridUtility.GetClosestCellToShape(
+                        selfPlayer.CurrentGrid,
+                        cell.Datas.heightPos,
+                        cell.Datas.widthPos,
+                        1,
+                        1,
+                        selfPlayer.EntityCell.PositionInGrid
+                    );
                     selfPlayer.NextInteract = InputManager.Instance.LastInteractable;
 
                     EntityAction[] actions = new EntityAction[2];
 
                     // Buff the movement action if we're too far away
-                    if (!GridUtility.IsNeighbourCell(closestCell, selfPlayer.EntityCell))
+                    if (!GetCombatNeighbours(selfPlayer.EntityCell, selfPlayer.EntityCell.RefGrid).Contains(cell))
                         actions[0] = new MovementAction(selfPlayer, closestCell);
 
                     // Then buff the interact/gather action to process after the movement
-                    actions[1] = cell.AttachedInteract is InteractableResource ?
-                        new GatheringAction(selfPlayer, cell) :
-                        new InteractAction(selfPlayer, cell);
+                    actions[1] =
+                        cell.AttachedInteract is InteractableResource
+                            ? new GatheringAction(selfPlayer, cell)
+                            : new InteractAction(selfPlayer, cell);
 
                     NetworkManager.Instance.EntityAskToBuffActions(actions);
 
                     return;
-                }
-                else
+                } else
                 {
                     if (selfPlayer.CurrentGrid != this.LastHoveredCell.RefGrid)
                     {
-                        closestCell = GridUtility.GetClosestCellToShape(selfPlayer.CurrentGrid, this.LastHoveredCell.RefGrid as CombatGrid, selfPlayer.EntityCell.PositionInGrid);
+                        closestCell = GridUtility.GetClosestCellToShape(
+                            selfPlayer.CurrentGrid,
+                            this.LastHoveredCell.RefGrid as CombatGrid,
+                            selfPlayer.EntityCell.PositionInGrid
+                        );
                         otherGrid = this.LastHoveredCell.RefGrid.UName;
                     }
                 }
@@ -171,16 +195,21 @@ namespace DownBelow.Managers
                 if (closestCell != null)
                 {
                     if (string.IsNullOrEmpty(otherGrid))
-                        NetworkManager.Instance.EntityAskToBuffAction(new MovementAction(selfPlayer, closestCell));
+                        NetworkManager.Instance.EntityAskToBuffAction(
+                            new MovementAction(selfPlayer, closestCell)
+                        );
                     else
-                        NetworkManager.Instance.EntityAskToBuffActions(new EntityAction[2]
-                        {
-                            new MovementAction(selfPlayer, closestCell),
-                            new EnterGridAction(selfPlayer, closestCell, otherGrid)
-                        });
+                        NetworkManager.Instance.EntityAskToBuffActions(
+                            new EntityAction[2]
+                            {
+                                new MovementAction(selfPlayer, closestCell),
+                                new EnterGridAction(selfPlayer, closestCell, otherGrid)
+                            }
+                        );
                 }
             }
         }
+
         public void ProcessCellClickUp_Combat(PlayerBehavior selfPlayer)
         {
             if (selfPlayer.IsPlayingEntity)
@@ -192,15 +221,19 @@ namespace DownBelow.Managers
                     {
                         if (LastHoveredCell.Datas.state == CellState.EntityIn)
                         {
-                            if (!selfPlayer.isInAttackRange(LastHoveredCell)) 
-                                selfPlayer.IsAutoAttacking = false; 
+                            if (!selfPlayer.isInAttackRange(LastHoveredCell))
+                                selfPlayer.IsAutoAttacking = false;
                             else
                                 selfPlayer.AutoAttack(LastHoveredCell);
                         }
-                    }
-                    else if (this.LastHoveredCell.Datas.state == CellState.Walkable && this._possiblePath.Contains(this.LastHoveredCell))
+                    } else if (
+                          this.LastHoveredCell.Datas.state == CellState.Walkable
+                          && this._possiblePath.Contains(this.LastHoveredCell)
+                      )
                     {
-                        NetworkManager.Instance.EntityAskToBuffAction(new CombatMovementAction(selfPlayer, this.LastHoveredCell));
+                        NetworkManager.Instance.EntityAskToBuffAction(
+                            new CombatMovementAction(selfPlayer, this.LastHoveredCell)
+                        );
                     }
                 }
             }
@@ -219,14 +252,15 @@ namespace DownBelow.Managers
                 this.ProcessCellClickDown_Exploration(selfPlayer);
         }
 
-        public void ProcessCellClickDown_Exploration(PlayerBehavior selfPlayer)
-        {
-
-        }
+        public void ProcessCellClickDown_Exploration(PlayerBehavior selfPlayer) { }
 
         public void ProcessCellClickDown_Combat(PlayerBehavior selfPlayer)
         {
-            if (CombatManager.Instance.CurrentPlayingEntity == selfPlayer && selfPlayer.EntityCell == LastHoveredCell && selfPlayer.CanAutoAttack)
+            if (
+                CombatManager.Instance.CurrentPlayingEntity == selfPlayer
+                && selfPlayer.EntityCell == LastHoveredCell
+                && selfPlayer.CanAutoAttack
+            )
                 selfPlayer.IsAutoAttacking = true;
         }
 
@@ -235,23 +269,24 @@ namespace DownBelow.Managers
             if (!GameManager.GameStarted)
                 return;
 
-            // TODO : Not up to date, this func here should only setup the visual and POSSIBLES datas
             PlayerBehavior selfPlayer = GameManager.Instance.SelfPlayer;
             this.LastHoveredCell = Data.Cell;
 
-            if (selfPlayer.CurrentGrid is CombatGrid cGrid && cGrid.HasStarted && this.LastHoveredCell.RefGrid == selfPlayer.CurrentGrid)
+            if (
+                selfPlayer.CurrentGrid is CombatGrid cGrid
+                && cGrid.HasStarted
+                && this.LastHoveredCell.RefGrid == selfPlayer.CurrentGrid
+            )
             {
-                //this.ShowPossibleCombatMovements(selfPlayer);
-
-                // Make sure that we're not using a card so we don't show the player's path
-                //if (CardDraggingSystem.instance.DraggedCard == null)
-                //{
-
-                //    if (!entity.CurrentGrid.IsCombatGrid)
-                //        this._possiblePath = this.Path;
-
-                //    this.FindPath(entity, cell.PositionInGrid, cell.RefGrid);
-                //}
+                if (UI.DraggableCard.SelectedCard == null)
+                {
+                    if (!selfPlayer.IsMoving && this._possiblePath.Contains(LastHoveredCell))
+                        PoolManager.Instance.CellIndicatorPool.DisplayPathIndicators(
+                            this.FindPath(selfPlayer, LastHoveredCell.PositionInGrid)
+                        );
+                    else
+                        PoolManager.Instance.CellIndicatorPool.HidePathIndicators();
+                }
             }
         }
 
@@ -260,7 +295,7 @@ namespace DownBelow.Managers
         /// </summary>
         /// <param name="entity">The entity focused to calcualte the cells</param>
         /// <param name="cell">an override to the entity cell</param>
-        public void ShowPossibleCombatMovements(CharacterEntity entity)
+        public void CalculatePossibleCombatMovements(CharacterEntity entity)
         {
             int movePoints = entity.Speed;
             Cell entityCell = entity.EntityCell;
@@ -268,9 +303,9 @@ namespace DownBelow.Managers
 
             this._possiblePath.Clear();
 
-            for (int x = -movePoints; x <= movePoints; x++)
+            for (int x = -movePoints;x <= movePoints;x++)
             {
-                for (int y = -movePoints; y <= movePoints; y++)
+                for (int y = -movePoints;y <= movePoints;y++)
                 {
                     if (x == 0 && y == 0 || (Mathf.Abs(x) + Mathf.Abs(y) > movePoints))
                         continue;
@@ -278,30 +313,50 @@ namespace DownBelow.Managers
                     int checkX = entityCell.Datas.widthPos + x;
                     int checkY = entityCell.Datas.heightPos + y;
 
-                    if (checkX >= 0 && checkX < entity.CurrentGrid.GridWidth && checkY >= 0 && checkY < entity.CurrentGrid.GridHeight)
+                    if (
+                        checkX >= 0
+                        && checkX < entity.CurrentGrid.GridWidth
+                        && checkY >= 0
+                        && checkY < entity.CurrentGrid.GridHeight
+                    )
                     {
-                        path = this.FindPath(entity, entity.CurrentGrid.Cells[checkY, checkX].PositionInGrid);
+                        path = this.FindPath(
+                            entity,
+                            entity.CurrentGrid.Cells[checkY, checkX].PositionInGrid
+                        );
 
-                        if (path != null && path.Contains(entity.CurrentGrid.Cells[checkY, checkX]) && path.Count <= movePoints && (entity.CurrentGrid.Cells[checkY, checkX].Datas.state == CellState.Walkable))
+                        if (
+                            path != null
+                            && path.Contains(entity.CurrentGrid.Cells[checkY, checkX])
+                            && path.Count <= movePoints
+                            && (
+                                entity.CurrentGrid.Cells[checkY, checkX].Datas.state
+                                == CellState.Walkable
+                            )
+                        )
                         {
                             this._possiblePath.Add(entity.CurrentGrid.Cells[checkY, checkX]);
-                            //entity.CurrentGrid.Cells[checkY,checkX].ChangeStateColor(new Color(0.82f,0.796f,0.5f,0.8f));
                         }
                     }
                 }
             }
         }
+
         public Cell RandomCellInPossiblePath()
         {
             return _possiblePath.Random();
         }
+
         public void OnEnteredNewGrid(EntityEventData Data)
         {
             // Affect the visuals ONLY if we are the player transitionning
             if (Data.Entity == GameManager.Instance.SelfPlayer)
             {
                 if (Data.Entity.CurrentGrid.IsCombatGrid)
-                    this.GenerateShaderBitmap(((CombatGrid)Data.Entity.CurrentGrid).ParentGrid.SelfData, Data.Entity.CurrentGrid.SelfData);
+                    this.GenerateShaderBitmap(
+                        ((CombatGrid)Data.Entity.CurrentGrid).ParentGrid.SelfData,
+                        Data.Entity.CurrentGrid.SelfData
+                    );
                 else
                     this.GenerateShaderBitmap(Data.Entity.CurrentGrid.SelfData);
 
@@ -317,7 +372,7 @@ namespace DownBelow.Managers
             else
             {
                 // IMPORTANT : Remember that Disabled GameObjects would disable their scripts to.
-                // Only MasterClient have to handle combat Datas, we'll do as it follows : 
+                // Only MasterClient have to handle combat Datas, we'll do as it follows :
                 // When joining a grid already in combat, load the values from MasterClient if we're not, else handle everything.
                 if (GameManager.Instance.SelfPlayer.CurrentGrid != Data.Entity.CurrentGrid)
                 {
@@ -325,8 +380,7 @@ namespace DownBelow.Managers
                         Data.Entity.gameObject.SetActive(false);
                     else
                         Data.Entity.gameObject.SetActive(false);
-                }
-                else
+                } else
                 {
                     if (Photon.Pun.PhotonNetwork.IsMasterClient)
                         Data.Entity.gameObject.SetActive(true);
@@ -343,11 +397,10 @@ namespace DownBelow.Managers
             return targetCell.Datas;
         }
 
-
         public int[] SerializePathData(List<Cell> path)
         {
             int[] positions = new int[path.Count * 2];
-            for (int i = 0; i < path.Count; i++)
+            for (int i = 0;i < path.Count;i++)
             {
                 positions[i * 2] = path[i].PositionInGrid.longitude;
                 positions[i * 2 + 1] = path[i].PositionInGrid.latitude;
@@ -359,7 +412,7 @@ namespace DownBelow.Managers
         public List<Cell> DeserializePathData(CharacterEntity entity, int[] positions)
         {
             List<Cell> result = new List<Cell>();
-            for (int i = 0; i < positions.Length; i += 2)
+            for (int i = 0;i < positions.Length;i += 2)
                 result.Add(entity.CurrentGrid.Cells[positions[i + 1], positions[i]]);
 
             return result;
@@ -369,12 +422,18 @@ namespace DownBelow.Managers
         /// While calculate the closest path to a target, storing it in the Path var of the GridManager
         /// </summary>
         /// <param name="target"></param>
-        public List<Cell> FindPath(CharacterEntity entity, GridPosition target, bool directPath = false, int Range = -1)
+        public List<Cell> FindPath(
+            CharacterEntity entity,
+            GridPosition target,
+            bool directPath = false,
+            int Range = -1
+        )
         {
             if (entity == null)
                 return null;
 
-            Cell startCell = entity.IsMoving && entity.NextCell != null ? entity.NextCell : entity.EntityCell;
+            Cell startCell =
+                entity.IsMoving && entity.NextCell != null ? entity.NextCell : entity.EntityCell;
             Cell targetCell = entity.CurrentGrid.Cells[target.latitude, target.longitude];
 
             List<Cell> finalPath;
@@ -387,9 +446,13 @@ namespace DownBelow.Managers
             while (openSet.Count > 0)
             {
                 Cell currentCell = openSet[0];
-                for (int i = 1; i < openSet.Count; i++)
+                for (int i = 1;i < openSet.Count;i++)
                 {
-                    if (openSet[i].fCost < currentCell.fCost || openSet[i].fCost == currentCell.fCost && openSet[i].hCost < currentCell.hCost)
+                    if (
+                        openSet[i].fCost < currentCell.fCost
+                        || openSet[i].fCost == currentCell.fCost
+                            && openSet[i].hCost < currentCell.hCost
+                    )
                     {
                         currentCell = openSet[i];
                     }
@@ -399,7 +462,11 @@ namespace DownBelow.Managers
                 closedSet.Add(currentCell);
 
                 // We go there at the end of the path
-                if (currentCell == targetCell || Range > 0 && IsInRange(currentCell.PositionInGrid, targetCell.PositionInGrid, Range))
+                if (
+                    currentCell == targetCell
+                    || Range > 0
+                        && IsInRange(currentCell.PositionInGrid, targetCell.PositionInGrid, Range)
+                )
                 {
                     // Once done, get the correct path
                     finalPath = this.RetracePath(startCell, targetCell);
@@ -412,14 +479,23 @@ namespace DownBelow.Managers
                     return finalPath;
                 }
 
-                List<Cell> actNeighbours = entity.CurrentGrid.IsCombatGrid ? GetCombatNeighbours(currentCell, entity.CurrentGrid) : GetNormalNeighbours(currentCell, entity.CurrentGrid);
+                List<Cell> actNeighbours = entity.CurrentGrid.IsCombatGrid
+                    ? GetCombatNeighbours(currentCell, entity.CurrentGrid)
+                    : GetNormalNeighbours(currentCell, entity.CurrentGrid);
                 foreach (Cell neighbour in actNeighbours)
                 {
-                    if (CellState.NonWalkable.HasFlag(neighbour.Datas.state) && directPath == false || closedSet.Contains(neighbour))
+                    if (
+                        CellState.NonWalkable.HasFlag(neighbour.Datas.state) && directPath == false
+                        || closedSet.Contains(neighbour)
+                    )
                         continue;
 
-                    int newMovementCostToNeightbour = currentCell.gCost + GetDistance(currentCell, neighbour);
-                    if (newMovementCostToNeightbour < neighbour.gCost || !openSet.Contains(neighbour))
+                    int newMovementCostToNeightbour =
+                        currentCell.gCost + GetDistance(currentCell, neighbour);
+                    if (
+                        newMovementCostToNeightbour < neighbour.gCost
+                        || !openSet.Contains(neighbour)
+                    )
                     {
                         neighbour.gCost = newMovementCostToNeightbour;
                         neighbour.hCost = GetDistance(neighbour, targetCell);
@@ -461,10 +537,16 @@ namespace DownBelow.Managers
             bool latitudeOnRange = false;
             bool longitudeOnRange = false;
 
-            if (TargetPosition.latitude - Range <= CurrentPosition.latitude && CurrentPosition.latitude <= TargetPosition.latitude + Range)
+            if (
+                TargetPosition.latitude - Range <= CurrentPosition.latitude
+                && CurrentPosition.latitude <= TargetPosition.latitude + Range
+            )
                 latitudeOnRange = true;
 
-            if (TargetPosition.longitude - Range <= CurrentPosition.longitude && CurrentPosition.longitude <= TargetPosition.longitude + Range)
+            if (
+                TargetPosition.longitude - Range <= CurrentPosition.longitude
+                && CurrentPosition.longitude <= TargetPosition.longitude + Range
+            )
                 longitudeOnRange = true;
 
             return latitudeOnRange && longitudeOnRange;
@@ -479,9 +561,9 @@ namespace DownBelow.Managers
         {
             List<Cell> neighbours = new List<Cell>();
 
-            for (int x = -1; x <= 1; x++)
+            for (int x = -1;x <= 1;x++)
             {
-                for (int y = -1; y <= 1; y++)
+                for (int y = -1;y <= 1;y++)
                 {
                     if (x == 0 && y == 0)
                         continue;
@@ -489,21 +571,44 @@ namespace DownBelow.Managers
                     int checkX = cell.Datas.widthPos + x;
                     int checkY = cell.Datas.heightPos + y;
 
-                    if (directpath || ((checkX >= 0 && checkX < grid.GridWidth && checkY >= 0 && checkY < grid.GridHeight)
-                        && (grid.Cells[checkY, checkX] != null && grid.Cells[checkY, checkX].Datas.state != CellState.NonWalkable)))
+                    if (
+                        directpath
+                        || (
+                            (
+                                checkX >= 0
+                                && checkX < grid.GridWidth
+                                && checkY >= 0
+                                && checkY < grid.GridHeight
+                            )
+                            && (
+                                grid.Cells[checkY, checkX] != null
+                                && grid.Cells[checkY, checkX].Datas.state != CellState.NonWalkable
+                            )
+                        )
+                    )
                     {
                         if (Mathf.Abs(x) == 1 && Mathf.Abs(y) == 1)
                         {
                             int nX = x == -1 ? checkX + 1 : checkX - 1;
                             int nY = y == -1 ? checkY + 1 : checkY - 1;
 
-                            if (directpath || ((grid.Cells[nY, checkX] != null && grid.Cells[nY, checkX].Datas.state == CellState.Walkable) ||
-                                (grid.Cells[checkY, nX] != null && grid.Cells[checkY, nX].Datas.state == CellState.Walkable)))
+                            if (
+                                directpath
+                                || (
+                                    (
+                                        grid.Cells[nY, checkX] != null
+                                        && grid.Cells[nY, checkX].Datas.state == CellState.Walkable
+                                    )
+                                    || (
+                                        grid.Cells[checkY, nX] != null
+                                        && grid.Cells[checkY, nX].Datas.state == CellState.Walkable
+                                    )
+                                )
+                            )
                             {
                                 neighbours.Add(grid.Cells[checkY, checkX]);
                             }
-                        }
-                        else
+                        } else
                             neighbours.Add(grid.Cells[checkY, checkX]);
                     }
                 }
@@ -521,9 +626,9 @@ namespace DownBelow.Managers
         {
             List<Cell> neighbours = new List<Cell>();
 
-            for (int x = -1; x <= 1; x++)
+            for (int x = -1;x <= 1;x++)
             {
-                for (int y = -1; y <= 1; y++)
+                for (int y = -1;y <= 1;y++)
                 {
                     if ((x == 0 && y == 0) || (Mathf.Abs(x) == 1 && Mathf.Abs(y) == 1))
                         continue;
@@ -531,7 +636,12 @@ namespace DownBelow.Managers
                     int checkX = cell.Datas.widthPos + x;
                     int checkY = cell.Datas.heightPos + y;
 
-                    if (checkX >= 0 && checkX < grid.GridWidth && checkY >= 0 && checkY < grid.GridHeight)
+                    if (
+                        checkX >= 0
+                        && checkX < grid.GridWidth
+                        && checkY >= 0
+                        && checkY < grid.GridHeight
+                    )
                     {
                         neighbours.Add(grid.Cells[checkY, checkX]);
                     }
@@ -542,7 +652,7 @@ namespace DownBelow.Managers
         }
 
         /// <summary>
-        /// Return the weighted distance from 2 cells. 
+        /// Return the weighted distance from 2 cells.
         /// </summary>
         /// <param name="cellA"></param>
         /// <param name="cellB"></param>
@@ -564,7 +674,9 @@ namespace DownBelow.Managers
         {
             this.SavedGrids = new Dictionary<string, GridData>();
 
-            TextAsset[] jsons = Resources.LoadAll<TextAsset>("Saves/Grids/" + UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+            TextAsset[] jsons = Resources.LoadAll<TextAsset>(
+                "Saves/Grids/" + UnityEngine.SceneManagement.SceneManager.GetActiveScene().name
+            );
             foreach (TextAsset json in jsons)
             {
                 // not used but it may help the GridData deserialization to works well, so keep it
@@ -583,8 +695,8 @@ namespace DownBelow.Managers
             List<CellData> savedCells = new List<CellData>();
 
             // Get the non walkable cells only
-            for (int i = 0; i < grid.Cells.GetLength(0); i++)
-                for (int j = 0; j < grid.Cells.GetLength(1); j++)
+            for (int i = 0;i < grid.Cells.GetLength(0);i++)
+                for (int j = 0;j < grid.Cells.GetLength(1);j++)
                     if (grid.Cells[i, j].Datas.state != CellState.Walkable)
                         savedCells.Add(grid.Cells[i, j].Datas);
 
@@ -596,14 +708,15 @@ namespace DownBelow.Managers
             string gridJson = JsonConvert.SerializeObject(gridData);
             this._saveJSONFile(gridJson, grid.UName);
         }
+
         public void SaveGridAsJSON(CellData[,] cellDatas, string name)
         {
             if (name == "" && name == string.Empty)
                 return;
 
             List<CellData> savedCells = new List<CellData>();
-            for (int i = 0; i < cellDatas.GetLength(0); i++)
-                for (int j = 0; j < cellDatas.GetLength(1); j++)
+            for (int i = 0;i < cellDatas.GetLength(0);i++)
+                for (int j = 0;j < cellDatas.GetLength(1);j++)
                     if (cellDatas[i, j].state != CellState.Walkable)
                         savedCells.Add(cellDatas[i, j]);
 
@@ -632,7 +745,13 @@ namespace DownBelow.Managers
         private void _saveJSONFile(string json, string pathName)
         {
             string currScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
-            string path = Application.dataPath + "/Resources/Saves/Grids/" + currScene + "/" + pathName + ".json";
+            string path =
+                Application.dataPath
+                + "/Resources/Saves/Grids/"
+                + currScene
+                + "/"
+                + pathName
+                + ".json";
             if (File.Exists(path))
                 File.Delete(path);
             File.WriteAllText(path, json);
@@ -661,7 +780,11 @@ namespace DownBelow.Managers
 
         #region SHADERS_BITMAP
 
-        public void GenerateShaderBitmap(GridData world, GridData innerGrid = null, bool editor = false)
+        public void GenerateShaderBitmap(
+            GridData world,
+            GridData innerGrid = null,
+            bool editor = false
+        )
         {
             float cellSize = SettingsManager.Instance.GridsPreset.CellsSize;
 
@@ -688,38 +811,62 @@ namespace DownBelow.Managers
                             gridChild = child.gameObject;
 
                     if (gridChild == null)
-                        this.GridShader = Instantiate(SettingsManager.Instance.GridsPreset.GridShader, this._gridsDataHandler);
+                        this.GridShader = Instantiate(
+                            SettingsManager.Instance.GridsPreset.GridShader,
+                            this._gridsDataHandler
+                        );
                     else
 
                         this.GridShader = gridChild;
                 }
+
+                this.GridShader.transform.localScale = new Vector3(
+                    (float)world.GridWidth / 10f,
+                    1f,
+                    (float)world.GridHeight / 10f
+                );
+                this.GridShader.transform.position = new Vector3(
+                    world.TopLeftOffset.x + (world.GridWidth * cellSize) / 2f,
+                    world.TopLeftOffset.y,
+                    world.TopLeftOffset.z + -(world.GridHeight * cellSize) / 2f
+                );
             }
-            else
-                this.GridShader = Instantiate(SettingsManager.Instance.GridsPreset.GridShader, this.transform);
 
-
-            this.GridShader.transform.localScale = new Vector3((float)world.GridWidth / 10f, 1f, (float)world.GridHeight / 10f);
-            this.GridShader.transform.position = new Vector3(world.TopLeftOffset.x + (world.GridWidth * cellSize) / 2f, world.TopLeftOffset.y, world.TopLeftOffset.z + -(world.GridHeight * cellSize) / 2f);
-
-            this.BitmapTexture = new Texture2D(world.GridWidth, world.GridHeight, TextureFormat.ARGB32, false);
+            this.BitmapTexture = new Texture2D(
+                world.GridWidth,
+                world.GridHeight,
+                TextureFormat.ARGB32,
+                false
+            );
 
             Color[] Colors = new Color[world.GridHeight * world.GridWidth];
-            for (int i = 0; i < world.GridHeight * world.GridWidth; i++)
+            for (int i = 0;i < world.GridHeight * world.GridWidth;i++)
                 Colors[i] = editor ? Color.black : Color.green;
 
             this.BitmapTexture.SetPixels(0, 0, world.GridWidth, world.GridHeight, Colors);
-
 
             if (editor)
                 this._generateShaderEditorBitmap(world);
             else
                 this._generateShaderBitmap(world, innerGrid);
 
-
             this.BitmapTexture.Apply();
-            // -1 ? Don't know, just works
-            this.BitmapShader.SetVector("_Offset", new Vector2(-world.TopLeftOffset.x, -(world.TopLeftOffset.z - 1)));
-            this.BitmapShader.SetTexture("_Texture2D", this.BitmapTexture);
+            if (editor)
+            {
+                this.BitmapShaderEditor.SetVector(
+                    "_Offset",
+                    new Vector2(-world.TopLeftOffset.x, -(world.TopLeftOffset.z - 1))
+                );
+                this.BitmapShaderEditor.SetTexture("_Texture2D", this.BitmapTexture);
+            }
+            else {
+                this.BitmapShader.SetVector(
+                    "_Offset",
+                    new Vector2(-world.TopLeftOffset.x, -(world.TopLeftOffset.z - 1))
+                );
+                this.BitmapShader.SetTexture("_Texture2D", this.BitmapTexture);
+            }
+            
         }
 
         private void _generateShaderBitmap(GridData world, GridData innerGrid)
@@ -730,12 +877,16 @@ namespace DownBelow.Managers
             {
                 foreach (var item in world.CellDatas)
                 {
-                    this.BitmapTexture.SetPixel(item.widthPos, world.GridHeight - item.heightPos, Color.black); //this._getBitmapColor(item.state));
+                    this.BitmapTexture.SetPixel(
+                        item.widthPos,
+                        world.GridHeight - item.heightPos,
+                        this._getBitmapColor(item.state)
+                    );
                 }
             }
-            for (int y = 0; y < world.GridHeight; y++)
+            for (int y = 0;y < world.GridHeight;y++)
             {
-                for (int x = 0; x < world.GridWidth; x++)
+                for (int x = 0;x < world.GridWidth;x++)
                 {
                     if (innerGrid != null)
                         this.BitmapTexture.SetPixel(x, world.GridHeight - y, Color.black);
@@ -750,39 +901,61 @@ namespace DownBelow.Managers
                 int yOffset = innerGrid.Latitude;
 
                 this.BitmapTexture.SetPixels(
-                        innerGrid.Longitude, world.GridHeight - (innerGrid.Latitude - 1) - innerGrid.GridHeight,
-                        innerGrid.GridWidth, innerGrid.GridHeight,
-                        Enumerable.Repeat(Color.green, innerGrid.GridWidth * innerGrid.GridHeight).ToArray());
+                    innerGrid.Longitude,
+                    world.GridHeight - (innerGrid.Latitude - 1) - innerGrid.GridHeight,
+                    innerGrid.GridWidth,
+                    innerGrid.GridHeight,
+                    Enumerable
+                        .Repeat(Color.green, innerGrid.GridWidth * innerGrid.GridHeight)
+                        .ToArray()
+                );
 
                 foreach (CellData cellData in innerGrid.CellDatas)
                 {
-                    this.BitmapTexture.SetPixel(cellData.widthPos + xOffset, world.GridHeight - (cellData.heightPos + yOffset), this._getBitmapColor(cellData.state));
+                    this.BitmapTexture.SetPixel(
+                        cellData.widthPos + xOffset,
+                        world.GridHeight - (cellData.heightPos + yOffset),
+                        this._getBitmapColor(cellData.state)
+                    );
                 }
             }
             // If this is a main grid, iterate over its CombatGrid to hide them
             else
             {
-                for (int i = 0; i < world.InnerGrids.Count; i++)
+                for (int i = 0;i < world.InnerGrids.Count;i++)
                 {
                     this.BitmapTexture.SetPixels(
-                        world.InnerGrids[i].Longitude, world.GridHeight - (world.InnerGrids[i].Latitude - 1) - world.InnerGrids[i].GridHeight,
-                        world.InnerGrids[i].GridWidth, world.InnerGrids[i].GridHeight,
-                        Enumerable.Repeat(Color.black, world.InnerGrids[i].GridWidth * world.InnerGrids[i].GridHeight).ToArray());
+                        world.InnerGrids[i].Longitude,
+                        world.GridHeight
+                            - (world.InnerGrids[i].Latitude - 1)
+                            - world.InnerGrids[i].GridHeight,
+                        world.InnerGrids[i].GridWidth,
+                        world.InnerGrids[i].GridHeight,
+                        Enumerable
+                            .Repeat(
+                                Color.black,
+                                world.InnerGrids[i].GridWidth * world.InnerGrids[i].GridHeight
+                            )
+                            .ToArray()
+                    );
                 }
             }
-
         }
 
         public void _generateShaderEditorBitmap(GridData world)
         {
             foreach (var item in world.CellDatas)
             {
-                this.BitmapTexture.SetPixel(item.widthPos, world.GridHeight - item.heightPos, this._getBitmapEditorColor(item.state));
+                this.BitmapTexture.SetPixel(
+                    item.widthPos,
+                    world.GridHeight - item.heightPos,
+                    this._getBitmapEditorColor(item.state)
+                );
             }
 
-            for (int y = 0; y < world.GridHeight; y++)
+            for (int y = 0;y < world.GridHeight;y++)
             {
-                for (int x = 0; x < world.GridWidth; x++)
+                for (int x = 0;x < world.GridWidth;x++)
                 {
                     if (world.IsCombatGrid)
                         this.BitmapTexture.SetPixel(x, world.GridHeight - y, Color.black);
@@ -791,14 +964,18 @@ namespace DownBelow.Managers
                 }
             }
 
-            for (int i = 0; i < world.InnerGrids.Count; i++)
+            for (int i = 0;i < world.InnerGrids.Count;i++)
             {
                 int xOffset = world.InnerGrids[i].Longitude;
                 int yOffset = world.InnerGrids[i].Latitude;
 
                 foreach (CellData cellData in world.InnerGrids[i].CellDatas)
                 {
-                    this.BitmapTexture.SetPixel(cellData.widthPos + xOffset, world.GridHeight - (cellData.heightPos + yOffset), this._getBitmapEditorColor(cellData.state));
+                    this.BitmapTexture.SetPixel(
+                        cellData.widthPos + xOffset,
+                        world.GridHeight - (cellData.heightPos + yOffset),
+                        this._getBitmapEditorColor(cellData.state)
+                    );
                 }
             }
         }
@@ -808,9 +985,15 @@ namespace DownBelow.Managers
             Color newColor = Color.black;
             switch (state)
             {
-                case CellState.Blocked: newColor = Color.black; break;
-                case CellState.EntityIn: newColor = Color.green; break;
-                case CellState.Interactable: newColor = Color.blue; break;
+                case CellState.Blocked:
+                    newColor = Color.black;
+                    break;
+                case CellState.EntityIn:
+                    newColor = Color.green;
+                    break;
+                case CellState.Interactable:
+                    newColor = Color.red;
+                    break;
             }
 
             return newColor;
@@ -821,20 +1004,35 @@ namespace DownBelow.Managers
             Color newColor = Color.green;
             switch (state)
             {
-                case CellState.Walkable: newColor = Color.green; break;
+                case CellState.Walkable:
+                    newColor = Color.green;
+                    break;
 
                 case CellState.EntityIn:
-                case CellState.Interactable: newColor = Color.red; break;
+                case CellState.Interactable:
+                    newColor = Color.red;
+                    break;
 
-                case CellState.Blocked: newColor = Color.blue; break;
+                case CellState.Blocked:
+                    newColor = Color.blue;
+                    break;
             }
 
             return newColor;
         }
 
-        public void ChangeBitmapCell(GridPosition pos, int gridHeight, CellState state, bool editor = false)
+        public void ChangeBitmapCell(
+            GridPosition pos,
+            int gridHeight,
+            CellState state,
+            bool editor = false
+        )
         {
-            this.BitmapTexture.SetPixel(pos.longitude, gridHeight - pos.latitude, editor ? this._getBitmapEditorColor(state) : _getBitmapColor(state));
+            this.BitmapTexture.SetPixel(
+                pos.longitude,
+                gridHeight - pos.latitude,
+                editor ? this._getBitmapEditorColor(state) : _getBitmapColor(state)
+            );
             this.BitmapTexture.Apply();
         }
 
@@ -854,6 +1052,7 @@ namespace DownBelow.Managers
 
         public int longitude { get; private set; }
         public int latitude { get; private set; }
+
         public override string ToString()
         {
             return $"({longitude},{latitude})";

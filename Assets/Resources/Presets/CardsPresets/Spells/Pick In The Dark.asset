@@ -27,6 +27,7 @@ MonoBehaviour:
   Title: Pick In The Dark
   Cost: 1
   CardType: 2
+  Collection: 1
   Description: Deals 7 damage to all units around you.
   IllustrationImage: {fileID: 0}
   Spells:

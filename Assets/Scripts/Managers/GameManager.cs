@@ -154,7 +154,7 @@ namespace DownBelow.Managers
                 res += "Next Actions:";
                 foreach (var item in NormalActionsBuffer)
                 {
-                    res += $"\n\t{item.Key.name}:";
+                    res += $"\n\t{item.Key.ToString()}:";
                     foreach (EntityAction e in item.Value)
                     {
                         res+= "\n\t\t" + e.ToString();
@@ -218,12 +218,7 @@ namespace DownBelow.Managers
                 return;
 
             for (int i = 0; i < Data.GeneratedSpells.Length; i++)
-                Data.GeneratedSpells[i].RefBuffer = CombatActionsBuffer;
-            
-            CombatActionsBuffer.AddRange(Data.GeneratedSpells);
-
-            if (!IsUsingCombatBuffer)
-                this.ExecuteNextFromCombatBuffer();
+                this.BuffAction(Data.GeneratedSpells[i], false);
         }
 
         /// <summary>
@@ -239,7 +234,8 @@ namespace DownBelow.Managers
                 CombatActionsBuffer.Add(action);
                 action.RefBuffer = CombatActionsBuffer;
 
-                //Idk what that means
+                // Once the buffer is playing, it'll automatically process every actions until the end
+                // So don't call it twice to avoid double buffering which should NEVER happens
                 if (!IsUsingCombatBuffer)
                     this.ExecuteNextFromCombatBuffer();
             } else
@@ -257,14 +253,22 @@ namespace DownBelow.Managers
 
                     // Remove everything after the first entry since we're not going to use it anymore
                     if (NormalActionsBuffer[action.RefEntity].Count > 1)
-                        NormalActionsBuffer[action.RefEntity].RemoveRange(1, NormalActionsBuffer[action.RefEntity].Count - 1);
+                    {
+                        // Hide everything but the first one that is being played
+                        if(action.RefEntity == this.SelfPlayer)
+                            for (int i = 1; i < NormalActionsBuffer[action.RefEntity].Count; i++)
+                                PoolManager.Instance.CellIndicatorPool.HideActionIndicators(NormalActionsBuffer[action.RefEntity][i]);
 
-                    //So: aborting the action that's currently taking place (index: 0) and removing the others (indexes: 1 - end)
+                        NormalActionsBuffer[action.RefEntity].RemoveRange(1, NormalActionsBuffer[action.RefEntity].Count - 1);
+                    }
                 }
 
                 //Adding action to buffer
                 NormalActionsBuffer[action.RefEntity].Add(action);
                 action.RefBuffer = NormalActionsBuffer[action.RefEntity];
+
+                if (action.RefEntity == this.SelfPlayer)
+                    PoolManager.Instance.CellIndicatorPool.DisplayActionIndicators(action);
 
                 //Still don't know what that means
                 if (!IsUsingNormalBuffer)

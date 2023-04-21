@@ -96,6 +96,29 @@ MonoBehaviour:
   MinerStats: {fileID: 11400000, guid: 378e4726dcac3c94390835d65888d60c, type: 2}
   FarmerStats: {fileID: 11400000, guid: acc2fcfe067f4a548a44a691816601e8, type: 2}
   HerbalistStats: {fileID: 11400000, guid: 431193b9be546b642821e7c04419e789, type: 2}
+  PlayerDeck:
+    Cards:
+    - {fileID: 11400000, guid: 17cca61da856a0a4abc846a9ec5ce6a4, type: 2}
+    - {fileID: 11400000, guid: 931eb095137ef8148bc5a6f656a17390, type: 2}
+    - {fileID: 11400000, guid: 931eb095137ef8148bc5a6f656a17390, type: 2}
+    - {fileID: 11400000, guid: e6089736fe0b82948952e94e53c3ba6b, type: 2}
+    - {fileID: 11400000, guid: e6089736fe0b82948952e94e53c3ba6b, type: 2}
+    - {fileID: 11400000, guid: c8ec0ab5a83846d438943c97c32b320c, type: 2}
+    - {fileID: 11400000, guid: c8ec0ab5a83846d438943c97c32b320c, type: 2}
+    - {fileID: 11400000, guid: 33a72a420cd0f99489654a79543ebc3c, type: 2}
+    - {fileID: 11400000, guid: 33a72a420cd0f99489654a79543ebc3c, type: 2}
+    - {fileID: 11400000, guid: e1dc70314cde4324da42748300aedede, type: 2}
+    - {fileID: 11400000, guid: e1dc70314cde4324da42748300aedede, type: 2}
+    - {fileID: 11400000, guid: df3af346f5c9d3e42adc01d9ff4cfb39, type: 2}
+    - {fileID: 11400000, guid: df3af346f5c9d3e42adc01d9ff4cfb39, type: 2}
+    - {fileID: 11400000, guid: df3af346f5c9d3e42adc01d9ff4cfb39, type: 2}
+    - {fileID: 11400000, guid: 13877796ab985c344ac1ece8f2afe63b, type: 2}
+    - {fileID: 11400000, guid: 13877796ab985c344ac1ece8f2afe63b, type: 2}
+    - {fileID: 11400000, guid: 13877796ab985c344ac1ece8f2afe63b, type: 2}
+    - {fileID: 11400000, guid: a4bd6d4842e41b347a6c5e845162e976, type: 2}
+    - {fileID: 11400000, guid: a4bd6d4842e41b347a6c5e845162e976, type: 2}
+    - {fileID: 11400000, guid: a4bd6d4842e41b347a6c5e845162e976, type: 2}
+  PlayerClass: 3
 --- !u!1 &1709003694304920991
 GameObject:
   m_ObjectHideFlags: 0
@@ -283,7 +306,6 @@ MonoBehaviour:
   CurrentPlayingEntity: {fileID: 0}
   CurrentPlayingGrid: {fileID: 0}
   PlayingEntities: []
-  CurrentCard: {fileID: 0}
   DiscardPile: []
   DrawPile:
     Cards: []
@@ -389,6 +411,7 @@ MonoBehaviour:
   MainWorldGrid: {fileID: 0}
   BitmapTexture: {fileID: 2800000, guid: 774cf7acc1c321844b3f8ee5e9f215b8, type: 3}
   BitmapShader: {fileID: 2100000, guid: 0349616ade0e9a54cbd7bfb285ede134, type: 2}
+  BitmapShaderEditor: {fileID: 2100000, guid: d7ee3575319574e4688189eaa3ce6d01, type: 2}
   GridShader: {fileID: 0}
   LastHoveredCell: {fileID: 0}
 --- !u!1 &4708042891339228753
@@ -568,6 +591,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a0934cf4d7c23d4a8b210eff82f44f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CombatSection: {fileID: 0}
   TurnSection: {fileID: 0}
   PlayerInfos: {fileID: 0}
   CardSection: {fileID: 0}

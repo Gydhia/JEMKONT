@@ -300,5 +300,6 @@ MonoBehaviour:
   Title: Angler's Eye
   Cost: 1
   CardType: 3
+  Class: 3
   Description: Gives a target "I cannot counterattack" for 1 turn.
   IllustrationImage: {fileID: 21300000, guid: a6c678293de3f7b42b102c9c37e563de, type: 3}

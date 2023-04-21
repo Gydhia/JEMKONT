@@ -61,7 +61,7 @@ namespace DownBelow.UI
             
             this._spawnPosition = m_RectTransform.position;  
             this.m_RectTransform.DOLocalMoveY(this._spawnPosition.y, 0.3f);
-            this.PinnedForMultipleActions = this.CardReference.Spells.Where(s => s.RequiresTargetting).Count() > 1;
+            this.PinnedForMultipleActions = this.CardReference.Spells.Where(s => s.Data.RequiresTargetting).Count() > 1;
 
             this._subToEvents();
         }

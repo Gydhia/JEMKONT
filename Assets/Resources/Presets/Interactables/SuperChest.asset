@@ -25,7 +25,8 @@ MonoBehaviour:
       Entry: 2
       Data: 31a848e95daeede824add9ee21a9c1dd
   UName: SuperChest
-  AffectingState: 4
+  AffectingState: 8
   ObjectPrefab: {fileID: 6944299834032497403, guid: 1ee5710fbb2b073409a4c6843a75c377, type: 3}
   OutlineColor: {r: 0.21404415, g: 0.48488656, b: 0.6981132, a: 1}
+  InteractAnimation: {fileID: 0}
   MaxSlots: 32

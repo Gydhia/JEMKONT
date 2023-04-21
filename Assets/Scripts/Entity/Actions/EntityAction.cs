@@ -19,6 +19,8 @@ namespace DownBelow.Entity
         public Cell TargetCell;
         protected System.Action EndCallback;
 
+        public virtual bool AllowedToProcess() { return true; }
+
         public EntityAction(CharacterEntity RefEntity, Cell TargetCell)
         {
             this.RefEntity = RefEntity;
@@ -39,6 +41,7 @@ namespace DownBelow.Entity
         {
             // Remove this action since we ended it, or it'll create an infinite loop
             this.RefBuffer.Remove(this);
+            PoolManager.Instance.CellIndicatorPool.HideActionIndicators(this);
 
             if (this.EndCallback != null)
             { 
@@ -50,6 +53,5 @@ namespace DownBelow.Entity
 
         public abstract object[] GetDatas();
         public abstract void SetDatas(object[] Datas);
-
     }
 }

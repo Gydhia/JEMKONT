@@ -1,4 +1,5 @@
 using DownBelow.Entity;
+using DownBelow.GridSystem;
 using DownBelow.Spells;
 using DownBelow.Spells.Alterations;
 using System.Collections;
@@ -7,6 +8,17 @@ using UnityEngine;
 
 namespace DownBelow.Events
 {
+    public class SpellTargetEventData : EventData<SpellTargetEventData>
+    {
+        public Spell TargetSpell;
+        public Cell Cell;
+        public SpellTargetEventData(Spell TargetSpell, Cell Cell)
+        {
+            this.TargetSpell = TargetSpell;
+            this.Cell = Cell;
+        }
+    }
+
     public class SpellEventData : EventData<SpellEventData>
     {
         public CharacterEntity Entity;
