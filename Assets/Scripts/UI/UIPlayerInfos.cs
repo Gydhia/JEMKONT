@@ -36,42 +36,71 @@ namespace DownBelow.UI
             this._onMoveChanged(null);
         }
 
-        private void _onManaChanged(Events.SpellEventData data) { this.SetMana(GameManager.Instance.SelfPlayer.Mana); }
-        private void _onHealthChanged(Events.SpellEventData data) { this.SetHealth(GameManager.Instance.SelfPlayer.Health); }
-        private void _onMoveChanged(Events.SpellEventData data) { this.SetMove(GameManager.Instance.SelfPlayer.Speed); }
+        private void _onManaChanged(Events.SpellEventData data)
+        {
+            this.SetMana(GameManager.Instance.SelfPlayer.Mana, true);
+        }
+
+        private void _onHealthChanged(Events.SpellEventData data)
+        {
+            this.SetHealth(GameManager.Instance.SelfPlayer.Health, true);
+        }
+
+        private void _onMoveChanged(Events.SpellEventData data)
+        {
+            this.SetMove(GameManager.Instance.SelfPlayer.Speed, true);
+        }
 
         public void SetMana(int value, bool animated = true)
         {
-            this.ManaText.text = value.ToString();
+            if (animated)
+            {
+                this.ManaText.transform.DOPunchScale(Vector3.one * 1.4f, 0.6f).SetEase(Ease.OutQuint)
+                    .OnComplete((() => this.ManaText.text = value.ToString()));
+            }
+            else
+            {
+                this.ManaText.text = value.ToString();
+            }
         }
+
         public void SetHealth(int value, bool animated = true)
         {
-            this.HealthText.text = value.ToString();
-
             if (value < 0)
                 value = 0;
 
             if (animated)
             {
-                _lifeFill.DOFillAmount((float)((float)value / (float)GameManager.Instance.SelfPlayer.MaxHealth), 0.6f).SetEase(Ease.OutQuart);
+                _lifeFill.DOFillAmount((float)((float)value / (float)GameManager.Instance.SelfPlayer.MaxHealth), 0.6f)
+                    .SetEase(Ease.OutQuart);
+                this.HealthText.transform.DOPunchScale(Vector3.one * 1.4f, 0.6f).SetEase(Ease.OutQuint)
+                    .OnComplete((() => this.HealthText.text = value.ToString()));
             }
             else
             {
                 _lifeFill.DOFillAmount((float)((float)value / (float)GameManager.Instance.SelfPlayer.MaxHealth), 0f);
+                this.HealthText.text = value.ToString();
             }
-            
         }
+
         public void SetMove(int value, bool animated = true)
         {
-            this.MoveText.text = value.ToString();
+            if (animated)
+            {
+                this.MoveText.transform.DOPunchScale(Vector3.one * 1.4f, 0.6f).SetEase(Ease.OutQuint)
+                    .OnComplete((() => this.MoveText.text = value.ToString()));
+            }
+            else
+            {
+                this.MoveText.text = value.ToString();
+            }
         }
 
         public void UpdateAllTexts()
         {
-            this.SetMana(GameManager.Instance.SelfPlayer.Mana);
-            this.SetHealth(GameManager.Instance.SelfPlayer.Health);
-            this.SetMove(GameManager.Instance.SelfPlayer.Speed);
+            this.SetMana(GameManager.Instance.SelfPlayer.Mana, false);
+            this.SetHealth(GameManager.Instance.SelfPlayer.Health, false);
+            this.SetMove(GameManager.Instance.SelfPlayer.Speed, false);
         }
     }
-
 }

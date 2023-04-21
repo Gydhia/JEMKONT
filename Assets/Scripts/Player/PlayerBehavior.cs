@@ -13,20 +13,28 @@ using System.Linq;
 using UnityEngine;
 using static UnityEngine.Rendering.VirtualTexturing.Debugging;
 
-namespace DownBelow.Entity {
-    public class PlayerBehavior : CharacterEntity {
+namespace DownBelow.Entity
+{
+    public class PlayerBehavior : CharacterEntity
+    {
         #region EVENTS
+
         public event GatheringEventData.Event OnGatheringStarted;
         public event GatheringEventData.Event OnGatheringCanceled;
         public event GatheringEventData.Event OnGatheringEnded;
 
-        public void FireGatheringStarted(InteractableResource resource) {
+        public void FireGatheringStarted(InteractableResource resource)
+        {
             this.OnGatheringStarted?.Invoke(new(resource));
         }
-        public void FireGatheringCanceled(InteractableResource resource = null) {
+
+        public void FireGatheringCanceled(InteractableResource resource = null)
+        {
             this.OnGatheringCanceled?.Invoke(new(resource));
         }
-        public void FireGatheringEnded(InteractableResource resource = null) {
+
+        public void FireGatheringEnded(InteractableResource resource = null)
+        {
             this.OnGatheringEnded?.Invoke(new(resource));
         }
 
@@ -48,18 +56,32 @@ namespace DownBelow.Entity {
 
         public Tool ActiveTool;
         public bool IsAutoAttacking = false;
-        public Deck Deck { get => testingDeck; set => testingDeck = value; }
+
+        public Deck Deck
+        {
+            get => testingDeck;
+            set => testingDeck = value;
+        }
+
         Deck testingDeck;
 
-        public override int Mana { get => Mathf.Min(Statistics[EntityStatistics.Mana] + NumberOfTurnsPlayed, Statistics[EntityStatistics.MaxMana]); }
+        public override int Mana
+        {
+            get => Mathf.Min(Statistics[EntityStatistics.Mana] + NumberOfTurnsPlayed,
+                Statistics[EntityStatistics.MaxMana]);
+        }
+
         #region cards constants
+
         public const int MAXCARDSINHAND = 7;
         public const int CARDSTOSTARTTURNWITH = 3;
         public const int MAXMANA = 6;
         public const int MAXMANAHARDCAP = 7;
+
         #endregion
 
-        public override void Init(EntityStats stats, Cell refCell, WorldGrid refGrid, int order = 0) {
+        public override void Init(EntityStats stats, Cell refCell, WorldGrid refGrid, int order = 0)
+        {
             base.Init(stats, refCell, refGrid, order);
 
             refGrid.GridEntities.Add(this);
@@ -68,20 +90,25 @@ namespace DownBelow.Entity {
                 SettingsManager.Instance.GameUIPreset.SlotsByPlayer[Photon.Pun.PhotonNetwork.PlayerList.Length - 1]);
         }
 
-        public void SetActiveTool(Tool activeTool) {
+        public void SetActiveTool(Tool activeTool)
+        {
             activeTool.ActualPlayer = this;
             this.ActiveTool = activeTool;
             this.RefStats = ToolsManager.Instance.ToolStats[activeTool.Class];
         }
-        public override void StartTurn() {
+
+        public override void StartTurn()
+        {
             base.StartTurn();
         }
-        public override void EndTurn() {
+
+        public override void EndTurn()
+        {
             base.EndTurn();
         }
 
         #region MOVEMENTS
-     
+
         //    // TODO: parse these values in a different way later
         //    if (this.CurrentGrid.IsCombatGrid) {
         //        GridManager.Instance.ShowPossibleCombatMovements(this);
@@ -101,12 +128,14 @@ namespace DownBelow.Entity {
         //    }
         //}
 
-        public void EnterNewGrid(CombatGrid grid) 
+        public void EnterNewGrid(CombatGrid grid)
         {
             this.healthText.gameObject.SetActive(true);
-            Cell closestCell = GridUtility.GetClosestAvailableCombatCell(this.CurrentGrid, grid, this.EntityCell.PositionInGrid);
+            Cell closestCell =
+                GridUtility.GetClosestAvailableCombatCell(this.CurrentGrid, grid, this.EntityCell.PositionInGrid);
 
-            while (closestCell.Datas.state != CellState.Walkable) {
+            while (closestCell.Datas.state != CellState.Walkable)
+            {
                 List<Cell> neighbours = GridManager.Instance.GetCombatNeighbours(closestCell, grid);
                 closestCell = neighbours.First(cell => cell.Datas.state == CellState.Walkable);
                 if (closestCell == null)
@@ -120,9 +149,12 @@ namespace DownBelow.Entity {
             this.transform.position = closestCell.WorldPosition;
         }
 
-        public bool RespectedDelayToAsk() {
-            return (System.DateTime.Now - this._lastTimeAsked).Seconds >= SettingsManager.Instance.InputPreset.PathRequestDelay;
+        public bool RespectedDelayToAsk()
+        {
+            return (System.DateTime.Now - this._lastTimeAsked).Seconds >=
+                   SettingsManager.Instance.InputPreset.PathRequestDelay;
         }
+
         #endregion
 
         #region INTERACTIONS
@@ -131,7 +163,7 @@ namespace DownBelow.Entity {
         {
             this.PlayerInventory.TryAddItem(resource, quantity);
         }
-        #endregion
 
+        #endregion
     }
 }
