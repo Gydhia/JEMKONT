@@ -55,8 +55,8 @@ namespace DownBelow.UI
         {
             if (animated)
             {
-                this.ManaText.transform.DOPunchScale(Vector3.one * 1.4f, 0.6f).SetEase(Ease.OutQuint)
-                    .OnComplete((() => this.ManaText.text = value.ToString()));
+                this.ManaText.transform.DOPunchScale(Vector3.one * 1.4f, 0.6f).SetEase(Ease.OutQuint);
+                this.ManaText.text = value.ToString();
             }
             else
             {
@@ -73,8 +73,8 @@ namespace DownBelow.UI
             {
                 _lifeFill.DOFillAmount((float)((float)value / (float)GameManager.Instance.SelfPlayer.MaxHealth), 0.6f)
                     .SetEase(Ease.OutQuart);
-                this.HealthText.transform.DOPunchScale(Vector3.one * 1.4f, 0.6f).SetEase(Ease.OutQuint)
-                    .OnComplete((() => this.HealthText.text = value.ToString()));
+                this.HealthText.transform.DOPunchScale(Vector3.one * 1.4f, 0.6f).SetEase(Ease.OutQuint);
+                this.HealthText.text = value.ToString();
             }
             else
             {
@@ -87,8 +87,8 @@ namespace DownBelow.UI
         {
             if (animated)
             {
-                this.MoveText.transform.DOPunchScale(Vector3.one * 1.4f, 0.6f).SetEase(Ease.OutQuint)
-                    .OnComplete((() => this.MoveText.text = value.ToString()));
+                this.MoveText.transform.DOPunchScale(Vector3.one * 1.4f, 0.6f).SetEase(Ease.OutQuint);
+                this.MoveText.text = value.ToString();
             }
             else
             {
