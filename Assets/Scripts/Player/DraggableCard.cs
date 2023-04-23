@@ -54,19 +54,17 @@ namespace DownBelow.UI
         public void Init(ScriptableCard CardReference)
         {
             this.m_RectTransform = this.GetComponent<RectTransform>();
-            this.m_RectTransform.localScale = Vector3.zero;
+            this.m_RectTransform.localScale = Vector3.one * 0.2f;
             this.CardVisual ??= this.GetComponent<CardVisual>();
 
             this.CardReference = CardReference;
             this.CardVisual.Init(CardReference);
-            
-          /*  this._spawnPosition = m_RectTransform.position;  
-            this.m_RectTransform.DOLocalMoveY(this._spawnPosition.y, 0.3f);
-            this.PinnedForMultipleActions = this.CardReference.Spells.Where(s => s.Data.RequiresTargetting).Count() > 1;*/
 
-            this.m_RectTransform.DOPunchRotation(Vector3.one * 0.8f, 1f, 5);
-            this.m_RectTransform.DOPunchScale(Vector3.one * 0.8f, 1f, 5);
-            this.m_RectTransform.DOPunchPosition(Vector3.one * 0.8f, 1f, 5).OnComplete((() =>
+            int result = Random.Range(1, 11);
+          
+            this.m_RectTransform.DOPunchRotation(Vector3.one * 0.8f, 1.3f, result);
+            this.m_RectTransform.DOPunchScale(Vector3.one * 0.8f, 1.3f, result);
+            this.m_RectTransform.DOPunchPosition(Vector3.one * 0.8f, 1.3f, result).OnComplete((() =>
             {
                 this.m_RectTransform.localScale = Vector3.one;
                 this.m_RectTransform.parent = UIManager.Instance.CardSection.CardsHolder.transform;
