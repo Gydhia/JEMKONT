@@ -68,7 +68,7 @@ namespace DownBelow.Spells
                 this.Result.Setup(this.TargetEntities, this);
                 if (Data.ProjectileSFX != null)
                 {
-                    await SFXManager.Instance.DOSFX(Data.ProjectileSFX, RefEntity, TargetCell, this);
+                    await SFXManager.Instance.DOSFX(new RuntimeSFXData(Data.ProjectileSFX, RefEntity, TargetCell, this));
                 }
                 if (Data.CellSFX != null && TargetedCells != null && TargetedCells.Count != 0)
                 {
@@ -77,9 +77,9 @@ namespace DownBelow.Spells
                         var targetedCell = this.TargetedCells[i];
                         if (i != TargetedCells.Count)
                         //Not awaiting since we want to do it all
-                            SFXManager.Instance.DOSFX(Data.CellSFX, RefEntity, targetedCell, this);
+                            SFXManager.Instance.DOSFX(new(Data.CellSFX, RefEntity, targetedCell, this));
                         else
-                            await SFXManager.Instance.DOSFX(Data.CellSFX, RefEntity, targetedCell, this);
+                            await SFXManager.Instance.DOSFX(new(Data.CellSFX, RefEntity, targetedCell, this));
                     }
                 }
             }
