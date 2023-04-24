@@ -64,10 +64,10 @@ MonoBehaviour:
       Data: 4|System.Boolean[,], mscorlib
     - Name: 
       Entry: 12
-      Data: 25
+      Data: 20
     - Name: ranks
       Entry: 1
-      Data: 5|5
+      Data: 5|4
     - Name: 
       Entry: 5
       Data: false
@@ -83,6 +83,12 @@ MonoBehaviour:
     - Name: 
       Entry: 5
       Data: false
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: true
     - Name: 
       Entry: 5
       Data: false
@@ -106,28 +112,7 @@ MonoBehaviour:
       Data: true
     - Name: 
       Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
       Data: true
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
     - Name: 
       Entry: 5
       Data: false
@@ -149,7 +134,7 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: SpellPosition
+    - Name: ShapePosition
       Entry: 7
       Data: UnityEngine.Vector2, UnityEngine.CoreModule
     - Name: 
@@ -161,9 +146,96 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: CastingMatrix
+    - Name: RotatedShapeMatrix
       Entry: 7
       Data: 5|System.Boolean[,], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 20
+    - Name: ranks
+      Entry: 1
+      Data: 5|4
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: RotatedShapePosition
+      Entry: 7
+      Data: UnityEngine.Vector2, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 2
+    - Name: 
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: CastingMatrix
+      Entry: 7
+      Data: 6|System.Boolean[,], mscorlib
     - Name: 
       Entry: 12
       Data: 81
@@ -448,17 +520,20 @@ MonoBehaviour:
       Data: 2
     - Name: PushDamages
       Entry: 3
-      Data: 3
+      Data: 2
     - Name: PushDamagesMultiplier
       Entry: 4
       Data: 0.5
     - Name: 
       Entry: 8
       Data: 
-    - Name: TargetCells
+    - Name: TargetEntities
       Entry: 6
       Data: 
     - Name: ParentSpell
+      Entry: 6
+      Data: 
+    - Name: Result
       Entry: 6
       Data: 
     - Name: ConditionData
@@ -469,7 +544,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 6|DownBelow.Spells.Spell_Stats, Assembly-CSharp
+      Data: 7|DownBelow.Spells.Spell_Stats, Assembly-CSharp
     - Name: RefBuffer
       Entry: 6
       Data: 
@@ -481,13 +556,13 @@ MonoBehaviour:
       Data: 
     - Name: Data
       Entry: 7
-      Data: 7|DownBelow.Spells.SpellData_Stats, Assembly-CSharp
+      Data: 8|DownBelow.Spells.SpellData_Stats, Assembly-CSharp
     - Name: RequiresTargetting
       Entry: 5
       Data: false
     - Name: SpellShapeMatrix
       Entry: 7
-      Data: 8|System.Boolean[,], mscorlib
+      Data: 9|System.Boolean[,], mscorlib
     - Name: 
       Entry: 12
       Data: 25
@@ -575,7 +650,22 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: SpellPosition
+    - Name: ShapePosition
+      Entry: 7
+      Data: UnityEngine.Vector2, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 2
+    - Name: 
+      Entry: 4
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: RotatedShapeMatrix
+      Entry: 9
+      Data: 9
+    - Name: RotatedShapePosition
       Entry: 7
       Data: UnityEngine.Vector2, UnityEngine.CoreModule
     - Name: 
@@ -589,7 +679,7 @@ MonoBehaviour:
       Data: 
     - Name: CastingMatrix
       Entry: 7
-      Data: 9|System.Boolean[,], mscorlib
+      Data: 10|System.Boolean[,], mscorlib
     - Name: 
       Entry: 12
       Data: 25
@@ -703,14 +793,17 @@ MonoBehaviour:
       Data: 0
     - Name: StatAmount
       Entry: 3
-      Data: 42
+      Data: 20
     - Name: 
       Entry: 8
       Data: 
-    - Name: TargetCells
+    - Name: TargetEntities
       Entry: 6
       Data: 
     - Name: ParentSpell
+      Entry: 6
+      Data: 
+    - Name: Result
       Entry: 6
       Data: 
     - Name: ConditionData

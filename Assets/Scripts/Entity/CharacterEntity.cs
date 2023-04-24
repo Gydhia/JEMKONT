@@ -21,8 +21,6 @@ namespace DownBelow.Entity
 
         public event SpellEventData.Event OnHealthRemoved;
         public event SpellEventData.Event OnHealthAdded;
-        public event SpellEventData.Event OnShieldRemoved;
-        public event SpellEventData.Event OnShieldAdded;
         public event SpellEventData.Event OnStrengthRemoved;
         public event SpellEventData.Event OnStrengthAdded;
         public event SpellEventData.Event OnSpeedRemoved;
@@ -179,40 +177,13 @@ namespace DownBelow.Entity
 
         public Dictionary<EntityStatistics, int> Statistics;
 
-        public int Health
-        {
-            get => Statistics[EntityStatistics.Health];
-        }
+        public int Health => Statistics[EntityStatistics.Health];
+        public int Strength => Statistics[EntityStatistics.Strength];
+        public int Speed => Snared ? 0 : Statistics[EntityStatistics.Speed] + SpeedUpDown;
+        public virtual int Mana => Statistics[EntityStatistics.Mana];
+        public int Defense => Shattered ? 0 : Statistics[EntityStatistics.Defense];
+        public int Range => Statistics[EntityStatistics.Range];
 
-        public int Shield
-        {
-            get => Statistics[EntityStatistics.Shield];
-        }
-
-        public int Strength
-        {
-            get => Statistics[EntityStatistics.Strength];
-        }
-
-        public int Speed
-        {
-            get => Snared ? 0 : Statistics[EntityStatistics.Speed] + SpeedUpDown;
-        }
-
-        public virtual int Mana
-        {
-            get => Statistics[EntityStatistics.Mana];
-        }
-
-        public int Defense
-        {
-            get => Shattered ? 0 : Statistics[EntityStatistics.Defense];
-        }
-
-        public int Range
-        {
-            get => Statistics[EntityStatistics.Range];
-        }
 
         public int NumberOfTurnsPlayed = 0;
 
@@ -235,9 +206,6 @@ namespace DownBelow.Entity
             this.OnHealthAdded += UpdateUILife;
             this.OnHealthRemoved += UpdateUILife;
             this.OnHealthRemoved += AreYouAlive;
-
-            this.OnShieldAdded += UpdateUIShield;
-            this.OnShieldRemoved += UpdateUIShield;
 
             this.healthText.text = this.Health.ToString();
         }
@@ -362,14 +330,13 @@ namespace DownBelow.Entity
             this.RefStats = stats;
             this.Statistics = new Dictionary<EntityStatistics, int>();
 
-            this.Statistics.Add(EntityStatistics.MaxMana, stats.MaxMana);
-            this.Statistics.Add(EntityStatistics.Health, stats.Health);
-            this.Statistics.Add(EntityStatistics.Shield, stats.BaseShield);
-            this.Statistics.Add(EntityStatistics.Strength, stats.Strength);
-            this.Statistics.Add(EntityStatistics.Speed, stats.Speed);
-            this.Statistics.Add(EntityStatistics.Mana, stats.Mana);
-            this.Statistics.Add(EntityStatistics.Defense, stats.Defense);
-            this.Statistics.Add(EntityStatistics.Range, stats.Range);
+            this.Statistics.Add(EntityStatistics.MaxMana,stats.MaxMana);
+            this.Statistics.Add(EntityStatistics.Health,stats.Health);
+            this.Statistics.Add(EntityStatistics.Strength,stats.Strength);
+            this.Statistics.Add(EntityStatistics.Speed,stats.Speed);
+            this.Statistics.Add(EntityStatistics.Mana,stats.Mana);
+            this.Statistics.Add(EntityStatistics.Defense,stats.Defense);
+            this.Statistics.Add(EntityStatistics.Range,stats.Range);
         }
 
         public void ReinitializeAllStats()
@@ -378,31 +345,14 @@ namespace DownBelow.Entity
                 this.ReinitializeStat(stat);
         }
 
-        public void ReinitializeStat(EntityStatistics stat)
-        {
-            switch (stat)
-            {
-                case EntityStatistics.Health:
-                    this.Statistics[EntityStatistics.Health] = this.RefStats.Health;
-                    break;
-                case EntityStatistics.Shield:
-                    this.Statistics[EntityStatistics.Shield] = this.RefStats.BaseShield;
-                    break;
-                case EntityStatistics.Mana:
-                    this.Statistics[EntityStatistics.Mana] = this.RefStats.Mana;
-                    break;
-                case EntityStatistics.Speed:
-                    this.Statistics[EntityStatistics.Speed] = this.RefStats.Speed;
-                    break;
-                case EntityStatistics.Strength:
-                    this.Statistics[EntityStatistics.Strength] = this.RefStats.Strength;
-                    break;
-                case EntityStatistics.Defense:
-                    this.Statistics[EntityStatistics.Defense] = this.RefStats.Defense;
-                    break;
-                case EntityStatistics.Range:
-                    this.Statistics[EntityStatistics.Range] = this.RefStats.Range;
-                    break;
+        public void ReinitializeStat(EntityStatistics stat) {
+            switch (stat) {
+                case EntityStatistics.Health: this.Statistics[EntityStatistics.Health] = this.RefStats.Health; break;
+                case EntityStatistics.Mana: this.Statistics[EntityStatistics.Mana] = this.RefStats.Mana; break;
+                case EntityStatistics.Speed: this.Statistics[EntityStatistics.Speed] = this.RefStats.Speed; break;
+                case EntityStatistics.Strength: this.Statistics[EntityStatistics.Strength] = this.RefStats.Strength; break;
+                case EntityStatistics.Defense: this.Statistics[EntityStatistics.Defense] = this.RefStats.Defense; break;
+                case EntityStatistics.Range: this.Statistics[EntityStatistics.Range] = this.RefStats.Range; break;
             }
         }
 
@@ -412,7 +362,7 @@ namespace DownBelow.Entity
         /// <param name="stat">The statistic to modify.</param>
         /// <param name="value">The value to modify the stat for (negative or positive.)</param>
         /// <param name="overShield">Only used to determined if a damage stat should pierce through shieldHP. Will be ignored if stat != health value is positive.</param>
-        public void ApplyStat(EntityStatistics stat, int value, bool overShield = false)
+        public void ApplyStat(EntityStatistics stat,int value) 
         {
             Debug.Log($"Applied stat {stat}, {value}, {Environment.StackTrace} ");
             Statistics[stat] += value;
@@ -420,14 +370,9 @@ namespace DownBelow.Entity
             switch (stat)
             {
                 case EntityStatistics.Health:
-                    this._applyHealth(value, overShield);
-                    break;
-                case EntityStatistics.Shield:
-                    this._applyShield(value);
-                    break;
-                case EntityStatistics.Mana:
-                    this._applyMana(value);
-                    break;
+                    this._applyHealth(value); break;
+                case EntityStatistics.Mana: 
+                    this._applyMana(value); break;
                 case EntityStatistics.Speed:
                     this._applySpeed(value);
                     break;
@@ -443,7 +388,7 @@ namespace DownBelow.Entity
             }
         }
 
-        private void _applyHealth(int value, bool overShield)
+        private void _applyHealth(int value)
         {
             if (value > 0)
             {
@@ -463,26 +408,9 @@ namespace DownBelow.Entity
                     value = 0;
                 }
 
-                int onShield = this.Shield - value > 0 ? value : this.Shield;
-                int onLife = overShield ? value : -(onShield - value);
-                value = -onLife;
-                if (!overShield)
-                {
-                    this.Statistics[EntityStatistics.Shield] -= onShield; //Only exception where we
-                    this.OnShieldRemoved?.Invoke(new SpellEventData(this, onShield));
-                }
-
-                this.OnHealthRemoved?.Invoke(new SpellEventData(this, onLife));
+                this.OnHealthRemoved?.Invoke(new SpellEventData(this, value));
                 if (value != 0) this.OnDamageTaken?.Invoke(new());
             }
-        }
-
-        private void _applyShield(int value)
-        {
-            if (value > 0)
-                OnShieldAdded?.Invoke(new(this, value));
-            else
-                OnShieldRemoved?.Invoke(new(this, -value));
         }
 
         private void _applyMana(int value)
