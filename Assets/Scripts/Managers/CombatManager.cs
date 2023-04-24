@@ -75,7 +75,6 @@ namespace DownBelow.Managers
         public List<DraggableCard> HandPile;
 
         public GameObject CardPrefab;
-        public List<SpellAction> PossibleAutoAttacks;
 
         public int TurnNumber;
         #endregion
@@ -146,8 +145,13 @@ namespace DownBelow.Managers
                     this.TurnNumber % this.PlayingEntities.Count
                 );
 
-            if (this.CurrentPlayingEntity is PlayerBehavior)
-                this._turnCoroutine = StartCoroutine(this._startTurnTimer());
+            if (this._turnCoroutine == null)
+            {
+                if (this.CurrentPlayingEntity is PlayerBehavior)
+                    this._turnCoroutine = StartCoroutine(this._startTurnTimer());
+            }
+            else
+                Debug.LogError("Trying to start a turn coroutine that isn't finished");
         }
 
         public void ProcessEndTurn(string entityID)
@@ -168,7 +172,7 @@ namespace DownBelow.Managers
                 this._turnCoroutine = null;
             }
 
-            UIManager.Instance.TurnSection.TimeSlider.value = 0f;
+            UIManager.Instance.TurnSection.TimeSlider.fillAmount = 0f;
 
             // Increment the turns to pre-select next entity
             this.TurnNumber++;
@@ -196,12 +200,18 @@ namespace DownBelow.Managers
         {
             // Copy it to avoid erasing datas
             this._currentSpells = new Spell[data.Card.Spells.Length];
-            data.Card.Spells.CopyTo(this._currentSpells, 0);
 
+            // We use the constructor since it's how EntityActions work, and only give de spellData to it with main datas
+            object[] fullDatas = new object[4];
             for (int i = 0; i < this._currentSpells.Length; i++)
             {
-                this._currentSpells[i].Caster = this.CurrentPlayingEntity;
-                this._currentSpells[i].RefEntity = this.CurrentPlayingEntity;
+                Type type = data.Card.Spells[i].GetType();
+
+                fullDatas[0] = data.Card.Spells[i].Data;
+                fullDatas[1] = this.CurrentPlayingEntity;
+                fullDatas[3] = i > 0 ? this._currentSpells[i - 1] : null;
+
+                this._currentSpells[i] = Activator.CreateInstance(type, fullDatas) as Spell;
             }
 
             DraggableCard.SelectedCard.CardReference.CurrentSpellTargetting = 0;
@@ -239,13 +249,14 @@ namespace DownBelow.Managers
         public bool IsCellCastable(Cell cell, Spell spell)
         {
             return cell != null
-                && spell.TargetType.ValidateTarget(cell)
+                && spell.Data.TargetType.ValidateTarget(cell)
                 && (
-                    spell.CastingMatrix == null
+                    spell.Data.CastingMatrix == null
                     || GridUtility.IsCellWithinPlayerRange(
-                        ref spell.CastingMatrix,
+                        ref spell.Data.CastingMatrix,
                         this.CurrentPlayingEntity.EntityCell.PositionInGrid,
-                        cell.PositionInGrid
+                        cell.PositionInGrid,
+                        spell.Data.CasterPosition
                     )
                 );
         }
@@ -301,7 +312,7 @@ namespace DownBelow.Managers
             if (this.DrawPile.Count > 0)
             {
                 this.HandPile.Add(
-                    Instantiate(CardPrefab, UIManager.Instance.CardSection.CardsHolder.transform)
+                    Instantiate(CardPrefab, UIManager.Instance.CardSection.DrawPile.transform)
                         .GetComponent<DraggableCard>()
                 );
                 this.HandPile[^1].Init(DrawPile.DrawCard());
@@ -323,14 +334,17 @@ namespace DownBelow.Managers
             float time = SettingsManager.Instance.CombatPreset.TurnTime;
             float timePassed = 0f;
 
-            UIManager.Instance.TurnSection.TimeSlider.minValue = 0f;
-            UIManager.Instance.TurnSection.TimeSlider.maxValue = time;
+            UIManager.Instance.TurnSection.TimeSlider.fillAmount = 0f;
+            //UIManager.Instance.TurnSection.TimeSlider.maxValue = time;
 
             while (timePassed <= time)
             {
                 yield return new WaitForSeconds(Time.deltaTime);
                 timePassed += Time.deltaTime;
-                UIManager.Instance.TurnSection.TimeSlider.value = timePassed;
+
+                float timeToShowOnSlider = timePassed / time;
+                
+                UIManager.Instance.TurnSection.TimeSlider.fillAmount = timeToShowOnSlider;
             }
 
             this.FireTurnEnded(this.CurrentPlayingEntity);

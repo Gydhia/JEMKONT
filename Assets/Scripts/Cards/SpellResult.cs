@@ -18,6 +18,78 @@ namespace DownBelow.Spells
     }
     public class SpellResult
     {
+        public event SpellEventData.Event OnDamageDealt;
+        public event SpellEventData.Event OnHealReceived;
+        public event SpellEventData.Event OnHealGiven;
+        public event SpellEventData.Event OnAlterationGiven;
+        public event SpellEventData.Event OnShieldRemoved;
+        public event SpellEventData.Event OnShieldAdded;
+        /// <summary>
+        /// Called whenever a spell modifies a stat. All info in data.
+        /// </summary>
+        public event SpellEventData.Event OnStatModified;
+        [HideInInspector]
+        public bool HasEnded;
+
+        private List<CharacterEntity> _targets;
+        private Spell _spellRef;
+
+        public virtual void Execute(List<CharacterEntity> targets, Spell spellRef)
+        {
+            this._spellRef = spellRef;
+            this._targets = targets;
+            this.HasEnded = false;
+            this.Init(this._targets, this._spellRef.RefEntity);
+
+            spellRef.RefEntity.SubToSpell(this);
+        }
+
+        public void FireOnDamageDealt(SpellEventData data)
+        {
+            OnDamageDealt?.Invoke(data);
+        }
+        public void FireOnHealReceived(SpellEventData data)
+        {
+            OnHealReceived?.Invoke(data);
+        }
+        public void FireOnHealGiven(SpellEventData data)
+        {
+            OnHealGiven?.Invoke(data);
+        }
+        public void FireOnAlterationGiven(SpellEventData data)
+        {
+            OnAlterationGiven?.Invoke(data);
+        }
+        public void FireOnShieldRemoved(SpellEventData data)
+        {
+            OnShieldRemoved?.Invoke(data);
+        }
+        public void FireOnShieldAdded(SpellEventData data)
+        {
+            OnShieldAdded?.Invoke(data);
+        }
+        public void FireOnStatModified(SpellEventData data)
+        {
+            switch (data.Stat)
+            {
+                case EntityStatistics.Health:
+                    if (data.Value >= 0)
+                        OnDamageDealt?.Invoke(data);
+                    else
+                        OnHealGiven?.Invoke(data);
+                    break;
+                case EntityStatistics.Shield:
+                    if (data.Value >= 0)
+                        OnShieldAdded?.Invoke(data);
+                    else
+                        OnShieldRemoved?.Invoke(data);
+                    break;
+                default:
+                    OnStatModified?.Invoke(data);
+                    break;
+            }
+        }
+
         public Dictionary<CharacterEntity, int> DamagesDealt;
         public Dictionary<CharacterEntity, int> DamagesOnShield;
         public int SelfDamagesReceived = 0;
@@ -29,11 +101,8 @@ namespace DownBelow.Spells
         public Dictionary<CharacterEntity, StatModification> StatModified;
         public Dictionary<EntityStatistics, int> SelfStatModified;
         public Dictionary<CharacterEntity,EAlterationType> AlterationGiven;
-        private CharacterEntity caster;
-        private SpellAction _action;
-        //Je le met en français psq jsuis vener mais c'est un SPELL result,
-        //ça devrais pas être lié au caster/pas de diff entre le self healing et healing. Du moins, pas explicite.
-        public void Init(List<CharacterEntity> targets, CharacterEntity caster, SpellAction action)
+       
+        public void Init(List<CharacterEntity> targets, CharacterEntity caster)
         {
             this.DamagesDealt = new Dictionary<CharacterEntity, int>();
             this.DamagesOnShield = new Dictionary<CharacterEntity, int>();
@@ -42,9 +111,6 @@ namespace DownBelow.Spells
             this.StatModified = new Dictionary<CharacterEntity, StatModification>();
             this.SelfStatModified = new Dictionary<EntityStatistics, int>();
             this.AlterationGiven = new Dictionary<CharacterEntity, EAlterationType>();
-
-            this.caster = caster;
-            this._action = action;
 
             foreach (CharacterEntity entity in targets)
             {
@@ -61,9 +127,8 @@ namespace DownBelow.Spells
                 entity.OnSpeedRemoved += this._updateStat;
                 entity.OnAlterationReceived += this._updateAlterations;
                 entity.OnAlterationGiven += caster.FireOnAlterationGiven;
-                //Makes sense if u think about it (bitch)
-                //entity.AUUUUUUUUUUUUUUUUUUUUGH();
             }
+
             caster.OnHealthRemoved += this._updateSelfDamages;
             caster.OnShieldRemoved += this._updateSelfShieldDamages;
             caster.OnHealthAdded += this._updateSelfHealings;
@@ -72,28 +137,30 @@ namespace DownBelow.Spells
             caster.OnStrengthRemoved += this._updateSelfStat;
 
             caster.OnSpeedAdded += this._updateSelfStat;
-
         }
 
         private void _updateStat(SpellEventData data)
         {
             if (!this.StatModified.ContainsKey(data.Entity))
                 this.StatModified.Add(data.Entity,new(data.Stat,0));
-            this._action.FireOnStatModified(data);
+
+            this.FireOnStatModified(data);
             this.StatModified[data.Entity].value += data.Value;
         }
         private void _updateSelfStat(SpellEventData data) 
         {
             if (!this.SelfStatModified.ContainsKey(data.Stat))
                 this.SelfStatModified.Add(data.Stat,data.Value);
-            this._action.FireOnStatModified(data);
+
+            this.FireOnStatModified(data);
             this.SelfStatModified[data.Stat] += data.Value;
         }
         private void _updateDamages(SpellEventData data)
         {
             if (!this.DamagesDealt.ContainsKey(data.Entity))
                 this.DamagesDealt.Add(data.Entity, 0);
-            this._action.FireOnDamageDealt(data);
+
+            this.FireOnDamageDealt(data);
             this.DamagesDealt[data.Entity] += data.Value;
         }
 
@@ -101,7 +168,8 @@ namespace DownBelow.Spells
         {
             if (!this.DamagesOnShield.ContainsKey(data.Entity))
                 this.DamagesOnShield.Add(data.Entity, 0);
-            this._action.FireOnShieldRemoved(data);
+
+            this.FireOnShieldRemoved(data);
             this.DamagesOnShield[data.Entity] += data.Value;
         }
 
@@ -109,7 +177,8 @@ namespace DownBelow.Spells
         {
             if (!this.HealingDone.ContainsKey(data.Entity))
                 this.HealingDone.Add(data.Entity, 0);
-            this._action.FireOnHealGiven(data);
+
+            this.FireOnHealGiven(data);
             this.HealingDone[data.Entity] += data.Value;
         }
 
@@ -121,20 +190,18 @@ namespace DownBelow.Spells
         private void _updateSelfDamages(SpellEventData data)
         {
             this.SelfDamagesReceived += data.Value;
-            this._action.FireOnDamageDealt(data);
+            this.FireOnDamageDealt(data);
         }
         private void _updateSelfShieldDamages(SpellEventData data)
         {
             this.SelfDamagesOverShieldReceived += data.Value;
-            this._action.FireOnShieldRemoved(data);
+            this.FireOnShieldRemoved(data);
         }
         
         private void _updateSelfHealings(SpellEventData data)
         {
-            this._action.FireOnHealReceived(data);
+            this.FireOnHealReceived(data);
             this.SelfHealingReceived += data.Value;
         }
-
-        
     }
 }

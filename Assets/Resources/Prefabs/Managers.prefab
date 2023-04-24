@@ -411,6 +411,7 @@ MonoBehaviour:
   MainWorldGrid: {fileID: 0}
   BitmapTexture: {fileID: 2800000, guid: 774cf7acc1c321844b3f8ee5e9f215b8, type: 3}
   BitmapShader: {fileID: 2100000, guid: 0349616ade0e9a54cbd7bfb285ede134, type: 2}
+  BitmapShaderEditor: {fileID: 2100000, guid: d7ee3575319574e4688189eaa3ce6d01, type: 2}
   GridShader: {fileID: 0}
   LastHoveredCell: {fileID: 0}
 --- !u!1 &4708042891339228753

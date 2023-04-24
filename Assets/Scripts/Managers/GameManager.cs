@@ -154,7 +154,7 @@ namespace DownBelow.Managers
                 res += "Next Actions:";
                 foreach (var item in NormalActionsBuffer)
                 {
-                    res += $"\n\t{item.Key.name}:";
+                    res += $"\n\t{item.Key.ToString()}:";
                     foreach (EntityAction e in item.Value)
                     {
                         res+= "\n\t\t" + e.ToString();

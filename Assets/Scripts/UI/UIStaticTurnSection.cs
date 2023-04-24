@@ -17,7 +17,7 @@ namespace DownBelow.UI
         // The parent of the entities
         public Transform EntitiesHolder;
 
-        public Slider TimeSlider;
+        public Image TimeSlider;
         public Button NextTurnButton;
 
         public List<Image> CombatEntities;

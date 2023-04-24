@@ -16,6 +16,7 @@ namespace DownBelow.Pools
         private List<CellIndicator> _pathRef;
         private Dictionary<Cell, CellIndicator> _spellsRef;
         private Spell _currentSpell;
+        private int _lastSpellAngle = 0;
 
         public readonly static Color GreenColor = new Color(0.1709f, 0.6320f, 0.1709f, .7f);
         public readonly static Color RedColor = new Color(0.8392f, 0.3686f, 0.4015f, .7f);
@@ -115,7 +116,7 @@ namespace DownBelow.Pools
         #region SPELLS
         private void _displaySpellIndicators(ref bool[,] matrix, Cell origin, bool isShape)
         {
-            var cells = GridUtility.TransposeShapeToCell(ref matrix, origin);
+            var cells = GridUtility.TransposeShapeToCells(ref matrix, origin, isShape ? _currentSpell.Data.RotatedShapePosition : _currentSpell.Data.CasterPosition);
 
             foreach (var cell in cells)
             {
@@ -164,10 +165,10 @@ namespace DownBelow.Pools
         protected void beginShowSpellTargetting(SpellTargetEventData Data)
         {
             this._currentSpell = Data.TargetSpell;
-            this._displaySpellIndicators(ref this._currentSpell.CastingMatrix, this._currentSpell.Caster.EntityCell, false);
+            this._displaySpellIndicators(ref this._currentSpell.Data.CastingMatrix, this._currentSpell.RefEntity.EntityCell, false);
 
             if (CombatManager.Instance.IsCellCastable(Data.Cell, this._currentSpell))
-                this._displaySpellIndicators(ref this._currentSpell.SpellShapeMatrix, Data.Cell, true);
+                this._displaySpellIndicators(ref this._currentSpell.Data.SpellShapeMatrix, Data.Cell, true);
 
             InputManager.Instance.OnNewCellHovered += this.updateSpellTargetting;
         }
@@ -177,7 +178,33 @@ namespace DownBelow.Pools
             this._hideShapeIndicators();
 
             if(CombatManager.Instance.IsCellCastable(Data.Cell, this._currentSpell))
-                this._displaySpellIndicators(ref this._currentSpell.SpellShapeMatrix, Data.Cell, true);
+            {
+                // Should we do this here ? Since it's handled by events, we can't control the call order
+                if (this._currentSpell.Data.RotateShapeWithCast)
+                {
+                    int newAngle = GridUtility.GetRotationForMatrix(this._currentSpell.RefEntity.EntityCell, Data.Cell);
+                    // Means that we should rotate the matrix
+                    if(this._lastSpellAngle != newAngle)
+                    {
+                        this._currentSpell.Data.RotatedShapeMatrix =
+                            GridUtility.RotateSpellMatrix(
+                                this._currentSpell.Data.SpellShapeMatrix,
+                                newAngle
+                                );
+
+                        this._currentSpell.Data.RotatedShapePosition =
+                            GridUtility.RotateSpellMatrixOrigin(
+                                this._currentSpell.Data.SpellShapeMatrix,
+                                newAngle,
+                                this._currentSpell.Data.ShapePosition
+                                );
+
+                        this._lastSpellAngle = newAngle;
+                    }
+                }
+                
+                this._displaySpellIndicators(ref this._currentSpell.Data.RotatedShapeMatrix, Data.Cell, true);
+            }
         }
 
         protected void endShowSpellTargetting(SpellTargetEventData Data)
@@ -187,6 +214,7 @@ namespace DownBelow.Pools
 
             this._spellsRef.Clear();
             this._currentSpell = null;
+            this._lastSpellAngle = 0;
 
             InputManager.Instance.OnNewCellHovered -= this.updateSpellTargetting;
         }

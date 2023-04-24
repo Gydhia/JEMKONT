@@ -25,7 +25,7 @@ MonoBehaviour:
       Entry: 2
       Data: f390892d4f61a93e69f412162da738dd
   UName: Crabby
-  AffectingState: 2
+  AffectingState: 4
   Entity: {fileID: 2281775837897738858, guid: 10cdf3718853e83478224876a983a1f5, type: 3}
   IsPNJ: 0
   Statistics: {fileID: 11400000, guid: fe0044797eff9f54098ff0e0f69b9a43, type: 2}

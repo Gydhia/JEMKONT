@@ -24,7 +24,7 @@ MonoBehaviour:
   DmgsOverShield: 1
   Dmgs: 0
   OneDamagedTarget: 0
-  Damages: 5
+  Damages: 1
   Healing: 0
   OneHealedTarget: 0
   Heal: 0

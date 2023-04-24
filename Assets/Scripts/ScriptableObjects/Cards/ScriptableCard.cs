@@ -57,7 +57,7 @@ namespace DownBelow.Mechanics
         {
             for (int i = CurrentSpellTargetting + 1; i < this.Spells.Length; i++)
             {
-                if (this.Spells[i].RequiresTargetting)
+                if (this.Spells[i].Data.RequiresTargetting)
                 {
                     CurrentSpellTargetting = i;
                     return CurrentSpellTargetting;
