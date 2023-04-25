@@ -37,7 +37,6 @@ namespace DownBelow.Spells
         public SpellData Data;
 
         #region PLAYABLE
-        private List<Cell> TargetedCells;
         [HideInInspector]
         public List<CharacterEntity> TargetEntities;
         [HideInInspector]
@@ -55,48 +54,37 @@ namespace DownBelow.Spells
             return this.ConditionData.Check(ParentSpell.Result);
         }
 
-        public override async void ExecuteAction()
+        public override void ExecuteAction()
         {
             if (!this.ValidateConditions())
             {
                 EndAction();
                 return;
-            } else
+            }
+            else
             {
                 this.TargetEntities = this.GetTargets(this.TargetCell);
+
                 this.Result = new SpellResult();
                 this.Result.Setup(this.TargetEntities, this);
-                if (Data.ProjectileSFX != null)
-                {
-                    await SFXManager.Instance.DOSFX(new RuntimeSFXData(Data.ProjectileSFX, RefEntity, TargetCell, this));
-                }
-                if (Data.CellSFX != null && TargetedCells != null && TargetedCells.Count != 0)
-                {
-                    for (int i = 0;i < TargetedCells.Count;i++)
-                    {
-                        var targetedCell = this.TargetedCells[i];
-                        if (i != TargetedCells.Count)
-                        //Not awaiting since we want to do it all
-                            SFXManager.Instance.DOSFX(new(Data.CellSFX, RefEntity, targetedCell, this));
-                        else
-                            await SFXManager.Instance.DOSFX(new(Data.CellSFX, RefEntity, targetedCell, this));
-                    }
-                }
             }
         }
+
         public List<CharacterEntity> GetTargets(Cell cellTarget)
         {
             if (this.Data.RequiresTargetting)
             {
-                TargetedCells = GridUtility.TransposeShapeToCells(ref Data.RotatedShapeMatrix, cellTarget, Data.RotatedShapePosition);
-                return TargetedCells
+                return GridUtility
+                    .TransposeShapeToCells(ref Data.RotatedShapeMatrix, cellTarget, Data.RotatedShapePosition)
                     .Where(cell => cell.EntityIn != null)
                     .Select(cell => cell.EntityIn)
                     .ToList();
-            } else if (this.ConditionData != null)
+            }
+            else if(this.ConditionData != null)
             {
                 return this.ConditionData.GetValidatedTargets();
-            } else
+            }
+            else
             {
                 return new List<CharacterEntity> { this.ParentSpell == null ? this.RefEntity : this.ParentSpell.RefEntity };
             }
