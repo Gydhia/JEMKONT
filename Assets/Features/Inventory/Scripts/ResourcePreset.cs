@@ -5,7 +5,6 @@ using UnityEngine;
 namespace DownBelow.GridSystem
 {
     [CreateAssetMenu(fileName = "ResourcePreset", menuName = "DownBelow/ScriptableObject/Interactables/Resource", order = 2)]
-
     public class ResourcePreset : InteractablePreset
     {
         public ItemPreset ResourceItem;

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -19,6 +20,13 @@ namespace DownBelow.UI
         public TextMeshProUGUI DiscardNumber;
         public int CardsInDiscard;
 
+        private RectTransform _cardsHolderRectTransform;
+
+        private void Start()
+        {
+            _cardsHolderRectTransform = CardsHolder.GetComponent<RectTransform>();
+        }
+
         public void AddDiscardCard(int number)
         {
             this.CardsInDiscard += number;
@@ -29,7 +37,7 @@ namespace DownBelow.UI
             this.CardsInDraw += number;
             this.DrawNumber.text = this.CardsInDraw.ToString();
         }
-
+        
     }
 
 }

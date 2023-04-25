@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace DownBelow.UI.Inventory
@@ -106,7 +107,7 @@ namespace DownBelow.UI.Inventory
             selfButton.image.raycastTarget = false;
             if(selfButton.targetGraphic != null)
                 selfButton.targetGraphic.raycastTarget = false;
-            selfButton.transform.position = Input.mousePosition;
+            selfButton.transform.position = Mouse.current.position.ReadValue();
         }
         public void OnEndDrag(PointerEventData eventData)
         {

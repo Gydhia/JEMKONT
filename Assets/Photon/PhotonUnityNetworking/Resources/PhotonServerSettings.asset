@@ -54,6 +54,7 @@ MonoBehaviour:
   - RPC_OnTurnBegan
   - RPC_CastSpell
   - RPC_OnTurnEnded
+  - RPC_RespondWithProcessedBuffedAction
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

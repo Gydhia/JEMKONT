@@ -27,6 +27,7 @@ MonoBehaviour:
   Title: SummonStalactite
   Cost: 2
   CardType: 2
+  Collection: 1
   Description: 
   IllustrationImage: {fileID: 0}
   Spells:

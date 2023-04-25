@@ -19,7 +19,7 @@ public class GridTerrainApplier : MonoBehaviour
     void Start()
     {
     }
-    public void ApplyTerrainToGrid(CellData[,] cellDatas, List<SubgridPlaceholder> InnerGrids)
+    public void ApplyTerrainToGrid(CellData[,] cellDatas, List<InnerGridData> InnerGrids)
     {
         foreach (CellData cell in cellDatas)
         {
@@ -46,10 +46,10 @@ public class GridTerrainApplier : MonoBehaviour
         return hit;
     }
 
-    private void ApplyCellDataFromTerrainTag(CellData cell, RaycastHit terrain, List<SubgridPlaceholder> InnerGrids)
+    private void ApplyCellDataFromTerrainTag(CellData cell, RaycastHit terrain, List<InnerGridData> InnerGrids)
     {
         GridPosition pos = new GridPosition(cell.widthPos, cell.heightPos);
-        if (GridUtility.GetIncludingSubGrid(InnerGrids, pos, out SubgridPlaceholder includingGrid))
+        if (GridUtility.GetIncludingSubGrid(InnerGrids, pos, out InnerGridData includingGrid))
         {
             GridPosition positionInCurrentGrid = new GridPosition(pos.longitude - includingGrid.Longitude, pos.latitude - includingGrid.Latitude);
             cell = includingGrid.CellDatas[positionInCurrentGrid.latitude, positionInCurrentGrid.longitude];
@@ -65,10 +65,10 @@ public class GridTerrainApplier : MonoBehaviour
         }
     }
 
-    private void ApplyCellDataFromPropsTag(CellData cell, RaycastHit terrain, List<SubgridPlaceholder> InnerGrids)
+    private void ApplyCellDataFromPropsTag(CellData cell, RaycastHit terrain, List<InnerGridData> InnerGrids)
     {
         GridPosition pos = new GridPosition(cell.widthPos, cell.heightPos);
-        if (GridUtility.GetIncludingSubGrid(InnerGrids, pos, out SubgridPlaceholder includingGrid))
+        if (GridUtility.GetIncludingSubGrid(InnerGrids, pos, out InnerGridData includingGrid))
         {
             GridPosition positionInCurrentGrid = new GridPosition(pos.longitude - includingGrid.Longitude, pos.latitude - includingGrid.Latitude);
             cell = includingGrid.CellDatas[positionInCurrentGrid.latitude, positionInCurrentGrid.longitude];

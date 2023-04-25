@@ -4,11 +4,13 @@ using System.Runtime.Serialization;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using DownBelow.Entity;
+using System;
 
 namespace DownBelow.GridSystem
 {
     public class Cell : MonoBehaviour
     {
+
         public BoxCollider Collider;
 
         public WorldGrid RefGrid;
@@ -56,7 +58,7 @@ namespace DownBelow.GridSystem
                 return;
             this.Datas.state = newState;
         }
-        
+
         public void RefreshCell()
         {
             this.ChangeCellState(this.Datas.state, true);
@@ -84,15 +86,16 @@ namespace DownBelow.GridSystem
     public enum CellState
     {
         [EnumMember(Value = "Walkable")]
-        Walkable = 0,
+        Walkable = 1 << 0,
         [EnumMember(Value = "Blocked")]
-        Blocked = 1,
+        Blocked = 1 << 1,
         [EnumMember(Value = "EntityIn")]
-        EntityIn = 2,
-        [EnumMember(Value = "Shared")]
-        Shared = 3,
+        EntityIn = 1 << 2,
         [EnumMember(Value = "Interactable")]
-        Interactable = 4
+        Interactable = 1 << 3,
+
+        NonWalkable = Blocked | EntityIn | Interactable
     }
+
 
 }

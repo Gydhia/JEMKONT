@@ -13,7 +13,6 @@ namespace DownBelow.GridSystem
         public Cell RefCell;
 
         public MeshRenderer Mesh;
-        public MeshRenderer GatheredMesh;
         public Outline Outline;
 
         public virtual void Init(InteractablePreset InteractableRef, Cell RefCell) 
@@ -27,12 +26,12 @@ namespace DownBelow.GridSystem
 
         public abstract void Interact(Entity.PlayerBehavior p);
 
-        public void OnFocused()
+        public virtual void OnFocused()
         {
             this.Outline.enabled = true;
         }
 
-        public void OnUnfocused()
+        public virtual void OnUnfocused()
         {
             this.Outline.enabled = false;
         }
