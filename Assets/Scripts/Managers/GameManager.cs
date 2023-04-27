@@ -221,6 +221,17 @@ namespace DownBelow.Managers
                 this.BuffAction(Data.GeneratedSpells[i], false);
         }
 
+        public void BuffEnemyAction(List<EntityAction> actions, CharacterEntity enemy)
+        {
+            for(int i = 0; i < actions.Count; i++)
+            {
+                if (i == actions.Count - 1)
+                    actions[i].SetCallback(enemy.EndTurn);
+
+                this.BuffAction(actions[i], false);
+            }
+        }
+
         /// <summary>
         /// Used to buff any action into the combat or normal buffer according to the grid containing the entity
         /// </summary>

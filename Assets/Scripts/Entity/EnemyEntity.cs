@@ -20,6 +20,7 @@ namespace DownBelow.Entity {
 
     public class EnemyAction : EntityAction
     {
+        public Action EndTurnCallback = null;
         Action Behavior;
 
         public EnemyAction(CharacterEntity RefEntity, Cell TargetCell, Action ExecuteAction) : base(RefEntity, TargetCell)
@@ -118,9 +119,7 @@ namespace DownBelow.Entity {
             this.EntityActionsBuffer.Add(this._movementBehaviors[movementType]);
             this.EntityActionsBuffer.Add(this._attackBehaviors[attackType]);
 
-            Debug.Log("ENDTURN");
-            EndTurn();
-            CombatManager.Instance.ProcessEndTurn(this.UID);
+            GameManager.Instance.BuffEnemyAction(this.EntityActionsBuffer, this);
 
             /*
             var TargetPosition = GetTargetPosition();

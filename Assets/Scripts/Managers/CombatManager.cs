@@ -138,6 +138,8 @@ namespace DownBelow.Managers
 
         public void ProcessStartTurn(string entityID)
         {
+            this.CurrentPlayingEntity = this.PlayingEntities.Where(e => e.UID == entityID).FirstOrDefault();
+
             this.CurrentPlayingEntity.StartTurn();
 
             if (this.TurnNumber >= 0)
@@ -145,13 +147,11 @@ namespace DownBelow.Managers
                     this.TurnNumber % this.PlayingEntities.Count
                 );
 
-            if (this._turnCoroutine == null)
-            {
-                if (this.CurrentPlayingEntity is PlayerBehavior)
-                    this._turnCoroutine = StartCoroutine(this._startTurnTimer());
-            }
-            else
-                Debug.LogError("Trying to start a turn coroutine that isn't finished");
+
+            Debug.Log("Started turn for entity : " + this.CurrentPlayingEntity.name);
+
+            if (this.CurrentPlayingEntity is PlayerBehavior)
+                this._turnCoroutine = StartCoroutine(this._startTurnTimer());
         }
 
         public void ProcessEndTurn(string entityID)

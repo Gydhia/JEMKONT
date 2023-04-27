@@ -29,7 +29,7 @@ namespace DownBelow.Entity
 
         public void SetCallback(System.Action EndCallback)
         {
-            this.EndCallback = EndCallback;
+            this.EndCallback += EndCallback;
         }
 
         public abstract void ExecuteAction();
