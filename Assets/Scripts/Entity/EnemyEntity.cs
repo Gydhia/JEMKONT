@@ -52,6 +52,7 @@ namespace DownBelow.Entity {
             }
 
             base.MoveWithPath();*/
+            this.EndAction();
         }
 
         public override object[] GetDatas()
@@ -120,7 +121,7 @@ namespace DownBelow.Entity {
             this.EntityActionsBuffer.Add(this._attackBehaviors[attackType]);
 
             GameManager.Instance.BuffEnemyAction(this.EntityActionsBuffer, this);
-
+            base.EndTurn();
             /*
             var TargetPosition = GetTargetPosition();
             Debug.Log("123456 1: " + TargetPosition.latitude +" : " + TargetPosition.longitude);
@@ -155,6 +156,9 @@ namespace DownBelow.Entity {
         private void MovementStraight() {
             GridPosition targPosition = CurrentTarget.EntityCell.PositionInGrid;
             var path = GridManager.Instance.FindPath(this, targPosition);
+            if (path == null || path.Count == 0)
+                return;
+
             if (path.Count > this.Speed)
                 NetworkManager.Instance.EntityAskToBuffAction(new EnemyAction(this, path[this.Speed]));
             else

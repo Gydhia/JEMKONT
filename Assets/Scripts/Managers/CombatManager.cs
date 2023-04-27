@@ -140,6 +140,7 @@ namespace DownBelow.Managers
         {
             this.CurrentPlayingEntity = this.PlayingEntities.Where(e => e.UID == entityID).FirstOrDefault();
 
+            Debug.Log(" Playing turn of " + this.CurrentPlayingEntity);
             this.CurrentPlayingEntity.StartTurn();
 
             if (this.TurnNumber >= 0)
