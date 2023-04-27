@@ -16,6 +16,62 @@ using Math = System.Math;
 
 
 namespace DownBelow.Entity {
+
+
+    public class EnemyAction : EntityAction
+    {
+        Action Behavior;
+
+        public EnemyAction(CharacterEntity RefEntity, Cell TargetCell, Action ExecuteAction) : base(RefEntity, TargetCell)
+        {
+            this.RefEntity = RefEntity;
+            this.TargetCell = TargetCell;
+            this.Behavior = ExecuteAction;
+        }
+
+        public EnemyAction(CharacterEntity RefEntity, Cell TargetCell) : base(RefEntity, TargetCell)
+        {
+            this.RefEntity = RefEntity;
+            this.TargetCell = TargetCell;
+        }
+
+        public override void ExecuteAction()
+        {
+            this.Behavior();
+            /*if (this.RefEntity.CurrentGrid.IsCombatGrid)
+            {
+                if (this.RefEntity.IsMoving || !this.AllowedToProcess())
+                {
+                    EndAction();
+                    return;
+                }
+
+                // -1 since the own entity's cell is included
+                this.RefEntity.ApplyStat(EntityStatistics.Speed, -(this.calculatedPath.Count - 1));
+            }
+
+            base.MoveWithPath();*/
+        }
+
+        public override object[] GetDatas()
+        {
+            object[] Datas = new object[3];
+            Datas[0] = this.RefBuffer;
+            Datas[1] = this.RefEntity;
+            Datas[2] = this.TargetCell;
+
+            return Datas;
+        }
+
+        public override void SetDatas(object[] Datas)
+        {
+            throw new NotImplementedException();
+        }
+
+
+
+    }
+
     public class EnemyEntity : CharacterEntity {
 
         public EntityPreset EnemyStyle;
@@ -26,42 +82,41 @@ namespace DownBelow.Entity {
         #region Movement
         public enum MovementType { Straight, StraightToRange, Flee, Kite };
         public MovementType movementType = MovementType.Straight;
-        private Dictionary<MovementType, System.Action> _movementBehaviors = new Dictionary<MovementType, System.Action>();
+        private Dictionary<MovementType, EnemyAction> _movementBehaviors = new Dictionary<MovementType, EnemyAction>();
         #endregion
 
         #region Attack
         public enum AttackType { ClosestRandom, FarthestRandom, LowestRandom, HighestRandom, Random };
         public AttackType attackType = AttackType.ClosestRandom;
-        private Dictionary<AttackType, System.Action> _attackBehaviors = new Dictionary<AttackType, System.Action>();
+        private Dictionary<AttackType, EnemyAction> _attackBehaviors = new Dictionary<AttackType, EnemyAction>();
         #endregion
 
         #region Target
         public AttackType TargetType = AttackType.ClosestRandom;
-        private Dictionary<AttackType, System.Action> _targetBehaviors = new Dictionary<AttackType, System.Action>();
+        private Dictionary<AttackType, EnemyAction> _targetBehaviors = new Dictionary<AttackType, EnemyAction>();
         #endregion
 
 
-        protected List<System.Action> _turnBehaviors = new List<Action>();
+        protected List<EnemyAction> _turnBehaviors = new List<EnemyAction>();
 
         public override void Init(EntityStats stats, Cell refCell, WorldGrid refGrid, int order = 0) {
             base.Init(stats, refCell, refGrid);
 
             this.UID = refGrid.UName + this.EnemyStyle.UName + order;
-            _movementBehaviors.Add(MovementType.Straight, MovementStraight);
-            _movementBehaviors.Add(MovementType.StraightToRange, MovementStraightToRange);
-            _attackBehaviors.Add(AttackType.ClosestRandom, AttackClosestRandom);
-            _targetBehaviors.Add(AttackType.ClosestRandom, TargetClosestRandom);
-            _targetBehaviors.Add(AttackType.FarthestRandom, TargetFarthestRandom);
+            _movementBehaviors.Add(MovementType.Straight, new EnemyAction(this, null, MovementStraight));
+            _movementBehaviors.Add(MovementType.StraightToRange, new EnemyAction(this, null, MovementStraightToRange));
+            _attackBehaviors.Add(AttackType.ClosestRandom, new EnemyAction(this, null, AttackClosestRandom));
+            _targetBehaviors.Add(AttackType.ClosestRandom, new EnemyAction(this, null, TargetClosestRandom));
+            _targetBehaviors.Add(AttackType.FarthestRandom, new EnemyAction(this, null, TargetFarthestRandom));
 
         }
 
         public override void StartTurn() 
         {
             base.StartTurn();
-
-            this._turnBehaviors.Add(this._targetBehaviors[TargetType]);
-            this._turnBehaviors.Add(this._movementBehaviors[movementType]);
-            this._turnBehaviors.Add(this._attackBehaviors[attackType]);
+            this.EntityActionsBuffer.Add(this._targetBehaviors[TargetType]);
+            this.EntityActionsBuffer.Add(this._movementBehaviors[movementType]);
+            this.EntityActionsBuffer.Add(this._attackBehaviors[attackType]);
 
             Debug.Log("ENDTURN");
             EndTurn();
@@ -101,10 +156,10 @@ namespace DownBelow.Entity {
         private void MovementStraight() {
             GridPosition targPosition = CurrentTarget.EntityCell.PositionInGrid;
             var path = GridManager.Instance.FindPath(this, targPosition);
-            if (path.Count > this.Speed) 
-                NetworkManager.Instance.EntityAskToBuffAction(new CombatMovementAction(this, path[this.Speed]));
+            if (path.Count > this.Speed)
+                NetworkManager.Instance.EntityAskToBuffAction(new EnemyAction(this, path[this.Speed]));
             else
-                NetworkManager.Instance.EntityAskToBuffAction(new CombatMovementAction(this, CurrentTarget.EntityCell));
+                NetworkManager.Instance.EntityAskToBuffAction(new EnemyAction(this, CurrentTarget.EntityCell));
         }
 
         /// <summary>
@@ -118,9 +173,9 @@ namespace DownBelow.Entity {
                 return;
 
             if (path.Count > this.Speed)
-                NetworkManager.Instance.EntityAskToBuffAction(new CombatMovementAction(this, path[this.Speed]));
+                NetworkManager.Instance.EntityAskToBuffAction(new EnemyAction(this, path[this.Speed]));
             else
-                NetworkManager.Instance.EntityAskToBuffAction(new CombatMovementAction(this, path[path.Count - 1]));
+                NetworkManager.Instance.EntityAskToBuffAction(new EnemyAction(this, path[path.Count - 1]));
         }
         #endregion
 
@@ -133,7 +188,7 @@ namespace DownBelow.Entity {
             if (!CanAutoAttack) {
                 return;
             }
-            _targetBehaviors[attackType]();
+            _targetBehaviors[attackType].ExecuteAction();
             if (cachedAllyToAttack != null) {
                 AutoAttack(cachedAllyToAttack.EntityCell);
             }
@@ -150,6 +205,9 @@ namespace DownBelow.Entity {
             var ClosestPlayer = PlayersByDistance[UnityEngine.Random.Range(0, sameDist)];
 
             CurrentTarget = ClosestPlayer;
+            this._targetBehaviors[TargetType].TargetCell = ClosestPlayer.EntityCell;
+            this._movementBehaviors[movementType].TargetCell = ClosestPlayer.EntityCell;
+            this._attackBehaviors[attackType].TargetCell = ClosestPlayer.EntityCell;
         }
 
         /// <summary>
@@ -160,6 +218,10 @@ namespace DownBelow.Entity {
             var FarthestPlayer = PlayersByDistance[UnityEngine.Random.Range(0, sameDist)];
 
             CurrentTarget = FarthestPlayer;
+            this._targetBehaviors[TargetType].TargetCell = FarthestPlayer.EntityCell;
+            this._movementBehaviors[movementType].TargetCell = FarthestPlayer.EntityCell;
+            this._attackBehaviors[attackType].TargetCell = FarthestPlayer.EntityCell;
+
         }
         #endregion
 
