@@ -172,7 +172,7 @@ namespace DownBelow.Managers
                 this._turnCoroutine = null;
             }
 
-            UIManager.Instance.TurnSection.TimeSlider.value = 0f;
+            UIManager.Instance.TurnSection.TimeSlider.fillAmount = 0f;
 
             // Increment the turns to pre-select next entity
             this.TurnNumber++;
@@ -313,7 +313,7 @@ namespace DownBelow.Managers
             if (this.DrawPile.Count > 0)
             {
                 this.HandPile.Add(
-                    Instantiate(CardPrefab, UIManager.Instance.CardSection.CardsHolder.transform)
+                    Instantiate(CardPrefab, UIManager.Instance.CardSection.DrawPile.transform)
                         .GetComponent<DraggableCard>()
                 );
                 this.HandPile[^1].Init(DrawPile.DrawCard());
@@ -335,14 +335,17 @@ namespace DownBelow.Managers
             float time = SettingsManager.Instance.CombatPreset.TurnTime;
             float timePassed = 0f;
 
-            UIManager.Instance.TurnSection.TimeSlider.minValue = 0f;
-            UIManager.Instance.TurnSection.TimeSlider.maxValue = time;
+            UIManager.Instance.TurnSection.TimeSlider.fillAmount = 0f;
+            //UIManager.Instance.TurnSection.TimeSlider.maxValue = time;
 
             while (timePassed <= time)
             {
                 yield return new WaitForSeconds(Time.deltaTime);
                 timePassed += Time.deltaTime;
-                UIManager.Instance.TurnSection.TimeSlider.value = timePassed;
+
+                float timeToShowOnSlider = timePassed / time;
+                
+                UIManager.Instance.TurnSection.TimeSlider.fillAmount = timeToShowOnSlider;
             }
 
             this.FireTurnEnded(this.CurrentPlayingEntity);

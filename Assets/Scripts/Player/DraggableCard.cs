@@ -54,15 +54,26 @@ namespace DownBelow.UI
         public void Init(ScriptableCard CardReference)
         {
             this.m_RectTransform = this.GetComponent<RectTransform>();
+            this.m_RectTransform.localScale = Vector3.one * 0.2f;
             this.CardVisual ??= this.GetComponent<CardVisual>();
 
             this.CardReference = CardReference;
             this.CardVisual.Init(CardReference);
 
-           // this.m_RectTransform.localPosition= new Vector2(Random.Range(50, 1500) ,m_RectTransform.position.y);
-            this._spawnPosition = m_RectTransform.position;  
-            this.m_RectTransform.DOLocalMoveY(this._spawnPosition.y, 0.3f);
-            this.PinnedForMultipleActions = this.CardReference.Spells.Where(s => s.Data.RequiresTargetting).Count() > 1;
+            int result = Random.Range(1, 11);
+          
+            this.m_RectTransform.DOPunchRotation(Vector3.one * 0.8f, 1.3f, result);
+            this.m_RectTransform.DOPunchScale(Vector3.one * 0.8f, 1.3f, result);
+            this.m_RectTransform.DOPunchPosition(Vector3.one * 0.8f, 1.3f, result).OnComplete((() =>
+            {
+                this.m_RectTransform.localScale = Vector3.one;
+                this.m_RectTransform.parent = UIManager.Instance.CardSection.CardsHolder.transform;
+                this._spawnPosition = m_RectTransform.position;  
+                this.m_RectTransform.DOLocalMoveY(this._spawnPosition.y, 0.3f);
+                this.PinnedForMultipleActions = this.CardReference.Spells.Where(s => s.Data.RequiresTargetting).Count() > 1;
+            }));
+            
+            
 
             this._subToEvents();
         }
@@ -111,7 +122,8 @@ namespace DownBelow.UI
         private void _onRightClick(InputAction.CallbackContext ctx) => this._onRightClick();
         private void _onRightClick()
         {
-            this.DiscardToPile();
+            if(this.PinnedToScreen)
+                this.DiscardToPile();
         }
 
         public void OnPointerEnter(PointerEventData eventData)
@@ -142,19 +154,19 @@ namespace DownBelow.UI
             }
             else
             {
-                // TODO : Instead of brutally pinning it right away, make it go to the cursor then fade to pin
+               
                 this.PinCardToScreen();
             }
         }
 
         private void Hover()
         {
-            HoveredCard.m_RectTransform.DOLocalMoveY(HoveredCard._spawnPosition.y + 100f, 0.3f);
+            this.m_RectTransform.DOLocalMoveY(HoveredCard._spawnPosition.y + 135f, 0.3f);
         }
 
         private void UnHover()
         {
-            HoveredCard.m_RectTransform.DOLocalMoveY(HoveredCard._spawnPosition.y, 0.3f);
+            this.m_RectTransform.DOLocalMoveY(HoveredCard._spawnPosition.y - 100f , 0.3f);
         }
         
         public void PinCardToScreen()
@@ -183,7 +195,6 @@ namespace DownBelow.UI
             
 
             // TODO : smoothly go back
-          //  this.m_RectTransform.position = this._spawnPosition;
             this.m_RectTransform.DOMove(this._spawnPosition, 0.3f).SetEase(Ease.OutQuad);
             SelectedCard = null;
         }

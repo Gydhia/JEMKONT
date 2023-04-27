@@ -56,10 +56,35 @@ MonoBehaviour:
     - Name: Cells
       Entry: 6
       Data: 
+    - Name: InnerCombatGrids
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[DownBelow.GridSystem.CombatGrid,
+        Assembly-CSharp]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.GenericEqualityComparer`1[[System.String,
+        mscorlib]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   UName: 
   IsCombatGrid: 0
   GridHeight: 2
   GridWidth: 2
   TopLeftOffset: {x: 0, y: 0, z: 0}
+  SelfData:
+    InnerGrids: []
   GridEntities: []
+  Longitude: 0
+  Latitude: 0
   HasStarted: 0
+  ParentGrid: {fileID: 0}

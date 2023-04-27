@@ -37,14 +37,7 @@ namespace DownBelow.UI
             this.CardsInDraw += number;
             this.DrawNumber.text = this.CardsInDraw.ToString();
         }
-
-
-
-        public void UpdateLayoutGroup()
-        {
-            LayoutRebuilder.ForceRebuildLayoutImmediate(_cardsHolderRectTransform);
-        }
-
+        
     }
 
 }
