@@ -112,8 +112,16 @@ namespace DownBelow.Managers
             for (int i = 0; i < SettingsManager.Instance.CombatPreset.CardsToDrawAtStart; i++)
                 DrawCard();
 
+            StartCoroutine(this._startCombatDelay(3f));
+        }
+
+        private IEnumerator _startCombatDelay(float time)
+        {
+            yield return new WaitForSeconds(time);
+
             NetworkManager.Instance.StartEntityTurn();
         }
+
 
         public void ProcessStartTurn()
         {
@@ -129,6 +137,8 @@ namespace DownBelow.Managers
 
             if (this.CurrentPlayingEntity is PlayerBehavior && Photon.Pun.PhotonNetwork.IsMasterClient)
                 this._turnCoroutine = StartCoroutine(this._startTurnTimer());
+
+            this.OnTurnStarted?.Invoke(new EntityEventData(this.CurrentPlayingEntity));
         }
 
 
@@ -151,6 +161,8 @@ namespace DownBelow.Managers
             }
 
             UIManager.Instance.TurnSection.TimeSlider.fillAmount = 0f;
+
+            this.OnTurnStarted?.Invoke(new EntityEventData(this.CurrentPlayingEntity));
         }
 
         public void EndCombat()
