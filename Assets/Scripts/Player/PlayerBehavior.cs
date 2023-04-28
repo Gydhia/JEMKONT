@@ -54,7 +54,7 @@ namespace DownBelow.Entity
         public List<Cell> NextPath { get; private set; }
         public bool CanEnterGrid => true;
 
-        public Tool ActiveTool;
+        public ToolItem ActiveTool;
         public bool IsAutoAttacking = false;
 
         public Deck Deck

@@ -66,7 +66,7 @@ namespace DownBelow.Managers
             UIManager.Instance.Init();
             CardsManager.Instance.Init();
             GridManager.Instance.Init();
-            NetworkManager.Instance.Init();
+            NetworkManager.Instance.SubToGameEvents();
 
             this.ProcessPlayerWelcoming();
 
@@ -107,7 +107,7 @@ namespace DownBelow.Managers
 
         public void WelcomePlayerLately()
         {
-            PhotonNetwork.CreateRoom("SoloRoom" + UnityEngine.Random.Range(0, 100000));
+            PhotonNetwork.CreateRoom("SoloRoom" + UnityEngine.Random.Range(0,100000));
         }
 
         public void WelcomePlayers()
@@ -122,8 +122,8 @@ namespace DownBelow.Managers
                 foreach (var player in PhotonNetwork.PlayerList)
                 {
                     PlayerBehavior newPlayer = Instantiate(this._playerPrefab, Vector3.zero, Quaternion.identity, this.transform);
-                    newPlayer.Deck = CardsManager.Instance.DeckPresets.Values.Single(d => d.Name == "TestDeck").Copy();
-
+                    //newPlayer.Deck = CardsManager.Instance.DeckPresets.Values.Single(d => d.Name == "TestDeck").Copy();
+                 
                     newPlayer.Init(SettingsManager.Instance.FishermanStats, GridManager.Instance.MainWorldGrid.Cells[spawnLocations.ElementAt(counter).latitude, spawnLocations.ElementAt(counter).longitude], GridManager.Instance.MainWorldGrid);
                     // TODO: make it works with world grids
                     newPlayer.PlayerID = player.UserId;
