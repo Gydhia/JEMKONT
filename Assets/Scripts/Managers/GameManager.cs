@@ -66,7 +66,7 @@ namespace DownBelow.Managers
             UIManager.Instance.Init();
             CardsManager.Instance.Init();
             GridManager.Instance.Init();
-            NetworkManager.Instance.SubToGameEvents();
+            NetworkManager.Instance.Init();
 
             this.ProcessPlayerWelcoming();
 
@@ -196,7 +196,8 @@ namespace DownBelow.Managers
 
                 CombatActionsBuffer[0].SetCallback(_executeNextFromCombatBufferDelayed);
                 CombatActionsBuffer[0].ExecuteAction();
-            } else
+            } 
+            else
                 IsUsingCombatBuffer = false;
         }
 
@@ -208,7 +209,8 @@ namespace DownBelow.Managers
 
                 NormalActionsBuffer[refEntity][0].SetCallback(() => ExecuteNextNormalBuffer(refEntity));
                 NormalActionsBuffer[refEntity][0].ExecuteAction();
-            } else
+            } 
+            else
                 IsUsingNormalBuffer = false;
         }
 

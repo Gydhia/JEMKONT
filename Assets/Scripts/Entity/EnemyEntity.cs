@@ -15,66 +15,10 @@ using UnityEditor;
 using Math = System.Math;
 
 
-namespace DownBelow.Entity {
-
-
-    public class EnemyAction : EntityAction
+namespace DownBelow.Entity 
+{
+    public class EnemyEntity : CharacterEntity 
     {
-        public Action EndTurnCallback = null;
-        Action Behavior;
-
-        public EnemyAction(CharacterEntity RefEntity, Cell TargetCell, Action ExecuteAction) : base(RefEntity, TargetCell)
-        {
-            this.RefEntity = RefEntity;
-            this.TargetCell = TargetCell;
-            this.Behavior = ExecuteAction;
-        }
-
-        public EnemyAction(CharacterEntity RefEntity, Cell TargetCell) : base(RefEntity, TargetCell)
-        {
-            this.RefEntity = RefEntity;
-            this.TargetCell = TargetCell;
-        }
-
-        public override void ExecuteAction()
-        {
-            this.Behavior();
-            /*if (this.RefEntity.CurrentGrid.IsCombatGrid)
-            {
-                if (this.RefEntity.IsMoving || !this.AllowedToProcess())
-                {
-                    EndAction();
-                    return;
-                }
-
-                // -1 since the own entity's cell is included
-                this.RefEntity.ApplyStat(EntityStatistics.Speed, -(this.calculatedPath.Count - 1));
-            }
-
-            base.MoveWithPath();*/
-            this.EndAction();
-        }
-
-        public override object[] GetDatas()
-        {
-            object[] Datas = new object[3];
-            Datas[0] = this.RefBuffer;
-            Datas[1] = this.RefEntity;
-            Datas[2] = this.TargetCell;
-
-            return Datas;
-        }
-
-        public override void SetDatas(object[] Datas)
-        {
-            throw new NotImplementedException();
-        }
-
-
-
-    }
-
-    public class EnemyEntity : CharacterEntity {
 
         public EntityPreset EnemyStyle;
         CharacterEntity cachedAllyToAttack;
@@ -84,147 +28,63 @@ namespace DownBelow.Entity {
         #region Movement
         public enum MovementType { Straight, StraightToRange, Flee, Kite };
         public MovementType movementType = MovementType.Straight;
-        private Dictionary<MovementType, EnemyAction> _movementBehaviors = new Dictionary<MovementType, EnemyAction>();
         #endregion
 
         #region Attack
         public enum AttackType { ClosestRandom, FarthestRandom, LowestRandom, HighestRandom, Random };
         public AttackType attackType = AttackType.ClosestRandom;
-        private Dictionary<AttackType, EnemyAction> _attackBehaviors = new Dictionary<AttackType, EnemyAction>();
         #endregion
 
         #region Target
         public AttackType TargetType = AttackType.ClosestRandom;
-        private Dictionary<AttackType, EnemyAction> _targetBehaviors = new Dictionary<AttackType, EnemyAction>();
         #endregion
 
 
         protected List<EnemyAction> _turnBehaviors = new List<EnemyAction>();
 
-        public override void Init(EntityStats stats, Cell refCell, WorldGrid refGrid, int order = 0) {
+        public override void Init(EntityStats stats, Cell refCell, WorldGrid refGrid, int order = 0) 
+        {
             base.Init(stats, refCell, refGrid);
 
             this.UID = refGrid.UName + this.EnemyStyle.UName + order;
-            _movementBehaviors.Add(MovementType.Straight, new EnemyAction(this, null, MovementStraight));
-            _movementBehaviors.Add(MovementType.StraightToRange, new EnemyAction(this, null, MovementStraightToRange));
-            _attackBehaviors.Add(AttackType.ClosestRandom, new EnemyAction(this, null, AttackClosestRandom));
-            _targetBehaviors.Add(AttackType.ClosestRandom, new EnemyAction(this, null, TargetClosestRandom));
-            _targetBehaviors.Add(AttackType.FarthestRandom, new EnemyAction(this, null, TargetFarthestRandom));
-
         }
 
         public override void StartTurn() 
         {
             base.StartTurn();
-            this.EntityActionsBuffer.Add(this._targetBehaviors[TargetType]);
-            this.EntityActionsBuffer.Add(this._movementBehaviors[movementType]);
-            this.EntityActionsBuffer.Add(this._attackBehaviors[attackType]);
 
-            GameManager.Instance.BuffEnemyAction(this.EntityActionsBuffer, this);
-            base.EndTurn();
-            /*
-            var TargetPosition = GetTargetPosition();
-            Debug.Log("123456 1: " + TargetPosition.latitude +" : " + TargetPosition.longitude);
-            GridManager.Instance.FindPath(this,TargetPosition,true);
-
-            Debug.Log("123456 2: " + this.Speed);
-            if (GridManager.Instance.Path.Count > 0 && this.Speed > 0) {
-                Debug.Log("123456 3: " + this.Speed);
-                GridManager.Instance.ShowPossibleCombatMovements(this);
-                if (!Confused) NetworkManager.Instance.EntityAsksForPath(this, GridManager.Instance.Path[GridManager.Instance.Path.Count - 1], this.CurrentGrid);
-            }
-            //Moved (or not if was in range); and will now Autoattack:
-            if (CanAutoAttack) {
-                if (cachedAllyToAttack != null) {
-                    //LETSGOOOOOO FIREEEEEEEEEEEEE
-                    AutoAttack(cachedAllyToAttack.EntityCell);
-                }
-            }*/
-            //TODO: ENEMY SPELL?
+            // TODO : go through network instead of local
+            GameManager.Instance.BuffEnemyAction(this.CreateEnemyActions(), this);
         }
 
-        protected void processTurnActions()
+
+        public List<EntityAction> CreateEnemyActions()
         {
+            var targettingAction = new TargettingAction(this, null);
 
+            var movementAction = new EnemyMovementAction(this, null, this.movementType);
+            movementAction.SetContextAction(targettingAction);
+
+            // TODO : Implement a deck for enemy
+            //var attackAction = new Spell();
+
+            return new List<EntityAction> { targettingAction, movementAction };
         }
-
-        // All Movement Behaviours
-        #region Movement Behaviours
-        /// <summary>
-        /// Will Go straight to the target's location
-        /// </summary>
-        private void MovementStraight() {
-            GridPosition targPosition = CurrentTarget.EntityCell.PositionInGrid;
-            var path = GridManager.Instance.FindPath(this, targPosition);
-            if (path == null || path.Count == 0)
-                return;
-
-            if (path.Count > this.Speed)
-                NetworkManager.Instance.EntityAskToBuffAction(new EnemyAction(this, path[this.Speed]));
-            else
-                NetworkManager.Instance.EntityAskToBuffAction(new EnemyAction(this, CurrentTarget.EntityCell));
-        }
-
-        /// <summary>
-        /// Will Go straight to the target stops when in range
-        /// </summary>
-        private void MovementStraightToRange() {
-            GridPosition targPosition = CurrentTarget.EntityCell.PositionInGrid;
-            List<Cell> path = GridManager.Instance.FindPath(this, targPosition, false, this.Range);
-
-            if (path == null || path.Count == 0)
-                return;
-
-            if (path.Count > this.Speed)
-                NetworkManager.Instance.EntityAskToBuffAction(new EnemyAction(this, path[this.Speed]));
-            else
-                NetworkManager.Instance.EntityAskToBuffAction(new EnemyAction(this, path[path.Count - 1]));
-        }
-        #endregion
 
         // All Attack Behaviours
         #region Attack Behaviours
         /// <summary>
         /// Will attack the closest player (random btwn two at same range)
         /// </summary>
-        private void AttackClosestRandom() {
-            if (!CanAutoAttack) {
-                return;
-            }
-            _targetBehaviors[attackType].ExecuteAction();
-            if (cachedAllyToAttack != null) {
-                AutoAttack(cachedAllyToAttack.EntityCell);
-            }
-        }
-        #endregion
+        private void AttackClosestRandom() 
+        {
+            //if (!CanAutoAttack) 
+            //    return;
+            
+            //_targetBehaviors[attackType].ExecuteAction();
 
-        // All Target Behaviours (target is used for the movement)
-        #region Target Behaviours
-        /// <summary>
-        /// Will target the closest player (random btwn two at the same range)
-        /// </summary>
-        private void TargetClosestRandom() {
-            CharacterEntity[] PlayersByDistance = PlayersOrderedByDistance("Min", out int sameDist);
-            var ClosestPlayer = PlayersByDistance[UnityEngine.Random.Range(0, sameDist)];
-
-            CurrentTarget = ClosestPlayer;
-            this._targetBehaviors[TargetType].TargetCell = ClosestPlayer.EntityCell;
-            this._movementBehaviors[movementType].TargetCell = ClosestPlayer.EntityCell;
-            this._attackBehaviors[attackType].TargetCell = ClosestPlayer.EntityCell;
-        }
-
-        /// <summary>
-        /// Will target the closest player (random btwn two at the same range)
-        /// </summary>
-        private void TargetFarthestRandom() {
-            CharacterEntity[] PlayersByDistance = PlayersOrderedByDistance("Max", out int sameDist);
-            var FarthestPlayer = PlayersByDistance[UnityEngine.Random.Range(0, sameDist)];
-
-            CurrentTarget = FarthestPlayer;
-            this._targetBehaviors[TargetType].TargetCell = FarthestPlayer.EntityCell;
-            this._movementBehaviors[movementType].TargetCell = FarthestPlayer.EntityCell;
-            this._attackBehaviors[attackType].TargetCell = FarthestPlayer.EntityCell;
-
+            //if (cachedAllyToAttack != null) 
+            //    AutoAttack(cachedAllyToAttack.EntityCell);
         }
         #endregion
 

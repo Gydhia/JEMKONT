@@ -140,16 +140,13 @@ namespace DownBelow.Managers
         {
             this.CurrentPlayingEntity = this.PlayingEntities.Where(e => e.UID == entityID).FirstOrDefault();
 
-            Debug.Log(" Playing turn of " + this.CurrentPlayingEntity);
+            Debug.Log("Started turn for entity : " + this.CurrentPlayingEntity.name);
             this.CurrentPlayingEntity.StartTurn();
 
             if (this.TurnNumber >= 0)
                 UIManager.Instance.TurnSection.ChangeSelectedEntity(
                     this.TurnNumber % this.PlayingEntities.Count
                 );
-
-
-            Debug.Log("Started turn for entity : " + this.CurrentPlayingEntity.name);
 
             if (this.CurrentPlayingEntity is PlayerBehavior)
                 this._turnCoroutine = StartCoroutine(this._startTurnTimer());

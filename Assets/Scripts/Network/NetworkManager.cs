@@ -42,9 +42,11 @@ namespace DownBelow.Managers
             UnityEngine.Object.DontDestroyOnLoad(this);
         }
 
-        void Start()
+        public void Init()
         {
-            _connect();
+            this._connect();
+
+            this.SubToGameEvents();
         }
 
         public void SubToGameEvents()

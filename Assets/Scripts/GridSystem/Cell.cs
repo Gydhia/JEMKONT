@@ -24,7 +24,16 @@ namespace DownBelow.GridSystem
         public int fCost { get { return gCost + hCost; } }
 
         public Cell parent;
-        public CharacterEntity EntityIn;
+        private CharacterEntity _entityIn;
+        public CharacterEntity EntityIn
+        {
+            get { return _entityIn; }
+            set
+            {
+                this.Datas.state = value != null ? CellState.EntityIn : CellState.Walkable;
+                this._entityIn = value;
+            }
+        }
         public Interactable AttachedInteract;
 
         public GridPosition PositionInGrid => new GridPosition(this.Datas.widthPos, this.Datas.heightPos);
