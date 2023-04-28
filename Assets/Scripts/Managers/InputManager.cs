@@ -19,7 +19,7 @@ namespace DownBelow.Managers
         #endregion
 
         #region EVENTS
-        public event CellEventData.Event OnCellRightClick;
+        public event CellEventData.Event OnCellRightClickDown;
 
         public event CellEventData.Event OnCellClickedUp;
         public event CellEventData.Event OnCellClickedDown;
@@ -30,7 +30,7 @@ namespace DownBelow.Managers
 
         public void FireCellRightClick(Cell Cell)
         {
-            this.OnCellRightClick?.Invoke(new CellEventData(Cell));
+            this.OnCellRightClickDown?.Invoke(new CellEventData(Cell));
         }
         public void FireCellClickedUp(Cell Cell)
         {
@@ -66,7 +66,7 @@ namespace DownBelow.Managers
             PlayerInputs.player_l_click.performed += this._onLeftClickDown;
             PlayerInputs.player_l_click.canceled += this._onLeftClickUp;
 
-            PlayerInputs.player_r_click.canceled += this._onRightClickDown;
+            PlayerInputs.player_r_click.performed += this._onRightClickDown;
 
             PlayerInputs.player_interact.canceled += this._onInteract;
 

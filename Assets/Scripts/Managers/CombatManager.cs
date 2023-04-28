@@ -217,7 +217,7 @@ namespace DownBelow.Managers
 
             this.FireSpellBeginTargetting(this._currentSpells[0], data.Cell);
 
-            InputManager.Instance.OnCellRightClick += _abortUsedSpell;
+            InputManager.Instance.OnCellRightClickDown += _abortUsedSpell;
             InputManager.Instance.OnCellClickedUp += _processSpellClick;
         }
 
@@ -241,7 +241,7 @@ namespace DownBelow.Managers
 
             DraggableCard.SelectedCard.DiscardToPile();
 
-            InputManager.Instance.OnCellRightClick -= _abortUsedSpell;
+            InputManager.Instance.OnCellRightClickDown -= _abortUsedSpell;
             InputManager.Instance.OnCellClickedUp -= _processSpellClick;
         }
 
@@ -284,7 +284,7 @@ namespace DownBelow.Managers
                 // TODO: make it go to discard pile instead
                 DraggableCard.SelectedCard.DiscardToPile();
 
-                InputManager.Instance.OnCellRightClick -= _abortUsedSpell;
+                InputManager.Instance.OnCellRightClickDown -= _abortUsedSpell;
                 InputManager.Instance.OnCellClickedUp -= _processSpellClick;
             }
             else

@@ -81,7 +81,7 @@ namespace DownBelow.Managers
             CombatManager.Instance.OnCardBeginUse += this._beginCardDrag;
             CombatManager.Instance.OnCardEndUse += this._endCardDrag;
 
-            InputManager.Instance.OnCellRightClick += this.UpdateEntityToolTip;
+            InputManager.Instance.OnCellRightClickDown += this.UpdateEntityToolTip;
 
 
         }

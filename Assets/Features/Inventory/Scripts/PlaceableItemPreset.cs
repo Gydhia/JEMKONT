@@ -26,7 +26,7 @@ public class PlaceableItemPreset : ItemPreset, IPlaceable
             if (qty <= 0)
             {
                 InputManager.Instance.OnNewCellHovered -= Previsualize;
-                InputManager.Instance.OnCellRightClick -= Place;
+                InputManager.Instance.OnCellRightClickDown -= Place;
             }
         }
     }

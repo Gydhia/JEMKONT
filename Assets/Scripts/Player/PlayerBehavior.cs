@@ -172,11 +172,11 @@ namespace DownBelow.Entity
                 {
                     lastPlaceable = placeable;
                     InputManager.Instance.OnNewCellHovered += lastPlaceable.Previsualize;
-                    InputManager.Instance.OnCellRightClick += lastPlaceable.Place;
+                    InputManager.Instance.OnCellRightClickDown += lastPlaceable.Place;
                 } else
                 {
                     InputManager.Instance.OnNewCellHovered -= lastPlaceable.Previsualize;
-                    InputManager.Instance.OnCellRightClick -= lastPlaceable.Place;
+                    InputManager.Instance.OnCellRightClickDown -= lastPlaceable.Place;
                     lastPlaceable = null;
                 }
             }
