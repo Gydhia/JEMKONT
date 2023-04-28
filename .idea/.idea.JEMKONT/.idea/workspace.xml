@@ -5,15 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="aca4d1f6-1684-4e09-8416-8dbba01ed650" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.JEMKONT/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.JEMKONT/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Features/Inventory/Prefabs/UIStorage.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Features/Inventory/Prefabs/UIStorage.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/UI/Combat UI.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/UI/Combat UI.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/External_Assets/Fantastic Village Pack/materials/M_FX_fire.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/External_Assets/Fantastic Village Pack/materials/M_FX_fire.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/UI/GatherSection.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/UI/GatherSection.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Shader/M_Grid.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Shader/M_Grid.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/WIP/Killian.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/WIP/Killian.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Managers/UIManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Managers/UIManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/ShaderGraphSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ShaderGraphSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
