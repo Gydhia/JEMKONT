@@ -1022,6 +1022,22 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1746934668920173019, guid: 7254b2bc37c3b9349bdcd633f69557e6, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1746934668920173019, guid: 7254b2bc37c3b9349bdcd633f69557e6, type: 3}
+      propertyPath: m_Color.b
+      value: 0.16470589
+      objectReference: {fileID: 0}
+    - target: {fileID: 1746934668920173019, guid: 7254b2bc37c3b9349bdcd633f69557e6, type: 3}
+      propertyPath: m_Color.g
+      value: 0.18431373
+      objectReference: {fileID: 0}
+    - target: {fileID: 1746934668920173019, guid: 7254b2bc37c3b9349bdcd633f69557e6, type: 3}
+      propertyPath: m_Color.r
+      value: 0.30588236
+      objectReference: {fileID: 0}
     - target: {fileID: 1746934668972595159, guid: 7254b2bc37c3b9349bdcd633f69557e6, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -1036,6 +1052,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1746934668972595159, guid: 7254b2bc37c3b9349bdcd633f69557e6, type: 3}
       propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1746934669089315065, guid: 7254b2bc37c3b9349bdcd633f69557e6, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1746934669339283411, guid: 7254b2bc37c3b9349bdcd633f69557e6, type: 3}
@@ -1430,6 +1450,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7258239028412695858, guid: 7254b2bc37c3b9349bdcd633f69557e6, type: 3}
+      propertyPath: SelectedImage
+      value: 
+      objectReference: {fileID: 32355676}
     m_RemovedComponents:
     - {fileID: 6772433198687240820, guid: 7254b2bc37c3b9349bdcd633f69557e6, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 7254b2bc37c3b9349bdcd633f69557e6, type: 3}
@@ -1706,6 +1730,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1746934668920173020, guid: 7254b2bc37c3b9349bdcd633f69557e6, type: 3}
   m_PrefabInstance: {fileID: 25866690}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &32355676 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1746934668920173019, guid: 7254b2bc37c3b9349bdcd633f69557e6, type: 3}
+  m_PrefabInstance: {fileID: 25866690}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &36665348
 PrefabInstance:
   m_ObjectHideFlags: 0

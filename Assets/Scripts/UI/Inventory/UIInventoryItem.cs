@@ -25,6 +25,8 @@ namespace DownBelow.UI.Inventory
 
         public InventoryItem SelfItem => this.SelfStorage.Storage.StorageItems[this.Slot];
 
+        public Image SelectedImage;
+
         private Transform _parentAfterDrag;
         private Vector3 _positionAfterDrag;
 
@@ -81,6 +83,11 @@ namespace DownBelow.UI.Inventory
         {
             this.TotalQuantity += quantity;
             this.quantity.text = this.TotalQuantity.ToString();
+        }
+
+        public void SelectedSlot(bool value)
+        {
+            SelectedImage.color = new Color(SelectedImage.color.r, SelectedImage.color.g, SelectedImage.color.b, value ? 1 : 0);
         }
 
         public void RemoveItem()

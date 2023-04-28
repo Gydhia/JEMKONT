@@ -11,6 +11,8 @@ public static class PlayerInputs
     public static InputAction player_interact;
     public static InputAction player_escape;
 
+    public static InputAction player_scroll;
+
     public static void Init(InputActionAsset asset)
     {
         player_l_click = asset["LeftClick"];
@@ -18,5 +20,6 @@ public static class PlayerInputs
 
         player_interact = asset["Interact"];
         player_escape = asset["Escape"];
+        player_scroll = asset["MouseScrollY"];
     }
 }

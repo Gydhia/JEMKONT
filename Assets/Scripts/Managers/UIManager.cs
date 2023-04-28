@@ -5,6 +5,7 @@ using DownBelow.UI;
 using DownBelow.UI.Inventory;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -48,7 +49,28 @@ namespace DownBelow.Managers
                 this.StartCombatButton.gameObject.SetActive(true);
             }
         }
+        public void SwitchSelectedSlot(int oldSlot, int newSlot)
+        {
+            if (oldSlot == 0)
+            {
+                //ActiveSlot
+                PlayerInventory.ClassItem.SelectedSlot(false);
+            } else
+            {
+                //Inventory
+                PlayerInventory.PlayerStorage.Items[oldSlot - 1].SelectedSlot(false);
+            }
 
+            if (newSlot == 0)
+            {
+                PlayerInventory.ClassItem.SelectedSlot(true);
+                //ActiveSlot
+            } else
+            {
+                PlayerInventory.PlayerStorage.Items[newSlot - 1].SelectedSlot(true);
+                //Inventory
+            }
+        }
         private void _subscribe(GameEventData Data)
         {
             CombatManager.Instance.OnCombatStarted += this.SetupCombatInterface;
@@ -62,7 +84,7 @@ namespace DownBelow.Managers
 
             InputManager.Instance.OnCellRightClick += this.UpdateEntityToolTip;
 
-            
+
         }
 
         /// <summary>
@@ -92,7 +114,7 @@ namespace DownBelow.Managers
             if (Data.Cell.EntityIn == null)
                 return;
             // TODO: Make sure the entity notice well the cell they're in while entering a grid
-                
+
             this.EntityTooltipUI.Init(Data.Cell.EntityIn);
             this.EntityTooltipUI.gameObject.SetActive(!this.EntityTooltipUI.isActiveAndEnabled);
             //UPDATES TOOLTIP UI
@@ -103,7 +125,7 @@ namespace DownBelow.Managers
             this.GatheringSlider.gameObject.SetActive(false);
             this.GatheringName.gameObject.SetActive(false);
 
-            if(this._gatheringCor != null)
+            if (this._gatheringCor != null)
             {
                 StopCoroutine(this._gatheringCor);
                 this._gatheringCor = null;
@@ -124,9 +146,11 @@ namespace DownBelow.Managers
 
         public void SetupCombatInterface(GridEventData Data)
         {
-            if (Data.Grid.IsCombatGrid) {
+            if (Data.Grid.IsCombatGrid)
+            {
                 this._setupCombatInterface();
-            } else {
+            } else
+            {
                 this._setupOutOfCombatInterface();
             }
         }

@@ -4,6 +4,7 @@ using DownBelow.Inventory;
 using DownBelow.Managers;
 using DownBelow.Spells;
 using DownBelow.UI.Inventory;
+using EODE.Wonderland;
 using Photon.Pun;
 using Photon.Realtime;
 using System;
@@ -57,7 +58,13 @@ namespace DownBelow.Entity
         public ToolItem ActiveTool;
         public BaseStorage PlayerSpecialSlot;
 
+        public ItemPreset CurrentSelectedItem;
+
         public bool IsAutoAttacking = false;
+
+        public int inventorySlotSelected = 0;
+
+        private bool scrollBusy;
 
         public Deck Deck
         {
@@ -90,9 +97,11 @@ namespace DownBelow.Entity
             this.PlayerInventory = new BaseStorage();
             this.PlayerInventory.Init(
                 SettingsManager.Instance.GameUIPreset.SlotsByPlayer[Photon.Pun.PhotonNetwork.PlayerList.Length - 1]);
-            this.PlayerSpecialSlot= new BaseStorage();
+            this.PlayerSpecialSlot = new BaseStorage();
             this.PlayerSpecialSlot.Init(1);
+            InputManager.Instance.OnScroll += Scroll;
         }
+
         public override void FireEnteredCell(Cell cell)
         {
             if (cell.ItemContained.ItemPreset != null)
@@ -100,6 +109,62 @@ namespace DownBelow.Entity
             base.FireEnteredCell(cell);
 
         }
+
+        void Scroll(ScrollEventData data)
+        {
+            if (scrollBusy) return;
+            scrollBusy = true;
+            int newSlot = inventorySlotSelected;
+            if (data.value >= 110)
+            {
+                //If we're scrolling up,
+                if (inventorySlotSelected + 1 >= PlayerInventory.MaxSlots)
+                {
+                    //If by incrementing our selectedslot we would go over the limit; do a loop
+                    newSlot = 0;
+                } else
+                {
+                    //Increment simply
+                    newSlot++;
+                }
+                switchSlots(inventorySlotSelected, newSlot);
+            } else if (data.value <= -110)
+            {
+
+                if (inventorySlotSelected - 1 < 0)
+                {
+                    //if by decrementing we would go below 0;
+                    newSlot = PlayerInventory.MaxSlots;
+                } else
+                {
+                    //decrement
+                    newSlot--;
+                }
+
+                switchSlots(inventorySlotSelected, newSlot);
+            } else
+            {
+                //NoScrollin
+            }
+            scrollBusy = false;
+        }
+
+        void switchSlots(int old, int newSlot)
+        {
+            UIManager.Instance.SwitchSelectedSlot(old, newSlot);
+            if (newSlot == 0)
+            {
+                CurrentSelectedItem = ActiveTool;
+
+                //ActiveSlot
+            } else
+            {
+                CurrentSelectedItem = PlayerInventory.StorageItems[newSlot - 1].ItemPreset;
+                //Inventory
+            }
+            inventorySlotSelected = newSlot;
+        }
+
         public void SetActiveTool(ToolItem activeTool)
         {
             activeTool.ActualPlayer = this;
