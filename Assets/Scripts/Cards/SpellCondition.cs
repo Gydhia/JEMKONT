@@ -1,27 +1,32 @@
+using DownBelow.Entity;
 using DownBelow.Spells.Alterations;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace DownBelow.Spells
 {
-    [CreateAssetMenu(menuName = "Spells/SpellCondition")]
+    [CreateAssetMenu(menuName = "Cards/Condition_SO")]
     public class SpellCondition : SerializedScriptableObject
     {
         private SpellResult _currentResult;
+        [HideInInspector]
+        public List<CharacterEntity> TargetedEntities = new List<CharacterEntity>();
+
+        [BoxGroup("Targeting")]
+        public TargetType TargetType;
+        //[BoxGroup("Targeting")]
+        //public bool OnlyAffectedTarget;
 
         [BoxGroup("Damages")]
-        [EnableIf("@!this.Dmgs")]
-        public bool DmgsOverShield;
-        [BoxGroup("Damages")]
-        [EnableIf("@!this.DmgsOverShield")]
         public bool Dmgs;
         [BoxGroup("Damages")]
-        [EnableIf("@this.Dmgs || this.DmgsOverShield")]
+        [EnableIf("@this.Dmgs")]
         public bool OneDamagedTarget;
         [BoxGroup("Damages")]
-        [EnableIf("@this.Dmgs || this.DmgsOverShield")]
+        [EnableIf("@this.Dmgs")]
         public int Damages;
 
         [BoxGroup("Healing")]
@@ -42,18 +47,20 @@ namespace DownBelow.Spells
 
         public bool Check(SpellResult result)
         {
+            // Since it's scriptable object, we need to clear it if used multiple times
+            this.TargetedEntities.Clear();
             this._currentResult = result;
 
             bool validated = false;
-            
-            if (this.Dmgs || this.DmgsOverShield)
+
+            if (this.Dmgs)
                 validated = this.CheckDamages();
 
             if (this.Healing)
                 validated = this.CheckHealing();
 
             if (this.IsAltered)
-                validated =  this.CheckBuffs();
+                validated = this.CheckBuffs();
 
             this._currentResult = null;
             return validated;
@@ -61,65 +68,67 @@ namespace DownBelow.Spells
 
         public bool CheckDamages()
         {
-            //  For the global damages dealt.
-            if (this.Dmgs)
+            // If the condition is for one target, or every damages dealt
+            bool dmgValidated = false;
+            int total = 0;
+            foreach (var dmg in this._currentResult.DamagesDealt)
             {
-                // If the condition is for one target, or every damages dealt
-                int total = 0;
-                foreach (int dmg in this._currentResult.DamagesDealt.Values)
-                {
-                    if (!this.OneDamagedTarget)
-                        total += dmg;
-                    else if (dmg > this.Damages)
-                        return true;
-                }
-                foreach (int dmg in this._currentResult.DamagesOnShield.Values)
-                {
-                    if (!this.OneDamagedTarget)
-                        total += dmg;
-                    else if (dmg > this.Damages)
-                        return true;
-                }
+                if (!this.OneDamagedTarget)
+                    total += dmg.Value;
+                else if (dmg.Value > this.Damages)
+                    return dmgValidated = true;
 
-                if (!this.OneDamagedTarget && total > this.Damages)
-                    return true;
+                this.TargetedEntities.Add(dmg.Key);
             }
-            else if (this.DmgsOverShield)
-            {
-                // If the condition is for one target, or every damages dealt
-                int total = 0;
-                foreach (int dmgOverShield in this._currentResult.DamagesDealt.Values)
-                {
-                    if (!this.OneDamagedTarget)
-                        total += dmgOverShield;
-                    else if (dmgOverShield > this.Damages)
-                        return true;
-                }
 
-                if (!this.OneDamagedTarget && total > this.Damages)
-                    return true;
-            }
-                
-            return false;
+            return dmgValidated || (!this.OneDamagedTarget && total > this.Damages);
         }
 
         public bool CheckHealing()
         {
+            bool healValidated = false;
             int total = 0;
-            foreach (int heal in this._currentResult.HealingDone.Values)
+            foreach (var heal in this._currentResult.HealingDone)
             {
                 if (!this.OneHealedTarget)
-                    total += heal;
-                else if (heal > this.Heal)
-                    return true;
+                    total += heal.Value;
+                else if (heal.Value > this.Heal)
+                    healValidated = true;
+
+                this.TargetedEntities.Add(heal.Key);
             }
 
-            return (!this.OneHealedTarget && total > this.Heal);
+            return healValidated || (!this.OneHealedTarget && total > this.Heal);
         }
 
         public bool CheckBuffs()
         {
             return false;
+        }
+
+        public List<CharacterEntity> GetValidatedTargets()
+        {
+            switch (this.TargetType)
+            {
+                case TargetType.Self:
+
+                    return new List<CharacterEntity> { this._currentResult.SpellRef.RefEntity };
+
+                case TargetType.Enemy:
+
+                    return this.TargetedEntities.Where(e => !e.IsAlly).ToList();
+
+                case TargetType.Ally:
+
+                    return this.TargetedEntities.Where(e => e.IsAlly).ToList();
+
+                case TargetType.Entities:
+                case TargetType.All:
+                    return this.TargetedEntities;
+                case TargetType.Empty:
+                default:
+                    return null; // Maybe that this shouldn't be selectable 
+            }
         }
     }
 }

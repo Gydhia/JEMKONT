@@ -9,17 +9,31 @@ State	ID	Name	State Group			Notes
 	748895195	None	Layers			
 
 Custom State	ID	Name	State Group	Owner		Notes
-	28508136	Layers2	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\Combat\Combat\bass piano loop		
-	474278211	Layers0	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\Combat\Combat\hihats loop		
-	503644836	Layers0	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\Combat\Combat\harp loop		
-	563894571	Layers1	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\Combat\Combat\harp loop		
-	564387403	Layers0	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\Combat\Combat\bass piano loop		
-	975108717	Layers1	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\Combat\Combat\bass piano loop		
+	28508136	Layers2	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\Combat\Combat0\bass piano loop		
+	216170066	Layers1	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\Combat\Combat1\dbFight04		
+	224518876	Layers2	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\Combat\Combat1\dbFight03		
+	268472730	Layers0	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\Combat\Combat1\dbFight02		
+	272449028	Layers0	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\Combat\Combat1\dbFight04		
+	279672907	Layers1	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\Combat\Combat1\dbFight02		
+	474278211	Layers0	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\Combat\Combat0\hihats loop		
+	503644836	Layers0	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\Combat\Combat0\harp loop		
+	521700874	Layers1	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\Combat\Combat1\dbFight03		
+	549644087	Layers0	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\Combat\Combat1\dbFight01		
+	563894571	Layers1	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\Combat\Combat0\harp loop		
+	564387403	Layers0	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\Combat\Combat0\bass piano loop		
+	666925041	Layers0	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\Combat\Combat1\dbFight03		
+	973650471	Layers2	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\Combat\Combat1\dbFight04		
+	975108717	Layers1	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\Combat\Combat0\bass piano loop		
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
-	488747114	hihats loop	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\hihats loop_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\Combat\Combat\hihats loop		1660380
-	708396059	kalimba loop	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\kalimba loop_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\Combat\Combat\kalimba loop		3320616
-	920520952	bass piano loop	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\bass piano loop_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\Combat\Combat\bass piano loop		1660380
-	1002096085	harp loop	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\harp loop_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\Combat\Combat\harp loop		6641084
-	1002181933	reverb piano loop	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\reverb piano loop_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\Combat\Combat\reverb piano loop		3320616
+	65588681	dbFight03	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\dbFight03_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\Combat\Combat1\dbFight03		6702688
+	488747114	hihats loop	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\hihats loop_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\Combat\Combat0\hihats loop		1660380
+	597632551	dbFight04	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\dbFight04_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\Combat\Combat1\dbFight04		6702688
+	708396059	kalimba loop	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\kalimba loop_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\Combat\Combat0\kalimba loop		3320616
+	801563757	dbFight01	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\dbFight01_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\Combat\Combat1\dbFight01		6702688
+	920520952	bass piano loop	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\bass piano loop_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\Combat\Combat0\bass piano loop		1660380
+	959241070	dbFight02	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\dbFight02_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\Combat\Combat1\dbFight02		6702688
+	991806595	dbFight00	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\dbFight00_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\Combat\Combat1\dbFight00		6702688
+	1002096085	harp loop	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\harp loop_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\Combat\Combat0\harp loop		6641084
+	1002181933	reverb piano loop	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\reverb piano loop_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\Combat\Combat0\reverb piano loop		3320616
 

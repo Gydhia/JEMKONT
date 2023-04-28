@@ -33,7 +33,7 @@
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
-								<MusicSegment Name="Combat" ID="{8C9EECF1-FF08-4800-9315-D4B53D57B391}" ShortID="865510366">
+								<MusicSegment Name="Combat0" ID="{8C9EECF1-FF08-4800-9315-D4B53D57B391}" ShortID="865510366">
 									<PropertyList>
 										<Property Name="EndPosition" Type="Real64" Value="53862.2852523493"/>
 									</PropertyList>
@@ -312,6 +312,10 @@
 															</PropertyList>
 														</CustomState>
 													</CustomState>
+													<CustomState>
+														<StateRef Name="Layers3" ID="{B442D004-8A22-4CDD-B5F3-8BB6505989AC}"/>
+														<CustomState Name="" ID="{F81ED847-1A9F-47D1-B038-046B86549E28}" ShortID="658026433"/>
+													</CustomState>
 												</CustomStateList>
 											</StateInfo>
 											<TransitionList>
@@ -445,6 +449,10 @@
 																<Property Name="Volume" Type="Real64" Value="-108"/>
 															</PropertyList>
 														</CustomState>
+													</CustomState>
+													<CustomState>
+														<StateRef Name="Layers3" ID="{B442D004-8A22-4CDD-B5F3-8BB6505989AC}"/>
+														<CustomState Name="" ID="{7059C1E5-FA8F-4719-8754-81E1C30DE0F8}" ShortID="957484865"/>
 													</CustomState>
 												</CustomStateList>
 											</StateInfo>
@@ -585,6 +593,10 @@
 															</PropertyList>
 														</CustomState>
 													</CustomState>
+													<CustomState>
+														<StateRef Name="Layers3" ID="{B442D004-8A22-4CDD-B5F3-8BB6505989AC}"/>
+														<CustomState Name="" ID="{6F0FF466-9A6E-4AEB-839F-566D08C05CFC}" ShortID="195852570"/>
+													</CustomState>
 												</CustomStateList>
 											</StateInfo>
 											<TransitionList>
@@ -640,6 +652,453 @@
 														<PropertyList>
 															<Property Name="CueType" Type="int16" Value="1"/>
 															<Property Name="TimeMs" Type="Real64" Value="37674.4738029958"/>
+														</PropertyList>
+													</MusicCue>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</MusicSegment>
+								<MusicSegment Name="Combat1" ID="{7285B85D-E592-46C7-B17C-5E10E9C83688}" ShortID="819302">
+									<PropertyList>
+										<Property Name="EndPosition" Type="Real64" Value="46615.2948613377"/>
+										<Property Name="OverrideClockSettings" Type="bool" Value="True"/>
+										<Property Name="Tempo" Type="Real64" Value="110"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{86B68257-100F-4BF5-A2A8-7B8994EA0037}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{5FC12D48-6ADB-4B43-883D-07304F613018}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<MusicTrack Name="dbFight00" ID="{11A87DDF-CA59-4B2A-BB4E-DB162900EE3E}" ShortID="520354626">
+											<ReferenceList>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{5FC12D48-6ADB-4B43-883D-07304F613018}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="dbFight00" ID="{ECD8C988-09E9-452C-A6C1-309629759D94}">
+													<Language>SFX</Language>
+													<AudioFile>dbFight00.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="991806595"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<StateInfo>
+												<StateGroupList>
+													<StateGroupInfo>
+														<StateGroupRef Name="Layers" ID="{CB2A4732-CEDF-46B9-825B-5F434B80A263}"/>
+													</StateGroupInfo>
+												</StateGroupList>
+												<CustomStateList>
+													<CustomState>
+														<StateRef Name="Layers2" ID="{C0A7FF62-99FE-425D-9BDC-929EE8B7D3CE}"/>
+														<CustomState Name="" ID="{482CF9C4-6744-4E99-A2C5-6B529EA90877}" ShortID="891798325"/>
+													</CustomState>
+													<CustomState>
+														<StateRef Name="Layers1" ID="{C43C4834-66D1-4B6C-A74C-50262D378DF7}"/>
+														<CustomState Name="" ID="{17E45E05-988D-4D35-BAD9-380243081EE0}" ShortID="873148525"/>
+													</CustomState>
+													<CustomState>
+														<StateRef Name="Layers0" ID="{E9622987-65EA-4CB8-96CA-E8C70608AF3B}"/>
+														<CustomState Name="" ID="{2461B719-B29E-4E32-A92E-A4E0D6A1D7C3}" ShortID="27919040"/>
+													</CustomState>
+													<CustomState>
+														<StateRef Name="Layers3" ID="{B442D004-8A22-4CDD-B5F3-8BB6505989AC}"/>
+														<CustomState Name="" ID="{F4A126F8-5657-42B9-8586-F0E58DEC0D41}" ShortID="68202456"/>
+													</CustomState>
+												</CustomStateList>
+											</StateInfo>
+											<TransitionList>
+												<MusicTransition Name="Root" ID="{1899C408-851E-4A66-881E-CC1FE656B78E}">
+													<PropertyList>
+														<Property Name="IsFolder" Type="bool" Value="True"/>
+													</PropertyList>
+													<TransitionInfo/>
+												</MusicTransition>
+											</TransitionList>
+											<ObjectLists>
+												<ObjectList Name="Sequences">
+													<Reference>
+														<Local>
+															<MusicTrackSequence Name="" ID="{4F532024-8F9E-45BC-90E7-EBBBE778C41E}">
+																<ObjectLists>
+																	<ObjectList Name="Clips">
+																		<Reference>
+																			<Local>
+																				<MusicClip Name="dbFight00" ID="{4E6CCED1-7F02-4CE5-8459-301A50C7838D}">
+																					<PropertyList>
+																						<Property Name="EndTrimOffset" Type="Real64" Value="34909.0833333333"/>
+																						<Property Name="FadeInMode" Type="int16" Value="0"/>
+																						<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																					</PropertyList>
+																					<AudioSourceRef Name="dbFight00" ID="{ECD8C988-09E9-452C-A6C1-309629759D94}"/>
+																				</MusicClip>
+																			</Local>
+																		</Reference>
+																	</ObjectList>
+																</ObjectLists>
+															</MusicTrackSequence>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
+										</MusicTrack>
+										<MusicTrack Name="dbFight01" ID="{D0D86E24-30EA-4603-872E-92E7F4D3E0C5}" ShortID="1025688088">
+											<ReferenceList>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{5FC12D48-6ADB-4B43-883D-07304F613018}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="dbFight01" ID="{8721C517-FB0B-4552-B746-E12E8FD31216}">
+													<Language>SFX</Language>
+													<AudioFile>dbFight01.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="801563757"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<StateInfo>
+												<StateGroupList>
+													<StateGroupInfo>
+														<StateGroupRef Name="Layers" ID="{CB2A4732-CEDF-46B9-825B-5F434B80A263}"/>
+													</StateGroupInfo>
+												</StateGroupList>
+												<CustomStateList>
+													<CustomState>
+														<StateRef Name="Layers2" ID="{C0A7FF62-99FE-425D-9BDC-929EE8B7D3CE}"/>
+														<CustomState Name="" ID="{BBD4DC02-8E24-41AC-B384-35D171BF3A12}" ShortID="369117250"/>
+													</CustomState>
+													<CustomState>
+														<StateRef Name="Layers1" ID="{C43C4834-66D1-4B6C-A74C-50262D378DF7}"/>
+														<CustomState Name="" ID="{2D3906E2-81DC-4909-95A1-12C8E7245E95}" ShortID="309862513"/>
+													</CustomState>
+													<CustomState>
+														<StateRef Name="Layers0" ID="{E9622987-65EA-4CB8-96CA-E8C70608AF3B}"/>
+														<CustomState Name="" ID="{69D04D6A-4908-4404-8902-919B9E3A7B42}" ShortID="549644087">
+															<PropertyList>
+																<Property Name="Volume" Type="Real64" Value="-108"/>
+															</PropertyList>
+														</CustomState>
+													</CustomState>
+													<CustomState>
+														<StateRef Name="Layers3" ID="{B442D004-8A22-4CDD-B5F3-8BB6505989AC}"/>
+														<CustomState Name="" ID="{B1426FEC-127E-4F93-A229-DC5FB6E5113B}" ShortID="399768697"/>
+													</CustomState>
+												</CustomStateList>
+											</StateInfo>
+											<TransitionList>
+												<MusicTransition Name="Root" ID="{0344840E-4945-4EFA-8284-9C73E2A22717}">
+													<PropertyList>
+														<Property Name="IsFolder" Type="bool" Value="True"/>
+													</PropertyList>
+													<TransitionInfo/>
+												</MusicTransition>
+											</TransitionList>
+											<ObjectLists>
+												<ObjectList Name="Sequences">
+													<Reference>
+														<Local>
+															<MusicTrackSequence Name="" ID="{53687C02-8272-489C-9578-87E69EA1BB38}">
+																<ObjectLists>
+																	<ObjectList Name="Clips">
+																		<Reference>
+																			<Local>
+																				<MusicClip Name="dbFight01" ID="{3F2EEF12-88B0-4676-8C64-FBAA4D97B5E9}">
+																					<PropertyList>
+																						<Property Name="EndTrimOffset" Type="Real64" Value="34909.0833333333"/>
+																						<Property Name="FadeInMode" Type="int16" Value="0"/>
+																						<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																					</PropertyList>
+																					<AudioSourceRef Name="dbFight01" ID="{8721C517-FB0B-4552-B746-E12E8FD31216}"/>
+																				</MusicClip>
+																			</Local>
+																		</Reference>
+																	</ObjectList>
+																</ObjectLists>
+															</MusicTrackSequence>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
+										</MusicTrack>
+										<MusicTrack Name="dbFight02" ID="{F12EFA49-70F7-4F5D-9CA7-C17792BC4D09}" ShortID="729714639">
+											<ReferenceList>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{5FC12D48-6ADB-4B43-883D-07304F613018}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="dbFight02" ID="{98D47DD4-A154-425C-8754-416B5636B95D}">
+													<Language>SFX</Language>
+													<AudioFile>dbFight02.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="959241070"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<StateInfo>
+												<StateGroupList>
+													<StateGroupInfo>
+														<StateGroupRef Name="Layers" ID="{CB2A4732-CEDF-46B9-825B-5F434B80A263}"/>
+													</StateGroupInfo>
+												</StateGroupList>
+												<CustomStateList>
+													<CustomState>
+														<StateRef Name="Layers2" ID="{C0A7FF62-99FE-425D-9BDC-929EE8B7D3CE}"/>
+														<CustomState Name="" ID="{0829C03F-1733-4B8F-8E29-585570650EA9}" ShortID="873452025"/>
+													</CustomState>
+													<CustomState>
+														<StateRef Name="Layers1" ID="{C43C4834-66D1-4B6C-A74C-50262D378DF7}"/>
+														<CustomState Name="" ID="{BADCC416-0561-42A6-B6FB-EC293CC456EA}" ShortID="279672907">
+															<PropertyList>
+																<Property Name="Volume" Type="Real64" Value="-108"/>
+															</PropertyList>
+														</CustomState>
+													</CustomState>
+													<CustomState>
+														<StateRef Name="Layers0" ID="{E9622987-65EA-4CB8-96CA-E8C70608AF3B}"/>
+														<CustomState Name="" ID="{906AB9D0-972B-49A9-96BA-3020921F59D1}" ShortID="268472730">
+															<PropertyList>
+																<Property Name="Volume" Type="Real64" Value="-108"/>
+															</PropertyList>
+														</CustomState>
+													</CustomState>
+													<CustomState>
+														<StateRef Name="Layers3" ID="{B442D004-8A22-4CDD-B5F3-8BB6505989AC}"/>
+														<CustomState Name="" ID="{0C2972C9-26B6-40C4-B12F-C903A2950178}" ShortID="820601792"/>
+													</CustomState>
+												</CustomStateList>
+											</StateInfo>
+											<TransitionList>
+												<MusicTransition Name="Root" ID="{7F7A9603-1C96-45C6-8FD0-8B810966F05F}">
+													<PropertyList>
+														<Property Name="IsFolder" Type="bool" Value="True"/>
+													</PropertyList>
+													<TransitionInfo/>
+												</MusicTransition>
+											</TransitionList>
+											<ObjectLists>
+												<ObjectList Name="Sequences">
+													<Reference>
+														<Local>
+															<MusicTrackSequence Name="" ID="{1F6D12A4-7302-4514-9A11-2C5B126C3F14}">
+																<ObjectLists>
+																	<ObjectList Name="Clips">
+																		<Reference>
+																			<Local>
+																				<MusicClip Name="dbFight02" ID="{6459BCB6-A04D-4AA4-85FD-AB8364A20777}">
+																					<PropertyList>
+																						<Property Name="EndTrimOffset" Type="Real64" Value="34909.0833333333"/>
+																						<Property Name="FadeInMode" Type="int16" Value="0"/>
+																						<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																					</PropertyList>
+																					<AudioSourceRef Name="dbFight02" ID="{98D47DD4-A154-425C-8754-416B5636B95D}"/>
+																				</MusicClip>
+																			</Local>
+																		</Reference>
+																	</ObjectList>
+																</ObjectLists>
+															</MusicTrackSequence>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
+										</MusicTrack>
+										<MusicTrack Name="dbFight03" ID="{B75B2C04-DB99-41DF-8BE9-1E9B1384A053}" ShortID="89445769">
+											<ReferenceList>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{5FC12D48-6ADB-4B43-883D-07304F613018}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="dbFight03" ID="{427904F7-5584-4D30-AF6C-51E0947CD0CA}">
+													<Language>SFX</Language>
+													<AudioFile>dbFight03.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="65588681"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<StateInfo>
+												<StateGroupList>
+													<StateGroupInfo>
+														<StateGroupRef Name="Layers" ID="{CB2A4732-CEDF-46B9-825B-5F434B80A263}"/>
+													</StateGroupInfo>
+												</StateGroupList>
+												<CustomStateList>
+													<CustomState>
+														<StateRef Name="Layers2" ID="{C0A7FF62-99FE-425D-9BDC-929EE8B7D3CE}"/>
+														<CustomState Name="" ID="{77FBA2DB-2436-4267-B919-33B62EF2D20C}" ShortID="224518876">
+															<PropertyList>
+																<Property Name="Volume" Type="Real64" Value="-108"/>
+															</PropertyList>
+														</CustomState>
+													</CustomState>
+													<CustomState>
+														<StateRef Name="Layers1" ID="{C43C4834-66D1-4B6C-A74C-50262D378DF7}"/>
+														<CustomState Name="" ID="{39B621EB-A030-4DB1-B1B6-895C7E06E9AF}" ShortID="521700874">
+															<PropertyList>
+																<Property Name="Volume" Type="Real64" Value="-108"/>
+															</PropertyList>
+														</CustomState>
+													</CustomState>
+													<CustomState>
+														<StateRef Name="Layers0" ID="{E9622987-65EA-4CB8-96CA-E8C70608AF3B}"/>
+														<CustomState Name="" ID="{E7A1F44E-8441-4B00-A17C-81EEB157E5C4}" ShortID="666925041">
+															<PropertyList>
+																<Property Name="Volume" Type="Real64" Value="-108"/>
+															</PropertyList>
+														</CustomState>
+													</CustomState>
+													<CustomState>
+														<StateRef Name="Layers3" ID="{B442D004-8A22-4CDD-B5F3-8BB6505989AC}"/>
+														<CustomState Name="" ID="{EA1B09C4-14CD-41DA-B039-77F3F886A92D}" ShortID="439832609"/>
+													</CustomState>
+												</CustomStateList>
+											</StateInfo>
+											<TransitionList>
+												<MusicTransition Name="Root" ID="{55F9EEA8-E96E-4054-A68D-483284A77D4E}">
+													<PropertyList>
+														<Property Name="IsFolder" Type="bool" Value="True"/>
+													</PropertyList>
+													<TransitionInfo/>
+												</MusicTransition>
+											</TransitionList>
+											<ObjectLists>
+												<ObjectList Name="Sequences">
+													<Reference>
+														<Local>
+															<MusicTrackSequence Name="" ID="{BEE1DCAD-8153-4274-8D8F-0E344C0C2FBE}">
+																<ObjectLists>
+																	<ObjectList Name="Clips">
+																		<Reference>
+																			<Local>
+																				<MusicClip Name="dbFight03" ID="{7E624034-5810-44BD-B129-6C13C1DCC1D1}">
+																					<PropertyList>
+																						<Property Name="EndTrimOffset" Type="Real64" Value="34909.0833333333"/>
+																						<Property Name="FadeInMode" Type="int16" Value="0"/>
+																						<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																					</PropertyList>
+																					<AudioSourceRef Name="dbFight03" ID="{427904F7-5584-4D30-AF6C-51E0947CD0CA}"/>
+																				</MusicClip>
+																			</Local>
+																		</Reference>
+																	</ObjectList>
+																</ObjectLists>
+															</MusicTrackSequence>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
+										</MusicTrack>
+										<MusicTrack Name="dbFight04" ID="{372004CF-97CA-4ADC-B807-AED6E4EB9099}" ShortID="805397600">
+											<ReferenceList>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{5FC12D48-6ADB-4B43-883D-07304F613018}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="dbFight04" ID="{6A313FD6-453A-4865-9B10-CEB416885FED}">
+													<Language>SFX</Language>
+													<AudioFile>dbFight04.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="597632551"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<StateInfo>
+												<StateGroupList>
+													<StateGroupInfo>
+														<StateGroupRef Name="Layers" ID="{CB2A4732-CEDF-46B9-825B-5F434B80A263}"/>
+													</StateGroupInfo>
+												</StateGroupList>
+												<CustomStateList>
+													<CustomState>
+														<StateRef Name="Layers2" ID="{C0A7FF62-99FE-425D-9BDC-929EE8B7D3CE}"/>
+														<CustomState Name="" ID="{D7304501-11D2-46C3-AA25-9DCDF67E8CEE}" ShortID="973650471">
+															<PropertyList>
+																<Property Name="Volume" Type="Real64" Value="-108"/>
+															</PropertyList>
+														</CustomState>
+													</CustomState>
+													<CustomState>
+														<StateRef Name="Layers1" ID="{C43C4834-66D1-4B6C-A74C-50262D378DF7}"/>
+														<CustomState Name="" ID="{C7EA8CEA-2D1B-48D0-B09F-2C0C96338CB3}" ShortID="216170066">
+															<PropertyList>
+																<Property Name="Volume" Type="Real64" Value="-108"/>
+															</PropertyList>
+														</CustomState>
+													</CustomState>
+													<CustomState>
+														<StateRef Name="Layers0" ID="{E9622987-65EA-4CB8-96CA-E8C70608AF3B}"/>
+														<CustomState Name="" ID="{3489B1E0-8B46-43D5-A5E1-19049F8589F9}" ShortID="272449028">
+															<PropertyList>
+																<Property Name="Volume" Type="Real64" Value="-108"/>
+															</PropertyList>
+														</CustomState>
+													</CustomState>
+													<CustomState>
+														<StateRef Name="Layers3" ID="{B442D004-8A22-4CDD-B5F3-8BB6505989AC}"/>
+														<CustomState Name="" ID="{AAD252F2-1AF9-49D0-8FE8-9B179C06DB93}" ShortID="540516922"/>
+													</CustomState>
+												</CustomStateList>
+											</StateInfo>
+											<TransitionList>
+												<MusicTransition Name="Root" ID="{BC336357-F89C-413D-9CC3-BB51CFAFEEFE}">
+													<PropertyList>
+														<Property Name="IsFolder" Type="bool" Value="True"/>
+													</PropertyList>
+													<TransitionInfo/>
+												</MusicTransition>
+											</TransitionList>
+											<ObjectLists>
+												<ObjectList Name="Sequences">
+													<Reference>
+														<Local>
+															<MusicTrackSequence Name="" ID="{B530DC68-A0E2-429E-B4CF-1238F6FF90BC}">
+																<ObjectLists>
+																	<ObjectList Name="Clips">
+																		<Reference>
+																			<Local>
+																				<MusicClip Name="dbFight04" ID="{AD086215-A3EE-4866-B46D-02227E8A6AAB}">
+																					<PropertyList>
+																						<Property Name="EndTrimOffset" Type="Real64" Value="34909.0833333333"/>
+																						<Property Name="FadeInMode" Type="int16" Value="0"/>
+																						<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																					</PropertyList>
+																					<AudioSourceRef Name="dbFight04" ID="{6A313FD6-453A-4865-9B10-CEB416885FED}"/>
+																				</MusicClip>
+																			</Local>
+																		</Reference>
+																	</ObjectList>
+																</ObjectLists>
+															</MusicTrackSequence>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
+										</MusicTrack>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Cues">
+											<Reference>
+												<Local>
+													<MusicCue Name="Entry Cue" ID="{BA5067A4-4DB0-474B-ADD9-FA41C859DEF6}"/>
+												</Local>
+											</Reference>
+											<Reference>
+												<Local>
+													<MusicCue Name="Exit Cue" ID="{EC94F680-E453-41BA-88A2-3E3E08D41785}">
+														<PropertyList>
+															<Property Name="CueType" Type="int16" Value="1"/>
+															<Property Name="TimeMs" Type="Real64" Value="34909.0833333333"/>
 														</PropertyList>
 													</MusicCue>
 												</Local>

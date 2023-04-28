@@ -2,6 +2,7 @@ using DownBelow.Events;
 using DownBelow.GridSystem;
 using DownBelow.Inventory;
 using DownBelow.UI;
+using DownBelow.UI.Inventory;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -12,6 +13,7 @@ namespace DownBelow.Managers
 {
     public class UIManager : _baseManager<UIManager>
     {
+        public UIStaticCombat CombatSection;
         public UIStaticTurnSection TurnSection;
         public UIPlayerInfos PlayerInfos;
         public UICardSection CardSection;
@@ -26,6 +28,7 @@ namespace DownBelow.Managers
 
         public Button NextTurnButton;
         public Button StartCombatButton;
+
         public void Init()
         {
             this.StartCombatButton.gameObject.SetActive(false);
@@ -54,8 +57,8 @@ namespace DownBelow.Managers
             GameManager.Instance.SelfPlayer.OnGatheringEnded += EndGather;
             GameManager.Instance.SelfPlayer.OnGatheringCanceled += EndGather;
 
-            CombatManager.Instance.OnCardBeginDrag += this._beginCardDrag;
-            CombatManager.Instance.OnCardEndDrag += this._endCardDrag;
+            CombatManager.Instance.OnCardBeginUse += this._beginCardDrag;
+            CombatManager.Instance.OnCardEndUse += this._endCardDrag;
 
             InputManager.Instance.OnCellRightClick += this.UpdateEntityToolTip;
 
@@ -154,7 +157,6 @@ namespace DownBelow.Managers
         private void _endCardDrag(CardEventData Data)
         {
             InputManager.Instance.ChangeCursorAppearance(CursorAppearance.Idle);
-
         }
     }
 }

@@ -1,14 +1,5 @@
 {
   "dependencies": {
-    "com.domybest.mybox": {
-      "version": "https://github.com/Deadcows/MyBox.git",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {
-        "com.unity.ugui": "1.0.0"
-      },
-      "hash": "aae1160031f1d2d8dc198dea61f0ea5f5e63e674"
-    },
     "com.unity.2d.animation": {
       "version": "7.0.6",
       "depth": 1,
@@ -165,6 +156,15 @@
       "depth": 0,
       "source": "registry",
       "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.inputsystem": {
+      "version": "1.4.4",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.modules.uielements": "1.0.0"
+      },
       "url": "https://packages.unity.com"
     },
     "com.unity.mathematics": {

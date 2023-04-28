@@ -13,6 +13,7 @@ namespace DownBelow.Managers
     {
         public Dictionary<Guid, DeckPreset> DeckPresets;
         public Dictionary<Guid, ScriptableCard> ScriptableCards;
+        public List<ScriptableCard> OwnedCards;
 
         public void Init()
         {
@@ -25,6 +26,7 @@ namespace DownBelow.Managers
 
             this.DeckPresets = new Dictionary<Guid, DeckPreset>();
             this.ScriptableCards = new Dictionary<Guid, ScriptableCard>();
+            this.OwnedCards = new List<ScriptableCard>();
 
             foreach (var deck in decks)
             {

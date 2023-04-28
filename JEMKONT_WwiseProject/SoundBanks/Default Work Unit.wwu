@@ -5,7 +5,8 @@
 			<ChildrenList>
 				<SoundBank Name="SB_AMBIANCE" ID="{90D5AC90-E0B5-4089-906F-111A2FE8F772}">
 					<ObjectInclusionList>
-						<ObjectRef Name="Combat" ID="{8C9EECF1-FF08-4800-9315-D4B53D57B391}" WorkUnitID="{A7B6054A-C5DE-4175-A27F-8806369B3987}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Combat1" ID="{7285B85D-E592-46C7-B17C-5E10E9C83688}" WorkUnitID="{A7B6054A-C5DE-4175-A27F-8806369B3987}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Combat0" ID="{8C9EECF1-FF08-4800-9315-D4B53D57B391}" WorkUnitID="{A7B6054A-C5DE-4175-A27F-8806369B3987}" Origin="Manual" Filter="7"/>
 					</ObjectInclusionList>
 					<ObjectExclusionList/>
 					<GameSyncExclusionList/>

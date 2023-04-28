@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 130d9b84c5367fe47b06c4038738f937, type: 3}
+  m_Name: BuddyPreset
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: UID
+      Entry: 2
+      Data: e245b68fb5006d987cdfb4a5d2542a7f
+  UName: Buddy
+  AffectingState: 4
+  Entity: {fileID: 2281775837897738858, guid: a635a5fbbe346ee46b3b1514f12b72b6, type: 3}
+  IsPNJ: 0
+  Statistics: {fileID: 11400000, guid: 1dcffb1602498484ca67e301a067c6a9, type: 2}

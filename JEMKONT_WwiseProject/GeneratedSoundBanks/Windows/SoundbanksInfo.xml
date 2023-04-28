@@ -35,21 +35,41 @@
 			<ShortName>SB_FARM</ShortName>
 			<Path>SB_FARM.bnk</Path>
 		</SoundBank>
-		<SoundBank Id="1129547629" Type="User" Language="SFX" Hash="{A829BB00-D1BD-367C-0499-3B403CF51789}">
+		<SoundBank Id="1129547629" Type="User" Language="SFX" Hash="{103C671B-65A8-C86A-D27F-7ADD1797D2B9}">
 			<ShortName>SB_AMBIANCE</ShortName>
 			<Path>SB_AMBIANCE.bnk</Path>
 			<Media>
+				<File Id="65588681" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>dbFight03.wav</ShortName>
+					<CachePath>SFX/dbFight03_D79FB2B7.wem</CachePath>
+				</File>
 				<File Id="488747114" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>hihats loop.wav</ShortName>
 					<CachePath>SFX/hihats loop_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="597632551" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>dbFight04.wav</ShortName>
+					<CachePath>SFX/dbFight04_D79FB2B7.wem</CachePath>
 				</File>
 				<File Id="708396059" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>kalimba loop.wav</ShortName>
 					<CachePath>SFX/kalimba loop_D79FB2B7.wem</CachePath>
 				</File>
+				<File Id="801563757" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>dbFight01.wav</ShortName>
+					<CachePath>SFX/dbFight01_D79FB2B7.wem</CachePath>
+				</File>
 				<File Id="920520952" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>bass piano loop.wav</ShortName>
 					<CachePath>SFX/bass piano loop_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="959241070" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>dbFight02.wav</ShortName>
+					<CachePath>SFX/dbFight02_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="991806595" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>dbFight00.wav</ShortName>
+					<CachePath>SFX/dbFight00_D79FB2B7.wem</CachePath>
 				</File>
 				<File Id="1002096085" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harp loop.wav</ShortName>
@@ -90,5 +110,5 @@
 			<Path>SB_COMBAT.bnk</Path>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{80FA46E1-506C-E679-64DE-1E63963C3760}</FileHash>
+	<FileHash>{61AB38EA-F334-B23F-A858-B1E55280B93F}</FileHash>
 </SoundBanksInfo>

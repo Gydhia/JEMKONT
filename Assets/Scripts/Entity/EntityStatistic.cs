@@ -4,10 +4,10 @@ using UnityEngine;
 
 public enum EntityStatistics
 {
-    None = -99,
+   None = -99,
    Health = 0,
-   Shield = 1,
    Mana = 10,
+   MaxMana = 13,
    Speed = 11,
    Strength = 20,
    Defense = 30,

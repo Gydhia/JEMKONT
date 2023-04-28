@@ -39,7 +39,7 @@ namespace DownBelow.UI
             SetEvents();
             _entityName.text = _currentEntity.name;
             _attackStat.text = _currentEntity.Strength.ToString();
-            _defenseStat.text = _currentEntity.Shield.ToString();
+            //_defenseStat.text = _currentEntity.Shield.ToString();
             _healthStat.text = _currentEntity.Health.ToString();
             _rangeStat.text = _currentEntity.Range.ToString();
         }
@@ -73,7 +73,7 @@ namespace DownBelow.UI
         }
         private void SetDefense(SpellEventData Data)
         {
-            _defenseStat.text = _currentEntity.Shield.ToString();
+            //_defenseStat.text = _currentEntity.Shield.ToString();
         }
         private void SetAttack(SpellEventData Data)
         {

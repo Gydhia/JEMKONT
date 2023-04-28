@@ -16,5 +16,8 @@ namespace DownBelow.GameData
 
         [Range(0f, 10f)]
         public int CardsToDrawAtTurn = 3;
+
+        [Range(0f, 2f)]
+        public float DelayBetweenActions = 0.4f;
     }
 }
