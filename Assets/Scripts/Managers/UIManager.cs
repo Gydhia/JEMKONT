@@ -23,7 +23,9 @@ namespace DownBelow.Managers
         public UIStorage CurrentStorage;
 
         private Coroutine _gatheringCor;
-        public Slider GatheringSlider;
+        public Image GatheringSlider;
+        public Image Outline;
+        public Image CollectedItem;
         public TextMeshProUGUI GatheringName;
 
         public void Init()
@@ -66,11 +68,11 @@ namespace DownBelow.Managers
         {
             ResourcePreset resource = Data.ResourceRef.InteractablePreset as ResourcePreset;
             this.GatheringName.text = "Gathering " + resource.UName + "... (" + resource.MinGathering + ", " + resource.MaxGathering + ")";
-            this.GatheringSlider.value = 0f;
-            this.GatheringSlider.minValue = 0f;
-            this.GatheringSlider.maxValue = resource.TimeToGather;
+            this.GatheringSlider.fillAmount= 0f;
+            this.Outline.fillAmount = 0f;
 
             this.GatheringSlider.gameObject.SetActive(true);
+            this.Outline.gameObject.SetActive(true);
             this.GatheringName.gameObject.SetActive(true);
 
             this._gatheringCor = StartCoroutine(this._gather(resource));
@@ -101,13 +103,18 @@ namespace DownBelow.Managers
 
         private IEnumerator _gather(ResourcePreset resource)
         {
+            CollectedItem.gameObject.SetActive(true);
+            CollectedItem.sprite = resource.ResourceItem.InventoryIcon;
             float timer = 0f;
             while (timer <= resource.TimeToGather)
             {
                 timer += Time.deltaTime;
-                this.GatheringSlider.value = timer;
+                this.GatheringSlider.fillAmount = timer / resource.TimeToGather;
+                this.Outline.fillAmount = timer / resource.TimeToGather;
                 yield return null;
             }
+            CollectedItem.gameObject.SetActive(false);
+            Outline.gameObject.SetActive(false);
             this._gatheringCor = null;
         }
 
