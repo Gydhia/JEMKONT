@@ -20890,6 +20890,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: PlayerAsksToStartCombat
       objectReference: {fileID: 0}
+    - target: {fileID: 6667927289017882422, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
+      propertyPath: StartCombatButton
+      value: 
+      objectReference: {fileID: 808257840}
     - target: {fileID: 6997194918407831317, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -56683,15 +56687,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6235007450242012945, guid: 959ccea6822705648bcf00f2096a4289, type: 3}
       propertyPath: m_CellSize.x
-      value: -40.549496
+      value: -29.012989
       objectReference: {fileID: 0}
     - target: {fileID: 6235007450242012945, guid: 959ccea6822705648bcf00f2096a4289, type: 3}
       propertyPath: m_CellSize.y
-      value: -40.549496
+      value: -29.012989
       objectReference: {fileID: 0}
     - target: {fileID: 6235007450242012945, guid: 959ccea6822705648bcf00f2096a4289, type: 3}
       propertyPath: m_Padding.m_Left
-      value: -13
+      value: -9
       objectReference: {fileID: 0}
     - target: {fileID: 6235007450242012947, guid: 959ccea6822705648bcf00f2096a4289, type: 3}
       propertyPath: m_SizeDelta.y

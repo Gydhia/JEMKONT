@@ -33,12 +33,6 @@ namespace DownBelow.Managers
         public void FireCombatEnded(WorldGrid Grid) =>
             this.OnCombatEnded?.Invoke(new GridEventData(Grid));
 
-        public void FireTurnStarted(CharacterEntity Entity) =>
-            this.OnTurnStarted?.Invoke(new EntityEventData(Entity));
-
-        public void FireTurnEnded(CharacterEntity Entity) =>
-            this.OnTurnEnded?.Invoke(new EntityEventData(Entity));
-
         public void FireCardBeginUse(
             ScriptableCard Card,
             Spell[] GeneratedSpells = null,
@@ -92,11 +86,6 @@ namespace DownBelow.Managers
             //TODO: Verify this is well understood.
             DrawPile = ((PlayerBehavior)Data.Entity).Deck;
             DrawPile.ShuffleDeck();
-
-            if (BattleGoing)
-            {
-                UIManager.Instance.StartCombatButton.gameObject.SetActive(false);
-            }
         }
 
         public void StartCombat(CombatGrid startingGrid)
@@ -110,6 +99,7 @@ namespace DownBelow.Managers
             this._setupEnemyEntities();
 
             // Think about enabling/initing this UI only when in combat
+            // TODO : Rework this with combatstarted/ended events
             UIManager.Instance.PlayerInfos.Init();
 
             this.TurnNumber = -1;
@@ -117,42 +107,32 @@ namespace DownBelow.Managers
 
             this._defineEntitiesTurn();
 
-            UIManager.Instance.TurnSection.Init(this.PlayingEntities);
-            UIManager.Instance.StartCombatButton.gameObject.SetActive(false);
-
             this.FireCombatStarted(this.CurrentPlayingGrid);
+
+            for (int i = 0; i < SettingsManager.Instance.CombatPreset.CardsToDrawAtStart; i++)
+                DrawCard();
+
+            NetworkManager.Instance.StartEntityTurn();
+        }
+
+        public void ProcessStartTurn()
+        {
             this.TurnNumber++;
             this.CurrentPlayingEntity = this.PlayingEntities[
                 this.TurnNumber % this.PlayingEntities.Count
             ];
-            this.FireTurnStarted(this.CurrentPlayingEntity);
-
-            for (int i = 0; i < SettingsManager.Instance.CombatPreset.CardsToDrawAtStart; i++)
-                DrawCard();
-        }
-
-        public void EndCombat()
-        {
-            this.FireCombatEnded(this.CurrentPlayingGrid.ParentGrid);
-        }
-
-        public void ProcessStartTurn(string entityID)
-        {
-            this.CurrentPlayingEntity = this.PlayingEntities.Where(e => e.UID == entityID).FirstOrDefault();
-
-            Debug.Log("Started turn for entity : " + this.CurrentPlayingEntity.name);
-            this.CurrentPlayingEntity.StartTurn();
 
             if (this.TurnNumber >= 0)
                 UIManager.Instance.TurnSection.ChangeSelectedEntity(
                     this.TurnNumber % this.PlayingEntities.Count
                 );
 
-            if (this.CurrentPlayingEntity is PlayerBehavior)
+            if (this.CurrentPlayingEntity is PlayerBehavior && Photon.Pun.PhotonNetwork.IsMasterClient)
                 this._turnCoroutine = StartCoroutine(this._startTurnTimer());
         }
 
-        public void ProcessEndTurn(string entityID)
+
+        public void ProcessEndTurn()
         {
             this.CurrentPlayingEntity.EndTurn();
 
@@ -171,14 +151,11 @@ namespace DownBelow.Managers
             }
 
             UIManager.Instance.TurnSection.TimeSlider.fillAmount = 0f;
+        }
 
-            // Increment the turns to pre-select next entity
-            this.TurnNumber++;
-            this.CurrentPlayingEntity = this.PlayingEntities[
-                this.TurnNumber % this.PlayingEntities.Count
-            ];
-
-            this.FireTurnStarted(this.CurrentPlayingEntity);
+        public void EndCombat()
+        {
+            this.FireCombatEnded(this.CurrentPlayingGrid.ParentGrid);
         }
 
         private void _setupEnemyEntities()
@@ -345,8 +322,6 @@ namespace DownBelow.Managers
                 
                 UIManager.Instance.TurnSection.TimeSlider.fillAmount = timeToShowOnSlider;
             }
-
-            this.FireTurnEnded(this.CurrentPlayingEntity);
         }
 
         private void _defineEntitiesTurn()

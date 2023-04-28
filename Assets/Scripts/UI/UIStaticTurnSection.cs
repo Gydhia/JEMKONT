@@ -1,5 +1,6 @@
 using DownBelow.Entity;
 using DownBelow.Events;
+using DownBelow.GridSystem;
 using DownBelow.Managers;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,15 +20,35 @@ namespace DownBelow.UI
 
         public Image TimeSlider;
         public Button NextTurnButton;
+        public Button StartCombatButton;
 
         public List<Image> CombatEntities;
 
-        public void Init(List<CharacterEntity> combatEntities)
+        public void Init()
         {
-            for (int i = 0; i < combatEntities.Count; i++)
+            this.StartCombatButton.gameObject.SetActive(false);
+
+            CombatManager.Instance.OnCombatStarted += SetupFromCombatBegin;
+            CombatManager.Instance.OnCombatEnded += ClearFromCombatEnd;
+            GameManager.Instance.OnEnteredGrid += _showHideStartButton;
+        }
+
+        private void _showHideStartButton(EntityEventData Data)
+        {
+            if (Data.Entity == GameManager.Instance.SelfPlayer && Data.Entity.CurrentGrid.IsCombatGrid)
             {
-                this.CombatEntities.Add(Instantiate(this.SpritePrefab, this.EntitiesHolder, combatEntities[i]));
-                this.CombatEntities[i].sprite = combatEntities[i].IsAlly ? AllySprite : EnemySprite;
+                this.StartCombatButton.gameObject.SetActive(true);
+            }
+        }
+
+        public void SetupFromCombatBegin(GridEventData Data)
+        {
+            this.StartCombatButton.gameObject.SetActive(false);
+
+            for (int i = 0; i < CombatManager.Instance.PlayingEntities.Count; i++)
+            {
+                this.CombatEntities.Add(Instantiate(this.SpritePrefab, this.EntitiesHolder, CombatManager.Instance.PlayingEntities[i]));
+                this.CombatEntities[i].sprite = CombatManager.Instance.PlayingEntities[i].IsAlly ? AllySprite : EnemySprite;
                 if (i > 0)
                     this.CombatEntities[i].transform.GetChild(0).gameObject.SetActive(false);
             }
@@ -36,7 +57,19 @@ namespace DownBelow.UI
             this.NextTurnButton.onClick.AddListener(AskEndOfTurn);
 
             CombatManager.Instance.OnTurnStarted += this._updateTurn;
-            CombatManager.Instance.OnTurnEnded+= this._updateTurn;
+            CombatManager.Instance.OnTurnEnded += this._updateTurn;
+        }
+
+        public void ClearFromCombatEnd(GridEventData Data)
+        {
+            for (int i = 0; i < this.CombatEntities.Count; i++)
+            {
+                Destroy(this.CombatEntities[i].gameObject);
+            }
+            this.CombatEntities.Clear();
+
+            CombatManager.Instance.OnTurnStarted -= this._updateTurn;
+            CombatManager.Instance.OnTurnEnded -= this._updateTurn;
         }
 
         public void ChangeSelectedEntity(int index)
@@ -50,7 +83,14 @@ namespace DownBelow.UI
         public void AskEndOfTurn()
         {
             if (CombatManager.Instance.CurrentPlayingGrid != null && CombatManager.Instance.CurrentPlayingGrid.HasStarted)
-                CombatManager.Instance.ProcessEndTurn(GameManager.Instance.SelfPlayer.UID);
+            {
+                GameManager.Instance.BuffAction(
+                    new EndTurnAction(CombatManager.Instance.CurrentPlayingEntity, null),
+                    false
+                );
+
+                NextTurnButton.interactable = false;
+            }
         }
 
         private void _updateTurn(EntityEventData Data)

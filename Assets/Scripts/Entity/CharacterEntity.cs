@@ -304,19 +304,6 @@ namespace DownBelow.Entity
 
         #region TURNS
 
-        public virtual void EndTurn()
-        {
-            NumberOfTurnsPlayed++;
-            CanAutoAttack = false;
-            foreach (Alteration Alter in Alterations)
-            {
-                Alter.Apply(this);
-            }
-
-            this.IsPlayingEntity = false;
-            OnTurnEnded?.Invoke(new());
-        }
-
         public virtual void StartTurn()
         {
             this.IsPlayingEntity = true;
@@ -337,6 +324,18 @@ namespace DownBelow.Entity
             GridManager.Instance.CalculatePossibleCombatMovements(this);
         }
 
+        public virtual void EndTurn()
+        {
+            NumberOfTurnsPlayed++;
+            CanAutoAttack = false;
+            foreach (Alteration Alter in Alterations)
+            {
+                Alter.Apply(this);
+            }
+
+            this.IsPlayingEntity = false;
+            OnTurnEnded?.Invoke(new());
+        }
         #endregion
 
         #region STATS

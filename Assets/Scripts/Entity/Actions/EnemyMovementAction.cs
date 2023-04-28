@@ -3,7 +3,6 @@ using DownBelow.Managers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static DownBelow.Entity.EnemyEntity;
 
 namespace DownBelow.Entity
 {
@@ -11,10 +10,10 @@ namespace DownBelow.Entity
     {
         public MovementType Type;
 
-        public EnemyMovementAction(CharacterEntity RefEntity, Cell TargetCell, MovementType MovementType) 
+        public EnemyMovementAction(CharacterEntity RefEntity, Cell TargetCell, string Type) 
             : base(RefEntity, TargetCell)
         {
-            this.Type = MovementType;
+            this.Type = (MovementType)System.Enum.Parse(typeof(MovementType), Type);
         }
 
         public override void ExecuteAction()
@@ -45,7 +44,7 @@ namespace DownBelow.Entity
         private List<Cell> MovementStraight()
         {
             GridPosition targPosition = TargetCell.EntityIn.EntityCell.PositionInGrid;
-            return GridManager.Instance.FindPath(TargetCell.EntityIn, targPosition);
+            return GridManager.Instance.FindPath(this.RefEntity, targPosition, false, 1);
         }
 
         /// <summary>
@@ -55,6 +54,17 @@ namespace DownBelow.Entity
         {
             GridPosition targPosition = TargetCell.EntityIn.EntityCell.PositionInGrid;
             return GridManager.Instance.FindPath(this.RefEntity, targPosition, false, this.RefEntity.Range);
+        }
+
+        public override object[] GetDatas()
+        {
+            return new object[1] { this.Type.ToString() };
+        }
+
+        public override void SetDatas(object[] Datas)
+        {
+            base.SetDatas(Datas);
+            this.Type = (MovementType)System.Enum.Parse(typeof(MovementType), Datas[0].ToString());
         }
     }
 

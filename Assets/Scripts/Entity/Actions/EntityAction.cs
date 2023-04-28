@@ -9,6 +9,8 @@ namespace DownBelow.Entity
 {
     public abstract class EntityAction
     {
+        public Guid ID;
+
         // Since we have the reference here, we can remove ourself without any help
         [HideInInspector]
         public List<EntityAction> RefBuffer;
@@ -23,7 +25,8 @@ namespace DownBelow.Entity
         /// You can put whatever you want but don't forget to parse it
         /// </summary>
         [HideInInspector]
-        public EntityAction ContextAction;
+        public Guid ContextActionId;
+        protected EntityAction contextAction;
 
         protected List<Action> EndCallbacks = new List<Action>();
 
@@ -33,6 +36,7 @@ namespace DownBelow.Entity
         {
             this.RefEntity = RefEntity;
             this.TargetCell = TargetCell;
+            this.ID = Guid.NewGuid();
         }
 
         public void SetCallback(Action EndCallback)
@@ -42,11 +46,12 @@ namespace DownBelow.Entity
 
         public void SetContextAction(EntityAction ContextAction)
         {
-            this.ContextAction = ContextAction;
+            this.ContextActionId = ContextAction.ID;
+            this.contextAction = ContextAction;
         }
         public virtual void ProcessContextAction()
         {
-            this.TargetCell = this.ContextAction.TargetCell;
+            this.TargetCell = this.contextAction.TargetCell;
         }
 
         public abstract void ExecuteAction();

@@ -469,8 +469,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7edc66e8e8b4d0d429c7cddcb7014a1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AllySprite: {fileID: 21300000, guid: 5affeebf283c59743ac5171177bd7b2e, type: 3}
-  EnemySprite: {fileID: 21300000, guid: 84cf15ac33992284e89ddb8395051cce, type: 3}
+  AllySprite: {fileID: 21300000, guid: 291937b51b5054196acf83950130f687, type: 3}
+  EnemySprite: {fileID: 21300000, guid: f41535b58b3014601b2338de5c554be1, type: 3}
   SpritePrefab: {fileID: 3086965284080062921, guid: 13c6c0fbe7db1514e81b6331157efb8a, type: 3}
   EntitiesHolder: {fileID: 4438578326227344358}
   TimeSlider: {fileID: 6895354687323811056}
