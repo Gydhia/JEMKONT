@@ -61,7 +61,7 @@ namespace DownBelow.Entity
             this.OnExitedCell?.Invoke(new CellEventData(this.EntityCell));
         }
 
-        public void FireEnteredCell(Cell cell)
+        public virtual void FireEnteredCell(Cell cell)
         {
             this.EntityCell = cell;
 

@@ -92,10 +92,10 @@ namespace DownBelow.GridSystem
         public void TryPickUpItem(PlayerBehavior player)
         {
             int qtyRemainingInItem = ItemContained.Quantity;
-            if (ItemContained.ItemPreset is ToolItem)
+            if (ItemContained.ItemPreset is ToolItem toolItem)
             {
                 qtyRemainingInItem -= player.PlayerSpecialSlot.TryAddItem(ItemContained.ItemPreset, ItemContained.Quantity);
-                player.ActiveTool = (ToolItem)ItemContained.ItemPreset;
+                player.ActiveTool = toolItem;
             } else
             {
                 qtyRemainingInItem -= player.PlayerInventory.TryAddItem(ItemContained.ItemPreset, ItemContained.Quantity);

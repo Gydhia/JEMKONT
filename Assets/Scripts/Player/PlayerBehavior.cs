@@ -55,6 +55,8 @@ namespace DownBelow.Entity
         public bool CanEnterGrid => true;
 
         public ToolItem ActiveTool;
+        public BaseStorage PlayerSpecialSlot;
+
         public bool IsAutoAttacking = false;
 
         public Deck Deck
@@ -88,9 +90,17 @@ namespace DownBelow.Entity
             this.PlayerInventory = new BaseStorage();
             this.PlayerInventory.Init(
                 SettingsManager.Instance.GameUIPreset.SlotsByPlayer[Photon.Pun.PhotonNetwork.PlayerList.Length - 1]);
+            this.PlayerSpecialSlot= new BaseStorage();
+            this.PlayerSpecialSlot.Init(1);
         }
+        public override void FireEnteredCell(Cell cell)
+        {
+            if (cell.ItemContained.ItemPreset != null)
+                cell.TryPickUpItem(this);
+            base.FireEnteredCell(cell);
 
-        public void SetActiveTool(Tool activeTool)
+        }
+        public void SetActiveTool(ToolItem activeTool)
         {
             activeTool.ActualPlayer = this;
             this.ActiveTool = activeTool;

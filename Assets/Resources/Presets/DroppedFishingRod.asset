@@ -25,6 +25,6 @@ MonoBehaviour:
       Entry: 2
       Data: 10efce804df8d11cb5f386082f8c2d24
   UName: FishingRod
-  AffectingState: 0
+  AffectingState: 1
   Item: {fileID: 11400000, guid: 0ae20222b1f41454d9dd8ecaffbc0c1b, type: 2}
   quantity: 1
