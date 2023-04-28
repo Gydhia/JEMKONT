@@ -57,14 +57,12 @@ namespace DownBelow.Entity
 
         public ToolItem ActiveTool;
         public BaseStorage PlayerSpecialSlot;
-
         public ItemPreset CurrentSelectedItem;
-
         public bool IsAutoAttacking = false;
-
         public int inventorySlotSelected = 0;
 
         private bool scrollBusy;
+        private IPlaceable lastPlaceable;
 
         public Deck Deck
         {
@@ -147,6 +145,7 @@ namespace DownBelow.Entity
                 //NoScrollin
             }
             scrollBusy = false;
+            processEndScroll();
         }
 
         void switchSlots(int old, int newSlot)
@@ -163,6 +162,24 @@ namespace DownBelow.Entity
                 //Inventory
             }
             inventorySlotSelected = newSlot;
+        }
+
+        void processEndScroll()
+        {
+            if(CurrentSelectedItem != null)
+            {
+                if (CurrentSelectedItem is IPlaceable placeable)
+                {
+                    lastPlaceable = placeable;
+                    InputManager.Instance.OnNewCellHovered += lastPlaceable.Previsualize;
+                    InputManager.Instance.OnCellRightClick += lastPlaceable.Place;
+                } else
+                {
+                    InputManager.Instance.OnNewCellHovered -= lastPlaceable.Previsualize;
+                    InputManager.Instance.OnCellRightClick -= lastPlaceable.Place;
+                    lastPlaceable = null;
+                }
+            }
         }
 
         public void SetActiveTool(ToolItem activeTool)

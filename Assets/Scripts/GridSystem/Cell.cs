@@ -129,6 +129,8 @@ namespace DownBelow.GridSystem
         public int widthPos { get; set; }
         [ShowInInspectorAttribute]
         public CellState state { get; set; }
+        [ShowInInspectorAttribute]
+        public IPlaceable placeableOnCell { get; set; }
     }
 
     [System.Serializable]

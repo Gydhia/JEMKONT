@@ -60,7 +60,6 @@ namespace DownBelow.Managers
                 //Inventory
                 PlayerInventory.PlayerStorage.Items[oldSlot - 1].SelectedSlot(false);
             }
-
             if (newSlot == 0)
             {
                 PlayerInventory.ClassItem.SelectedSlot(true);

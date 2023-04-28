@@ -24,6 +24,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: af7a2443919972147a1b1b66cf69db82, type: 2}
   - {fileID: 11400000, guid: 710edac696a8d534f844d188132ab11e, type: 2}
   - {fileID: 11400000, guid: 537ff7fc8db2ada41a3dd4a9df2ddbc1, type: 2}
+  - {fileID: 11400000, guid: fe418f351d5639e43a4d369d5d68630d, type: 2}
   IsPainting: 1
   _plane: {fileID: 0}
   PlanePrefab: {fileID: 913962143815404576, guid: 7141923bd86c41143a35f9d656e8949b, type: 3}
