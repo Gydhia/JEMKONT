@@ -138,14 +138,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6603774, g: 0.09033466, b: 0.09033466, a: 1}
+  m_Color: {r: 0.9339623, g: 0.083704144, b: 0.083704144, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 281f8729befff496bb788002ca7333af, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -735,8 +735,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: X
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: aa2f3c655b3634b2b852b64fd197fd58, type: 2}
+  m_sharedMaterial: {fileID: 6447333859754382329, guid: aa2f3c655b3634b2b852b64fd197fd58, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -913,6 +913,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Inventory Case (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 6184598405518796228, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
+      propertyPath: m_fontSize
+      value: 19.7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
 --- !u!114 &440319164506691973 stripped
@@ -1041,6 +1045,10 @@ PrefabInstance:
     - target: {fileID: 4893917239753150650, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
       propertyPath: m_Name
       value: Inventory Case (13)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6184598405518796228, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
+      propertyPath: m_fontSize
+      value: 19.7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
@@ -1171,6 +1179,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Inventory Case (10)
       objectReference: {fileID: 0}
+    - target: {fileID: 6184598405518796228, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
+      propertyPath: m_fontSize
+      value: 19.7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
 --- !u!114 &1901976377620954102 stripped
@@ -1299,6 +1311,10 @@ PrefabInstance:
     - target: {fileID: 4893917239753150650, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
       propertyPath: m_Name
       value: Inventory Case (28)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6184598405518796228, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
+      propertyPath: m_fontSize
+      value: 19.7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
@@ -1429,6 +1445,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Inventory Case (22)
       objectReference: {fileID: 0}
+    - target: {fileID: 6184598405518796228, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
+      propertyPath: m_fontSize
+      value: 19.7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
 --- !u!114 &2588392327199612726 stripped
@@ -1557,6 +1577,10 @@ PrefabInstance:
     - target: {fileID: 4893917239753150650, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
       propertyPath: m_Name
       value: Inventory Case (14)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6184598405518796228, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
+      propertyPath: m_fontSize
+      value: 19.7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
@@ -1687,6 +1711,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Inventory Case (25)
       objectReference: {fileID: 0}
+    - target: {fileID: 6184598405518796228, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
+      propertyPath: m_fontSize
+      value: 19.7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
 --- !u!114 &4016197322585201207 stripped
@@ -1815,6 +1843,10 @@ PrefabInstance:
     - target: {fileID: 4893917239753150650, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
       propertyPath: m_Name
       value: Inventory Case (29)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6184598405518796228, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
+      propertyPath: m_fontSize
+      value: 19.7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
@@ -1945,6 +1977,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Inventory Case (26)
       objectReference: {fileID: 0}
+    - target: {fileID: 6184598405518796228, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
+      propertyPath: m_fontSize
+      value: 19.7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
 --- !u!224 &1152200144844894026 stripped
@@ -2073,6 +2109,10 @@ PrefabInstance:
     - target: {fileID: 4893917239753150650, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
       propertyPath: m_Name
       value: Inventory Case (12)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6184598405518796228, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
+      propertyPath: m_fontSize
+      value: 19.7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
@@ -2203,6 +2243,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Inventory Case (15)
       objectReference: {fileID: 0}
+    - target: {fileID: 6184598405518796228, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
+      propertyPath: m_fontSize
+      value: 19.7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
 --- !u!224 &1167535621915309683 stripped
@@ -2331,6 +2375,10 @@ PrefabInstance:
     - target: {fileID: 4893917239753150650, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
       propertyPath: m_Name
       value: Inventory Case (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6184598405518796228, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
+      propertyPath: m_fontSize
+      value: 19.7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
@@ -2461,6 +2509,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Inventory Case (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 6184598405518796228, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
+      propertyPath: m_fontSize
+      value: 19.7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
 --- !u!224 &1544063906963992247 stripped
@@ -2589,6 +2641,10 @@ PrefabInstance:
     - target: {fileID: 4893917239753150650, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
       propertyPath: m_Name
       value: Inventory Case
+      objectReference: {fileID: 0}
+    - target: {fileID: 6184598405518796228, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
+      propertyPath: m_fontSize
+      value: 19.7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
@@ -2719,6 +2775,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Inventory Case (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 6184598405518796228, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
+      propertyPath: m_fontSize
+      value: 19.7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
 --- !u!224 &1544063907119549927 stripped
@@ -2847,6 +2907,10 @@ PrefabInstance:
     - target: {fileID: 4893917239753150650, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
       propertyPath: m_Name
       value: Inventory Case (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6184598405518796228, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
+      propertyPath: m_fontSize
+      value: 19.7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
@@ -2977,6 +3041,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Inventory Case (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 6184598405518796228, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
+      propertyPath: m_fontSize
+      value: 19.7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
 --- !u!224 &1544063905703729522 stripped
@@ -3105,6 +3173,10 @@ PrefabInstance:
     - target: {fileID: 4893917239753150650, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
       propertyPath: m_Name
       value: Inventory Case (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6184598405518796228, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
+      propertyPath: m_fontSize
+      value: 19.7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
@@ -3235,6 +3307,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Inventory Case (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 6184598405518796228, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
+      propertyPath: m_fontSize
+      value: 19.7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
 --- !u!224 &1544063906167721178 stripped
@@ -3363,6 +3439,10 @@ PrefabInstance:
     - target: {fileID: 4893917239753150650, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
       propertyPath: m_Name
       value: Inventory Case (20)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6184598405518796228, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
+      propertyPath: m_fontSize
+      value: 19.7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
@@ -3493,6 +3573,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Inventory Case (18)
       objectReference: {fileID: 0}
+    - target: {fileID: 6184598405518796228, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
+      propertyPath: m_fontSize
+      value: 19.7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
 --- !u!224 &2209938721436660475 stripped
@@ -3621,6 +3705,10 @@ PrefabInstance:
     - target: {fileID: 4893917239753150650, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
       propertyPath: m_Name
       value: Inventory Case (17)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6184598405518796228, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
+      propertyPath: m_fontSize
+      value: 19.7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
@@ -3751,6 +3839,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Inventory Case (24)
       objectReference: {fileID: 0}
+    - target: {fileID: 6184598405518796228, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
+      propertyPath: m_fontSize
+      value: 19.7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
 --- !u!224 &2098805974968510191 stripped
@@ -3879,6 +3971,10 @@ PrefabInstance:
     - target: {fileID: 4893917239753150650, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
       propertyPath: m_Name
       value: Inventory Case (16)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6184598405518796228, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
+      propertyPath: m_fontSize
+      value: 19.7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
@@ -4009,6 +4105,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Inventory Case (23)
       objectReference: {fileID: 0}
+    - target: {fileID: 6184598405518796228, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
+      propertyPath: m_fontSize
+      value: 19.7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
 --- !u!224 &2561982941600010384 stripped
@@ -4137,6 +4237,10 @@ PrefabInstance:
     - target: {fileID: 4893917239753150650, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
       propertyPath: m_Name
       value: Inventory Case (11)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6184598405518796228, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
+      propertyPath: m_fontSize
+      value: 19.7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
@@ -4267,6 +4371,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Inventory Case (19)
       objectReference: {fileID: 0}
+    - target: {fileID: 6184598405518796228, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
+      propertyPath: m_fontSize
+      value: 19.7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
 --- !u!224 &3204662142931772834 stripped
@@ -4395,6 +4503,10 @@ PrefabInstance:
     - target: {fileID: 4893917239753150650, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
       propertyPath: m_Name
       value: Inventory Case (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6184598405518796228, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
+      propertyPath: m_fontSize
+      value: 19.7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
@@ -4525,6 +4637,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Inventory Case (27)
       objectReference: {fileID: 0}
+    - target: {fileID: 6184598405518796228, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
+      propertyPath: m_fontSize
+      value: 19.7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
 --- !u!224 &3596250412292572322 stripped
@@ -4653,6 +4769,10 @@ PrefabInstance:
     - target: {fileID: 4893917239753150650, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
       propertyPath: m_Name
       value: Inventory Case (21)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6184598405518796228, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
+      propertyPath: m_fontSize
+      value: 19.7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
