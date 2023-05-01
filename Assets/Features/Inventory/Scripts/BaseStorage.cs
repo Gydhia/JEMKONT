@@ -37,7 +37,14 @@ namespace DownBelow.UI.Inventory
             for (int i = 0; i < this.StorageItems.Length; i++)
                 this.StorageItems[i] = new InventoryItem();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="preset"></param>
+        /// <param name="quantity"></param>
+        /// <param name="preferredSlot"></param>
+        /// <param name="addAll"></param>
+        /// <returns>The quantity that couldn't be added to the stack.</returns>
         public int TryAddItem(ItemPreset preset, int quantity, int preferredSlot = -1, bool addAll = true)
         {
             int remaining = quantity;

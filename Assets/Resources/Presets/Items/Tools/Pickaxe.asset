@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 631c082ce4ad09f49b957037d0d3c305, type: 3}
-  m_Name: FishingRod
+  m_Name: Pickaxe
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -23,20 +23,14 @@ MonoBehaviour:
     SerializationNodes:
     - Name: UID
       Entry: 2
-      Data: 72c07eb2c3dbdde22a782c1aacfe1bed
+      Data: 7be70f16f237f01a891f50091de9adb4
   Type: 0
-  ItemName: Fishing Rod
-  InventoryIcon: {fileID: 21300000, guid: 3e70afd6c42a6c1449f3f632d62f8059, type: 3}
+  ItemName: Pickaxe
+  InventoryIcon: {fileID: 21300000, guid: 995ee7a24a7e4fb4b8494218405c38c9, type: 3}
   ItemPrefab: {fileID: 0}
   MaxStack: 1
-  DroppedItemPrefab: {fileID: 362496489379886822, guid: f7893c8e664f07e46a5977ba2d3f1fd8, type: 3}
+  DroppedItemPrefab: {fileID: 0}
   Deck:
-    Cards:
-    - {fileID: 11400000, guid: a4bd6d4842e41b347a6c5e845162e976, type: 2}
-    - {fileID: 11400000, guid: a4bd6d4842e41b347a6c5e845162e976, type: 2}
-    - {fileID: 11400000, guid: a4bd6d4842e41b347a6c5e845162e976, type: 2}
-    - {fileID: 11400000, guid: a4bd6d4842e41b347a6c5e845162e976, type: 2}
-    - {fileID: 11400000, guid: a4bd6d4842e41b347a6c5e845162e976, type: 2}
-    - {fileID: 11400000, guid: a4bd6d4842e41b347a6c5e845162e976, type: 2}
-  Class: 0
+    Cards: []
+  Class: 3
   ActualPlayer: {fileID: 0}

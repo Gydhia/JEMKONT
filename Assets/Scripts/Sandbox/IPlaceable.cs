@@ -12,4 +12,9 @@ public interface IPlaceable
         cell.Datas.placeableOnCell = this;
     }*/
     public void Previsualize(CellEventData cell);
+
+    public static bool Placeable(Cell cell)
+    {
+        return cell.Datas.state == CellState.Walkable;
+    }
 }

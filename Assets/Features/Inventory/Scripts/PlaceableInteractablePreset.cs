@@ -1,36 +1,43 @@
 using DownBelow;
-using DownBelow.Entity;
 using DownBelow.Events;
-using DownBelow.GridSystem;
 using DownBelow.Managers;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PlaceableItem", menuName = "DownBelow/ScriptableObject/PlaceableItem", order = 1)]
-public class PlaceableItemPreset : ItemPreset, IPlaceable
+
+[CreateAssetMenu(fileName = "PlaceableInteractable.asset", menuName = "DownBelow/ScriptableObject/PlaceableInteractable", order = 1)]
+public class PlaceableInteractablePreset : ItemPreset, IPlaceable
 {
-    public GameObject ObjectToPlace;
+    public InteractablePreset Interactable;
     GameObject instance;
-    public CellState AffectingState;
 
     public void Place(CellEventData data)
     {
         if (instance != null)
         {
-            instance.transform.SetParent(data.Cell.transform);
             data.Cell.Datas.placeableOnCell = this;
 
-            var stack = GameManager.Instance.SelfPlayer.PlayerInventory.StorageItems.ToList().First(x=>x.ItemPreset == this);
-            stack.RemoveQuantity();
-            instance = null;
-            data.Cell.Datas.state = AffectingState;
-            if (stack.Quantity <= 0)
+            Destroy(instance);
+            Interactable.Init(data.Cell);
+
+            try
             {
+                var stack = GameManager.Instance.SelfPlayer.PlayerInventory.StorageItems.ToList().First(x => x.ItemPreset == this);
+                stack.RemoveQuantity();
+                instance = null;
+                data.Cell.Datas.state = Interactable.AffectingState;
+                if (stack.Quantity <= 0)
+                {
+                    InputManager.Instance.OnNewCellHovered -= Previsualize;
+                    InputManager.Instance.OnCellRightClickDown -= Place;
+                }
+            } catch {
                 InputManager.Instance.OnNewCellHovered -= Previsualize;
                 InputManager.Instance.OnCellRightClickDown -= Place;
-            }
+            } 
+            
         }
     }
 
@@ -40,7 +47,7 @@ public class PlaceableItemPreset : ItemPreset, IPlaceable
         {
             if (instance == null)
             {
-                instance = Instantiate(ObjectToPlace, data.Cell.WorldPosition, Quaternion.identity);
+                instance = Instantiate(Interactable.ObjectPrefab, data.Cell.WorldPosition, Quaternion.identity).gameObject;
                 if (instance.TryGetComponent<PlacedDownItem>(out var down))
                 {
                     down.Placed = false;
@@ -56,4 +63,5 @@ public class PlaceableItemPreset : ItemPreset, IPlaceable
             instance.SetActive(false);
         }
     }
+
 }

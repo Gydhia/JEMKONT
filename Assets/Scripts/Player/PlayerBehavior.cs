@@ -102,7 +102,7 @@ namespace DownBelow.Entity
 
         public override void FireEnteredCell(Cell cell)
         {
-            if (cell.ItemContained.ItemPreset != null)
+            if (cell.ItemContained != null)
                 cell.TryPickUpItem(this);
             base.FireEnteredCell(cell);
 
@@ -179,6 +179,9 @@ namespace DownBelow.Entity
                     InputManager.Instance.OnCellRightClickDown -= lastPlaceable.Place;
                     lastPlaceable = null;
                 }
+            } else
+            {
+                lastPlaceable = null;
             }
         }
 
