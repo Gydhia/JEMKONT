@@ -1,4 +1,5 @@
 using DownBelow;
+using DownBelow.Entity;
 using DownBelow.GridSystem;
 using DownBelow.Inventory;
 using System.Collections;

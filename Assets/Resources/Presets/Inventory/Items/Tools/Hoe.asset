@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 631c082ce4ad09f49b957037d0d3c305, type: 3}
-  m_Name: Pickaxe
+  m_Name: Hoe
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -23,14 +23,14 @@ MonoBehaviour:
     SerializationNodes:
     - Name: UID
       Entry: 2
-      Data: 7be70f16f237f01a891f50091de9adb4
+      Data: 2099ea4364cdaf512dfb8d2f467cf56f
   Type: 0
-  ItemName: Pickaxe
-  InventoryIcon: {fileID: 21300000, guid: 995ee7a24a7e4fb4b8494218405c38c9, type: 3}
+  ItemName: Hoe
+  InventoryIcon: {fileID: 21300000, guid: 4d815a29236d69c4580fc965354124db, type: 3}
   ItemPrefab: {fileID: 0}
   MaxStack: 1
   DroppedItemPrefab: {fileID: 0}
   Deck:
     Cards: []
-  Class: 3
+  Class: 2
   ActualPlayer: {fileID: 0}

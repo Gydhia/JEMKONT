@@ -168,6 +168,7 @@ MonoBehaviour:
   LastInteractable: {fileID: 0}
   EventSystem: {fileID: 0}
   IsPressingShift: 0
+  MouseScrollY: 0
 --- !u!1 &2265214080651548676
 GameObject:
   m_ObjectHideFlags: 0
@@ -311,8 +312,6 @@ MonoBehaviour:
     Cards: []
   HandPile: []
   CardPrefab: {fileID: 0}
-  PossibleAutoAttacks:
-  - {fileID: 0}
   TurnNumber: 0
 --- !u!1 &4145856202392196912
 GameObject:
@@ -460,6 +459,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerPrefab: {fileID: -4998914615591247022, guid: 1d1bd3328be7bc54eb7b01b391b42dc7, type: 3}
   SelfPlayer: {fileID: 0}
+  GameItems:
+  - {fileID: 11400000, guid: 0ae20222b1f41454d9dd8ecaffbc0c1b, type: 2}
+  - {fileID: 11400000, guid: ffdd6310dff45344893994ab9ff94915, type: 2}
+  - {fileID: 11400000, guid: 34b1f29d12145524f84fb53e274345fe, type: 2}
+  - {fileID: 11400000, guid: a2c4d8e3e317bc244858b9e45b1cb948, type: 2}
+  - {fileID: 11400000, guid: a89e30dcba5914445901acf7d9c05e96, type: 2}
+  - {fileID: 11400000, guid: bf7cd4d4a1c92954e8a82da5efb4b9dd, type: 2}
+  - {fileID: 11400000, guid: db90c336454dd6d44be1bfcde89c090b, type: 2}
+  - {fileID: 11400000, guid: 1e5a5998004f5224ea7527f9e1fcd1c6, type: 2}
+  - {fileID: 11400000, guid: 2d5ba117188a6554a9000d3a93a0b7b5, type: 2}
+  - {fileID: 11400000, guid: b0127d822798c8744995cad233256221, type: 2}
+  - {fileID: 11400000, guid: 2af07c90b1be84041ab37493538a5773, type: 2}
 --- !u!1 &6162683752929045887
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,6 +2,7 @@ using DownBelow.Entity;
 using DownBelow.Events;
 using DownBelow.GridSystem;
 using Photon.Pun;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,6 +47,8 @@ namespace DownBelow.Managers
 
         public Dictionary<string, PlayerBehavior> Players;
         public PlayerBehavior SelfPlayer;
+
+        public ItemPreset[] GameItems;
 
         public static bool GameStarted = false;
 

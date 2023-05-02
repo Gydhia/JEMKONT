@@ -3,6 +3,8 @@ using DownBelow.Managers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 namespace DownBelow.Entity
@@ -62,7 +64,7 @@ namespace DownBelow.Entity
 
             if (this.EndCallbacks != null)
             {
-                foreach(Action callback in this.EndCallbacks)
+                foreach (Action callback in this.EndCallbacks)
                 {
                     Debug.Log($"Before invoking endcallback\n{callback.Method.Name}.\n{GameManager.Instance.BufferStatus()}");
                     callback.Invoke();
@@ -73,5 +75,23 @@ namespace DownBelow.Entity
 
         public abstract object[] GetDatas();
         public abstract void SetDatas(object[] Datas);
+
+        public string GetAssemblyName()
+        {
+            var temp = this.GetType().AssemblyQualifiedName;
+            var res = "";
+            var temp2 = temp.Split(",");
+
+            for (int i = 0;i < 2;i++)
+            {
+                res += temp2[i];
+                if(i == 0)
+                {
+                    res += ",";
+                }
+            }
+            Debug.Log(res); return res;
+
+        }
     }
 }

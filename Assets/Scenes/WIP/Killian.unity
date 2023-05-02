@@ -59994,6 +59994,10 @@ PrefabInstance:
       propertyPath: AlterationSFXList
       value: 
       objectReference: {fileID: 11400000, guid: 980541b1f93667242bc13db4e6b0d359, type: 2}
+    - target: {fileID: 8725056399267487884, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: GameItems.Array.data[11]
+      value: 
+      objectReference: {fileID: 11400000, guid: 2af07c90b1be84041ab37493538a5773, type: 2}
     - target: {fileID: 9130029332865921162, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

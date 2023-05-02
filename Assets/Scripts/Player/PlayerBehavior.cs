@@ -102,10 +102,11 @@ namespace DownBelow.Entity
 
         public override void FireEnteredCell(Cell cell)
         {
-            if (cell.ItemContained != null && cell.ItemContained.ItemPreset != null)
+            /*if (cell.ItemContained != null && cell.ItemContained.ItemPreset != null)
             {
                 cell.TryPickUpItem(this);
             }
+            //*/
             base.FireEnteredCell(cell);
         }
 

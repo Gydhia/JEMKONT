@@ -133,7 +133,7 @@ namespace DownBelow.Managers
                 action.RefEntity.UID,
                 action.RefEntity.CurrentGrid.UName,
                 new int[2] { action.TargetCell.PositionInGrid.latitude, action.TargetCell.PositionInGrid.longitude },
-                action.GetType().ToString(),
+                action.GetAssemblyName(),
                 action.GetDatas(),
                 abortOthers
              );

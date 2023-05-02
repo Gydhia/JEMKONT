@@ -89,7 +89,17 @@ namespace DownBelow.GridSystem
             Selection.activeObject = this;
 #endif
         }
+        public bool HasItem(out InventoryItem item)
+        {
+            if (ItemContained != null && ItemContained.ItemPreset != null)
+            {
+                item = ItemContained;
+                return true;
 
+            }
+            item = null;
+            return false;
+        }
         public void TryPickUpItem(PlayerBehavior player)
         {
             int qtyRemainingInItem = ItemContained.Quantity;
@@ -108,10 +118,10 @@ namespace DownBelow.GridSystem
                 ItemContained = null; ItemContainedObject = null;
             }
 #if UNITY_EDITOR
-           /*/ Debug.Log($"Actual Quantity : {ItemContained.Quantity}, Quantity returned: {qtyRemainingInItem}");
-            EditorGUIUtility.PingObject(this);
-            Selection.activeObject = this;
-            //*/
+            /*/ Debug.Log($"Actual Quantity : {ItemContained.Quantity}, Quantity returned: {qtyRemainingInItem}");
+             EditorGUIUtility.PingObject(this);
+             Selection.activeObject = this;
+             //*/
 #endif
         }
     }
