@@ -47,6 +47,7 @@ namespace DownBelow.UI.Inventory
         /// <returns>The quantity that couldn't be added to the stack.</returns>
         public int TryAddItem(ItemPreset preset, int quantity, int preferredSlot = -1, bool addAll = true)
         {
+
             int remaining = quantity;
             int slot = preferredSlot != -1 ? preferredSlot : _getAvailableSlot(preset);
 

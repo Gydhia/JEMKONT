@@ -130,7 +130,7 @@ namespace DownBelow.GridSystem
         [ShowInInspectorAttribute]
         public CellState state { get; set; }
         [ShowInInspectorAttribute]
-        public IPlaceable placeableOnCell { get; set; }
+        public PlaceableItem placeableOnCell { get; set; }
     }
 
     [System.Serializable]

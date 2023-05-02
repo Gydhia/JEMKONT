@@ -62,7 +62,7 @@ namespace DownBelow.Entity
         public int inventorySlotSelected = 0;
 
         private bool scrollBusy;
-        private IPlaceable lastPlaceable;
+        private PlaceableItem lastPlaceable;
 
         public Deck Deck
         {
@@ -102,10 +102,11 @@ namespace DownBelow.Entity
 
         public override void FireEnteredCell(Cell cell)
         {
-            if (cell.ItemContained != null)
+            if (cell.ItemContained != null && cell.ItemContained.ItemPreset != null)
+            {
                 cell.TryPickUpItem(this);
+            }
             base.FireEnteredCell(cell);
-
         }
 
         void Scroll(ScrollEventData data)
@@ -168,7 +169,7 @@ namespace DownBelow.Entity
         {
             if(CurrentSelectedItem != null)
             {
-                if (CurrentSelectedItem is IPlaceable placeable)
+                if (CurrentSelectedItem is PlaceableItem placeable)
                 {
                     lastPlaceable = placeable;
                     InputManager.Instance.OnNewCellHovered += lastPlaceable.Previsualize;
@@ -181,7 +182,12 @@ namespace DownBelow.Entity
                 }
             } else
             {
-                lastPlaceable = null;
+                if(lastPlaceable!= null)
+                {
+                    InputManager.Instance.OnNewCellHovered -= lastPlaceable.Previsualize;
+                    InputManager.Instance.OnCellRightClickDown -= lastPlaceable.Place;
+                    lastPlaceable = null;
+                }
             }
         }
 

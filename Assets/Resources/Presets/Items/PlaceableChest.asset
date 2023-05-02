@@ -23,11 +23,11 @@ MonoBehaviour:
     SerializationNodes:
     - Name: UID
       Entry: 2
-      Data: 00000000000000000000000000000000
+      Data: fa83d62d5ca6d4af425f93f1e435f150
   Type: 0
-  ItemName: 
+  ItemName: PlaceableChest
   InventoryIcon: {fileID: 21300000, guid: d5583070971864116a83a0f2577fa4da, type: 3}
-  ItemPrefab: {fileID: 0}
-  MaxStack: 1
+  ItemPrefab: {fileID: 5733823520488915782, guid: 1ee5710fbb2b073409a4c6843a75c377, type: 3}
+  MaxStack: 50
   DroppedItemPrefab: {fileID: 2769568623919297241, guid: 1ee5710fbb2b073409a4c6843a75c377, type: 3}
   Interactable: {fileID: 11400000, guid: 22705731f513aa24ba27cace6926da2c, type: 2}
