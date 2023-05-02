@@ -80,7 +80,8 @@ namespace DownBelow.GridSystem
 
         public void DropDownItem(InventoryItem item)
         {
-            ItemContained = item;
+            ItemContained = new();
+            ItemContained.Init(item.ItemPreset, item.Slot, item.Quantity);
             ItemContainedObject = Instantiate(ItemContained.ItemPreset.DroppedItemPrefab, this.transform.position, quaternion.identity);
             //Mettre un animator sur le prefab pour le faire tourner ou jsp
 #if UNITY_EDITOR
@@ -107,9 +108,10 @@ namespace DownBelow.GridSystem
                 ItemContained = null; ItemContainedObject = null;
             }
 #if UNITY_EDITOR
-           // Debug.Log($"Actual Quantity : {ItemContained.Quantity}, Quantity returned: {qtyRemainingInItem}");
+           /*/ Debug.Log($"Actual Quantity : {ItemContained.Quantity}, Quantity returned: {qtyRemainingInItem}");
             EditorGUIUtility.PingObject(this);
             Selection.activeObject = this;
+            //*/
 #endif
         }
     }

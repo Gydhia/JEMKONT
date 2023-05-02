@@ -176,9 +176,12 @@ namespace DownBelow.Entity
                     InputManager.Instance.OnCellRightClickDown += lastPlaceable.Place;
                 } else
                 {
-                    InputManager.Instance.OnNewCellHovered -= lastPlaceable.Previsualize;
-                    InputManager.Instance.OnCellRightClickDown -= lastPlaceable.Place;
-                    lastPlaceable = null;
+                    if(lastPlaceable!= null)
+                    {
+                        InputManager.Instance.OnNewCellHovered -= lastPlaceable.Previsualize;
+                        InputManager.Instance.OnCellRightClickDown -= lastPlaceable.Place;
+                        lastPlaceable = null;
+                    }
                 }
             } else
             {
