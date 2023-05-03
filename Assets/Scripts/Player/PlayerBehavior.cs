@@ -4,6 +4,7 @@ using DownBelow.Inventory;
 using DownBelow.Managers;
 using DownBelow.Spells;
 using DownBelow.UI.Inventory;
+using EODE.Wonderland;
 using Photon.Pun;
 using Photon.Realtime;
 using System;
@@ -48,22 +49,28 @@ namespace DownBelow.Entity
         public Interactable NextInteract = null;
 
         public MeshRenderer PlayerBody;
-        public string PlayerID;
         public PhotonView PlayerView;
 
         public List<Cell> NextPath { get; private set; }
         public bool CanEnterGrid => true;
 
-        public Tool ActiveTool;
+        public ToolItem ActiveTool;
+        public BaseStorage PlayerSpecialSlot;
+        public ItemPreset CurrentSelectedItem;
         public bool IsAutoAttacking = false;
+        public int inventorySlotSelected = 0;
+
+        private bool scrollBusy;
+        private PlaceableItem lastPlaceable;
 
         public Deck Deck
         {
-            get => testingDeck;
-            set => testingDeck = value;
+            get => testingDeck.Deck;
+            set => testingDeck.Deck = value;
         }
 
-        Deck testingDeck;
+        // TEMPORARY
+        public DeckPreset testingDeck;
 
         public override int Mana
         {
@@ -88,9 +95,109 @@ namespace DownBelow.Entity
             this.PlayerInventory = new BaseStorage();
             this.PlayerInventory.Init(
                 SettingsManager.Instance.GameUIPreset.SlotsByPlayer[Photon.Pun.PhotonNetwork.PlayerList.Length - 1]);
+            this.PlayerSpecialSlot = new BaseStorage();
+            this.PlayerSpecialSlot.Init(1);
+
+            PlayerInputs.player_scroll.performed += this._scroll;
         }
 
-        public void SetActiveTool(Tool activeTool)
+        public override void FireEnteredCell(Cell cell)
+        {
+            /*if (cell.ItemContained != null && cell.ItemContained.ItemPreset != null)
+            {
+                cell.TryPickUpItem(this);
+            }
+            //*/
+            base.FireEnteredCell(cell);
+        }
+
+        private void _scroll(UnityEngine.InputSystem.InputAction.CallbackContext ctx) => this.Scroll(ctx.ReadValue<float>());
+        void Scroll(float value)
+        {
+            if (scrollBusy) return;
+            scrollBusy = true;
+            int newSlot = inventorySlotSelected;
+            if (value >= 110)
+            {
+                //If we're scrolling up,
+                if (inventorySlotSelected + 1 >= PlayerInventory.MaxSlots)
+                {
+                    //If by incrementing our selectedslot we would go over the limit; do a loop
+                    newSlot = 0;
+                } else
+                {
+                    //Increment simply
+                    newSlot++;
+                }
+                switchSlots(inventorySlotSelected, newSlot);
+            } else if (value <= -110)
+            {
+
+                if (inventorySlotSelected - 1 < 0)
+                {
+                    //if by decrementing we would go below 0;
+                    newSlot = PlayerInventory.MaxSlots;
+                } else
+                {
+                    //decrement
+                    newSlot--;
+                }
+
+                switchSlots(inventorySlotSelected, newSlot);
+            } else
+            {
+                //NoScrollin
+            }
+            scrollBusy = false;
+            processEndScroll();
+        }
+
+        void switchSlots(int old, int newSlot)
+        {
+            UIManager.Instance.SwitchSelectedSlot(old, newSlot);
+            if (newSlot == 0)
+            {
+                CurrentSelectedItem = ActiveTool;
+
+                //ActiveSlot
+            } else
+            {
+                CurrentSelectedItem = PlayerInventory.StorageItems[newSlot - 1].ItemPreset;
+                //Inventory
+            }
+            inventorySlotSelected = newSlot;
+        }
+
+        void processEndScroll()
+        {
+            if(CurrentSelectedItem != null)
+            {
+                if (CurrentSelectedItem is PlaceableItem placeable)
+                {
+                    lastPlaceable = placeable;
+                    InputManager.Instance.OnNewCellHovered += lastPlaceable.Previsualize;
+                    InputManager.Instance.OnCellRightClickDown += lastPlaceable.Place;
+                } else
+                {
+                    if(lastPlaceable!= null)
+                    {
+                        InputManager.Instance.OnNewCellHovered -= lastPlaceable.Previsualize;
+                        InputManager.Instance.OnCellRightClickDown -= lastPlaceable.Place;
+                        lastPlaceable = null;
+                    }
+                }
+            } else
+            {
+                if(lastPlaceable!= null)
+                {
+                    InputManager.Instance.OnNewCellHovered -= lastPlaceable.Previsualize;
+                    InputManager.Instance.OnCellRightClickDown -= lastPlaceable.Place;
+                    lastPlaceable = null;
+                }
+            }
+        }
+
+        public void SetActiveTool(ToolItem activeTool)
         {
             activeTool.ActualPlayer = this;
             this.ActiveTool = activeTool;

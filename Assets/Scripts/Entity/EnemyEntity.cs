@@ -17,6 +17,10 @@ using Math = System.Math;
 
 namespace DownBelow.Entity 
 {
+    public enum MovementType { Straight = 1, StraightToRange = 2, Flee = 3, Kite = 4 };
+    public enum AttackType { ClosestRandom = 1, FarthestRandom = 2, LowestRandom = 3, HighestRandom = 4, Random = 5 };
+
+
     public class EnemyEntity : CharacterEntity 
     {
 
@@ -26,12 +30,10 @@ namespace DownBelow.Entity
         public CharacterEntity CurrentTarget;
 
         #region Movement
-        public enum MovementType { Straight, StraightToRange, Flee, Kite };
         public MovementType movementType = MovementType.Straight;
         #endregion
 
         #region Attack
-        public enum AttackType { ClosestRandom, FarthestRandom, LowestRandom, HighestRandom, Random };
         public AttackType attackType = AttackType.ClosestRandom;
         #endregion
 
@@ -52,23 +54,22 @@ namespace DownBelow.Entity
         public override void StartTurn() 
         {
             base.StartTurn();
-
-            // TODO : go through network instead of local
-            GameManager.Instance.BuffEnemyAction(this.CreateEnemyActions(), this);
         }
 
 
-        public List<EntityAction> CreateEnemyActions()
+        public EntityAction[] CreateEnemyActions()
         {
-            var targettingAction = new TargettingAction(this, null);
+            var targettingAction = new TargettingAction(this, this.EntityCell);
 
-            var movementAction = new EnemyMovementAction(this, null, this.movementType);
+            var movementAction = new EnemyMovementAction(this, this.EntityCell, this.movementType.ToString());
             movementAction.SetContextAction(targettingAction);
+
+            var endTurnAction = new EndTurnAction(this, this.EntityCell);
 
             // TODO : Implement a deck for enemy
             //var attackAction = new Spell();
 
-            return new List<EntityAction> { targettingAction, movementAction };
+            return new EntityAction[3] { targettingAction, movementAction, endTurnAction };
         }
 
         // All Attack Behaviours

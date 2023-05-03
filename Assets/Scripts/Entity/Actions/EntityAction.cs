@@ -3,12 +3,16 @@ using DownBelow.Managers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 namespace DownBelow.Entity
 {
     public abstract class EntityAction
     {
+        public Guid ID;
+
         // Since we have the reference here, we can remove ourself without any help
         [HideInInspector]
         public List<EntityAction> RefBuffer;
@@ -23,7 +27,8 @@ namespace DownBelow.Entity
         /// You can put whatever you want but don't forget to parse it
         /// </summary>
         [HideInInspector]
-        public EntityAction ContextAction;
+        public Guid ContextActionId;
+        protected EntityAction contextAction;
 
         protected List<Action> EndCallbacks = new List<Action>();
 
@@ -33,6 +38,7 @@ namespace DownBelow.Entity
         {
             this.RefEntity = RefEntity;
             this.TargetCell = TargetCell;
+            this.ID = Guid.NewGuid();
         }
 
         public void SetCallback(Action EndCallback)
@@ -42,11 +48,12 @@ namespace DownBelow.Entity
 
         public void SetContextAction(EntityAction ContextAction)
         {
-            this.ContextAction = ContextAction;
+            this.ContextActionId = ContextAction.ID;
+            this.contextAction = ContextAction;
         }
         public virtual void ProcessContextAction()
         {
-            this.TargetCell = this.ContextAction.TargetCell;
+            this.TargetCell = this.contextAction.TargetCell;
         }
 
         public abstract void ExecuteAction();
@@ -62,7 +69,7 @@ namespace DownBelow.Entity
 
             if (this.EndCallbacks != null)
             {
-                foreach(Action callback in this.EndCallbacks)
+                foreach (Action callback in this.EndCallbacks)
                 {
                     Debug.Log($"Before invoking endcallback\n{callback.Method.Name}.\n{GameManager.Instance.BufferStatus()}");
                     callback.Invoke();
@@ -73,5 +80,23 @@ namespace DownBelow.Entity
 
         public abstract object[] GetDatas();
         public abstract void SetDatas(object[] Datas);
+
+        public string GetAssemblyName()
+        {
+            var temp = this.GetType().AssemblyQualifiedName;
+            var res = "";
+            var temp2 = temp.Split(",");
+
+            for (int i = 0;i < 2;i++)
+            {
+                res += temp2[i];
+                if(i == 0)
+                {
+                    res += ",";
+                }
+            }
+            Debug.Log(res); return res;
+
+        }
     }
 }

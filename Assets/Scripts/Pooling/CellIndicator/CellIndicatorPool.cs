@@ -99,7 +99,6 @@ namespace DownBelow.Pools
                 indicator.Color = GreenColor;
 
                 this._pathRef.Add(indicator);
-
             }
         }
 

@@ -12,6 +12,7 @@ using System;
 using DownBelow.Events;
 using UnityEngine.Rendering;
 using EODE.Wonderland;
+using DownBelow.UI;
 
 namespace DownBelow.Managers
 {
@@ -179,6 +180,14 @@ namespace DownBelow.Managers
                     NetworkManager.Instance.EntityAskToBuffActions(actions);
 
                     return;
+                } else if (this.LastHoveredCell.HasItem(out var item))
+                {
+                    //If we have a dropped item on the cell.
+                    EntityAction[] actions = new EntityAction[2];
+                    actions[0] = new MovementAction(selfPlayer, LastHoveredCell);
+                    actions[1] = new PickupItemAction(selfPlayer, this.LastHoveredCell);
+                    NetworkManager.Instance.EntityAskToBuffActions(actions);
+                    return;
                 } else
                 {
                     if (selfPlayer.CurrentGrid != this.LastHoveredCell.RefGrid)
@@ -231,6 +240,7 @@ namespace DownBelow.Managers
                           && this._possiblePath.Contains(this.LastHoveredCell)
                       )
                     {
+                        Debug.Log("CREATED COMBAT MOVEMENT ACTION");
                         NetworkManager.Instance.EntityAskToBuffAction(
                             new CombatMovementAction(selfPlayer, this.LastHoveredCell)
                         );
@@ -278,7 +288,7 @@ namespace DownBelow.Managers
                 && this.LastHoveredCell.RefGrid == selfPlayer.CurrentGrid
             )
             {
-                if (UI.DraggableCard.SelectedCard == null)
+                if (DraggableCard.SelectedCard == null && selfPlayer.IsPlayingEntity)
                 {
                     if (!selfPlayer.IsMoving && this._possiblePath.Contains(LastHoveredCell))
                         PoolManager.Instance.CellIndicatorPool.DisplayPathIndicators(
@@ -844,15 +854,15 @@ namespace DownBelow.Managers
                     new Vector2(-world.TopLeftOffset.x, -(world.TopLeftOffset.z - 1))
                 );
                 this.BitmapShaderEditor.SetTexture("_Texture2D", this.BitmapTexture);
-            }
-            else {
+            } else
+            {
                 this.BitmapShader.SetVector(
                     "_Offset",
                     new Vector2(-world.TopLeftOffset.x, -(world.TopLeftOffset.z - 1))
                 );
                 this.BitmapShader.SetTexture("_Texture2D", this.BitmapTexture);
             }
-            
+
         }
 
         private void _generateShaderBitmap(GridData world, GridData innerGrid)

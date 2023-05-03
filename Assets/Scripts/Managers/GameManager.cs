@@ -2,6 +2,7 @@ using DownBelow.Entity;
 using DownBelow.Events;
 using DownBelow.GridSystem;
 using Photon.Pun;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,6 +47,8 @@ namespace DownBelow.Managers
 
         public Dictionary<string, PlayerBehavior> Players;
         public PlayerBehavior SelfPlayer;
+
+        public ItemPreset[] GameItems;
 
         public static bool GameStarted = false;
 
@@ -107,7 +110,7 @@ namespace DownBelow.Managers
 
         public void WelcomePlayerLately()
         {
-            PhotonNetwork.CreateRoom("SoloRoom" + UnityEngine.Random.Range(0, 100000));
+            PhotonNetwork.CreateRoom("SoloRoom" + UnityEngine.Random.Range(0,100000));
         }
 
         public void WelcomePlayers()
@@ -122,11 +125,11 @@ namespace DownBelow.Managers
                 foreach (var player in PhotonNetwork.PlayerList)
                 {
                     PlayerBehavior newPlayer = Instantiate(this._playerPrefab, Vector3.zero, Quaternion.identity, this.transform);
-                    newPlayer.Deck = CardsManager.Instance.DeckPresets.Values.Single(d => d.Name == "TestDeck").Copy();
-
+                    //newPlayer.Deck = CardsManager.Instance.DeckPresets.Values.Single(d => d.Name == "TestDeck").Copy();
+                 
                     newPlayer.Init(SettingsManager.Instance.FishermanStats, GridManager.Instance.MainWorldGrid.Cells[spawnLocations.ElementAt(counter).latitude, spawnLocations.ElementAt(counter).longitude], GridManager.Instance.MainWorldGrid);
                     // TODO: make it works with world grids
-                    newPlayer.PlayerID = player.UserId;
+                    newPlayer.UID = player.UserId;
 
                     if (player.UserId == PhotonNetwork.LocalPlayer.UserId)
                     {
@@ -223,17 +226,6 @@ namespace DownBelow.Managers
                 this.BuffAction(Data.GeneratedSpells[i], false);
         }
 
-        public void BuffEnemyAction(List<EntityAction> actions, CharacterEntity enemy)
-        {
-            for(int i = 0; i < actions.Count; i++)
-            {
-                if (i == actions.Count - 1)
-                    actions[i].SetCallback(enemy.EndTurn);
-
-                this.BuffAction(actions[i], false);
-            }
-        }
-
         /// <summary>
         /// Used to buff any action into the combat or normal buffer according to the grid containing the entity
         /// </summary>
@@ -289,6 +281,17 @@ namespace DownBelow.Managers
             }
         }
 
+        public EntityAction FindActionByID(CharacterEntity entity, Guid ID)
+        {
+            if (entity.CurrentGrid is CombatGrid)
+            {
+                return CombatActionsBuffer.SingleOrDefault(a => a.ID == ID);
+            }
+            else
+            {
+                return NormalActionsBuffer[entity].SingleOrDefault(a => a.ID == ID);
+            }
+        }
         public void BuffEnterGrid(string grid, CharacterEntity refEntity)
         {
 
