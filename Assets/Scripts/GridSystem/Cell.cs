@@ -4,17 +4,22 @@ using System.Runtime.Serialization;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using DownBelow.Entity;
+using DownBelow.Inventory;
+using Unity.Mathematics;
+using DownBelow.UI;
+using UnityEditor;
 using System;
 
 namespace DownBelow.GridSystem
 {
     public class Cell : MonoBehaviour
     {
-
         public BoxCollider Collider;
 
         public WorldGrid RefGrid;
 
+        public InventoryItem ItemContained = null;
+        [SerializeField] private GameObject ItemContainedObject = null;
         #region Datas
         public CellData Datas;
 
@@ -72,6 +77,56 @@ namespace DownBelow.GridSystem
         {
             this.ChangeCellState(this.Datas.state, true);
         }
+
+        public void DropDownItem(InventoryItem item)
+        {
+            ItemContained = new();
+            ItemContained.Init(item.ItemPreset, item.Slot, item.Quantity);
+            ItemContainedObject = Instantiate(ItemContained.ItemPreset.DroppedItemPrefab, this.transform.position, quaternion.identity);
+            //Mettre un animator sur le prefab pour le faire tourner ou jsp
+#if UNITY_EDITOR
+            EditorGUIUtility.PingObject(this);
+            Selection.activeObject = this;
+#endif
+        }
+        public bool HasItem(out InventoryItem item)
+        {
+            if (ItemContained != null && ItemContained.ItemPreset != null)
+            {
+                item = ItemContained;
+                return true;
+
+            }
+            item = null;
+            return false;
+        }
+        public void TryPickUpItem(PlayerBehavior player)
+        {
+            if(ItemContained != null)
+            {
+                int qtyRemainingInItem = ItemContained.Quantity;
+                if (ItemContained.ItemPreset is ToolItem toolItem)
+                {
+                    qtyRemainingInItem -= player.PlayerSpecialSlot.TryAddItem(ItemContained.ItemPreset, ItemContained.Quantity);
+                    player.ActiveTool = toolItem;
+                } else
+                {
+                    qtyRemainingInItem -= player.PlayerInventory.TryAddItem(ItemContained.ItemPreset, ItemContained.Quantity);
+                }
+                ItemContained.RemoveQuantity(qtyRemainingInItem);
+                if (ItemContained.Quantity <= 0)
+                {
+                    Destroy(ItemContainedObject);
+                    ItemContained = null; ItemContainedObject = null;
+                }
+#if UNITY_EDITOR
+                /*/ Debug.Log($"Actual Quantity : {ItemContained.Quantity}, Quantity returned: {qtyRemainingInItem}");
+                 EditorGUIUtility.PingObject(this);
+                 Selection.activeObject = this;
+                 //*/
+#endif
+            }
+        }
     }
 
     [System.Serializable]
@@ -89,6 +144,8 @@ namespace DownBelow.GridSystem
         public int widthPos { get; set; }
         [ShowInInspectorAttribute]
         public CellState state { get; set; }
+        [ShowInInspectorAttribute]
+        public PlaceableItem placeableOnCell { get; set; }
     }
 
     [System.Serializable]
@@ -105,6 +162,5 @@ namespace DownBelow.GridSystem
 
         NonWalkable = Blocked | EntityIn | Interactable
     }
-
 
 }

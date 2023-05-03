@@ -1,5 +1,6 @@
 using DownBelow.Events;
 using DownBelow.GridSystem;
+using Mono.CompilerServices.SymbolWriter;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,16 +19,18 @@ namespace DownBelow.Managers
         #endregion
 
         #region EVENTS
-        public event CellEventData.Event OnCellRightClick;
+        public event CellEventData.Event OnCellRightClickDown;
 
         public event CellEventData.Event OnCellClickedUp;
         public event CellEventData.Event OnCellClickedDown;
 
         public event CellEventData.Event OnNewCellHovered;
 
+        public event ScrollEventData.Event OnScroll;
+
         public void FireCellRightClick(Cell Cell)
         {
-            this.OnCellRightClick?.Invoke(new CellEventData(Cell));
+            this.OnCellRightClickDown?.Invoke(new CellEventData(Cell));
         }
         public void FireCellClickedUp(Cell Cell)
         {
@@ -47,6 +50,7 @@ namespace DownBelow.Managers
         public EventSystem GameEventSystem;
 
         public bool IsPressingShift = false;
+        public float MouseScrollY;
         public bool IsPointingOverUI = false;
 
         public override void Awake()
@@ -63,11 +67,13 @@ namespace DownBelow.Managers
             PlayerInputs.player_l_click.performed += this._onLeftClickDown;
             PlayerInputs.player_l_click.canceled += this._onLeftClickUp;
 
-            PlayerInputs.player_r_click.canceled += this._onRightClickDown;
+            PlayerInputs.player_r_click.performed += this._onRightClickDown;
 
             PlayerInputs.player_interact.canceled += this._onInteract;
 
             PlayerInputs.player_escape.canceled += this._onEscape;
+
+            PlayerInputs.player_scroll.performed += x => _onScroll(x.ReadValue<float>());
         }
 
         private void Update()
@@ -93,8 +99,7 @@ namespace DownBelow.Managers
                     if (cell != GridManager.Instance.LastHoveredCell)
                         this.FireNewCellHovered(cell);
                 }
-            }
-            else
+            } else
             {
                 GridManager.Instance.LastHoveredCell = null;
             }
@@ -113,13 +118,17 @@ namespace DownBelow.Managers
                         this.LastInteractable.OnFocused();
                     }
                 }
-            }
-            else if (this.LastInteractable != null)
+            } else if (this.LastInteractable != null)
             {
                 this.LastInteractable.OnUnfocused();
                 this.LastInteractable = null;
             }
             #endregion
+        }
+
+        private void _onScroll(float value)
+        {
+            OnScroll?.Invoke(new ScrollEventData(value));
         }
 
         private void _onLeftClickDown(InputAction.CallbackContext ctx) => this.OnLeftClickDown();
@@ -186,4 +195,18 @@ namespace DownBelow.Managers
         Idle = 0,
         Card = 1
     }
+}
+namespace DownBelow.Events
+{
+
+    public class ScrollEventData : EventData<ScrollEventData>
+    {
+        public float value;
+
+        public ScrollEventData(float value)
+        {
+            this.value = value;
+        }
+    }
+
 }

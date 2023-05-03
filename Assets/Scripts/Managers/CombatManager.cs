@@ -191,7 +191,7 @@ namespace DownBelow.Managers
 
             this.FireSpellBeginTargetting(this._currentSpells[0], data.Cell);
 
-            InputManager.Instance.OnCellRightClick += _abortUsedSpell;
+            InputManager.Instance.OnCellRightClickDown += _abortUsedSpell;
             InputManager.Instance.OnCellClickedUp += _processSpellClick;
         }
 
@@ -216,7 +216,7 @@ namespace DownBelow.Managers
 
             DraggableCard.SelectedCard.DiscardToHand();
 
-            InputManager.Instance.OnCellRightClick -= _abortUsedSpell;
+            InputManager.Instance.OnCellRightClickDown -= _abortUsedSpell;
             InputManager.Instance.OnCellClickedUp -= _processSpellClick;
         }
 
@@ -256,7 +256,7 @@ namespace DownBelow.Managers
             {
                 this.FireCardEndUse(currentCard, DraggableCard.SelectedCard, this._currentSpells, Data.Cell, true);
 
-                InputManager.Instance.OnCellRightClick -= _abortUsedSpell;
+                InputManager.Instance.OnCellRightClickDown -= _abortUsedSpell;
                 InputManager.Instance.OnCellClickedUp -= _processSpellClick;
             }
             else

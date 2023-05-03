@@ -112,7 +112,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 1, g: 0.6135118, b: 0, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -263,6 +263,7 @@ MonoBehaviour:
   TotalQuantity: 0
   Slot: 0
   SelfStorage: {fileID: 0}
+  SelectedImage: {fileID: 4893917238773455875}
 --- !u!114 &3580911279402768909
 MonoBehaviour:
   m_ObjectHideFlags: 0

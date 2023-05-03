@@ -4,9 +4,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 namespace DownBelow.Inventory
 {
+
+    [Serializable]
     public class InventoryItem
     {
         #region EVENTS
@@ -58,3 +59,4 @@ namespace DownBelow.Inventory
         }
     }
 }
+
