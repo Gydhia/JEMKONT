@@ -123,17 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!114 &325122562 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 325122562, guid: e80a0b91cb455214a9fc9f930a709fe9, type: 3}
-  m_PrefabInstance: {fileID: 2880913444350772062}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87c868a48eeec604b92ad94d7e1ac37c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &430820562
 GameObject:
   m_ObjectHideFlags: 0
@@ -249,50 +238,6 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
---- !u!1 &553756443
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 553756444}
-  - component: {fileID: 553756445}
-  m_Layer: 0
-  m_Name: MainMenu
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &553756444
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 553756443}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 633153098}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &553756445
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 553756443}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3854964db0cffad47aa914802b7c41f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &574931696
 GameObject:
   m_ObjectHideFlags: 0
@@ -440,7 +385,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1611801071}
-  - {fileID: 553756444}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -551,7 +495,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dff6be907a3db4c4c98087d5bc4b87a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UILobby: {fileID: 325122562}
+  UILobby: {fileID: 0}
+  UIRoom: {fileID: 0}
 --- !u!4 &1611801071
 Transform:
   m_ObjectHideFlags: 0
@@ -732,7 +677,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2880913444570938018, guid: e80a0b91cb455214a9fc9f930a709fe9, type: 3}
       propertyPath: m_Name
-      value: Lobby_UI
+      value: MainMenu_UI
       objectReference: {fileID: 0}
     - target: {fileID: 2880913444901594246, guid: e80a0b91cb455214a9fc9f930a709fe9, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
