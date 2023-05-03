@@ -48,7 +48,6 @@ namespace DownBelow.Entity
         public Interactable NextInteract = null;
 
         public MeshRenderer PlayerBody;
-        public string PlayerID;
         public PhotonView PlayerView;
 
         public List<Cell> NextPath { get; private set; }

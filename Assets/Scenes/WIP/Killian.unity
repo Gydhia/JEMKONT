@@ -1402,50 +1402,6 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_CellSize.x
-      value: 98.838
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_CellSize.y
-      value: 87.467255
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_Padding.m_Top
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_Padding.m_Left
-      value: 16
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6772433198687240820, guid: 7254b2bc37c3b9349bdcd633f69557e6, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 7254b2bc37c3b9349bdcd633f69557e6, type: 3}
@@ -59843,10 +59799,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1090901377}
     - target: {fileID: 8070630671700927374, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
-      propertyPath: CardPrefab
-      value: 
-      objectReference: {fileID: 1236948560037684, guid: dd17cd64dbb8d844596172368dc9c04c, type: 3}
-    - target: {fileID: 8070630671700927374, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
       propertyPath: PossibleAutoAttacks.Array.data[0]
       value: 
       objectReference: {fileID: 0}
@@ -59858,6 +59810,10 @@ PrefabInstance:
       propertyPath: PlayerInput
       value: 
       objectReference: {fileID: 110923010}
+    - target: {fileID: 8267398679234714750, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: GameEventSystem
+      value: 
+      objectReference: {fileID: 110923007}
     - target: {fileID: 8322103470459949579, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
       propertyPath: AlterationSFXList
       value: 

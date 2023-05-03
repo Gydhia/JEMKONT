@@ -43,11 +43,6 @@ namespace DownBelow.Mechanics
             Title = name;
         }
 
-        public void CastSpell(GridSystem.Cell cell)
-        {
-            Managers.NetworkManager.Instance.AskCastSpell(this, cell);
-        }
-
         public bool IsTrackable() => true; //this.Spells.Length > 0 && this.Spells[0].ApplyToCell;
 
 

@@ -53,7 +53,7 @@ namespace DownBelow.Managers
 
         public static NetworkManager Instance;
 
-        public bool IsLocalPlayer(PlayerBehavior player) => player.PlayerID == PhotonNetwork.LocalPlayer.UserId;
+        public bool IsLocalPlayer(PlayerBehavior player) => player.UID == PhotonNetwork.LocalPlayer.UserId;
 
         /// <summary>
         /// Players for whom playing entity has ended its turn
@@ -80,9 +80,13 @@ namespace DownBelow.Managers
             UnityEngine.Object.DontDestroyOnLoad(this);
         }
 
-        public void Init()
+        private void Start()
         {
             this._connect();
+        }
+
+        public void Init()
+        {
             this.SubToCombatEvents();
         }
 
@@ -202,7 +206,6 @@ namespace DownBelow.Managers
         [PunRPC]
         public void RPC_RespondWithProcessedBuffedAction(string actions, bool abortOthers)
         {
-
             SerializedAction[] pActions = Newtonsoft.Json.JsonConvert.DeserializeObject<SerializedAction[]>(actions);
             List<EntityAction> generatedActions = new List<EntityAction>();
 
@@ -210,7 +213,6 @@ namespace DownBelow.Managers
             {
                 WorldGrid entityGrid = GridManager.Instance.GetGridFromName(pActions[i].GridName);
                 Cell targetCell = entityGrid.Cells[pActions[i].GridLocation[0], pActions[i].GridLocation[1]];
-                //If there are multiple CharacterEntities with the same UID; an exception will be thrown. Could use First/Find instead?
                 CharacterEntity entity = entityGrid.GridEntities.Single(e => e.UID == pActions[i].EntityID);
 
                 pActions[i].Datas ??= new object[0];
@@ -261,7 +263,7 @@ namespace DownBelow.Managers
         // /!\ Only one combat can be active at the moment, that is important
         public void PlayerAsksToStartCombat()
         {
-            this.photonView.RPC("RPC_RespondToStartCombat", RpcTarget.All, GameManager.Instance.SelfPlayer.PlayerID);
+            this.photonView.RPC("RPC_RespondToStartCombat", RpcTarget.All, GameManager.Instance.SelfPlayer.UID);
         }
 
         [PunRPC]
@@ -272,7 +274,7 @@ namespace DownBelow.Managers
 
         public void GiftOrRemovePlayerItem(string playerID, ItemPreset item, int quantity)
         {
-            this.photonView.RPC("RPC_RespondGiftOrRemovePlayerItem", RpcTarget.All, GameManager.Instance.SelfPlayer.PlayerID, item.UID.ToString(), quantity);
+            this.photonView.RPC("RPC_RespondGiftOrRemovePlayerItem", RpcTarget.All, GameManager.Instance.SelfPlayer.UID, item.UID.ToString(), quantity);
         }
 
         [PunRPC]
@@ -288,7 +290,7 @@ namespace DownBelow.Managers
         {
             this._playersTurnState.Clear();
 
-            this.photonView.RPC("NotifyPlayerStartTurn", RpcTarget.All, GameManager.Instance.SelfPlayer.PlayerID);
+            this.photonView.RPC("NotifyPlayerStartTurn", RpcTarget.All, GameManager.Instance.SelfPlayer.UID);
         }
 
         [PunRPC]
@@ -301,7 +303,7 @@ namespace DownBelow.Managers
             //    CombatManager.Instance.CurrentPlayingEntity.StartTurn();
             //}
             CombatManager.Instance.CurrentPlayingEntity.StartTurn();
-            this.photonView.RPC("PlayerAnswerStartTurn", RpcTarget.MasterClient, GameManager.Instance.SelfPlayer.PlayerID);
+            this.photonView.RPC("PlayerAnswerStartTurn", RpcTarget.MasterClient, GameManager.Instance.SelfPlayer.UID);
         }
 
         [PunRPC]
@@ -330,7 +332,7 @@ namespace DownBelow.Managers
         /// </summary>
         public void PlayerAsksEndTurn()
         {
-            this.photonView.RPC("RespondMasterEndEntityTurn", RpcTarget.MasterClient, GameManager.Instance.SelfPlayer.PlayerID);
+            this.photonView.RPC("RespondMasterEndEntityTurn", RpcTarget.MasterClient, GameManager.Instance.SelfPlayer.UID);
         }
 
         [PunRPC]
@@ -340,29 +342,19 @@ namespace DownBelow.Managers
 
             if (this._playersTurnState.Count >= GameManager.Instance.Players.Count)
             {
-                this.MasterNotifiesTurnEnded(CombatManager.Instance.CurrentPlayingEntity.UID);
+                this.photonView.RPC("RespondPlayerEndEntityTurn", RpcTarget.All, PlayerID);
             }
         }
 
-        protected void MasterNotifiesTurnEnded(string EntityID)
-        {
-            this.photonView.RPC("RespondPlayerEndEntityTurn", RpcTarget.All, EntityID);
-        }
-
         [PunRPC]
-        public void RespondPlayerEndEntityTurn(string EntityID)
+        public void RespondPlayerEndEntityTurn(string PlayerID)
         {
             this._playersTurnState.Clear();
-
-            CharacterEntity entity = CombatManager.Instance.PlayingEntities.Single(e => e.UID == EntityID);
-
-            // Each player end the entity turn
-            entity.EndTurn();
 
             // Each player process it 
             CombatManager.Instance.ProcessEndTurn();
 
-            this.photonView.RPC("ConfirmPlayerEndedTurn", RpcTarget.MasterClient, GameManager.Instance.SelfPlayer.PlayerID);
+            this.photonView.RPC("ConfirmPlayerEndedTurn", RpcTarget.MasterClient, GameManager.Instance.SelfPlayer.UID);
         }
 
         [PunRPC]
@@ -394,19 +386,6 @@ namespace DownBelow.Managers
         }
         */
         #endregion
-
-        public void AskCastSpell(ScriptableCard spellToCast, Cell cell)
-        {
-            this.photonView.RPC("RPC_CastSpell", RpcTarget.All, spellToCast.UID.ToString(), cell.PositionInGrid.longitude, cell.PositionInGrid.latitude); ;
-        }
-
-        [PunRPC]
-        public void RPC_CastSpell(string spellName, int longitude, int latittude)
-        {
-            ScriptableCard cardToPlay = CardsManager.Instance.ScriptableCards[System.Guid.Parse(spellName)];
-            //if (cardToPlay != null)
-            //    CombatManager.Instance.ExecuteSpells(CombatManager.Instance.CurrentPlayingGrid.Cells[latittude, longitude], cardToPlay);
-        }
         #endregion
 
         #region Photon_UI_callbacks

@@ -37,7 +37,9 @@ namespace DownBelow.Entity
             if (path == null || path.Count == 0)
                 return null;
 
-            path.RemoveRange(RefEntity.Speed, (path.Count - 1) - (RefEntity.Speed - 1));
+            if(path.Count >= RefEntity.Speed)
+                path.RemoveRange(RefEntity.Speed, (path.Count - 1) - (RefEntity.Speed - 1));
+
             return path;
         }
 

@@ -12,6 +12,7 @@ using System;
 using DownBelow.Events;
 using UnityEngine.Rendering;
 using EODE.Wonderland;
+using DownBelow.UI;
 
 namespace DownBelow.Managers
 {
@@ -231,6 +232,7 @@ namespace DownBelow.Managers
                           && this._possiblePath.Contains(this.LastHoveredCell)
                       )
                     {
+                        Debug.Log("CREATED COMBAT MOVEMENT ACTION");
                         NetworkManager.Instance.EntityAskToBuffAction(
                             new CombatMovementAction(selfPlayer, this.LastHoveredCell)
                         );
@@ -278,7 +280,7 @@ namespace DownBelow.Managers
                 && this.LastHoveredCell.RefGrid == selfPlayer.CurrentGrid
             )
             {
-                if (UI.DraggableCard.SelectedCard == null)
+                if (DraggableCard.SelectedCard == null && selfPlayer.IsPlayingEntity)
                 {
                     if (!selfPlayer.IsMoving && this._possiblePath.Contains(LastHoveredCell))
                         PoolManager.Instance.CellIndicatorPool.DisplayPathIndicators(

@@ -127,7 +127,7 @@ namespace DownBelow.Managers
 
                     newPlayer.Init(SettingsManager.Instance.FishermanStats, GridManager.Instance.MainWorldGrid.Cells[spawnLocations.ElementAt(counter).latitude, spawnLocations.ElementAt(counter).longitude], GridManager.Instance.MainWorldGrid);
                     // TODO: make it works with world grids
-                    newPlayer.PlayerID = player.UserId;
+                    newPlayer.UID = player.UserId;
 
                     if (player.UserId == PhotonNetwork.LocalPlayer.UserId)
                     {
