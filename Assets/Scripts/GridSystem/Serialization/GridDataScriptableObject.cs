@@ -19,7 +19,7 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
     #endregion
 
     public float cellsWidth => SettingsManager.Instance.GridsPreset.CellsSize;
-    public GridPosition AAAAAAAAAH;
+
     [HideInInspector]
     public bool IsPainting = false;
 
@@ -110,7 +110,6 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
         if (GridManager.Instance.SavedGrids.TryGetValue(this.SelectedGrid, out GridData newGrid))
         {
             this.LazyLoadedData.TopLeftOffset = newGrid.TopLeftOffset;
-            GridManager.Instance._gridsDataHandler.position = this.LazyLoadedData.TopLeftOffset;
 
             GridManager.Instance.LoadEveryEntities();
 
@@ -191,20 +190,23 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
     {
         if (this._plane == null)
         {
-            this._plane = Instantiate(
+            this._plane = GridManager.Instance._gridsDataHandler.transform.Find("Plane(Clone)")?.gameObject;
+            if(this._plane == null)
+            {
+                this._plane = Instantiate(
                 this.PlanePrefab,
-                new Vector3(
-                    (this.LazyLoadedData.GridWidth * cellsWidth) / 2,
-                    -0.01f,
-                    -(this.LazyLoadedData.GridHeight * cellsWidth) / 2 + (cellsWidth / 2)),
-                Quaternion.identity,
-                GridManager.Instance._gridsDataHandler.transform
-            );
+                    new Vector3(
+                        (this.LazyLoadedData.GridWidth * cellsWidth) / 2,
+                        this.LazyLoadedData.TopLeftOffset.y,
+                        -(this.LazyLoadedData.GridHeight * cellsWidth) / 2 + (cellsWidth / 2)),
+                    Quaternion.identity,
+                    GridManager.Instance._gridsDataHandler.transform
+                );
+            }
         }
 
-        GridManager.Instance._gridsDataHandler.position = this.LazyLoadedData.TopLeftOffset;
         this._plane.transform.localScale = new Vector3(this.LazyLoadedData.GridWidth * (cellsWidth / 10f), 0f, this.LazyLoadedData.GridHeight * (cellsWidth / 10f));
-        this._plane.transform.localPosition = new Vector3((this.LazyLoadedData.GridWidth * cellsWidth) / 2, 0f, -(this.LazyLoadedData.GridHeight * cellsWidth) / 2);
+        this._plane.transform.localPosition = new Vector3((this.LazyLoadedData.GridWidth * cellsWidth) / 2, this.LazyLoadedData.TopLeftOffset.y, -(this.LazyLoadedData.GridHeight * cellsWidth) / 2);
     }
 
     public GridPosition GetGridIndexFromWorld(Vector3 worldPos)
@@ -220,8 +222,11 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
     {
         void affectSpawnStates(CellData[,] cellDatas, OrderedDictionary<GridPosition, BaseSpawnablePreset> Spawnables)
         {
-            foreach (var spawnable in Spawnables)            
-                cellDatas[spawnable.Key.latitude, spawnable.Key.longitude].state = spawnable.Value.AffectingState;
+            if(Spawnables != null)
+            {
+                foreach (var spawnable in Spawnables)
+                    cellDatas[spawnable.Key.latitude, spawnable.Key.longitude].state = spawnable.Value.AffectingState;
+            }
         }
 
         affectSpawnStates(this.LazyLoadedData.CellDatas, this.LazyLoadedData.Spawnables);

@@ -862,7 +862,6 @@ namespace DownBelow.Managers
                 );
                 this.BitmapShader.SetTexture("_Texture2D", this.BitmapTexture);
             }
-
         }
 
         private void _generateShaderBitmap(GridData world, GridData innerGrid)
@@ -960,18 +959,21 @@ namespace DownBelow.Managers
                 }
             }
 
-            for (int i = 0;i < world.InnerGrids.Count;i++)
+            if(world.InnerGrids != null)
             {
-                int xOffset = world.InnerGrids[i].Longitude;
-                int yOffset = world.InnerGrids[i].Latitude;
-
-                foreach (CellData cellData in world.InnerGrids[i].CellDatas)
+                for (int i = 0; i < world.InnerGrids.Count; i++)
                 {
-                    this.BitmapTexture.SetPixel(
-                        cellData.widthPos + xOffset,
-                        world.GridHeight - (cellData.heightPos + yOffset),
-                        this._getBitmapEditorColor(cellData.state)
-                    );
+                    int xOffset = world.InnerGrids[i].Longitude;
+                    int yOffset = world.InnerGrids[i].Latitude;
+
+                    foreach (CellData cellData in world.InnerGrids[i].CellDatas)
+                    {
+                        this.BitmapTexture.SetPixel(
+                            cellData.widthPos + xOffset,
+                            world.GridHeight - (cellData.heightPos + yOffset),
+                            this._getBitmapEditorColor(cellData.state)
+                        );
+                    }
                 }
             }
         }

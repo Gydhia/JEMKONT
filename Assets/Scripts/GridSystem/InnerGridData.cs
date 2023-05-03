@@ -6,16 +6,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Collections.Specialized;
 using mattmc3.dotmore.Collections.Generic;
+using System;
 
+[Serializable]
 public class InnerGridData
 {
-    public class DicPosition
-    {
-        public int index;
-        public GridPosition position;
-    }
-
-
     [HideInInspector]
     public CellData[,] CellDatas;
 
