@@ -129,7 +129,7 @@ namespace DownBelow.GridSystem
         }
     }
 
-    [System.Serializable]
+    [Serializable, DataContract]
     public class CellData
     {
         public CellData(int yPos, int xPos, CellState state)
@@ -138,13 +138,13 @@ namespace DownBelow.GridSystem
             this.widthPos = xPos;
             this.state = state;
         }
-        [ShowInInspectorAttribute]
+        [ShowInInspectorAttribute, DataMember]
         public int heightPos { get; set; }
-        [ShowInInspectorAttribute]
+        [ShowInInspectorAttribute, DataMember]
         public int widthPos { get; set; }
-        [ShowInInspectorAttribute]
+        [ShowInInspectorAttribute, DataMember]
         public CellState state { get; set; }
-        [ShowInInspectorAttribute]
+        [ShowInInspectorAttribute, DataMember]
         public PlaceableItem placeableOnCell { get; set; }
     }
 

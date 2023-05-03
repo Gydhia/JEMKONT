@@ -5,7 +5,9 @@ using Photon.Pun;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace DownBelow.Managers
@@ -41,6 +43,8 @@ namespace DownBelow.Managers
             OnExitingGrid?.Invoke(new EntityEventData(entity));
         }
         #endregion
+
+        public string SaveName;
 
         [SerializeField]
         private PlayerBehavior _playerPrefab;
@@ -302,6 +306,41 @@ namespace DownBelow.Managers
             CombatActionsBuffer.Insert(0, action);
         }
 
+        #endregion
+
+        #region SAVE
+
+        public void Save()
+        {
+
+        }
+
+        private FileInfo _getFileToSave()
+        {
+            var folder = new System.IO.DirectoryInfo(Application.persistentDataPath + "/save");
+            if (!folder.Exists)
+                folder.Create();
+
+            // Make sure that every character is understandable by the system, or replace them
+            string savename = this.SaveName;
+            foreach (char c in System.IO.Path.GetInvalidFileNameChars())
+            {
+                savename = savename.Replace(c, '_');
+            }
+
+            FileInfo fileinfo = new System.IO.FileInfo(Application.persistentDataPath + "/save/" + savename + ".dbw");
+            
+            return fileinfo;
+        }
+
+        public static GameData.GameData MakeBaseGame(string saveName)
+        {
+            return new GameData.GameData()
+            {
+                save_name = saveName,
+                game_version = GameData.GameVersion.Current.ToString()
+            };
+        }
         #endregion
     }
 }

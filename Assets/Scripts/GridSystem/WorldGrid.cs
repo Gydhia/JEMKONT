@@ -230,7 +230,7 @@ namespace DownBelow.GridSystem
         #endregion
     }
 
-    [System.Serializable]
+    [System.Serializable, DataContract]
     public class GridData
     {
         public GridData() { }
@@ -278,16 +278,27 @@ namespace DownBelow.GridSystem
             this.InnerGrids = InnerGridsData;
             this.SpawnablePresets = Spawnables;
         }
+        [DataMember]
         public bool ToLoad { get; set; }
+        [DataMember]
         public bool IsCombatGrid { get; set; }
+        [DataMember]
         public int Longitude { get; set; }
+        [DataMember]
         public int Latitude { get; set; }
+        [DataMember]
         public int GridHeight { get; set; }
+        [DataMember]
         public int GridWidth { get; set; }
+        [DataMember]
         public Vector3 TopLeftOffset { get; set; }
 
+        [DataMember]
         public List<GridData> InnerGrids;
+        [DataMember]
         public List<CellData> CellDatas { get; set; }
+
+        [DataMember]
         [Newtonsoft.Json.JsonConverter(typeof(JSONGridConverter))]
         public Dictionary<GridPosition, Guid> SpawnablePresets { get; set; }
     }
