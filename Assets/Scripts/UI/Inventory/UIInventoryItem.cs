@@ -147,10 +147,10 @@ namespace DownBelow.UI.Inventory
         }
         protected virtual void dropOverWorld(PointerEventData eventData)
         {
-            //cannot do NetworkManager.Instance.EntityAskToBuffAction(new DropItemAction(selfItem)); or someshit. Need to find anotherway but dang. + we don't have the player here.
-            NetworkManager.Instance.EntityAskToBuffAction(new DropItemAction(GameManager.Instance.SelfPlayer, GridManager.Instance.LastHoveredCell,SelfItem.ItemPreset.UID.ToString(),(short)SelfItem.Quantity));
+            var action = new DropItemAction(GameManager.Instance.SelfPlayer,
+                GridManager.Instance.LastHoveredCell, SelfItem.ItemPreset.UID.ToString(), (short)SelfItem.Quantity);
+            NetworkManager.Instance.EntityAskToBuffAction(action);
             //GridManager.Instance.LastHoveredCell.DropDownItem(SelfItem);
-            SelfStorage.Storage.RemoveItem(SelfItem.ItemPreset, SelfItem.Quantity);
         }
         public void OnPointerEnter(PointerEventData eventData)
         {

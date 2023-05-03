@@ -75,6 +75,7 @@ namespace DownBelow.UI.Inventory
             else
             {
                 int free = preset.MaxStack - this.StorageItems[slot].Quantity;
+                if (free == 0) return quantity;
                 free = free > remaining ? remaining : free;
 
                 this.StorageItems[slot].AddQuantity(free);

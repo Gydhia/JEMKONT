@@ -102,27 +102,30 @@ namespace DownBelow.GridSystem
         }
         public void TryPickUpItem(PlayerBehavior player)
         {
-            int qtyRemainingInItem = ItemContained.Quantity;
-            if (ItemContained.ItemPreset is ToolItem toolItem)
+            if(ItemContained != null)
             {
-                qtyRemainingInItem -= player.PlayerSpecialSlot.TryAddItem(ItemContained.ItemPreset, ItemContained.Quantity);
-                player.ActiveTool = toolItem;
-            } else
-            {
-                qtyRemainingInItem -= player.PlayerInventory.TryAddItem(ItemContained.ItemPreset, ItemContained.Quantity);
-            }
-            ItemContained.RemoveQuantity(qtyRemainingInItem);
-            if (ItemContained.Quantity <= 0)
-            {
-                Destroy(ItemContainedObject);
-                ItemContained = null; ItemContainedObject = null;
-            }
+                int qtyRemainingInItem = ItemContained.Quantity;
+                if (ItemContained.ItemPreset is ToolItem toolItem)
+                {
+                    qtyRemainingInItem -= player.PlayerSpecialSlot.TryAddItem(ItemContained.ItemPreset, ItemContained.Quantity);
+                    player.ActiveTool = toolItem;
+                } else
+                {
+                    qtyRemainingInItem -= player.PlayerInventory.TryAddItem(ItemContained.ItemPreset, ItemContained.Quantity);
+                }
+                ItemContained.RemoveQuantity(qtyRemainingInItem);
+                if (ItemContained.Quantity <= 0)
+                {
+                    Destroy(ItemContainedObject);
+                    ItemContained = null; ItemContainedObject = null;
+                }
 #if UNITY_EDITOR
-            /*/ Debug.Log($"Actual Quantity : {ItemContained.Quantity}, Quantity returned: {qtyRemainingInItem}");
-             EditorGUIUtility.PingObject(this);
-             Selection.activeObject = this;
-             //*/
+                /*/ Debug.Log($"Actual Quantity : {ItemContained.Quantity}, Quantity returned: {qtyRemainingInItem}");
+                 EditorGUIUtility.PingObject(this);
+                 Selection.activeObject = this;
+                 //*/
 #endif
+            }
         }
     }
 
