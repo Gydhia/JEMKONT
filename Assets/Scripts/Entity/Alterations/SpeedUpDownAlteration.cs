@@ -13,7 +13,4 @@ public class SpeedUpDownAlteration : BuffAlteration
         return EntityStatistics.Speed;
     }
 
-    public override EAlterationType ToEnum() {
-        return EAlterationType.SpeedUpDown;
-    }
 }

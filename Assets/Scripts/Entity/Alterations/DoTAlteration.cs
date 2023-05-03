@@ -14,8 +14,6 @@ namespace DownBelow.Spells.Alterations {
         public override void Apply(CharacterEntity entity) {
             entity.ApplyStat(EntityStatistics.Health,-Damage);
         }
-        public override EAlterationType ToEnum() {
-            return EAlterationType.DoT;
-        }
+
     }
 }

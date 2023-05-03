@@ -33,7 +33,7 @@ namespace DownBelow.Entity
             if(Destroyable) DestroyEntity();
         }
 
-        public void Decrement(GameEventData data)
+        public virtual void Decrement(GameEventData data)
         {
             TurnsLeft--;
             if (TurnsLeft <= -1)

@@ -10,8 +10,4 @@ using UnityEngine;
 /// </summary>
 public class TempObject : NonCharacterEntity
 {
-    public override void Init(Cell attachedCell, int TurnsLeft, CharacterEntity RefEntity)
-    {
-        
-    }
 }

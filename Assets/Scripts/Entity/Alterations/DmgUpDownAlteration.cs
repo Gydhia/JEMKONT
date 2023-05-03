@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[Serializable]
 public class DmgUpDownAlteration : BuffAlteration
 {
     public DmgUpDownAlteration(int Cooldown,int value) : base(Cooldown,value) {
@@ -11,8 +11,4 @@ public class DmgUpDownAlteration : BuffAlteration
     public override EntityStatistics StatToBuff() {
         return EntityStatistics.Strength;
     }
-    public override EAlterationType ToEnum() {
-        return EAlterationType.DmgUpDown;
-        }
-
 }

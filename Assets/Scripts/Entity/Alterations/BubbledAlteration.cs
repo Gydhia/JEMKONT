@@ -15,9 +15,7 @@ namespace DownBelow.Spells.Alterations {
                 Target.OnHealthRemoved -= DecrementAlterationCountdown;
             }
         }
-        public override EAlterationType ToEnum() {
-            return EAlterationType.Bubbled;
-        }
+
         public override bool ClassicCountdown => false;
     }
 }

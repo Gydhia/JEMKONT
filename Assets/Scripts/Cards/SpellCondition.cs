@@ -43,7 +43,7 @@ namespace DownBelow.Spells
         [BoxGroup("Alterations")]
         [Tooltip("If set to None, it will not be counted.")]
         [EnableIf("@this.IsAltered")]
-        public EAlterationType Buff;
+        public Alteration Buff;
 
         public bool Check(SpellResult result)
         {
@@ -103,6 +103,9 @@ namespace DownBelow.Spells
 
         public bool CheckBuffs()
         {
+            //envicané? 
+            // Just need this, with Target being a CharacterEntity
+            //Target.Alterations.Any(x => x.GetType() == Buff.GetType());
             return false;
         }
 

@@ -9,8 +9,5 @@ namespace DownBelow.Spells.Alterations {
         public SnareAlteration(int Cooldown) : base(Cooldown) {
         }
 
-        public override EAlterationType ToEnum() {
-            return EAlterationType.Snare;
-        }
     }
 }

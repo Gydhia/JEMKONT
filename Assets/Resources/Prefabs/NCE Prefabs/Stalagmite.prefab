@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2995470923031477860}
   - component: {fileID: 2179134714915484097}
   - component: {fileID: 4168398336246842635}
-  - component: {fileID: 7587234156574820899}
   m_Layer: 0
   m_Name: SM_Env_Rock_Spikes_02
   m_TagString: Untagged
@@ -84,20 +83,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &7587234156574820899
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2511280450056299742}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 2840435099914126082, guid: 49c382ac7f6122f42a44f06a50319ed0, type: 3}
 --- !u!1 &3671478324521889106
 GameObject:
   m_ObjectHideFlags: 0

@@ -21,7 +21,7 @@ namespace DownBelow.Managers {
             if (alt.InstanciatedFXAnimator != null) {
                 alt.InstanciatedFXAnimator.SetTrigger("Reminder");
             } else {
-                var go = Instantiate(AlterationSFXList.AlterationsSFX[alt.ToEnum()], ent.transform);
+                var go = Instantiate(AlterationSFXList.AlterationsSFX[alt.GetType()], ent.transform);
                 alt.InstanciatedFXAnimator = go.GetComponent<Animator>();
             }
         }
