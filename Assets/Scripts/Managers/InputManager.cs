@@ -26,8 +26,6 @@ namespace DownBelow.Managers
 
         public event CellEventData.Event OnNewCellHovered;
 
-        public event ScrollEventData.Event OnScroll;
-
         public void FireCellRightClick(Cell Cell)
         {
             this.OnCellRightClickDown?.Invoke(new CellEventData(Cell));
@@ -50,7 +48,6 @@ namespace DownBelow.Managers
         public EventSystem GameEventSystem;
 
         public bool IsPressingShift = false;
-        public float MouseScrollY;
         public bool IsPointingOverUI = false;
 
         public override void Awake()
@@ -72,8 +69,6 @@ namespace DownBelow.Managers
             PlayerInputs.player_interact.canceled += this._onInteract;
 
             PlayerInputs.player_escape.canceled += this._onEscape;
-
-            PlayerInputs.player_scroll.performed += x => _onScroll(x.ReadValue<float>());
         }
 
         private void Update()
@@ -124,11 +119,6 @@ namespace DownBelow.Managers
                 this.LastInteractable = null;
             }
             #endregion
-        }
-
-        private void _onScroll(float value)
-        {
-            OnScroll?.Invoke(new ScrollEventData(value));
         }
 
         private void _onLeftClickDown(InputAction.CallbackContext ctx) => this.OnLeftClickDown();
@@ -195,18 +185,4 @@ namespace DownBelow.Managers
         Idle = 0,
         Card = 1
     }
-}
-namespace DownBelow.Events
-{
-
-    public class ScrollEventData : EventData<ScrollEventData>
-    {
-        public float value;
-
-        public ScrollEventData(float value)
-        {
-            this.value = value;
-        }
-    }
-
 }

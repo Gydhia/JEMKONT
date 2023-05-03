@@ -104,22 +104,26 @@ MonoBehaviour:
   UID: 
   CurrentGrid: {fileID: 0}
   IsMoving: 0
-  EntityCell: {fileID: 0}
+  _entityCell: {fileID: 0}
   NextCell: {fileID: 0}
   CurrentPath: []
   Summons: []
   CanAutoAttack: 0
   NumberOfTurnsPlayed: 0
+  PlayerInventory:
+    StorageItems: []
+    MaxSlots: 0
   NextInteract: {fileID: 0}
   PlayerBody: {fileID: 0}
-  PlayerID: 
   PlayerView: {fileID: 0}
-  ActiveTool:
-    Deck:
-      Cards: []
-    Class: 3
-    ActualPlayer: {fileID: 0}
+  ActiveTool: {fileID: 0}
+  PlayerSpecialSlot:
+    StorageItems: []
+    MaxSlots: 0
+  CurrentSelectedItem: {fileID: 0}
   IsAutoAttacking: 0
+  inventorySlotSelected: 0
+  testingDeck: {fileID: 11400000, guid: dd2bfd15c03fc73419ff1859368e683d, type: 2}
 --- !u!1001 &6116910891150737795
 PrefabInstance:
   m_ObjectHideFlags: 0

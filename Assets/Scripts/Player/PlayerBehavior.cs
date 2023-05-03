@@ -65,11 +65,12 @@ namespace DownBelow.Entity
 
         public Deck Deck
         {
-            get => testingDeck;
-            set => testingDeck = value;
+            get => testingDeck.Deck;
+            set => testingDeck.Deck = value;
         }
 
-        Deck testingDeck;
+        // TEMPORARY
+        public DeckPreset testingDeck;
 
         public override int Mana
         {
@@ -96,7 +97,8 @@ namespace DownBelow.Entity
                 SettingsManager.Instance.GameUIPreset.SlotsByPlayer[Photon.Pun.PhotonNetwork.PlayerList.Length - 1]);
             this.PlayerSpecialSlot = new BaseStorage();
             this.PlayerSpecialSlot.Init(1);
-            InputManager.Instance.OnScroll += Scroll;
+
+            PlayerInputs.player_scroll.performed += this._scroll;
         }
 
         public override void FireEnteredCell(Cell cell)
@@ -109,12 +111,13 @@ namespace DownBelow.Entity
             base.FireEnteredCell(cell);
         }
 
-        void Scroll(ScrollEventData data)
+        private void _scroll(UnityEngine.InputSystem.InputAction.CallbackContext ctx) => this.Scroll(ctx.ReadValue<float>());
+        void Scroll(float value)
         {
             if (scrollBusy) return;
             scrollBusy = true;
             int newSlot = inventorySlotSelected;
-            if (data.value >= 110)
+            if (value >= 110)
             {
                 //If we're scrolling up,
                 if (inventorySlotSelected + 1 >= PlayerInventory.MaxSlots)
@@ -127,7 +130,7 @@ namespace DownBelow.Entity
                     newSlot++;
                 }
                 switchSlots(inventorySlotSelected, newSlot);
-            } else if (data.value <= -110)
+            } else if (value <= -110)
             {
 
                 if (inventorySlotSelected - 1 < 0)

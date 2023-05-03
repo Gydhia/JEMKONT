@@ -170,7 +170,7 @@ namespace DownBelow.Managers
         /// <param name="actions"></param>
         public void EntityAskToBuffActions(EntityAction[] actions)
         {
-            SerializedAction[] actionArray = new SerializedAction[actions.Length];
+            SerializedAction[] actionArray = new SerializedAction[actions.Where(a => a != null).Count()];
             int index = 0;
             foreach (var action in actions)
             {
