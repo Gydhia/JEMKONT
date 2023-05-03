@@ -34,10 +34,12 @@ namespace DownBelow.GameData
             return savegame;
         }
 
-        public void Save(System.IO.FileInfo file)
+        public GameDataContainer Save(System.IO.FileInfo file)
         {
             GameDataContainer savegame = this.CreateSavegame(file);
             savegame.Save();
+
+            return savegame;
         }
     }
 }

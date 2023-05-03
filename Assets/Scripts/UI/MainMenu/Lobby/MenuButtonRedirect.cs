@@ -16,7 +16,15 @@ namespace DownBelow.UI.Menu
         {
             if(this.TryGetComponent<Button>(out this._selfButton))
             {
-                this._selfButton.onClick.AddListener(() => MenuManager.Instance.SelectPopup(this.PopupToGo));
+                switch (this.PopupToGo)
+                {
+                    case MenuPopup.Close:
+                        this._selfButton.onClick.AddListener(() => MenuManager.Instance.HideCurrentPopup());
+                        break;
+                    default:
+                        this._selfButton.onClick.AddListener(() => MenuManager.Instance.SelectPopup(this.PopupToGo));
+                        break;
+                }
             }
         }
 

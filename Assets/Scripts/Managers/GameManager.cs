@@ -310,19 +310,21 @@ namespace DownBelow.Managers
 
         #region SAVE
 
-        public void Save()
+        public void Save(string fileName)
         {
+            FileInfo fileinfo = _getFileToSave(fileName);
 
+            this._saveGameData(fileinfo);
         }
 
-        private FileInfo _getFileToSave()
+        private FileInfo _getFileToSave(string fileName)
         {
             var folder = new System.IO.DirectoryInfo(Application.persistentDataPath + "/save");
             if (!folder.Exists)
                 folder.Create();
 
             // Make sure that every character is understandable by the system, or replace them
-            string savename = this.SaveName;
+            string savename = fileName;
             foreach (char c in System.IO.Path.GetInvalidFileNameChars())
             {
                 savename = savename.Replace(c, '_');
@@ -333,13 +335,49 @@ namespace DownBelow.Managers
             return fileinfo;
         }
 
-        public static GameData.GameData MakeBaseGame(string saveName)
+        private void _saveGameData(System.IO.FileInfo file)
         {
-            return new GameData.GameData()
+            try
+            {
+                GameData.GameData data = new GameData.GameData();
+
+                TaskScheduler mainThread = TaskScheduler.FromCurrentSynchronizationContext();
+                Task.Run(() => this._getCurrentGameDataSideThread(data))
+                    .ContinueWith((previousTask) =>
+                    {
+                        if (previousTask.Exception != null)
+                        {
+                            Debug.LogError(previousTask.Exception, this);
+                        }
+                        previousTask.Result.Save(file);
+                    }, mainThread);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError(ex, this);
+                throw ex;
+            }
+        }
+
+        private GameData.GameData _getCurrentGameDataSideThread(GameData.GameData gameData)
+        {
+            // TODO : Make a global class to save EACH possible game's grid states
+            gameData.grids_data = null;
+            gameData.game_version = GameData.GameVersion.Current.ToString();
+            gameData.save_name = this.SaveName;
+
+            return gameData;
+        }
+
+        public static GameData.GameDataContainer MakeBaseGame(string saveName)
+        {
+            var gamedata = new GameData.GameData()
             {
                 save_name = saveName,
                 game_version = GameData.GameVersion.Current.ToString()
             };
+
+            return gamedata.Save(Instance._getFileToSave(saveName));
         }
         #endregion
     }

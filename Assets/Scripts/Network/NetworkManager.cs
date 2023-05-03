@@ -13,6 +13,7 @@ using System.Runtime.CompilerServices;
 using DownBelow.Mechanics;
 using DownBelow.Events;
 using System;
+using DownBelow.UI.Menu;
 
 namespace DownBelow.Managers
 {
@@ -49,7 +50,8 @@ namespace DownBelow.Managers
     public class NetworkManager : MonoBehaviourPunCallbacks
     {
 
-        public UIMenuLobby UILobby;
+        public MenuPopup_Lobby UILobby;
+        public MenuPopup_Room UIRoom;
 
         public static NetworkManager Instance;
 
@@ -133,11 +135,11 @@ namespace DownBelow.Managers
             PhotonNetwork.JoinRoom(roomName);
         }
 
-        public void CreateRoom()
+        public void CreateRoom(string roomName)
         {
-            if (!string.IsNullOrEmpty(this.UILobby.RoomInput.text))
+            if (!string.IsNullOrEmpty(roomName))
             {
-                PhotonNetwork.CreateRoom(this.UILobby.RoomInput.text, new RoomOptions() { MaxPlayers = 4, BroadcastPropsChangeToAll = true, PublishUserId = true }, null);
+                PhotonNetwork.CreateRoom(roomName, new RoomOptions() { MaxPlayers = 4, BroadcastPropsChangeToAll = true, PublishUserId = true }, null);
             }
         }
 
@@ -397,31 +399,31 @@ namespace DownBelow.Managers
 
         public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
         {
-            this.UILobby?.UpdatePlayersFromProperties(targetPlayer);
+            this.UIRoom?.UpdatePlayersFromProperties(targetPlayer);
         }
 
         public override void OnJoinedRoom()
         {
-            if (this.UILobby != null)
-                this.UILobby?.OnJoinedRoom();
+            if (this.UIRoom != null)
+                this.UIRoom.OnJoinedRoom();
             else
                 GameManager.Instance.WelcomePlayers();
         }
 
         public override void OnPlayerEnteredRoom(Player newPlayer)
         {
-            this.UILobby?.UpdatePlayersList();
-            this.UILobby?.UpdatePlayersState();
+            this.UIRoom?.UpdatePlayersList();
+            this.UIRoom?.UpdatePlayersState();
         }
 
         public override void OnLeftRoom()
         {
-            this.UILobby?.OnSelfLeftRoom();
+            this.UIRoom?.OnSelfLeftRoom();
         }
 
         public override void OnPlayerLeftRoom(Player otherPlayer)
         {
-            this.UILobby?.OnPlayerLeftRoom();
+            this.UIRoom?.OnPlayerLeftRoom();
         }
 
         public override void OnConnectedToMaster()
