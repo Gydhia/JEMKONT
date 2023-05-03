@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 631c082ce4ad09f49b957037d0d3c305, type: 3}
-  m_Name: Hoe
+  m_Script: {fileID: 11500000, guid: 947993e203d3ecc4bb039c7aae54ed18, type: 3}
+  m_Name: DroppedFishingRod
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -23,14 +23,8 @@ MonoBehaviour:
     SerializationNodes:
     - Name: UID
       Entry: 2
-      Data: 2099ea4364cdaf512dfb8d2f467cf56f
-  Type: 0
-  ItemName: Hoe
-  InventoryIcon: {fileID: 21300000, guid: 4d815a29236d69c4580fc965354124db, type: 3}
-  ItemPrefab: {fileID: 0}
-  MaxStack: 1
-  DroppedItemPrefab: {fileID: 919132149155446097, guid: 0e97b372ac7ed2349be0c38b20ef4151, type: 3}
-  Deck:
-    Cards: []
-  Class: 2
-  ActualPlayer: {fileID: 0}
+      Data: caa993add9aa776cc4ffc83e6a83e550
+  UName: DroppedFishingRod
+  AffectingState: 1
+  Item: {fileID: 11400000, guid: 0ae20222b1f41454d9dd8ecaffbc0c1b, type: 2}
+  quantity: 1
