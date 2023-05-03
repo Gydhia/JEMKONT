@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4674103568921260060}
-  - component: {fileID: 6664225883221445491}
+  - component: {fileID: 6742846473957726477}
   m_Layer: 0
   m_Name: Rune
   m_TagString: Untagged
@@ -33,7 +33,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6664225883221445491
+--- !u!114 &6742846473957726477
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,9 +42,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 4919240715549700541}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34a80811793cb9d479a8d2e54a8608e7, type: 3}
+  m_Script: {fileID: 11500000, guid: 236868ed257d63f42b4c2f6056357801, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  range: 3
+  ArmorBoost: 2
 --- !u!1 &7394777883758294691
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,6 +12,7 @@ using Sirenix.Serialization;
 using System;
 using TMPro;
 using DG.Tweening;
+using System.CodeDom;
 
 namespace DownBelow.Entity
 {
@@ -35,12 +36,12 @@ namespace DownBelow.Entity
         /// <summary>
         /// When you give an alteration to someone else.
         /// </summary>
-        public event SpellEventData.Event OnAlterationGiven;
+        public event SpellEventDataAlteration.Event OnAlterationGiven;
 
         /// <summary>
         /// When you receive an alteration from someone else.
         /// </summary>
-        public event SpellEventData.Event OnAlterationReceived;
+        public event SpellEventDataAlteration.Event OnAlterationReceived;
 
         public event EntityEventData.Event OnEntityTargetted;
 
@@ -120,38 +121,32 @@ namespace DownBelow.Entity
 
         public bool Snared
         {
-            get => Alterations.Any(x => x.GetType() == typeof(SnareAlteration)) &&
-                   !Alterations.Any(x => Alteration.overrides[EAlterationType.Snare].Contains(x.ToEnum()));
+            get => Alterations.Any(x => x.GetType() == typeof(SnareAlteration));
         } //DONE
 
         public bool Stunned
         {
-            get => Alterations.Any(x => x.GetType() == typeof(StunAlteration)) &&
-                   !Alterations.Any(x => Alteration.overrides[EAlterationType.Stun].Contains(x.ToEnum()));
+            get => Alterations.Any(x => x.GetType() == typeof(StunAlteration));
         } //DONE
 
         public bool Shattered
         {
-            get => Alterations.Any(x => x.GetType() == typeof(ShatteredAlteration)) && !Alterations.Any(x =>
-                Alteration.overrides[EAlterationType.Shattered].Contains(x.ToEnum()));
+            get => Alterations.Any(x => x.GetType() == typeof(ShatteredAlteration));
         } //DONE
 
         public bool DoT
         {
-            get => Alterations.Any(x => x.GetType() == typeof(DoTAlteration)) &&
-                   !Alterations.Any(x => Alteration.overrides[EAlterationType.DoT].Contains(x.ToEnum()));
+            get => Alterations.Any(x => x.GetType() == typeof(DoTAlteration));
         } //DONE
 
         public bool Bubbled
         {
-            get => Alterations.Any(x => x.GetType() == typeof(BubbledAlteration)) &&
-                   !Alterations.Any(x => Alteration.overrides[EAlterationType.Bubbled].Contains(x.ToEnum()));
+            get => Alterations.Any(x => x.GetType() == typeof(BubbledAlteration));
         } //DONE
 
         public bool Sleeping
         {
-            get => Alterations.Any(x => x.GetType() == typeof(SleepAlteration)) &&
-                   !Alterations.Any(x => Alteration.overrides[EAlterationType.Sleep].Contains(x.ToEnum()));
+            get => Alterations.Any(x => x.GetType() == typeof(SleepAlteration));
         } //DONE
 
         /// <summary>
@@ -162,9 +157,10 @@ namespace DownBelow.Entity
             get
             {
                 var alt = Alterations.Find(x => x is DmgUpDownAlteration);
-                if (alt != null &&
-                    !Alterations.Any(x => Alteration.overrides[EAlterationType.DmgUpDown].Contains(x.ToEnum())))
+                if (alt != null)
+                {
                     return ((DmgUpDownAlteration)alt).value;
+                }
                 return 0;
             }
         }
@@ -177,9 +173,10 @@ namespace DownBelow.Entity
             get
             {
                 var alt = Alterations.Find(x => x is SpeedUpDownAlteration);
-                if (alt != null && !Alterations.Any(x =>
-                        Alteration.overrides[EAlterationType.SpeedUpDown].Contains(x.ToEnum())))
+                if (alt != null)
+                {
                     return ((SpeedUpDownAlteration)alt).value;
+                }
                 return 0;
             }
         }
@@ -480,39 +477,24 @@ namespace DownBelow.Entity
             GridPos : {EntityCell}";
         }
 
-        public void AddAlteration(EAlterationType type, int duration, int value)
+        public void AddAlteration(Alteration alteration)
         {
-            OnAlterationReceived?.Invoke(new SpellEventDataAlteration(this, duration, type));
-            Debug.Log($"Alteration: {type} to {this.name}");
-            Alteration alteration;
-            alteration = type switch
-            {
-                EAlterationType.Stun => new StunAlteration(duration),
-                EAlterationType.Snare => new SnareAlteration(duration),
-                EAlterationType.Shattered => new ShatteredAlteration(duration),
-                EAlterationType.DoT => new DoTAlteration(duration, 2), //Idfk how much dmg
-                EAlterationType.Bubbled => new BubbledAlteration(duration),
-                EAlterationType.SpeedUpDown => new SpeedUpDownAlteration(duration, value),
-                EAlterationType.DmgUpDown => new DmgUpDownAlteration(duration, value),
-                EAlterationType.Sleep => new SleepAlteration(duration),
-                _ => throw new System.NotImplementedException($"NEED TO IMPLEMENT ENUM MEMBER {type}"),
-            };
-            var found = Alterations.Find(x => x.GetType() == alteration.GetType());
-            if (found != null)
+            OnAlterationReceived?.Invoke(new SpellEventDataAlteration(this, alteration));
+            Debug.Log($"Alteration: {alteration} to {this.name}");
+            var alreadyFound = Alterations.Find(x => x.GetType() == alteration.GetType());
+            if (alreadyFound != null)
             {
                 //TODO : GD? Add Duration? Set duration?
-            }
-            else
+            } else
             {
                 Alterations.Add(alteration);
             }
-
             alteration.Setup(this);
+
             if (alteration.ClassicCountdown)
             {
                 this.OnTurnEnded += alteration.DecrementAlterationCountdown;
-            }
-            else
+            } else
             {
                 switch (alteration)
                 {
@@ -598,7 +580,7 @@ namespace DownBelow.Entity
         {
         }
 
-        internal void FireOnAlterationGiven(SpellEventData Data)
+        internal void FireOnAlterationGiven(SpellEventDataAlteration Data)
         {
             OnAlterationGiven?.Invoke(Data);
         }
