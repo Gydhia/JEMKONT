@@ -22,6 +22,8 @@ namespace DownBelow.Spells
 
         Empty = 1 << 2,
 
+        NCEs = 1 << 4,
+
         Entities = Enemy | Ally,
         All = Enemy | Ally | Empty
     }
@@ -37,6 +39,7 @@ namespace DownBelow.Spells
                 case TargetType.Ally: return cell.EntityIn != null && cell.EntityIn is PlayerBehavior;
                 case TargetType.Empty: return cell.Datas.state == CellState.Walkable;
                 case TargetType.Entities: return cell.Datas.state == CellState.EntityIn;
+                case TargetType.NCEs: return cell.hasNCE;
                 case TargetType.All: return cell.Datas.state != CellState.Blocked;
             }
 

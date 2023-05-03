@@ -30,6 +30,8 @@ namespace DownBelow.GridSystem
 
         public Cell parent;
         private CharacterEntity _entityIn;
+        public NonCharacterEntity AttachedNCE;
+        public bool hasNCE => AttachedNCE != null;
         public CharacterEntity EntityIn
         {
             get { return _entityIn; }
@@ -70,6 +72,7 @@ namespace DownBelow.GridSystem
         {
             if (!force && this.Datas.state == newState)
                 return;
+            GridManager.Instance.ChangeBitmapCell(this.GetGlobalPosition(), RefGrid.GridHeight,newState);
             this.Datas.state = newState;
         }
 

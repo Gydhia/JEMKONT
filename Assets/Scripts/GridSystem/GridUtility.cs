@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 
 namespace DownBelow.GridSystem
@@ -31,6 +32,7 @@ namespace DownBelow.GridSystem
                             oldCells[i, j] = new CellData(i, j, CellState.Walkable);
             }
         }
+
         public static List<Cell> GetSurroundingCells(CellState? specifiedState, Cell cell)
         {
             List<Cell> foundCells = new List<Cell>();
@@ -335,5 +337,9 @@ namespace DownBelow.GridSystem
         }
 
         #endregion
+        public static GridPosition GetGlobalPosition(this Cell cell)
+        {
+            return new GridPosition(cell.PositionInGrid.longitude - cell.RefGrid.SelfData.Longitude, cell.PositionInGrid.latitude - cell.RefGrid.SelfData.Latitude);
+        }
     }
 }

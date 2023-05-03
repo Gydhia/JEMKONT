@@ -41,6 +41,8 @@ namespace DownBelow.Spells
 
         #region PLAYABLE
         [HideInInspector]
+        public List<Cell> TargetedCells;
+        [HideInInspector]
         public List<CharacterEntity> TargetEntities;
         [HideInInspector]
         public Spell ParentSpell;
@@ -79,8 +81,8 @@ namespace DownBelow.Spells
         {
             if (this.Data.RequiresTargetting)
             {
-                return GridUtility
-                    .TransposeShapeToCells(ref Data.RotatedShapeMatrix, cellTarget, Data.RotatedShapePosition)
+                TargetedCells = GridUtility.TransposeShapeToCells(ref Data.RotatedShapeMatrix, cellTarget, Data.RotatedShapePosition);
+                return TargetedCells                   
                     .Where(cell => cell.EntityIn != null)
                     .Select(cell => cell.EntityIn)
                     .ToList();
