@@ -48,7 +48,6 @@ namespace DownBelow.Entity
         public Interactable NextInteract = null;
 
         public MeshRenderer PlayerBody;
-        public string PlayerID;
         public PhotonView PlayerView;
 
         public List<Cell> NextPath { get; private set; }
@@ -142,9 +141,11 @@ namespace DownBelow.Entity
                     closestCell = neighbours[0];
             }
 
+            this.FireExitedCell();
+
             this.CurrentGrid = grid;
-            this.EntityCell = closestCell;
-            closestCell.Datas.state = CellState.EntityIn;
+
+            this.FireEnteredCell(closestCell);
 
             this.transform.position = closestCell.WorldPosition;
         }

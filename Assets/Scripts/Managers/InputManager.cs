@@ -44,10 +44,10 @@ namespace DownBelow.Managers
         #endregion
 
         public Interactable LastInteractable;
-        public EventSystem EventSystem;
+        public EventSystem GameEventSystem;
 
         public bool IsPressingShift = false;
-
+        public bool IsPointingOverUI = false;
 
         public override void Awake()
         {
@@ -75,7 +75,10 @@ namespace DownBelow.Managers
             if (!GameManager.GameStarted)
                 return;
 
-            if(!ReferenceEquals(Keyboard.current, null))
+            this.IsPointingOverUI = EventSystem.current.IsPointerOverGameObject();
+
+
+            if (!ReferenceEquals(Keyboard.current, null))
                 this.IsPressingShift = Keyboard.current.shiftKey.IsPressed();
 
             #region CELLS_RAYCAST
@@ -122,7 +125,8 @@ namespace DownBelow.Managers
         private void _onLeftClickDown(InputAction.CallbackContext ctx) => this.OnLeftClickDown();
         public void OnLeftClickDown()
         {
-            if (EventSystem.IsPointerOverGameObject()) return;
+            if (this.IsPointingOverUI)
+                return;
 
             if (GridManager.Instance.LastHoveredCell != null)
                 this.FireCellClickedDown(GridManager.Instance.LastHoveredCell);
@@ -131,16 +135,20 @@ namespace DownBelow.Managers
         private void _onLeftClickUp(InputAction.CallbackContext ctx) => this.OnLeftClickUp();
         public void OnLeftClickUp()
         {
-            if (EventSystem.IsPointerOverGameObject()) return;
+            if (this.IsPointingOverUI)
+                return;
 
             if (GridManager.Instance.LastHoveredCell != null)
+            {
                 this.FireCellClickedUp(GridManager.Instance.LastHoveredCell);
+            }
         }
 
         private void _onRightClickDown(InputAction.CallbackContext ctx) => this.OnRightClickDown();
         public void OnRightClickDown()
         {
-            if (EventSystem.IsPointerOverGameObject()) return;
+            if (this.IsPointingOverUI)
+                return;
 
             if (GridManager.Instance.LastHoveredCell != null)
                 this.FireCellRightClick(GridManager.Instance.LastHoveredCell);

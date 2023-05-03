@@ -16,11 +16,49 @@ using System;
 
 namespace DownBelow.Managers
 {
+    public enum BuffAnswer
+    {
+        EndTurn,
+        StartTurn
+    }
+
+    [Serializable]
+    public struct SerializedAction
+    {
+        public string ActionID;
+        public string ContextAction;
+        public string EntityID;
+        public string GridName;
+        public int[] GridLocation;
+        public string ActionType;
+        public object[] Datas;
+
+        public SerializedAction(string actionID, string contextAction, string entityID, string grid, int[] gridLocation, string actionType, object[] datas)
+        {
+            this.ActionID = actionID;
+            this.ContextAction = contextAction;
+            this.EntityID = entityID;
+            this.GridName = grid;
+            this.ActionType = actionType;
+            this.Datas = datas;
+            this.GridLocation = gridLocation;
+            this.Datas = datas;
+        }
+    }
+
     public class NetworkManager : MonoBehaviourPunCallbacks
     {
+
         public UIMenuLobby UILobby;
 
         public static NetworkManager Instance;
+
+        public bool IsLocalPlayer(PlayerBehavior player) => player.UID == PhotonNetwork.LocalPlayer.UserId;
+
+        /// <summary>
+        /// Players for whom playing entity has ended its turn
+        /// </summary>
+        private List<PlayerBehavior> _playersTurnState = new List<PlayerBehavior>();
 
         private void Awake()
         {
@@ -42,16 +80,25 @@ namespace DownBelow.Managers
             UnityEngine.Object.DontDestroyOnLoad(this);
         }
 
-        void Start()
+        private void Start()
         {
-            _connect();
+            this._connect();
         }
 
-        public void SubToGameEvents()
+        public void Init()
         {
-            CombatManager.Instance.OnTurnStarted += this.TurnBegan;
-            CombatManager.Instance.OnTurnEnded += this.TurnEnded;
+            this.SubToCombatEvents();
         }
+
+        public void SubToCombatEvents()
+        {
+            // Only the master client should handle the turns processing
+            if (PhotonNetwork.IsMasterClient)
+            {
+                //CombatManager.Instance.OnTurnEnded += ;
+            }
+        }
+
 
         public void UpdateOwnerName(string newName)
         {
@@ -104,7 +151,17 @@ namespace DownBelow.Managers
         /// <param name="action"> The Action to buff.</param>
         public void EntityAskToBuffAction(EntityAction action)
         {
-            this.EntityAskToBuffAction(action, !InputManager.Instance.IsPressingShift);
+            
+            SerializedAction actionData = new SerializedAction(action.ID.ToString(),
+                action.ContextActionId.ToString(),
+                action.RefEntity.UID,
+                action.RefEntity.CurrentGrid.UName,
+                new int[2] { action.TargetCell.PositionInGrid.latitude, action.TargetCell.PositionInGrid.longitude },
+                action.GetType().ToString(),
+                action.GetDatas()
+                );
+
+            this.EntityAskToBuffAction(new SerializedAction[1] { actionData }, !InputManager.Instance.IsPressingShift);
         }
 
         /// <summary>
@@ -113,11 +170,25 @@ namespace DownBelow.Managers
         /// <param name="actions"></param>
         public void EntityAskToBuffActions(EntityAction[] actions)
         {
-            foreach (var item in actions)
+            SerializedAction[] actionArray = new SerializedAction[actions.Length];
+            int index = 0;
+            foreach (var action in actions)
             {
-                if(item != null)
-                    EntityAskToBuffAction(item, false);
+                if (action != null)
+                {
+                    actionArray[index] = new SerializedAction(action.ID.ToString(),
+                         action.ContextActionId.ToString(),
+                         action.RefEntity.UID,
+                         action.RefEntity.CurrentGrid.UName,
+                         new int[2] { action.TargetCell.PositionInGrid.latitude, action.TargetCell.PositionInGrid.longitude },
+                         action.GetType().ToString(),
+                         action.GetDatas()
+                     );
+
+                    index++;
+                }
             }
+            this.EntityAskToBuffAction(actionArray, false);
         }
 
         /// <summary>
@@ -125,42 +196,61 @@ namespace DownBelow.Managers
         /// </summary>
         /// <param name="action"> The Action to buff.</param>
         /// <param name="abortOthers">true if you want to abort any other action in process, false if you should just queue the action.</param>
-        public void EntityAskToBuffAction(EntityAction action, bool abortOthers)
+        public void EntityAskToBuffAction(SerializedAction[] actions, bool abortOthers)
         {
-            this.photonView.RPC("RPC_RespondWithProcessedBuffedAction", RpcTarget.All,
-                action.RefEntity.UID,
-                action.RefEntity.CurrentGrid.UName,
-                new int[2] { action.TargetCell.PositionInGrid.latitude, action.TargetCell.PositionInGrid.longitude },
-                action.GetType().ToString(),
-                action.GetDatas(),
-                abortOthers
-             );
+            string json = Newtonsoft.Json.JsonConvert.SerializeObject(actions);
+
+            this.photonView.RPC("RPC_RespondWithProcessedBuffedAction", RpcTarget.All, json, abortOthers);
         }
 
         [PunRPC]
-        public void RPC_RespondWithProcessedBuffedAction(string entityID, string grid, int[] gridLocation, string actionType, object[] datas, bool abortOthers)
+        public void RPC_RespondWithProcessedBuffedAction(string actions, bool abortOthers)
         {
-            WorldGrid entityGrid = GridManager.Instance.GetGridFromName(grid);
-            Cell targetCell = entityGrid.Cells[gridLocation[0], gridLocation[1]];
-            //If there are multiple CharacterEntities with the same UID; an exception will be thrown. Could use First/Find instead?
-            CharacterEntity entity = entityGrid.GridEntities.Single(e => e.UID == entityID);
+            SerializedAction[] pActions = Newtonsoft.Json.JsonConvert.DeserializeObject<SerializedAction[]>(actions);
+            List<EntityAction> generatedActions = new List<EntityAction>();
 
-            object[] fullDatas = new object[datas.Length + 2];
-            fullDatas[0] = entity;
-            fullDatas[1] = targetCell;
-            for (int i = 2;i < fullDatas.Length;i++)
-                fullDatas[i] = datas[i - 2];
+            for (int i = 0; i < pActions.Length; i++)
+            {
+                WorldGrid entityGrid = GridManager.Instance.GetGridFromName(pActions[i].GridName);
+                Cell targetCell = entityGrid.Cells[pActions[i].GridLocation[0], pActions[i].GridLocation[1]];
+                CharacterEntity entity = entityGrid.GridEntities.Single(e => e.UID == pActions[i].EntityID);
 
-            Type type = Type.GetType(actionType);
-            EntityAction myAction = Activator.CreateInstance(type, fullDatas) as EntityAction;
+                pActions[i].Datas ??= new object[0];
+                object[] fullDatas = new object[2 + pActions[i].Datas.Length];
 
-            myAction.RefEntity = entity;
-            // 0 is latitude (height), 1 is longitude (width)
-            myAction.TargetCell = targetCell;
+                fullDatas[0] = entity;
+                fullDatas[1] = targetCell;
+                for (int j = 2; j < fullDatas.Length; j++)
+                {
+                    fullDatas[j] = pActions[i].Datas[j - 2];
+                }
 
-            myAction.SetDatas(datas);
+                Type type = Type.GetType(pActions[i].ActionType);
+                EntityAction myAction = Activator.CreateInstance(type, fullDatas) as EntityAction;
 
-            GameManager.Instance.BuffAction(myAction, abortOthers);
+                myAction.ID = Guid.Parse(pActions[i].ActionID);
+                myAction.ContextActionId = Guid.Parse(pActions[i].ContextAction);
+                myAction.RefEntity = entity;
+                myAction.TargetCell = targetCell;
+
+                myAction.SetDatas(pActions[i].Datas);
+                generatedActions.Add(myAction);
+            }
+
+            foreach (var action in generatedActions)
+            {
+                if (action.ContextActionId != Guid.Empty)
+                {
+                    var foundAction = generatedActions.SingleOrDefault(a => a.ID == action.ContextActionId);
+                    if (foundAction != null)
+                        action.SetContextAction(foundAction);
+                    else
+                        Debug.LogError("Couldn't find context action of id [" + action.ContextActionId + "] in the generated datas");
+                }
+            }
+
+            foreach (var action in generatedActions)
+                GameManager.Instance.BuffAction(action, abortOthers);
         }
 
 
@@ -173,7 +263,7 @@ namespace DownBelow.Managers
         // /!\ Only one combat can be active at the moment, that is important
         public void PlayerAsksToStartCombat()
         {
-            this.photonView.RPC("RPC_RespondToStartCombat", RpcTarget.All, GameManager.Instance.SelfPlayer.PlayerID);
+            this.photonView.RPC("RPC_RespondToStartCombat", RpcTarget.All, GameManager.Instance.SelfPlayer.UID);
         }
 
         [PunRPC]
@@ -184,7 +274,7 @@ namespace DownBelow.Managers
 
         public void GiftOrRemovePlayerItem(string playerID, ItemPreset item, int quantity)
         {
-            this.photonView.RPC("RPC_RespondGiftOrRemovePlayerItem", RpcTarget.All, GameManager.Instance.SelfPlayer.PlayerID, item.UID.ToString(), quantity);
+            this.photonView.RPC("RPC_RespondGiftOrRemovePlayerItem", RpcTarget.All, GameManager.Instance.SelfPlayer.UID, item.UID.ToString(), quantity);
         }
 
         [PunRPC]
@@ -193,61 +283,109 @@ namespace DownBelow.Managers
             GameManager.Instance.Players[playerID].TakeResources(GridManager.Instance.ItemsPresets[System.Guid.Parse(itemID)], quantity);
         }
 
-        public void TurnBegan(EntityEventData EntityData)
-        {
-            if (!CombatManager.Instance.BattleGoing && GameManager.Instance.SelfPlayer.CurrentGrid.IsCombatGrid)
-                return;
+        #region TURNS
 
-            this.photonView.RPC("RPC_OnTurnBegan", RpcTarget.All, EntityData.Entity.UID);
+
+        public void StartEntityTurn()
+        {
+            this._playersTurnState.Clear();
+
+            this.photonView.RPC("NotifyPlayerStartTurn", RpcTarget.All, GameManager.Instance.SelfPlayer.UID);
         }
 
         [PunRPC]
-        public void RPC_OnTurnBegan(string entityID)
+        public void NotifyPlayerStartTurn(string PlayerID)
         {
-            CombatManager.Instance.ProcessStartTurn(entityID);
-            //If there is the client player in the battle;
-            if (entityID == GameManager.Instance.SelfPlayer.PlayerID)
+            CombatManager.Instance.ProcessStartTurn();
+
+            //if (CombatManager.Instance.CurrentPlayingEntity is PlayerBehavior)
+            //{
+            //    CombatManager.Instance.CurrentPlayingEntity.StartTurn();
+            //}
+            CombatManager.Instance.CurrentPlayingEntity.StartTurn();
+            this.photonView.RPC("PlayerAnswerStartTurn", RpcTarget.MasterClient, GameManager.Instance.SelfPlayer.UID);
+        }
+
+        [PunRPC]
+        public void PlayerAnswerStartTurn(string PlayerID)
+        {
+            this._playersTurnState.Add(GameManager.Instance.Players[PlayerID]);
+
+            if (this._playersTurnState.Count >= GameManager.Instance.Players.Count)
             {
-                //If it is OUR turn;
-                UIManager.Instance.NextTurnButton.interactable = true;
+                this.NotifyEnemyActions();
             }
         }
 
-        public void TurnEnded(EntityEventData EntityData)
+        public void NotifyEnemyActions()
         {
-            if (!CombatManager.Instance.BattleGoing && GameManager.Instance.SelfPlayer.CurrentGrid.IsCombatGrid)
-                return;
+            var entity = CombatManager.Instance.CurrentPlayingEntity;
 
-            this.photonView.RPC("RPC_OnTurnEnded", RpcTarget.All, EntityData.Entity.UID);
+            if (entity is EnemyEntity enemy)
+            {
+                this.EntityAskToBuffActions(enemy.CreateEnemyActions());
+            }
+        }
+
+        /// <summary>
+        /// From the player to end the turn of himself /!\ OR /!\ its current playing entity. NOT for other players
+        /// </summary>
+        public void PlayerAsksEndTurn()
+        {
+            this.photonView.RPC("RespondMasterEndEntityTurn", RpcTarget.MasterClient, GameManager.Instance.SelfPlayer.UID);
         }
 
         [PunRPC]
-        public void RPC_OnTurnEnded(string entityID)
+        public void RespondMasterEndEntityTurn(string PlayerID)
         {
-            CharacterEntity entity = CombatManager.Instance.PlayingEntities.Single(e => e.UID == entityID);
+            this._playersTurnState.Add(GameManager.Instance.Players[PlayerID]);
 
-            CombatManager.Instance.ProcessEndTurn(entityID);
-            //If there is the client player in the battle;
-            if (entityID == GameManager.Instance.SelfPlayer.PlayerID)
+            if (this._playersTurnState.Count >= GameManager.Instance.Players.Count)
             {
-                //If it is OUR turn;
-                UIManager.Instance.NextTurnButton.interactable = true;
+                this.photonView.RPC("RespondPlayerEndEntityTurn", RpcTarget.All, PlayerID);
+            }
+        }
+
+        [PunRPC]
+        public void RespondPlayerEndEntityTurn(string PlayerID)
+        {
+            this._playersTurnState.Clear();
+
+            // Each player process it 
+            CombatManager.Instance.ProcessEndTurn();
+
+            this.photonView.RPC("ConfirmPlayerEndedTurn", RpcTarget.MasterClient, GameManager.Instance.SelfPlayer.UID);
+        }
+
+        [PunRPC]
+        public void ConfirmPlayerEndedTurn(string EntityID)
+        {
+            this._playersTurnState.Add(GameManager.Instance.Players[EntityID]);
+
+            if (this._playersTurnState.Count >= GameManager.Instance.Players.Count)
+            {
+                this.StartEntityTurn();
             }
         }
 
 
-        public void AskCastSpell(ScriptableCard spellToCast, Cell cell)
+
+        // TODO : Make a generic answer architecture for network such as EntityActions
+        /*
+        protected List<string> answersBuffer = new List<string>();
+
+        public void BuffExpectedAnswer(string functionName)
         {
-            this.photonView.RPC("RPC_CastSpell", RpcTarget.All, spellToCast.UID.ToString(), cell.PositionInGrid.longitude, cell.PositionInGrid.latitude); ;
+            this.answersBuffer.Add(functionName);
         }
 
         [PunRPC]
-        public void RPC_CastSpell(string spellName, int longitude, int latittude)
+        public void WaitForAnswers(string PlayerID)
         {
-            ScriptableCard cardToPlay = CardsManager.Instance.ScriptableCards[System.Guid.Parse(spellName)];
-            //if (cardToPlay != null)
-            //    CombatManager.Instance.ExecuteSpells(CombatManager.Instance.CurrentPlayingGrid.Cells[latittude, longitude], cardToPlay);
+
         }
+        */
+        #endregion
         #endregion
 
         #region Photon_UI_callbacks

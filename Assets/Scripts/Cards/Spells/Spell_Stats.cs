@@ -21,8 +21,8 @@ namespace DownBelow.Spells
 
     public class Spell_Stats : Spell<SpellData_Stats>
     {
-        public Spell_Stats(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, SpellCondition ConditionData)
-            : base(CopyData, RefEntity, TargetCell, ParentSpell, ConditionData) { }
+        public Spell_Stats(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, SpellCondition ConditionData, int Cost)
+            : base(CopyData, RefEntity, TargetCell, ParentSpell, ConditionData, Cost) { }
 
         public override void ExecuteAction()
         {
@@ -37,6 +37,8 @@ namespace DownBelow.Spells
                     LocalData.StatAmount * (LocalData.IsNegativeEffect ? -1 : 1)
                 );
             }
+
+            this.EndAction();
         }
     }
 }

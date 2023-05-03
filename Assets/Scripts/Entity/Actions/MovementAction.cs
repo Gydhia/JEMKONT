@@ -18,15 +18,21 @@ namespace DownBelow.Entity
 
         public override void ExecuteAction()
         {
-            this.calculatedPath = GridManager.Instance.FindPath(RefEntity, TargetCell.PositionInGrid);
+            this.calculatedPath = this.GetProcessedPath();
             if (calculatedPath != null)
             {
                 // The path if from the front of the entity to the destination. We so need to add the own entity's cell
                 this.calculatedPath.Insert(0, this.RefEntity.EntityCell);
 
                 this.MoveWithPath();
-            } else
+            } 
+            else
                 EndAction();
+        }
+
+        protected virtual List<Cell> GetProcessedPath()
+        {
+            return GridManager.Instance.FindPath(RefEntity, TargetCell.PositionInGrid);
         }
 
         public virtual void MoveWithPath()

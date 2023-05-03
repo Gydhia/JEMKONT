@@ -9,6 +9,8 @@ namespace DownBelow.Entity
 {
     public abstract class EntityAction
     {
+        public Guid ID;
+
         // Since we have the reference here, we can remove ourself without any help
         [HideInInspector]
         public List<EntityAction> RefBuffer;
@@ -17,7 +19,16 @@ namespace DownBelow.Entity
         public CharacterEntity RefEntity;
         [HideInInspector]
         public Cell TargetCell;
-        protected System.Action EndCallback;
+
+        /// <summary>
+        /// Context action is a way to link an action to another to handle datas or something else.
+        /// You can put whatever you want but don't forget to parse it
+        /// </summary>
+        [HideInInspector]
+        public Guid ContextActionId;
+        protected EntityAction contextAction;
+
+        protected List<Action> EndCallbacks = new List<Action>();
 
         public virtual bool AllowedToProcess() { return true; }
 
@@ -25,11 +36,22 @@ namespace DownBelow.Entity
         {
             this.RefEntity = RefEntity;
             this.TargetCell = TargetCell;
+            this.ID = Guid.NewGuid();
         }
 
-        public void SetCallback(System.Action EndCallback)
+        public void SetCallback(Action EndCallback)
         {
-            this.EndCallback = EndCallback;
+            this.EndCallbacks.Add(EndCallback);
+        }
+
+        public void SetContextAction(EntityAction ContextAction)
+        {
+            this.ContextActionId = ContextAction.ID;
+            this.contextAction = ContextAction;
+        }
+        public virtual void ProcessContextAction()
+        {
+            this.TargetCell = this.contextAction.TargetCell;
         }
 
         public abstract void ExecuteAction();
@@ -43,11 +65,14 @@ namespace DownBelow.Entity
             this.RefBuffer.Remove(this);
             PoolManager.Instance.CellIndicatorPool.HideActionIndicators(this);
 
-            if (this.EndCallback != null)
-            { 
-                Debug.Log($"Before invoking endcallback\n{this.EndCallback.Method.Name}.\n{GameManager.Instance.BufferStatus()}");
-                this.EndCallback.Invoke();
-                Debug.Log($"Invoked endcallback\n{this.EndCallback.Method.Name}.\n{GameManager.Instance.BufferStatus()}");
+            if (this.EndCallbacks != null)
+            {
+                foreach(Action callback in this.EndCallbacks)
+                {
+                    Debug.Log($"Before invoking endcallback\n{callback.Method.Name}.\n{GameManager.Instance.BufferStatus()}");
+                    callback.Invoke();
+                    Debug.Log($"Invoked endcallback\n{callback.Method.Name}.\n{GameManager.Instance.BufferStatus()}");
+                }
             }
         }
 

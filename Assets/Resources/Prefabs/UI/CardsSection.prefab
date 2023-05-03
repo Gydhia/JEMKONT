@@ -554,6 +554,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CardsHolder: {fileID: 3525050511889781521}
+  DiscardHolder: {fileID: 6456363296135594952}
+  DrawHolder: {fileID: 3655987271193487414}
   DrawPile: {fileID: 1601488957049640963}
   DrawNumber: {fileID: 2681435136693674027}
   CardsInDraw: 0

@@ -15,6 +15,7 @@ public class CombatFeedbacks : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _healthFeedback;
     [SerializeField] private Color _healthRemovedColor;
     [SerializeField] private Color _healthAddedColor;
+    [SerializeField] private Image _targetImage;
 
     #endregion
     private Camera _mainCam;
@@ -24,6 +25,8 @@ public class CombatFeedbacks : MonoBehaviour
     {
         _entity.OnHealthRemoved += OnHealthRemoved;
         _entity.OnHealthAdded += OnHealthAdded;
+        _entity.OnEntityTargetted += OnEntityTargetted;
+
         _healthFeedback.gameObject.SetActive(false);
 
         //Maybe for later add feedbacks for the other effects
@@ -39,6 +42,7 @@ public class CombatFeedbacks : MonoBehaviour
     {
         _entity.OnHealthRemoved -= OnHealthRemoved;
         _entity.OnHealthAdded -= OnHealthAdded;
+        _entity.OnEntityTargetted -= OnEntityTargetted;
     }
 
     private void LateUpdate()
@@ -72,7 +76,13 @@ public class CombatFeedbacks : MonoBehaviour
             _healthFeedback.gameObject.SetActive(true);
             _healthFeedback.rectTransform.DOShakePosition(1.5f, 0.5f, 5).SetEase(Ease.InExpo).OnComplete(() => _healthFeedback.gameObject.SetActive(false));
         }
+    }
 
-      
+    private void OnEntityTargetted(EntityEventData Data)
+    {
+        this._targetImage
+            .DOFade(1f, 0.35f)
+            .SetEase(Ease.InExpo)
+            .OnComplete(() => this._targetImage.DOFade(0f, 0.35f));
     }
 }

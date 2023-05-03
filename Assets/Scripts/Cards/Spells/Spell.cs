@@ -18,22 +18,25 @@ namespace DownBelow.Spells
     {
         protected T LocalData => this.Data as T;
 
-        protected Spell(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, SpellCondition ConditionData) : base(CopyData, RefEntity, TargetCell, ParentSpell, ConditionData)
+        protected Spell(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, SpellCondition ConditionData, int Cost) 
+            : base(CopyData, RefEntity, TargetCell, ParentSpell, ConditionData, Cost)
         {
         }
     }
 
     public abstract class Spell : EntityAction
     {
-        public Spell(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, SpellCondition ConditionData)
+        public Spell(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, SpellCondition ConditionData, int Cost)
            : base(RefEntity, TargetCell)
         {
             this.Data = CopyData;
             this.Data.Refresh();
             this.ParentSpell = ParentSpell;
             this.ConditionData = ConditionData;
+            this.Cost = Cost;
         }
 
+        public int Cost;
         public SpellData Data;
 
         #region PLAYABLE
@@ -56,6 +59,8 @@ namespace DownBelow.Spells
 
         public override void ExecuteAction()
         {
+            this.RefEntity.ApplyStat(EntityStatistics.Mana, -this.Cost);
+
             if (!this.ValidateConditions())
             {
                 EndAction();

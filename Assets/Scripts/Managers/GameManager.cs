@@ -2,6 +2,7 @@ using DownBelow.Entity;
 using DownBelow.Events;
 using DownBelow.GridSystem;
 using Photon.Pun;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -66,7 +67,7 @@ namespace DownBelow.Managers
             UIManager.Instance.Init();
             CardsManager.Instance.Init();
             GridManager.Instance.Init();
-            NetworkManager.Instance.SubToGameEvents();
+            NetworkManager.Instance.Init();
 
             this.ProcessPlayerWelcoming();
 
@@ -126,7 +127,7 @@ namespace DownBelow.Managers
 
                     newPlayer.Init(SettingsManager.Instance.FishermanStats, GridManager.Instance.MainWorldGrid.Cells[spawnLocations.ElementAt(counter).latitude, spawnLocations.ElementAt(counter).longitude], GridManager.Instance.MainWorldGrid);
                     // TODO: make it works with world grids
-                    newPlayer.PlayerID = player.UserId;
+                    newPlayer.UID = player.UserId;
 
                     if (player.UserId == PhotonNetwork.LocalPlayer.UserId)
                     {
@@ -196,7 +197,8 @@ namespace DownBelow.Managers
 
                 CombatActionsBuffer[0].SetCallback(_executeNextFromCombatBufferDelayed);
                 CombatActionsBuffer[0].ExecuteAction();
-            } else
+            } 
+            else
                 IsUsingCombatBuffer = false;
         }
 
@@ -208,7 +210,8 @@ namespace DownBelow.Managers
 
                 NormalActionsBuffer[refEntity][0].SetCallback(() => ExecuteNextNormalBuffer(refEntity));
                 NormalActionsBuffer[refEntity][0].ExecuteAction();
-            } else
+            } 
+            else
                 IsUsingNormalBuffer = false;
         }
 
@@ -276,6 +279,17 @@ namespace DownBelow.Managers
             }
         }
 
+        public EntityAction FindActionByID(CharacterEntity entity, Guid ID)
+        {
+            if (entity.CurrentGrid is CombatGrid)
+            {
+                return CombatActionsBuffer.SingleOrDefault(a => a.ID == ID);
+            }
+            else
+            {
+                return NormalActionsBuffer[entity].SingleOrDefault(a => a.ID == ID);
+            }
+        }
         public void BuffEnterGrid(string grid, CharacterEntity refEntity)
         {
 

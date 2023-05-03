@@ -12,6 +12,7 @@ using System;
 using DownBelow.Events;
 using UnityEngine.Rendering;
 using EODE.Wonderland;
+using DownBelow.UI;
 
 namespace DownBelow.Managers
 {
@@ -231,6 +232,7 @@ namespace DownBelow.Managers
                           && this._possiblePath.Contains(this.LastHoveredCell)
                       )
                     {
+                        Debug.Log("CREATED COMBAT MOVEMENT ACTION");
                         NetworkManager.Instance.EntityAskToBuffAction(
                             new CombatMovementAction(selfPlayer, this.LastHoveredCell)
                         );
@@ -278,7 +280,7 @@ namespace DownBelow.Managers
                 && this.LastHoveredCell.RefGrid == selfPlayer.CurrentGrid
             )
             {
-                if (UI.DraggableCard.SelectedCard == null)
+                if (DraggableCard.SelectedCard == null && selfPlayer.IsPlayingEntity)
                 {
                     if (!selfPlayer.IsMoving && this._possiblePath.Contains(LastHoveredCell))
                         PoolManager.Instance.CellIndicatorPool.DisplayPathIndicators(
@@ -422,18 +424,12 @@ namespace DownBelow.Managers
         /// While calculate the closest path to a target, storing it in the Path var of the GridManager
         /// </summary>
         /// <param name="target"></param>
-        public List<Cell> FindPath(
-            CharacterEntity entity,
-            GridPosition target,
-            bool directPath = false,
-            int Range = -1
-        )
+        public List<Cell> FindPath(CharacterEntity entity, GridPosition target, bool directPath = false, int Range = -1)
         {
             if (entity == null)
                 return null;
 
-            Cell startCell =
-                entity.IsMoving && entity.NextCell != null ? entity.NextCell : entity.EntityCell;
+            Cell startCell = entity.IsMoving && entity.NextCell != null ? entity.NextCell : entity.EntityCell;
             Cell targetCell = entity.CurrentGrid.Cells[target.latitude, target.longitude];
 
             List<Cell> finalPath;
@@ -451,7 +447,7 @@ namespace DownBelow.Managers
                     if (
                         openSet[i].fCost < currentCell.fCost
                         || openSet[i].fCost == currentCell.fCost
-                            && openSet[i].hCost < currentCell.hCost
+                        && openSet[i].hCost < currentCell.hCost
                     )
                     {
                         currentCell = openSet[i];
@@ -462,12 +458,10 @@ namespace DownBelow.Managers
                 closedSet.Add(currentCell);
 
                 // We go there at the end of the path
-                if (
-                    currentCell == targetCell
-                    || Range > 0
-                        && IsInRange(currentCell.PositionInGrid, targetCell.PositionInGrid, Range)
-                )
+                if (currentCell == targetCell || Range > 0 && IsInRange(currentCell.PositionInGrid, targetCell.PositionInGrid, Range))
                 {
+                    if (Range > 0)
+                        targetCell = currentCell;
                     // Once done, get the correct path
                     finalPath = this.RetracePath(startCell, targetCell);
                     // If the last cell of the path isn't walkable, stop right before
@@ -484,18 +478,12 @@ namespace DownBelow.Managers
                     : GetNormalNeighbours(currentCell, entity.CurrentGrid);
                 foreach (Cell neighbour in actNeighbours)
                 {
-                    if (
-                        CellState.NonWalkable.HasFlag(neighbour.Datas.state) && directPath == false
-                        || closedSet.Contains(neighbour)
-                    )
+                    if (CellState.NonWalkable.HasFlag(neighbour.Datas.state) && directPath == false || closedSet.Contains(neighbour))
                         continue;
 
                     int newMovementCostToNeightbour =
                         currentCell.gCost + GetDistance(currentCell, neighbour);
-                    if (
-                        newMovementCostToNeightbour < neighbour.gCost
-                        || !openSet.Contains(neighbour)
-                    )
+                    if (newMovementCostToNeightbour < neighbour.gCost || !openSet.Contains(neighbour))
                     {
                         neighbour.gCost = newMovementCostToNeightbour;
                         neighbour.hCost = GetDistance(neighbour, targetCell);

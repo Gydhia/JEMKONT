@@ -42,6 +42,7 @@ namespace DownBelow.Entity
         /// </summary>
         public event SpellEventData.Event OnAlterationReceived;
 
+        public event EntityEventData.Event OnEntityTargetted;
 
         public event GameEventData.Event OnTurnBegun;
         public event GameEventData.Event OnTurnEnded;
@@ -55,7 +56,6 @@ namespace DownBelow.Entity
 
         public void FireExitedCell()
         {
-            this.EntityCell.Datas.state = CellState.Walkable;
             this.EntityCell.EntityIn = null;
 
             this.OnExitedCell?.Invoke(new CellEventData(this.EntityCell));
@@ -64,10 +64,13 @@ namespace DownBelow.Entity
         public void FireEnteredCell(Cell cell)
         {
             this.EntityCell = cell;
-            this.EntityCell.EntityIn = this;
-            this.EntityCell.Datas.state = CellState.EntityIn;
 
             this.OnEnteredCell?.Invoke(new CellEventData(cell));
+        }
+
+        public void FireEntityTargetted(CharacterEntity targeter)
+        {
+            this.OnEntityTargetted?.Invoke(new(targeter));
         }
 
         protected EntityStats RefStats;
@@ -89,7 +92,21 @@ namespace DownBelow.Entity
 
         // Movements
         public bool IsMoving = false;
-        public Cell EntityCell = null;
+
+        public Cell _entityCell;
+        public Cell EntityCell
+        {
+            get { return this._entityCell; }
+            set
+            {
+                if(_entityCell != null)
+                    this._entityCell.EntityIn = null;
+
+                this._entityCell = value;
+                this._entityCell.EntityIn = this;
+            }
+        }
+
         public Cell NextCell = null;
         protected Coroutine moveCor = null;
         public List<Cell> CurrentPath;
@@ -287,19 +304,6 @@ namespace DownBelow.Entity
 
         #region TURNS
 
-        public virtual void EndTurn()
-        {
-            NumberOfTurnsPlayed++;
-            CanAutoAttack = false;
-            foreach (Alteration Alter in Alterations)
-            {
-                Alter.Apply(this);
-            }
-
-            this.IsPlayingEntity = false;
-            OnTurnEnded?.Invoke(new());
-        }
-
         public virtual void StartTurn()
         {
             this.IsPlayingEntity = true;
@@ -312,11 +316,26 @@ namespace DownBelow.Entity
             UIManager.Instance.PlayerInfos.UpdateAllTexts();
 
             if (this.Stunned || this.Sleeping)
+            {
                 EndTurn();
+                return;
+            }
 
             GridManager.Instance.CalculatePossibleCombatMovements(this);
         }
 
+        public virtual void EndTurn()
+        {
+            NumberOfTurnsPlayed++;
+            CanAutoAttack = false;
+            foreach (Alteration Alter in Alterations)
+            {
+                Alter.Apply(this);
+            }
+
+            this.IsPlayingEntity = false;
+            OnTurnEnded?.Invoke(new());
+        }
         #endregion
 
         #region STATS

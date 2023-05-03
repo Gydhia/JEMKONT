@@ -25,7 +25,7 @@ MonoBehaviour:
   BaseShield: 0
   Strength: 90
   Mana: 1
-  Speed: 1
+  Speed: 3
   Defense: 40
-  Range: 2
+  Range: 3
   MaxMana: 1

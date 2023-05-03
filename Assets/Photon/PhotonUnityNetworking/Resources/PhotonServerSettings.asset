@@ -55,6 +55,11 @@ MonoBehaviour:
   - RPC_CastSpell
   - RPC_OnTurnEnded
   - RPC_RespondWithProcessedBuffedAction
+  - ConfirmPlayerEndedTurn
+  - NotifyPlayerStartTurn
+  - PlayerAnswerStartTurn
+  - RespondMasterEndEntityTurn
+  - RespondPlayerEndEntityTurn
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

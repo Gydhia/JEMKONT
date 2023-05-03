@@ -30,7 +30,7 @@ namespace DownBelow.GridSystem
 
             int gathered = UnityEngine.Random.Range(rPreset.MinGathering, rPreset.MaxGathering);
             Debug.Log("Gathered " + gathered + " of " + rPreset.UName);
-            NetworkManager.Instance.GiftOrRemovePlayerItem(player.PlayerID, rPreset.ResourceItem, gathered);
+            NetworkManager.Instance.GiftOrRemovePlayerItem(player.UID, rPreset.ResourceItem, gathered);
             StartCoroutine(GrowingRoutine());
         }
         IEnumerator GrowingRoutine()
