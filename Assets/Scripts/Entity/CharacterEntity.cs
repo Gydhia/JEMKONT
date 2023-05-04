@@ -55,6 +55,8 @@ namespace DownBelow.Entity
 
         public event CellEventData.Event OnEnteredCell;
         public event CellEventData.Event OnExitedCell;
+
+        public event SpellEventData.Event OnPushed;
         #endregion
         #region firingEvents
         public void FireExitedCell()
@@ -74,6 +76,11 @@ namespace DownBelow.Entity
         public void FireEntityTargetted(CharacterEntity targeter)
         {
             this.OnEntityTargetted?.Invoke(new(targeter));
+        }
+
+        public void FireEntityPushed(SpellEventData data)
+        {
+            this.OnPushed?.Invoke(data);
         }
         #endregion
         protected EntityStats RefStats;

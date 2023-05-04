@@ -62,7 +62,7 @@ namespace DownBelow.Entity
 
         private bool scrollBusy;
         private PlaceableItem lastPlaceable;
-
+        [HideInInspector] public int theList= 0;
         public Deck Deck
         {
             get => testingDeck.Deck;
@@ -248,7 +248,7 @@ namespace DownBelow.Entity
                 if (closestCell == null)
                     closestCell = neighbours[0];
             }
-
+            theList = 0; //:)
             this.FireExitedCell();
 
             this.CurrentGrid = grid;
