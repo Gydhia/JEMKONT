@@ -34,7 +34,7 @@ namespace DownBelow.Entity
             //TODO: ApplyBuff!
             if (Data.Cell.EntityIn is EnemyEntity enemy && Data.Cell == AttachedCell)
             {
-
+                Explode(enemy);
             }
         }
 
