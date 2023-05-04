@@ -181,7 +181,7 @@ namespace DownBelow.Managers
                          action.RefEntity.UID,
                          action.RefEntity.CurrentGrid.UName,
                          new int[2] { action.TargetCell.PositionInGrid.latitude, action.TargetCell.PositionInGrid.longitude },
-                         action.GetType().ToString(),
+                         action.GetAssemblyName(),
                          action.GetDatas()
                      );
 
@@ -190,6 +190,8 @@ namespace DownBelow.Managers
             }
             this.EntityAskToBuffAction(actionArray, false);
         }
+
+       
 
         /// <summary>
         /// Will ask to buff an action. If abortOthers = true; will abort other actions in the buffer for the entity.
