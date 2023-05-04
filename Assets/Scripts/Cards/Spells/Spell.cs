@@ -41,6 +41,8 @@ namespace DownBelow.Spells
 
         #region PLAYABLE
         [HideInInspector]
+        public List<NonCharacterEntity> NCEHits;
+        [HideInInspector]
         public List<Cell> TargetedCells;
         [HideInInspector]
         public List<CharacterEntity> TargetEntities;
@@ -53,6 +55,7 @@ namespace DownBelow.Spells
 
         public bool ValidateConditions()
         {
+
             if (ParentSpell == null || ConditionData == null)
                 return true;
 
@@ -82,6 +85,10 @@ namespace DownBelow.Spells
             if (this.Data.RequiresTargetting)
             {
                 TargetedCells = GridUtility.TransposeShapeToCells(ref Data.RotatedShapeMatrix, cellTarget, Data.RotatedShapePosition);
+                NCEHits = TargetedCells                   
+                    .Where(cell => cell.AttachedNCE != null)
+                    .Select(cell => cell.AttachedNCE)
+                    .ToList();
                 return TargetedCells                   
                     .Where(cell => cell.EntityIn != null)
                     .Select(cell => cell.EntityIn)

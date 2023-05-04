@@ -17,16 +17,17 @@ namespace DownBelow.Entity
         /// </summary>
         protected bool Destroyable => true;
 
-        public virtual void Init(Cell attachedCell, int TurnsLeft, CharacterEntity RefEntity)
+        public virtual void Init(Cell AttachedCell, int TurnsLeft, CharacterEntity RefEntity)
         {
-            AttachedCell = attachedCell;
+            AttachedCell.AttachedNCE = this;
+            this.AttachedCell = AttachedCell;
             this.TurnsLeft = TurnsLeft;
             this.RefEntity = RefEntity;
             this.RefEntity.OnTurnBegun += Decrement;
         }
 
         /// <summary>
-        /// To call when the entity gets hit.
+        /// To call when the entity gets hit by a damaging spell. If this is not working, check the example in Spell_Stats.cs, or different references.
         /// </summary>
         public virtual void Hit()
         {
@@ -44,6 +45,7 @@ namespace DownBelow.Entity
 
         public virtual void DestroyEntity()
         {
+            AttachedCell.AttachedNCE = null;
             AttachedCell.ChangeCellState(CellState.Walkable);
             RefEntity.OnTurnBegun -= Decrement;
             Destroy(this.gameObject);

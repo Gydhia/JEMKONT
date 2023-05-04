@@ -18,6 +18,7 @@ namespace DownBelow.Entity
 {
     public abstract class CharacterEntity : MonoBehaviour
     {
+        #region events
         public delegate void StatModified();
 
         public event SpellEventData.Event OnHealthRemoved;
@@ -54,7 +55,8 @@ namespace DownBelow.Entity
 
         public event CellEventData.Event OnEnteredCell;
         public event CellEventData.Event OnExitedCell;
-
+        #endregion
+        #region firingEvents
         public void FireExitedCell()
         {
             this.EntityCell.EntityIn = null;
@@ -73,7 +75,7 @@ namespace DownBelow.Entity
         {
             this.OnEntityTargetted?.Invoke(new(targeter));
         }
-
+        #endregion
         protected EntityStats RefStats;
 
         [OdinSerialize] public List<Alteration> Alterations = new();
@@ -100,7 +102,7 @@ namespace DownBelow.Entity
             get { return this._entityCell; }
             set
             {
-                if(_entityCell != null)
+                if (_entityCell != null)
                     this._entityCell.EntityIn = null;
 
                 this._entityCell = value;
@@ -150,37 +152,20 @@ namespace DownBelow.Entity
         } //DONE
 
         /// <summary>
-        /// Returns the current Damage Up/Down alteration value. returns 0 of there isn't any.
+        /// Returns the current additionnal/reductionnal value we have on the given stat.
         /// </summary>
-        public int DmgUpDown
+        /// <param name="stat">The given stat.</param>
+        /// <returns></returns>
+        int Buff(EntityStatistics stat)
         {
-            get
+            int res = 0;
+            var alt = Alterations.Find(x => x is BuffAlteration buffAlt && buffAlt.StatToBuff == stat);
+            if (alt != null && alt is BuffAlteration buff)
             {
-                var alt = Alterations.Find(x => x is DmgUpDownAlteration);
-                if (alt != null)
-                {
-                    return ((DmgUpDownAlteration)alt).value;
-                }
-                return 0;
+                res = buff.value;
             }
+            return res;
         }
-
-        /// <summary>
-        /// Returns the current Speed Up/Down alteration value. returns 0 of there isn't any.
-        /// </summary>
-        public int SpeedUpDown
-        {
-            get
-            {
-                var alt = Alterations.Find(x => x is SpeedUpDownAlteration);
-                if (alt != null)
-                {
-                    return ((SpeedUpDownAlteration)alt).value;
-                }
-                return 0;
-            }
-        }
-
         #endregion
 
         public int MaxHealth
@@ -191,12 +176,12 @@ namespace DownBelow.Entity
 
         public Dictionary<EntityStatistics, int> Statistics;
 
-        public int Health => Statistics[EntityStatistics.Health];
-        public int Strength => Statistics[EntityStatistics.Strength];
-        public int Speed => Snared ? 0 : Statistics[EntityStatistics.Speed] + SpeedUpDown;
-        public virtual int Mana => Statistics[EntityStatistics.Mana];
-        public int Defense => Shattered ? 0 : Statistics[EntityStatistics.Defense];
-        public int Range => Statistics[EntityStatistics.Range];
+        public int Health => Statistics[EntityStatistics.Health] + Buff(EntityStatistics.Health);
+        public int Strength => Statistics[EntityStatistics.Strength] + Buff(EntityStatistics.Strength);
+        public int Speed => Snared ? 0 : Statistics[EntityStatistics.Speed] + Buff(EntityStatistics.Speed);
+        public virtual int Mana => Statistics[EntityStatistics.Mana] + Buff(EntityStatistics.Mana);
+        public int Defense => Shattered ? 0 : Statistics[EntityStatistics.Defense] + Buff(EntityStatistics.Defense);
+        public int Range => Statistics[EntityStatistics.Range] + Buff(EntityStatistics.Range);
 
 
         public int NumberOfTurnsPlayed = 0;
@@ -233,8 +218,7 @@ namespace DownBelow.Entity
                 this.healthText.transform.DOShakeRotation(0.8f).SetEase(Ease.OutQuad).OnComplete(() =>
                     this.healthText.DOColor(Color.white, 0.2f).SetEase(Ease.OutQuad));
                 this.healthText.text = this.Health.ToString();
-            }
-            else
+            } else
             {
                 this.healthText.DOColor(Color.green, 0.4f).SetEase(Ease.OutQuad);
                 this.healthText.transform.DOPunchScale(Vector3.one * 1.3f, 0.8f).SetEase(Ease.OutQuad).OnComplete(() =>
@@ -280,8 +264,7 @@ namespace DownBelow.Entity
                         //CastAutoAttack(notwalkable);
                         break;
                 }
-            }
-            else
+            } else
             {
                 //There isn't any obstacle in the path, so the attack should go for it.
                 //if(cellToAttack.Datas.state == CellState.EntityIn)
@@ -346,13 +329,13 @@ namespace DownBelow.Entity
             this.RefStats = stats;
             this.Statistics = new Dictionary<EntityStatistics, int>();
 
-            this.Statistics.Add(EntityStatistics.MaxMana,stats.MaxMana);
-            this.Statistics.Add(EntityStatistics.Health,stats.Health);
-            this.Statistics.Add(EntityStatistics.Strength,stats.Strength);
-            this.Statistics.Add(EntityStatistics.Speed,stats.Speed);
-            this.Statistics.Add(EntityStatistics.Mana,stats.Mana);
-            this.Statistics.Add(EntityStatistics.Defense,stats.Defense);
-            this.Statistics.Add(EntityStatistics.Range,stats.Range);
+            this.Statistics.Add(EntityStatistics.MaxMana, stats.MaxMana);
+            this.Statistics.Add(EntityStatistics.Health, stats.Health);
+            this.Statistics.Add(EntityStatistics.Strength, stats.Strength);
+            this.Statistics.Add(EntityStatistics.Speed, stats.Speed);
+            this.Statistics.Add(EntityStatistics.Mana, stats.Mana);
+            this.Statistics.Add(EntityStatistics.Defense, stats.Defense);
+            this.Statistics.Add(EntityStatistics.Range, stats.Range);
         }
 
         public void ReinitializeAllStats()
@@ -361,8 +344,10 @@ namespace DownBelow.Entity
                 this.ReinitializeStat(stat);
         }
 
-        public void ReinitializeStat(EntityStatistics stat) {
-            switch (stat) {
+        public void ReinitializeStat(EntityStatistics stat)
+        {
+            switch (stat)
+            {
                 case EntityStatistics.Health: this.Statistics[EntityStatistics.Health] = this.RefStats.Health; break;
                 case EntityStatistics.Mana: this.Statistics[EntityStatistics.Mana] = this.RefStats.Mana; break;
                 case EntityStatistics.Speed: this.Statistics[EntityStatistics.Speed] = this.RefStats.Speed; break;
@@ -378,7 +363,7 @@ namespace DownBelow.Entity
         /// <param name="stat">The statistic to modify.</param>
         /// <param name="value">The value to modify the stat for (negative or positive.)</param>
         /// <param name="overShield">Only used to determined if a damage stat should pierce through shieldHP. Will be ignored if stat != health value is positive.</param>
-        public void ApplyStat(EntityStatistics stat,int value) 
+        public void ApplyStat(EntityStatistics stat, int value)
         {
             Debug.Log($"Applied stat {stat}, {value}, {Environment.StackTrace} ");
             Statistics[stat] += value;
@@ -387,7 +372,7 @@ namespace DownBelow.Entity
             {
                 case EntityStatistics.Health:
                     this._applyHealth(value); break;
-                case EntityStatistics.Mana: 
+                case EntityStatistics.Mana:
                     this._applyMana(value); break;
                 case EntityStatistics.Speed:
                     this._applySpeed(value);
@@ -415,8 +400,7 @@ namespace DownBelow.Entity
                 //Statistics[EntityStatistics.Health] += value;
                 //value stays at its primary value.
                 this.OnHealthAdded?.Invoke(new(this, value));
-            }
-            else
+            } else
             {
                 value = Mathf.Max(0, Defense - value);
                 if (this.Bubbled)
@@ -521,8 +505,7 @@ namespace DownBelow.Entity
             if (alteration.ClassicCountdown)
             {
                 this.OnTurnEnded += alteration.DecrementAlterationCountdown;
-            }
-            else
+            } else
             {
                 switch (alteration)
                 {
