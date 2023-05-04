@@ -7,7 +7,6 @@ using DownBelow.Managers;
 
 public class UIRoomItem : MonoBehaviour
 {
-    public NetworkManager LobbyNetworkParent;
     public TextMeshProUGUI RoomName;
     public string RawName = "";
 
@@ -20,6 +19,6 @@ public class UIRoomItem : MonoBehaviour
 
     public void OnClickJoin()
     {
-        LobbyNetworkParent.JoinRoom(RawName);
+        NetworkManager.Instance.JoinRoom(RawName);
     }
 }

@@ -1,4 +1,5 @@
 using DownBelow.Managers;
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,10 @@ namespace DownBelow.UI.Menu
     public class MenuButtonRedirect : MonoBehaviour
     {
         public MenuPopup PopupToGo = MenuPopup.None;
+
+        [ShowIf("@PopupToGo", MenuPopup.SaveSelection)]
+        public bool ToHost = false;
+
         private Button _selfButton;
 
         void Awake()
@@ -19,10 +24,22 @@ namespace DownBelow.UI.Menu
                 switch (this.PopupToGo)
                 {
                     case MenuPopup.Close:
-                        this._selfButton.onClick.AddListener(() => MenuManager.Instance.HideCurrentPopup());
+                        this._selfButton.onClick.AddListener(() => 
+                        {
+                            MenuManager.Instance.HideCurrentPopup();
+                            MenuManager.Instance.GoingToHost = false;
+                        });
+                        break;
+                    case MenuPopup.Quit:
+                        this._selfButton.onClick.AddListener(() => MenuManager.Instance.OnClickQuit()); 
                         break;
                     default:
-                        this._selfButton.onClick.AddListener(() => MenuManager.Instance.SelectPopup(this.PopupToGo));
+                        this._selfButton.onClick.AddListener(() => 
+                        {
+                            MenuManager.Instance.SelectPopup(this.PopupToGo);
+                            MenuManager.Instance.GoingToHost = this.ToHost;
+                        });
+                        
                         break;
                 }
             }

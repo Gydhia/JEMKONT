@@ -8,7 +8,6 @@ using DownBelow.Managers;
 
 public class UIPlayerItem : MonoBehaviour
 {
-    public NetworkManager LobbyNetworkParent;
     public TextMeshProUGUI PlayerName;
     public string UserID;
 

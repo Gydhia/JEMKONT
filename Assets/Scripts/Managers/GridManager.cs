@@ -759,6 +759,11 @@ namespace DownBelow.Managers
             this.LoadGridsFromJSON();
         }
 
+        public void CreateBaseGameJSON()
+        {
+
+        }
+
         public void LoadEveryEntities()
         {
             var spawnablesPresets = Resources.LoadAll<BaseSpawnablePreset>("Presets").ToList();

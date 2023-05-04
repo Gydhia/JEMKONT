@@ -11,9 +11,13 @@ namespace DownBelow.UI.Menu
         public MenuPopup PopupType;
         public bool IsHidden = true;
 
+
         public virtual void Init()
         {
+            _selfCanvasGroup = this.GetComponent<CanvasGroup>();
+            _selfRectTransform = this.GetComponent<RectTransform>();
 
+            _selfPanelAnchors = new Vector4(_selfRectTransform.anchorMin.x, _selfRectTransform.anchorMin.y, _selfRectTransform.anchorMax.x, _selfRectTransform.anchorMax.y);
         }
 
         public virtual void ShowPopup()
@@ -36,16 +40,6 @@ namespace DownBelow.UI.Menu
 
         #endregion
 
-        protected virtual void Start()
-        {
-            _selfCanvasGroup = this.GetComponent<CanvasGroup>();
-            _selfRectTransform = this.GetComponent<RectTransform>();
-
-            _selfPanelAnchors = new Vector4(_selfRectTransform.anchorMin.x, _selfRectTransform.anchorMin.y, _selfRectTransform.anchorMax.x, _selfRectTransform.anchorMax.y);
-
-            this.HideSelfPanel();
-        }
-
         private void HideSelfPanel(bool animated = true)
         {
             if (animated)
@@ -59,6 +53,7 @@ namespace DownBelow.UI.Menu
                         _selfRectTransform.DOAnchorMin(new Vector2(_selfPanelAnchors.x, _selfPanelAnchors.y - _offset), 0.6f).SetEase(Ease.OutQuint).OnComplete(() =>
                         {
                             IsHidden = true;
+                            this.gameObject.SetActive(false);
                             _selfCanvasGroup.alpha = 0;
                         });
                     });
@@ -70,6 +65,7 @@ namespace DownBelow.UI.Menu
                 _selfRectTransform.DOAnchorMin(new Vector2(_selfPanelAnchors.x, _selfPanelAnchors.y - _offset), 0f).SetEase(Ease.OutQuint).OnComplete(() =>
                 {
                     IsHidden = true;
+                    this.gameObject.SetActive(false);
                     _selfCanvasGroup.alpha = 0;
                 });
             }
@@ -77,11 +73,13 @@ namespace DownBelow.UI.Menu
 
         private void ShowSelfPanel(bool animated = true)
         {
+            this.gameObject.SetActive(true);
+
             _selfCanvasGroup.alpha = 1;
             if (animated)
             {
                 _selfRectTransform.DOAnchorMax(new Vector2(_selfPanelAnchors.z, _selfPanelAnchors.w), 0.4f).SetEase(Ease.OutQuad);
-                _selfRectTransform.DOAnchorMin(new Vector2(_selfPanelAnchors.x, _selfPanelAnchors.y), 0.4f).SetEase(Ease.OutQuad).OnComplete(() => IsHidden = false);
+                _selfRectTransform.DOAnchorMin(new Vector2(_selfPanelAnchors.x, _selfPanelAnchors.y), 0.4f).SetEase(Ease.OutQuad).OnComplete(() => IsHidden = false) ;
             }
             else
             {

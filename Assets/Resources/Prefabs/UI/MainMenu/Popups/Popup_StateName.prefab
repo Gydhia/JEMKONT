@@ -345,7 +345,7 @@ GameObject:
   - component: {fileID: 5859306308736412352}
   - component: {fileID: 136988863896931950}
   m_Layer: 5
-  m_Name: Popup_PlayerSection
+  m_Name: Popup_StateName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -396,10 +396,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 764795af8502a85498a0f84dc75abd98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PopupType: 0
+  PopupType: 1
   IsHidden: 1
   PlayerNameInput: {fileID: 2541715705830406768}
-  _validationPlayerNameButton: {fileID: 730535113951718544}
+  ValidationPlayerNameButton: {fileID: 730535113951718544}
 --- !u!1 &2541715705430696654
 GameObject:
   m_ObjectHideFlags: 0

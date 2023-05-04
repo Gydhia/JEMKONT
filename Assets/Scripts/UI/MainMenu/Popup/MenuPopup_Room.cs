@@ -23,7 +23,7 @@ namespace DownBelow.UI.Menu
         private List<UIPlayerItem> _playerList = new List<UIPlayerItem>();
         public Action OnRoomJoined;
 
-        protected override void Start()
+        protected void Start()
         {
             this.LeaveRoomBtn.interactable = false;
         }
@@ -46,7 +46,6 @@ namespace DownBelow.UI.Menu
             foreach (KeyValuePair<int, Player> player in PhotonNetwork.CurrentRoom.Players)
             {
                 this._playerList.Add(Instantiate(this.PlayerPrefab, this.PlayersHolder));
-                this._playerList[count].LobbyNetworkParent = NetworkManager.Instance;
                 this._playerList[count].SetPlayerDatas(player.Value.NickName, player.Value.UserId);
 
                 // Do not make the toggle interactable if it's not ourself

@@ -28,7 +28,6 @@ namespace DownBelow.UI.Menu
                     continue;
 
                 this._roomList.Add(Instantiate(this.RoomPrefab, this.RoomsHolder));
-                this._roomList[i].LobbyNetworkParent = NetworkManager.Instance;
                 this._roomList[i].SetName(roomList[i].Name, roomList[i].PlayerCount);
             }
         }

@@ -37,7 +37,7 @@ namespace DownBelow.GameData
         public GameDataContainer Save(System.IO.FileInfo file)
         {
             GameDataContainer savegame = this.CreateSavegame(file);
-            savegame.Save();
+            savegame.Save(file);
 
             return savegame;
         }

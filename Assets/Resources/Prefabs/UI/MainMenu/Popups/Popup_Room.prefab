@@ -222,6 +222,7 @@ GameObject:
   - component: {fileID: 6601317027868440298}
   - component: {fileID: 6601317027868440300}
   - component: {fileID: 5091648464850776009}
+  - component: {fileID: 169365771440166319}
   m_Layer: 5
   m_Name: Popup_Room
   m_TagString: Untagged
@@ -273,6 +274,25 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &169365771440166319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6601317027868440297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3726124a0f3a2a4eb8e68d061cb2aa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PopupType: 5
+  IsHidden: 1
+  LeaveRoomBtn: {fileID: 8610514253446357734}
+  StartBtn: {fileID: 6601317029571118778}
+  PlayerPrefab: {fileID: 4741475652285960226, guid: 3888ae21af94617498b4cdc414617efe, type: 3}
+  PlayersHolder: {fileID: 6601317029270075380}
+  LobbyName: {fileID: 6601317027718353702}
 --- !u!1 &6601317028377307357
 GameObject:
   m_ObjectHideFlags: 0
@@ -787,3 +807,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4651396505130997577, guid: 228e7f5d910511a438fa4786cf742a56, type: 3}
   m_PrefabInstance: {fileID: 2467986669126682780}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8610514253446357734 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6142555691713931898, guid: 228e7f5d910511a438fa4786cf742a56, type: 3}
+  m_PrefabInstance: {fileID: 2467986669126682780}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

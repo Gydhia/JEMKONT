@@ -16,7 +16,9 @@ namespace DownBelow.UI.Menu
 
         public Button B_AskNewSave;
         public Button B_CreateNewSave;
-        public TMP_InputField SaveNameInput;
+        public TMP_InputField I_SaveNameInput;
+
+        protected string SaveName = string.Empty;
 
         public override void Init()
         {
@@ -32,8 +34,9 @@ namespace DownBelow.UI.Menu
                 game_button.transform.SetAsFirstSibling();
             }
 
-            B_AskNewSave.onClick.AddListener(() => this.HideAskNewSave());
-
+            this.I_SaveNameInput.onValueChanged.AddListener((s) => this.updateSaveName(s));
+            this.B_AskNewSave.onClick.AddListener(() => this.hideAskNewSave());
+            this.B_CreateNewSave.onClick.AddListener(() => this.CreateNewSave());
         }
 
         public override void HidePopup()
@@ -43,14 +46,20 @@ namespace DownBelow.UI.Menu
             base.HidePopup();
         }
 
-        protected void HideAskNewSave()
+        protected void hideAskNewSave()
         {
             this.B_AskNewSave.gameObject.SetActive(false);
         }
 
+        protected void updateSaveName(string value)
+        {
+            this.B_CreateNewSave.interactable = !string.IsNullOrEmpty(value);
+            this.SaveName = value;
+        }
+
         public void CreateNewSave()
         {
-            var gamedatacontainer = GameManager.MakeBaseGame(this.SaveNameInput.text);
+            var gamedatacontainer = GameManager.MakeBaseGame(this.SaveName);
 
             MenuManager.Instance.SelectSave(gamedatacontainer);
         }

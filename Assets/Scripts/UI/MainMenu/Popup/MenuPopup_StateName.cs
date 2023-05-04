@@ -10,20 +10,27 @@ namespace DownBelow.UI.Menu
 {
     public class MenuPopup_StateName : BaseMenuPopup
     {
-        public Action OnPlayerNameValidated;
-
         public TMP_InputField PlayerNameInput;
-        [SerializeField] 
-        private Button _validationPlayerNameButton;
+        public Button ValidationPlayerNameButton;
+
+        private string playerName;
 
         private void Start()
         {
-            this.PlayerNameInput.onValueChanged.AddListener(x => this.processNameUpdate(x));
+            this.ValidationPlayerNameButton.interactable = false;
+            this.PlayerNameInput.onValueChanged.AddListener((s) => this._updatePlayerName(s));
+            this.ValidationPlayerNameButton.onClick.AddListener(() => this.changePlayerName());
         }
 
-        protected void processNameUpdate(string newName)
+        protected void _updatePlayerName(string value)
         {
-            NetworkManager.Instance.UpdateOwnerName(this.PlayerNameInput.text);
+            ValidationPlayerNameButton.interactable = !string.IsNullOrEmpty(value);
+            this.name = value;
+        }
+
+        protected void changePlayerName()
+        {
+            NetworkManager.Instance.UpdateOwnerName(name);
             this.HidePopup();
         }
     }

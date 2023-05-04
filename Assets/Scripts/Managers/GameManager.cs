@@ -70,15 +70,24 @@ namespace DownBelow.Managers
 
         private void Start()
         {
-            UIManager.Instance.Init();
-            CardsManager.Instance.Init();
-            GridManager.Instance.Init();
+            if(MenuManager.Instance == null)
+            {
+                UIManager.Instance.Init();
+                CardsManager.Instance.Init();
+                GridManager.Instance.Init();
+
+
+                this.ProcessPlayerWelcoming();
+
+                // Maybe that the nested events aren't a great idea
+                CombatManager.Instance.OnCombatStarted += this._subscribeForCombatBuffer;
+            }
+            else
+            {
+                MenuManager.Instance.Init();
+            }
+
             NetworkManager.Instance.Init();
-
-            this.ProcessPlayerWelcoming();
-
-            // Maybe that the nested events aren't a great idea
-            CombatManager.Instance.OnCombatStarted += this._subscribeForCombatBuffer;
         }
 
         private void _subscribeForCombatBuffer(GridEventData Data)
@@ -331,7 +340,9 @@ namespace DownBelow.Managers
             }
 
             FileInfo fileinfo = new System.IO.FileInfo(Application.persistentDataPath + "/save/" + savename + ".dbw");
-            
+            if (!fileinfo.Exists)
+                fileinfo.Create();
+
             return fileinfo;
         }
 
