@@ -8,7 +8,7 @@ namespace DownBelow.Entity
     public abstract class NonCharacterEntity : MonoBehaviour
     {
         //Protected by default, feel free to change, i don't really care.
-        protected Cell AttachedCell;
+        public Cell AttachedCell;
         protected int TurnsLeft;
         protected CharacterEntity RefEntity;
         protected NonCharacterEntity PrefabRef;
