@@ -14,6 +14,11 @@ namespace DownBelow.Spells
         [FoldoutGroup("SUMMON Spell Datas"), Tooltip("(optional) Wall that's going to be placed on every cell\n(not rotated at all... Think about what prefab you put in there.)")]
         public NonCharacterEntity NCEPrefab;
 
+        public SpellData_Summon(int duration, NonCharacterEntity nCEPrefab)
+        {
+            Duration = duration;
+            NCEPrefab = nCEPrefab;
+        }
     }
 
     public class Spell_SummonNCE : Spell<SpellData_Summon>
@@ -25,18 +30,19 @@ namespace DownBelow.Spells
         public override void ExecuteAction()
         {
             base.ExecuteAction();
-            foreach(Cell targetCell in TargetedCells)
+            GetTargets(TargetCell);
+            foreach (Cell targetCell in TargetedCells)
             {
-                Managers.CombatManager.Instance.StartCoroutine(this.SummonNCE(targetCell));
+                Managers.CombatManager.Instance.StartCoroutine(SummonNCE(targetCell, LocalData, RefEntity));
             }
-            base.EndAction();
+            EndAction();
         }
 
-        public IEnumerator SummonNCE(Cell cell)
+        public static IEnumerator SummonNCE(Cell cell, SpellData_Summon summondata, CharacterEntity RefEntity)
         {
-            NonCharacterEntity NCEInstance = GameObject.Instantiate(LocalData.NCEPrefab, cell.transform);
-            cell.ChangeCellState(CellState.EntityIn,true);
-            NCEInstance.Init(cell,LocalData.Duration,RefEntity);
+            NonCharacterEntity NCEInstance = GameObject.Instantiate(summondata.NCEPrefab, cell.transform);
+            cell.ChangeCellState(CellState.EntityIn, true);
+            NCEInstance.Init(cell, summondata.Duration, RefEntity, summondata.NCEPrefab);
             yield return null;
         }
 

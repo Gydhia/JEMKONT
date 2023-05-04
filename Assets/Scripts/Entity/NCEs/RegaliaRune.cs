@@ -14,9 +14,9 @@ public class RegaliaRune : TempObject
 
     private List<PlayerBehavior> playersInRange = new List<PlayerBehavior>();
 
-    public override void Init(Cell attachedCell, int TurnsLeft, CharacterEntity RefEntity)
+    public override void Init(Cell attachedCell, int TurnsLeft, CharacterEntity RefEntity, NonCharacterEntity prefab)
     {
-        base.Init(attachedCell, TurnsLeft, RefEntity);
+        base.Init(attachedCell, TurnsLeft, RefEntity,prefab);
         foreach (var item in GameManager.Instance.Players)
         {
             item.Value.OnEnteredCell += CheckIfInRange;

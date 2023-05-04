@@ -9,6 +9,7 @@ namespace DownBelow.Spells
 {
     public class SpellData_Stats : SpellData
     {
+
         [FoldoutGroup("STATS Spell Datas")]
         public bool IsNegativeEffect = false;
 
@@ -17,6 +18,13 @@ namespace DownBelow.Spells
 
         [FoldoutGroup("STATS Spell Datas")]
         public int StatAmount = 1;
+
+        public SpellData_Stats(bool isNegativeEffect, EntityStatistics statistic, int statAmount)
+        {
+            IsNegativeEffect = isNegativeEffect;
+            Statistic = statistic;
+            StatAmount = statAmount;
+        }
     }
 
     public class Spell_Stats : Spell<SpellData_Stats>

@@ -466,9 +466,9 @@ namespace DownBelow.Managers
                 closedSet.Add(currentCell);
 
                 // We go there at the end of the path
-                if (currentCell == targetCell || Range > 0 && IsInRange(currentCell.PositionInGrid, targetCell.PositionInGrid, Range))
+                if (currentCell == targetCell || Range >= 0 && IsInRange(currentCell.PositionInGrid, targetCell.PositionInGrid, Range))
                 {
-                    if (Range > 0)
+                    if (Range >= 0)
                         targetCell = currentCell;
                     // Once done, get the correct path
                     finalPath = this.RetracePath(startCell, targetCell);

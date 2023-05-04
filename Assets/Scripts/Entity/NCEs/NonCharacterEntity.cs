@@ -11,18 +11,19 @@ namespace DownBelow.Entity
         protected Cell AttachedCell;
         protected int TurnsLeft;
         protected CharacterEntity RefEntity;
-
+        protected NonCharacterEntity PrefabRef;
         /// <summary>
         /// Defines if the NCE is destroyable via getting "damaged". Does not impact the countdown.
         /// </summary>
         protected bool Destroyable => true;
 
-        public virtual void Init(Cell AttachedCell, int TurnsLeft, CharacterEntity RefEntity)
+        public virtual void Init(Cell AttachedCell, int TurnsLeft, CharacterEntity RefEntity,NonCharacterEntity prefab)
         {
             AttachedCell.AttachedNCE = this;
             this.AttachedCell = AttachedCell;
             this.TurnsLeft = TurnsLeft;
             this.RefEntity = RefEntity;
+            this.PrefabRef = prefab;
             this.RefEntity.OnTurnBegun += Decrement;
         }
 
@@ -42,7 +43,9 @@ namespace DownBelow.Entity
                 DestroyEntity();
             }
         }
-
+        /// <summary>
+        /// Calling Destroy(this.gameObject) is the base. Consider calling it after whatever you're adding just in case.
+        /// </summary>
         public virtual void DestroyEntity()
         {
             AttachedCell.AttachedNCE = null;

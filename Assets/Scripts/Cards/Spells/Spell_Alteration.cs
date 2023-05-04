@@ -21,13 +21,13 @@ namespace DownBelow.Spells
         public override void ExecuteAction()
         {
             base.ExecuteAction();
-
+            GetTargets(TargetCell);
             foreach (var entity in TargetEntities)
             {
                 entity.AddAlteration(LocalData.Alteration);
             }        
 
-            base.EndAction();
+            EndAction();
         }
     }
 
