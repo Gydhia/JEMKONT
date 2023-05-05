@@ -9,6 +9,7 @@ using Unity.Mathematics;
 using DownBelow.UI;
 using UnityEditor;
 using System;
+using System.ComponentModel;
 
 namespace DownBelow.GridSystem
 {
@@ -144,7 +145,7 @@ namespace DownBelow.GridSystem
         public int widthPos { get; set; }
         [ShowInInspectorAttribute, DataMember]
         public CellState state { get; set; }
-        [ShowInInspectorAttribute, DataMember]
+        [ShowInInspectorAttribute, DataMember, DefaultValue(null)]
         public PlaceableItem placeableOnCell { get; set; }
     }
 

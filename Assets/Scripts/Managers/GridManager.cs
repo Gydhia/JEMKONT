@@ -18,6 +18,8 @@ namespace DownBelow.Managers
 {
     public class GridManager : _baseManager<GridManager>
     {
+        public static readonly string SavesPath = "/Resources/Saves/Grids/";
+
         #region Assets_reference
         public Cell CellPrefab;
 
@@ -30,17 +32,17 @@ namespace DownBelow.Managers
         [SerializeField]
         public Transform _gridsDataHandler;
 
-        #endregion
+#endregion
 
         public bool InCombat = false;
 
-        #region Datas
+#region Datas
         public Dictionary<string, GridData> SavedGrids;
 
         public Dictionary<Guid, BaseSpawnablePreset> SpawnablesPresets;
         public Dictionary<Guid, ItemPreset> ItemsPresets;
 
-        #endregion
+#endregion
 
         private List<Cell> _possiblePath = new List<Cell>();
 
@@ -400,7 +402,7 @@ namespace DownBelow.Managers
             }
         }
 
-        #region PATH_FINDING
+#region PATH_FINDING
         public CellData CellDataAtPosition(GridPosition target)
         {
             Cell targetCell = this._currentCombatGrid.Cells[target.longitude, target.latitude];
@@ -663,16 +665,14 @@ namespace DownBelow.Managers
                 return 14 * dstY + 10 * (dstX - dstY);
             return 14 * dstX + 10 * (dstY - dstX);
         }
-        #endregion
+#endregion
 
-        #region DATAS_MANIPULATION
+#region DATAS_MANIPULATION
         public void LoadGridsFromJSON()
         {
             this.SavedGrids = new Dictionary<string, GridData>();
 
-            TextAsset[] jsons = Resources.LoadAll<TextAsset>(
-                "Saves/Grids/" + UnityEngine.SceneManagement.SceneManager.GetActiveScene().name
-            );
+            TextAsset[] jsons = Resources.LoadAll<TextAsset>("Saves/Grids/");
             foreach (TextAsset json in jsons)
             {
                 // not used but it may help the GridData deserialization to works well, so keep it
@@ -740,16 +740,11 @@ namespace DownBelow.Managers
 
         private void _saveJSONFile(string json, string pathName)
         {
-            string currScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
-            string path =
-                Application.dataPath
-                + "/Resources/Saves/Grids/"
-                + currScene
-                + "/"
-                + pathName
-                + ".json";
+            string path = Application.dataPath + SavesPath + pathName + ".json";
+
             if (File.Exists(path))
                 File.Delete(path);
+
             File.WriteAllText(path, json);
 #if UNITY_EDITOR
             UnityEditor.AssetDatabase.SaveAssets();
@@ -757,12 +752,7 @@ namespace DownBelow.Managers
 #endif
 
             this.LoadGridsFromJSON();
-        }
-
-        public void CreateBaseGameJSON()
-        {
-
-        }
+        }        
 
         public void LoadEveryEntities()
         {
@@ -777,9 +767,9 @@ namespace DownBelow.Managers
             foreach (var item in itemsPresets)
                 this.ItemsPresets.Add(item.UID, item);
         }
-        #endregion
+#endregion
 
-        #region SHADERS_BITMAP
+#region SHADERS_BITMAP
 
         public void GenerateShaderBitmap(
             GridData world,
@@ -1039,7 +1029,7 @@ namespace DownBelow.Managers
             this.BitmapTexture.Apply();
         }
 
-        #endregion
+#endregion
     }
 
     [Serializable]

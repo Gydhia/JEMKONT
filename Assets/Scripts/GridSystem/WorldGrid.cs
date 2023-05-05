@@ -234,15 +234,17 @@ namespace DownBelow.GridSystem
     public class GridData
     {
         public GridData() { }
-        public GridData(bool IsCombatGrid, int GridHeight, int GridWidth)
+        public GridData(string GridName, bool IsCombatGrid, int GridHeight, int GridWidth)
         {
+            this.GridName = GridName;
             this.IsCombatGrid = IsCombatGrid;
             this.GridHeight = GridHeight;
             this.GridWidth = GridWidth;
             this.CellDatas = new List<CellData>();
         }
-        public GridData(bool IsCombatGrid, int GridHeight, int GridWidth, List<CellData> CellDatas)
+        public GridData(string GridName, bool IsCombatGrid, int GridHeight, int GridWidth, List<CellData> CellDatas)
         {
+            this.GridName = GridName;
             this.IsCombatGrid = IsCombatGrid;
             this.GridHeight = GridHeight;
             this.GridWidth = GridWidth;
@@ -252,8 +254,9 @@ namespace DownBelow.GridSystem
         /// <summary>
         /// /!\ Constructor made for the InnerGrids (aka CombatGrids), don't use it for WorldGrids
         /// </summary>
-        public GridData(bool IsCombatGrid, int GridHeight, int GridWidth, int Longitude, int Latitude, List<CellData> CellDatas, Dictionary<GridPosition, Guid> EntitiesSpawns)
+        public GridData(string GridName, bool IsCombatGrid, int GridHeight, int GridWidth, int Longitude, int Latitude, List<CellData> CellDatas, Dictionary<GridPosition, Guid> EntitiesSpawns)
         {
+            this.GridName = GridName;
             this.IsCombatGrid = IsCombatGrid;
             this.GridHeight = GridHeight;
             this.GridWidth = GridWidth;
@@ -267,8 +270,9 @@ namespace DownBelow.GridSystem
         /// <summary>
         /// /!\ Constructor made for the WorldGrids
         /// </summary>
-        public GridData(bool IsCombatGrid, int GridHeight, int GridWidth, Vector3 TopLeftOffset, bool ToLoad, List<CellData> CellDatas, List<GridData> InnerGridsData, Dictionary<GridPosition, Guid> Spawnables)
+        public GridData(string GridName, bool IsCombatGrid, int GridHeight, int GridWidth, Vector3 TopLeftOffset, bool ToLoad, List<CellData> CellDatas, List<GridData> InnerGridsData, Dictionary<GridPosition, Guid> Spawnables)
         {
+            this.GridName = GridName;
             this.IsCombatGrid = IsCombatGrid;
             this.GridHeight = GridHeight;
             this.GridWidth = GridWidth;
@@ -278,6 +282,8 @@ namespace DownBelow.GridSystem
             this.InnerGrids = InnerGridsData;
             this.SpawnablePresets = Spawnables;
         }
+        [DataMember]
+        public string GridName { get; set; }
         [DataMember]
         public bool ToLoad { get; set; }
         [DataMember]

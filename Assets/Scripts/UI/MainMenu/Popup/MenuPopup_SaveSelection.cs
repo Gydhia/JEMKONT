@@ -59,6 +59,7 @@ namespace DownBelow.UI.Menu
 
         public void CreateNewSave()
         {
+            this.B_CreateNewSave.interactable = false;
             var gamedatacontainer = GameManager.MakeBaseGame(this.SaveName);
 
             MenuManager.Instance.SelectSave(gamedatacontainer);

@@ -26,8 +26,9 @@ namespace DownBelow.GameData
         {
             JsonSerializerSettings jsonSettings = CreateJSONSettings();
 
-            jsonSettings.Converters.Add(new JSONGridConverter());
-            jsonSettings.Converters.Add(new JSONStackConverter());
+            // Re-add it if there are json conversion problems
+            //jsonSettings.Converters.Add(new JSONGridConverter());
+            //jsonSettings.Converters.Add(new JSONStackConverter());
 
             return jsonSettings;
         }

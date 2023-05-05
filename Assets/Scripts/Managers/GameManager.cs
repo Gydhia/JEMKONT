@@ -1,6 +1,8 @@
 using DownBelow.Entity;
 using DownBelow.Events;
 using DownBelow.GridSystem;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Photon.Pun;
 using System;
 using System.Collections;
@@ -384,12 +386,43 @@ namespace DownBelow.Managers
         {
             var gamedata = new GameData.GameData()
             {
+                game_version = GameData.GameVersion.Current.ToString(),
                 save_name = saveName,
-                game_version = GameData.GameVersion.Current.ToString()
+                save_time = DateTime.Now,
+                grids_data = Instance.CreateBaseGridsDatas()
             };
 
             return gamedata.Save(Instance._getFileToSave(saveName));
         }
+
+        public string CreateBaseGridsJSON()
+        {
+            TextAsset[] jsons = Resources.LoadAll<TextAsset>("Saves/Grids/");
+            JArray gridsArray = new JArray();
+
+            foreach (TextAsset json in jsons)
+            {
+                JObject grid = JsonConvert.DeserializeObject<JObject>(json.text);
+                gridsArray.Add(grid);
+            }
+
+            return gridsArray.ToString();
+        }
+        public GridData[] CreateBaseGridsDatas()
+        {
+            TextAsset[] jsons = Resources.LoadAll<TextAsset>("Saves/Grids/");
+
+            GridData[] grids = new GridData[jsons.Length];
+
+            for( int i = 0; i < jsons.Length; i++)
+            {
+                GridData loadedData = JsonConvert.DeserializeObject<GridData>(jsons[i].text);
+                grids[i] = loadedData;
+            }
+
+            return grids;
+        }
+
         #endregion
     }
 }

@@ -85,7 +85,7 @@ namespace DownBelow.UI.Menu
         {
             this.SelfButton.interactable = true;
 
-            // TODO : plug this : this.SaveDate.text = Data.save_time.ToString();
+            this.SaveDate.text = _savegame.Data.save_time.ToString();
             this.SaveName.text = _savegame.Data.save_name;
             this.SaveVersion.text = _savegame.Data.game_version;
         }

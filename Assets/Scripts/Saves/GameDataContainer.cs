@@ -25,10 +25,10 @@ namespace DownBelow.GameData
         [DataMember(Order = 1)]
         public string GameVersion;
 
-        [DataMember(Order = 1)]
+        [DataMember(Order = 2)]
         public string SaveName;
 
-        [DataMember(Order = 1)]
+        [DataMember(Order = 3)]
         public DateTime SaveTime;
 
 
@@ -36,6 +36,8 @@ namespace DownBelow.GameData
         [DataMember(Order = 20)]
         private GameData _data;
 
+        [IgnoreDataMember]
+        [JsonIgnore]
         public GameData Data
         {
             get
@@ -234,32 +236,30 @@ namespace DownBelow.GameData
 
         public void Save(FileInfo file = null)
         {
-            //if a new path is provided, store it in ths GameDataContainer
             if (file != null)
                 SavegameFile = file;
 
-            //if the path is null, then mention it : it should not happen
             if (SavegameFile == null)
                 throw new Exception("The filepath is not provided");
 
-            //if the GameData is not load, avoid the game to be saved
             if (!IsGameDataLoaded)
                 throw new Exception("The gamedata is empty, load it before");
 
-            //save temporary the file then if everything is OK, remove the old save and replace the temp one
-            //this to avoid to corrupt the potential existing save if there is any error during the save process
             try
             {
                 SaveTime = DateTime.Now;
-                //save temporary the file then if everything is OK, remove the old save and replace the temp one
-                //this to avoid to corrupt the potential existing save if there is any error during the save process
                 int lastSlashPosition = SavegameFile.FullName.LastIndexOf(slash);
                 string tempPath = SavegameFile.FullName.Substring(0, lastSlashPosition + 1) + "~" + SavegameFile.FullName.Substring(lastSlashPosition + 1);
                 FileInfo fileTemp = new FileInfo(tempPath);
 
                 _saveJSON(fileTemp);
 
-                //at this point the tempFile is fine, let's switch
+                SavegameFile.Refresh();
+
+                // To avoid IOException cause the file was being used. Maybe find another way later cause it makes it laggy
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+
                 if (SavegameFile.Exists)
                     SavegameFile.Delete();
                 fileTemp.MoveTo(SavegameFile.FullName);
@@ -270,9 +270,17 @@ namespace DownBelow.GameData
             }
             catch (Exception ex)
             {
-                UnityEngine.Debug.LogError("Impossible to save the game to " + SavegameFile == null ? "null" : SavegameFile.FullName);
+                UnityEngine.Debug.LogError("Impossible to save the game to " + ((SavegameFile == null) ? "null" : SavegameFile.FullName));
                 throw ex;
             }
+        }
+
+
+        public void DisposeAfterTest(string filePath)
+        {
+
+          
+
         }
 
         private void _saveJSON(FileInfo file)

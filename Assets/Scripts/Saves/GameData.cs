@@ -28,7 +28,8 @@ namespace DownBelow.GameData
             {
                 GameVersion = this.game_version,
                 SaveName = this.save_name,
-                SaveTime = this.save_time
+                SaveTime = this.save_time,
+                Data = this
             };
 
             return savegame;

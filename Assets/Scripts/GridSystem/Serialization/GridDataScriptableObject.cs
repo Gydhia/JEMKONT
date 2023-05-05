@@ -70,7 +70,7 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
     public void CreateNewGrid(string name, int width = 4, int height = 4)
     {
         if (!GridManager.Instance.SavedGrids.ContainsKey(name))
-            GridManager.Instance.SaveGridAsJSON(new GridData(false, height, width), name);
+            GridManager.Instance.SaveGridAsJSON(new GridData(name, false, height, width), name);
     }
 
     [Button]
@@ -255,6 +255,7 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
                     innerSpawnables.Add(spawnable.Key, spawnable.Value != null ? spawnable.Value.UID : Guid.Empty);
 
             GridData innerData = new GridData(
+                this.SelectedGrid + "_" + i,
                 true,
                 this.LazyLoadedData.InnerGrids[i].GridHeight,
                 this.LazyLoadedData.InnerGrids[i].GridWidth,
@@ -275,6 +276,7 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
 
         // /!\ By default, the grid containing InnerGrids is not a combatgrid
         return new GridData(
+            this.SelectedGrid,
             false,
             this.LazyLoadedData.GridHeight,
             this.LazyLoadedData.GridWidth,
