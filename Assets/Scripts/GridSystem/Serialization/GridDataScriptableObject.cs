@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [CreateAssetMenu(fileName = "EditorGridData", menuName = "DownBelow/Editor/EditorGridData", order = 0)]
 public class GridDataScriptableObject : SerializedBigDataScriptableObject<EditorGridData>
@@ -291,7 +292,14 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
     private void OnEnable()
     {
         SceneView.duringSceneGui += OnSceneGUI;
+        UnityEditor.SceneManagement.EditorSceneManager.sceneClosed += this.unsub;
     }
+
+    private void unsub(Scene scene)
+    {
+        SceneView.duringSceneGui -= OnSceneGUI;
+    }
+    
     private void OnDestroy()
     {
         SceneView.duringSceneGui -= OnSceneGUI;
@@ -300,6 +308,7 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
     private void OnDisable()
     {
         SceneView.duringSceneGui -= OnSceneGUI;
+        UnityEditor.SceneManagement.EditorSceneManager.sceneClosed -= this.unsub;
     }
 
     private bool PenTypeChoosed = false;
@@ -310,7 +319,7 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
     /// </summary>
     public void OnSceneGUI(SceneView sceneView)
     {
-        if (GridManager.Instance == null)
+        if (GridManager.Instance == null || SettingsManager.Instance == null)
             return;
 
         this.DrawGUIDatas();

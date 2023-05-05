@@ -82,36 +82,41 @@ namespace DownBelow.Managers
             UnityEngine.Object.DontDestroyOnLoad(this);
         }
 
-        private void Start()
-        {
-            this._connect();
-        }
-
         public void Init()
         {
-            this.SubToCombatEvents();
+            // offline by default until it tries to host
+            this._connect();
         }
-
-        public void SubToCombatEvents()
-        {
-            // Only the master client should handle the turns processing
-            if (PhotonNetwork.IsMasterClient)
-            {
-                //CombatManager.Instance.OnTurnEnded += ;
-            }
-        }
-
 
         public void UpdateOwnerName(string newName)
         {
             PhotonNetwork.NickName = newName;
         }
 
-        private void _connect()
+        public void SwitchConnectionState(bool connect)
+        {
+            PhotonNetwork.Disconnect();
+            if (connect)
+            {
+                PhotonNetwork.OfflineMode = false;
+                PhotonNetwork.ConnectUsingSettings();
+                PhotonNetwork.AutomaticallySyncScene = true;
+            }
+            else
+            {
+                PhotonNetwork.OfflineMode = true;
+                PhotonNetwork.ConnectUsingSettings();
+            }
+        }
+
+        public void _connect()
         {
             PhotonNetwork.ConnectUsingSettings();
             PhotonNetwork.AutomaticallySyncScene = true;
+            PhotonNetwork.OfflineMode = false;
         }
+
+
 
         #region UI_calls
         public void ClickOnStart()
@@ -120,7 +125,8 @@ namespace DownBelow.Managers
             {
                 PhotonNetwork.CurrentRoom.IsOpen = false;
                 PhotonNetwork.CurrentRoom.IsVisible = false;
-                PhotonNetwork.LoadLevel("Killian");
+               
+                PhotonNetwork.LoadLevel("0_FarmLand");
             }
         }
 

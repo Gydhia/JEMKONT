@@ -79,6 +79,7 @@ namespace DownBelow.UI.Menu
         {
             this._refFile = refFile;
             this.SelfButton.interactable = false;
+            this.SelfButton.onClick.AddListener(() => OnClickSave());
         }
 
         public void DisplayAfterLoad()

@@ -11,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace DownBelow.Managers
 {
@@ -67,57 +68,52 @@ namespace DownBelow.Managers
         public static bool IsUsingCombatBuffer = false;
         public static bool IsUsingNormalBuffer = false;
 
-
         #endregion
 
         private void Start()
         {
-            if(MenuManager.Instance == null)
-            {
+            this.Init();
+        }
+
+        public void Init()
+        {
+            if (NetworkManager.Instance != null)
+                NetworkManager.Instance.Init();
+
+            if(MenuManager.Instance != null)
+                MenuManager.Instance.Init();
+
+            if (UIManager.Instance != null)
                 UIManager.Instance.Init();
+
+            if (CardsManager.Instance != null)
                 CardsManager.Instance.Init();
+
+            if (GridManager.Instance != null)
                 GridManager.Instance.Init();
 
 
-                this.ProcessPlayerWelcoming();
-
-                // Maybe that the nested events aren't a great idea
-                CombatManager.Instance.OnCombatStarted += this._subscribeForCombatBuffer;
-            }
-            else
+            if(GameData.Game.RefGameDataContainer != null)
             {
-                MenuManager.Instance.Init();
+                GridManager.Instance.CreateWholeWorld(GameData.Game.RefGameDataContainer);
+                this.ProcessPlayerWelcoming();
             }
-
-            NetworkManager.Instance.Init();
-        }
-
-        private void _subscribeForCombatBuffer(GridEventData Data)
-        {
-            CombatManager.Instance.OnCardEndUse += this.BuffSpell;
-
-            CombatManager.Instance.OnCombatStarted -= this._subscribeForCombatBuffer;
-            CombatManager.Instance.OnCombatEnded += this._unsubscribeForCombatBuffer;
-        }
-
-        private void _unsubscribeForCombatBuffer(GridEventData Data)
-        {
-            CombatManager.Instance.OnCardEndUse -= this.BuffSpell;
-
-            CombatManager.Instance.OnCombatStarted += this._subscribeForCombatBuffer;
-            CombatManager.Instance.OnCombatEnded -= _unsubscribeForCombatBuffer;
         }
 
         public void ProcessPlayerWelcoming()
         {
+            CombatManager.Instance.OnCombatStarted += this._subscribeForCombatBuffer;
+
             if (PhotonNetwork.CurrentRoom == null)
             {
                 PhotonNetwork.ConnectUsingSettings();
                 PhotonNetwork.AutomaticallySyncScene = true;
-            } else if (!PhotonNetwork.IsConnected)
+            } 
+            else if (!PhotonNetwork.IsConnected)
             {
                 PhotonNetwork.OfflineMode = true;
-            } else
+            } 
+            else
             {
                 WelcomePlayers();
             }
@@ -159,6 +155,22 @@ namespace DownBelow.Managers
                 GameStarted = true;
                 this.FirePlayersWelcomed();
             }
+        }
+
+        private void _subscribeForCombatBuffer(GridEventData Data)
+        {
+            CombatManager.Instance.OnCardEndUse += this.BuffSpell;
+
+            CombatManager.Instance.OnCombatStarted -= this._subscribeForCombatBuffer;
+            CombatManager.Instance.OnCombatEnded += this._unsubscribeForCombatBuffer;
+        }
+
+        private void _unsubscribeForCombatBuffer(GridEventData Data)
+        {
+            CombatManager.Instance.OnCardEndUse -= this.BuffSpell;
+
+            CombatManager.Instance.OnCombatStarted += this._subscribeForCombatBuffer;
+            CombatManager.Instance.OnCombatEnded -= _unsubscribeForCombatBuffer;
         }
 
         #region DEBUG
@@ -306,15 +318,6 @@ namespace DownBelow.Managers
             {
                 return NormalActionsBuffer[entity].SingleOrDefault(a => a.ID == ID);
             }
-        }
-        public void BuffEnterGrid(string grid, CharacterEntity refEntity)
-        {
-
-        }
-
-        public void InsertToBuffer(EntityAction action)
-        {
-            CombatActionsBuffer.Insert(0, action);
         }
 
         #endregion

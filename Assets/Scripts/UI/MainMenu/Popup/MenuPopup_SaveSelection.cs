@@ -39,6 +39,7 @@ namespace DownBelow.UI.Menu
             this.B_CreateNewSave.onClick.AddListener(() => this.CreateNewSave());
         }
 
+
         public override void HidePopup()
         {
             this.B_AskNewSave.gameObject.SetActive(true);

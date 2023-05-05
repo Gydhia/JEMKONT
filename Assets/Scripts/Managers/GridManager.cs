@@ -80,27 +80,33 @@ namespace DownBelow.Managers
         {
             base.Awake();
 
-            this.WorldGrids = new Dictionary<string, WorldGrid>();
-            // Load the Grids and Entities SO
-            this.LoadGridsFromJSON();
             this.LoadEveryEntities();
 
-            Destroy(this._gridsDataHandler.gameObject);
-            bool bitmapSet = false;
-            foreach (var savedGrid in this.SavedGrids)
+            // Events
+            if(InputManager.Instance != null)
             {
-                // Only load the saves that are indicated so
-                if (savedGrid.Value.ToLoad)
-                {
-                    this.GenerateGrid(savedGrid.Value, savedGrid.Key);
-                    if (!bitmapSet)
-                    {
-                        this.GenerateShaderBitmap(savedGrid.Value);
-                        bitmapSet = true;
-                    }
-                }
+                InputManager.Instance.OnCellClickedUp += this.ProcessCellClickUp;
+                InputManager.Instance.OnCellClickedDown += this.ProcessCellClickDown;
+                InputManager.Instance.OnNewCellHovered += this.ProcessNewCellHovered;
+            }
+            
+            GameManager.Instance.OnEnteredGrid += this.OnEnteredNewGrid;
+        }
+
+        private void OnDestroy()
+        {
+            if (InputManager.Instance != null)
+            {
+                InputManager.Instance.OnCellClickedUp -= this.ProcessCellClickUp;
+                InputManager.Instance.OnCellClickedDown -= this.ProcessCellClickDown;
+                InputManager.Instance.OnNewCellHovered -= this.ProcessNewCellHovered;
             }
 
+            GameManager.Instance.OnEnteredGrid -= this.OnEnteredNewGrid;
+        }
+
+        public void CreateWholeWorld(GameData.GameDataContainer refGameDataContainer)
+        {
             // Pre-instantiate the spell's arrow indicator
             this._spellArrow = Instantiate(
                 SettingsManager.Instance.GridsPreset.SpellArrowPrefab,
@@ -109,15 +115,28 @@ namespace DownBelow.Managers
             this._spellArrow.Init();
             this._spellArrow.gameObject.SetActive(false);
 
-            // Events
-            InputManager.Instance.OnCellClickedUp += this.ProcessCellClickUp;
-            InputManager.Instance.OnCellClickedDown += this.ProcessCellClickDown;
-            InputManager.Instance.OnNewCellHovered += this.ProcessNewCellHovered;
+            this.WorldGrids = new Dictionary<string, WorldGrid>();
+            // Load the Grids and Entities SO
+            
+            Destroy(this._gridsDataHandler.gameObject);
 
-            GameManager.Instance.OnEnteredGrid += this.OnEnteredNewGrid;
+            bool bitmapSet = false;
+            foreach (var gridData in refGameDataContainer.Data.grids_data)
+            {
+                // Only load the saves that are indicated so
+                if (gridData.ToLoad)
+                {
+                    this.CreateGrid(gridData, gridData.GridName);
+                    if (!bitmapSet)
+                    {
+                        this.GenerateShaderBitmap(gridData);
+                        bitmapSet = true;
+                    }
+                }
+            }
         }
 
-        public void GenerateGrid(GridData gridData, string gridId)
+        public void CreateGrid(GridData gridData, string gridId)
         {
             WorldGrid newGrid = Instantiate(
                 this.CombatGridPrefab,

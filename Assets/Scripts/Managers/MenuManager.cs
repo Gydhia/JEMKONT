@@ -32,7 +32,17 @@ namespace DownBelow.Managers
         private MenuPopup _lastPopup;
         private List<MenuPopup> _popupBuffer = new List<MenuPopup>();
         private bool _isSelectingPopup = false;
-        public bool GoingToHost = false;
+
+        private bool _goingToHost = false;
+        public bool GoingToHost
+        {
+            get { return this._goingToHost; }
+            set
+            {
+                this._goingToHost = value;
+                NetworkManager.Instance.SwitchConnectionState(value);
+            }
+        }
 
         public void Init()
         {
@@ -100,7 +110,7 @@ namespace DownBelow.Managers
 
         public void SelectSave(GameData.GameDataContainer selectedSave)
         {
-            this.selectedSave = selectedSave;
+            GameData.Game.RefGameDataContainer = selectedSave;
 
             // Means that we've selected a game for the lobby
             if (this.GoingToHost)
@@ -109,13 +119,16 @@ namespace DownBelow.Managers
             }
             else
             {
-                this.StartGame();
+                this.StartGame(true);
             }
         }
 
-        public void StartGame()
+        public void StartGame(bool solo)
         {
-
+            if (solo)
+            {
+                NetworkManager.Instance.ClickOnStart();
+            }
         }
 
         private void _initFolders()
