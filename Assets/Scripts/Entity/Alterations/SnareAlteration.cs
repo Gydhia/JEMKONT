@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace DownBelow.Spells.Alterations {
     public class SnareAlteration : Alteration {
-        public SnareAlteration(int Cooldown) : base(Cooldown) {
+        public SnareAlteration(int Duration) : base(Duration) {
         }
 
     }

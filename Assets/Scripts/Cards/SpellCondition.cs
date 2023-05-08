@@ -41,9 +41,17 @@ namespace DownBelow.Spells
         [BoxGroup("Alterations")]
         public bool IsAltered;
         [BoxGroup("Alterations")]
-        [Tooltip("If set to None, it will not be counted.")]
         [EnableIf("@this.IsAltered")]
         public Alteration Buff;
+
+        [BoxGroup("Teleported")]
+        public bool TeleportedToEntity;
+        [BoxGroup("Teleported")]
+        [EnableIf("@this.TeleportedToEntity")]
+        public bool TeleportedToAlly;
+        [BoxGroup("Teleported")]
+        [EnableIf("@this.TeleportedToEntity")]
+        public bool TeleportedToEnemy;
 
         public bool Check(SpellResult result)
         {
@@ -61,6 +69,9 @@ namespace DownBelow.Spells
 
             if (this.IsAltered)
                 validated = this.CheckBuffs();
+
+            if (this.TeleportedToEntity)
+                validated = this.CheckTeleported();
 
             this._currentResult = null;
             return validated;
@@ -106,6 +117,28 @@ namespace DownBelow.Spells
             //envicané? 
             // Just need this, with Target being a CharacterEntity
             //Target.Alterations.Any(x => x.GetType() == Buff.GetType());
+            return false;
+        }
+
+        public bool CheckTeleported()
+        {
+            if (this._currentResult.TeleportedTo.Count > 0)
+            {
+                if (TeleportedToEnemy)
+                {
+                    if(this._currentResult.TeleportedTo.Any(x => x is EnemyEntity))
+                    {
+                        return true;
+                    }
+                }
+                if (TeleportedToAlly)
+                {
+                    if (this._currentResult.TeleportedTo.Any(x => x is PlayerBehavior))
+                    {
+                        return true;
+                    }
+                }
+            }
             return false;
         }
 

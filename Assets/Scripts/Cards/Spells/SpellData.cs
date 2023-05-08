@@ -24,9 +24,9 @@ namespace DownBelow.Spells
 
         NCEs = 1 << 4,
 
-        CharacterEntities = 1 << 8,
+        CharacterEntities = Enemy | Ally,
 
-        Entities = Enemy | Ally,
+        Entities = Enemy | Ally | NCEs,
         All = Enemy | Ally | Empty
     }
 

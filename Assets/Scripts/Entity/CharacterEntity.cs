@@ -591,5 +591,16 @@ namespace DownBelow.Entity
         }
 
         #endregion
+
+        public void Teleport(Cell cell)
+        {
+            transform.position = cell.gameObject.transform.position;
+
+            FireExitedCell();
+
+            EntityCell = cell;
+
+            FireEnteredCell(cell);
+        }
     }
 }

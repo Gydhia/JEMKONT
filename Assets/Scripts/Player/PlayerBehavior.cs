@@ -24,6 +24,8 @@ namespace DownBelow.Entity
         public event GatheringEventData.Event OnGatheringCanceled;
         public event GatheringEventData.Event OnGatheringEnded;
 
+        public event CardEventData.Event OnCardPlayed;
+
         public void FireGatheringStarted(InteractableResource resource)
         {
             this.OnGatheringStarted?.Invoke(new(resource));
