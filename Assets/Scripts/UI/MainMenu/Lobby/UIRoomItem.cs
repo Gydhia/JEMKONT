@@ -7,6 +7,7 @@ using DownBelow.Managers;
 
 public class UIRoomItem : MonoBehaviour
 {
+    public Button JoinButton;
     public TextMeshProUGUI RoomName;
     public string RawName = "";
 
@@ -19,6 +20,7 @@ public class UIRoomItem : MonoBehaviour
 
     public void OnClickJoin()
     {
+        this.JoinButton.interactable = false;
         NetworkManager.Instance.JoinRoom(RawName);
     }
 }

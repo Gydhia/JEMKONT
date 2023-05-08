@@ -260,7 +260,6 @@ namespace DownBelow.GridSystem
             this.IsCombatGrid = IsCombatGrid;
             this.GridHeight = GridHeight;
             this.GridWidth = GridWidth;
-            this.ToLoad = false;
             this.Longitude = Longitude;
             this.Latitude = Latitude;
             this.CellDatas = CellDatas;
@@ -270,22 +269,20 @@ namespace DownBelow.GridSystem
         /// <summary>
         /// /!\ Constructor made for the WorldGrids
         /// </summary>
-        public GridData(string GridName, bool IsCombatGrid, int GridHeight, int GridWidth, Vector3 TopLeftOffset, bool ToLoad, List<CellData> CellDatas, List<GridData> InnerGridsData, Dictionary<GridPosition, Guid> Spawnables)
+        public GridData(string GridName, bool IsCombatGrid, int GridHeight, int GridWidth, Vector3 TopLeftOffset, List<CellData> CellDatas, List<GridData> InnerGridsData, Dictionary<GridPosition, Guid> Spawnables)
         {
             this.GridName = GridName;
             this.IsCombatGrid = IsCombatGrid;
             this.GridHeight = GridHeight;
             this.GridWidth = GridWidth;
             this.TopLeftOffset = TopLeftOffset;
-            this.ToLoad = ToLoad;
             this.CellDatas = CellDatas;
             this.InnerGrids = InnerGridsData;
             this.SpawnablePresets = Spawnables;
         }
         [DataMember]
         public string GridName { get; set; }
-        [DataMember]
-        public bool ToLoad { get; set; }
+
         [DataMember]
         public bool IsCombatGrid { get; set; }
         [DataMember]

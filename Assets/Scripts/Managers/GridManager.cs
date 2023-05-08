@@ -120,20 +120,11 @@ namespace DownBelow.Managers
             
             Destroy(this._gridsDataHandler.gameObject);
 
-            bool bitmapSet = false;
-            foreach (var gridData in refGameDataContainer.Data.grids_data)
-            {
-                // Only load the saves that are indicated so
-                if (gridData.ToLoad)
-                {
-                    this.CreateGrid(gridData, gridData.GridName);
-                    if (!bitmapSet)
-                    {
-                        this.GenerateShaderBitmap(gridData);
-                        bitmapSet = true;
-                    }
-                }
-            }
+            // TODO : Plug it in a scriptable instead of hardcoding it like that
+            var startingGrid = refGameDataContainer.Data.grids_data.SingleOrDefault(g => g.GridName == "FarmLand");
+
+            this.CreateGrid(startingGrid, startingGrid.GridName);
+            this.GenerateShaderBitmap(startingGrid);
         }
 
         public void CreateGrid(GridData gridData, string gridId)

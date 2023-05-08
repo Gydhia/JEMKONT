@@ -1,4 +1,5 @@
 using DownBelow.Managers;
+using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,6 +13,16 @@ namespace DownBelow.UI.Menu
         public Transform RoomsHolder;
 
         private List<UIRoomItem> _roomList = new List<UIRoomItem>();
+
+        public override void ShowPopup()
+        {
+            base.ShowPopup();
+
+            foreach (var room in this._roomList)
+            {
+                room.JoinButton.interactable = true;
+            }
+        }
 
         public void UpdateRoomList(List<RoomInfo> roomList)
         {

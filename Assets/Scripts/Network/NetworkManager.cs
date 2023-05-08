@@ -14,6 +14,7 @@ using DownBelow.Mechanics;
 using DownBelow.Events;
 using System;
 using DownBelow.UI.Menu;
+using Newtonsoft.Json;
 
 namespace DownBelow.Managers
 {
@@ -50,6 +51,8 @@ namespace DownBelow.Managers
 
     public class NetworkManager : MonoBehaviourPunCallbacks
     {
+        private string sharedSaveBuffer;
+        private int endWrapCount = 0;
 
         public MenuPopup_Lobby UILobby;
         public MenuPopup_Room UIRoom;
@@ -87,9 +90,8 @@ namespace DownBelow.Managers
 
         public void Init()
         {
-            // offline by default until it tries to host
-            this._connect();
         }
+
 
         public void UpdateOwnerName(string newName)
         {
@@ -109,18 +111,26 @@ namespace DownBelow.Managers
             }
         }
 
+        private void Start()
+        {
+            this._connect();
+        }
+
         public void _connect()
         {
-            PhotonNetwork.PhotonServerSettings.StartInOfflineMode = false;
             PhotonNetwork.ConnectUsingSettings();
             PhotonNetwork.AutomaticallySyncScene = true;
-            PhotonNetwork.OfflineMode = false;
         }
 
         public override void OnDisconnected(DisconnectCause cause)
         {
             Debug.Log("Disconnected");
             this.onSwitchedConnectionState();
+
+            if(MenuManager.Instance != null)
+            {
+                MenuManager.Instance.SwitchConnectionAspect(false);
+            }
         }
 
         protected void onSwitchedConnectionState()
@@ -152,6 +162,61 @@ namespace DownBelow.Managers
                 //PhotonNetwork.CurrentRoom.IsVisible = false;
                
                 PhotonNetwork.LoadLevel("0_FarmLand");
+            }
+        }
+
+        public void ShareSaveThroughRoom()
+        {
+            var saveFile = GameData.Game.RefGameDataContainer.SavegameFile;
+
+            var textReader = saveFile.OpenText();
+            long textLenght = textReader.BaseStream.Length;
+            int counter = 0;
+
+            while (counter < textLenght)
+            {
+                char[] buffer = new char[12288];
+                int toRead = 12288;
+
+                if(textLenght - counter < 12288)
+                {
+                    toRead = (int)(textLenght - counter);
+                }
+            
+                textReader.ReadBlock(buffer, 0, toRead);
+                counter += toRead;
+
+                this.photonView.RPC("OnReceivedSharedSavePart", RpcTarget.Others, new string(buffer));
+            }
+
+            textReader.Close();
+
+            this.photonView.RPC("WrapSaveParts", RpcTarget.Others);
+        }
+
+        [PunRPC]
+        public void OnReceivedSharedSavePart(string savePart)
+        {
+            this.sharedSaveBuffer += savePart;
+        }
+
+        [PunRPC]
+        public void WrapSaveParts()
+        {
+            var newGameData = JsonConvert.DeserializeObject<GameData.GameData>(this.sharedSaveBuffer);
+
+            this.sharedSaveBuffer = string.Empty;
+
+            this.photonView.RPC("ReceiveEndWrap", RpcTarget.MasterClient);
+        }
+        [PunRPC]
+        public void ReceiveEndWrap()
+        {
+            this.endWrapCount++;
+
+            if(this.endWrapCount >= PhotonNetwork.CurrentRoom.PlayerCount)
+            {
+                this.ClickOnStart();
             }
         }
 
@@ -432,6 +497,7 @@ namespace DownBelow.Managers
             this.UILobby?.UpdateRoomList(roomList);
         }
 
+
         public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
         {
             this.UIRoom?.UpdatePlayersFromProperties(targetPlayer);
@@ -439,43 +505,76 @@ namespace DownBelow.Managers
 
         public override void OnJoinedRoom()
         {
+            Debug.LogError("JOINED ROOM : " + PhotonNetwork.CurrentRoom.Name);
+
             if (this.UIRoom != null)
+            {
+                MenuManager.Instance.SelectPopup(MenuPopup.Room);
                 this.UIRoom.OnJoinedRoom();
+            }
             else
                 GameManager.Instance.WelcomePlayers();
         }
 
         public override void OnPlayerEnteredRoom(Player newPlayer)
         {
+            Debug.LogError("PLAYER ENTERED ROOM");
+
+
             this.UIRoom?.UpdatePlayersList();
             this.UIRoom?.UpdatePlayersState();
         }
 
         public override void OnLeftRoom()
         {
+            Debug.LogError("SELF LEFT ROOM");
+
             this.UIRoom?.OnSelfLeftRoom();
         }
 
         public override void OnPlayerLeftRoom(Player otherPlayer)
         {
+            Debug.LogError("PLAYER LEFT ROOM");
+
             this.UIRoom?.OnPlayerLeftRoom();
         }
 
         public override void OnConnectedToMaster()
         {
-            Debug.Log("Connected to master serv");
+            Debug.LogError("Connected to master serv");
             if (this.UILobby != null)
+            {
                 PhotonNetwork.JoinLobby();
+                MenuManager.Instance.SwitchConnectionAspect(true);
+            }
             else
+            {
                 GameManager.Instance.WelcomePlayerLately();
+            }
         }
 
         public override void OnJoinedLobby()
         {
             base.OnJoinedLobby();
-            Debug.Log("Joined Lobby !");
+            Debug.LogError("Joined Lobby ! : " + PhotonNetwork.CurrentLobby.Name);
         }
 
+        public override void OnLeftLobby()
+        {
+            base.OnLeftLobby();
+            Debug.LogError("Left Lobby");
+        }
+
+        public void DebugConnection()
+        {
+            string connected = "Is Connected = " + PhotonNetwork.IsConnected + "\n";
+            string offline = "OfflineMode = " + PhotonNetwork.OfflineMode + "\n";
+            string inLobby = "Is In Lobby = " + PhotonNetwork.InLobby + "\n";
+            string currLobby = "Current Lobby = " + (PhotonNetwork.CurrentLobby == null ? "NONE" : PhotonNetwork.CurrentLobby.Name) + "\n";
+            string currRoom = "Current Room = " + (PhotonNetwork.CurrentRoom == null ? "NONE" : PhotonNetwork.CurrentRoom.Name);
+
+            Debug.LogError("Current Photon State : \n" + connected + offline + inLobby + currLobby + currRoom);
+        }
         #endregion
     }
 

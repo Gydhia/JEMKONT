@@ -25,13 +25,15 @@ namespace DownBelow.UI.Menu
 
         protected void Start()
         {
-            this.LeaveRoomBtn.interactable = false;
             this.StartBtn.onClick.AddListener(() => MenuManager.Instance.StartGame(false));
         }
 
         private void OnEnable()
         {
-            NetworkManager.Instance.CreateRoom(GameData.Game.RefGameDataContainer.SaveName);
+            if(GameData.Game.RefGameDataContainer != null)
+            {
+                NetworkManager.Instance.CreateRoom(GameData.Game.RefGameDataContainer.SaveName);
+            }
         }
 
         public override void HidePopup()
@@ -81,7 +83,6 @@ namespace DownBelow.UI.Menu
 
         public void OnJoinedRoom()
         {
-            Debug.Log("Joined room :" + PhotonNetwork.CurrentRoom.Name);
             this.UpdatePlayersList();
             this.UpdatePlayersState();
 

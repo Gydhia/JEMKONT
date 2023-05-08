@@ -2,6 +2,7 @@ using DownBelow.UI.Menu;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -33,15 +34,15 @@ namespace DownBelow.Managers
         private List<MenuPopup> _popupBuffer = new List<MenuPopup>();
         private bool _isSelectingPopup = false;
 
-        private bool _goingToHost = false;
-        public bool GoingToHost
+        public bool GoingToHost = false;
+
+        public TextMeshProUGUI ConnectedText;
+        public Image ConnectedDot;
+
+        public void SwitchConnectionAspect(bool connected)
         {
-            get { return this._goingToHost; }
-            set
-            {
-                this._goingToHost = value;
-                NetworkManager.Instance.SwitchConnectionState(value);
-            }
+            this.ConnectedDot.color = connected ? Color.green : Color.red;
+            this.ConnectedText.text = connected ? "CONNECTED" : "DISCONNECTED";
         }
 
         public void Init()
@@ -125,7 +126,7 @@ namespace DownBelow.Managers
 
         public void StartGame(bool solo)
         {
-            NetworkManager.Instance.ClickOnStart();   
+            NetworkManager.Instance.ShareSaveThroughRoom();   
         }
 
         private void _initFolders()
