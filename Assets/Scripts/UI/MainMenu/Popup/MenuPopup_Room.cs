@@ -26,6 +26,19 @@ namespace DownBelow.UI.Menu
         protected void Start()
         {
             this.LeaveRoomBtn.interactable = false;
+            this.StartBtn.onClick.AddListener(() => MenuManager.Instance.StartGame(false));
+        }
+
+        private void OnEnable()
+        {
+            NetworkManager.Instance.CreateRoom(GameData.Game.RefGameDataContainer.SaveName);
+        }
+
+        public override void HidePopup()
+        {
+            base.HidePopup();
+
+            NetworkManager.Instance.ClickOnLeave();
         }
 
         public void OnPlayerLeftRoom()

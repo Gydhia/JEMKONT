@@ -28,13 +28,5 @@ namespace DownBelow.UI.Menu
             this._currentName = newValue;
             this.CreateButton.interactable = !string.IsNullOrEmpty(newValue);
         }
-
-        public void AskCreateRoom()
-        {
-            NetworkManager.Instance.CreateRoom(this._currentName);
-            MenuManager.Instance.SelectPopup(MenuPopup.Lobby);
-        }
-
     }
-
 }

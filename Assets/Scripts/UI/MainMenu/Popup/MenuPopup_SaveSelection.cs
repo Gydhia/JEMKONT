@@ -18,6 +18,8 @@ namespace DownBelow.UI.Menu
         public Button B_CreateNewSave;
         public TMP_InputField I_SaveNameInput;
 
+        protected List<Button> saveItems = new List<Button>();
+
         protected string SaveName = string.Empty;
 
         public override void Init()
@@ -39,6 +41,19 @@ namespace DownBelow.UI.Menu
             this.B_CreateNewSave.onClick.AddListener(() => this.CreateNewSave());
         }
 
+
+        public override void ShowPopup()
+        {
+            base.ShowPopup();
+
+            if(this.saveItems.Count > 0)
+            {
+                foreach (var item in this.saveItems)
+                {
+                    item.interactable = true;
+                }
+            }
+        }
 
         public override void HidePopup()
         {

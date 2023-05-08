@@ -17,10 +17,11 @@ using DownBelow.UI.Menu;
 
 namespace DownBelow.Managers
 {
-    public enum BuffAnswer
+    public enum DisconnectTarget
     {
-        EndTurn,
-        StartTurn
+        None = 0,
+        ToConnection = 1,
+        ToOfflineMode = 2,
     }
 
     [Serializable]
@@ -52,6 +53,8 @@ namespace DownBelow.Managers
 
         public MenuPopup_Lobby UILobby;
         public MenuPopup_Room UIRoom;
+
+        protected DisconnectTarget DisconnectCallback = DisconnectTarget.None; 
 
         public static NetworkManager Instance;
 
@@ -96,35 +99,57 @@ namespace DownBelow.Managers
         public void SwitchConnectionState(bool connect)
         {
             PhotonNetwork.Disconnect();
-            if (connect)
+            if (connect && !PhotonNetwork.IsConnected)
             {
-                PhotonNetwork.OfflineMode = false;
-                PhotonNetwork.ConnectUsingSettings();
-                PhotonNetwork.AutomaticallySyncScene = true;
+                this.DisconnectCallback = DisconnectTarget.ToConnection;
             }
-            else
+            else if (!PhotonNetwork.OfflineMode)
             {
-                PhotonNetwork.OfflineMode = true;
-                PhotonNetwork.ConnectUsingSettings();
+                this.DisconnectCallback = DisconnectTarget.ToOfflineMode;
             }
         }
 
         public void _connect()
         {
+            PhotonNetwork.PhotonServerSettings.StartInOfflineMode = false;
             PhotonNetwork.ConnectUsingSettings();
             PhotonNetwork.AutomaticallySyncScene = true;
             PhotonNetwork.OfflineMode = false;
         }
 
+        public override void OnDisconnected(DisconnectCause cause)
+        {
+            Debug.Log("Disconnected");
+            this.onSwitchedConnectionState();
+        }
 
+        protected void onSwitchedConnectionState()
+        {
+            PhotonNetwork.LeaveLobby();
+
+            switch (this.DisconnectCallback)
+            {
+                case DisconnectTarget.ToConnection:
+                    this._connect();
+                    break;
+                case DisconnectTarget.ToOfflineMode:
+                    PhotonNetwork.PhotonServerSettings.StartInOfflineMode = true;
+                    PhotonNetwork.ConnectUsingSettings();
+
+                    //PhotonNetwork.OfflineMode = true;
+                    break;
+            }
+
+            this.DisconnectCallback = DisconnectTarget.None;
+        }
 
         #region UI_calls
         public void ClickOnStart()
         {
             if (PhotonNetwork.IsMasterClient)
             {
-                PhotonNetwork.CurrentRoom.IsOpen = false;
-                PhotonNetwork.CurrentRoom.IsVisible = false;
+                //PhotonNetwork.CurrentRoom.IsOpen = false;
+                //PhotonNetwork.CurrentRoom.IsVisible = false;
                
                 PhotonNetwork.LoadLevel("0_FarmLand");
             }
@@ -135,7 +160,6 @@ namespace DownBelow.Managers
             PhotonNetwork.LeaveRoom();
         }
 
-
         public void JoinRoom(string roomName)
         {
             PhotonNetwork.JoinRoom(roomName);
@@ -143,6 +167,11 @@ namespace DownBelow.Managers
 
         public void CreateRoom(string roomName)
         {
+            if(PhotonNetwork.CurrentRoom != null)
+            {
+                Debug.LogError("Trying to create a room while already in a room : " + PhotonNetwork.CurrentRoom);
+                return;
+            }
             if (!string.IsNullOrEmpty(roomName))
             {
                 PhotonNetwork.CreateRoom(roomName, new RoomOptions() { MaxPlayers = 4, BroadcastPropsChangeToAll = true, PublishUserId = true }, null);
@@ -439,11 +468,6 @@ namespace DownBelow.Managers
                 PhotonNetwork.JoinLobby();
             else
                 GameManager.Instance.WelcomePlayerLately();
-        }
-
-        public override void OnDisconnected(DisconnectCause cause)
-        {
-            Debug.Log("Disconnected");
         }
 
         public override void OnJoinedLobby()

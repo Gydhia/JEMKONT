@@ -29,7 +29,7 @@ namespace DownBelow.Managers
         public GameObject PopupHolders;
 
         private Dictionary<MenuPopup, BaseMenuPopup> _menuPopups;
-        private MenuPopup _lastPopup;
+        public MenuPopup LastPopup;
         private List<MenuPopup> _popupBuffer = new List<MenuPopup>();
         private bool _isSelectingPopup = false;
 
@@ -76,31 +76,31 @@ namespace DownBelow.Managers
             if (this._isSelectingPopup)
                 return;
 
-            if (this._lastPopup != MenuPopup.None && !this._menuPopups[this._lastPopup].IsHidden)
+            if (this.LastPopup != MenuPopup.None && !this._menuPopups[this.LastPopup].IsHidden)
             {
-                this._menuPopups[this._lastPopup].HidePopup();
+                this._menuPopups[this.LastPopup].HidePopup();
             }
             else
             {
-                this._lastPopup = popup;
+                this.LastPopup = popup;
                 this.ShowNextPopup();
             }
 
-            this._lastPopup = popup;
+            this.LastPopup = popup;
 
-            if (!this._popupBuffer.Contains(this._lastPopup))
-                this._popupBuffer.Add(this._lastPopup);
+            if (!this._popupBuffer.Contains(this.LastPopup))
+                this._popupBuffer.Add(this.LastPopup);
         }
 
         public void ShowNextPopup()
         {
-            this._menuPopups[this._lastPopup].ShowPopup();
+            this._menuPopups[this.LastPopup].ShowPopup();
         }
 
         public void HideCurrentPopup()
         {
-            this._menuPopups[this._lastPopup].HidePopup();
-            this._lastPopup = MenuPopup.None;
+            this._menuPopups[this.LastPopup].HidePopup();
+            this.LastPopup = MenuPopup.None;
         }
 
         public void OnClickQuit()
@@ -115,7 +115,7 @@ namespace DownBelow.Managers
             // Means that we've selected a game for the lobby
             if (this.GoingToHost)
             {
-                this.SelectPopup(MenuPopup.Lobby);
+                this.SelectPopup(MenuPopup.Room);
             }
             else
             {
@@ -125,10 +125,7 @@ namespace DownBelow.Managers
 
         public void StartGame(bool solo)
         {
-            if (solo)
-            {
-                NetworkManager.Instance.ClickOnStart();
-            }
+            NetworkManager.Instance.ClickOnStart();   
         }
 
         private void _initFolders()

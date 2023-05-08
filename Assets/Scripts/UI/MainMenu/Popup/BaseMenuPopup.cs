@@ -11,7 +11,6 @@ namespace DownBelow.UI.Menu
         public MenuPopup PopupType;
         public bool IsHidden = true;
 
-
         public virtual void Init()
         {
             _selfCanvasGroup = this.GetComponent<CanvasGroup>();
@@ -55,6 +54,10 @@ namespace DownBelow.UI.Menu
                             IsHidden = true;
                             this.gameObject.SetActive(false);
                             _selfCanvasGroup.alpha = 0;
+                            if (this.PopupType != MenuManager.Instance.LastPopup)
+                            {
+                                MenuManager.Instance.ShowNextPopup();
+                            }
                         });
                     });
                 });

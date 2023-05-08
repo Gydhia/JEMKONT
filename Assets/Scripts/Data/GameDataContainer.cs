@@ -207,7 +207,7 @@ namespace DownBelow.GameData
                                     case "gameversion":
                                         savegame.GameVersion = value;
                                         break;
-                                    case "cityname":
+                                    case "savename":
                                         savegame.SaveName = value;
                                         break;
                                     case "savetime":
