@@ -27,9 +27,9 @@ MonoBehaviour:
     EnableProtocolFallback: 1
     AuthMode: 0
     EnableLobbyStatistics: 0
-    NetworkLogging: 1
+    NetworkLogging: 5
   DevRegion: eu
-  PunLogging: 0
+  PunLogging: 2
   EnableSupportLogger: 0
   RunInBackground: 1
   StartInOfflineMode: 0
@@ -60,6 +60,9 @@ MonoBehaviour:
   - PlayerAnswerStartTurn
   - RespondMasterEndEntityTurn
   - RespondPlayerEndEntityTurn
+  - OnReceivedSharedSavePart
+  - ReceiveEndWrap
+  - WrapSaveParts
   DisableAutoOpenWizard: 1
-  ShowSettings: 0
+  ShowSettings: 1
   DevRegionSetOnce: 1
