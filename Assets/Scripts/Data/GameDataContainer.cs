@@ -62,6 +62,9 @@ namespace DownBelow.GameData
         [JsonIgnore, NonSerialized, IgnoreDataMember]
         public bool IsGameDataLoaded = false;
 
+        [JsonIgnore, NonSerialized, IgnoreDataMember]
+        public bool IsSharedSave = false;
+
         /// <summary>
         /// The path where this GameDataContainer is located
         /// </summary>
@@ -96,7 +99,7 @@ namespace DownBelow.GameData
             bool loaded = true;
             try
             {
-                loaded = _loadJSON();
+                loaded = LoadJson();
             }
             catch (Exception ex)
             {
@@ -104,7 +107,7 @@ namespace DownBelow.GameData
             }
         }
 
-        public bool _loadJSON()
+        public bool LoadJson()
         {
             GameDataContainer savegame = null;
             bool ok = true;
@@ -139,6 +142,16 @@ namespace DownBelow.GameData
             }
 
             return ok;
+        }
+
+        public static GameDataContainer LoadSharedJson(string sharedString)
+        {
+            JsonSerializerSettings jsonSettings = DownBelowJSONHelper.CreateJSONGameDataContainerSettings();
+
+            GameDataContainer savegame = JsonConvert.DeserializeObject<GameDataContainer>(sharedString, jsonSettings);
+            savegame.IsSharedSave = true;
+
+            return savegame;
         }
 
         public static GameDataContainer QuickLoad(FileInfo file)

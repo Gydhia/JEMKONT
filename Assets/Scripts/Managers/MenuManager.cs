@@ -120,11 +120,11 @@ namespace DownBelow.Managers
             }
             else
             {
-                this.StartGame(true);
+                this.StartGame();
             }
         }
 
-        public void StartGame(bool solo)
+        public void StartGame()
         {
             NetworkManager.Instance.ShareSaveThroughRoom();   
         }

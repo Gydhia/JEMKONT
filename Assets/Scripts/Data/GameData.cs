@@ -22,7 +22,7 @@ namespace DownBelow.GameData
         [DataMember]
         public DateTime save_time;
 
-        public GameDataContainer CreateSavegame(FileInfo file)
+        public GameDataContainer CreateContainer()
         {
             GameDataContainer savegame = new GameDataContainer()
             {
@@ -37,7 +37,7 @@ namespace DownBelow.GameData
 
         public GameDataContainer Save(System.IO.FileInfo file)
         {
-            GameDataContainer savegame = this.CreateSavegame(file);
+            GameDataContainer savegame = this.CreateContainer();
             savegame.Save(file);
 
             return savegame;

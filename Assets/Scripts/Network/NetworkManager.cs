@@ -186,12 +186,19 @@ namespace DownBelow.Managers
                 textReader.ReadBlock(buffer, 0, toRead);
                 counter += toRead;
 
-                this.photonView.RPC("OnReceivedSharedSavePart", RpcTarget.Others, new string(buffer));
+                this.photonView.RPC("OnReceivedSharedSavePart", RpcTarget.All, new string(buffer));
             }
 
             textReader.Close();
 
-            this.photonView.RPC("WrapSaveParts", RpcTarget.Others);
+            if(PhotonNetwork.CurrentRoom.PlayerCount == 1)
+            {
+                this.ClickOnStart();
+            }
+            else
+            {
+                this.photonView.RPC("WrapSaveParts", RpcTarget.All);
+            }
         }
 
         [PunRPC]
@@ -203,7 +210,7 @@ namespace DownBelow.Managers
         [PunRPC]
         public void WrapSaveParts()
         {
-            var newGameData = JsonConvert.DeserializeObject<GameData.GameData>(this.sharedSaveBuffer);
+            GameData.Game.RefGameDataContainer = GameData.GameDataContainer.LoadSharedJson(this.sharedSaveBuffer);
 
             this.sharedSaveBuffer = string.Empty;
 
@@ -214,7 +221,8 @@ namespace DownBelow.Managers
         {
             this.endWrapCount++;
 
-            if(this.endWrapCount >= PhotonNetwork.CurrentRoom.PlayerCount)
+            // All players excluding ourselves
+            if(this.endWrapCount >= PhotonNetwork.CurrentRoom.PlayerCount - 1)
             {
                 this.ClickOnStart();
             }
@@ -505,8 +513,6 @@ namespace DownBelow.Managers
 
         public override void OnJoinedRoom()
         {
-            Debug.LogError("JOINED ROOM : " + PhotonNetwork.CurrentRoom.Name);
-
             if (this.UIRoom != null)
             {
                 MenuManager.Instance.SelectPopup(MenuPopup.Room);
@@ -518,30 +524,22 @@ namespace DownBelow.Managers
 
         public override void OnPlayerEnteredRoom(Player newPlayer)
         {
-            Debug.LogError("PLAYER ENTERED ROOM");
-
-
             this.UIRoom?.UpdatePlayersList();
             this.UIRoom?.UpdatePlayersState();
         }
 
         public override void OnLeftRoom()
         {
-            Debug.LogError("SELF LEFT ROOM");
-
             this.UIRoom?.OnSelfLeftRoom();
         }
 
         public override void OnPlayerLeftRoom(Player otherPlayer)
         {
-            Debug.LogError("PLAYER LEFT ROOM");
-
             this.UIRoom?.OnPlayerLeftRoom();
         }
 
         public override void OnConnectedToMaster()
         {
-            Debug.LogError("Connected to master serv");
             if (this.UILobby != null)
             {
                 PhotonNetwork.JoinLobby();
@@ -556,13 +554,11 @@ namespace DownBelow.Managers
         public override void OnJoinedLobby()
         {
             base.OnJoinedLobby();
-            Debug.LogError("Joined Lobby ! : " + PhotonNetwork.CurrentLobby.Name);
         }
 
         public override void OnLeftLobby()
         {
             base.OnLeftLobby();
-            Debug.LogError("Left Lobby");
         }
 
         public void DebugConnection()

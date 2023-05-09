@@ -25,14 +25,15 @@ namespace DownBelow.UI.Menu
 
         protected void Start()
         {
-            this.StartBtn.onClick.AddListener(() => MenuManager.Instance.StartGame(false));
+            this.StartBtn.onClick.AddListener(() => { MenuManager.Instance.StartGame(); this.StartBtn.interactable = false; });
         }
 
         private void OnEnable()
         {
-            if(GameData.Game.RefGameDataContainer != null)
+            if(GameData.Game.RefGameDataContainer != null && PhotonNetwork.CurrentRoom == null)
             {
                 NetworkManager.Instance.CreateRoom(GameData.Game.RefGameDataContainer.SaveName);
+                this.UpdatePlayersState();
             }
         }
 
