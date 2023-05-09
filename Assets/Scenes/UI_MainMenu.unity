@@ -521,6 +521,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dff6be907a3db4c4c98087d5bc4b87a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HasInternet: 0
   UILobby: {fileID: 309520641}
   UIRoom: {fileID: 1037737595}
 --- !u!4 &1611801071

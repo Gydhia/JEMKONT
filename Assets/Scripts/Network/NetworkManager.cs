@@ -51,6 +51,11 @@ namespace DownBelow.Managers
 
     public class NetworkManager : MonoBehaviourPunCallbacks
     {
+        public event GameEventData.Event OnInternetReached;
+        public event GameEventData.Event OnInternetLost;
+
+        public bool HasInternet;
+
         private string sharedSaveBuffer;
         private int endWrapCount = 0;
 
@@ -86,12 +91,40 @@ namespace DownBelow.Managers
             NetworkManager.Instance = this;
 
             UnityEngine.Object.DontDestroyOnLoad(this);
+
+            if (Application.internetReachability == NetworkReachability.NotReachable)
+            {
+                this.HasInternet = true;
+            }
+            else if (Application.internetReachability == NetworkReachability.ReachableViaCarrierDataNetwork || Application.internetReachability == NetworkReachability.ReachableViaLocalAreaNetwork)
+            {
+                this.HasInternet = false;
+            }
         }
 
         public void Init()
         {
+
         }
 
+        private void Update()
+        {
+            if (this.HasInternet && Application.internetReachability == NetworkReachability.NotReachable)
+            {
+                this.HasInternet = false;
+
+                this.OnInternetLost?.Invoke(null);
+            }
+            else if (!this.HasInternet && 
+                (Application.internetReachability == NetworkReachability.ReachableViaCarrierDataNetwork || 
+                 Application.internetReachability == NetworkReachability.ReachableViaLocalAreaNetwork))
+            {
+                this.HasInternet = true;
+
+                this.OnInternetReached?.Invoke(null);
+            }
+
+        }
 
         public void UpdateOwnerName(string newName)
         {
@@ -113,13 +146,21 @@ namespace DownBelow.Managers
 
         private void Start()
         {
-            this._connect();
+            this.Connect();
         }
 
-        public void _connect()
+        public void Connect()
         {
             PhotonNetwork.ConnectUsingSettings();
             PhotonNetwork.AutomaticallySyncScene = true;
+        }
+
+        public void TryReconnect()
+        {
+            if(!PhotonNetwork.IsConnected && !PhotonNetwork.InLobby)
+            {
+                this.Connect();
+            }
         }
 
         public override void OnDisconnected(DisconnectCause cause)
@@ -140,7 +181,7 @@ namespace DownBelow.Managers
             switch (this.DisconnectCallback)
             {
                 case DisconnectTarget.ToConnection:
-                    this._connect();
+                    this.Connect();
                     break;
                 case DisconnectTarget.ToOfflineMode:
                     PhotonNetwork.PhotonServerSettings.StartInOfflineMode = true;
@@ -519,7 +560,13 @@ namespace DownBelow.Managers
                 this.UIRoom.OnJoinedRoom();
             }
             else
-                GameManager.Instance.WelcomePlayers();
+            {
+                // We go here only if starting from game scene
+                GameData.Game.RefGameDataContainer = GameManager.MakeBaseGame("DownBelowBase");
+
+                GridManager.Instance.CreateWholeWorld(GameData.Game.RefGameDataContainer);
+                GameManager.Instance.ProcessPlayerWelcoming();
+            }
         }
 
         public override void OnPlayerEnteredRoom(Player newPlayer)

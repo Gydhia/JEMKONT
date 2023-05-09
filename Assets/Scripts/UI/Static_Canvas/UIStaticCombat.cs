@@ -9,7 +9,5 @@ namespace DownBelow.UI
         public RectTransform LeftPin;
         public RectTransform RightPin;
 
-
     }
-
 }

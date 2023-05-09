@@ -121,10 +121,13 @@ namespace DownBelow.Managers
             Destroy(this._gridsDataHandler.gameObject);
 
             // TODO : Plug it in a scriptable instead of hardcoding it like that
-            var startingGrid = refGameDataContainer.Data.grids_data.SingleOrDefault(g => g.GridName == "FarmLand");
+            foreach (var grid in refGameDataContainer.Data.grids_data)
+            {
+                this.CreateGrid(grid, grid.GridName);
+            }
 
-            this.CreateGrid(startingGrid, startingGrid.GridName);
-            this.GenerateShaderBitmap(startingGrid);
+            this.MainWorldGrid = this.WorldGrids["FarmLand"];
+            this.GenerateShaderBitmap(this.MainWorldGrid.SelfData);
         }
 
         public void CreateGrid(GridData gridData, string gridId)
@@ -140,8 +143,6 @@ namespace DownBelow.Managers
             newGrid.Init(gridData);
 
             this.WorldGrids.Add(newGrid.UName, newGrid);
-
-            this.MainWorldGrid = this.WorldGrids.Values.First();
         }
 
         public void ProcessCellClickUp(CellEventData data)
@@ -693,36 +694,68 @@ namespace DownBelow.Managers
             }
         }
 
-        public void SaveGridAsJSON(WorldGrid grid)
+        public GridData[] GetGridDatas()
         {
-            if (grid.UName == "" && grid.UName == string.Empty)
-                return;
+            GridData[] grids = new GridData[this.WorldGrids.Count];
+            for (int i = 0; i < this.WorldGrids.Count; i++)
+            {
+                grids[i] = this.GetGridData(this.WorldGrids.Values.ElementAt(i));
+            }
 
-            List<CellData> savedCells = new List<CellData>();
-
-            // Get the non walkable cells only
-            for (int i = 0;i < grid.Cells.GetLength(0);i++)
-                for (int j = 0;j < grid.Cells.GetLength(1);j++)
-                    if (grid.Cells[i, j].Datas.state != CellState.Walkable)
-                        savedCells.Add(grid.Cells[i, j].Datas);
-
-            GridData gridData = new GridData();
-            gridData.GridHeight = grid.GridHeight;
-            gridData.GridWidth = grid.GridWidth;
-            gridData.CellDatas = savedCells;
-
-            string gridJson = JsonConvert.SerializeObject(gridData);
-            this._saveJSONFile(gridJson, grid.UName);
+            return grids;
         }
 
-        public void SaveGridAsJSON(CellData[,] cellDatas, string name)
+        public GridData GetGridData(WorldGrid grid)
         {
-            if (name == "" && name == string.Empty)
-                return;
+            List<GridData> innerGrids = new List<GridData>();
 
+            foreach (var innerGrid in grid.InnerCombatGrids)
+            {
+                innerGrids.Add(
+                    new GridData(
+                        innerGrid.Key,
+                        true,
+                        innerGrid.Value.GridHeight,
+                        innerGrid.Value.GridWidth,
+                        innerGrid.Value.Latitude,
+                        innerGrid.Value.Longitude,
+                        this._getCellsData(innerGrid.Value),
+                        innerGrid.Value.SelfData.SpawnablePresets
+                ));
+            }
+
+            return new GridData(
+                grid.UName,
+                false,
+                grid.GridHeight,
+                grid.GridWidth,
+                grid.TopLeftOffset,
+                this._getCellsData(grid),
+                innerGrids,
+                grid.SelfData.SpawnablePresets
+            );
+        }
+
+        private List<CellData> _getCellsData(WorldGrid grid)
+        {
+            List<CellData> cellsData = new List<CellData>();
+            for (int i = 0; i < grid.Cells.GetLength(0); i++)
+            {
+                for (int j = 0; j < grid.Cells.GetLength(1); j++)
+                {
+                    if (grid.Cells[i, j] != null && grid.Cells[i, j].Datas.state != CellState.Walkable)
+                        cellsData.Add(grid.Cells[i, j].Datas);
+                }
+            }
+            return cellsData;
+        }
+
+        public string GetGridJson(CellData[,] cellDatas, string name)
+        {
             List<CellData> savedCells = new List<CellData>();
-            for (int i = 0;i < cellDatas.GetLength(0);i++)
-                for (int j = 0;j < cellDatas.GetLength(1);j++)
+
+            for (int i = 0; i < cellDatas.GetLength(0); i++)
+                for (int j = 0; j < cellDatas.GetLength(1); j++)
                     if (cellDatas[i, j].state != CellState.Walkable)
                         savedCells.Add(cellDatas[i, j]);
 
@@ -732,7 +765,24 @@ namespace DownBelow.Managers
             gridData.CellDatas = savedCells;
 
             string gridJson = JsonConvert.SerializeObject(gridData);
-            this._saveJSONFile(gridJson, name);
+
+            return gridJson;
+        }
+
+        public void SaveGridAsJSON(WorldGrid grid)
+        {
+            if (grid.UName == "" && grid.UName == string.Empty)
+                return;
+            
+            this._saveJSONFile(JsonConvert.SerializeObject(this.GetGridData(grid)), grid.UName);
+        }
+
+        public void SaveGridAsJSON(CellData[,] cellDatas, string name)
+        {
+            if (name == "" && name == string.Empty)
+                return;
+
+            this._saveJSONFile(this.GetGridJson(cellDatas, name), name);
         }
 
         public void SaveGridAsJSON(GridData grid, string uName)

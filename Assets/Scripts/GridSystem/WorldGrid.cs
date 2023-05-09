@@ -42,7 +42,7 @@ namespace DownBelow.GridSystem
             this.GenerateGrid(data);
             if(data.InnerGrids != null)
                 this.GenerateInnerGrids(data.InnerGrids, this.TopLeftOffset);
-            this.RedrawGrid();
+            //this.RedrawGrid();
 
             GameManager.Instance.OnEnteredGrid += _entityEnteredGrid;
             GameManager.Instance.OnExitingGrid += _entityExitingGrid;
