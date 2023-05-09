@@ -121,10 +121,13 @@ namespace DownBelow.Managers
             Destroy(this._gridsDataHandler.gameObject);
 
             // TODO : Plug it in a scriptable instead of hardcoding it like that
-            var startingGrid = refGameDataContainer.Data.grids_data.SingleOrDefault(g => g.GridName == "FarmLand");
+            foreach (var grid in refGameDataContainer.Data.grids_data)
+            {
+                this.CreateGrid(grid, grid.GridName);
+            }
 
-            this.CreateGrid(startingGrid, startingGrid.GridName);
-            this.GenerateShaderBitmap(startingGrid);
+            this.MainWorldGrid = this.WorldGrids["FarmLand"];
+            this.GenerateShaderBitmap(this.MainWorldGrid.SelfData);
         }
 
         public void CreateGrid(GridData gridData, string gridId)
@@ -140,8 +143,6 @@ namespace DownBelow.Managers
             newGrid.Init(gridData);
 
             this.WorldGrids.Add(newGrid.UName, newGrid);
-
-            this.MainWorldGrid = this.WorldGrids.Values.First();
         }
 
         public void ProcessCellClickUp(CellEventData data)
@@ -706,20 +707,47 @@ namespace DownBelow.Managers
 
         public GridData GetGridData(WorldGrid grid)
         {
-            List<CellData> savedCells = new List<CellData>();
+            List<GridData> innerGrids = new List<GridData>();
 
-            // Get the non walkable cells only
+            foreach (var innerGrid in grid.InnerCombatGrids)
+            {
+                innerGrids.Add(
+                    new GridData(
+                        innerGrid.Key,
+                        true,
+                        innerGrid.Value.GridHeight,
+                        innerGrid.Value.GridWidth,
+                        innerGrid.Value.Latitude,
+                        innerGrid.Value.Longitude,
+                        this._getCellsData(innerGrid.Value),
+                        innerGrid.Value.SelfData.SpawnablePresets
+                ));
+            }
+
+            return new GridData(
+                grid.UName,
+                false,
+                grid.GridHeight,
+                grid.GridWidth,
+                grid.TopLeftOffset,
+                this._getCellsData(grid),
+                innerGrids,
+                grid.SelfData.SpawnablePresets
+            );
+        }
+
+        private List<CellData> _getCellsData(WorldGrid grid)
+        {
+            List<CellData> cellsData = new List<CellData>();
             for (int i = 0; i < grid.Cells.GetLength(0); i++)
+            {
                 for (int j = 0; j < grid.Cells.GetLength(1); j++)
-                    if (grid.Cells[i, j].Datas.state != CellState.Walkable)
-                        savedCells.Add(grid.Cells[i, j].Datas);
-
-            GridData gridData = new GridData();
-            gridData.GridHeight = grid.GridHeight;
-            gridData.GridWidth = grid.GridWidth;
-            gridData.CellDatas = savedCells;
-
-            return gridData;
+                {
+                    if (grid.Cells[i, j] != null && grid.Cells[i, j].Datas.state != CellState.Walkable)
+                        cellsData.Add(grid.Cells[i, j].Datas);
+                }
+            }
+            return cellsData;
         }
 
         public string GetGridJson(CellData[,] cellDatas, string name)
