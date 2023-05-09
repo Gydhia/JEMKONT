@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c24d5ac1331fdca479c3c82f04555faf, type: 3}
-  m_Name: Regalia Rune
+  m_Name: Thornmail
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 6742846473957726477, guid: 51d487ef60aae8b42a3d9630961186ef, type: 3}
+    - {fileID: 11400000, guid: 38d905773eff14546b34bb9fb4f91e87, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -24,7 +24,7 @@ MonoBehaviour:
     SerializationNodes:
     - Name: UID
       Entry: 2
-      Data: de8c6688ef689291373467ecb1794427
+      Data: 00000000000000000000000000000000
     - Name: Spells
       Entry: 7
       Data: 0|DownBelow.Spells.Spell[], Assembly-CSharp
@@ -33,7 +33,7 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 7
-      Data: 1|DownBelow.Spells.Spell_SummonNCE, Assembly-CSharp
+      Data: 1|DownBelow.Spells.Spell_Alteration, Assembly-CSharp
     - Name: ID
       Entry: 2
       Data: 00000000000000000000000000000000
@@ -54,10 +54,10 @@ MonoBehaviour:
       Data: 0
     - Name: Data
       Entry: 7
-      Data: 2|DownBelow.Spells.SpellData_Summon, Assembly-CSharp
+      Data: 2|DownBelow.Spells.SpellData_Alteration, Assembly-CSharp
     - Name: RequiresTargetting
       Entry: 5
-      Data: true
+      Data: false
     - Name: SpellShapeMatrix
       Entry: 7
       Data: 3|System.Boolean[,], mscorlib
@@ -180,10 +180,10 @@ MonoBehaviour:
       Data: 4|System.Boolean[,], mscorlib
     - Name: 
       Entry: 12
-      Data: 49
+      Data: 25
     - Name: ranks
       Entry: 1
-      Data: 7|7
+      Data: 5|5
     - Name: 
       Entry: 5
       Data: false
@@ -210,19 +210,10 @@ MonoBehaviour:
       Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
       Data: false
@@ -231,19 +222,10 @@ MonoBehaviour:
       Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
       Data: false
@@ -252,61 +234,7 @@ MonoBehaviour:
       Data: false
     - Name: 
       Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
       Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
     - Name: 
       Entry: 5
       Data: false
@@ -342,10 +270,10 @@ MonoBehaviour:
       Data: UnityEngine.Vector2, UnityEngine.CoreModule
     - Name: 
       Entry: 4
-      Data: 3
+      Data: 2
     - Name: 
       Entry: 4
-      Data: 3
+      Data: 2
     - Name: 
       Entry: 8
       Data: 
@@ -354,19 +282,28 @@ MonoBehaviour:
       Data: false
     - Name: TargetType
       Entry: 3
-      Data: 7
+      Data: 0
     - Name: ProjectileSFX
       Entry: 6
       Data: 
     - Name: CellSFX
-      Entry: 6
-      Data: 
-    - Name: Duration
-      Entry: 3
-      Data: 3
-    - Name: NCEPrefab
       Entry: 10
       Data: 0
+    - Name: Alteration
+      Entry: 7
+      Data: 5|DownBelow.Spells.Alterations.Thornmail, Assembly-CSharp
+    - Name: Duration
+      Entry: 3
+      Data: 2
+    - Name: Target
+      Entry: 6
+      Data: 
+    - Name: InstanciatedFXAnimator
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 8
       Data: 
@@ -397,11 +334,11 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  Title: Regalia Rune
-  Cost: 3
-  CardType: 1
-  Description: Create a Rune for 3 turns, all allies in a radius have their armor
-    increased.
+  Title: Thornmail
+  Cost: 0
+  CardType: 0
+  Description: For 2 turns, each time the miner is dealt damage, all opponents are
+    dealt as much damage as his armor.
   IllustrationImage: {fileID: 0}
   Class: 0
   CurrentSpellTargetting: 0

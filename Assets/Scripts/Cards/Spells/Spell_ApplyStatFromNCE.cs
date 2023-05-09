@@ -7,9 +7,9 @@ using System.Linq;
 using UnityEngine;
 namespace DownBelow.Spells
 {
-    public class Spell_StatsAOEAroundAllNCE : Spell<SpellData_Stats>
+    public class Spell_ApplyStatFromNCE : Spell<SpellData_Stats>
     {
-        public Spell_StatsAOEAroundAllNCE(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, SpellCondition ConditionData, int Cost) : base(CopyData, RefEntity, TargetCell, ParentSpell, ConditionData, Cost)
+        public Spell_ApplyStatFromNCE(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, SpellCondition ConditionData, int Cost) : base(CopyData, RefEntity, TargetCell, ParentSpell, ConditionData, Cost)
         {
         }
         public override void ExecuteAction()
