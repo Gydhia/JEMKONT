@@ -15,7 +15,8 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: 74a348f95b6488746b5d56d7a7c60f83, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -450,6 +451,12 @@ MonoBehaviour:
     - Name: TargetType
       Entry: 3
       Data: 2
+    - Name: ProjectileSFX
+      Entry: 10
+      Data: 0
+    - Name: CellSFX
+      Entry: 6
+      Data: 
     - Name: Alteration
       Entry: 7
       Data: 5|DownBelow.Spells.Alterations.ItsAlive, Assembly-CSharp

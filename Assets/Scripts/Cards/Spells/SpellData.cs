@@ -1,6 +1,7 @@
 using DownBelow.Entity;
 using DownBelow.GridSystem;
 using DownBelow.Managers;
+using DownBelow.Mechanics;
 using DownBelow.Spells;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
@@ -107,6 +108,8 @@ namespace DownBelow.Spells
         [FoldoutGroup("Spell Targeting"), HorizontalGroup("Spell Targeting/TargetType", Order = 3)]
         public ETargetType TargetType;
 
+        public ScriptableSFX ProjectileSFX;
+        public ScriptableSFX CellSFX;
 
 #if UNITY_EDITOR
         private void _updateSpellShape() => this._updateMatrixShape(ref SpellShapeMatrix, ref ShapePosition);

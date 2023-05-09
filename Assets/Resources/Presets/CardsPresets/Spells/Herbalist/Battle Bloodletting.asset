@@ -15,7 +15,9 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: 873a1e0386a22734cba8a30c8f563005, type: 2}
+    - {fileID: 11400000, guid: 74a348f95b6488746b5d56d7a7c60f83, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -32,7 +34,7 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 7
-      Data: 1|DownBelow.Spells.Spell_BattleBloodletting, Assembly-CSharp
+      Data: 1|DownBelow.Spells.Spell_HalveHealthHeal, Assembly-CSharp
     - Name: ID
       Entry: 2
       Data: 00000000000000000000000000000000
@@ -53,7 +55,7 @@ MonoBehaviour:
       Data: 0
     - Name: Data
       Entry: 7
-      Data: 2|DownBelow.Spells.SpellData, Assembly-CSharp
+      Data: 2|DownBelow.Spells.SpellData_BonusSFX, Assembly-CSharp
     - Name: RequiresTargetting
       Entry: 5
       Data: true
@@ -450,6 +452,18 @@ MonoBehaviour:
     - Name: TargetType
       Entry: 3
       Data: 2
+    - Name: ProjectileSFX
+      Entry: 10
+      Data: 0
+    - Name: CellSFX
+      Entry: 6
+      Data: 
+    - Name: BonusSFX
+      Entry: 10
+      Data: 1
+    - Name: BonusCellSFX
+      Entry: 6
+      Data: 
     - Name: 
       Entry: 8
       Data: 

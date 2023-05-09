@@ -62,7 +62,7 @@ namespace DownBelow.Spells
             return this.ConditionData.Check(ParentSpell.Result);
         }
 
-        public override void ExecuteAction()
+        public override async void ExecuteAction()
         {
             this.RefEntity.ApplyStat(EntityStatistics.Mana, -this.Cost);
 
@@ -77,6 +77,22 @@ namespace DownBelow.Spells
 
                 this.Result = new SpellResult();
                 this.Result.Setup(this.TargetEntities, this);
+                if (Data.ProjectileSFX != null)
+                {
+                    await SFXManager.Instance.DOSFX(new RuntimeSFXData(Data.ProjectileSFX, RefEntity, TargetCell, this));
+                }
+                if (Data.CellSFX != null && TargetedCells != null && TargetedCells.Count != 0)
+                {
+                    for (int i = 0;i < TargetedCells.Count;i++)
+                    {
+                        var targetedCell = this.TargetedCells[i];
+                        if (i != TargetedCells.Count)
+                            //Not awaiting since we want to do it all. Suggestion could be to wait 0.05s to have some kind of wave effect.
+                            SFXManager.Instance.DOSFX(new(Data.CellSFX, RefEntity, targetedCell, this));
+                        else
+                            await SFXManager.Instance.DOSFX(new(Data.CellSFX, RefEntity, targetedCell, this));
+                    }
+                }
             }
         }
 
