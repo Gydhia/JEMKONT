@@ -33,20 +33,43 @@ namespace DownBelow.Managers
         public MenuPopup LastPopup;
         private List<MenuPopup> _popupBuffer = new List<MenuPopup>();
         private bool _isSelectingPopup = false;
+        private bool _hadPunConnection = false;
 
         public bool GoingToHost = false;
+
+        public Button HostButton;
+        public Button JoinButton;
+        public Button ConnectionButton;
 
         public TextMeshProUGUI ConnectedText;
         public Image ConnectedDot;
 
+        private void _switchConnectionAspect(Events.GameEventData Data) => this.SwitchConnectionAspect(this._hadPunConnection);
         public void SwitchConnectionAspect(bool connected)
         {
+            this._hadPunConnection = connected;
+            connected &= NetworkManager.Instance.HasInternet;
+            
             this.ConnectedDot.color = connected ? Color.green : Color.red;
             this.ConnectedText.text = connected ? "CONNECTED" : "DISCONNECTED";
+            
+            this.HostButton.interactable = connected;
+            this.JoinButton.interactable = connected;
+
+            this.ConnectionButton.interactable = !connected;
+        }
+
+        public void OnTryReconnectClick()
+        {
+            NetworkManager.Instance.TryReconnect();
+            SwitchConnectionAspect(this._hadPunConnection);
         }
 
         public void Init()
         {
+            NetworkManager.Instance.OnInternetLost += this._switchConnectionAspect;
+            NetworkManager.Instance.OnInternetReached += this._switchConnectionAspect;
+
             this._initFolders();
 
             this._menuPopups = new Dictionary<MenuPopup, BaseMenuPopup>();
