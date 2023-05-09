@@ -519,7 +519,13 @@ namespace DownBelow.Managers
                 this.UIRoom.OnJoinedRoom();
             }
             else
-                GameManager.Instance.WelcomePlayers();
+            {
+                // We go here only if starting from game scene
+                GameData.Game.RefGameDataContainer = GameManager.MakeBaseGame("DownBelowBase");
+
+                GridManager.Instance.CreateWholeWorld(GameData.Game.RefGameDataContainer);
+                GameManager.Instance.ProcessPlayerWelcoming();
+            }
         }
 
         public override void OnPlayerEnteredRoom(Player newPlayer)

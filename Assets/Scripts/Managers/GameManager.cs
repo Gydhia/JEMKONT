@@ -378,7 +378,7 @@ namespace DownBelow.Managers
         private GameData.GameData _getCurrentGameDataSideThread(GameData.GameData gameData)
         {
             // TODO : Make a global class to save EACH possible game's grid states
-            gameData.grids_data = null;
+            gameData.grids_data = GridManager.Instance.GetGridDatas();
             gameData.game_version = GameData.GameVersion.Current.ToString();
             gameData.save_name = this.SaveName;
 

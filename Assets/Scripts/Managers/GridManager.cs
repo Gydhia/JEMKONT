@@ -693,16 +693,24 @@ namespace DownBelow.Managers
             }
         }
 
-        public void SaveGridAsJSON(WorldGrid grid)
+        public GridData[] GetGridDatas()
         {
-            if (grid.UName == "" && grid.UName == string.Empty)
-                return;
+            GridData[] grids = new GridData[this.WorldGrids.Count];
+            for (int i = 0; i < this.WorldGrids.Count; i++)
+            {
+                grids[i] = this.GetGridData(this.WorldGrids.Values.ElementAt(i));
+            }
 
+            return grids;
+        }
+
+        public GridData GetGridData(WorldGrid grid)
+        {
             List<CellData> savedCells = new List<CellData>();
 
             // Get the non walkable cells only
-            for (int i = 0;i < grid.Cells.GetLength(0);i++)
-                for (int j = 0;j < grid.Cells.GetLength(1);j++)
+            for (int i = 0; i < grid.Cells.GetLength(0); i++)
+                for (int j = 0; j < grid.Cells.GetLength(1); j++)
                     if (grid.Cells[i, j].Datas.state != CellState.Walkable)
                         savedCells.Add(grid.Cells[i, j].Datas);
 
@@ -711,18 +719,15 @@ namespace DownBelow.Managers
             gridData.GridWidth = grid.GridWidth;
             gridData.CellDatas = savedCells;
 
-            string gridJson = JsonConvert.SerializeObject(gridData);
-            this._saveJSONFile(gridJson, grid.UName);
+            return gridData;
         }
 
-        public void SaveGridAsJSON(CellData[,] cellDatas, string name)
+        public string GetGridJson(CellData[,] cellDatas, string name)
         {
-            if (name == "" && name == string.Empty)
-                return;
-
             List<CellData> savedCells = new List<CellData>();
-            for (int i = 0;i < cellDatas.GetLength(0);i++)
-                for (int j = 0;j < cellDatas.GetLength(1);j++)
+
+            for (int i = 0; i < cellDatas.GetLength(0); i++)
+                for (int j = 0; j < cellDatas.GetLength(1); j++)
                     if (cellDatas[i, j].state != CellState.Walkable)
                         savedCells.Add(cellDatas[i, j]);
 
@@ -732,7 +737,24 @@ namespace DownBelow.Managers
             gridData.CellDatas = savedCells;
 
             string gridJson = JsonConvert.SerializeObject(gridData);
-            this._saveJSONFile(gridJson, name);
+
+            return gridJson;
+        }
+
+        public void SaveGridAsJSON(WorldGrid grid)
+        {
+            if (grid.UName == "" && grid.UName == string.Empty)
+                return;
+            
+            this._saveJSONFile(JsonConvert.SerializeObject(this.GetGridData(grid)), grid.UName);
+        }
+
+        public void SaveGridAsJSON(CellData[,] cellDatas, string name)
+        {
+            if (name == "" && name == string.Empty)
+                return;
+
+            this._saveJSONFile(this.GetGridJson(cellDatas, name), name);
         }
 
         public void SaveGridAsJSON(GridData grid, string uName)
