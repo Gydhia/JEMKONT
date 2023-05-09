@@ -13,13 +13,16 @@ using System.Runtime.CompilerServices;
 using DownBelow.Mechanics;
 using DownBelow.Events;
 using System;
+using DownBelow.UI.Menu;
+using Newtonsoft.Json;
 
 namespace DownBelow.Managers
 {
-    public enum BuffAnswer
+    public enum DisconnectTarget
     {
-        EndTurn,
-        StartTurn
+        None = 0,
+        ToConnection = 1,
+        ToOfflineMode = 2,
     }
 
     [Serializable]
@@ -48,8 +51,13 @@ namespace DownBelow.Managers
 
     public class NetworkManager : MonoBehaviourPunCallbacks
     {
+        private string sharedSaveBuffer;
+        private int endWrapCount = 0;
 
-        public UIMenuLobby UILobby;
+        public MenuPopup_Lobby UILobby;
+        public MenuPopup_Room UIRoom;
+
+        protected DisconnectTarget DisconnectCallback = DisconnectTarget.None; 
 
         public static NetworkManager Instance;
 
@@ -80,23 +88,8 @@ namespace DownBelow.Managers
             UnityEngine.Object.DontDestroyOnLoad(this);
         }
 
-        private void Start()
-        {
-            this._connect();
-        }
-
         public void Init()
         {
-            this.SubToCombatEvents();
-        }
-
-        public void SubToCombatEvents()
-        {
-            // Only the master client should handle the turns processing
-            if (PhotonNetwork.IsMasterClient)
-            {
-                //CombatManager.Instance.OnTurnEnded += ;
-            }
         }
 
 
@@ -105,10 +98,59 @@ namespace DownBelow.Managers
             PhotonNetwork.NickName = newName;
         }
 
-        private void _connect()
+        public void SwitchConnectionState(bool connect)
+        {
+            PhotonNetwork.Disconnect();
+            if (connect && !PhotonNetwork.IsConnected)
+            {
+                this.DisconnectCallback = DisconnectTarget.ToConnection;
+            }
+            else if (!PhotonNetwork.OfflineMode)
+            {
+                this.DisconnectCallback = DisconnectTarget.ToOfflineMode;
+            }
+        }
+
+        private void Start()
+        {
+            this._connect();
+        }
+
+        public void _connect()
         {
             PhotonNetwork.ConnectUsingSettings();
             PhotonNetwork.AutomaticallySyncScene = true;
+        }
+
+        public override void OnDisconnected(DisconnectCause cause)
+        {
+            Debug.Log("Disconnected");
+            this.onSwitchedConnectionState();
+
+            if(MenuManager.Instance != null)
+            {
+                MenuManager.Instance.SwitchConnectionAspect(false);
+            }
+        }
+
+        protected void onSwitchedConnectionState()
+        {
+            PhotonNetwork.LeaveLobby();
+
+            switch (this.DisconnectCallback)
+            {
+                case DisconnectTarget.ToConnection:
+                    this._connect();
+                    break;
+                case DisconnectTarget.ToOfflineMode:
+                    PhotonNetwork.PhotonServerSettings.StartInOfflineMode = true;
+                    PhotonNetwork.ConnectUsingSettings();
+
+                    //PhotonNetwork.OfflineMode = true;
+                    break;
+            }
+
+            this.DisconnectCallback = DisconnectTarget.None;
         }
 
         #region UI_calls
@@ -116,9 +158,73 @@ namespace DownBelow.Managers
         {
             if (PhotonNetwork.IsMasterClient)
             {
-                PhotonNetwork.CurrentRoom.IsOpen = false;
-                PhotonNetwork.CurrentRoom.IsVisible = false;
-                PhotonNetwork.LoadLevel("Killian");
+                //PhotonNetwork.CurrentRoom.IsOpen = false;
+                //PhotonNetwork.CurrentRoom.IsVisible = false;
+               
+                PhotonNetwork.LoadLevel("0_FarmLand");
+            }
+        }
+
+        public void ShareSaveThroughRoom()
+        {
+            var saveFile = GameData.Game.RefGameDataContainer.SavegameFile;
+
+            var textReader = saveFile.OpenText();
+            long textLenght = textReader.BaseStream.Length;
+            int counter = 0;
+
+            while (counter < textLenght)
+            {
+                char[] buffer = new char[12288];
+                int toRead = 12288;
+
+                if(textLenght - counter < 12288)
+                {
+                    toRead = (int)(textLenght - counter);
+                }
+            
+                textReader.ReadBlock(buffer, 0, toRead);
+                counter += toRead;
+
+                this.photonView.RPC("OnReceivedSharedSavePart", RpcTarget.All, new string(buffer));
+            }
+
+            textReader.Close();
+
+            if(PhotonNetwork.CurrentRoom.PlayerCount == 1)
+            {
+                this.ClickOnStart();
+            }
+            else
+            {
+                this.photonView.RPC("WrapSaveParts", RpcTarget.All);
+            }
+        }
+
+        [PunRPC]
+        public void OnReceivedSharedSavePart(string savePart)
+        {
+            this.sharedSaveBuffer += savePart;
+        }
+
+        [PunRPC]
+        public void WrapSaveParts()
+        {
+            GameData.Game.RefGameDataContainer = GameData.GameDataContainer.LoadSharedJson(this.sharedSaveBuffer);
+
+            this.sharedSaveBuffer = string.Empty;
+
+            this.photonView.RPC("ReceiveEndWrap", RpcTarget.MasterClient);
+        }
+        [PunRPC]
+        public void ReceiveEndWrap()
+        {
+            this.endWrapCount++;
+
+            // All players excluding ourselves
+            if(this.endWrapCount >= PhotonNetwork.CurrentRoom.PlayerCount - 1)
+            {
+                this.ClickOnStart();
             }
         }
 
@@ -127,17 +233,21 @@ namespace DownBelow.Managers
             PhotonNetwork.LeaveRoom();
         }
 
-
         public void JoinRoom(string roomName)
         {
             PhotonNetwork.JoinRoom(roomName);
         }
 
-        public void CreateRoom()
+        public void CreateRoom(string roomName)
         {
-            if (!string.IsNullOrEmpty(this.UILobby.RoomInput.text))
+            if(PhotonNetwork.CurrentRoom != null)
             {
-                PhotonNetwork.CreateRoom(this.UILobby.RoomInput.text, new RoomOptions() { MaxPlayers = 4, BroadcastPropsChangeToAll = true, PublishUserId = true }, null);
+                Debug.LogError("Trying to create a room while already in a room : " + PhotonNetwork.CurrentRoom);
+                return;
+            }
+            if (!string.IsNullOrEmpty(roomName))
+            {
+                PhotonNetwork.CreateRoom(roomName, new RoomOptions() { MaxPlayers = 4, BroadcastPropsChangeToAll = true, PublishUserId = true }, null);
             }
         }
 
@@ -395,55 +505,72 @@ namespace DownBelow.Managers
             this.UILobby?.UpdateRoomList(roomList);
         }
 
+
         public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
         {
-            this.UILobby?.UpdatePlayersFromProperties(targetPlayer);
+            this.UIRoom?.UpdatePlayersFromProperties(targetPlayer);
         }
 
         public override void OnJoinedRoom()
         {
-            if (this.UILobby != null)
-                this.UILobby?.OnJoinedRoom();
+            if (this.UIRoom != null)
+            {
+                MenuManager.Instance.SelectPopup(MenuPopup.Room);
+                this.UIRoom.OnJoinedRoom();
+            }
             else
                 GameManager.Instance.WelcomePlayers();
         }
 
         public override void OnPlayerEnteredRoom(Player newPlayer)
         {
-            this.UILobby?.UpdatePlayersList();
-            this.UILobby?.UpdatePlayersState();
+            this.UIRoom?.UpdatePlayersList();
+            this.UIRoom?.UpdatePlayersState();
         }
 
         public override void OnLeftRoom()
         {
-            this.UILobby?.OnSelfLeftRoom();
+            this.UIRoom?.OnSelfLeftRoom();
         }
 
         public override void OnPlayerLeftRoom(Player otherPlayer)
         {
-            this.UILobby?.OnPlayerLeftRoom();
+            this.UIRoom?.OnPlayerLeftRoom();
         }
 
         public override void OnConnectedToMaster()
         {
-            Debug.Log("Connected to master serv");
             if (this.UILobby != null)
+            {
                 PhotonNetwork.JoinLobby();
+                MenuManager.Instance.SwitchConnectionAspect(true);
+            }
             else
+            {
                 GameManager.Instance.WelcomePlayerLately();
-        }
-
-        public override void OnDisconnected(DisconnectCause cause)
-        {
-            Debug.Log("Disconnected");
+            }
         }
 
         public override void OnJoinedLobby()
         {
             base.OnJoinedLobby();
-            Debug.Log("Joined Lobby !");
         }
 
+        public override void OnLeftLobby()
+        {
+            base.OnLeftLobby();
+        }
+
+        public void DebugConnection()
+        {
+            string connected = "Is Connected = " + PhotonNetwork.IsConnected + "\n";
+            string offline = "OfflineMode = " + PhotonNetwork.OfflineMode + "\n";
+            string inLobby = "Is In Lobby = " + PhotonNetwork.InLobby + "\n";
+            string currLobby = "Current Lobby = " + (PhotonNetwork.CurrentLobby == null ? "NONE" : PhotonNetwork.CurrentLobby.Name) + "\n";
+            string currRoom = "Current Room = " + (PhotonNetwork.CurrentRoom == null ? "NONE" : PhotonNetwork.CurrentRoom.Name);
+
+            Debug.LogError("Current Photon State : \n" + connected + offline + inLobby + currLobby + currRoom);
+        }
         #endregion
     }
 

@@ -1,12 +1,17 @@
 using DownBelow.Entity;
 using DownBelow.Events;
 using DownBelow.GridSystem;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Photon.Pun;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace DownBelow.Managers
 {
@@ -42,6 +47,8 @@ namespace DownBelow.Managers
         }
         #endregion
 
+        public string SaveName;
+
         [SerializeField]
         private PlayerBehavior _playerPrefab;
 
@@ -61,48 +68,52 @@ namespace DownBelow.Managers
         public static bool IsUsingCombatBuffer = false;
         public static bool IsUsingNormalBuffer = false;
 
-
         #endregion
 
         private void Start()
         {
-            UIManager.Instance.Init();
-            CardsManager.Instance.Init();
-            GridManager.Instance.Init();
-            NetworkManager.Instance.Init();
-
-            this.ProcessPlayerWelcoming();
-
-            // Maybe that the nested events aren't a great idea
-            CombatManager.Instance.OnCombatStarted += this._subscribeForCombatBuffer;
+            this.Init();
         }
 
-        private void _subscribeForCombatBuffer(GridEventData Data)
+        public void Init()
         {
-            CombatManager.Instance.OnCardEndUse += this.BuffSpell;
+            if (NetworkManager.Instance != null)
+                NetworkManager.Instance.Init();
 
-            CombatManager.Instance.OnCombatStarted -= this._subscribeForCombatBuffer;
-            CombatManager.Instance.OnCombatEnded += this._unsubscribeForCombatBuffer;
-        }
+            if(MenuManager.Instance != null)
+                MenuManager.Instance.Init();
 
-        private void _unsubscribeForCombatBuffer(GridEventData Data)
-        {
-            CombatManager.Instance.OnCardEndUse -= this.BuffSpell;
+            if (UIManager.Instance != null)
+                UIManager.Instance.Init();
 
-            CombatManager.Instance.OnCombatStarted += this._subscribeForCombatBuffer;
-            CombatManager.Instance.OnCombatEnded -= _unsubscribeForCombatBuffer;
+            if (CardsManager.Instance != null)
+                CardsManager.Instance.Init();
+
+            if (GridManager.Instance != null)
+                GridManager.Instance.Init();
+
+
+            if(GameData.Game.RefGameDataContainer != null)
+            {
+                GridManager.Instance.CreateWholeWorld(GameData.Game.RefGameDataContainer);
+                this.ProcessPlayerWelcoming();
+            }
         }
 
         public void ProcessPlayerWelcoming()
         {
+            CombatManager.Instance.OnCombatStarted += this._subscribeForCombatBuffer;
+
             if (PhotonNetwork.CurrentRoom == null)
             {
                 PhotonNetwork.ConnectUsingSettings();
                 PhotonNetwork.AutomaticallySyncScene = true;
-            } else if (!PhotonNetwork.IsConnected)
+            } 
+            else if (!PhotonNetwork.IsConnected)
             {
                 PhotonNetwork.OfflineMode = true;
-            } else
+            } 
+            else
             {
                 WelcomePlayers();
             }
@@ -144,6 +155,22 @@ namespace DownBelow.Managers
                 GameStarted = true;
                 this.FirePlayersWelcomed();
             }
+        }
+
+        private void _subscribeForCombatBuffer(GridEventData Data)
+        {
+            CombatManager.Instance.OnCardEndUse += this.BuffSpell;
+
+            CombatManager.Instance.OnCombatStarted -= this._subscribeForCombatBuffer;
+            CombatManager.Instance.OnCombatEnded += this._unsubscribeForCombatBuffer;
+        }
+
+        private void _unsubscribeForCombatBuffer(GridEventData Data)
+        {
+            CombatManager.Instance.OnCardEndUse -= this.BuffSpell;
+
+            CombatManager.Instance.OnCombatStarted += this._subscribeForCombatBuffer;
+            CombatManager.Instance.OnCombatEnded -= _unsubscribeForCombatBuffer;
         }
 
         #region DEBUG
@@ -292,14 +319,111 @@ namespace DownBelow.Managers
                 return NormalActionsBuffer[entity].SingleOrDefault(a => a.ID == ID);
             }
         }
-        public void BuffEnterGrid(string grid, CharacterEntity refEntity)
-        {
 
+        #endregion
+
+        #region SAVE
+
+        public void Save(string fileName)
+        {
+            FileInfo fileinfo = _getFileToSave(fileName);
+
+            this._saveGameData(fileinfo);
         }
 
-        public void InsertToBuffer(EntityAction action)
+        private FileInfo _getFileToSave(string fileName)
         {
-            CombatActionsBuffer.Insert(0, action);
+            var folder = new System.IO.DirectoryInfo(Application.persistentDataPath + "/save");
+            if (!folder.Exists)
+                folder.Create();
+
+            // Make sure that every character is understandable by the system, or replace them
+            string savename = fileName;
+            foreach (char c in System.IO.Path.GetInvalidFileNameChars())
+            {
+                savename = savename.Replace(c, '_');
+            }
+
+            FileInfo fileinfo = new System.IO.FileInfo(Application.persistentDataPath + "/save/" + savename + ".dbw");
+            if (!fileinfo.Exists)
+                fileinfo.Create();
+
+            return fileinfo;
+        }
+
+        private void _saveGameData(System.IO.FileInfo file)
+        {
+            try
+            {
+                GameData.GameData data = new GameData.GameData();
+
+                TaskScheduler mainThread = TaskScheduler.FromCurrentSynchronizationContext();
+                Task.Run(() => this._getCurrentGameDataSideThread(data))
+                    .ContinueWith((previousTask) =>
+                    {
+                        if (previousTask.Exception != null)
+                        {
+                            Debug.LogError(previousTask.Exception, this);
+                        }
+                        previousTask.Result.Save(file);
+                    }, mainThread);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError(ex, this);
+                throw ex;
+            }
+        }
+
+        private GameData.GameData _getCurrentGameDataSideThread(GameData.GameData gameData)
+        {
+            // TODO : Make a global class to save EACH possible game's grid states
+            gameData.grids_data = null;
+            gameData.game_version = GameData.GameVersion.Current.ToString();
+            gameData.save_name = this.SaveName;
+
+            return gameData;
+        }
+
+        public static GameData.GameDataContainer MakeBaseGame(string saveName)
+        {
+            var gamedata = new GameData.GameData()
+            {
+                game_version = GameData.GameVersion.Current.ToString(),
+                save_name = saveName,
+                save_time = DateTime.Now,
+                grids_data = Instance.CreateBaseGridsDatas()
+            };
+
+            return gamedata.Save(Instance._getFileToSave(saveName));
+        }
+
+        public string CreateBaseGridsJSON()
+        {
+            TextAsset[] jsons = Resources.LoadAll<TextAsset>("Saves/Grids/");
+            JArray gridsArray = new JArray();
+
+            foreach (TextAsset json in jsons)
+            {
+                JObject grid = JsonConvert.DeserializeObject<JObject>(json.text);
+                gridsArray.Add(grid);
+            }
+
+            return gridsArray.ToString();
+        }
+        public GridData[] CreateBaseGridsDatas()
+        {
+            TextAsset[] jsons = Resources.LoadAll<TextAsset>("Saves/Grids/");
+
+            GridData[] grids = new GridData[jsons.Length];
+
+            for( int i = 0; i < jsons.Length; i++)
+            {
+                GridData loadedData = JsonConvert.DeserializeObject<GridData>(jsons[i].text);
+                grids[i] = loadedData;
+            }
+
+            return grids;
         }
 
         #endregion

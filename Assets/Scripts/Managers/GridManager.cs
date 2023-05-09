@@ -18,6 +18,8 @@ namespace DownBelow.Managers
 {
     public class GridManager : _baseManager<GridManager>
     {
+        public static readonly string SavesPath = "/Resources/Saves/Grids/";
+
         #region Assets_reference
         public Cell CellPrefab;
 
@@ -30,17 +32,17 @@ namespace DownBelow.Managers
         [SerializeField]
         public Transform _gridsDataHandler;
 
-        #endregion
+#endregion
 
         public bool InCombat = false;
 
-        #region Datas
+#region Datas
         public Dictionary<string, GridData> SavedGrids;
 
         public Dictionary<Guid, BaseSpawnablePreset> SpawnablesPresets;
         public Dictionary<Guid, ItemPreset> ItemsPresets;
 
-        #endregion
+#endregion
 
         private List<Cell> _possiblePath = new List<Cell>();
 
@@ -78,27 +80,33 @@ namespace DownBelow.Managers
         {
             base.Awake();
 
-            this.WorldGrids = new Dictionary<string, WorldGrid>();
-            // Load the Grids and Entities SO
-            this.LoadGridsFromJSON();
             this.LoadEveryEntities();
 
-            Destroy(this._gridsDataHandler.gameObject);
-            bool bitmapSet = false;
-            foreach (var savedGrid in this.SavedGrids)
+            // Events
+            if(InputManager.Instance != null)
             {
-                // Only load the saves that are indicated so
-                if (savedGrid.Value.ToLoad)
-                {
-                    this.GenerateGrid(savedGrid.Value, savedGrid.Key);
-                    if (!bitmapSet)
-                    {
-                        this.GenerateShaderBitmap(savedGrid.Value);
-                        bitmapSet = true;
-                    }
-                }
+                InputManager.Instance.OnCellClickedUp += this.ProcessCellClickUp;
+                InputManager.Instance.OnCellClickedDown += this.ProcessCellClickDown;
+                InputManager.Instance.OnNewCellHovered += this.ProcessNewCellHovered;
+            }
+            
+            GameManager.Instance.OnEnteredGrid += this.OnEnteredNewGrid;
+        }
+
+        private void OnDestroy()
+        {
+            if (InputManager.Instance != null)
+            {
+                InputManager.Instance.OnCellClickedUp -= this.ProcessCellClickUp;
+                InputManager.Instance.OnCellClickedDown -= this.ProcessCellClickDown;
+                InputManager.Instance.OnNewCellHovered -= this.ProcessNewCellHovered;
             }
 
+            GameManager.Instance.OnEnteredGrid -= this.OnEnteredNewGrid;
+        }
+
+        public void CreateWholeWorld(GameData.GameDataContainer refGameDataContainer)
+        {
             // Pre-instantiate the spell's arrow indicator
             this._spellArrow = Instantiate(
                 SettingsManager.Instance.GridsPreset.SpellArrowPrefab,
@@ -107,15 +115,19 @@ namespace DownBelow.Managers
             this._spellArrow.Init();
             this._spellArrow.gameObject.SetActive(false);
 
-            // Events
-            InputManager.Instance.OnCellClickedUp += this.ProcessCellClickUp;
-            InputManager.Instance.OnCellClickedDown += this.ProcessCellClickDown;
-            InputManager.Instance.OnNewCellHovered += this.ProcessNewCellHovered;
+            this.WorldGrids = new Dictionary<string, WorldGrid>();
+            // Load the Grids and Entities SO
+            
+            Destroy(this._gridsDataHandler.gameObject);
 
-            GameManager.Instance.OnEnteredGrid += this.OnEnteredNewGrid;
+            // TODO : Plug it in a scriptable instead of hardcoding it like that
+            var startingGrid = refGameDataContainer.Data.grids_data.SingleOrDefault(g => g.GridName == "FarmLand");
+
+            this.CreateGrid(startingGrid, startingGrid.GridName);
+            this.GenerateShaderBitmap(startingGrid);
         }
 
-        public void GenerateGrid(GridData gridData, string gridId)
+        public void CreateGrid(GridData gridData, string gridId)
         {
             WorldGrid newGrid = Instantiate(
                 this.CombatGridPrefab,
@@ -400,7 +412,7 @@ namespace DownBelow.Managers
             }
         }
 
-        #region PATH_FINDING
+#region PATH_FINDING
         public CellData CellDataAtPosition(GridPosition target)
         {
             Cell targetCell = this._currentCombatGrid.Cells[target.longitude, target.latitude];
@@ -663,16 +675,14 @@ namespace DownBelow.Managers
                 return 14 * dstY + 10 * (dstX - dstY);
             return 14 * dstX + 10 * (dstY - dstX);
         }
-        #endregion
+#endregion
 
-        #region DATAS_MANIPULATION
+#region DATAS_MANIPULATION
         public void LoadGridsFromJSON()
         {
             this.SavedGrids = new Dictionary<string, GridData>();
 
-            TextAsset[] jsons = Resources.LoadAll<TextAsset>(
-                "Saves/Grids/" + UnityEngine.SceneManagement.SceneManager.GetActiveScene().name
-            );
+            TextAsset[] jsons = Resources.LoadAll<TextAsset>("Saves/Grids/");
             foreach (TextAsset json in jsons)
             {
                 // not used but it may help the GridData deserialization to works well, so keep it
@@ -740,16 +750,11 @@ namespace DownBelow.Managers
 
         private void _saveJSONFile(string json, string pathName)
         {
-            string currScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
-            string path =
-                Application.dataPath
-                + "/Resources/Saves/Grids/"
-                + currScene
-                + "/"
-                + pathName
-                + ".json";
+            string path = Application.dataPath + SavesPath + pathName + ".json";
+
             if (File.Exists(path))
                 File.Delete(path);
+
             File.WriteAllText(path, json);
 #if UNITY_EDITOR
             UnityEditor.AssetDatabase.SaveAssets();
@@ -757,7 +762,7 @@ namespace DownBelow.Managers
 #endif
 
             this.LoadGridsFromJSON();
-        }
+        }        
 
         public void LoadEveryEntities()
         {
@@ -772,9 +777,9 @@ namespace DownBelow.Managers
             foreach (var item in itemsPresets)
                 this.ItemsPresets.Add(item.UID, item);
         }
-        #endregion
+#endregion
 
-        #region SHADERS_BITMAP
+#region SHADERS_BITMAP
 
         public void GenerateShaderBitmap(
             GridData world,
@@ -1034,7 +1039,7 @@ namespace DownBelow.Managers
             this.BitmapTexture.Apply();
         }
 
-        #endregion
+#endregion
     }
 
     [Serializable]
