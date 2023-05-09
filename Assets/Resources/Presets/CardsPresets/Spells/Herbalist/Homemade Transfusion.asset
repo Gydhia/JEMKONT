@@ -493,7 +493,8 @@ MonoBehaviour:
   Title: Homemade Transfusion
   Cost: 2
   CardType: 2
-  Description: Teleport to an opponent and attack him
+  Description: Choose an opponent, he is healed by X. If he is still hurt, he is
+    dealt X*2 damage.
   IllustrationImage: {fileID: 21300000, guid: 44b62bdd66dc688408c07e86a957f139, type: 3}
   Class: 1
   CurrentSpellTargetting: 0

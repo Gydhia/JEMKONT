@@ -36,6 +36,7 @@ namespace DownBelow.Spells
             this.Cost = Cost;
         }
 
+        [HideInInspector]
         public int Cost;
         public SpellData Data;
 
