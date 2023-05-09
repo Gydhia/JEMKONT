@@ -13,9 +13,11 @@ using UnityEngine;
 namespace DownBelow.Spells
 {
     [System.Flags]
-    public enum TargetType
+    public enum ETargetType
     {
         Self = 0,
+
+        AllAllies = 1 << 8,
 
         Enemy = 1 << 0,
         Ally = 1 << 1,
@@ -32,18 +34,19 @@ namespace DownBelow.Spells
 
     public static class TargetTypeHelper
     {
-        public static bool ValidateTarget(this TargetType value, Cell cell)
+        public static bool ValidateTarget(this ETargetType value, Cell cell)
         {
             return value switch
             {
-                TargetType.Self => cell.EntityIn == GameManager.Instance.SelfPlayer,
-                TargetType.Enemy => cell.EntityIn != null && cell.EntityIn is EnemyEntity,
-                TargetType.Ally => cell.EntityIn != null && cell.EntityIn is PlayerBehavior,
-                TargetType.Empty => cell.Datas.state == CellState.Walkable,
-                TargetType.CharacterEntities => cell.Datas.state == CellState.EntityIn && cell.EntityIn is CharacterEntity,
-                TargetType.Entities => cell.Datas.state == CellState.EntityIn,
-                TargetType.NCEs => cell.hasNCE,
-                TargetType.All => cell.Datas.state != CellState.Blocked,
+                ETargetType.Self => cell.EntityIn == GameManager.Instance.SelfPlayer,
+                ETargetType.AllAllies => cell.EntityIn != null && cell.EntityIn is PlayerBehavior,
+                ETargetType.Enemy => cell.EntityIn != null && cell.EntityIn is EnemyEntity,
+                ETargetType.Ally => cell.EntityIn != null && cell.EntityIn is PlayerBehavior,
+                ETargetType.Empty => cell.Datas.state == CellState.Walkable,
+                ETargetType.CharacterEntities => cell.Datas.state == CellState.EntityIn && cell.EntityIn is CharacterEntity,
+                ETargetType.Entities => cell.Datas.state == CellState.EntityIn,
+                ETargetType.NCEs => cell.hasNCE,
+                ETargetType.All => cell.Datas.state != CellState.Blocked,
                 _ => true,
             };
         }
@@ -57,7 +60,7 @@ namespace DownBelow.Spells
 
         public void Refresh()
         {
-            if (this.TargetType == TargetType.Self)
+            if (this.TargetType == ETargetType.Self)
                 this.CastingMatrix = new bool[1, 1] { { true } };
 
             this.RotatedShapeMatrix = this.SpellShapeMatrix;
@@ -92,7 +95,7 @@ namespace DownBelow.Spells
         [TableMatrix(DrawElementMethod = "_processDrawSpellCasting", SquareCells = true, ResizableColumns = false, HorizontalTitle = nameof(CastingMatrix)), OdinSerialize]
         [FoldoutGroup("Spell Targeting"), HorizontalGroup("Spell Targeting/Grids", Width = 0.5f, Order = 1, MaxWidth = 200)]
         [OnValueChanged("_updateCastingShape")]
-        [HideIf("TargetType", TargetType.Self)]
+        [HideIf("@TargetType == ETargetType.Self || TargetType == ETargetType.AllAllies")]
         public bool[,] CastingMatrix;
         [SerializeField]
         public Vector2 CasterPosition = new Vector2(2, 2);
@@ -102,7 +105,7 @@ namespace DownBelow.Spells
         public bool RotateShapeWithCast = false;
 
         [FoldoutGroup("Spell Targeting"), HorizontalGroup("Spell Targeting/TargetType", Order = 3)]
-        public TargetType TargetType;
+        public ETargetType TargetType;
 
 
 #if UNITY_EDITOR

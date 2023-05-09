@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace DownBelow.Spells
 {
-    public class Spell_BattleBloodletting : Spell<SpellData>
+    public class Spell_HalveHealthHeal : Spell<SpellData>
     {
-        public Spell_BattleBloodletting(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, SpellCondition ConditionData, int Cost) : base(CopyData, RefEntity, TargetCell, ParentSpell, ConditionData, Cost)
+        public Spell_HalveHealthHeal(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, SpellCondition ConditionData, int Cost) : base(CopyData, RefEntity, TargetCell, ParentSpell, ConditionData, Cost)
         {
         }
 

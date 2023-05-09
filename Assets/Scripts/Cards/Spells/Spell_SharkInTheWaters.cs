@@ -16,7 +16,7 @@ namespace DownBelow.Spells
         public override void ExecuteAction()
         {
             base.ExecuteAction();
-            var hurtEnemies = CombatManager.Instance.PlayingEntities.Where(x => !x.IsAlly && x.Health < x.MaxHealth ).ToList();
+            var hurtEnemies = CombatManager.Instance.PlayingEntities.Where(x => !x.IsAlly && x.Health < x.MaxHealth).ToList();
             foreach (var item in hurtEnemies)
             {
                 item.ApplyStat(EntityStatistics.Health, item.MaxHealth - item.Health);
