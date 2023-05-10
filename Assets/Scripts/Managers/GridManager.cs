@@ -118,7 +118,10 @@ namespace DownBelow.Managers
             this.WorldGrids = new Dictionary<string, WorldGrid>();
             // Load the Grids and Entities SO
             
-            Destroy(this._gridsDataHandler.gameObject);
+            if(this._gridsDataHandler != null)
+            {
+                Destroy(this._gridsDataHandler.gameObject);
+            }
 
             // TODO : Plug it in a scriptable instead of hardcoding it like that
             foreach (var grid in refGameDataContainer.Data.grids_data)
