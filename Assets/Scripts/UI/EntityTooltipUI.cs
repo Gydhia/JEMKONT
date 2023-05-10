@@ -67,7 +67,7 @@ namespace DownBelow.UI
             _currentEntity.OnRangeAdded -= SetRange;
             _currentEntity.OnRangeRemoved -= SetRange;
         }
-        private void SetAlterations(SpellEventData Data)
+        private void SetAlterations(SpellEventDataAlteration Data)
         {
 
         }

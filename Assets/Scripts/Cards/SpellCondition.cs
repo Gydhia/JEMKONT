@@ -16,7 +16,7 @@ namespace DownBelow.Spells
         public List<CharacterEntity> TargetedEntities = new List<CharacterEntity>();
 
         [BoxGroup("Targeting")]
-        public TargetType TargetType;
+        public ETargetType TargetType;
         //[BoxGroup("Targeting")]
         //public bool OnlyAffectedTarget;
 
@@ -41,9 +41,17 @@ namespace DownBelow.Spells
         [BoxGroup("Alterations")]
         public bool IsAltered;
         [BoxGroup("Alterations")]
-        [Tooltip("If set to None, it will not be counted.")]
         [EnableIf("@this.IsAltered")]
-        public EAlterationType Buff;
+        public Alteration Buff;
+
+        [BoxGroup("Teleported")]
+        public bool TeleportedToEntity;
+        [BoxGroup("Teleported")]
+        [EnableIf("@this.TeleportedToEntity")]
+        public bool TeleportedToAlly;
+        [BoxGroup("Teleported")]
+        [EnableIf("@this.TeleportedToEntity")]
+        public bool TeleportedToEnemy;
 
         public bool Check(SpellResult result)
         {
@@ -61,6 +69,9 @@ namespace DownBelow.Spells
 
             if (this.IsAltered)
                 validated = this.CheckBuffs();
+
+            if (this.TeleportedToEntity)
+                validated = this.CheckTeleported();
 
             this._currentResult = null;
             return validated;
@@ -103,6 +114,31 @@ namespace DownBelow.Spells
 
         public bool CheckBuffs()
         {
+            //envicané? 
+            // Just need this, with Target being a CharacterEntity
+            //Target.Alterations.Any(x => x.GetType() == Buff.GetType());
+            return false;
+        }
+
+        public bool CheckTeleported()
+        {
+            if (this._currentResult.TeleportedTo.Count > 0)
+            {
+                if (TeleportedToEnemy)
+                {
+                    if(this._currentResult.TeleportedTo.Any(x => x is EnemyEntity))
+                    {
+                        return true;
+                    }
+                }
+                if (TeleportedToAlly)
+                {
+                    if (this._currentResult.TeleportedTo.Any(x => x is PlayerBehavior))
+                    {
+                        return true;
+                    }
+                }
+            }
             return false;
         }
 
@@ -110,22 +146,22 @@ namespace DownBelow.Spells
         {
             switch (this.TargetType)
             {
-                case TargetType.Self:
+                case ETargetType.Self:
 
                     return new List<CharacterEntity> { this._currentResult.SpellRef.RefEntity };
 
-                case TargetType.Enemy:
+                case ETargetType.Enemy:
 
                     return this.TargetedEntities.Where(e => !e.IsAlly).ToList();
 
-                case TargetType.Ally:
+                case ETargetType.Ally:
 
                     return this.TargetedEntities.Where(e => e.IsAlly).ToList();
 
-                case TargetType.Entities:
-                case TargetType.All:
+                case ETargetType.Entities:
+                case ETargetType.All:
                     return this.TargetedEntities;
-                case TargetType.Empty:
+                case ETargetType.Empty:
                 default:
                     return null; // Maybe that this shouldn't be selectable 
             }

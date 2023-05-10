@@ -1,10 +1,19 @@
+using DG.Tweening;
+using DownBelow.Entity;
+using DownBelow.Events;
+using DownBelow.GridSystem;
+using DownBelow.Spells;
+using EODE.Wonderland;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
-namespace DownBelow.Mechanics {
-    public enum ESFXTravelType {
+namespace DownBelow.Mechanics
+{
+    public enum ESFXTravelType
+    {
         Instantaneous,
         ProjectileToEnemy,
         //We can imagine others:
@@ -13,12 +22,56 @@ namespace DownBelow.Mechanics {
 
     }
     [CreateAssetMenu(menuName = "SpellSFX")]
-    public class ScriptableSFX : ScriptableObject {
+    public class ScriptableSFX : ScriptableObject
+    {
         public GameObject Prefab;
         [Tooltip("This also defines when the spells are going to be applied.")]
         public ESFXTravelType TravelType;
         //Sounds too, one day,maybe...
         [EnableIf("@TravelType != ESFXTravelType.Instantaneous")]
-        public float TravelTime = 0.35f;
+        public float TravelDuration = 0.35f;
+
+
     }
+    #region runtimeData
+    public class RuntimeSFXData
+    {
+        public GameObject Prefab;
+        public ESFXTravelType TravelType;
+        public float TravelDuration = 0.35f;
+        public CharacterEntity caster;
+        public Cell target;
+        public Spell spell;
+
+        public SFXEventData.Event OnSFXStarted;
+        public SFXEventData.Event OnSFXEnded;
+
+        public RuntimeSFXData(ScriptableSFX sfx, CharacterEntity caster, Cell target, Spell spell)
+        {
+            if (sfx == null) return;
+            Prefab = sfx.Prefab;
+            TravelType = sfx.TravelType;
+            TravelDuration = sfx.TravelDuration;
+            this.caster = caster;
+            this.target = target;
+            this.spell = spell;
+        }
+    }
+
+    public class SFXEventData : EventData<SFXEventData>
+    {
+        public RuntimeSFXData SfxData;
+        public CharacterEntity caster;
+        public Cell target;
+        public Spell spell;
+
+        public SFXEventData(RuntimeSFXData SfxData)
+        {
+            this.SfxData = SfxData;
+            this.caster = SfxData.caster;
+            this.target = SfxData.target;
+            this.spell = SfxData.spell;
+        }
+    }
+    #endregion
 }

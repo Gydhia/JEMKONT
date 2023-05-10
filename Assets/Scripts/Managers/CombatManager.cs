@@ -67,6 +67,9 @@ namespace DownBelow.Managers
         public List<CharacterEntity> PlayingEntities;
 
         public int TurnNumber;
+
+        public List<NonCharacterEntity> NCEs;
+
         #endregion
 
         private void Start()

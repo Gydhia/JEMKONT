@@ -45,7 +45,7 @@ namespace DownBelow.Mechanics
 
         public bool IsTrackable() => true; //this.Spells.Length > 0 && this.Spells[0].ApplyToCell;
 
-
+        [HideInInspector]
         public int CurrentSpellTargetting = 0;
 
         public int GetNextTargettingSpellIndex()

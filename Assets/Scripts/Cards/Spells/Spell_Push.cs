@@ -1,4 +1,5 @@
 using DownBelow.Entity;
+using DownBelow.Events;
 using DownBelow.GridSystem;
 using Sirenix.OdinInspector;
 using System.Collections;
@@ -31,6 +32,12 @@ namespace DownBelow.Spells
         [FoldoutGroup("PUSH Spell Datas")]
         [Range(0.1f, 2f)]
         public float PushDamagesMultiplier = 0.5f;
+
+        public SpellData_Push(PushType pushType, int pushAmount)
+        {
+            PushType = pushType;
+            PushAmount = pushAmount;
+        }
     }
     public class Spell_Push : Spell<SpellData_Push>
     {
@@ -128,6 +135,8 @@ namespace DownBelow.Spells
                         yield return new WaitForSeconds(LocalData.PushDelay);
                     }
                 }
+                entity.FireEntityPushed(new SpellEventData(RefEntity, LocalData.PushAmount));
+
             }
 
             this.EndAction();

@@ -28,6 +28,6 @@ MonoBehaviour:
   Class: 0
   Deck:
     Cards:
-    - {fileID: 11400000, guid: 7f2750a367c2d0341b602bf959d7d5d9, type: 2}
-    - {fileID: 11400000, guid: c8ec0ab5a83846d438943c97c32b320c, type: 2}
-    - {fileID: 11400000, guid: baadb8cae24b45f4b85d190e14243916, type: 2}
+    - {fileID: 11400000, guid: b9c808d06f0e1644cbce38bc11f4294f, type: 2}
+    - {fileID: 11400000, guid: e9e4e42de3811764780aef58763fab3c, type: 2}
+    - {fileID: 11400000, guid: f9645429b6d2be74aaec8371d57bc5b0, type: 2}

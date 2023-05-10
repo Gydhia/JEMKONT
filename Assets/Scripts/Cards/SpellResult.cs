@@ -81,8 +81,10 @@ namespace DownBelow.Spells
 
         public Dictionary<CharacterEntity, StatModification> StatModified;
         public Dictionary<EntityStatistics, int> SelfStatModified;
-        public Dictionary<CharacterEntity,EAlterationType> AlterationGiven;
-       
+        public Dictionary<CharacterEntity,Alteration> AlterationGiven;
+
+        public List<CharacterEntity> TeleportedTo;
+
         public void Subscribe(List<CharacterEntity> targets, CharacterEntity caster)
         {
             this.DamagesDealt = new Dictionary<CharacterEntity, int>();
@@ -90,7 +92,9 @@ namespace DownBelow.Spells
 
             this.StatModified = new Dictionary<CharacterEntity, StatModification>();
             this.SelfStatModified = new Dictionary<EntityStatistics, int>();
-            this.AlterationGiven = new Dictionary<CharacterEntity, EAlterationType>();
+            this.AlterationGiven = new Dictionary<CharacterEntity, Alteration>();
+
+            this.TeleportedTo = new();
 
             foreach (CharacterEntity entity in targets)
             {
@@ -151,7 +155,7 @@ namespace DownBelow.Spells
             this.HealingDone[data.Entity] += data.Value;
         }
 
-        private void _updateAlterations(SpellEventData data)
+        private void _updateAlterations(SpellEventDataAlteration data)
         {
            
         }

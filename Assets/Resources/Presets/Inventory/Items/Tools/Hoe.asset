@@ -29,7 +29,7 @@ MonoBehaviour:
   InventoryIcon: {fileID: 21300000, guid: 4d815a29236d69c4580fc965354124db, type: 3}
   ItemPrefab: {fileID: 0}
   MaxStack: 1
-  DroppedItemPrefab: {fileID: 0}
+  DroppedItemPrefab: {fileID: 919132149155446097, guid: 0e97b372ac7ed2349be0c38b20ef4151, type: 3}
   Deck:
     Cards: []
   Class: 2
