@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0e3c304bdea8524d8e15057335c82c8, type: 3}
+  m_Name: New SpellGraph
+  m_EditorClassIdentifier: 
+  nodes:
+  - {fileID: 8407500214029208231}
+--- !u!114 &8407500214029208231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce5ec68de275e7543bc98f0a6920dc00, type: 3}
+  m_Name: Spell
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -456, y: -312}
+  folded: 0
+  ports:
+    keys:
+    - GetTargetsHit
+    values:
+    - _fieldName: GetTargetsHit
+      _node: {fileID: 8407500214029208231}
+      _typeQualifiedName: System.Collections.Generic.List`1[[DownBelow.Entity.CharacterEntity,
+        Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]],
+        mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  GetTargetsHit: []
