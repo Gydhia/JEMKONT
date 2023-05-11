@@ -9,15 +9,12 @@ namespace DownBelow.Spells
 {
     public class SpellData_Summon : SpellData
     {
-        [FoldoutGroup("SUMMON Spell Datas"), Tooltip("For how long the NCE is going to be up. Negative value for infinity.")]
-        public int Duration;
         [FoldoutGroup("SUMMON Spell Datas"), Tooltip("(optional) Wall that's going to be placed on every cell\n(not rotated at all... Think about what prefab you put in there.)")]
-        public NonCharacterEntity NCEPrefab;
+        public NCEPreset NCEPreset;
 
-        public SpellData_Summon(int duration, NonCharacterEntity nCEPrefab)
+        public SpellData_Summon(NCEPreset NCEPreset)
         {
-            Duration = duration;
-            NCEPrefab = nCEPrefab;
+            this.NCEPreset = NCEPreset;
         }
     }
 
@@ -40,9 +37,7 @@ namespace DownBelow.Spells
 
         public static IEnumerator SummonNCE(Cell cell, SpellData_Summon summondata, CharacterEntity RefEntity)
         {
-            NonCharacterEntity NCEInstance = GameObject.Instantiate(summondata.NCEPrefab, cell.transform);
-            cell.ChangeCellState(CellState.EntityIn, true);
-            NCEInstance.Init(cell, summondata.Duration, RefEntity, summondata.NCEPrefab);
+            summondata.NCEPreset.InitNCE(cell, RefEntity);
             yield return null;
         }
 

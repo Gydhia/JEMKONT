@@ -16,7 +16,7 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 7231155101217919067, guid: 366899e43be99324b8c9c2849c5532bd, type: 3}
+    - {fileID: 11400000, guid: a109bad0ada50764d868a7b6849c328b, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -457,10 +457,7 @@ MonoBehaviour:
     - Name: CellSFX
       Entry: 6
       Data: 
-    - Name: Duration
-      Entry: 3
-      Data: -1
-    - Name: NCEPrefab
+    - Name: NCEPreset
       Entry: 10
       Data: 0
     - Name: 

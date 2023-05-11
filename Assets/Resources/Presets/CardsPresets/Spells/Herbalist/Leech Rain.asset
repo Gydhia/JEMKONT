@@ -282,6 +282,12 @@ MonoBehaviour:
     - Name: TargetType
       Entry: 3
       Data: 256
+    - Name: ProjectileSFX
+      Entry: 6
+      Data: 
+    - Name: CellSFX
+      Entry: 6
+      Data: 
     - Name: Alteration
       Entry: 7
       Data: 5|DownBelow.Spells.Alterations.LeechRain, Assembly-CSharp
@@ -335,6 +341,6 @@ MonoBehaviour:
   CardType: 3
   Description: For the next 3 turns, each time allies play a card, their damage is
     increased by 1.
-  IllustrationImage: {fileID: 21300000, guid: 44b62bdd66dc688408c07e86a957f139, type: 3}
+  IllustrationImage: {fileID: 21300000, guid: cdec36793b734fc489a7c088d6fd531b, type: 3}
   Class: 1
   CurrentSpellTargetting: 0

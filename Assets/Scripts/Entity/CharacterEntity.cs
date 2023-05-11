@@ -592,15 +592,33 @@ namespace DownBelow.Entity
 
         #endregion
 
-        public void Teleport(Cell cell)
+        public void Teleport(Cell TargetCell,SpellResult Result)
         {
-            transform.position = cell.gameObject.transform.position;
+            var cellToTP = TargetCell;
+
+            //Could be changed to a "while(cellToTP != walkable)"?
+            if (cellToTP.Datas.state != CellState.Walkable)
+            {
+                List<Cell> freeNeighbours = GridManager.Instance.GetNormalNeighbours(cellToTP, cellToTP.RefGrid)
+                    .FindAll(x => x.Datas.state == CellState.Walkable)
+                    .OrderByDescending(x => Math.Abs(x.PositionInGrid.latitude - this.EntityCell.PositionInGrid.latitude) + Math.Abs(x.PositionInGrid.longitude - this.EntityCell.PositionInGrid.longitude))
+                    .ToList();
+                //Someday will need a Foreach, but i just don't know what we need to check on the cells before tp'ing, so just tp on the farther one.
+                cellToTP = freeNeighbours[0];
+            }
+
+            if (cellToTP.EntityIn != null)
+            {
+                Result.TeleportedTo.Add(cellToTP.EntityIn);
+            }
+
+            transform.position = cellToTP.gameObject.transform.position;
 
             FireExitedCell();
 
-            EntityCell = cell;
+            EntityCell = cellToTP;
 
-            FireEnteredCell(cell);
+            FireEnteredCell(cellToTP);
         }
     }
 }

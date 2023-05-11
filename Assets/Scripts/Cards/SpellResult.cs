@@ -1,5 +1,6 @@
 using DownBelow.Entity;
 using DownBelow.Events;
+using DownBelow.GridSystem;
 using DownBelow.Spells.Alterations;
 using System;
 using System.Collections;
@@ -27,7 +28,7 @@ namespace DownBelow.Spells
         /// </summary>
         public event SpellEventData.Event OnStatModified;
 
-
+        public List<Cell> TargetedCells;
         private List<CharacterEntity> _targets;
         public Spell SpellRef;
 
