@@ -42,7 +42,7 @@ namespace DownBelow.GridSystem
             this.GenerateGrid(data);
             if(data.InnerGrids != null)
                 this.GenerateInnerGrids(data.InnerGrids, this.TopLeftOffset);
-            this.RedrawGrid();
+            //this.RedrawGrid();
 
             GameManager.Instance.OnEnteredGrid += _entityEnteredGrid;
             GameManager.Instance.OnExitingGrid += _entityExitingGrid;
@@ -230,19 +230,21 @@ namespace DownBelow.GridSystem
         #endregion
     }
 
-    [System.Serializable]
+    [System.Serializable, DataContract]
     public class GridData
     {
         public GridData() { }
-        public GridData(bool IsCombatGrid, int GridHeight, int GridWidth)
+        public GridData(string GridName, bool IsCombatGrid, int GridHeight, int GridWidth)
         {
+            this.GridName = GridName;
             this.IsCombatGrid = IsCombatGrid;
             this.GridHeight = GridHeight;
             this.GridWidth = GridWidth;
             this.CellDatas = new List<CellData>();
         }
-        public GridData(bool IsCombatGrid, int GridHeight, int GridWidth, List<CellData> CellDatas)
+        public GridData(string GridName, bool IsCombatGrid, int GridHeight, int GridWidth, List<CellData> CellDatas)
         {
+            this.GridName = GridName;
             this.IsCombatGrid = IsCombatGrid;
             this.GridHeight = GridHeight;
             this.GridWidth = GridWidth;
@@ -252,12 +254,12 @@ namespace DownBelow.GridSystem
         /// <summary>
         /// /!\ Constructor made for the InnerGrids (aka CombatGrids), don't use it for WorldGrids
         /// </summary>
-        public GridData(bool IsCombatGrid, int GridHeight, int GridWidth, int Longitude, int Latitude, List<CellData> CellDatas, Dictionary<GridPosition, Guid> EntitiesSpawns)
+        public GridData(string GridName, bool IsCombatGrid, int GridHeight, int GridWidth, int Longitude, int Latitude, List<CellData> CellDatas, Dictionary<GridPosition, Guid> EntitiesSpawns)
         {
+            this.GridName = GridName;
             this.IsCombatGrid = IsCombatGrid;
             this.GridHeight = GridHeight;
             this.GridWidth = GridWidth;
-            this.ToLoad = false;
             this.Longitude = Longitude;
             this.Latitude = Latitude;
             this.CellDatas = CellDatas;
@@ -267,27 +269,39 @@ namespace DownBelow.GridSystem
         /// <summary>
         /// /!\ Constructor made for the WorldGrids
         /// </summary>
-        public GridData(bool IsCombatGrid, int GridHeight, int GridWidth, Vector3 TopLeftOffset, bool ToLoad, List<CellData> CellDatas, List<GridData> InnerGridsData, Dictionary<GridPosition, Guid> Spawnables)
+        public GridData(string GridName, bool IsCombatGrid, int GridHeight, int GridWidth, Vector3 TopLeftOffset, List<CellData> CellDatas, List<GridData> InnerGridsData, Dictionary<GridPosition, Guid> Spawnables)
         {
+            this.GridName = GridName;
             this.IsCombatGrid = IsCombatGrid;
             this.GridHeight = GridHeight;
             this.GridWidth = GridWidth;
             this.TopLeftOffset = TopLeftOffset;
-            this.ToLoad = ToLoad;
             this.CellDatas = CellDatas;
             this.InnerGrids = InnerGridsData;
             this.SpawnablePresets = Spawnables;
         }
-        public bool ToLoad { get; set; }
+        [DataMember]
+        public string GridName { get; set; }
+
+        [DataMember]
         public bool IsCombatGrid { get; set; }
+        [DataMember]
         public int Longitude { get; set; }
+        [DataMember]
         public int Latitude { get; set; }
+        [DataMember]
         public int GridHeight { get; set; }
+        [DataMember]
         public int GridWidth { get; set; }
+        [DataMember]
         public Vector3 TopLeftOffset { get; set; }
 
+        [DataMember]
         public List<GridData> InnerGrids;
+        [DataMember]
         public List<CellData> CellDatas { get; set; }
+
+        [DataMember]
         [Newtonsoft.Json.JsonConverter(typeof(JSONGridConverter))]
         public Dictionary<GridPosition, Guid> SpawnablePresets { get; set; }
     }

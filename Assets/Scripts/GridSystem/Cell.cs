@@ -9,6 +9,7 @@ using Unity.Mathematics;
 using DownBelow.UI;
 using UnityEditor;
 using System;
+using System.ComponentModel;
 
 namespace DownBelow.GridSystem
 {
@@ -132,7 +133,7 @@ namespace DownBelow.GridSystem
         }
     }
 
-    [System.Serializable]
+    [Serializable, DataContract]
     public class CellData
     {
         public CellData(int yPos, int xPos, CellState state)
@@ -141,13 +142,13 @@ namespace DownBelow.GridSystem
             this.widthPos = xPos;
             this.state = state;
         }
-        [ShowInInspectorAttribute]
+        [ShowInInspectorAttribute, DataMember(Name = "hp")]
         public int heightPos { get; set; }
-        [ShowInInspectorAttribute]
+        [ShowInInspectorAttribute, DataMember(Name = "wp")]
         public int widthPos { get; set; }
-        [ShowInInspectorAttribute]
+        [ShowInInspectorAttribute, DataMember(Name = "s")]
         public CellState state { get; set; }
-        [ShowInInspectorAttribute]
+        [ShowInInspectorAttribute, DataMember(Name = "poc"), DefaultValue(null)]
         public PlaceableItem placeableOnCell { get; set; }
     }
 

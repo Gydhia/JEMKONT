@@ -1,0 +1,288 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="DownBelow.Managers.CombatManager">
+    <Position X="9.25" Y="8" Width="2.75" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AEQgAAAiADEgAAAgQBEQJAAIQFCIEAAAECCAQBACSjQ=</HashCode>
+      <FileName>Assets\Scripts\Managers\CombatManager.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="_currentSpells" />
+      <Field Name="PlayingEntities" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="DownBelow.Managers._baseManager&lt;ControllerType&gt;" Collapsed="true">
+    <Position X="9.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEABAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAACEA=</HashCode>
+      <FileName>Assets\Scripts\Managers\_baseManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DownBelow.Spells.Spell&lt;T&gt;" Collapsed="true">
+    <Position X="16.5" Y="19.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Cards\Spells\Spell.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DownBelow.Spells.Spell">
+    <Position X="16" Y="15" Width="2" />
+    <InheritanceLine Type="DownBelow.Entity.EntityAction" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="17" Y="14.324" />
+        <Point X="17" Y="15" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAMAAEBYgAAAAABAoAAAAAJAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Cards\Spells\Spell.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="Data" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="DownBelow.Spells.SpellData">
+    <Position X="12.5" Y="18" Width="2.5" />
+    <Members>
+      <Method Name="_drawCell" Hidden="true" />
+      <Method Name="_processDrawSpellCasting" Hidden="true" />
+      <Method Name="_processDrawSpellShape" Hidden="true" />
+      <Method Name="_updateCastingShape" Hidden="true" />
+      <Method Name="_updateMatrixShape" Hidden="true" />
+      <Method Name="_updateSpellShape" Hidden="true" />
+    </Members>
+    <AssociationLine Name="CellSFX" Type="DownBelow.Mechanics.ScriptableSFX" ManuallyRouted="true" FixedFromPoint="true">
+      <Path>
+        <Point X="15" Y="20.927" />
+        <Point X="19.75" Y="20.927" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAQAUAACBAIgAAAGAAIBAgiAAAoCAAgQAAgQQAMAA=</HashCode>
+      <FileName>Assets\Scripts\Cards\Spells\SpellData.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="CellSFX" />
+      <Field Name="ProjectileSFX" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Deck">
+    <Position X="7.25" Y="13" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQIEgAABAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Cards\Deck.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="Cards" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="DownBelow.Managers.InputManager" Collapsed="true">
+    <Position X="7.5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQEQQC4UCIAAACAAABAggFACAAAoAAABAAAABBAAHA=</HashCode>
+      <FileName>Assets\Scripts\Managers\InputManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DownBelow.Managers.SFXManager" Collapsed="true">
+    <Position X="5.5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAAAAAAAAAAAAAAABIACAAAAAAgAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Managers\SFXManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DownBelow.Entity.CharacterEntity">
+    <Position X="24.5" Y="9.5" Width="1.5" />
+    <NestedTypes>
+      <Delegate Name="DownBelow.Entity.CharacterEntity.StatModified" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Scripts\Entity\CharacterEntity.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAgCBMFIDGQ+Ug0sSAZOpiPiCJHEJdEABACZuQCGGU=</HashCode>
+      <FileName>Assets\Scripts\Entity\CharacterEntity.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_entityCell" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="DownBelow.Entity.EnemyEntity" Collapsed="true">
+    <Position X="19.25" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>GAEAAAAgAAAACAIAAAAAEAQCAAAgAAAAAADCgAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Entity\EnemyEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DownBelow.Entity.EntityAction">
+    <Position X="16.5" Y="12" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <AssociationLine Name="RefEntity" Type="DownBelow.Entity.CharacterEntity" ManuallyRouted="true" FixedFromPoint="true">
+      <Path>
+        <Point X="18" Y="12.75" />
+        <Point X="24.5" Y="12.75" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AABAACAAAAAGgAgAAAAAAAYgAAAIAAAgAQAAAhAAICA=</HashCode>
+      <FileName>Assets\Scripts\Entity\Actions\EntityAction.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="RefEntity" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="DownBelow.Entity.CombatMovementAction" Collapsed="true">
+    <Position X="18.25" Y="17.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAQAAAAAAIAA=</HashCode>
+      <FileName>Assets\Scripts\Entity\Actions\CombatMovementAction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DownBelow.Entity.EndTurnAction" Collapsed="true">
+    <Position X="21" Y="13" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIgAAAAAAAAAAAAABAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Entity\Actions\EndTurnAction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DownBelow.Entity.MovementAction" Collapsed="true">
+    <Position X="18.25" Y="16.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAAAAAAAAAAIgAAAAAAAgAAAAChAAIAA=</HashCode>
+      <FileName>Assets\Scripts\Entity\Actions\MovementAction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DownBelow.Entity.ProgressiveAction" Collapsed="true">
+    <Position X="18.25" Y="15" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Entity\Actions\ProgressiveAction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DownBelow.Entity.TargettingAction" Collapsed="true">
+    <Position X="21" Y="14" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAAAAAAAAIgAAAAAAAAARAAABAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Entity\Actions\TargettingAction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DownBelow.Entity.PlayerBehavior" Collapsed="true">
+    <Position X="21.75" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIARGJSAoAACEAgAVkQAAAiCAAAAkQAjjI0AIAAA=</HashCode>
+      <FileName>Assets\Scripts\Player\PlayerBehavior.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DownBelow.UI.DraggableCard">
+    <Position X="4.5" Y="13.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <AssociationLine Name="SelectedCard" Type="DownBelow.UI.DraggableCard">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.026" Y="0.355" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>DgAhABQEAADMIICAAQAAAgAIggAg4AAgAUASgYlFaIA=</HashCode>
+      <FileName>Assets\Scripts\Player\DraggableCard.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="CardReference" />
+      <Field Name="SelectedCard" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DownBelow.Managers.GameManager">
+    <Position X="13.75" Y="9.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>hACACKAFJCABQEQAAAEBAEAggQAkAAEgAEACAIBCoiE=</HashCode>
+      <FileName>Assets\Scripts\Managers\GameManager.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="Players" />
+      <Field Name="CombatActionsBuffer" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="DownBelow.Mechanics.ScriptableCard">
+    <Position X="9" Y="16" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAUAAAAMAABABAAgAAIgQAAAAAAAAEAA=</HashCode>
+      <FileName>Assets\Scripts\ScriptableObjects\Cards\ScriptableCard.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="Spells" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="DownBelow.Mechanics.ScriptableSFX">
+    <Position X="19.75" Y="20.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAIAAAAgAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\ScriptableObjects\Cards\ScriptableSFX.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DownBelow.Mechanics.RuntimeSFXData">
+    <Position X="30.5" Y="20.75" Width="1.5" />
+    <AssociationLine Name="caster" Type="DownBelow.Entity.CharacterEntity">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.08" Y="-0.21" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>BAIAAAAAAAAAIAAAIgAAAAIAAAAAAAAAAACAAgAAAAA=</HashCode>
+      <FileName>Assets\Scripts\ScriptableObjects\Cards\ScriptableSFX.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="caster" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="DownBelow.Mechanics.SFXEventData">
+    <Position X="33.25" Y="20.75" Width="1.5" />
+    <AssociationLine Name="caster" Type="DownBelow.Entity.CharacterEntity" ManuallyRouted="true">
+      <Path>
+        <Point X="34" Y="20.75" />
+        <Point X="34" Y="16.373" />
+        <Point X="26" Y="16.373" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.05" Y="0.053" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAIAAAAAAAAAAIAAAAAACAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\ScriptableObjects\Cards\ScriptableSFX.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="SfxData" />
+      <Field Name="caster" />
+      <Field Name="target" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="DownBelow.GridSystem.Cell">
+    <Position X="35.5" Y="21" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAkBMAAAAqABAAASAAAAAAAAEBIQQAAAKAEAggAE=</HashCode>
+      <FileName>Assets\Scripts\GridSystem\Cell.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="Datas" />
+      <Field Name="_entityIn" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="DownBelow.GridSystem.CellData">
+    <Position X="37.75" Y="21.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABAAAAAAAAACAAAAAEAAAAABAAAAA=</HashCode>
+      <FileName>Assets\Scripts\GridSystem\Cell.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

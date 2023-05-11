@@ -2,6 +2,7 @@ using DownBelow.Entity;
 using DownBelow.GridSystem;
 using DownBelow.Managers;
 using DownBelow.Mechanics;
+using Newtonsoft.Json;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using Sirenix.Utilities;
@@ -41,22 +42,21 @@ namespace DownBelow.Spells
         public SpellData Data;
 
         #region PLAYABLE
-        [HideInInspector]
+        [HideInInspector, JsonIgnore]
         public List<NonCharacterEntity> NCEHits;
-        [HideInInspector]
+        [HideInInspector, JsonIgnore]
         public List<Cell> TargetedCells;
-        [HideInInspector]
+        [HideInInspector, JsonIgnore]
         public List<CharacterEntity> TargetEntities;
-        [HideInInspector]
+        [HideInInspector, JsonIgnore]
         public Spell ParentSpell;
-        [HideInInspector]
+        [HideInInspector, JsonIgnore]
         public SpellResult Result;
 
         public SpellCondition ConditionData;
 
         public bool ValidateConditions()
         {
-
             if (ParentSpell == null || ConditionData == null)
                 return true;
 

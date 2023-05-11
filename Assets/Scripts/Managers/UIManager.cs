@@ -16,6 +16,7 @@ namespace DownBelow.Managers
     {
         public UIStaticCombat CombatSection;
         public UIStaticTurnSection TurnSection;
+        public UIStaticEscape EscapeSection;
         public UIPlayerInfos PlayerInfos;
         public UICardSection CardSection;
         public EntityTooltipUI EntityTooltipUI;
@@ -39,6 +40,7 @@ namespace DownBelow.Managers
             this.EntityTooltipUI.gameObject.SetActive(false);
 
             GameManager.Instance.OnPlayersWelcomed += _subscribe;
+            
         }
         public void SwitchSelectedSlot(int oldSlot, int newSlot)
         {
@@ -73,8 +75,15 @@ namespace DownBelow.Managers
             CombatManager.Instance.OnCardEndUse += this._endCardDrag;
 
             InputManager.Instance.OnCellRightClickDown += this.UpdateEntityToolTip;
+            PlayerInputs.player_escape.canceled += this._switchEscapeState;
+        }
 
+        private void _switchEscapeState(UnityEngine.InputSystem.InputAction.CallbackContext ctx) => this.SwitchEscapeState();
+        public void SwitchEscapeState()
+        {
+            bool isActive = EscapeSection.gameObject.activeSelf;
 
+            EscapeSection.gameObject.SetActive(!isActive);
         }
 
         /// <summary>
@@ -170,7 +179,6 @@ namespace DownBelow.Managers
         private void _beginCardDrag(CardEventData Data)
         {
             InputManager.Instance.ChangeCursorAppearance(CursorAppearance.Card);
-
         }
 
         private void _endCardDrag(CardEventData Data)

@@ -1,0 +1,77 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5896181533468655030
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5117551869604057125}
+  - component: {fileID: 3575076097724388968}
+  m_Layer: 0
+  m_Name: SettingsManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5117551869604057125
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5896181533468655030}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3575076097724388968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5896181533468655030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3735cfe0a1b601646879c04c89a72640, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GridsPreset: {fileID: 11400000, guid: 3eaa86dce42d6e94bb5c478ca2b46f64, type: 2}
+  InputPreset: {fileID: 11400000, guid: 86ac5624b923f774094430ad4ab04493, type: 2}
+  CombatPreset: {fileID: 11400000, guid: a26fd800d9da29548a4b431ecf6ed845, type: 2}
+  GameUIPreset: {fileID: 11400000, guid: b4f43fb59e111b349865a00b17dd32dc, type: 2}
+  FishermanStats: {fileID: 11400000, guid: 4d576a35a0dcc0e4cb45e35dc060d9d9, type: 2}
+  MinerStats: {fileID: 11400000, guid: 378e4726dcac3c94390835d65888d60c, type: 2}
+  FarmerStats: {fileID: 11400000, guid: acc2fcfe067f4a548a44a691816601e8, type: 2}
+  HerbalistStats: {fileID: 11400000, guid: 431193b9be546b642821e7c04419e789, type: 2}
+  PlayerDeck:
+    Cards:
+    - {fileID: 11400000, guid: 17cca61da856a0a4abc846a9ec5ce6a4, type: 2}
+    - {fileID: 11400000, guid: 931eb095137ef8148bc5a6f656a17390, type: 2}
+    - {fileID: 11400000, guid: 931eb095137ef8148bc5a6f656a17390, type: 2}
+    - {fileID: 11400000, guid: e6089736fe0b82948952e94e53c3ba6b, type: 2}
+    - {fileID: 11400000, guid: e6089736fe0b82948952e94e53c3ba6b, type: 2}
+    - {fileID: 11400000, guid: c8ec0ab5a83846d438943c97c32b320c, type: 2}
+    - {fileID: 11400000, guid: c8ec0ab5a83846d438943c97c32b320c, type: 2}
+    - {fileID: 11400000, guid: 33a72a420cd0f99489654a79543ebc3c, type: 2}
+    - {fileID: 11400000, guid: 33a72a420cd0f99489654a79543ebc3c, type: 2}
+    - {fileID: 11400000, guid: e1dc70314cde4324da42748300aedede, type: 2}
+    - {fileID: 11400000, guid: e1dc70314cde4324da42748300aedede, type: 2}
+    - {fileID: 11400000, guid: df3af346f5c9d3e42adc01d9ff4cfb39, type: 2}
+    - {fileID: 11400000, guid: df3af346f5c9d3e42adc01d9ff4cfb39, type: 2}
+    - {fileID: 11400000, guid: df3af346f5c9d3e42adc01d9ff4cfb39, type: 2}
+    - {fileID: 11400000, guid: 13877796ab985c344ac1ece8f2afe63b, type: 2}
+    - {fileID: 11400000, guid: 13877796ab985c344ac1ece8f2afe63b, type: 2}
+    - {fileID: 11400000, guid: 13877796ab985c344ac1ece8f2afe63b, type: 2}
+    - {fileID: 11400000, guid: a4bd6d4842e41b347a6c5e845162e976, type: 2}
+    - {fileID: 11400000, guid: a4bd6d4842e41b347a6c5e845162e976, type: 2}
+    - {fileID: 11400000, guid: a4bd6d4842e41b347a6c5e845162e976, type: 2}
+  PlayerClass: 3
