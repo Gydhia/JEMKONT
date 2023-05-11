@@ -14,12 +14,12 @@ namespace DownBelow.Entity
         public short quantity;
         public short preferedSlot;
 
-        public DropItemAction(CharacterEntity RefEntity, Cell TargetCell, string UID, short quantity, short preferedSlot = -1) : base(RefEntity, TargetCell)
+        public DropItemAction(CharacterEntity RefEntity, Cell TargetCell, string UID, string quantity, string preferedSlot = "-1") : base(RefEntity, TargetCell)
         {
             var GUID = Guid.Parse(UID);
             this.Item = GridManager.Instance.ItemsPresets[GUID];
-            this.quantity = quantity;
-            this.preferedSlot = preferedSlot;
+            short.TryParse(quantity, out this.quantity);
+            short.TryParse(preferedSlot, out this.preferedSlot);
         }
 
         public override void ExecuteAction()
@@ -39,14 +39,14 @@ namespace DownBelow.Entity
 
         public override object[] GetDatas()
         {
-            return new object[3] { Item.UID.ToString(), (short)quantity, (short)preferedSlot };
+            return new object[3] { Item.UID.ToString(), quantity.ToString(), preferedSlot.ToString() };
         }
 
         public override void SetDatas(object[] Datas)
         {
             Item = GridManager.Instance.ItemsPresets[Guid.Parse((string)Datas[0])];
-            quantity = (short)Datas[1];
-            preferedSlot = (short)Datas[2];
+            short.TryParse(Datas[1].ToString(), out quantity);
+            short.TryParse(Datas[2].ToString(), out preferedSlot);
         }
     }
 }
