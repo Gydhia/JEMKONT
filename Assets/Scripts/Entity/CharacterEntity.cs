@@ -33,6 +33,8 @@ namespace DownBelow.Entity
         public event SpellEventData.Event OnDefenseAdded;
         public event SpellEventData.Event OnRangeRemoved;
         public event SpellEventData.Event OnRangeAdded;
+        
+        public Action OnManaMissing;
 
         /// <summary>
         /// When you give an alteration to someone else.
@@ -56,6 +58,11 @@ namespace DownBelow.Entity
         public event CellEventData.Event OnEnteredCell;
         public event CellEventData.Event OnExitedCell;
 
+        public void FireMissingMana()
+        {
+            OnManaMissing?.Invoke();
+        }
+        
         public event SpellEventData.Event OnPushed;
         #endregion
         #region firingEvents

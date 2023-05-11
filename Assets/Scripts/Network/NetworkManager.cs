@@ -645,11 +645,6 @@ namespace DownBelow.Managers
             Debug.LogError("Current Photon State : \n" + connected + offline + inLobby + currLobby + currRoom);
         }
         #endregion
-
-        private void OnDestroy()
-        {
-            Debug.LogError("Network manager destroyed, shouldn't happen");
-        }
     }
 
 }

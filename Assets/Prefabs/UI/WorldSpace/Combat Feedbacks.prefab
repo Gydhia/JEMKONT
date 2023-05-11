@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6221576298728970036}
   - component: {fileID: 4746647377822522053}
   - component: {fileID: 4668288626745961375}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: CurrentHealthText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 5268936056992216084}
   - component: {fileID: 1159903661922566860}
   - component: {fileID: 2275617566633258476}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Target
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -224,7 +224,7 @@ GameObject:
   - component: {fileID: 4592713481425640892}
   - component: {fileID: 688568986285258991}
   - component: {fileID: 6885744934641828950}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Combat Feedbacks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -343,7 +343,7 @@ GameObject:
   - component: {fileID: 5337724392920820855}
   - component: {fileID: 1292794293517706356}
   - component: {fileID: 3009566163518466337}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Damages-Heal
   m_TagString: Untagged
   m_Icon: {fileID: 0}

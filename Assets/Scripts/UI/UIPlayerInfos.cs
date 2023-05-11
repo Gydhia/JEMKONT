@@ -30,6 +30,7 @@ namespace DownBelow.UI
             GameManager.Instance.SelfPlayer.OnHealthRemoved += _onHealthChanged;
             GameManager.Instance.SelfPlayer.OnSpeedAdded += _onMoveChanged;
             GameManager.Instance.SelfPlayer.OnSpeedRemoved += _onMoveChanged;
+            GameManager.Instance.SelfPlayer.OnManaMissing += _onManaMissing;
 
             this._onManaChanged(null);
             this._onHealthChanged(null);
@@ -39,6 +40,13 @@ namespace DownBelow.UI
         private void _onManaChanged(Events.SpellEventData data)
         {
             this.SetMana(GameManager.Instance.SelfPlayer.Mana, true);
+        }
+
+        private void _onManaMissing()
+        {
+            this.ManaText.DOColor(Color.red, 0.3f).SetEase(Ease.OutQuad).OnComplete(() =>
+                this.ManaText.DOColor(Color.white, 0.3f).SetEase(Ease.OutQuad));
+            this.ManaText.transform.DOScale(Vector3.one * 2f, 0.15f).SetEase(Ease.InOutElastic).OnComplete((() =>this.ManaText.transform.DOScale(Vector3.one, 0.15f).SetEase(Ease.InOutElastic) ));
         }
 
         private void _onHealthChanged(Events.SpellEventData data)
