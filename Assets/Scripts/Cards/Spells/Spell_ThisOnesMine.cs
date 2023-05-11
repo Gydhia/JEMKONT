@@ -23,7 +23,7 @@ namespace DownBelow.Spells
                 RefEntity.EntityCell
             };
             ///Algo à vérifier, car il y a des cas étranges.
-            var pathto = GridManager.Instance.FindPath(RefEntity, TargetCell.PositionInGrid, Range: 1);
+            var pathto = GridManager.Instance.FindPath(RefEntity, TargetCell.PositionInGrid, directPath:true);
             if (pathto != null)
             {
                 pathto = pathto.FindAll(x => !cellsToCheck.Contains(x));

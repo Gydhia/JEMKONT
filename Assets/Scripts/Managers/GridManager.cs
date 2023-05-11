@@ -486,15 +486,8 @@ namespace DownBelow.Managers
                 {
                     if (Range >= 0)
                         targetCell = currentCell;
-                    // Once done, get the correct path
-                    finalPath = this.RetracePath(startCell, targetCell);
-                    // If the last cell of the path isn't walkable, stop right before
-                    if (finalPath.Count > 0 && finalPath[^1].Datas.state == CellState.EntityIn)
-                    {
-                        finalPath.RemoveAt(finalPath.Count - 1);
-                    }
 
-                    return finalPath;
+                    return this.RetracePath(startCell, targetCell);
                 }
 
                 List<Cell> actNeighbours = entity.CurrentGrid.IsCombatGrid
@@ -502,7 +495,7 @@ namespace DownBelow.Managers
                     : GetNormalNeighbours(currentCell, entity.CurrentGrid);
                 foreach (Cell neighbour in actNeighbours)
                 {
-                    if (CellState.NonWalkable.HasFlag(neighbour.Datas.state) && directPath == false || closedSet.Contains(neighbour))
+                    if (CellState.NonWalkable.HasFlag(neighbour.Datas.state) && (!directPath || (directPath && neighbour.Datas.state == CellState.Blocked)) || closedSet.Contains(neighbour))
                         continue;
 
                     int newMovementCostToNeightbour =
