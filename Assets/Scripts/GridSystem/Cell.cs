@@ -31,6 +31,8 @@ namespace DownBelow.GridSystem
 
         public Cell parent;
         private CharacterEntity _entityIn;
+        public NonCharacterEntity AttachedNCE;
+        public bool hasNCE => AttachedNCE != null;
         public CharacterEntity EntityIn
         {
             get { return _entityIn; }
@@ -71,6 +73,7 @@ namespace DownBelow.GridSystem
         {
             if (!force && this.Datas.state == newState)
                 return;
+            GridManager.Instance.ChangeBitmapCell(this.GetGlobalPosition(), RefGrid.GridHeight,newState);
             this.Datas.state = newState;
         }
 
@@ -139,13 +142,13 @@ namespace DownBelow.GridSystem
             this.widthPos = xPos;
             this.state = state;
         }
-        [ShowInInspectorAttribute, DataMember]
+        [ShowInInspectorAttribute, DataMember(Name = "hp")]
         public int heightPos { get; set; }
-        [ShowInInspectorAttribute, DataMember]
+        [ShowInInspectorAttribute, DataMember(Name = "wp")]
         public int widthPos { get; set; }
-        [ShowInInspectorAttribute, DataMember]
+        [ShowInInspectorAttribute, DataMember(Name = "s")]
         public CellState state { get; set; }
-        [ShowInInspectorAttribute, DataMember, DefaultValue(null)]
+        [ShowInInspectorAttribute, DataMember(Name = "poc"), DefaultValue(null)]
         public PlaceableItem placeableOnCell { get; set; }
     }
 

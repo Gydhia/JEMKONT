@@ -118,7 +118,10 @@ namespace DownBelow.Managers
             this.WorldGrids = new Dictionary<string, WorldGrid>();
             // Load the Grids and Entities SO
             
-            Destroy(this._gridsDataHandler.gameObject);
+            if(this._gridsDataHandler != null)
+            {
+                Destroy(this._gridsDataHandler.gameObject);
+            }
 
             // TODO : Plug it in a scriptable instead of hardcoding it like that
             foreach (var grid in refGameDataContainer.Data.grids_data)
@@ -479,19 +482,12 @@ namespace DownBelow.Managers
                 closedSet.Add(currentCell);
 
                 // We go there at the end of the path
-                if (currentCell == targetCell || Range > 0 && IsInRange(currentCell.PositionInGrid, targetCell.PositionInGrid, Range))
+                if (currentCell == targetCell || Range >= 0 && IsInRange(currentCell.PositionInGrid, targetCell.PositionInGrid, Range))
                 {
-                    if (Range > 0)
+                    if (Range >= 0)
                         targetCell = currentCell;
-                    // Once done, get the correct path
-                    finalPath = this.RetracePath(startCell, targetCell);
-                    // If the last cell of the path isn't walkable, stop right before
-                    if (finalPath.Count > 0 && finalPath[^1].Datas.state == CellState.EntityIn)
-                    {
-                        finalPath.RemoveAt(finalPath.Count - 1);
-                    }
 
-                    return finalPath;
+                    return this.RetracePath(startCell, targetCell);
                 }
 
                 List<Cell> actNeighbours = entity.CurrentGrid.IsCombatGrid
@@ -499,7 +495,7 @@ namespace DownBelow.Managers
                     : GetNormalNeighbours(currentCell, entity.CurrentGrid);
                 foreach (Cell neighbour in actNeighbours)
                 {
-                    if (CellState.NonWalkable.HasFlag(neighbour.Datas.state) && directPath == false || closedSet.Contains(neighbour))
+                    if (CellState.NonWalkable.HasFlag(neighbour.Datas.state) && (!directPath || (directPath && neighbour.Datas.state == CellState.Blocked)) || closedSet.Contains(neighbour))
                         continue;
 
                     int newMovementCostToNeightbour =

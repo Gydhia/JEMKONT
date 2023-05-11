@@ -2,6 +2,7 @@ using DownBelow.Entity;
 using DownBelow.GridSystem;
 using DownBelow.Managers;
 using DownBelow.Mechanics;
+using Newtonsoft.Json;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using Sirenix.Utilities;
@@ -36,15 +37,20 @@ namespace DownBelow.Spells
             this.Cost = Cost;
         }
 
+        [HideInInspector]
         public int Cost;
         public SpellData Data;
 
         #region PLAYABLE
-        [HideInInspector]
+        [HideInInspector, JsonIgnore]
+        public List<NonCharacterEntity> NCEHits;
+        [HideInInspector, JsonIgnore]
+        public List<Cell> TargetedCells;
+        [HideInInspector, JsonIgnore]
         public List<CharacterEntity> TargetEntities;
-        [HideInInspector]
+        [HideInInspector, JsonIgnore]
         public Spell ParentSpell;
-        [HideInInspector]
+        [HideInInspector, JsonIgnore]
         public SpellResult Result;
 
         public SpellCondition ConditionData;
@@ -57,7 +63,7 @@ namespace DownBelow.Spells
             return this.ConditionData.Check(ParentSpell.Result);
         }
 
-        public override void ExecuteAction()
+        public override async void ExecuteAction()
         {
             this.RefEntity.ApplyStat(EntityStatistics.Mana, -this.Cost);
 
@@ -72,6 +78,22 @@ namespace DownBelow.Spells
 
                 this.Result = new SpellResult();
                 this.Result.Setup(this.TargetEntities, this);
+                if (Data.ProjectileSFX != null)
+                {
+                    await SFXManager.Instance.DOSFX(new RuntimeSFXData(Data.ProjectileSFX, RefEntity, TargetCell, this));
+                }
+                if (Data.CellSFX != null && TargetedCells != null && TargetedCells.Count != 0)
+                {
+                    for (int i = 0;i < TargetedCells.Count;i++)
+                    {
+                        var targetedCell = this.TargetedCells[i];
+                        if (i != TargetedCells.Count)
+                            //Not awaiting since we want to do it all. Suggestion could be to wait 0.05s to have some kind of wave effect.
+                            SFXManager.Instance.DOSFX(new(Data.CellSFX, RefEntity, targetedCell, this));
+                        else
+                            await SFXManager.Instance.DOSFX(new(Data.CellSFX, RefEntity, targetedCell, this));
+                    }
+                }
             }
         }
 
@@ -79,8 +101,12 @@ namespace DownBelow.Spells
         {
             if (this.Data.RequiresTargetting)
             {
-                return GridUtility
-                    .TransposeShapeToCells(ref Data.RotatedShapeMatrix, cellTarget, Data.RotatedShapePosition)
+                TargetedCells = GridUtility.TransposeShapeToCells(ref Data.RotatedShapeMatrix, cellTarget, Data.RotatedShapePosition);
+                NCEHits = TargetedCells                   
+                    .Where(cell => cell.AttachedNCE != null)
+                    .Select(cell => cell.AttachedNCE)
+                    .ToList();
+                return TargetedCells                   
                     .Where(cell => cell.EntityIn != null)
                     .Select(cell => cell.EntityIn)
                     .ToList();

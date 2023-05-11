@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using DownBelow.Mechanics;
 using System.Linq;
+using System.Security.AccessControl;
 using DG.Tweening;
 
 namespace DownBelow.UI
@@ -73,7 +74,11 @@ namespace DownBelow.UI
         private void _onLeftClickDown()
         {
             if (GameManager.Instance.SelfPlayer.Mana < this.CardReference.Cost)
+            {
+                GameManager.Instance.SelfPlayer.FireMissingMana();
                 return;
+            }
+                
 
             // Forbid the card drag if currently using another one
             if (HoveredCard == this && SelectedCard == null && !this._isDestroying)
@@ -138,12 +143,12 @@ namespace DownBelow.UI
 
         private void Hover()
         {
-            this.m_RectTransform.DOLocalMoveY(HoveredCard._spawnPosition.y + 135f, 0.3f);
+            this.m_RectTransform.DOAnchorPosY(HoveredCard._spawnPosition.y + 100f, 0.3f);
         }
 
         private void UnHover()
         {
-            this.m_RectTransform.DOLocalMoveY(HoveredCard._spawnPosition.y - 100f, 0.3f);
+            this.m_RectTransform.DOAnchorPosY(HoveredCard._spawnPosition.y - 175f, 0.3f);
         }
 
         public void PinCardToScreen()
@@ -173,7 +178,7 @@ namespace DownBelow.UI
                 this.m_RectTransform.localScale = Vector3.one;
                 this.m_RectTransform.parent = UIManager.Instance.CardSection.CardsHolder.transform;
                 this._spawnPosition = m_RectTransform.position;
-                this.m_RectTransform.DOLocalMoveY(this._spawnPosition.y, 0.3f);
+                this.m_RectTransform.DOAnchorPosY(this._spawnPosition.y, 0.3f);
             }));
         }
 
@@ -183,7 +188,7 @@ namespace DownBelow.UI
             this.PinnedToScreen = this.IsDragged = false;
             this.m_RectTransform.parent = UIManager.Instance.CardSection.CardsHolder.transform;
 
-            this.m_RectTransform.DOMove(this._spawnPosition, 0.3f).SetEase(Ease.OutQuad);
+            this.m_RectTransform.DOAnchorPos(this._spawnPosition, 0.3f).SetEase(Ease.OutQuad);
             SelectedCard = null;
         }
 

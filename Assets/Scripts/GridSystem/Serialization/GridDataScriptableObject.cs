@@ -221,7 +221,7 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
                 this.PlanePrefab,
                     new Vector3(
                         (this.LazyLoadedData.GridWidth * cellsWidth) / 2,
-                        this.LazyLoadedData.TopLeftOffset.y,
+                        0f,
                         -(this.LazyLoadedData.GridHeight * cellsWidth) / 2 + (cellsWidth / 2)),
                     Quaternion.identity,
                     GridManager.Instance._gridsDataHandler.transform
@@ -230,7 +230,7 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
         }
 
         this._plane.transform.localScale = new Vector3(this.LazyLoadedData.GridWidth * (cellsWidth / 10f), 0f, this.LazyLoadedData.GridHeight * (cellsWidth / 10f));
-        this._plane.transform.localPosition = new Vector3((this.LazyLoadedData.GridWidth * cellsWidth) / 2, this.LazyLoadedData.TopLeftOffset.y, -(this.LazyLoadedData.GridHeight * cellsWidth) / 2);
+        this._plane.transform.localPosition = new Vector3((this.LazyLoadedData.GridWidth * cellsWidth) / 2, 0f, -(this.LazyLoadedData.GridHeight * cellsWidth) / 2);
     }
 
     public GridPosition GetGridIndexFromWorld(Vector3 worldPos)

@@ -23,6 +23,10 @@ namespace DownBelow.Managers
         None = 0,
         ToConnection = 1,
         ToOfflineMode = 2,
+
+        ToPlaySolo = 3,
+
+        DisconnectToSolo = ToOfflineMode & ToPlaySolo
     }
 
     [Serializable]
@@ -75,23 +79,22 @@ namespace DownBelow.Managers
 
         private void Awake()
         {
-            if (NetworkManager.Instance != null)
+            if (Instance == null)
             {
-                if (NetworkManager.Instance != this)
-                {
+                Instance = this;
+                this.transform.parent = null;
+                DontDestroyOnLoad(this.gameObject);
+            }
+            else
+            {
 #if UNITY_EDITOR
-                    DestroyImmediate(this.gameObject, false);
+                DestroyImmediate(this.gameObject, false);
 #else
                 Destroy(this.gameObject);
 #endif
-                    return;
-                }
             }
 
-            NetworkManager.Instance = this;
-
-            UnityEngine.Object.DontDestroyOnLoad(this);
-
+            
             if (Application.internetReachability == NetworkReachability.NotReachable)
             {
                 this.HasInternet = true;
@@ -131,7 +134,7 @@ namespace DownBelow.Managers
             PhotonNetwork.NickName = newName;
         }
 
-        public void SwitchConnectionState(bool connect)
+        public void SwitchConnectionState(bool connect, bool toPlay = false)
         {
             PhotonNetwork.Disconnect();
             if (connect && !PhotonNetwork.IsConnected)
@@ -140,7 +143,14 @@ namespace DownBelow.Managers
             }
             else if (!PhotonNetwork.OfflineMode)
             {
-                this.DisconnectCallback = DisconnectTarget.ToOfflineMode;
+                if (toPlay)
+                {
+                    this.DisconnectCallback = DisconnectTarget.ToPlaySolo;
+                }
+                else
+                {
+                    this.DisconnectCallback = DisconnectTarget.ToOfflineMode;
+                }
             }
         }
 
@@ -184,10 +194,13 @@ namespace DownBelow.Managers
                     this.Connect();
                     break;
                 case DisconnectTarget.ToOfflineMode:
-                    PhotonNetwork.PhotonServerSettings.StartInOfflineMode = true;
+                    PhotonNetwork.OfflineMode = true;
                     PhotonNetwork.ConnectUsingSettings();
-
-                    //PhotonNetwork.OfflineMode = true;
+                    break;
+                case DisconnectTarget.ToPlaySolo:
+                    PhotonNetwork.OfflineMode = true;
+                    //PhotonNetwork.ConnectUsingSettings();
+                    this.ClickOnStart();
                     break;
             }
 
@@ -199,10 +212,18 @@ namespace DownBelow.Managers
         {
             if (PhotonNetwork.IsMasterClient)
             {
+                if (!PhotonNetwork.InRoom)
+                {
+                    PhotonNetwork.JoinRandomOrCreateRoom();
+                }
                 //PhotonNetwork.CurrentRoom.IsOpen = false;
                 //PhotonNetwork.CurrentRoom.IsVisible = false;
-               
+
                 PhotonNetwork.LoadLevel("0_FarmLand");
+            }
+            else
+            {
+                this.SwitchConnectionState(false, true);
             }
         }
 
@@ -332,7 +353,7 @@ namespace DownBelow.Managers
                          action.RefEntity.UID,
                          action.RefEntity.CurrentGrid.UName,
                          new int[2] { action.TargetCell.PositionInGrid.latitude, action.TargetCell.PositionInGrid.longitude },
-                         action.GetType().ToString(),
+                         action.GetAssemblyName(),
                          action.GetDatas()
                      );
 
@@ -341,6 +362,8 @@ namespace DownBelow.Managers
             }
             this.EntityAskToBuffAction(actionArray, false);
         }
+
+       
 
         /// <summary>
         /// Will ask to buff an action. If abortOthers = true; will abort other actions in the buffer for the entity.
@@ -554,18 +577,21 @@ namespace DownBelow.Managers
 
         public override void OnJoinedRoom()
         {
-            if (this.UIRoom != null)
+            if (!PhotonNetwork.CurrentRoom.IsOffline)
             {
-                MenuManager.Instance.SelectPopup(MenuPopup.Room);
-                this.UIRoom.OnJoinedRoom();
-            }
-            else
-            {
-                // We go here only if starting from game scene
-                GameData.Game.RefGameDataContainer = GameManager.MakeBaseGame("DownBelowBase");
+                if (this.UIRoom != null)
+                {
+                    MenuManager.Instance.SelectPopup(MenuPopup.Room);
+                    this.UIRoom.OnJoinedRoom();
+                }
+                else
+                {
+                    // We go here only if starting from game scene
+                    GameData.Game.RefGameDataContainer = GameManager.MakeBaseGame("DownBelowBase");
 
-                GridManager.Instance.CreateWholeWorld(GameData.Game.RefGameDataContainer);
-                GameManager.Instance.ProcessPlayerWelcoming();
+                    GridManager.Instance.CreateWholeWorld(GameData.Game.RefGameDataContainer);
+                    GameManager.Instance.ProcessPlayerWelcoming();
+                }
             }
         }
 

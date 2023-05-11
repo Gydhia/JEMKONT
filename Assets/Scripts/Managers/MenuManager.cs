@@ -143,7 +143,7 @@ namespace DownBelow.Managers
             }
             else
             {
-                this.StartGame();
+                NetworkManager.Instance.ClickOnStart();
             }
         }
 

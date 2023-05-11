@@ -1,5 +1,6 @@
 using DownBelow.GridSystem;
 using DownBelow.Managers;
+using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace DownBelow.Entity
 {
     public abstract class EntityAction
     {
-        public Guid ID;
+        [ReadOnly]public Guid ID;
 
         // Since we have the reference here, we can remove ourself without any help
         [HideInInspector]
