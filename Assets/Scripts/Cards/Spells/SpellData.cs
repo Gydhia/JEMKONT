@@ -74,12 +74,26 @@ namespace DownBelow.Spells
         [Button("Rotate Shape 90°"), FoldoutGroup("Spell Targeting"), HorizontalGroup("Spell Targeting/Rotation", Width = 0.5f, Order = -1, MaxWidth = 200)]
         public void RotateSpellShape() { this.SpellShapeMatrix = GridUtility.RotateSpellMatrix(this.SpellShapeMatrix, 90); }
 
+        [Button("Generate Classic Casting"), FoldoutGroup("Spell Targeting"), HorizontalGroup("Spell Targeting/Rotation", Width = 0.5f, Order = 0, MaxWidth = 200)]
+        public void GenerateClassicCasting()
+        {
+            this.CastingMatrix = new bool[7, 7];
+            for (int i = 0;i < 7 * 7;i++)
+            {
+                CastingMatrix[i % 7, i / 7] = true;
+            }
+            CastingMatrix[3,3] = false;
+            CasterPosition = new Vector2(3, 3);
+        }
+
         [Button, FoldoutGroup("Spell Targeting"), HorizontalGroup("Spell Targeting/Buttons", Width = 0.5f, Order = 0, MaxWidth = 200)]
         public void RegenerateShape() { SpellShapeMatrix = new bool[5, 5]; ShapePosition = new Vector2(2, 2); }
 
         [Button, FoldoutGroup("Spell Targeting"), HorizontalGroup("Spell Targeting/Buttons", Width = 0.5f, Order = 0, MaxWidth = 200)]
         public void RegenerateCasting() { CastingMatrix = new bool[5, 5]; CasterPosition = new Vector2(2, 2); }
 
+
+        
         [TableMatrix(DrawElementMethod = "_processDrawSpellShape", SquareCells = true, ResizableColumns = false, HorizontalTitle = nameof(SpellShapeMatrix)), OdinSerialize]
         [FoldoutGroup("Spell Targeting"), HorizontalGroup("Spell Targeting/Grids", Width = 0.5f, Order = 1, MaxWidth = 200)]
         [OnValueChanged("_updateSpellShape")]

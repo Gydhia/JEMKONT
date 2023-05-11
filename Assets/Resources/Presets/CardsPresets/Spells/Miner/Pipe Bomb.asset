@@ -494,6 +494,6 @@ MonoBehaviour:
   Cost: 1
   CardType: 2
   Description: Deals 7 damage to all units around you.
-  IllustrationImage: {fileID: 0}
+  IllustrationImage: {fileID: 21300000, guid: 09c2b9f40b5e3204293d0a538666ca7a, type: 3}
   Class: 0
   CurrentSpellTargetting: 0

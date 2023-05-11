@@ -399,6 +399,6 @@ MonoBehaviour:
   CardType: 1
   Description: Create a Rune for 3 turns, all allies in a radius have their armor
     increased.
-  IllustrationImage: {fileID: 0}
+  IllustrationImage: {fileID: 21300000, guid: 0951e82510d3bdf41b544758046dfeba, type: 3}
   Class: 0
   CurrentSpellTargetting: 0
