@@ -1,5 +1,6 @@
 using DownBelow.Events;
 using DownBelow.GridSystem;
+using DownBelow.Managers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,6 +29,7 @@ namespace DownBelow.Entity
         /// <param name="preset">GROOOOOOOOOOOOSSE flemme de renommer en "preset" sur tout les constructeurs, mais ouai ça a changé</param>
         public virtual void Init(Cell AttachedCell, int TurnsLeft, CharacterEntity RefEntity, NCEPreset preset)
         {
+            CombatManager.Instance.NCEs.Add(this);
             AttachedCell.AttachedNCE = this;
             this.AttachedCell = AttachedCell;
             this.AttachedCell.ChangeCellState(AffectingState, true);
@@ -59,6 +61,7 @@ namespace DownBelow.Entity
         /// </summary>
         public virtual void DestroyEntity()
         {
+            CombatManager.Instance.NCEs.Remove(this);
             AttachedCell.AttachedNCE = null;
             AttachedCell.ChangeCellState(CellState.Walkable);
             RefEntity.OnTurnBegun -= Decrement;

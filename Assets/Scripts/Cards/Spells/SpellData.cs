@@ -19,6 +19,7 @@ namespace DownBelow.Spells
         Self = 0,
 
         AllAllies = 1 << 8,
+        AllEnemies = 1 << 16,
 
         Enemy = 1 << 0,
         Ally = 1 << 1,
@@ -40,13 +41,14 @@ namespace DownBelow.Spells
             return value switch
             {
                 ETargetType.Self => cell.EntityIn == GameManager.Instance.SelfPlayer,
-                ETargetType.AllAllies => cell.EntityIn != null && cell.EntityIn is PlayerBehavior,
+                ETargetType.AllAllies => cell.EntityIn != null && cell.EntityIn.IsAlly,
                 ETargetType.Enemy => cell.EntityIn != null && cell.EntityIn is EnemyEntity,
                 ETargetType.Ally => cell.EntityIn != null && cell.EntityIn is PlayerBehavior,
                 ETargetType.Empty => cell.Datas.state == CellState.Walkable,
                 ETargetType.CharacterEntities => cell.Datas.state == CellState.EntityIn && cell.EntityIn is CharacterEntity,
                 ETargetType.Entities => cell.Datas.state == CellState.EntityIn,
                 ETargetType.NCEs => cell.hasNCE,
+                ETargetType.AllEnemies => cell.EntityIn != null && !cell.EntityIn.IsAlly,
                 ETargetType.All => cell.Datas.state != CellState.Blocked,
                 _ => true,
             };
@@ -82,7 +84,7 @@ namespace DownBelow.Spells
             {
                 CastingMatrix[i % 7, i / 7] = true;
             }
-            CastingMatrix[3,3] = false;
+            CastingMatrix[3, 3] = false;
             CasterPosition = new Vector2(3, 3);
         }
 
@@ -93,7 +95,7 @@ namespace DownBelow.Spells
         public void RegenerateCasting() { CastingMatrix = new bool[5, 5]; CasterPosition = new Vector2(2, 2); }
 
 
-        
+
         [TableMatrix(DrawElementMethod = "_processDrawSpellShape", SquareCells = true, ResizableColumns = false, HorizontalTitle = nameof(SpellShapeMatrix)), OdinSerialize]
         [FoldoutGroup("Spell Targeting"), HorizontalGroup("Spell Targeting/Grids", Width = 0.5f, Order = 1, MaxWidth = 200)]
         [OnValueChanged("_updateSpellShape")]

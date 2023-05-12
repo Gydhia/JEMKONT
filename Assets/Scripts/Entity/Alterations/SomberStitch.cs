@@ -22,7 +22,7 @@ namespace DownBelow.Spells.Alterations
 
         private void ReplicateDamage(Events.SpellEventData Data)
         {
-            EntityStitched.ApplyStat(EntityStatistics.Health, -Data.Value);
+            EntityStitched.ApplyStat(EntityStatistics.Health, -Data.Value, false);
         }
 
         protected override void Unsubbing(GameEventData Data)
