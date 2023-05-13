@@ -479,7 +479,10 @@ namespace DownBelow.Entity
             IsAlly : {IsAlly}
             GridPos : {EntityCell}";
         }
-
+        public void AddAlterations(List<Alteration> alterations)
+        {
+            alterations.ForEach(x => AddAlteration(x));
+        }
         public void AddAlteration(Alteration alteration)
         {
             OnAlterationReceived?.Invoke(new SpellEventDataAlteration(this, alteration));
@@ -604,7 +607,7 @@ namespace DownBelow.Entity
 
         #endregion
 
-        public void Teleport(Cell TargetCell, SpellResult Result)
+        public void Teleport(Cell TargetCell, SpellResult Result, bool triggerEvents = true)
         {
             var cellToTP = TargetCell;
 
@@ -619,7 +622,7 @@ namespace DownBelow.Entity
                 cellToTP = freeNeighbours[0];
             }
 
-            if (cellToTP.EntityIn != null)
+            if (cellToTP.EntityIn != null && Result != null)
             {
                 Result.TeleportedTo.Add(cellToTP.EntityIn);
             }

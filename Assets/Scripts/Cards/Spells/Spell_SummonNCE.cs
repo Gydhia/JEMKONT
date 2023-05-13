@@ -38,6 +38,9 @@ namespace DownBelow.Spells
         public static IEnumerator SummonNCE(Cell cell, SpellData_Summon summondata, CharacterEntity RefEntity)
         {
             summondata.NCEPreset.InitNCE(cell, RefEntity);
+            if(summondata.NCEPreset.entityToSummon is MoleHole hole)
+            {
+            }
             yield return null;
         }
 
