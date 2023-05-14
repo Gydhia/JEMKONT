@@ -12,6 +12,19 @@ using System.Timers;
 using UnityEngine;
 namespace DownBelow.Spells.Alterations
 {
+    public enum EAlterationType
+    {
+        None = 0,
+        Stun,
+        Snare,
+        Shattered,
+        DoT,
+        Bubbled,
+        DmgUpDown,
+        SpeedUpDown,
+        Sleep
+    }
+
 
     [Serializable]
     public abstract class Alteration

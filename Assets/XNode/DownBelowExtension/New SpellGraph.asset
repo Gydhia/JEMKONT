@@ -1,5 +1,429 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9083767962574325372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1464292361a855046ad88fb42f563b6b, type: 3}
+  m_Name: SD_Stat
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 2456, y: 1016}
+  folded: 0
+  ports:
+    keys:
+    - Statistic
+    - Value
+    - Targets
+    - ValidateCondition
+    - Entity
+    - PreviousSpell
+    - NextSpell
+    values:
+    - _fieldName: Statistic
+      _node: {fileID: -9083767962574325372}
+      _typeQualifiedName: EntityStatistics, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Value
+      _node: {fileID: -9083767962574325372}
+      _typeQualifiedName: Value_Link, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: ReturnValue
+        node: {fileID: 6704172086075405977}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Targets
+      _node: {fileID: -9083767962574325372}
+      _typeQualifiedName: Entities_Link, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: ValidateCondition
+      _node: {fileID: -9083767962574325372}
+      _typeQualifiedName: ConditionLink, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: DoValidate
+        node: {fileID: 7423863081633715965}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Entity
+      _node: {fileID: -9083767962574325372}
+      _typeQualifiedName: Entities_Link, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: PreviousSpell
+      _node: {fileID: -9083767962574325372}
+      _typeQualifiedName: SpellDataNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: NextSpell
+        node: {fileID: 8692103357241058600}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: NextSpell
+      _node: {fileID: -9083767962574325372}
+      _typeQualifiedName: SpellDataNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: PreviousSpell
+        node: {fileID: 7209468521740843295}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+  PreviousSpell: {fileID: 0}
+  NextSpell: {fileID: 0}
+  Statistic: 0
+  Remove: 1
+--- !u!114 &-7352088417791324749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1464292361a855046ad88fb42f563b6b, type: 3}
+  m_Name: SD_Stat
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -440, y: 184}
+  folded: 0
+  ports:
+    keys:
+    - Statistic
+    - Value
+    - Targets
+    - ValidateCondition
+    - Entity
+    - PreviousSpell
+    - NextSpell
+    values:
+    - _fieldName: Statistic
+      _node: {fileID: -7352088417791324749}
+      _typeQualifiedName: EntityStatistics, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Value
+      _node: {fileID: -7352088417791324749}
+      _typeQualifiedName: Value_Link, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Value
+        node: {fileID: 7781580296028670869}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Targets
+      _node: {fileID: -7352088417791324749}
+      _typeQualifiedName: Entities_Link, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: ValidateCondition
+      _node: {fileID: -7352088417791324749}
+      _typeQualifiedName: ConditionLink, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Entity
+      _node: {fileID: -7352088417791324749}
+      _typeQualifiedName: Entities_Link, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: PreviousSpell
+      _node: {fileID: -7352088417791324749}
+      _typeQualifiedName: SpellDataNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: NextSpell
+      _node: {fileID: -7352088417791324749}
+      _typeQualifiedName: SpellDataNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: PreviousSpell
+        node: {fileID: -4656903444856201255}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+  PreviousSpell: {fileID: 0}
+  NextSpell: {fileID: 0}
+  Statistic: 10
+  Remove: 1
+--- !u!114 &-5936542210508379845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c140f7af255b4f94ca8743e67ef1c488, type: 3}
+  m_Name: G_Valid_Entities
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -200, y: 888}
+  folded: 0
+  ports:
+    keys:
+    - Entity
+    values:
+    - _fieldName: Entity
+      _node: {fileID: -5936542210508379845}
+      _typeQualifiedName: Entities_Link, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Targets
+        node: {fileID: 9211866523813576930}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  Statistic: 0
+  TargetType: 2
+  ValidationType: 1
+--- !u!114 &-4919335820219004355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9747571f39aa84b44b48dea43f3fb769, type: 3}
+  m_Name: U_Shape_
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 440, y: 1176}
+  folded: 0
+  ports:
+    keys:
+    - ShapeMatrix
+    values:
+    - _fieldName: ShapeMatrix
+      _node: {fileID: -4919335820219004355}
+      _typeQualifiedName: System.Boolean[,], mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: SpellShape
+        node: {fileID: -2158861799176393098}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  ShapePosition: {x: 3, y: 3}
+  RotatedShapePosition: {x: 0, y: 0}
+--- !u!114 &-4656903444856201255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a17677a7a7c871b4b81d7fe6c8b89ae8, type: 3}
+  m_Name: SD_Draw
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 104, y: 408}
+  folded: 0
+  ports:
+    keys:
+    - Value
+    - Targets
+    - ValidateCondition
+    - Entity
+    - PreviousSpell
+    - NextSpell
+    values:
+    - _fieldName: Value
+      _node: {fileID: -4656903444856201255}
+      _typeQualifiedName: Value_Link, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Value
+        node: {fileID: 7781580296028670869}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Targets
+      _node: {fileID: -4656903444856201255}
+      _typeQualifiedName: Entities_Link, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: ValidateCondition
+      _node: {fileID: -4656903444856201255}
+      _typeQualifiedName: ConditionLink, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Entity
+      _node: {fileID: -4656903444856201255}
+      _typeQualifiedName: Entities_Link, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: PreviousSpell
+      _node: {fileID: -4656903444856201255}
+      _typeQualifiedName: SpellDataNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: NextSpell
+        node: {fileID: -7352088417791324749}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: NextSpell
+      _node: {fileID: -4656903444856201255}
+      _typeQualifiedName: SpellDataNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: PreviousSpell
+        node: {fileID: 9211866523813576930}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+  PreviousSpell: {fileID: 0}
+  NextSpell: {fileID: 0}
+--- !u!114 &-2158861799176393098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3288b2157236d9748b8a7dfb32166db0, type: 3}
+  m_Name: G_Target_Entities_
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 776, y: 1176}
+  folded: 0
+  ports:
+    keys:
+    - CastingShape
+    - SpellShape
+    - Condition
+    - Entities
+    values:
+    - _fieldName: CastingShape
+      _node: {fileID: -2158861799176393098}
+      _typeQualifiedName: System.Boolean[,], mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: SpellShape
+      _node: {fileID: -2158861799176393098}
+      _typeQualifiedName: System.Boolean[,], mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: ShapeMatrix
+        node: {fileID: -4919335820219004355}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Condition
+      _node: {fileID: -2158861799176393098}
+      _typeQualifiedName: ConditionLink, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Entities
+      _node: {fileID: -2158861799176393098}
+      _typeQualifiedName: Entities_Link, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Targets
+        node: {fileID: 8692103357241058600}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  TargetType: 7
+  ManualTargetting: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13,8 +437,21 @@ MonoBehaviour:
   m_Name: New SpellGraph
   m_EditorClassIdentifier: 
   nodes:
-  - {fileID: 8407500214029208231}
---- !u!114 &8407500214029208231
+  - {fileID: 7781580296028670869}
+  - {fileID: -4656903444856201255}
+  - {fileID: -7352088417791324749}
+  - {fileID: 9211866523813576930}
+  - {fileID: 8692103357241058600}
+  - {fileID: 6704172086075405977}
+  - {fileID: -2158861799176393098}
+  - {fileID: -4919335820219004355}
+  - {fileID: 7423863081633715965}
+  - {fileID: -9083767962574325372}
+  - {fileID: 7209468521740843295}
+  - {fileID: 3517497421547529652}
+  - {fileID: 2123322891598527681}
+  - {fileID: -5936542210508379845}
+--- !u!114 &2123322891598527681
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23,24 +460,667 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce5ec68de275e7543bc98f0a6920dc00, type: 3}
-  m_Name: Spell
+  m_Script: {fileID: 11500000, guid: 5ea8923fd689e9d4182c02fda3d25d13, type: 3}
+  m_Name: Spell_Condition_
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -456, y: -312}
+  position: {x: 2920, y: 1288}
   folded: 0
   ports:
     keys:
-    - GetTargetsHit
+    - TargetType
+    - Statistic
+    - Alteration
+    - Operator
+    - Value
+    - DoValidate
+    - Targets
     values:
-    - _fieldName: GetTargetsHit
-      _node: {fileID: 8407500214029208231}
-      _typeQualifiedName: System.Collections.Generic.List`1[[DownBelow.Entity.CharacterEntity,
-        Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]],
-        mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+    - _fieldName: TargetType
+      _node: {fileID: 2123322891598527681}
+      _typeQualifiedName: DownBelow.Spells.ETargetType, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Statistic
+      _node: {fileID: 2123322891598527681}
+      _typeQualifiedName: EntityStatistics, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Alteration
+      _node: {fileID: 2123322891598527681}
+      _typeQualifiedName: DownBelow.Spells.Alterations.EAlterationType, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Operator
+      _node: {fileID: 2123322891598527681}
+      _typeQualifiedName: DownBelow.ConditionOperator, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Value
+      _node: {fileID: 2123322891598527681}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: DoValidate
+      _node: {fileID: 2123322891598527681}
+      _typeQualifiedName: ConditionLink, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: ValidateCondition
+        node: {fileID: 7209468521740843295}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Targets
+      _node: {fileID: 2123322891598527681}
+      _typeQualifiedName: Entities_Link, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+  TargetType: 0
+  Statistic: 0
+  Alteration: 0
+  Operator: 2
+  Value: 0
+--- !u!114 &3517497421547529652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3288b2157236d9748b8a7dfb32166db0, type: 3}
+  m_Name: G_Target_Entities_
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 2920, y: 1496}
+  folded: 0
+  ports:
+    keys:
+    - CastingShape
+    - SpellShape
+    - Condition
+    - Entities
+    values:
+    - _fieldName: CastingShape
+      _node: {fileID: 3517497421547529652}
+      _typeQualifiedName: System.Boolean[,], mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: SpellShape
+      _node: {fileID: 3517497421547529652}
+      _typeQualifiedName: System.Boolean[,], mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Condition
+      _node: {fileID: 3517497421547529652}
+      _typeQualifiedName: ConditionLink, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Entities
+      _node: {fileID: 3517497421547529652}
+      _typeQualifiedName: Entities_Link, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Targets
+        node: {fileID: 7209468521740843295}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  TargetType: 2
+  ManualTargetting: 0
+--- !u!114 &6704172086075405977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c00b0036572b14fa6beafd028f4704, type: 3}
+  m_Name: U_Multiplier
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 776, y: 1048}
+  folded: 0
+  ports:
+    keys:
+    - BaseValue
+    - ReturnValue
+    values:
+    - _fieldName: BaseValue
+      _node: {fileID: 6704172086075405977}
+      _typeQualifiedName: Value_Link, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Value
+        node: {fileID: 7781580296028670869}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: ReturnValue
+      _node: {fileID: 6704172086075405977}
+      _typeQualifiedName: Value_Link, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Value
+        node: {fileID: 8692103357241058600}
+        reroutePoints: []
+      - fieldName: Value
+        node: {fileID: -9083767962574325372}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  Multiplier: 3
+--- !u!114 &7209468521740843295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1464292361a855046ad88fb42f563b6b, type: 3}
+  m_Name: SD_Stat
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 3416, y: 1032}
+  folded: 0
+  ports:
+    keys:
+    - Statistic
+    - Value
+    - PreviousSpell
+    - NextSpell
+    - Targets
+    - ValidateCondition
+    - Entity
+    values:
+    - _fieldName: Statistic
+      _node: {fileID: 7209468521740843295}
+      _typeQualifiedName: EntityStatistics, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Value
+      _node: {fileID: 7209468521740843295}
+      _typeQualifiedName: Value_Link, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: PreviousSpell
+      _node: {fileID: 7209468521740843295}
+      _typeQualifiedName: SpellDataNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: NextSpell
+        node: {fileID: -9083767962574325372}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: NextSpell
+      _node: {fileID: 7209468521740843295}
+      _typeQualifiedName: SpellDataNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Targets
+      _node: {fileID: 7209468521740843295}
+      _typeQualifiedName: Entities_Link, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Entities
+        node: {fileID: 3517497421547529652}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: ValidateCondition
+      _node: {fileID: 7209468521740843295}
+      _typeQualifiedName: ConditionLink, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: DoValidate
+        node: {fileID: 2123322891598527681}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Entity
+      _node: {fileID: 7209468521740843295}
+      _typeQualifiedName: Entities_Link, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
       connections: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
-  GetTargetsHit: []
+  PreviousSpell: {fileID: 0}
+  NextSpell: {fileID: 0}
+  Statistic: 13
+  Remove: 0
+--- !u!114 &7423863081633715965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ea8923fd689e9d4182c02fda3d25d13, type: 3}
+  m_Name: Spell_Condition_
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 1928, y: 968}
+  folded: 0
+  ports:
+    keys:
+    - TargetType
+    - Statistic
+    - Alteration
+    - Operator
+    - Value
+    - DoValidate
+    - Targets
+    values:
+    - _fieldName: TargetType
+      _node: {fileID: 7423863081633715965}
+      _typeQualifiedName: DownBelow.Spells.ETargetType, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Statistic
+      _node: {fileID: 7423863081633715965}
+      _typeQualifiedName: EntityStatistics, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Alteration
+      _node: {fileID: 7423863081633715965}
+      _typeQualifiedName: DownBelow.Spells.Alterations.EAlterationType, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Operator
+      _node: {fileID: 7423863081633715965}
+      _typeQualifiedName: DownBelow.ConditionOperator, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Value
+      _node: {fileID: 7423863081633715965}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: DoValidate
+      _node: {fileID: 7423863081633715965}
+      _typeQualifiedName: ConditionLink, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: ValidateCondition
+        node: {fileID: -9083767962574325372}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Targets
+      _node: {fileID: 7423863081633715965}
+      _typeQualifiedName: Entities_Link, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Entity
+        node: {fileID: 8692103357241058600}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+  TargetType: 7
+  Statistic: 0
+  Alteration: 0
+  Operator: 2
+  Value: 0
+--- !u!114 &7781580296028670869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ed6fdd92af5b904a9d56f0544d99223, type: 3}
+  m_Name: G_Statistic_
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -808, y: 328}
+  folded: 0
+  ports:
+    keys:
+    - I_Statistic
+    - I_Entity
+    - Value
+    values:
+    - _fieldName: I_Statistic
+      _node: {fileID: 7781580296028670869}
+      _typeQualifiedName: EntityStatistics, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: I_Entity
+      _node: {fileID: 7781580296028670869}
+      _typeQualifiedName: Entities_Link, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Value
+      _node: {fileID: 7781580296028670869}
+      _typeQualifiedName: Value_Link, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Value
+        node: {fileID: -7352088417791324749}
+        reroutePoints: []
+      - fieldName: Value
+        node: {fileID: -4656903444856201255}
+        reroutePoints: []
+      - fieldName: BaseValue
+        node: {fileID: 6704172086075405977}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  I_Statistic: 10
+--- !u!114 &8692103357241058600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1464292361a855046ad88fb42f563b6b, type: 3}
+  m_Name: SD_Stat
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 1240, y: 856}
+  folded: 0
+  ports:
+    keys:
+    - Statistic
+    - Value
+    - Targets
+    - ValidateCondition
+    - Entity
+    - PreviousSpell
+    - NextSpell
+    values:
+    - _fieldName: Statistic
+      _node: {fileID: 8692103357241058600}
+      _typeQualifiedName: EntityStatistics, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Value
+      _node: {fileID: 8692103357241058600}
+      _typeQualifiedName: Value_Link, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: ReturnValue
+        node: {fileID: 6704172086075405977}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Targets
+      _node: {fileID: 8692103357241058600}
+      _typeQualifiedName: Entities_Link, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Entities
+        node: {fileID: -2158861799176393098}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: ValidateCondition
+      _node: {fileID: 8692103357241058600}
+      _typeQualifiedName: ConditionLink, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Entity
+      _node: {fileID: 8692103357241058600}
+      _typeQualifiedName: Entities_Link, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Targets
+        node: {fileID: 7423863081633715965}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: PreviousSpell
+      _node: {fileID: 8692103357241058600}
+      _typeQualifiedName: SpellDataNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: NextSpell
+        node: {fileID: 9211866523813576930}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: NextSpell
+      _node: {fileID: 8692103357241058600}
+      _typeQualifiedName: SpellDataNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: PreviousSpell
+        node: {fileID: -9083767962574325372}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+  PreviousSpell: {fileID: 0}
+  NextSpell: {fileID: 0}
+  Statistic: 0
+  Remove: 1
+--- !u!114 &9211866523813576930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 962afc5a1e7e0cd4394fdad8573d8656, type: 3}
+  m_Name: SD_Stat Redirect
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 680, y: 648}
+  folded: 0
+  ports:
+    keys:
+    - RefEntity
+    - Statistic
+    - Targets
+    - ValidateCondition
+    - Entity
+    - PreviousSpell
+    - NextSpell
+    values:
+    - _fieldName: RefEntity
+      _node: {fileID: 9211866523813576930}
+      _typeQualifiedName: Entities_Link, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Statistic
+      _node: {fileID: 9211866523813576930}
+      _typeQualifiedName: EntityStatistics, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Targets
+      _node: {fileID: 9211866523813576930}
+      _typeQualifiedName: Entities_Link, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Entity
+        node: {fileID: -5936542210508379845}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: ValidateCondition
+      _node: {fileID: 9211866523813576930}
+      _typeQualifiedName: ConditionLink, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Entity
+      _node: {fileID: 9211866523813576930}
+      _typeQualifiedName: Entities_Link, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: PreviousSpell
+      _node: {fileID: 9211866523813576930}
+      _typeQualifiedName: SpellDataNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: NextSpell
+        node: {fileID: -4656903444856201255}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: NextSpell
+      _node: {fileID: 9211866523813576930}
+      _typeQualifiedName: SpellDataNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: PreviousSpell
+        node: {fileID: 8692103357241058600}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+  PreviousSpell: {fileID: 0}
+  NextSpell: {fileID: 0}
+  Statistic: 0
+  Multiplier: 0.5
