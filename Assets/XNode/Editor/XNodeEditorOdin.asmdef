@@ -1,0 +1,24 @@
+{
+    "name": "XNodeEditorOdin",
+    "references": [
+        "XNode",
+        "XNodeEditor",
+        "XNodeOdin",
+        "Sirenix.OdinInspector.Editor",
+        "Sirenix.Utilities.Editor",
+        "Sirenix.OdinInspector.Attributes",
+        "Sirenix.Utilities"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "ODIN_INSPECTOR"
+    ],
+    "versionDefines": []
+}
