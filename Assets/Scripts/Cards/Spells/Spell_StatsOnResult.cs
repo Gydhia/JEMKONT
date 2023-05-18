@@ -1,10 +1,7 @@
 using DownBelow.Entity;
 using DownBelow.GridSystem;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.Tilemaps;
-using UnityEngine;
+
 namespace DownBelow.Spells
 {
     public class Spell_StatsOnResult : Spell<SpellData_Stats>

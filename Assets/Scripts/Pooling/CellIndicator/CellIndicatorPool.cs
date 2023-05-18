@@ -25,7 +25,7 @@ namespace DownBelow.Pools
         public readonly static Color GreenColorTransparent = new Color(0.1709f, 0.6320f, 0.1709f, .15f);
         public readonly static Color BlueColorTransparent = new Color(0.1725f, 0.4182f, 0.6313f, .15f);
 
-        private void Awake()
+        public void Init()
         {
             this._actionsRef = new Dictionary<EntityAction, List<CellIndicator>>();
             this._pathRef = new List<CellIndicator>();
