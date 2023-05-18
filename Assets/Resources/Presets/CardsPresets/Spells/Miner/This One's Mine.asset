@@ -24,7 +24,7 @@ MonoBehaviour:
     SerializationNodes:
     - Name: UID
       Entry: 2
-      Data: 00000000000000000000000000000000
+      Data: 158dbeded36f2ca7e40db30a6c49599b
     - Name: Spells
       Entry: 7
       Data: 0|DownBelow.Spells.Spell[], Assembly-CSharp
@@ -57,7 +57,7 @@ MonoBehaviour:
       Data: 2|DownBelow.Spells.SpellData_Summon, Assembly-CSharp
     - Name: RequiresTargetting
       Entry: 5
-      Data: false
+      Data: true
     - Name: SpellShapeMatrix
       Entry: 7
       Data: 3|System.Boolean[,], mscorlib
@@ -711,6 +711,9 @@ MonoBehaviour:
       Data: 0
     - Name: 
       Entry: 8
+      Data: 
+    - Name: SpellHeader
+      Entry: 6
       Data: 
     - Name: NCEHits
       Entry: 6

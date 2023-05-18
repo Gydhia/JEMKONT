@@ -24,7 +24,7 @@ MonoBehaviour:
     SerializationNodes:
     - Name: UID
       Entry: 2
-      Data: 00000000000000000000000000000000
+      Data: 88e9ffe2c088d2dd0c7b6ffbbf54e67e
     - Name: Spells
       Entry: 7
       Data: 0|DownBelow.Spells.Spell[], Assembly-CSharp
@@ -306,6 +306,9 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 8
+      Data: 
+    - Name: SpellHeader
+      Entry: 6
       Data: 
     - Name: NCEHits
       Entry: 6
