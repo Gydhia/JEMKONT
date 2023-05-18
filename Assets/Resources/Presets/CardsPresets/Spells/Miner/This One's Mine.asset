@@ -16,7 +16,7 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 3267344173932179961, guid: 6577082567e1c134bb81bb52e016f0fb, type: 3}
+    - {fileID: 11400000, guid: 0c724d0fa92840f4aa6db94dc7a33bcd, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -706,10 +706,7 @@ MonoBehaviour:
     - Name: CellSFX
       Entry: 6
       Data: 
-    - Name: Duration
-      Entry: 3
-      Data: 2
-    - Name: NCEPrefab
+    - Name: NCEPreset
       Entry: 10
       Data: 0
     - Name: 
@@ -747,6 +744,6 @@ MonoBehaviour:
   CardType: 1
   Description: Choose an opponent, create a path of stalactites directly to them
     surrounding you both that last 2 turns.
-  IllustrationImage: {fileID: 0}
+  IllustrationImage: {fileID: 21300000, guid: 901a5e74179532248a3c4b41d93af1fc, type: 3}
   Class: 0
   CurrentSpellTargetting: 0

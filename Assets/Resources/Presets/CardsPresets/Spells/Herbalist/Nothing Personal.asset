@@ -647,6 +647,6 @@ MonoBehaviour:
   CardType: 2
   Description: Teleport to an entity. If it is an ally, heal them. If it is an opponent,
     deal damage to it.
-  IllustrationImage: {fileID: 21300000, guid: 44b62bdd66dc688408c07e86a957f139, type: 3}
+  IllustrationImage: {fileID: 21300000, guid: 3bef87d88502f4b499514c4f84b7489c, type: 3}
   Class: 1
   CurrentSpellTargetting: 0

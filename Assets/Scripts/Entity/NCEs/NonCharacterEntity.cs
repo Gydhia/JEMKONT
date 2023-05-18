@@ -1,5 +1,6 @@
 using DownBelow.Events;
 using DownBelow.GridSystem;
+using DownBelow.Managers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,22 +9,33 @@ namespace DownBelow.Entity
     public abstract class NonCharacterEntity : MonoBehaviour
     {
         //Protected by default, feel free to change, i don't really care.
-        public Cell AttachedCell;
+        public CellState AffectingState;
+
+        [HideInInspector] public Cell AttachedCell;
         protected int TurnsLeft;
         protected CharacterEntity RefEntity;
-        protected NonCharacterEntity PrefabRef;
+        protected NCEPreset PresetRef;
         /// <summary>
         /// Defines if the NCE is destroyable via getting "damaged". Does not impact the countdown.
         /// </summary>
         protected bool Destroyable => true;
 
-        public virtual void Init(Cell AttachedCell, int TurnsLeft, CharacterEntity RefEntity,NonCharacterEntity prefab)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="AttachedCell"></param>
+        /// <param name="TurnsLeft"></param>
+        /// <param name="RefEntity"></param>
+        /// <param name="preset">GROOOOOOOOOOOOSSE flemme de renommer en "preset" sur tout les constructeurs, mais ouai ça a changé</param>
+        public virtual void Init(Cell AttachedCell, int TurnsLeft, CharacterEntity RefEntity, NCEPreset preset)
         {
+            CombatManager.Instance.NCEs.Add(this);
             AttachedCell.AttachedNCE = this;
             this.AttachedCell = AttachedCell;
+            this.AttachedCell.ChangeCellState(AffectingState, true);
             this.TurnsLeft = TurnsLeft;
             this.RefEntity = RefEntity;
-            this.PrefabRef = prefab;
+            this.PresetRef = preset;
             this.RefEntity.OnTurnBegun += Decrement;
         }
 
@@ -32,7 +44,7 @@ namespace DownBelow.Entity
         /// </summary>
         public virtual void Hit()
         {
-            if(Destroyable) DestroyEntity();
+            if (Destroyable) DestroyEntity();
         }
 
         public virtual void Decrement(GameEventData data)
@@ -43,11 +55,13 @@ namespace DownBelow.Entity
                 DestroyEntity();
             }
         }
+
         /// <summary>
         /// Calling Destroy(this.gameObject) is the base. Consider calling it after whatever you're adding just in case.
         /// </summary>
         public virtual void DestroyEntity()
         {
+            CombatManager.Instance.NCEs.Remove(this);
             AttachedCell.AttachedNCE = null;
             AttachedCell.ChangeCellState(CellState.Walkable);
             RefEntity.OnTurnBegun -= Decrement;

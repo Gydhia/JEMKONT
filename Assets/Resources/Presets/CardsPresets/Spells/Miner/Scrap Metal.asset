@@ -803,6 +803,6 @@ MonoBehaviour:
   CardType: 1
   Description: Destroy a non character entity, receive armor for 2 turns. A TESTER
     QUAND ON EST SUR LA MEME CASE QUE LA NCE.
-  IllustrationImage: {fileID: 0}
+  IllustrationImage: {fileID: 21300000, guid: 8b2ecdef46eb36a49be127947f43349c, type: 3}
   Class: 0
   CurrentSpellTargetting: 0

@@ -507,6 +507,6 @@ MonoBehaviour:
   CardType: 2
   Description: Choose an ally, if he should die within 3 turns, he is fully healed
     and snared for 3 turns.
-  IllustrationImage: {fileID: 21300000, guid: 44b62bdd66dc688408c07e86a957f139, type: 3}
+  IllustrationImage: {fileID: 21300000, guid: 51996397179d0b041b7f87a428ef7b98, type: 3}
   Class: 1
   CurrentSpellTargetting: 0

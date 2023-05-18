@@ -33,7 +33,7 @@ namespace DownBelow.Entity
         public event SpellEventData.Event OnDefenseAdded;
         public event SpellEventData.Event OnRangeRemoved;
         public event SpellEventData.Event OnRangeAdded;
-        
+
         public Action OnManaMissing;
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace DownBelow.Entity
         {
             OnManaMissing?.Invoke();
         }
-        
+
         public event SpellEventData.Event OnPushed;
         #endregion
         #region firingEvents
@@ -376,8 +376,8 @@ namespace DownBelow.Entity
         /// </summary>
         /// <param name="stat">The statistic to modify.</param>
         /// <param name="value">The value to modify the stat for (negative or positive.)</param>
-        /// <param name="overShield">Only used to determined if a damage stat should pierce through shieldHP. Will be ignored if stat != health value is positive.</param>
-        public void ApplyStat(EntityStatistics stat, int value)
+        ///<param name="triggerEvents">true by default. Used to </param>
+        public void ApplyStat(EntityStatistics stat, int value, bool triggerEvents = true)
         {
             Debug.Log($"Applied stat {stat}, {value}, {Environment.StackTrace} ");
             Statistics[stat] += value;
@@ -385,7 +385,7 @@ namespace DownBelow.Entity
             switch (stat)
             {
                 case EntityStatistics.Health:
-                    this._applyHealth(value); break;
+                    this._applyHealth(value, triggerEvents); break;
                 case EntityStatistics.Mana:
                     this._applyMana(value); break;
                 case EntityStatistics.Speed:
@@ -403,7 +403,7 @@ namespace DownBelow.Entity
             }
         }
 
-        private void _applyHealth(int value)
+        private void _applyHealth(int value, bool triggerEvents = true)
         {
             if (value > 0)
             {
@@ -413,7 +413,10 @@ namespace DownBelow.Entity
                 //else
                 //Statistics[EntityStatistics.Health] += value;
                 //value stays at its primary value.
-                this.OnHealthAdded?.Invoke(new(this, value));
+                if (triggerEvents)
+                {
+                    this.OnHealthAdded?.Invoke(new(this, value));
+                }
             } else
             {
                 value = Mathf.Max(0, Defense - value);
@@ -421,9 +424,11 @@ namespace DownBelow.Entity
                 {
                     value = 0;
                 }
-
-                this.OnHealthRemoved?.Invoke(new SpellEventData(this, value));
-                if (value != 0) this.OnDamageTaken?.Invoke(new());
+                if (triggerEvents)
+                {
+                    this.OnHealthRemoved?.Invoke(new SpellEventData(this, value));
+                    if (value != 0) this.OnDamageTaken?.Invoke(new());
+                }
             }
         }
 
@@ -474,7 +479,10 @@ namespace DownBelow.Entity
             IsAlly : {IsAlly}
             GridPos : {EntityCell}";
         }
-
+        public void AddAlterations(List<Alteration> alterations)
+        {
+            alterations.ForEach(x => AddAlteration(x));
+        }
         public void AddAlteration(Alteration alteration)
         {
             OnAlterationReceived?.Invoke(new SpellEventDataAlteration(this, alteration));
@@ -599,15 +607,33 @@ namespace DownBelow.Entity
 
         #endregion
 
-        public void Teleport(Cell cell)
+        public void Teleport(Cell TargetCell, SpellResult Result, bool triggerEvents = true)
         {
-            transform.position = cell.gameObject.transform.position;
+            var cellToTP = TargetCell;
+
+            //Could be changed to a "while(cellToTP != walkable)"?
+            if (cellToTP.Datas.state != CellState.Walkable)
+            {
+                List<Cell> freeNeighbours = GridManager.Instance.GetNormalNeighbours(cellToTP, cellToTP.RefGrid)
+                    .FindAll(x => x.Datas.state == CellState.Walkable)
+                    .OrderByDescending(x => Math.Abs(x.PositionInGrid.latitude - this.EntityCell.PositionInGrid.latitude) + Math.Abs(x.PositionInGrid.longitude - this.EntityCell.PositionInGrid.longitude))
+                    .ToList();
+                //Someday will need a Foreach, but i just don't know what we need to check on the cells before tp'ing, so just tp on the farther one.
+                cellToTP = freeNeighbours[0];
+            }
+
+            if (cellToTP.EntityIn != null && Result != null)
+            {
+                Result.TeleportedTo.Add(cellToTP.EntityIn);
+            }
+
+            transform.position = cellToTP.gameObject.transform.position;
 
             FireExitedCell();
 
-            EntityCell = cell;
+            EntityCell = cellToTP;
 
-            FireEnteredCell(cell);
+            FireEnteredCell(cellToTP);
         }
     }
 }
