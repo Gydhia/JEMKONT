@@ -871,7 +871,7 @@ MonoBehaviour:
   m_Name: G_Statistic_
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -808, y: 328}
+  position: {x: -840, y: 424}
   folded: 0
   ports:
     keys:
