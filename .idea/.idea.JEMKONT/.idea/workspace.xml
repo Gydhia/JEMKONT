@@ -1,19 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="aca4d1f6-1684-4e09-8416-8dbba01ed650" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Assets/FlatKit/[Render Pipeline] Built-In.unitypackage.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/FlatKit/[Render Pipeline] Universal (URP).unitypackage.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/dotmore/dotmore.csproj.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Polygon Arsenal/Upgrades/Polygon Arsenal 2019.4 URP.unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.JEMKONT/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.JEMKONT/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AssetsImported/Polygon Arsenal/Upgrades/Polygon Arsenal 2019.4 URP.unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AssetsImported/SpecialSkillsEffectsPack/Patch/Decals/HDRPdecal(Upper2020HDRP).unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AssetsImported/SpecialSkillsEffectsPack/Patch/Decals/HDRPdecal.unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AssetsImported/SpecialSkillsEffectsPack/Patch/Decals/HDRPdecalMatrixFix(Upper2020HDRP).unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AssetsImported/SpecialSkillsEffectsPack/Patch/Decals/URPdecal.unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AssetsImported/SpecialSkillsEffectsPack/Patch/Materials/GammaSpaceMaterials(WithoutNormal).unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AssetsImported/SpecialSkillsEffectsPack/Patch/Materials/GammaSpaceMaterials.unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AssetsImported/SpecialSkillsEffectsPack/Patch/Materials/LinearSpaceMaterials(WithoutNormal).unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AssetsImported/SpecialSkillsEffectsPack/Patch/Materials/LinearSpaceMaterials.unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AssetsImported/SpecialSkillsEffectsPack/Patch/Prefebs/OptimizedEffectsPrefebs.unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AssetsImported/SpecialSkillsEffectsPack/Patch/Prefebs/OriginalEffectsPrefebs(WithoutDistort).unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AssetsImported/SpecialSkillsEffectsPack/Patch/Prefebs/OriginalEffectsPrefebs.unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AssetsImported/SpecialSkillsEffectsPack/Patch/Toon/ToonTypeMaterial(GammaSpace).unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AssetsImported/SpecialSkillsEffectsPack/Patch/Toon/ToonTypeMaterial(LinearSpace).unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AssetsImported/SpecialSkillsEffectsPack/Patch/Toon/ToonTypeTextures_Part1.unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AssetsImported/SpecialSkillsEffectsPack/Patch/Toon/ToonTypeTextures_Part2.unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/UI/WorldSpace/Combat Feedbacks.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/UI/WorldSpace/Combat Feedbacks.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/UI/MainMenu/MainMenu_UI.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/UI/MainMenu/MainMenu_UI.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/UI/MainMenu/MenuSection.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/UI/MainMenu/MenuSection.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/UI/MainMenu/Popups/Popup_SaveSelection.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/UI/MainMenu/Popups/Popup_SaveSelection.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/UI/MainMenu/Popups/Popup_StateName.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/UI/MainMenu/Popups/Popup_StateName.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/0_FarmLand.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/0_FarmLand.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/1_Arena.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/1_Arena.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/GameDev.unity.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/UI_MainMenu.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/UI_MainMenu.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Entity/CharacterEntity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Entity/CharacterEntity.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/DraggableCard.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/DraggableCard.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/UIPlayerInfos.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/UIPlayerInfos.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="HighlightingSettingsPerFile">
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/88d854ea2c91426ebc464f01cd71aa85157a00/0a/a30f224a/MonoBehaviour.cs" root0="SKIP_HIGHLIGHTING" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -26,8 +55,6 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Discover.Launch.Via.Unity": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "vue.rearranger.settings.migration": "true"
   },
@@ -94,12 +121,19 @@
       <option name="presentableId" value="Default" />
       <updated>1680858135125</updated>
       <workItem from="1680858172133" duration="8077000" />
+      <workItem from="1681993454131" duration="8207000" />
+      <workItem from="1682069091950" duration="15000" />
+      <workItem from="1682069610212" duration="1550000" />
+      <workItem from="1682239784897" duration="4803000" />
+      <workItem from="1682689063918" duration="2175000" />
+      <workItem from="1683293043995" duration="3481000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="true" />
   <component name="UnityUnitTestConfiguration" currentTestLauncher="EditMode" />
   <component name="VcsManagerConfiguration">

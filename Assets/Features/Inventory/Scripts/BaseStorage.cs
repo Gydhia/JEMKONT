@@ -9,6 +9,7 @@ using UnityEngine;
 
 namespace DownBelow.UI.Inventory
 {
+    [Serializable]
     public class BaseStorage
     {
         public InventoryItem[] StorageItems;
@@ -36,9 +37,17 @@ namespace DownBelow.UI.Inventory
             for (int i = 0; i < this.StorageItems.Length; i++)
                 this.StorageItems[i] = new InventoryItem();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="preset"></param>
+        /// <param name="quantity"></param>
+        /// <param name="preferredSlot"></param>
+        /// <param name="addAll"></param>
+        /// <returns>The quantity that couldn't be added to the stack.</returns>
         public int TryAddItem(ItemPreset preset, int quantity, int preferredSlot = -1, bool addAll = true)
         {
+
             int remaining = quantity;
             int slot = preferredSlot != -1 ? preferredSlot : _getAvailableSlot(preset);
 
@@ -66,6 +75,7 @@ namespace DownBelow.UI.Inventory
             else
             {
                 int free = preset.MaxStack - this.StorageItems[slot].Quantity;
+                if (free == 0) return quantity;
                 free = free > remaining ? remaining : free;
 
                 this.StorageItems[slot].AddQuantity(free);

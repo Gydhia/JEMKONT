@@ -1,4 +1,5 @@
 using DownBelow.Entity;
+using DownBelow.Managers;
 using DownBelow.Spells.Alterations;
 using Sirenix.OdinInspector;
 using System.Collections;
@@ -16,7 +17,7 @@ namespace DownBelow.Spells
         public List<CharacterEntity> TargetedEntities = new List<CharacterEntity>();
 
         [BoxGroup("Targeting")]
-        public TargetType TargetType;
+        public ETargetType TargetType;
         //[BoxGroup("Targeting")]
         //public bool OnlyAffectedTarget;
 
@@ -38,12 +39,26 @@ namespace DownBelow.Spells
         [EnableIf("@this.Healing")]
         public int Heal;
 
+        [InfoBox("Will check if the targets are altered or not by a certain alteration.")]
         [BoxGroup("Alterations")]
         public bool IsAltered;
         [BoxGroup("Alterations")]
-        [Tooltip("If set to None, it will not be counted.")]
         [EnableIf("@this.IsAltered")]
-        public EAlterationType Buff;
+        public Alteration Alteration;
+        [BoxGroup("Alterations")]
+        public bool NotAltered;
+        [BoxGroup("Alterations")]
+        [EnableIf("@this.NotAltered")]
+        public Alteration NotAlteration;
+
+        [BoxGroup("Teleported")]
+        public bool TeleportedToEntity;
+        [BoxGroup("Teleported")]
+        [EnableIf("@this.TeleportedToEntity")]
+        public bool TeleportedToAlly;
+        [BoxGroup("Teleported")]
+        [EnableIf("@this.TeleportedToEntity")]
+        public bool TeleportedToEnemy;
 
         public bool Check(SpellResult result)
         {
@@ -60,7 +75,13 @@ namespace DownBelow.Spells
                 validated = this.CheckHealing();
 
             if (this.IsAltered)
-                validated = this.CheckBuffs();
+                validated = this.CheckAlterations();
+
+            if (this.NotAltered)
+                validated = this.CheckAlterations(true);
+
+            if (this.TeleportedToEntity)
+                validated = this.CheckTeleported();
 
             this._currentResult = null;
             return validated;
@@ -101,34 +122,68 @@ namespace DownBelow.Spells
             return healValidated || (!this.OneHealedTarget && total > this.Heal);
         }
 
-        public bool CheckBuffs()
+        public bool CheckAlterations(bool inverse = false)
         {
+            //envicané? 
+            // Just need this, with Target being a CharacterEntity
+            //Target.Alterations.Any(x => x.GetType() == Buff.GetType());
+            foreach (CharacterEntity item in _currentResult.TargetedCells.FindAll(x => x.EntityIn != null).Select(x => x.EntityIn))
+            {
+                if (inverse)
+                {
+                    if (!item.Alterations.Any(x => x.GetType() == NotAlteration.GetType()))
+                    {
+                        TargetedEntities.Add(item);
+                    }
+                } else
+                {
+                    if (item.Alterations.Any(x => x.GetType() == Alteration.GetType()))
+                    {
+                        TargetedEntities.Add(item);
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        public bool CheckTeleported()
+        {
+            if (this._currentResult.TeleportedTo.Count > 0)
+            {
+                if (TeleportedToEnemy)
+                {
+                    if (this._currentResult.TeleportedTo.Any(x => x is EnemyEntity))
+                    {
+                        return true;
+                    }
+                }
+                if (TeleportedToAlly)
+                {
+                    if (this._currentResult.TeleportedTo.Any(x => x is PlayerBehavior))
+                    {
+                        return true;
+                    }
+                }
+            }
             return false;
         }
 
         public List<CharacterEntity> GetValidatedTargets()
         {
-            switch (this.TargetType)
+            return this.TargetType switch
             {
-                case TargetType.Self:
-
-                    return new List<CharacterEntity> { this._currentResult.SpellRef.RefEntity };
-
-                case TargetType.Enemy:
-
-                    return this.TargetedEntities.Where(e => !e.IsAlly).ToList();
-
-                case TargetType.Ally:
-
-                    return this.TargetedEntities.Where(e => e.IsAlly).ToList();
-
-                case TargetType.Entities:
-                case TargetType.All:
-                    return this.TargetedEntities;
-                case TargetType.Empty:
-                default:
-                    return null; // Maybe that this shouldn't be selectable 
-            }
+                ETargetType.Self => new List<CharacterEntity> { this._currentResult.SpellRef.RefEntity },
+                ETargetType.Enemy => this.TargetedEntities.Where(e => !e.IsAlly).ToList(),
+                ETargetType.Ally => this.TargetedEntities.Where(e => e.IsAlly).ToList(),
+                ETargetType.Entities => this.TargetedEntities,//NEEDS TO TARGET NCES ALSO?????? WHICH ARENT CHARACTERENTITIES????
+                ETargetType.All or ETargetType.AllAllies => CombatManager.Instance.PlayingEntities.FindAll(x => x.IsAlly),
+                ETargetType.AllEnemies => CombatManager.Instance.PlayingEntities.FindAll(x => !x.IsAlly),
+                ETargetType.NCEs => this.TargetedEntities,//NEEDS TO TARGET NCES?????? WHICH ARENT CHARACTERENTITIES????
+                ETargetType.CharacterEntities => this.TargetedEntities,
+                ETargetType.Empty => null,
+                _ => null,// Maybe that this shouldn't be selectable 
+            };
         }
     }
 }

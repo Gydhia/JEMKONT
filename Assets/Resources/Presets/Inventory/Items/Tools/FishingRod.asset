@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 631c082ce4ad09f49b957037d0d3c305, type: 3}
+  m_Name: FishingRod
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: UID
+      Entry: 2
+      Data: 72c07eb2c3dbdde22a782c1aacfe1bed
+  Type: 0
+  ItemName: Fishing Rod
+  InventoryIcon: {fileID: 21300000, guid: 55fa76305df17454bb7aa27b9dd1bf9d, type: 3}
+  ItemPrefab: {fileID: 0}
+  MaxStack: 1
+  DroppedItemPrefab: {fileID: 919132149155446097, guid: c783bf94f1d766349a376eecc0f4f801, type: 3}
+  Deck:
+    Cards:
+    - {fileID: 11400000, guid: a4bd6d4842e41b347a6c5e845162e976, type: 2}
+    - {fileID: 11400000, guid: a4bd6d4842e41b347a6c5e845162e976, type: 2}
+    - {fileID: 11400000, guid: a4bd6d4842e41b347a6c5e845162e976, type: 2}
+    - {fileID: 11400000, guid: a4bd6d4842e41b347a6c5e845162e976, type: 2}
+    - {fileID: 11400000, guid: a4bd6d4842e41b347a6c5e845162e976, type: 2}
+    - {fileID: 11400000, guid: a4bd6d4842e41b347a6c5e845162e976, type: 2}
+  Class: 3
+  ActualPlayer: {fileID: 0}

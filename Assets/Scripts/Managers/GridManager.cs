@@ -12,11 +12,14 @@ using System;
 using DownBelow.Events;
 using UnityEngine.Rendering;
 using EODE.Wonderland;
+using DownBelow.UI;
 
 namespace DownBelow.Managers
 {
     public class GridManager : _baseManager<GridManager>
     {
+        public static readonly string SavesPath = "/Resources/Saves/Grids/";
+
         #region Assets_reference
         public Cell CellPrefab;
 
@@ -29,17 +32,17 @@ namespace DownBelow.Managers
         [SerializeField]
         public Transform _gridsDataHandler;
 
-        #endregion
+#endregion
 
         public bool InCombat = false;
 
-        #region Datas
+#region Datas
         public Dictionary<string, GridData> SavedGrids;
 
         public Dictionary<Guid, BaseSpawnablePreset> SpawnablesPresets;
         public Dictionary<Guid, ItemPreset> ItemsPresets;
 
-        #endregion
+#endregion
 
         private List<Cell> _possiblePath = new List<Cell>();
 
@@ -77,27 +80,33 @@ namespace DownBelow.Managers
         {
             base.Awake();
 
-            this.WorldGrids = new Dictionary<string, WorldGrid>();
-            // Load the Grids and Entities SO
-            this.LoadGridsFromJSON();
             this.LoadEveryEntities();
 
-            Destroy(this._gridsDataHandler.gameObject);
-            bool bitmapSet = false;
-            foreach (var savedGrid in this.SavedGrids)
+            // Events
+            if(InputManager.Instance != null)
             {
-                // Only load the saves that are indicated so
-                if (savedGrid.Value.ToLoad)
-                {
-                    this.GenerateGrid(savedGrid.Value, savedGrid.Key);
-                    if (!bitmapSet)
-                    {
-                        this.GenerateShaderBitmap(savedGrid.Value);
-                        bitmapSet = true;
-                    }
-                }
+                InputManager.Instance.OnCellClickedUp += this.ProcessCellClickUp;
+                InputManager.Instance.OnCellClickedDown += this.ProcessCellClickDown;
+                InputManager.Instance.OnNewCellHovered += this.ProcessNewCellHovered;
+            }
+            
+            GameManager.Instance.OnEnteredGrid += this.OnEnteredNewGrid;
+        }
+
+        private void OnDestroy()
+        {
+            if (InputManager.Instance != null)
+            {
+                InputManager.Instance.OnCellClickedUp -= this.ProcessCellClickUp;
+                InputManager.Instance.OnCellClickedDown -= this.ProcessCellClickDown;
+                InputManager.Instance.OnNewCellHovered -= this.ProcessNewCellHovered;
             }
 
+            GameManager.Instance.OnEnteredGrid -= this.OnEnteredNewGrid;
+        }
+
+        public void CreateWholeWorld(GameData.GameDataContainer refGameDataContainer)
+        {
             // Pre-instantiate the spell's arrow indicator
             this._spellArrow = Instantiate(
                 SettingsManager.Instance.GridsPreset.SpellArrowPrefab,
@@ -106,15 +115,25 @@ namespace DownBelow.Managers
             this._spellArrow.Init();
             this._spellArrow.gameObject.SetActive(false);
 
-            // Events
-            InputManager.Instance.OnCellClickedUp += this.ProcessCellClickUp;
-            InputManager.Instance.OnCellClickedDown += this.ProcessCellClickDown;
-            InputManager.Instance.OnNewCellHovered += this.ProcessNewCellHovered;
+            this.WorldGrids = new Dictionary<string, WorldGrid>();
+            // Load the Grids and Entities SO
+            
+            if(this._gridsDataHandler != null)
+            {
+                Destroy(this._gridsDataHandler.gameObject);
+            }
 
-            GameManager.Instance.OnEnteredGrid += this.OnEnteredNewGrid;
+            // TODO : Plug it in a scriptable instead of hardcoding it like that
+            foreach (var grid in refGameDataContainer.Data.grids_data)
+            {
+                this.CreateGrid(grid, grid.GridName);
+            }
+
+            this.MainWorldGrid = this.WorldGrids["FarmLand"];
+            this.GenerateShaderBitmap(this.MainWorldGrid.SelfData);
         }
 
-        public void GenerateGrid(GridData gridData, string gridId)
+        public void CreateGrid(GridData gridData, string gridId)
         {
             WorldGrid newGrid = Instantiate(
                 this.CombatGridPrefab,
@@ -127,8 +146,6 @@ namespace DownBelow.Managers
             newGrid.Init(gridData);
 
             this.WorldGrids.Add(newGrid.UName, newGrid);
-
-            this.MainWorldGrid = this.WorldGrids.Values.First();
         }
 
         public void ProcessCellClickUp(CellEventData data)
@@ -178,6 +195,14 @@ namespace DownBelow.Managers
 
                     NetworkManager.Instance.EntityAskToBuffActions(actions);
 
+                    return;
+                } else if (this.LastHoveredCell.HasItem(out var item))
+                {
+                    //If we have a dropped item on the cell.
+                    EntityAction[] actions = new EntityAction[2];
+                    actions[0] = new MovementAction(selfPlayer, LastHoveredCell);
+                    actions[1] = new PickupItemAction(selfPlayer, this.LastHoveredCell);
+                    NetworkManager.Instance.EntityAskToBuffActions(actions);
                     return;
                 } else
                 {
@@ -231,6 +256,7 @@ namespace DownBelow.Managers
                           && this._possiblePath.Contains(this.LastHoveredCell)
                       )
                     {
+                        Debug.Log("CREATED COMBAT MOVEMENT ACTION");
                         NetworkManager.Instance.EntityAskToBuffAction(
                             new CombatMovementAction(selfPlayer, this.LastHoveredCell)
                         );
@@ -278,7 +304,7 @@ namespace DownBelow.Managers
                 && this.LastHoveredCell.RefGrid == selfPlayer.CurrentGrid
             )
             {
-                if (UI.DraggableCard.SelectedCard == null)
+                if (DraggableCard.SelectedCard == null && selfPlayer.IsPlayingEntity)
                 {
                     if (!selfPlayer.IsMoving && this._possiblePath.Contains(LastHoveredCell))
                         PoolManager.Instance.CellIndicatorPool.DisplayPathIndicators(
@@ -390,7 +416,7 @@ namespace DownBelow.Managers
             }
         }
 
-        #region PATH_FINDING
+#region PATH_FINDING
         public CellData CellDataAtPosition(GridPosition target)
         {
             Cell targetCell = this._currentCombatGrid.Cells[target.longitude, target.latitude];
@@ -422,18 +448,12 @@ namespace DownBelow.Managers
         /// While calculate the closest path to a target, storing it in the Path var of the GridManager
         /// </summary>
         /// <param name="target"></param>
-        public List<Cell> FindPath(
-            CharacterEntity entity,
-            GridPosition target,
-            bool directPath = false,
-            int Range = -1
-        )
+        public List<Cell> FindPath(CharacterEntity entity, GridPosition target, bool directPath = false, int Range = -1)
         {
             if (entity == null)
                 return null;
 
-            Cell startCell =
-                entity.IsMoving && entity.NextCell != null ? entity.NextCell : entity.EntityCell;
+            Cell startCell = entity.IsMoving && entity.NextCell != null ? entity.NextCell : entity.EntityCell;
             Cell targetCell = entity.CurrentGrid.Cells[target.latitude, target.longitude];
 
             List<Cell> finalPath;
@@ -451,7 +471,7 @@ namespace DownBelow.Managers
                     if (
                         openSet[i].fCost < currentCell.fCost
                         || openSet[i].fCost == currentCell.fCost
-                            && openSet[i].hCost < currentCell.hCost
+                        && openSet[i].hCost < currentCell.hCost
                     )
                     {
                         currentCell = openSet[i];
@@ -462,21 +482,12 @@ namespace DownBelow.Managers
                 closedSet.Add(currentCell);
 
                 // We go there at the end of the path
-                if (
-                    currentCell == targetCell
-                    || Range > 0
-                        && IsInRange(currentCell.PositionInGrid, targetCell.PositionInGrid, Range)
-                )
+                if (currentCell == targetCell || Range >= 0 && IsInRange(currentCell.PositionInGrid, targetCell.PositionInGrid, Range))
                 {
-                    // Once done, get the correct path
-                    finalPath = this.RetracePath(startCell, targetCell);
-                    // If the last cell of the path isn't walkable, stop right before
-                    if (finalPath.Count > 0 && finalPath[^1].Datas.state == CellState.EntityIn)
-                    {
-                        finalPath.RemoveAt(finalPath.Count - 1);
-                    }
+                    if (Range >= 0)
+                        targetCell = currentCell;
 
-                    return finalPath;
+                    return this.RetracePath(startCell, targetCell);
                 }
 
                 List<Cell> actNeighbours = entity.CurrentGrid.IsCombatGrid
@@ -484,18 +495,12 @@ namespace DownBelow.Managers
                     : GetNormalNeighbours(currentCell, entity.CurrentGrid);
                 foreach (Cell neighbour in actNeighbours)
                 {
-                    if (
-                        CellState.NonWalkable.HasFlag(neighbour.Datas.state) && directPath == false
-                        || closedSet.Contains(neighbour)
-                    )
+                    if (CellState.NonWalkable.HasFlag(neighbour.Datas.state) && (!directPath || (directPath && neighbour.Datas.state == CellState.Blocked)) || closedSet.Contains(neighbour))
                         continue;
 
                     int newMovementCostToNeightbour =
                         currentCell.gCost + GetDistance(currentCell, neighbour);
-                    if (
-                        newMovementCostToNeightbour < neighbour.gCost
-                        || !openSet.Contains(neighbour)
-                    )
+                    if (newMovementCostToNeightbour < neighbour.gCost || !openSet.Contains(neighbour))
                     {
                         neighbour.gCost = newMovementCostToNeightbour;
                         neighbour.hCost = GetDistance(neighbour, targetCell);
@@ -667,16 +672,14 @@ namespace DownBelow.Managers
                 return 14 * dstY + 10 * (dstX - dstY);
             return 14 * dstX + 10 * (dstY - dstX);
         }
-        #endregion
+#endregion
 
-        #region DATAS_MANIPULATION
+#region DATAS_MANIPULATION
         public void LoadGridsFromJSON()
         {
             this.SavedGrids = new Dictionary<string, GridData>();
 
-            TextAsset[] jsons = Resources.LoadAll<TextAsset>(
-                "Saves/Grids/" + UnityEngine.SceneManagement.SceneManager.GetActiveScene().name
-            );
+            TextAsset[] jsons = Resources.LoadAll<TextAsset>("Saves/Grids/");
             foreach (TextAsset json in jsons)
             {
                 // not used but it may help the GridData deserialization to works well, so keep it
@@ -687,36 +690,68 @@ namespace DownBelow.Managers
             }
         }
 
-        public void SaveGridAsJSON(WorldGrid grid)
+        public GridData[] GetGridDatas()
         {
-            if (grid.UName == "" && grid.UName == string.Empty)
-                return;
+            GridData[] grids = new GridData[this.WorldGrids.Count];
+            for (int i = 0; i < this.WorldGrids.Count; i++)
+            {
+                grids[i] = this.GetGridData(this.WorldGrids.Values.ElementAt(i));
+            }
 
-            List<CellData> savedCells = new List<CellData>();
-
-            // Get the non walkable cells only
-            for (int i = 0;i < grid.Cells.GetLength(0);i++)
-                for (int j = 0;j < grid.Cells.GetLength(1);j++)
-                    if (grid.Cells[i, j].Datas.state != CellState.Walkable)
-                        savedCells.Add(grid.Cells[i, j].Datas);
-
-            GridData gridData = new GridData();
-            gridData.GridHeight = grid.GridHeight;
-            gridData.GridWidth = grid.GridWidth;
-            gridData.CellDatas = savedCells;
-
-            string gridJson = JsonConvert.SerializeObject(gridData);
-            this._saveJSONFile(gridJson, grid.UName);
+            return grids;
         }
 
-        public void SaveGridAsJSON(CellData[,] cellDatas, string name)
+        public GridData GetGridData(WorldGrid grid)
         {
-            if (name == "" && name == string.Empty)
-                return;
+            List<GridData> innerGrids = new List<GridData>();
 
+            foreach (var innerGrid in grid.InnerCombatGrids)
+            {
+                innerGrids.Add(
+                    new GridData(
+                        innerGrid.Key,
+                        true,
+                        innerGrid.Value.GridHeight,
+                        innerGrid.Value.GridWidth,
+                        innerGrid.Value.Latitude,
+                        innerGrid.Value.Longitude,
+                        this._getCellsData(innerGrid.Value),
+                        innerGrid.Value.SelfData.SpawnablePresets
+                ));
+            }
+
+            return new GridData(
+                grid.UName,
+                false,
+                grid.GridHeight,
+                grid.GridWidth,
+                grid.TopLeftOffset,
+                this._getCellsData(grid),
+                innerGrids,
+                grid.SelfData.SpawnablePresets
+            );
+        }
+
+        private List<CellData> _getCellsData(WorldGrid grid)
+        {
+            List<CellData> cellsData = new List<CellData>();
+            for (int i = 0; i < grid.Cells.GetLength(0); i++)
+            {
+                for (int j = 0; j < grid.Cells.GetLength(1); j++)
+                {
+                    if (grid.Cells[i, j] != null && grid.Cells[i, j].Datas.state != CellState.Walkable)
+                        cellsData.Add(grid.Cells[i, j].Datas);
+                }
+            }
+            return cellsData;
+        }
+
+        public string GetGridJson(CellData[,] cellDatas, string name)
+        {
             List<CellData> savedCells = new List<CellData>();
-            for (int i = 0;i < cellDatas.GetLength(0);i++)
-                for (int j = 0;j < cellDatas.GetLength(1);j++)
+
+            for (int i = 0; i < cellDatas.GetLength(0); i++)
+                for (int j = 0; j < cellDatas.GetLength(1); j++)
                     if (cellDatas[i, j].state != CellState.Walkable)
                         savedCells.Add(cellDatas[i, j]);
 
@@ -726,7 +761,24 @@ namespace DownBelow.Managers
             gridData.CellDatas = savedCells;
 
             string gridJson = JsonConvert.SerializeObject(gridData);
-            this._saveJSONFile(gridJson, name);
+
+            return gridJson;
+        }
+
+        public void SaveGridAsJSON(WorldGrid grid)
+        {
+            if (grid.UName == "" && grid.UName == string.Empty)
+                return;
+            
+            this._saveJSONFile(JsonConvert.SerializeObject(this.GetGridData(grid)), grid.UName);
+        }
+
+        public void SaveGridAsJSON(CellData[,] cellDatas, string name)
+        {
+            if (name == "" && name == string.Empty)
+                return;
+
+            this._saveJSONFile(this.GetGridJson(cellDatas, name), name);
         }
 
         public void SaveGridAsJSON(GridData grid, string uName)
@@ -744,16 +796,11 @@ namespace DownBelow.Managers
 
         private void _saveJSONFile(string json, string pathName)
         {
-            string currScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
-            string path =
-                Application.dataPath
-                + "/Resources/Saves/Grids/"
-                + currScene
-                + "/"
-                + pathName
-                + ".json";
+            string path = Application.dataPath + SavesPath + pathName + ".json";
+
             if (File.Exists(path))
                 File.Delete(path);
+
             File.WriteAllText(path, json);
 #if UNITY_EDITOR
             UnityEditor.AssetDatabase.SaveAssets();
@@ -761,7 +808,7 @@ namespace DownBelow.Managers
 #endif
 
             this.LoadGridsFromJSON();
-        }
+        }        
 
         public void LoadEveryEntities()
         {
@@ -776,9 +823,9 @@ namespace DownBelow.Managers
             foreach (var item in itemsPresets)
                 this.ItemsPresets.Add(item.UID, item);
         }
-        #endregion
+#endregion
 
-        #region SHADERS_BITMAP
+#region SHADERS_BITMAP
 
         public void GenerateShaderBitmap(
             GridData world,
@@ -858,15 +905,14 @@ namespace DownBelow.Managers
                     new Vector2(-world.TopLeftOffset.x, -(world.TopLeftOffset.z - 1))
                 );
                 this.BitmapShaderEditor.SetTexture("_Texture2D", this.BitmapTexture);
-            }
-            else {
+            } else
+            {
                 this.BitmapShader.SetVector(
                     "_Offset",
                     new Vector2(-world.TopLeftOffset.x, -(world.TopLeftOffset.z - 1))
                 );
                 this.BitmapShader.SetTexture("_Texture2D", this.BitmapTexture);
             }
-            
         }
 
         private void _generateShaderBitmap(GridData world, GridData innerGrid)
@@ -964,18 +1010,21 @@ namespace DownBelow.Managers
                 }
             }
 
-            for (int i = 0;i < world.InnerGrids.Count;i++)
+            if(world.InnerGrids != null)
             {
-                int xOffset = world.InnerGrids[i].Longitude;
-                int yOffset = world.InnerGrids[i].Latitude;
-
-                foreach (CellData cellData in world.InnerGrids[i].CellDatas)
+                for (int i = 0; i < world.InnerGrids.Count; i++)
                 {
-                    this.BitmapTexture.SetPixel(
-                        cellData.widthPos + xOffset,
-                        world.GridHeight - (cellData.heightPos + yOffset),
-                        this._getBitmapEditorColor(cellData.state)
-                    );
+                    int xOffset = world.InnerGrids[i].Longitude;
+                    int yOffset = world.InnerGrids[i].Latitude;
+
+                    foreach (CellData cellData in world.InnerGrids[i].CellDatas)
+                    {
+                        this.BitmapTexture.SetPixel(
+                            cellData.widthPos + xOffset,
+                            world.GridHeight - (cellData.heightPos + yOffset),
+                            this._getBitmapEditorColor(cellData.state)
+                        );
+                    }
                 }
             }
         }
@@ -1036,7 +1085,7 @@ namespace DownBelow.Managers
             this.BitmapTexture.Apply();
         }
 
-        #endregion
+#endregion
     }
 
     [Serializable]

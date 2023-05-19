@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using DownBelow.Mechanics;
 using System.Linq;
+using System.Security.AccessControl;
 using DG.Tweening;
 
 namespace DownBelow.UI
@@ -39,7 +40,6 @@ namespace DownBelow.UI
         public bool IsDragged = false;
         public bool PinnedToScreen = false;
         public bool PinnedLeft = false;
-        public bool PinnedForMultipleActions = false;
 
         private RectTransform m_RectTransform;
         // Cached when card clicked. Reference 
@@ -47,6 +47,7 @@ namespace DownBelow.UI
         // TODO: Temporary, later on it'll be handled by the card pile
         private Vector2 _spawnPosition;
 
+        private bool _isDestroying = false;
         private Coroutine _followCoroutine = null;
         private Coroutine _compareCoroutine = null;
         private Coroutine _pinUpdateCoroutine = null;
@@ -58,11 +59,6 @@ namespace DownBelow.UI
 
             this.CardReference = CardReference;
             this.CardVisual.Init(CardReference);
-
-           // this.m_RectTransform.localPosition= new Vector2(Random.Range(50, 1500) ,m_RectTransform.position.y);
-            this._spawnPosition = m_RectTransform.position;  
-            this.m_RectTransform.DOLocalMoveY(this._spawnPosition.y, 0.3f);
-            this.PinnedForMultipleActions = this.CardReference.Spells.Where(s => s.Data.RequiresTargetting).Count() > 1;
 
             this._subToEvents();
         }
@@ -77,8 +73,15 @@ namespace DownBelow.UI
         private void _onLeftClickDown(InputAction.CallbackContext ctx) => this._onLeftClickDown();
         private void _onLeftClickDown()
         {
+            if (GameManager.Instance.SelfPlayer.Mana < this.CardReference.Cost)
+            {
+                GameManager.Instance.SelfPlayer.FireMissingMana();
+                return;
+            }
+                
+
             // Forbid the card drag if currently using another one
-            if (HoveredCard == this && SelectedCard == null)
+            if (HoveredCard == this && SelectedCard == null && !this._isDestroying)
             {
                 SelectedCard = this;
                 this._startDragPos = Mouse.current.position.ReadValue();
@@ -111,7 +114,8 @@ namespace DownBelow.UI
         private void _onRightClick(InputAction.CallbackContext ctx) => this._onRightClick();
         private void _onRightClick()
         {
-            this.DiscardToPile();
+            if (this.PinnedToScreen)
+                this.DiscardToHand();
         }
 
         public void OnPointerEnter(PointerEventData eventData)
@@ -132,35 +136,23 @@ namespace DownBelow.UI
         public void StartDrag()
         {
             this._abortCoroutine(ref this._compareCoroutine);
-          //  UIManager.Instance.CardSection.UpdateLayoutGroup();
-            
-            // Do we require to pin the card for 2 or more inputs ?
-            if (this.PinnedForMultipleActions)
-            {
-                this.IsDragged = true;
-                this._followCoroutine = StartCoroutine(this._followCursor());
-            }
-            else
-            {
-                // TODO : Instead of brutally pinning it right away, make it go to the cursor then fade to pin
-                this.PinCardToScreen();
-            }
+
+            this.IsDragged = true;
+            this._followCoroutine = StartCoroutine(this._followCursor());
         }
 
         private void Hover()
         {
-            HoveredCard.m_RectTransform.DOLocalMoveY(HoveredCard._spawnPosition.y + 100f, 0.3f);
+            this.m_RectTransform.DOAnchorPosY(HoveredCard._spawnPosition.y + 100f, 0.3f);
         }
 
         private void UnHover()
         {
-            HoveredCard.m_RectTransform.DOLocalMoveY(HoveredCard._spawnPosition.y, 0.3f);
+            this.m_RectTransform.DOAnchorPosY(HoveredCard._spawnPosition.y - 175f, 0.3f);
         }
-        
+
         public void PinCardToScreen()
         {
-
-            Debug.Log("Pinned card to screen " + this.name.ToString());
             this.PinnedToScreen = true;
             this.PinnedLeft = true;
 
@@ -171,27 +163,54 @@ namespace DownBelow.UI
 
         public void DrawFromPile()
         {
+            this.gameObject.SetActive(true);
+            
+            this.m_RectTransform.localScale = Vector3.one * 0.2f;
+            this.transform.parent = UIManager.Instance.CardSection.DrawPile.transform;
+            this.transform.position = Vector3.zero;
 
+            int result = Random.Range(1, 11);
+
+            this.m_RectTransform.DOPunchRotation(Vector3.one * 0.8f, 1.3f, result);
+            this.m_RectTransform.DOPunchScale(Vector3.one * 0.8f, 1.3f, result);
+            this.m_RectTransform.DOPunchPosition(Vector3.one * 0.8f, 1.3f, result).OnComplete((() =>
+            {
+                this.m_RectTransform.localScale = Vector3.one;
+                this.m_RectTransform.parent = UIManager.Instance.CardSection.CardsHolder.transform;
+                this._spawnPosition = m_RectTransform.position;
+                this.m_RectTransform.DOAnchorPosY(this._spawnPosition.y, 0.3f);
+            }));
         }
 
-        public void DiscardToPile()
+        public void DiscardToHand()
         {
             this._abortCoroutine(ref this._pinUpdateCoroutine);
             this.PinnedToScreen = this.IsDragged = false;
             this.m_RectTransform.parent = UIManager.Instance.CardSection.CardsHolder.transform;
-            
-            
 
-            // TODO : smoothly go back
-          //  this.m_RectTransform.position = this._spawnPosition;
-            this.m_RectTransform.DOMove(this._spawnPosition, 0.3f).SetEase(Ease.OutQuad);
+            this.m_RectTransform.DOAnchorPos(this._spawnPosition, 0.3f).SetEase(Ease.OutQuad);
             SelectedCard = null;
+        }
+
+        public void DiscardToPile()
+        {
+            this._isDestroying = true;
+            SelectedCard = null;
+
+            this._abortCoroutine(ref _followCoroutine);
+            this._abortCoroutine(ref _compareCoroutine);
+            this._abortCoroutine(ref _pinUpdateCoroutine);
+
+            this.m_RectTransform.DOPunchRotation(Vector3.one * 0.8f, .4f, 3);
+            this.m_RectTransform.DOPunchScale(Vector3.one * 0.8f, .4f, 3);
+            this.m_RectTransform.DOScale(0.2f, .4f);
+            this.m_RectTransform.DOMove(UIManager.Instance.CardSection.DiscardHolder.transform.position, 0.4f)
+                .OnComplete(() => this.Burn());
         }
 
         public void Burn()
         {
-            // TEMPORARY
-            Destroy(this.gameObject, 2f);
+            this.gameObject.SetActive(false);
         }
 
         private IEnumerator _compareDistanceToStartFollow()

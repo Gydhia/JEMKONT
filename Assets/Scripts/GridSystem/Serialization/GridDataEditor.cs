@@ -20,8 +20,6 @@ public class EditorGridData
     public int GridWidth = 5;
 
     [FoldoutGroup("Datas")]
-    public bool ToLoad = false;
-    [FoldoutGroup("Datas")]
     public bool IsCombatGrid = false;
     [FoldoutGroup("Datas")]
     public List<InnerGridData> InnerGrids;

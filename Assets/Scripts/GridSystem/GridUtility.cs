@@ -31,6 +31,7 @@ namespace DownBelow.GridSystem
                             oldCells[i, j] = new CellData(i, j, CellState.Walkable);
             }
         }
+
         public static List<Cell> GetSurroundingCells(CellState? specifiedState, Cell cell)
         {
             List<Cell> foundCells = new List<Cell>();
@@ -189,7 +190,7 @@ namespace DownBelow.GridSystem
 
         public static bool[,] RotateSpellMatrix(bool[,] baseMatrix, Cell origin, Cell target, int angle = -1)
         {
-            if(angle == -1)
+            if (angle == -1)
                 angle = GetRotationForMatrix(origin, target);
 
             // This means it's the current rotation
@@ -203,29 +204,29 @@ namespace DownBelow.GridSystem
         {
             int numRows = baseMatrix.GetLength(0);
             int numCols = baseMatrix.GetLength(1);
-            bool[,] outputMatrix = angle == 180 ? 
-                new bool[numRows, numCols] : 
+            bool[,] outputMatrix = angle == 180 ?
+                new bool[numRows, numCols] :
                 new bool[numCols, numRows];
 
             switch (angle)
             {
                 case 90:
-                    for (int i = 0; i < numRows; i++)
-                        for (int j = 0; j < numCols; j++)
+                    for (int i = 0;i < numRows;i++)
+                        for (int j = 0;j < numCols;j++)
                             outputMatrix[j, numRows - i - 1] = baseMatrix[i, j];
 
                     break;
 
                 case 180:
-                    for (int i = 0; i < numRows; i++)
-                        for (int j = 0; j < numCols; j++)
+                    for (int i = 0;i < numRows;i++)
+                        for (int j = 0;j < numCols;j++)
                             outputMatrix[numRows - i - 1, numCols - j - 1] = baseMatrix[i, j];
 
                     break;
 
                 case 270:
-                    for (int i = 0; i < numRows; i++)
-                        for (int j = 0; j < numCols; j++)
+                    for (int i = 0;i < numRows;i++)
+                        for (int j = 0;j < numCols;j++)
                             outputMatrix[numCols - j - 1, i] = baseMatrix[i, j];
 
                     break;
@@ -277,8 +278,7 @@ namespace DownBelow.GridSystem
                     return 270;
                 else
                     return 90;
-            }
-            else
+            } else
             {
                 // Vertical movement
                 if (yDiff > 0)
@@ -291,7 +291,7 @@ namespace DownBelow.GridSystem
 
         public static bool IsCellWithinPlayerRange(ref bool[,] playerRange, GridPosition playerPos, GridPosition targetCell, Vector2 pRelativePos)
         {
-            var (width, height) = (playerRange.GetLength(1), playerRange.GetLength(0)); 
+            var (width, height) = (playerRange.GetLength(1), playerRange.GetLength(0));
 
             var (playerX, playerY) = (playerPos.longitude, playerPos.latitude);
 
@@ -299,7 +299,7 @@ namespace DownBelow.GridSystem
 
             var (cellX, cellY) = (targetCell.longitude, targetCell.latitude);
 
-            var (offsetX, offsetY) = (cellX - (playerX - relativeX), cellY - (playerY - relativeY)); 
+            var (offsetX, offsetY) = (cellX - (playerX - relativeX), cellY - (playerY - relativeY));
 
             return offsetX >= 0 && offsetX < width && offsetY >= 0 && offsetY < height && playerRange[offsetY, offsetX];
         }
@@ -313,9 +313,9 @@ namespace DownBelow.GridSystem
             int shapeWidth = shape.GetLength(1);
 
             // Iterate over the cells in the pattern and add the corresponding cells in the grid to the list
-            for (int x = 0; x < shapeHeight; x++)
+            for (int x = 0;x < shapeHeight;x++)
             {
-                for (int y = 0; y < shapeWidth; y++)
+                for (int y = 0;y < shapeWidth;y++)
                 {
                     if (shape[x, y])
                     {
@@ -335,5 +335,35 @@ namespace DownBelow.GridSystem
         }
 
         #endregion
+        public static GridPosition GetGlobalPosition(this Cell cell)
+        {
+            return new GridPosition(cell.PositionInGrid.longitude - cell.RefGrid.SelfData.Longitude, cell.PositionInGrid.latitude - cell.RefGrid.SelfData.Latitude);
+        }
+
+        /// <summary>
+        /// Gets the assembly name for a class.
+        /// </summary>
+        /// <param name="obj"> An object.</param>
+        /// <returns></returns>
+        public static string GetAssemblyName(this object obj)
+        {
+
+            var temp = obj.GetType().AssemblyQualifiedName;
+            var res = "";
+            var temp2 = temp.Split(",");
+
+            for (int i = 0;i < 2;i++)
+            {
+                res += temp2[i];
+                if (i == 0)
+                {
+                    res += ",";
+                }
+            }
+            //Debug.Log(res); 
+            return res;
+
+        }
     }
 }
+

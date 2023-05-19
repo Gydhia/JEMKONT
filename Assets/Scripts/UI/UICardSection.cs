@@ -5,20 +5,20 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using DownBelow.Mechanics;
+using DownBelow.Managers;
 
 namespace DownBelow.UI
 {
     public class UICardSection : MonoBehaviour
     {
-
         public GameObject CardsHolder;
+        public GameObject DiscardHolder;
+        public GameObject DrawHolder;
 
         public Image DrawPile;
         public TextMeshProUGUI DrawNumber;
-        public int CardsInDraw;
         public Image DiscardPile;
         public TextMeshProUGUI DiscardNumber;
-        public int CardsInDiscard;
 
         private RectTransform _cardsHolderRectTransform;
 
@@ -27,24 +27,11 @@ namespace DownBelow.UI
             _cardsHolderRectTransform = CardsHolder.GetComponent<RectTransform>();
         }
 
-        public void AddDiscardCard(int number)
+        private void Update()
         {
-            this.CardsInDiscard += number;
-            this.DiscardNumber.text = this.CardsInDiscard.ToString();
+            // No needs to handle this another way for now. Suck but good
+            this.DiscardNumber.text = CardsManager.Instance.DiscardPile.Count.ToString();
+            this.DrawNumber.text = CardsManager.Instance.DrawPile.Count.ToString();
         }
-        public void AddDrawCard(int number)
-        {
-            this.CardsInDraw += number;
-            this.DrawNumber.text = this.CardsInDraw.ToString();
-        }
-
-
-
-        public void UpdateLayoutGroup()
-        {
-            LayoutRebuilder.ForceRebuildLayoutImmediate(_cardsHolderRectTransform);
-        }
-
     }
-
 }

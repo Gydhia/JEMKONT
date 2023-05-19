@@ -1,6 +1,7 @@
 using DownBelow.Entity;
 using DownBelow.GridSystem;
 using DownBelow.Managers;
+using DownBelow.Mechanics;
 using DownBelow.Spells;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
@@ -13,34 +14,44 @@ using UnityEngine;
 namespace DownBelow.Spells
 {
     [System.Flags]
-    public enum TargetType
+    public enum ETargetType
     {
         Self = 0,
+
+        AllAllies = 1 << 8,
+        AllEnemies = 1 << 16,
 
         Enemy = 1 << 0,
         Ally = 1 << 1,
 
         Empty = 1 << 2,
 
-        Entities = Enemy | Ally,
+        NCEs = 1 << 4,
+
+        CharacterEntities = Enemy | Ally,
+
+        Entities = Enemy | Ally | NCEs,
         All = Enemy | Ally | Empty
     }
 
     public static class TargetTypeHelper
     {
-        public static bool ValidateTarget(this TargetType value, Cell cell)
+        public static bool ValidateTarget(this ETargetType value, Cell cell)
         {
-            switch (value)
+            return value switch
             {
-                case TargetType.Self: return cell.EntityIn == GameManager.Instance.SelfPlayer;
-                case TargetType.Enemy: return cell.EntityIn != null && cell.EntityIn is EnemyEntity;
-                case TargetType.Ally: return cell.EntityIn != null && cell.EntityIn is PlayerBehavior;
-                case TargetType.Empty: return cell.Datas.state == CellState.Walkable;
-                case TargetType.Entities: return cell.Datas.state == CellState.EntityIn;
-                case TargetType.All: return cell.Datas.state != CellState.Blocked;
-            }
-
-            return true;
+                ETargetType.Self => cell.EntityIn == GameManager.Instance.SelfPlayer,
+                ETargetType.AllAllies => cell.EntityIn != null && cell.EntityIn.IsAlly,
+                ETargetType.Enemy => cell.EntityIn != null && cell.EntityIn is EnemyEntity,
+                ETargetType.Ally => cell.EntityIn != null && cell.EntityIn is PlayerBehavior,
+                ETargetType.Empty => cell.Datas.state == CellState.Walkable,
+                ETargetType.CharacterEntities => cell.Datas.state == CellState.EntityIn && cell.EntityIn is CharacterEntity,
+                ETargetType.Entities => cell.Datas.state == CellState.EntityIn,
+                ETargetType.NCEs => cell.hasNCE,
+                ETargetType.AllEnemies => cell.EntityIn != null && !cell.EntityIn.IsAlly,
+                ETargetType.All => cell.Datas.state != CellState.Blocked,
+                _ => true,
+            };
         }
     }
 
@@ -52,7 +63,7 @@ namespace DownBelow.Spells
 
         public void Refresh()
         {
-            if (this.TargetType == TargetType.Self)
+            if (this.TargetType == ETargetType.Self)
                 this.CastingMatrix = new bool[1, 1] { { true } };
 
             this.RotatedShapeMatrix = this.SpellShapeMatrix;
@@ -65,11 +76,25 @@ namespace DownBelow.Spells
         [Button("Rotate Shape 90°"), FoldoutGroup("Spell Targeting"), HorizontalGroup("Spell Targeting/Rotation", Width = 0.5f, Order = -1, MaxWidth = 200)]
         public void RotateSpellShape() { this.SpellShapeMatrix = GridUtility.RotateSpellMatrix(this.SpellShapeMatrix, 90); }
 
+        [Button("Generate Classic Casting"), FoldoutGroup("Spell Targeting"), HorizontalGroup("Spell Targeting/Rotation", Width = 0.5f, Order = 0, MaxWidth = 200)]
+        public void GenerateClassicCasting()
+        {
+            this.CastingMatrix = new bool[7, 7];
+            for (int i = 0;i < 7 * 7;i++)
+            {
+                CastingMatrix[i % 7, i / 7] = true;
+            }
+            CastingMatrix[3, 3] = false;
+            CasterPosition = new Vector2(3, 3);
+        }
+
         [Button, FoldoutGroup("Spell Targeting"), HorizontalGroup("Spell Targeting/Buttons", Width = 0.5f, Order = 0, MaxWidth = 200)]
         public void RegenerateShape() { SpellShapeMatrix = new bool[5, 5]; ShapePosition = new Vector2(2, 2); }
 
         [Button, FoldoutGroup("Spell Targeting"), HorizontalGroup("Spell Targeting/Buttons", Width = 0.5f, Order = 0, MaxWidth = 200)]
         public void RegenerateCasting() { CastingMatrix = new bool[5, 5]; CasterPosition = new Vector2(2, 2); }
+
+
 
         [TableMatrix(DrawElementMethod = "_processDrawSpellShape", SquareCells = true, ResizableColumns = false, HorizontalTitle = nameof(SpellShapeMatrix)), OdinSerialize]
         [FoldoutGroup("Spell Targeting"), HorizontalGroup("Spell Targeting/Grids", Width = 0.5f, Order = 1, MaxWidth = 200)]
@@ -87,7 +112,7 @@ namespace DownBelow.Spells
         [TableMatrix(DrawElementMethod = "_processDrawSpellCasting", SquareCells = true, ResizableColumns = false, HorizontalTitle = nameof(CastingMatrix)), OdinSerialize]
         [FoldoutGroup("Spell Targeting"), HorizontalGroup("Spell Targeting/Grids", Width = 0.5f, Order = 1, MaxWidth = 200)]
         [OnValueChanged("_updateCastingShape")]
-        [HideIf("TargetType", TargetType.Self)]
+        [HideIf("@TargetType == ETargetType.Self || TargetType == ETargetType.AllAllies")]
         public bool[,] CastingMatrix;
         [SerializeField]
         public Vector2 CasterPosition = new Vector2(2, 2);
@@ -97,8 +122,10 @@ namespace DownBelow.Spells
         public bool RotateShapeWithCast = false;
 
         [FoldoutGroup("Spell Targeting"), HorizontalGroup("Spell Targeting/TargetType", Order = 3)]
-        public TargetType TargetType;
+        public ETargetType TargetType;
 
+        public ScriptableSFX ProjectileSFX;
+        public ScriptableSFX CellSFX;
 
 #if UNITY_EDITOR
         private void _updateSpellShape() => this._updateMatrixShape(ref SpellShapeMatrix, ref ShapePosition);
@@ -110,7 +137,7 @@ namespace DownBelow.Spells
             int rows = array.GetLength(1);
 
             bool addedEdge = false;
-            for (int i = 0; i < rows; i++)
+            for (int i = 0;i < rows;i++)
             {
                 // Top edge
                 if (array[0, i])
@@ -133,7 +160,7 @@ namespace DownBelow.Spells
             {
                 bool anyTop = false;
                 bool anyBot = false;
-                for (int i = 0; i < cols; i++)
+                for (int i = 0;i < cols;i++)
                 {
                     if (array[i, 1]) anyTop = true;
                     if (array[i, rows - 2]) anyBot = true;
@@ -143,7 +170,7 @@ namespace DownBelow.Spells
             }
 
             addedEdge = false;
-            for (int i = 1; i < cols - 1; i++)
+            for (int i = 1;i < cols - 1;i++)
             {
                 // Left edge
                 if (array[i, 0])
@@ -166,7 +193,7 @@ namespace DownBelow.Spells
             {
                 bool anyLeft = false;
                 bool anyRight = false;
-                for (int i = 0; i < rows; i++)
+                for (int i = 0;i < rows;i++)
                 {
                     if (array[1, i]) anyLeft = true;
                     if (array[cols - 2, i]) anyRight = true;
@@ -213,8 +240,7 @@ namespace DownBelow.Spells
                         y = rect.y + (rect.size.y / 4)
                     }, color);
                 //Achor cell
-            }
-            else
+            } else
             {
                 EditorGUI.DrawRect(
                     rect.Padding(1),

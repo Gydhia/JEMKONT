@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 631c082ce4ad09f49b957037d0d3c305, type: 3}
+  m_Name: Pickaxe
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: UID
+      Entry: 2
+      Data: 7be70f16f237f01a891f50091de9adb4
+  Type: 0
+  ItemName: Pickaxe
+  InventoryIcon: {fileID: 21300000, guid: 995ee7a24a7e4fb4b8494218405c38c9, type: 3}
+  ItemPrefab: {fileID: 0}
+  MaxStack: 1
+  DroppedItemPrefab: {fileID: 919132149155446097, guid: 0e27c2078cc54374e8727f8028175f26, type: 3}
+  Deck:
+    Cards: []
+  Class: 0
+  ActualPlayer: {fileID: 0}

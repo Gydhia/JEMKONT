@@ -1,11 +1,17 @@
 using DownBelow.Entity;
 using DownBelow.Events;
 using DownBelow.GridSystem;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Photon.Pun;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace DownBelow.Managers
 {
@@ -41,11 +47,15 @@ namespace DownBelow.Managers
         }
         #endregion
 
+        public string SaveName;
+
         [SerializeField]
         private PlayerBehavior _playerPrefab;
 
         public Dictionary<string, PlayerBehavior> Players;
         public PlayerBehavior SelfPlayer;
+
+        public ItemPreset[] GameItems;
 
         public static bool GameStarted = false;
 
@@ -58,20 +68,93 @@ namespace DownBelow.Managers
         public static bool IsUsingCombatBuffer = false;
         public static bool IsUsingNormalBuffer = false;
 
-
         #endregion
 
         private void Start()
         {
-            UIManager.Instance.Init();
-            CardsManager.Instance.Init();
-            GridManager.Instance.Init();
-            NetworkManager.Instance.SubToGameEvents();
+            this.Init();
+        }
 
-            this.ProcessPlayerWelcoming();
+        public void Init()
+        {
+            if (NetworkManager.Instance != null)
+                NetworkManager.Instance.Init();
 
-            // Maybe that the nested events aren't a great idea
+            if(MenuManager.Instance != null)
+                MenuManager.Instance.Init();
+
+            if (UIManager.Instance != null)
+                UIManager.Instance.Init();
+
+            if (CardsManager.Instance != null)
+                CardsManager.Instance.Init();
+
+            if (GridManager.Instance != null)
+                GridManager.Instance.Init();
+
+
+            if(GameData.Game.RefGameDataContainer != null)
+            {
+                GridManager.Instance.CreateWholeWorld(GameData.Game.RefGameDataContainer);
+                this.ProcessPlayerWelcoming();
+            }
+        }
+
+        public void ProcessPlayerWelcoming()
+        {
             CombatManager.Instance.OnCombatStarted += this._subscribeForCombatBuffer;
+
+            if (PhotonNetwork.CurrentRoom == null)
+            {
+                PhotonNetwork.ConnectUsingSettings();
+                PhotonNetwork.AutomaticallySyncScene = true;
+            } 
+            else if (!PhotonNetwork.IsConnected)
+            {
+                PhotonNetwork.OfflineMode = true;
+            } 
+            else
+            {
+                WelcomePlayers();
+            }
+        }
+
+        public void WelcomePlayerLately()
+        {
+            PhotonNetwork.CreateRoom("SoloRoom" + UnityEngine.Random.Range(0,100000));
+        }
+
+        public void WelcomePlayers()
+        {
+            if (PhotonNetwork.PlayerList.Length >= 1)
+            {
+                System.Guid spawnId = GridManager.Instance.SpawnablesPresets.First(k => k.Value is SpawnPreset).Key;
+                var spawnLocations = GridManager.Instance.MainWorldGrid.SelfData.SpawnablePresets.Where(k => k.Value == spawnId).Select(kv => kv.Key);
+
+                this.Players = new Dictionary<string, PlayerBehavior>();
+                int counter = 0;
+                foreach (var player in PhotonNetwork.PlayerList)
+                {
+                    PlayerBehavior newPlayer = Instantiate(this._playerPrefab, Vector3.zero, Quaternion.identity, this.transform);
+                    //newPlayer.Deck = CardsManager.Instance.DeckPresets.Values.Single(d => d.Name == "TestDeck").Copy();
+                 
+                    newPlayer.Init(SettingsManager.Instance.FishermanStats, GridManager.Instance.MainWorldGrid.Cells[spawnLocations.ElementAt(counter).latitude, spawnLocations.ElementAt(counter).longitude], GridManager.Instance.MainWorldGrid);
+                    // TODO: make it works with world grids
+                    newPlayer.UID = player.UserId;
+
+                    if (player.UserId == PhotonNetwork.LocalPlayer.UserId)
+                    {
+                        this.SelfPlayer = newPlayer;
+                        CameraManager.Instance.AttachPlayerToCamera(this.SelfPlayer);
+                    }
+
+                    this.Players.Add(player.UserId, newPlayer);
+                    counter++;
+                }
+
+                GameStarted = true;
+                this.FirePlayersWelcomed();
+            }
         }
 
         private void _subscribeForCombatBuffer(GridEventData Data)
@@ -88,59 +171,6 @@ namespace DownBelow.Managers
 
             CombatManager.Instance.OnCombatStarted += this._subscribeForCombatBuffer;
             CombatManager.Instance.OnCombatEnded -= _unsubscribeForCombatBuffer;
-        }
-
-        public void ProcessPlayerWelcoming()
-        {
-            if (PhotonNetwork.CurrentRoom == null)
-            {
-                PhotonNetwork.ConnectUsingSettings();
-                PhotonNetwork.AutomaticallySyncScene = true;
-            } else if (!PhotonNetwork.IsConnected)
-            {
-                PhotonNetwork.OfflineMode = true;
-            } else
-            {
-                WelcomePlayers();
-            }
-        }
-
-        public void WelcomePlayerLately()
-        {
-            PhotonNetwork.CreateRoom("SoloRoom" + UnityEngine.Random.Range(0, 100000));
-        }
-
-        public void WelcomePlayers()
-        {
-            if (PhotonNetwork.PlayerList.Length >= 1)
-            {
-                System.Guid spawnId = GridManager.Instance.SpawnablesPresets.First(k => k.Value is SpawnPreset).Key;
-                var spawnLocations = GridManager.Instance.MainWorldGrid.SelfData.SpawnablePresets.Where(k => k.Value == spawnId).Select(kv => kv.Key);
-
-                this.Players = new Dictionary<string, PlayerBehavior>();
-                int counter = 0;
-                foreach (var player in PhotonNetwork.PlayerList)
-                {
-                    PlayerBehavior newPlayer = Instantiate(this._playerPrefab, Vector3.zero, Quaternion.identity, this.transform);
-                    newPlayer.Deck = CardsManager.Instance.DeckPresets.Values.Single(d => d.Name == "TestDeck").Copy();
-
-                    newPlayer.Init(SettingsManager.Instance.FishermanStats, GridManager.Instance.MainWorldGrid.Cells[spawnLocations.ElementAt(counter).latitude, spawnLocations.ElementAt(counter).longitude], GridManager.Instance.MainWorldGrid);
-                    // TODO: make it works with world grids
-                    newPlayer.PlayerID = player.UserId;
-
-                    if (player.UserId == PhotonNetwork.LocalPlayer.UserId)
-                    {
-                        this.SelfPlayer = newPlayer;
-                        CameraManager.Instance.AttachPlayerToCamera(this.SelfPlayer);
-                    }
-
-                    this.Players.Add(player.UserId, newPlayer);
-                    counter++;
-                }
-
-                GameStarted = true;
-                this.FirePlayersWelcomed();
-            }
         }
 
         #region DEBUG
@@ -196,7 +226,8 @@ namespace DownBelow.Managers
 
                 CombatActionsBuffer[0].SetCallback(_executeNextFromCombatBufferDelayed);
                 CombatActionsBuffer[0].ExecuteAction();
-            } else
+            } 
+            else
                 IsUsingCombatBuffer = false;
         }
 
@@ -208,7 +239,8 @@ namespace DownBelow.Managers
 
                 NormalActionsBuffer[refEntity][0].SetCallback(() => ExecuteNextNormalBuffer(refEntity));
                 NormalActionsBuffer[refEntity][0].ExecuteAction();
-            } else
+            } 
+            else
                 IsUsingNormalBuffer = false;
         }
 
@@ -216,6 +248,15 @@ namespace DownBelow.Managers
         {
             if (!Data.Played)
                 return;
+
+            //string serializedSpell = JsonConvert.SerializeObject(Data.GeneratedSpells, Formatting.None,
+            //            new JsonSerializerSettings()
+            //            {
+            //                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            //            });
+
+            //Spells.Spell[] spells = JsonConvert.DeserializeObject<Spells.Spell[]>(serializedSpell);
+
 
             for (int i = 0; i < Data.GeneratedSpells.Length; i++)
                 this.BuffAction(Data.GeneratedSpells[i], false);
@@ -276,14 +317,122 @@ namespace DownBelow.Managers
             }
         }
 
-        public void BuffEnterGrid(string grid, CharacterEntity refEntity)
+        public EntityAction FindActionByID(CharacterEntity entity, Guid ID)
         {
-
+            if (entity.CurrentGrid is CombatGrid)
+            {
+                return CombatActionsBuffer.SingleOrDefault(a => a.ID == ID);
+            }
+            else
+            {
+                return NormalActionsBuffer[entity].SingleOrDefault(a => a.ID == ID);
+            }
         }
 
-        public void InsertToBuffer(EntityAction action)
+        #endregion
+
+        #region SAVE
+
+        public void Save(string fileName)
         {
-            CombatActionsBuffer.Insert(0, action);
+            FileInfo fileinfo = _getFileToSave(fileName);
+
+            this._saveGameData(fileinfo);
+        }
+
+        private FileInfo _getFileToSave(string fileName)
+        {
+            var folder = new System.IO.DirectoryInfo(Application.persistentDataPath + "/save");
+            if (!folder.Exists)
+                folder.Create();
+
+            // Make sure that every character is understandable by the system, or replace them
+            string savename = fileName;
+            foreach (char c in System.IO.Path.GetInvalidFileNameChars())
+            {
+                savename = savename.Replace(c, '_');
+            }
+
+            FileInfo fileinfo = new System.IO.FileInfo(Application.persistentDataPath + "/save/" + savename + ".dbw");
+            if (!fileinfo.Exists)
+                fileinfo.Create();
+
+            return fileinfo;
+        }
+
+        private void _saveGameData(System.IO.FileInfo file)
+        {
+            try
+            {
+                GameData.GameData data = new GameData.GameData();
+
+                TaskScheduler mainThread = TaskScheduler.FromCurrentSynchronizationContext();
+                Task.Run(() => this._getCurrentGameDataSideThread(data))
+                    .ContinueWith((previousTask) =>
+                    {
+                        if (previousTask.Exception != null)
+                        {
+                            Debug.LogError(previousTask.Exception, this);
+                        }
+                        previousTask.Result.Save(file);
+                    }, mainThread);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError(ex, this);
+                throw ex;
+            }
+        }
+
+        private GameData.GameData _getCurrentGameDataSideThread(GameData.GameData gameData)
+        {
+            // TODO : Make a global class to save EACH possible game's grid states
+            gameData.grids_data = GridManager.Instance.GetGridDatas();
+            gameData.game_version = GameData.GameVersion.Current.ToString();
+            gameData.save_name = this.SaveName;
+
+            return gameData;
+        }
+
+        public static GameData.GameDataContainer MakeBaseGame(string saveName)
+        {
+            var gamedata = new GameData.GameData()
+            {
+                game_version = GameData.GameVersion.Current.ToString(),
+                save_name = saveName,
+                save_time = DateTime.Now,
+                grids_data = Instance.CreateBaseGridsDatas()
+            };
+
+            return gamedata.Save(Instance._getFileToSave(saveName));
+        }
+
+        public string CreateBaseGridsJSON()
+        {
+            TextAsset[] jsons = Resources.LoadAll<TextAsset>("Saves/Grids/");
+            JArray gridsArray = new JArray();
+
+            foreach (TextAsset json in jsons)
+            {
+                JObject grid = JsonConvert.DeserializeObject<JObject>(json.text);
+                gridsArray.Add(grid);
+            }
+
+            return gridsArray.ToString();
+        }
+        public GridData[] CreateBaseGridsDatas()
+        {
+            TextAsset[] jsons = Resources.LoadAll<TextAsset>("Saves/Grids/");
+
+            GridData[] grids = new GridData[jsons.Length];
+
+            for( int i = 0; i < jsons.Length; i++)
+            {
+                GridData loadedData = JsonConvert.DeserializeObject<GridData>(jsons[i].text);
+                grids[i] = loadedData;
+            }
+
+            return grids;
         }
 
         #endregion

@@ -7,10 +7,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [CreateAssetMenu(fileName = "EditorGridData", menuName = "DownBelow/Editor/EditorGridData", order = 0)]
 public class GridDataScriptableObject : SerializedBigDataScriptableObject<EditorGridData>
 {
+#if UNITY_EDITOR
+    public static bool IsSubscribed = false;
+
     #region Comparator_values
     private int _oldHeight = -1;
     private int _oldWidth = -1;
@@ -19,9 +23,6 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
     #endregion
 
     public float cellsWidth => SettingsManager.Instance.GridsPreset.CellsSize;
-    public GridPosition AAAAAAAAAH;
-    [HideInInspector]
-    public bool IsPainting = false;
 
     [SerializeField]
     private GameObject _plane;
@@ -44,12 +45,35 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
         this.ApplyModifications();
     }
 
-    private string PenButtonName = "DRAW";
+    private string PenButtonName = "START EDITING";
     [Button("$PenButtonName", ButtonSizes.Large), HorizontalGroup("De_Serialization", 0.5f), BoxGroup("De_Serialization/Modifications")]
-    public void ActivatePen()
+    public void StartEditing()
     {
-        this.IsPainting = !this.IsPainting;
-        this.PenButtonName = this.IsPainting ? "STOP" : "DRAW";
+        if (IsSubscribed)
+        {
+            PenButtonName = "START EDITING";
+
+            IsSubscribed = false;
+
+            SceneView.duringSceneGui -= OnSceneGUI;
+            SceneManager.sceneUnloaded -= _stopEditOnSceneUnload;
+        }
+        else
+        {
+            PenButtonName = "STOP EDITING";
+
+            IsSubscribed = true;
+
+            SceneView.duringSceneGui += OnSceneGUI;
+            SceneManager.sceneUnloaded += _stopEditOnSceneUnload;
+        }
+    }
+
+    private void _stopEditOnSceneUnload(Scene scene)
+    {
+        IsSubscribed = false;
+        SceneView.duringSceneGui -= OnSceneGUI;
+        SceneManager.sceneUnloaded -= _stopEditOnSceneUnload;
     }
 
     [Button(ButtonSizes.Large), HorizontalGroup("De_Serialization", 0.5f), BoxGroup("De_Serialization/De_Serialization"), GUIColor(0.8f, 0.5f, 0.3f)]
@@ -70,7 +94,7 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
     public void CreateNewGrid(string name, int width = 4, int height = 4)
     {
         if (!GridManager.Instance.SavedGrids.ContainsKey(name))
-            GridManager.Instance.SaveGridAsJSON(new GridData(false, height, width), name);
+            GridManager.Instance.SaveGridAsJSON(new GridData(name, false, height, width), name);
     }
 
     [Button]
@@ -110,7 +134,6 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
         if (GridManager.Instance.SavedGrids.TryGetValue(this.SelectedGrid, out GridData newGrid))
         {
             this.LazyLoadedData.TopLeftOffset = newGrid.TopLeftOffset;
-            GridManager.Instance._gridsDataHandler.position = this.LazyLoadedData.TopLeftOffset;
 
             GridManager.Instance.LoadEveryEntities();
 
@@ -191,18 +214,21 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
     {
         if (this._plane == null)
         {
-            this._plane = Instantiate(
+            this._plane = GridManager.Instance._gridsDataHandler.transform.Find("Plane(Clone)")?.gameObject;
+            if(this._plane == null)
+            {
+                this._plane = Instantiate(
                 this.PlanePrefab,
-                new Vector3(
-                    (this.LazyLoadedData.GridWidth * cellsWidth) / 2,
-                    -0.01f,
-                    -(this.LazyLoadedData.GridHeight * cellsWidth) / 2 + (cellsWidth / 2)),
-                Quaternion.identity,
-                GridManager.Instance._gridsDataHandler.transform
-            );
+                    new Vector3(
+                        (this.LazyLoadedData.GridWidth * cellsWidth) / 2,
+                        0f,
+                        -(this.LazyLoadedData.GridHeight * cellsWidth) / 2 + (cellsWidth / 2)),
+                    Quaternion.identity,
+                    GridManager.Instance._gridsDataHandler.transform
+                );
+            }
         }
 
-        GridManager.Instance._gridsDataHandler.position = this.LazyLoadedData.TopLeftOffset;
         this._plane.transform.localScale = new Vector3(this.LazyLoadedData.GridWidth * (cellsWidth / 10f), 0f, this.LazyLoadedData.GridHeight * (cellsWidth / 10f));
         this._plane.transform.localPosition = new Vector3((this.LazyLoadedData.GridWidth * cellsWidth) / 2, 0f, -(this.LazyLoadedData.GridHeight * cellsWidth) / 2);
     }
@@ -220,8 +246,11 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
     {
         void affectSpawnStates(CellData[,] cellDatas, OrderedDictionary<GridPosition, BaseSpawnablePreset> Spawnables)
         {
-            foreach (var spawnable in Spawnables)            
-                cellDatas[spawnable.Key.latitude, spawnable.Key.longitude].state = spawnable.Value.AffectingState;
+            if(Spawnables != null)
+            {
+                foreach (var spawnable in Spawnables)
+                    cellDatas[spawnable.Key.latitude, spawnable.Key.longitude].state = spawnable.Value.AffectingState;
+            }
         }
 
         affectSpawnStates(this.LazyLoadedData.CellDatas, this.LazyLoadedData.Spawnables);
@@ -250,6 +279,7 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
                     innerSpawnables.Add(spawnable.Key, spawnable.Value != null ? spawnable.Value.UID : Guid.Empty);
 
             GridData innerData = new GridData(
+                this.SelectedGrid + "_" + i,
                 true,
                 this.LazyLoadedData.InnerGrids[i].GridHeight,
                 this.LazyLoadedData.InnerGrids[i].GridWidth,
@@ -270,29 +300,15 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
 
         // /!\ By default, the grid containing InnerGrids is not a combatgrid
         return new GridData(
+            this.SelectedGrid,
             false,
             this.LazyLoadedData.GridHeight,
             this.LazyLoadedData.GridWidth,
             this.LazyLoadedData.TopLeftOffset,
-            this.LazyLoadedData.ToLoad,
             cellData,
             innerGridsData,
             interactableSpawns
         );
-    }
-
-    private void OnEnable()
-    {
-        SceneView.duringSceneGui += OnSceneGUI;
-    }
-    private void OnDestroy()
-    {
-        SceneView.duringSceneGui -= OnSceneGUI;
-    }
-    
-    private void OnDisable()
-    {
-        SceneView.duringSceneGui -= OnSceneGUI;
     }
 
     private bool PenTypeChoosed = false;
@@ -303,7 +319,7 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
     /// </summary>
     public void OnSceneGUI(SceneView sceneView)
     {
-        if (GridManager.Instance == null)
+        if (GridManager.Instance == null || SettingsManager.Instance == null)
             return;
 
         this.DrawGUIDatas();
@@ -319,7 +335,7 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
             PenTypeChoosed = false;
         }
         /// depending on the current input call block or make entity
-        if (!this.IsPainting || Event.current.type != EventType.KeyDown && Event.current.type != EventType.MouseMove)
+        if (Event.current.type != EventType.KeyDown && Event.current.type != EventType.MouseMove)
         {
             return;
         }
@@ -424,7 +440,7 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
     static public void drawString(string text, Vector3 worldPos, float oX = 0, float oY = 0, Color? colour = null)
     {
 
-#if UNITY_EDITOR
+
         UnityEditor.Handles.BeginGUI();
 
         var restoreColor = Color.white;
@@ -444,7 +460,7 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
 
         GUI.color = restoreColor;
         UnityEditor.Handles.EndGUI();
-#endif
+
     }
 
     static Vector3 TransformByPixel(Vector3 position, float x, float y)
@@ -589,5 +605,5 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
 
         this.ResizePlane();
     }
-
+#endif
 }

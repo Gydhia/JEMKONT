@@ -89,7 +89,10 @@ namespace DownBelow.Pools
         public void DisplayPathIndicators(List<Cell> cells)
         {
             this.HidePathIndicators();
-
+            if(cells == null)
+            {
+                return;
+            }
             foreach (Cell cell in cells)
             {
                 CellIndicator indicator = GetPooled();
@@ -99,7 +102,6 @@ namespace DownBelow.Pools
                 indicator.Color = GreenColor;
 
                 this._pathRef.Add(indicator);
-
             }
         }
 

@@ -24,6 +24,7 @@ namespace DownBelow.Events
         public CharacterEntity Entity;
         public EntityStatistics Stat;
         public int Value;
+
         public SpellEventData(CharacterEntity Entity, int Value, EntityStatistics Stat = EntityStatistics.None)
         {
             this.Entity = Entity;
@@ -31,11 +32,12 @@ namespace DownBelow.Events
             this.Stat = Stat;
         }
     }
-    public class SpellEventDataAlteration : SpellEventData {
-        public EAlterationType EAlterationType;
+    public class SpellEventDataAlteration : EventData<SpellEventDataAlteration>
+    {
+        public Alteration Alteration;
 
-        public SpellEventDataAlteration(CharacterEntity Entity,int Value,EAlterationType type, EntityStatistics Stat = EntityStatistics.None) : base(Entity,Value,Stat) {
-            EAlterationType = type;
+        public SpellEventDataAlteration(CharacterEntity Entity,Alteration alteration) {
+            this.Alteration = alteration;
         }
     }
 

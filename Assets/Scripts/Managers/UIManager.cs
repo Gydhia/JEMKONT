@@ -5,6 +5,7 @@ using DownBelow.UI;
 using DownBelow.UI.Inventory;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,6 +16,7 @@ namespace DownBelow.Managers
     {
         public UIStaticCombat CombatSection;
         public UIStaticTurnSection TurnSection;
+        public UIStaticEscape EscapeSection;
         public UIPlayerInfos PlayerInfos;
         public UICardSection CardSection;
         public EntityTooltipUI EntityTooltipUI;
@@ -23,32 +25,44 @@ namespace DownBelow.Managers
         public UIStorage CurrentStorage;
 
         private Coroutine _gatheringCor;
-        public Slider GatheringSlider;
+        public Image GatheringSlider;
+        public Image Outline;
+        public Image CollectedItem;
         public TextMeshProUGUI GatheringName;
-
-        public Button NextTurnButton;
-        public Button StartCombatButton;
 
         public void Init()
         {
-            this.StartCombatButton.gameObject.SetActive(false);
             this.TurnSection.gameObject.SetActive(false);
+            this.TurnSection.Init();
+
             this.PlayerInfos.gameObject.SetActive(false);
             this.CardSection.gameObject.SetActive(false);
             this.EntityTooltipUI.gameObject.SetActive(false);
 
             GameManager.Instance.OnPlayersWelcomed += _subscribe;
-            GameManager.Instance.OnEnteredGrid += _showHideStartButton;
+            
         }
-
-        private void _showHideStartButton(EntityEventData Data)
+        public void SwitchSelectedSlot(int oldSlot, int newSlot)
         {
-            if (Data.Entity == GameManager.Instance.SelfPlayer && Data.Entity.CurrentGrid.IsCombatGrid)
+            if (oldSlot == 0)
             {
-                this.StartCombatButton.gameObject.SetActive(true);
+                //ActiveSlot
+                PlayerInventory.ClassItem.SelectedSlot(false);
+            } else
+            {
+                //Inventory
+                PlayerInventory.PlayerStorage.Items[oldSlot - 1].SelectedSlot(false);
+            }
+            if (newSlot == 0)
+            {
+                PlayerInventory.ClassItem.SelectedSlot(true);
+                //ActiveSlot
+            } else
+            {
+                PlayerInventory.PlayerStorage.Items[newSlot - 1].SelectedSlot(true);
+                //Inventory
             }
         }
-
         private void _subscribe(GameEventData Data)
         {
             CombatManager.Instance.OnCombatStarted += this.SetupCombatInterface;
@@ -60,9 +74,16 @@ namespace DownBelow.Managers
             CombatManager.Instance.OnCardBeginUse += this._beginCardDrag;
             CombatManager.Instance.OnCardEndUse += this._endCardDrag;
 
-            InputManager.Instance.OnCellRightClick += this.UpdateEntityToolTip;
+            InputManager.Instance.OnCellRightClickDown += this.UpdateEntityToolTip;
+            PlayerInputs.player_escape.canceled += this._switchEscapeState;
+        }
 
-            
+        private void _switchEscapeState(UnityEngine.InputSystem.InputAction.CallbackContext ctx) => this.SwitchEscapeState();
+        public void SwitchEscapeState()
+        {
+            bool isActive = EscapeSection.gameObject.activeSelf;
+
+            EscapeSection.gameObject.SetActive(!isActive);
         }
 
         /// <summary>
@@ -77,11 +98,11 @@ namespace DownBelow.Managers
         {
             ResourcePreset resource = Data.ResourceRef.InteractablePreset as ResourcePreset;
             this.GatheringName.text = "Gathering " + resource.UName + "... (" + resource.MinGathering + ", " + resource.MaxGathering + ")";
-            this.GatheringSlider.value = 0f;
-            this.GatheringSlider.minValue = 0f;
-            this.GatheringSlider.maxValue = resource.TimeToGather;
+            this.GatheringSlider.fillAmount= 0f;
+            this.Outline.fillAmount = 0f;
 
             this.GatheringSlider.gameObject.SetActive(true);
+            this.Outline.gameObject.SetActive(true);
             this.GatheringName.gameObject.SetActive(true);
 
             this._gatheringCor = StartCoroutine(this._gather(resource));
@@ -92,7 +113,7 @@ namespace DownBelow.Managers
             if (Data.Cell.EntityIn == null)
                 return;
             // TODO: Make sure the entity notice well the cell they're in while entering a grid
-                
+
             this.EntityTooltipUI.Init(Data.Cell.EntityIn);
             this.EntityTooltipUI.gameObject.SetActive(!this.EntityTooltipUI.isActiveAndEnabled);
             //UPDATES TOOLTIP UI
@@ -103,7 +124,7 @@ namespace DownBelow.Managers
             this.GatheringSlider.gameObject.SetActive(false);
             this.GatheringName.gameObject.SetActive(false);
 
-            if(this._gatheringCor != null)
+            if (this._gatheringCor != null)
             {
                 StopCoroutine(this._gatheringCor);
                 this._gatheringCor = null;
@@ -112,21 +133,28 @@ namespace DownBelow.Managers
 
         private IEnumerator _gather(ResourcePreset resource)
         {
+            CollectedItem.gameObject.SetActive(true);
+            CollectedItem.sprite = resource.ResourceItem.InventoryIcon;
             float timer = 0f;
             while (timer <= resource.TimeToGather)
             {
                 timer += Time.deltaTime;
-                this.GatheringSlider.value = timer;
+                this.GatheringSlider.fillAmount = timer / resource.TimeToGather;
+                this.Outline.fillAmount = timer / resource.TimeToGather;
                 yield return null;
             }
+            CollectedItem.gameObject.SetActive(false);
+            Outline.gameObject.SetActive(false);
             this._gatheringCor = null;
         }
 
         public void SetupCombatInterface(GridEventData Data)
         {
-            if (Data.Grid.IsCombatGrid) {
+            if (Data.Grid.IsCombatGrid)
+            {
                 this._setupCombatInterface();
-            } else {
+            } else
+            {
                 this._setupOutOfCombatInterface();
             }
         }
@@ -151,7 +179,6 @@ namespace DownBelow.Managers
         private void _beginCardDrag(CardEventData Data)
         {
             InputManager.Instance.ChangeCursorAppearance(CursorAppearance.Card);
-
         }
 
         private void _endCardDrag(CardEventData Data)

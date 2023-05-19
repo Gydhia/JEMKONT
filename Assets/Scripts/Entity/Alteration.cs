@@ -10,20 +10,13 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Timers;
 using UnityEngine;
-namespace DownBelow.Spells.Alterations {
+namespace DownBelow.Spells.Alterations
+{
 
-    public enum EAlterationType {
-        Stun,
-        Snare,
-        Shattered,
-        DoT,
-        Sleep,
-        Bubbled,
-        SpeedUpDown,
-        DmgUpDown,
-    }
-    public abstract class Alteration {
-        /// <summary>
+    [Serializable]
+    public abstract class Alteration
+    {
+        /*// <summary>
         /// Key is overriden by value.
         /// </summary>
         public static Dictionary<EAlterationType,EAlterationType[]> overrides = new() {
@@ -51,44 +44,77 @@ namespace DownBelow.Spells.Alterations {
             };
         }
         public abstract EAlterationType ToEnum();
-        public int Cooldown;
-        public CharacterEntity Target;
+        //*/
 
-        public Animator InstanciatedFXAnimator;
+        public int Duration;
+
+        [HideInInspector] public CharacterEntity Target;
+
+        [HideInInspector] public Animator InstanciatedFXAnimator;
 
         public virtual bool ClassicCountdown { get => true; }
 
-        public virtual void Setup(CharacterEntity entity) {
+        /// <summary>
+        /// Called when an alteration is put on the entity passed.
+        /// </summary>
+        /// <param name="entity">The affected entity.</param>
+        public virtual void Setup(CharacterEntity entity)
+        {
             Target = entity;
             //SetupFx?
             SFXManager.Instance.RefreshAlterationSFX(entity);
+            entity.OnDeath += Unsubbing;
         }
 
-        public virtual void Apply(CharacterEntity entity) {
+        protected virtual void Unsubbing(GameEventData Data)
+        {
+            Target.OnTurnEnded -= DecrementAlterationCountdown; //TODO: call this when you die.
+        }
+
+        /// <summary>
+        /// Called every time an alteration has an effect. 
+        /// </summary>
+        /// <param name="entity"></param>
+        public virtual void Apply(CharacterEntity entity)
+        {
             SFXManager.Instance.RefreshAlterationSFX(entity);
+
         }
 
-        public virtual void WearsOff(CharacterEntity entity) {
+        /// <summary>
+        /// Called when an alteration wears off.
+        /// </summary>
+        /// <param name="entity"></param>
+        public virtual void WearsOff(CharacterEntity entity)
+        {
             //FxGoAway?
             SFXManager.Instance.RefreshAlterationSFX(entity);
+            Unsubbing(new());
+            Target.Alterations.Remove(this);
         }
 
-        public virtual void DecrementAlterationCountdown(Events.EventData data) {
-            Cooldown--;
-            if (Cooldown <= 0) {
-                Target.Alterations.Remove(this);
+        /// <summary>
+        /// Called when an alteration ticks down.
+        /// </summary>
+        /// <param name="data"></param>
+        public virtual void DecrementAlterationCountdown(Events.EventData data)
+        {
+            Duration--;
+            if (Duration <= 0 && ClassicCountdown)
+            {
                 WearsOff(Target);
-                Target.OnTurnEnded -= DecrementAlterationCountdown; //TODO: call this when you die.
             }
         }
 
-        public Alteration(int Cooldown) {
-            this.Cooldown = Cooldown;
+        public Alteration(int Duration)
+        {
+            this.Duration = Duration;
         }
 
-        public override string ToString() {
+        public override string ToString()
+        {
             string cc = ClassicCountdown ? "\n(Can also decrement with other conditions)" : "";
-            return $"{ToEnum()} for {Cooldown} turns.{cc}";
+            return $"{this.GetType().Name} for {Duration} turns.{cc}";
         }
     }
 }
