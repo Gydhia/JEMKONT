@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DownBelow.Mechanics;
 using DownBelow.Managers;
+using Utility.SLayout;
 
 namespace DownBelow.UI
 {
@@ -20,6 +21,8 @@ namespace DownBelow.UI
         public Image DiscardPile;
         public TextMeshProUGUI DiscardNumber;
 
+        public SHorizontalLayoutGroup _cardsLayoutGroup;
+
         private RectTransform _cardsHolderRectTransform;
 
         private void Start()
@@ -33,5 +36,13 @@ namespace DownBelow.UI
             this.DiscardNumber.text = CardsManager.Instance.DiscardPile.Count.ToString();
             this.DrawNumber.text = CardsManager.Instance.DrawPile.Count.ToString();
         }
+
+        public void UpdateLayoutGroup()
+        {
+            _cardsLayoutGroup.enabled = false;
+            _cardsLayoutGroup.enabled = true;
+        }
+
+
     }
 }

@@ -558,10 +558,9 @@ MonoBehaviour:
   DrawHolder: {fileID: 3655987271193487414}
   DrawPile: {fileID: 1601488957049640963}
   DrawNumber: {fileID: 2681435136693674027}
-  CardsInDraw: 0
   DiscardPile: {fileID: 1763731460588986009}
   DiscardNumber: {fileID: 7375793024397275341}
-  CardsInDiscard: 0
+  _cardsLayoutGroup: {fileID: 1949338518}
 --- !u!1 &6456363296135594952
 GameObject:
   m_ObjectHideFlags: 0
