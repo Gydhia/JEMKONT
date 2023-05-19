@@ -43,6 +43,7 @@ namespace DownBelow.GridSystem
             }
         }
         public Interactable AttachedInteract;
+        public bool IsPlacementCell = false;
 
         public GridPosition PositionInGrid => new GridPosition(this.Datas.widthPos, this.Datas.heightPos);
         public Vector3 WorldPosition => this.gameObject.transform.position;

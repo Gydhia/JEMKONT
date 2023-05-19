@@ -240,16 +240,7 @@ namespace DownBelow.Entity
         public void EnterNewGrid(CombatGrid grid)
         {
             this.healthText.gameObject.SetActive(true);
-            Cell closestCell =
-                GridUtility.GetClosestAvailableCombatCell(this.CurrentGrid, grid, this.EntityCell.PositionInGrid);
-
-            while (closestCell.Datas.state != CellState.Walkable)
-            {
-                List<Cell> neighbours = GridManager.Instance.GetCombatNeighbours(closestCell, grid);
-                closestCell = neighbours.First(cell => cell.Datas.state == CellState.Walkable);
-                if (closestCell == null)
-                    closestCell = neighbours[0];
-            }
+            Cell closestCell = grid.PlacementCells.First(c => c.Datas.state != CellState.EntityIn);
             theList = 0; //:)
             this.FireExitedCell();
 
@@ -258,6 +249,8 @@ namespace DownBelow.Entity
             this.FireEnteredCell(closestCell);
 
             this.transform.position = closestCell.WorldPosition;
+
+            PoolManager.Instance.CellIndicatorPool.DisplayPathIndicators(grid.PlacementCells);
         }
 
         public bool RespectedDelayToAsk()

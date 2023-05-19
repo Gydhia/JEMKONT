@@ -31,8 +31,14 @@ namespace DownBelow.Pools
             this._pathRef = new List<CellIndicator>();
             this._spellsRef = new Dictionary<Cell, CellIndicator>();
 
+            CombatManager.Instance.OnCombatStarted += this._hidePlacementCells;
             CombatManager.Instance.OnSpellBeginTargetting += this.beginShowSpellTargetting;
             CombatManager.Instance.OnSpellEndTargetting += this.endShowSpellTargetting;
+        }
+
+        private void _hidePlacementCells(GridEventData Data)
+        {
+            this.DisplayPathIndicators(null);
         }
 
         #region ACTIONS

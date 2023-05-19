@@ -607,7 +607,7 @@ namespace DownBelow.Entity
 
         #endregion
 
-        public void Teleport(Cell TargetCell, SpellResult Result, bool triggerEvents = true)
+        public void Teleport(Cell TargetCell, SpellResult Result = null, bool triggerEvents = true)
         {
             var cellToTP = TargetCell;
 

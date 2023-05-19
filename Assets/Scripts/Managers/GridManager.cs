@@ -256,11 +256,18 @@ namespace DownBelow.Managers
                           && this._possiblePath.Contains(this.LastHoveredCell)
                       )
                     {
-                        Debug.Log("CREATED COMBAT MOVEMENT ACTION");
                         NetworkManager.Instance.EntityAskToBuffAction(
                             new CombatMovementAction(selfPlayer, this.LastHoveredCell)
                         );
                     }
+                }
+            }
+            // Clicking to select placement
+            else if (selfPlayer.CurrentGrid is CombatGrid cGrid && !cGrid.HasStarted)
+            {
+                if (LastHoveredCell.IsPlacementCell && selfPlayer.EntityCell != LastHoveredCell)
+                {
+                    selfPlayer.Teleport(LastHoveredCell);
                 }
             }
         }
