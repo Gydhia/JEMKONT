@@ -130,6 +130,37 @@
 						</RandomSequenceContainer>
 					</ChildrenList>
 				</Folder>
+				<Folder Name="GAME_SSFX" ID="{8F5C78FC-4F44-4116-8999-7D721EE9DC83}" ShortID="114094158">
+					<ChildrenList>
+						<Folder Name="COMBAT" ID="{990004AD-0D07-4431-A993-31D506D91DDE}" ShortID="533490336">
+							<ChildrenList>
+								<Sound Name="win" ID="{EFD69081-9638-4B7D-9B3A-33E52057B126}" ShortID="336625303">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{86B68257-100F-4BF5-A2A8-7B8994EA0037}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{5FC12D48-6ADB-4B43-883D-07304F613018}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="combatwin" ID="{81EA9F19-676D-4A92-94F1-F494D4E4FCFC}">
+											<Language>SFX</Language>
+											<AudioFile>combatwin.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="47948954"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="combatwin" ID="{81EA9F19-676D-4A92-94F1-F494D4E4FCFC}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</Folder>
+						<Folder Name="EXPLORE" ID="{B112713D-F16F-4651-89FC-75778260D270}" ShortID="1003552209"/>
+					</ChildrenList>
+				</Folder>
 			</ChildrenList>
 		</WorkUnit>
 	</AudioObjects>

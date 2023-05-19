@@ -1121,7 +1121,12 @@
 								</MusicTransition>
 							</TransitionList>
 							<Playlist>
-								<MusicPlaylistItem Name="" ID="{C98BF9FD-6269-4D60-988E-E958A79ECF22}" ShortID="315754045"/>
+								<MusicPlaylistItem Name="" ID="{C98BF9FD-6269-4D60-988E-E958A79ECF22}" ShortID="315754045">
+									<PropertyList>
+										<Property Name="LoopCount" Type="int16" Value="0"/>
+										<Property Name="PlayMode" Type="int16" Value="2"/>
+									</PropertyList>
+								</MusicPlaylistItem>
 							</Playlist>
 						</MusicPlaylistContainer>
 					</ChildrenList>
