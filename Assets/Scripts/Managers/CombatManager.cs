@@ -36,18 +36,18 @@ namespace DownBelow.Managers
         public void FireCardBeginUse(
             ScriptableCard Card,
             DraggableCard DraggedCard = null,
-            Spell[] GeneratedSpells = null,
+            SpellHeader GeneratedHeader = null,
             Cell Cell = null,
             bool Played = false
-        ) => this.OnCardBeginUse?.Invoke(new CardEventData(Card, DraggedCard, GeneratedSpells, Cell, Played));
+        ) => this.OnCardBeginUse?.Invoke(new CardEventData(Card, DraggedCard, GeneratedHeader, Cell, Played));
 
         public void FireCardEndUse(
             ScriptableCard Card,
             DraggableCard DraggedCard = null,
-            Spell[] GeneratedSpells = null,
+            SpellHeader GeneratedHeader = null,
             Cell Cell = null,
             bool Played = false
-        ) => this.OnCardEndUse?.Invoke(new CardEventData(Card, DraggedCard,  GeneratedSpells, Cell, Played));
+        ) => this.OnCardEndUse?.Invoke(new CardEventData(Card, DraggedCard, GeneratedHeader, Cell, Played));
 
         public void FireSpellBeginTargetting(Spell TargetSpell, Cell Cell) =>
             this.OnSpellBeginTargetting?.Invoke(new SpellTargetEventData(TargetSpell, Cell));
@@ -57,13 +57,14 @@ namespace DownBelow.Managers
         #endregion
 
         public bool BattleGoing;
-        private Spell[] _currentSpells;
+        private SpellHeader _currentSpellHeader;
+        private Spell _currentSpell;
 
         #region Run-time
         private Coroutine _turnCoroutine;
 
-        public CharacterEntity CurrentPlayingEntity;
-        public CombatGrid CurrentPlayingGrid;
+        public static CharacterEntity CurrentPlayingEntity;
+        public static CombatGrid CurrentPlayingGrid;
         public List<CharacterEntity> PlayingEntities;
 
         public int TurnNumber;
@@ -89,22 +90,22 @@ namespace DownBelow.Managers
 
         public void StartCombat(CombatGrid startingGrid)
         {
-            if (this.CurrentPlayingGrid != null && this.CurrentPlayingGrid.HasStarted)
+            if (CurrentPlayingGrid != null && CurrentPlayingGrid.HasStarted)
                 return;
 
             this.BattleGoing = true;
-            this.CurrentPlayingGrid = startingGrid;
+            CurrentPlayingGrid = startingGrid;
 
             this._setupEnemyEntities();
 
             UIManager.Instance.PlayerInfos.Init();
 
             this.TurnNumber = -1;
-            this.CurrentPlayingGrid.HasStarted = true;
+            CurrentPlayingGrid.HasStarted = true;
 
             this._defineEntitiesTurn();
 
-            this.FireCombatStarted(this.CurrentPlayingGrid);
+            this.FireCombatStarted(CurrentPlayingGrid);
 
             StartCoroutine(this._startCombatDelay(3f));
         }
@@ -120,7 +121,7 @@ namespace DownBelow.Managers
         public void ProcessStartTurn()
         {
             this.TurnNumber++;
-            this.CurrentPlayingEntity = this.PlayingEntities[
+            CurrentPlayingEntity = this.PlayingEntities[
                 this.TurnNumber % this.PlayingEntities.Count
             ];
 
@@ -129,16 +130,16 @@ namespace DownBelow.Managers
                     this.TurnNumber % this.PlayingEntities.Count
                 );
 
-            if (this.CurrentPlayingEntity is PlayerBehavior && Photon.Pun.PhotonNetwork.IsMasterClient)
+            if (CurrentPlayingEntity is PlayerBehavior && Photon.Pun.PhotonNetwork.IsMasterClient)
                 this._turnCoroutine = StartCoroutine(this._startTurnTimer());
 
-            this.OnTurnStarted?.Invoke(new EntityEventData(this.CurrentPlayingEntity));
+            this.OnTurnStarted?.Invoke(new EntityEventData(CurrentPlayingEntity));
         }
 
 
         public void ProcessEndTurn()
         {
-            this.CurrentPlayingEntity.EndTurn();
+            CurrentPlayingEntity.EndTurn();
 
             // Reset the time slider
             if (this._turnCoroutine != null)
@@ -149,18 +150,18 @@ namespace DownBelow.Managers
 
             UIManager.Instance.TurnSection.TimeSlider.fillAmount = 0f;
 
-            this.OnTurnEnded?.Invoke(new EntityEventData(this.CurrentPlayingEntity));
+            this.OnTurnEnded?.Invoke(new EntityEventData(CurrentPlayingEntity));
         }
 
         public void EndCombat()
         {
-            this.FireCombatEnded(this.CurrentPlayingGrid.ParentGrid);
+            this.FireCombatEnded(CurrentPlayingGrid.ParentGrid);
         }
 
         private void _setupEnemyEntities()
         {
             foreach (
-                CharacterEntity enemy in this.CurrentPlayingGrid.GridEntities.Where(e => !e.IsAlly)
+                CharacterEntity enemy in CurrentPlayingGrid.GridEntities.Where(e => !e.IsAlly)
             )
             {
                 enemy.ReinitializeAllStats();
@@ -172,27 +173,18 @@ namespace DownBelow.Managers
         #region CARDS
         private void _beginUseSpell(CardEventData data)
         {
-            // Copy it to avoid erasing datas
-            this._currentSpells = new Spell[data.Card.Spells.Length];
+            // Create the spell header, used to store only usefull datas (=avoid duplications)
+            this._currentSpellHeader = new SpellHeader(data.Card.UID, data.Card.Spells.Length, CurrentPlayingEntity.UID);
+            this._currentSpell = data.Card.Spells.First(s => s.Data.RequiresTargetting);
 
-            // We use the constructor since it's how EntityActions work, and only give de spellData to it with main datas
-            object[] fullDatas = new object[6];
-            for (int i = 0; i < this._currentSpells.Length; i++)
+            foreach (var spell in data.Card.Spells)
             {
-                Type type = data.Card.Spells[i].GetType();
-
-                fullDatas[0] = data.Card.Spells[i].Data;
-                fullDatas[1] = this.CurrentPlayingEntity;
-                fullDatas[3] = i > 0 ? this._currentSpells[i - 1] : null;
-                fullDatas[4] = data.Card.Spells[i].ConditionData;
-                fullDatas[5] = i == 0 ? data.Card.Cost : 0;
-
-                this._currentSpells[i] = Activator.CreateInstance(type, fullDatas) as Spell;
+                spell.Data.Refresh();
             }
 
             DraggableCard.SelectedCard.CardReference.CurrentSpellTargetting = 0;
 
-            this.FireSpellBeginTargetting(this._currentSpells[0], data.Cell);
+            this.FireSpellBeginTargetting(this._currentSpell, data.Cell);
 
             InputManager.Instance.OnCellRightClickDown += _abortUsedSpell;
             InputManager.Instance.OnCellClickedUp += _processSpellClick;
@@ -203,19 +195,17 @@ namespace DownBelow.Managers
             this.FireCardEndUse(
                 DraggableCard.SelectedCard.CardReference,
                 DraggableCard.SelectedCard,
-                this._currentSpells,
+                this._currentSpellHeader,
                 null,
                 false
             );
 
             this.FireSpellEndTargetting(
-                this._currentSpells[
-                    DraggableCard.SelectedCard.CardReference.CurrentSpellTargetting
-                ],
+                this._currentSpell,
                 Data.Cell
             );
 
-            this._currentSpells = null;
+            this._currentSpell = null;
 
             DraggableCard.SelectedCard.DiscardToHand();
 
@@ -223,7 +213,7 @@ namespace DownBelow.Managers
             InputManager.Instance.OnCellClickedUp -= _processSpellClick;
         }
 
-        public bool IsCellCastable(Cell cell, Spell spell)
+        public static bool IsCellCastable(Cell cell, Spell spell)
         {
             return cell != null
                 && spell.Data.TargetType.ValidateTarget(cell)
@@ -231,7 +221,7 @@ namespace DownBelow.Managers
                     spell.Data.CastingMatrix == null
                     || GridUtility.IsCellWithinPlayerRange(
                         ref spell.Data.CastingMatrix,
-                        this.CurrentPlayingEntity.EntityCell.PositionInGrid,
+                        CurrentPlayingEntity.EntityCell.PositionInGrid,
                         cell.PositionInGrid,
                         spell.Data.CasterPosition
                     )
@@ -245,29 +235,28 @@ namespace DownBelow.Managers
                 return;
 
             ScriptableCard currentCard = DraggableCard.SelectedCard.CardReference;
-            Spell currentSpell = this._currentSpells[currentCard.CurrentSpellTargetting];
 
             // If the selected cell isn't of wanted type or isn't within range, same as before
-            if (!this.IsCellCastable(Data.Cell, currentSpell))
+            if (!IsCellCastable(Data.Cell, this._currentSpell))
                 return;
 
-            currentSpell.TargetCell = Data.Cell;
-            this.FireSpellEndTargetting(currentSpell, Data.Cell);
+            this._currentSpellHeader.TargetedCells[currentCard.CurrentSpellTargetting] = Data.Cell.PositionInGrid;
+            this.FireSpellEndTargetting(this._currentSpell, Data.Cell);
 
             // Means that there are no more targetting spells in the array, so we finished
             if (currentCard.GetNextTargettingSpellIndex() == -1)
             {
-                this.FireCardEndUse(currentCard, DraggableCard.SelectedCard, this._currentSpells, Data.Cell, true);
+                this.FireCardEndUse(currentCard, DraggableCard.SelectedCard, this._currentSpellHeader, Data.Cell, true);
 
                 InputManager.Instance.OnCellRightClickDown -= _abortUsedSpell;
                 InputManager.Instance.OnCellClickedUp -= _processSpellClick;
             }
             else
             {
+                ScriptableCard card = DraggableCard.SelectedCard.CardReference;
+
                 this.FireSpellBeginTargetting(
-                    this._currentSpells[
-                        DraggableCard.SelectedCard.CardReference.CurrentSpellTargetting
-                    ],
+                    card.Spells[card.CurrentSpellTargetting],
                     Data.Cell
                 );
             }
@@ -293,14 +282,24 @@ namespace DownBelow.Managers
                 
                 UIManager.Instance.TurnSection.TimeSlider.fillAmount = timeToShowOnSlider;
             }
+
+            // End of allowed time
+            if(CurrentPlayingEntity == GameManager.Instance.SelfPlayer)
+            {
+                NetworkManager.Instance.EntityAskToBuffAction(
+                    new EndTurnAction(CurrentPlayingEntity, CurrentPlayingEntity.EntityCell)
+                );
+            }
+
+            this._turnCoroutine = null;
         }
 
         private void _defineEntitiesTurn()
         {
-            List<CharacterEntity> enemies = this.CurrentPlayingGrid.GridEntities
+            List<CharacterEntity> enemies = CurrentPlayingGrid.GridEntities
                 .Where(x => !x.IsAlly)
                 .ToList();
-            List<CharacterEntity> players = this.CurrentPlayingGrid.GridEntities
+            List<CharacterEntity> players = CurrentPlayingGrid.GridEntities
                 .Where(x => x.IsAlly)
                 .ToList();
 

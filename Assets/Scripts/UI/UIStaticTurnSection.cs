@@ -82,10 +82,10 @@ namespace DownBelow.UI
 
         public void AskEndOfTurn()
         {
-            if (CombatManager.Instance.CurrentPlayingGrid != null && CombatManager.Instance.CurrentPlayingGrid.HasStarted)
+            if (CombatManager.CurrentPlayingGrid != null && CombatManager.CurrentPlayingGrid.HasStarted)
             {
                 GameManager.Instance.BuffAction(
-                    new EndTurnAction(CombatManager.Instance.CurrentPlayingEntity, null),
+                    new EndTurnAction(CombatManager.CurrentPlayingEntity, null),
                     false
                 );
 
@@ -95,7 +95,7 @@ namespace DownBelow.UI
 
         private void _updateTurn(EntityEventData Data)
         {
-            NextTurnButton.interactable = CombatManager.Instance.CurrentPlayingEntity == GameManager.Instance.SelfPlayer;
+            NextTurnButton.interactable = CombatManager.CurrentPlayingEntity == GameManager.Instance.SelfPlayer;
 
             if (Data.Entity != GameManager.Instance.SelfPlayer)
                 return;

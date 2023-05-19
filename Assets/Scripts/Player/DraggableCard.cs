@@ -9,6 +9,7 @@ using DownBelow.Mechanics;
 using System.Linq;
 using System.Security.AccessControl;
 using DG.Tweening;
+using DownBelow.Events;
 
 namespace DownBelow.UI
 {
@@ -106,16 +107,8 @@ namespace DownBelow.UI
             }
             else
             {
-                this.IsDragged = false;
-                this._onRightClick();
-            }
-        }
-
-        private void _onRightClick(InputAction.CallbackContext ctx) => this._onRightClick();
-        private void _onRightClick()
-        {
-            if (this.PinnedToScreen)
                 this.DiscardToHand();
+            }
         }
 
         public void OnPointerEnter(PointerEventData eventData)
@@ -184,6 +177,7 @@ namespace DownBelow.UI
 
         public void DiscardToHand()
         {
+            this._abortCoroutine(ref this._compareCoroutine);
             this._abortCoroutine(ref this._pinUpdateCoroutine);
             this.PinnedToScreen = this.IsDragged = false;
             this.m_RectTransform.parent = UIManager.Instance.CardSection.CardsHolder.transform;
@@ -290,16 +284,12 @@ namespace DownBelow.UI
         {
             PlayerInputs.player_l_click.performed += _onLeftClickDown;
             PlayerInputs.player_l_click.canceled += _onLeftClickUp;
-
-            PlayerInputs.player_r_click.canceled += _onRightClick;
         }
 
         private void _unsubToEvents()
         {
             PlayerInputs.player_l_click.performed -= _onLeftClickDown;
             PlayerInputs.player_l_click.canceled -= _onLeftClickUp;
-
-            PlayerInputs.player_r_click.canceled -= _onRightClick;
         }
 
         private void OnDestroy()

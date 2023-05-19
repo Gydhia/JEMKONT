@@ -249,17 +249,7 @@ namespace DownBelow.Managers
             if (!Data.Played)
                 return;
 
-            //string serializedSpell = JsonConvert.SerializeObject(Data.GeneratedSpells, Formatting.None,
-            //            new JsonSerializerSettings()
-            //            {
-            //                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-            //            });
-
-            //Spells.Spell[] spells = JsonConvert.DeserializeObject<Spells.Spell[]>(serializedSpell);
-
-
-            for (int i = 0; i < Data.GeneratedSpells.Length; i++)
-                this.BuffAction(Data.GeneratedSpells[i], false);
+            NetworkManager.Instance.EntityAskToBuffSpell(Data.GeneratedHeader);
         }
 
         /// <summary>

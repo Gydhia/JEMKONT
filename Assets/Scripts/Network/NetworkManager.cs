@@ -317,6 +317,36 @@ namespace DownBelow.Managers
 
         #region Players_Callbacks
 
+        public void EntityAskToBuffSpell(Spells.SpellHeader spellHeader)
+        {
+            string parsedHeader = JsonConvert.SerializeObject(spellHeader);
+         
+            this.photonView.RPC("RPC_OnEntityAskedBuffSpell", RpcTarget.All, parsedHeader);
+        }
+
+        [PunRPC]
+        public void RPC_OnEntityAskedBuffSpell(string header)
+        {
+            Spells.SpellHeader spellHeader = JsonConvert.DeserializeObject<Spells.SpellHeader>(header);
+
+            ScriptableCard refCard = CardsManager.Instance.ScriptableCards[spellHeader.RefCard];
+
+            Spells.Spell[] buffedSpells = new Spells.Spell[refCard.Spells.Length];
+            Array.Copy(refCard.Spells, buffedSpells, refCard.Spells.Length);
+
+            WorldGrid currGrid = CombatManager.CurrentPlayingGrid;
+            CharacterEntity caster = GameManager.Instance.Players[spellHeader.CasterID];
+
+            for (int i = 0; i < refCard.Spells.Length; i++)
+            {
+                buffedSpells[i].TargetCell = currGrid.GetCell(spellHeader.TargetedCells[i]);
+                buffedSpells[i].SpellHeader = spellHeader;
+                buffedSpells[i].RefEntity = caster;
+
+                GameManager.Instance.BuffAction(buffedSpells[i], false);
+            }
+        }
+
         /// <summary>
         /// Will ask to buff an action, ABORTING ANY OTHER ACROSS THE WAY. Check other parameters.
         /// </summary>
@@ -476,7 +506,7 @@ namespace DownBelow.Managers
             //{
             //    CombatManager.Instance.CurrentPlayingEntity.StartTurn();
             //}
-            CombatManager.Instance.CurrentPlayingEntity.StartTurn();
+            CombatManager.CurrentPlayingEntity.StartTurn();
             this.photonView.RPC("PlayerAnswerStartTurn", RpcTarget.MasterClient, GameManager.Instance.SelfPlayer.UID);
         }
 
@@ -493,7 +523,7 @@ namespace DownBelow.Managers
 
         public void NotifyEnemyActions()
         {
-            var entity = CombatManager.Instance.CurrentPlayingEntity;
+            var entity = CombatManager.CurrentPlayingEntity;
 
             if (entity is EnemyEntity enemy)
             {

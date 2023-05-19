@@ -283,7 +283,7 @@ namespace DownBelow.Managers
         public void ProcessCellClickDown_Combat(PlayerBehavior selfPlayer)
         {
             if (
-                CombatManager.Instance.CurrentPlayingEntity == selfPlayer
+                CombatManager.CurrentPlayingEntity == selfPlayer
                 && selfPlayer.EntityCell == LastHoveredCell
                 && selfPlayer.CanAutoAttack
             )

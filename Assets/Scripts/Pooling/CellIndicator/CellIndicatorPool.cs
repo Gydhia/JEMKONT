@@ -25,7 +25,7 @@ namespace DownBelow.Pools
         public readonly static Color GreenColorTransparent = new Color(0.1709f, 0.6320f, 0.1709f, .15f);
         public readonly static Color BlueColorTransparent = new Color(0.1725f, 0.4182f, 0.6313f, .15f);
 
-        private void Awake()
+        public void Init()
         {
             this._actionsRef = new Dictionary<EntityAction, List<CellIndicator>>();
             this._pathRef = new List<CellIndicator>();
@@ -127,7 +127,15 @@ namespace DownBelow.Pools
                     this._spellsRef.Add(cell, this.GetPooled());
                     this._spellsRef[cell].gameObject.SetActive(true);
                     this._spellsRef[cell].transform.position = cell.transform.position;
-                    this._spellsRef[cell].Color = isShape ? RedColor : GreenColor;
+
+                    if (isShape)
+                    {
+                        this._spellsRef[cell].Color = RedColor;
+                    }
+                    else
+                    {
+                        this._spellsRef[cell].Color = CombatManager.IsCellCastable(cell, this._currentSpell) ? GreenColor : GreenColorTransparent;
+                    }
                 }
                 else
                 {
@@ -167,9 +175,9 @@ namespace DownBelow.Pools
         protected void beginShowSpellTargetting(SpellTargetEventData Data)
         {
             this._currentSpell = Data.TargetSpell;
-            this._displaySpellIndicators(ref this._currentSpell.Data.CastingMatrix, this._currentSpell.RefEntity.EntityCell, false);
+            this._displaySpellIndicators(ref this._currentSpell.Data.CastingMatrix, CombatManager.CurrentPlayingEntity.EntityCell, false);
 
-            if (CombatManager.Instance.IsCellCastable(Data.Cell, this._currentSpell))
+            if (CombatManager.IsCellCastable(Data.Cell, this._currentSpell))
                 this._displaySpellIndicators(ref this._currentSpell.Data.SpellShapeMatrix, Data.Cell, true);
 
             InputManager.Instance.OnNewCellHovered += this.updateSpellTargetting;
@@ -179,12 +187,12 @@ namespace DownBelow.Pools
         {
             this._hideShapeIndicators();
 
-            if(CombatManager.Instance.IsCellCastable(Data.Cell, this._currentSpell))
+            if(CombatManager.IsCellCastable(Data.Cell, this._currentSpell))
             {
                 // Should we do this here ? Since it's handled by events, we can't control the call order
                 if (this._currentSpell.Data.RotateShapeWithCast)
                 {
-                    int newAngle = GridUtility.GetRotationForMatrix(this._currentSpell.RefEntity.EntityCell, Data.Cell);
+                    int newAngle = GridUtility.GetRotationForMatrix(CombatManager.CurrentPlayingEntity.EntityCell, Data.Cell);
                     // Means that we should rotate the matrix
                     if(this._lastSpellAngle != newAngle)
                     {

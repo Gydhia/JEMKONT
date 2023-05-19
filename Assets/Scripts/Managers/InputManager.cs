@@ -76,7 +76,7 @@ namespace DownBelow.Managers
             if (!GameManager.GameStarted)
                 return;
 
-            this.IsPointingOverUI = EventSystem.current.IsPointerOverGameObject();
+            this.IsPointingOverUI = EventSystem.current.IsPointerOverGameObject() ;
 
 
             if (!ReferenceEquals(Keyboard.current, null))

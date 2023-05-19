@@ -40,6 +40,7 @@ namespace DownBelow.Spells
         [HideInInspector]
         public int Cost;
         public SpellData Data;
+        public SpellHeader SpellHeader;
 
         #region PLAYABLE
         [HideInInspector, JsonIgnore]
