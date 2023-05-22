@@ -17,6 +17,7 @@ namespace DownBelow.Managers
         public UIStaticCombat CombatSection;
         public UIStaticTurnSection TurnSection;
         public UIStaticEscape EscapeSection;
+        public UIStaticDatas DatasSection;
         public UIPlayerInfos PlayerInfos;
         public UICardSection CardSection;
         public EntityTooltipUI EntityTooltipUI;
@@ -32,15 +33,15 @@ namespace DownBelow.Managers
 
         public void Init()
         {
-            this.TurnSection.gameObject.SetActive(false);
             this.TurnSection.Init();
+            this.DatasSection.Init();
 
+            this.TurnSection.gameObject.SetActive(false);
             this.PlayerInfos.gameObject.SetActive(false);
             this.CardSection.gameObject.SetActive(false);
             this.EntityTooltipUI.gameObject.SetActive(false);
 
             GameManager.Instance.OnPlayersWelcomed += _subscribe;
-            
         }
         public void SwitchSelectedSlot(int oldSlot, int newSlot)
         {

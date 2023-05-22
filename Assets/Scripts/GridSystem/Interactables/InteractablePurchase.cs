@@ -1,5 +1,6 @@
 using DownBelow.Entity;
 using DownBelow.Managers;
+using ExitGames.Client.Photon;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,8 +21,6 @@ namespace DownBelow.GridSystem
         {
             base.Init(InteractableRef, RefCell);
             this.Preset = ((PurchasablePreset)this.InteractablePreset);
-
-            this.transform.rotation = Quaternion.LookRotation(this.transform.position - Camera.main.transform.position) * Quaternion.Euler(0, 90, 0);
         }
 
         public override void OnFocused()

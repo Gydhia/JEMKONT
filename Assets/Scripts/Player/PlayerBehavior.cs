@@ -4,15 +4,10 @@ using DownBelow.Inventory;
 using DownBelow.Managers;
 using DownBelow.Spells;
 using DownBelow.UI.Inventory;
-using EODE.Wonderland;
 using Photon.Pun;
-using Photon.Realtime;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using static UnityEngine.Rendering.VirtualTexturing.Debugging;
 
 namespace DownBelow.Entity
 {
@@ -65,15 +60,17 @@ namespace DownBelow.Entity
         private bool scrollBusy;
         private PlaceableItem lastPlaceable;
         [HideInInspector] public int theList= 0;
-        public Deck Deck
+        public DeckPreset Deck
         {
-            get => testingDeck.Deck;
-            set => testingDeck.Deck = value;
+            get 
+            {
+                return (this.ActiveTool == null || ActiveTool.DeckPreset == null) ?
+                    null :
+                    ActiveTool.DeckPreset;
+            }
         }
 
-        // TEMPORARY
-        public DeckPreset testingDeck;
-
+       
         public override int Mana
         {
             get => Mathf.Min(Statistics[EntityStatistics.Mana] + NumberOfTurnsPlayed,
@@ -89,9 +86,11 @@ namespace DownBelow.Entity
 
         #endregion
 
-        public override void Init(EntityStats stats, Cell refCell, WorldGrid refGrid, int order = 0)
+        public override void Init(Cell refCell, WorldGrid refGrid, int order = 0, bool isFake = false)
         {
-            base.Init(stats, refCell, refGrid, order);
+            base.Init(refCell, refGrid, order);
+
+            if(isFake) { return; }
 
             refGrid.GridEntities.Add(this);
             this.PlayerInventory = new BaseStorage();
@@ -105,11 +104,6 @@ namespace DownBelow.Entity
 
         public override void FireEnteredCell(Cell cell)
         {
-            /*if (cell.ItemContained != null && cell.ItemContained.ItemPreset != null)
-            {
-                cell.TryPickUpItem(this);
-            }
-            //*/
             base.FireEnteredCell(cell);
         }
 
@@ -203,7 +197,7 @@ namespace DownBelow.Entity
         {
             activeTool.ActualPlayer = this;
             this.ActiveTool = activeTool;
-            this.RefStats = ToolsManager.Instance.ToolStats[activeTool.Class];
+            this.SetStatistics(activeTool.DeckPreset.Statistics);
         }
 
         public override void StartTurn()
@@ -218,39 +212,13 @@ namespace DownBelow.Entity
 
         #region MOVEMENTS
 
-        //    // TODO: parse these values in a different way later
-        //    if (this.CurrentGrid.IsCombatGrid) {
-        //        GridManager.Instance.ShowPossibleCombatMovements(this);
-        //    }
-        //    if (this.NextPath != null) {
-        //        this.MoveWithPath(this.NextPath, _nextGrid);
-        //        this.NextPath = null;
-        //    } else if (this._nextGrid != string.Empty) {
-        //        // TODO: This means we shouldn't ask network to change grid, it's made up when moving
-        //        if (Photon.Pun.PhotonNetwork.LocalPlayer.UserId == GameManager.Instance.SelfPlayer.PlayerID)
-        //            NetworkManager.Instance.PlayerAsksToEnterGrid(this, this.CurrentGrid, this._nextGrid);
-        //        this.NextCell = null;
-        //        this._nextGrid = string.Empty;
-        //    } else if (this.NextInteract != null) {
-        //        NetworkManager.Instance.PlayerAsksToInteract(NextInteract.RefCell);
-        //        this.NextInteract = null;
-        //    }
-        //}
-
         public void EnterNewGrid(CombatGrid grid)
         {
             this.healthText.gameObject.SetActive(true);
-            Cell closestCell = grid.PlacementCells.First(c => c.Datas.state != CellState.EntityIn);
+
             theList = 0; //:)
-            this.FireExitedCell();
 
             this.CurrentGrid = grid;
-
-            this.FireEnteredCell(closestCell);
-
-            this.transform.position = closestCell.WorldPosition;
-
-            PoolManager.Instance.CellIndicatorPool.DisplayPathIndicators(grid.PlacementCells);
         }
 
         public bool RespectedDelayToAsk()

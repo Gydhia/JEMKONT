@@ -25,7 +25,7 @@ MonoBehaviour:
       Entry: 2
       Data: 42fb0c53fce422c0de76b70ae5af6a3c
   Name: BaseFarmer
-  Class: 0
+  Class: 2
   Deck:
     Cards:
     - {fileID: 11400000, guid: 17cca61da856a0a4abc846a9ec5ce6a4, type: 2}
@@ -48,3 +48,4 @@ MonoBehaviour:
     - {fileID: 11400000, guid: a4a6955df41de2941aee0d1929bab8b7, type: 2}
     - {fileID: 11400000, guid: a4a6955df41de2941aee0d1929bab8b7, type: 2}
     - {fileID: 11400000, guid: a4a6955df41de2941aee0d1929bab8b7, type: 2}
+  Statistics: {fileID: 11400000, guid: acc2fcfe067f4a548a44a691816601e8, type: 2}

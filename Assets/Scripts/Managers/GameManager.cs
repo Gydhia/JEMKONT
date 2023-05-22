@@ -48,9 +48,7 @@ namespace DownBelow.Managers
         #endregion
 
         public string SaveName;
-
-        [SerializeField]
-        private PlayerBehavior _playerPrefab;
+        public PlayerBehavior PlayerPrefab;
 
         public Dictionary<string, PlayerBehavior> Players;
         public PlayerBehavior SelfPlayer;
@@ -61,12 +59,14 @@ namespace DownBelow.Managers
 
         #region Players_Actions_Buffer
 
-        public static List<EntityAction> CombatActionsBuffer = new List<EntityAction>();
         public static Dictionary<CharacterEntity, List<EntityAction>> NormalActionsBuffer =
             new Dictionary<CharacterEntity, List<EntityAction>>();
+        public static Dictionary<CharacterEntity, bool> IsUsingNormalBuffer =
+            new Dictionary<CharacterEntity, bool>();
 
+        public static List<EntityAction> CombatActionsBuffer = new List<EntityAction>();
         public static bool IsUsingCombatBuffer = false;
-        public static bool IsUsingNormalBuffer = false;
+        
 
         #endregion
 
@@ -88,6 +88,9 @@ namespace DownBelow.Managers
 
             if (CardsManager.Instance != null)
                 CardsManager.Instance.Init();
+
+            if (ToolsManager.Instance != null)
+                ToolsManager.Instance.Init();
 
             if (GridManager.Instance != null)
                 GridManager.Instance.Init();
@@ -135,10 +138,10 @@ namespace DownBelow.Managers
                 int counter = 0;
                 foreach (var player in PhotonNetwork.PlayerList)
                 {
-                    PlayerBehavior newPlayer = Instantiate(this._playerPrefab, Vector3.zero, Quaternion.identity, this.transform);
+                    PlayerBehavior newPlayer = Instantiate(this.PlayerPrefab, Vector3.zero, Quaternion.identity, this.transform);
                     //newPlayer.Deck = CardsManager.Instance.DeckPresets.Values.Single(d => d.Name == "TestDeck").Copy();
                  
-                    newPlayer.Init(SettingsManager.Instance.FishermanStats, GridManager.Instance.MainWorldGrid.Cells[spawnLocations.ElementAt(counter).latitude, spawnLocations.ElementAt(counter).longitude], GridManager.Instance.MainWorldGrid);
+                    newPlayer.Init(GridManager.Instance.MainWorldGrid.Cells[spawnLocations.ElementAt(counter).latitude, spawnLocations.ElementAt(counter).longitude], GridManager.Instance.MainWorldGrid);
                     // TODO: make it works with world grids
                     newPlayer.UID = player.UserId;
 
@@ -149,6 +152,9 @@ namespace DownBelow.Managers
                     }
 
                     this.Players.Add(player.UserId, newPlayer);
+
+                    IsUsingNormalBuffer.Add(newPlayer, false);
+
                     counter++;
                 }
 
@@ -235,13 +241,13 @@ namespace DownBelow.Managers
         {
             if (NormalActionsBuffer[refEntity].Count > 0)
             {
-                IsUsingNormalBuffer = true;
+                IsUsingNormalBuffer[refEntity] = true;
 
                 NormalActionsBuffer[refEntity][0].SetCallback(() => ExecuteNextNormalBuffer(refEntity));
                 NormalActionsBuffer[refEntity][0].ExecuteAction();
             } 
             else
-                IsUsingNormalBuffer = false;
+                IsUsingNormalBuffer[refEntity] = false;
         }
 
         public void BuffSpell(CardEventData Data)
@@ -302,7 +308,7 @@ namespace DownBelow.Managers
                     PoolManager.Instance.CellIndicatorPool.DisplayActionIndicators(action);
 
                 //Still don't know what that means
-                if (!IsUsingNormalBuffer)
+                if (!IsUsingNormalBuffer[action.RefEntity])
                     this.ExecuteNextNormalBuffer(action.RefEntity);
             }
         }

@@ -9,7 +9,7 @@ using UnityEngine;
     [CreateAssetMenu(fileName = "Tool", menuName = "DownBelow/ScriptableObject/ToolItem", order = 1)]
 public class ToolItem : ItemPreset
 {
-    public Deck Deck;
+    public DeckPreset DeckPreset;
     public EClass Class;
     public PlayerBehavior ActualPlayer;
 

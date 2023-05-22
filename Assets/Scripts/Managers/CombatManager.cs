@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using DownBelow.Mechanics;
 using DownBelow.UI;
+using UnityEngine.InputSystem;
 
 namespace DownBelow.Managers
 {
@@ -67,6 +68,15 @@ namespace DownBelow.Managers
         public static CombatGrid CurrentPlayingGrid;
         public List<CharacterEntity> PlayingEntities;
 
+        public List<PlayerBehavior> PlayersInGrid = new List<PlayerBehavior>();
+
+        /// <summary>
+        /// Both used in the setup phase and the playing phase. 
+        /// Before combat, this is only used as a placeholder
+        /// </summary>
+        public List<PlayerBehavior> FakePlayers;
+        private int _currentPlayerIndex;
+
         public int TurnNumber;
 
         public List<NonCharacterEntity> NCEs;
@@ -80,12 +90,65 @@ namespace DownBelow.Managers
             this.OnCardBeginUse += this._beginUseSpell;
         }
 
+        /// <summary>
+        /// To welcome any player entering a combat grid.
+        /// </summary>
+        /// <param name="Data"></param>
         public void WelcomePlayerInCombat(EntityEventData Data)
         {
             if (!(Data.Entity.CurrentGrid is CombatGrid))
                 return;
 
+            CombatGrid currentGrid = Data.Entity.CurrentGrid as CombatGrid;
+
+            PlayerBehavior player = Data.Entity as PlayerBehavior;
+
+            this.PlayersInGrid.Add(player);
+
+            // If FakePlayers isn't populated (=init), do it
+            if(this.FakePlayers == null || this.FakePlayers.Count == 0)
+            {
+                foreach (var deck in CardsManager.Instance.DeckPresets.Values)
+                {
+                    if(deck == player.Deck) { continue; }
+
+                    var fakePlayer = Instantiate(GameManager.Instance.PlayerPrefab, GameManager.Instance.gameObject.transform);
+
+                    Cell placementCell = currentGrid.PlacementCells.First(c => c.Datas.state != CellState.EntityIn);
+
+                    fakePlayer.Init(placementCell, currentGrid, 0, true);
+
+                    var refTool = ToolsManager.Instance.ToolPresets.Values.Single(t => t.DeckPreset == deck);
+                    fakePlayer.SetActiveTool(refTool);
+
+                    fakePlayer.ReinitializeAllStats();
+
+                    this.FakePlayers.Add(fakePlayer);
+                }
+            }
+
+            // Replace the fake on by the real player
+            var fakeToReplace = this.FakePlayers.SingleOrDefault(f => f.Deck == player.Deck);
+
+            if(fakeToReplace != null)
+            {
+                fakeToReplace.FireExitedCell();
+                this.FakePlayers.Remove(fakeToReplace);
+
+                Destroy(fakeToReplace);
+            }
+
+            Cell playerCell = currentGrid.PlacementCells.First(c => c.Datas.state != CellState.EntityIn);
+            Data.Entity.FireExitedCell();
+            Data.Entity.FireEnteredCell(playerCell);
+            Data.Entity.transform.position = playerCell.WorldPosition;
+
             Data.Entity.ReinitializeAllStats();
+
+            if(GameManager.Instance.SelfPlayer == Data.Entity)
+            {
+                PoolManager.Instance.CellIndicatorPool.DisplayPathIndicators(currentGrid.PlacementCells);
+            }
         }
 
         public void StartCombat(CombatGrid startingGrid)
@@ -107,7 +170,7 @@ namespace DownBelow.Managers
 
             this.FireCombatStarted(CurrentPlayingGrid);
 
-            StartCoroutine(this._startCombatDelay(3f));
+            StartCoroutine(this._startCombatDelay(2f));
         }
 
         private IEnumerator _startCombatDelay(float time)
@@ -117,6 +180,16 @@ namespace DownBelow.Managers
             NetworkManager.Instance.StartEntityTurn();
         }
 
+
+        private void _switchToFirstPlayer(InputAction.CallbackContext ctx) => this._switchSelectedPlayer(0);
+        private void _switchToSecondPlayer(InputAction.CallbackContext ctx) => this._switchSelectedPlayer(1);
+        private void _switchToThirdPlayer(InputAction.CallbackContext ctx) => this._switchSelectedPlayer(2);
+        private void _switchToFourthPlayer(InputAction.CallbackContext ctx) => this._switchSelectedPlayer(3);
+
+        private void _switchSelectedPlayer(int index)
+        {
+            this._currentPlayerIndex = index;
+        }
 
         public void ProcessStartTurn()
         {

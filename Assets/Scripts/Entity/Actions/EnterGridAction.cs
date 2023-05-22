@@ -21,11 +21,19 @@ namespace DownBelow.Entity
             // For now we assume that only player can switch from grids
             PlayerBehavior player = (PlayerBehavior)this.RefEntity;
 
-            GameManager.Instance.FireEntityExitingGrid(player);
+            // If the player has a special item
+            if (player.PlayerSpecialSlot.StorageItems[0].ItemPreset != null)
+            {
+                GameManager.Instance.FireEntityExitingGrid(player);
 
-            player.EnterNewGrid(GridManager.Instance.GetGridFromName(this.TargetGrid) as CombatGrid);
+                player.EnterNewGrid(GridManager.Instance.GetGridFromName(this.TargetGrid) as CombatGrid);
 
-            GameManager.Instance.FireEntityEnteredGrid(player);
+                GameManager.Instance.FireEntityEnteredGrid(player);
+            }
+            else
+            {
+                UIManager.Instance.DatasSection.ShowWarningText();
+            }
 
             //TODO: Abort all actions?
             EndAction();

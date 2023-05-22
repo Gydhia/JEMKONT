@@ -25,7 +25,7 @@ MonoBehaviour:
       Entry: 2
       Data: 92554b1ce84f5dc10ce63a218c2420ee
   Name: BaseHerbalist
-  Class: 0
+  Class: 1
   Deck:
     Cards:
     - {fileID: 11400000, guid: 17cca61da856a0a4abc846a9ec5ce6a4, type: 2}
@@ -48,3 +48,4 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 9b7f4817f36bd3b4ca3ffb7fa0b23688, type: 2}
     - {fileID: 11400000, guid: 9b7f4817f36bd3b4ca3ffb7fa0b23688, type: 2}
     - {fileID: 11400000, guid: 9b7f4817f36bd3b4ca3ffb7fa0b23688, type: 2}
+  Statistics: {fileID: 11400000, guid: 431193b9be546b642821e7c04419e789, type: 2}

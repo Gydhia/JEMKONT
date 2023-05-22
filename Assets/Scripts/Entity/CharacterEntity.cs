@@ -68,6 +68,7 @@ namespace DownBelow.Entity
         #region firingEvents
         public void FireExitedCell()
         {
+            this.EntityCell.Datas.state = CellState.Walkable;
             this.EntityCell.EntityIn = null;
 
             this.OnExitedCell?.Invoke(new CellEventData(this.EntityCell));
@@ -219,8 +220,6 @@ namespace DownBelow.Entity
             this.OnHealthAdded += UpdateUILife;
             this.OnHealthRemoved += UpdateUILife;
             this.OnHealthRemoved += AreYouAlive;
-
-            this.healthText.text = this.Health.ToString();
         }
 
         public void UpdateUILife(SpellEventData data)
@@ -334,22 +333,28 @@ namespace DownBelow.Entity
 
         #region STATS
 
-        public virtual void Init(EntityStats stats, Cell refCell, WorldGrid refGrid, int order = 0)
+        public virtual void Init(Cell refCell, WorldGrid refGrid, int order = 0, bool isFake = false)
         {
             this.transform.position = refCell.WorldPosition;
             this.EntityCell = refCell;
             this.CurrentGrid = refGrid;
+        }
 
+        public virtual void SetStatistics(EntityStats stats)
+        {
             this.RefStats = stats;
-            this.Statistics = new Dictionary<EntityStatistics, int>();
+            this.Statistics = new Dictionary<EntityStatistics, int>
+            {
+                { EntityStatistics.MaxMana, stats.MaxMana },
+                { EntityStatistics.Health, stats.Health },
+                { EntityStatistics.Strength, stats.Strength },
+                { EntityStatistics.Speed, stats.Speed },
+                { EntityStatistics.Mana, stats.Mana },
+                { EntityStatistics.Defense, stats.Defense },
+                { EntityStatistics.Range, stats.Range }
+            };
 
-            this.Statistics.Add(EntityStatistics.MaxMana, stats.MaxMana);
-            this.Statistics.Add(EntityStatistics.Health, stats.Health);
-            this.Statistics.Add(EntityStatistics.Strength, stats.Strength);
-            this.Statistics.Add(EntityStatistics.Speed, stats.Speed);
-            this.Statistics.Add(EntityStatistics.Mana, stats.Mana);
-            this.Statistics.Add(EntityStatistics.Defense, stats.Defense);
-            this.Statistics.Add(EntityStatistics.Range, stats.Range);
+            this.healthText.text = this.Statistics[EntityStatistics.Health].ToString();
         }
 
         public void ReinitializeAllStats()
@@ -634,6 +639,18 @@ namespace DownBelow.Entity
             EntityCell = cellToTP;
 
             FireEnteredCell(cellToTP);
+        }
+
+        private void OnDestroy()
+        {
+            if(this.EntityCell != null)
+            {
+                this.FireExitedCell();
+            }
+            if(this.CurrentGrid != null)
+            {
+                this.CurrentGrid.GridEntities.Remove(this);
+            }
         }
     }
 }

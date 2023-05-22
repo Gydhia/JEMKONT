@@ -25,7 +25,7 @@ MonoBehaviour:
       Entry: 2
       Data: 79e98bcd653228301ca164057c665c8f
   Name: BaseMiner
-  Class: 3
+  Class: 0
   Deck:
     Cards:
     - {fileID: 11400000, guid: 17cca61da856a0a4abc846a9ec5ce6a4, type: 2}
@@ -42,3 +42,4 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 75be3a1d1991621458e58c6e9e89ed4a, type: 2}
     - {fileID: 11400000, guid: 75be3a1d1991621458e58c6e9e89ed4a, type: 2}
     - {fileID: 11400000, guid: 75be3a1d1991621458e58c6e9e89ed4a, type: 2}
+  Statistics: {fileID: 11400000, guid: 378e4726dcac3c94390835d65888d60c, type: 2}

@@ -25,7 +25,7 @@ MonoBehaviour:
       Entry: 2
       Data: 59e2d555a3cca19306186cfe0b67c35c
   Name: BaseFisherman
-  Class: 0
+  Class: 3
   Deck:
     Cards:
     - {fileID: 11400000, guid: 17cca61da856a0a4abc846a9ec5ce6a4, type: 2}
@@ -48,3 +48,4 @@ MonoBehaviour:
     - {fileID: 11400000, guid: a4bd6d4842e41b347a6c5e845162e976, type: 2}
     - {fileID: 11400000, guid: a4bd6d4842e41b347a6c5e845162e976, type: 2}
     - {fileID: 11400000, guid: a4bd6d4842e41b347a6c5e845162e976, type: 2}
+  Statistics: {fileID: 11400000, guid: 4d576a35a0dcc0e4cb45e35dc060d9d9, type: 2}

@@ -14,7 +14,7 @@ public class DeckPreset : SerializedScriptableObject
     public EClass Class;
 
     public Deck Deck;
-
+    public EntityStats Statistics;
 
     public Deck Copy() {
         return new Deck(Deck);

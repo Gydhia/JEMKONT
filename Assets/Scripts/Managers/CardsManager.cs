@@ -7,6 +7,7 @@ using System;
 using System.Linq;
 using DownBelow.Events;
 using DownBelow.UI;
+using EODE.Wonderland;
 
 namespace DownBelow.Managers
 {
@@ -14,6 +15,12 @@ namespace DownBelow.Managers
     public class CardsManager : _baseManager<CardsManager>
     {
         #region DATAS
+        /// <summary>
+        /// Do not use this, Inspector only. Use <see cref="DeckPresets"/>
+        /// </summary>
+        public List<DeckPreset> AvailableDecks;
+
+        [HideInInspector]
         public Dictionary<Guid, DeckPreset> DeckPresets;
         public Dictionary<Guid, ScriptableCard> ScriptableCards;
         public List<ScriptableCard> OwnedCards;
@@ -21,6 +28,13 @@ namespace DownBelow.Managers
         public void Init()
         {
             this._loadScriptableCards();
+
+            // Generate decks according to what we plugged. We need a Guid access for easy network
+            this.DeckPresets = new Dictionary<Guid, DeckPreset>();
+            foreach (var deck in this.AvailableDecks)
+            {
+                this.DeckPresets.Add(deck.UID, deck);
+            }
 
             CombatManager.Instance.OnCombatStarted += _setupForCombat;
             CombatManager.Instance.OnCombatEnded += _endForCombat;
@@ -51,7 +65,7 @@ namespace DownBelow.Managers
         #region COMBAT
         public DraggableCard CardPrefab;
 
-        public Deck ReferenceDeck;
+        public DeckPreset ReferenceDeck;
 
         public List<DraggableCard> DrawPile = new List<DraggableCard>();
         public List<DraggableCard> DiscardPile = new List<DraggableCard>();
@@ -65,7 +79,7 @@ namespace DownBelow.Managers
 
             ReferenceDeck = GameManager.Instance.SelfPlayer.Deck;
 
-            foreach (var card in ReferenceDeck.Cards)
+            foreach (var card in ReferenceDeck.Deck.Cards)
             {
                 this.DrawPile.Add(Instantiate(CardPrefab, UIManager.Instance.CardSection.DrawPile.transform));
                 this.DrawPile[^1].Init(card);

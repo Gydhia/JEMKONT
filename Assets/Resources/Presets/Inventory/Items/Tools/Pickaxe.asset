@@ -30,7 +30,6 @@ MonoBehaviour:
   ItemPrefab: {fileID: 0}
   MaxStack: 1
   DroppedItemPrefab: {fileID: 919132149155446097, guid: 0e27c2078cc54374e8727f8028175f26, type: 3}
-  Deck:
-    Cards: []
+  DeckPreset: {fileID: 11400000, guid: 65297000a20289941b928d0d23e05aa5, type: 2}
   Class: 0
   ActualPlayer: {fileID: 0}

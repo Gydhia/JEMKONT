@@ -21,7 +21,8 @@ public class EntityPreset : BaseSpawnablePreset
        
         newEntity.IsAlly = IsPNJ && !attachedCell.RefGrid.IsCombatGrid;
         newEntity.EnemyStyle = this;
-        newEntity.Init(this.Statistics, attachedCell, attachedCell.RefGrid, attachedCell.PositionInGrid.longitude  );
+        newEntity.Init(attachedCell, attachedCell.RefGrid, attachedCell.PositionInGrid.longitude);
+        newEntity.SetStatistics(this.Statistics);
         newEntity.gameObject.SetActive(false);
 
         attachedCell.RefGrid.GridEntities.Add(newEntity);
