@@ -112,7 +112,7 @@ namespace DownBelow.GridSystem
                 int qtyRemainingInItem = ItemContained.Quantity;
                 if (ItemContained.ItemPreset is ToolItem toolItem)
                 {
-                    qtyRemainingInItem -= player.PlayerSpecialSlot.TryAddItem(ItemContained.ItemPreset, ItemContained.Quantity);
+                    qtyRemainingInItem -= player.PlayerSpecialSlots.TryAddItem(ItemContained.ItemPreset, ItemContained.Quantity);
                     player.SetActiveTool(toolItem);
                 } else
                 {

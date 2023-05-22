@@ -52,7 +52,7 @@ namespace DownBelow.Entity
         public bool CanEnterGrid => true;
 
         public ToolItem ActiveTool;
-        public BaseStorage PlayerSpecialSlot;
+        public BaseStorage PlayerSpecialSlots;
         public ItemPreset CurrentSelectedItem;
         public bool IsAutoAttacking = false;
         public int inventorySlotSelected = 0;
@@ -93,11 +93,20 @@ namespace DownBelow.Entity
             if(isFake) { return; }
 
             refGrid.GridEntities.Add(this);
+
+            int playersNb = PhotonNetwork.PlayerList.Length;
+
             this.PlayerInventory = new BaseStorage();
             this.PlayerInventory.Init(
-                SettingsManager.Instance.GameUIPreset.SlotsByPlayer[Photon.Pun.PhotonNetwork.PlayerList.Length - 1]);
-            this.PlayerSpecialSlot = new BaseStorage();
-            this.PlayerSpecialSlot.Init(1);
+                SettingsManager.Instance.GameUIPreset.SlotsByPlayer[playersNb - 1]);
+
+            int toolSlots = 4;
+            if (playersNb == 2) toolSlots = 2;
+            if (playersNb == 3) toolSlots = PhotonNetwork.IsMasterClient ? 2 : 1;
+            if (playersNb == 4) toolSlots = 1;
+
+            this.PlayerSpecialSlots = new BaseStorage();
+            this.PlayerSpecialSlots.Init(toolSlots);
 
             PlayerInputs.player_scroll.performed += this._scroll;
         }

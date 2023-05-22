@@ -464,6 +464,18 @@ namespace DownBelow.Managers
         //    UIManager.Instance.PlayerMoved();
 
 
+        public void PlayerAskToLeaveCombat()
+        {
+            this.photonView.RPC("RPC_RespondToLeaveCombat", RpcTarget.All, GameManager.Instance.SelfPlayer.UID);
+        }
+
+        [PunRPC]
+        public void RPC_RespondToLeaveCombat(string playerID)
+        {
+            //CombatManager.Instance.StartCombat(GameManager.Instance.Players[playerID].CurrentGrid as CombatGrid);
+        }
+
+
         // /!\ Only one combat can be active at the moment, that is important
         public void PlayerAsksToStartCombat()
         {

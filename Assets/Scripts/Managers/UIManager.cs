@@ -35,6 +35,7 @@ namespace DownBelow.Managers
         {
             this.TurnSection.Init();
             this.DatasSection.Init();
+            this.CombatSection.Init();
 
             this.TurnSection.gameObject.SetActive(false);
             this.PlayerInfos.gameObject.SetActive(false);

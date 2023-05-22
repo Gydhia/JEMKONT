@@ -15,10 +15,12 @@ namespace DownBelow.UI
             this.WarningText.gameObject.SetActive(false);
         }
 
-        public void ShowWarningText()
+        public void ShowWarningText(string message)
         {
             // Currently only to inform that we cannot enter grid without item equiped
             this.WarningText.gameObject.SetActive(true);
+            this.WarningText.text = message;
+
             this.WarningText.DOFade(0f, 1f).SetDelay(3f).OnComplete(() =>
             {
                 this.WarningText.alpha = 1f;

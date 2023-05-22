@@ -122,6 +122,7 @@ namespace DownBelow.Managers
                     fakePlayer.SetActiveTool(refTool);
 
                     fakePlayer.ReinitializeAllStats();
+                    fakePlayer.healthText.gameObject.SetActive(true);
 
                     this.FakePlayers.Add(fakePlayer);
                 }
@@ -135,7 +136,7 @@ namespace DownBelow.Managers
                 fakeToReplace.FireExitedCell();
                 this.FakePlayers.Remove(fakeToReplace);
 
-                Destroy(fakeToReplace);
+                Destroy(fakeToReplace.gameObject);
             }
 
             Cell playerCell = currentGrid.PlacementCells.First(c => c.Datas.state != CellState.EntityIn);
@@ -228,14 +229,13 @@ namespace DownBelow.Managers
 
         public void EndCombat()
         {
-            this.FireCombatEnded(CurrentPlayingGrid.ParentGrid);
+            CurrentPlayingGrid.HasStarted = false;
+            this.FireCombatEnded(CurrentPlayingGrid);
         }
 
         private void _setupEnemyEntities()
         {
-            foreach (
-                CharacterEntity enemy in CurrentPlayingGrid.GridEntities.Where(e => !e.IsAlly)
-            )
+            foreach (CharacterEntity enemy in CurrentPlayingGrid.GridEntities.Where(e => !e.IsAlly))
             {
                 enemy.ReinitializeAllStats();
                 enemy.EntityCell.EntityIn = enemy;
@@ -369,6 +369,9 @@ namespace DownBelow.Managers
 
         private void _defineEntitiesTurn()
         {
+            CurrentPlayingGrid.GridEntities.AddRange(this.FakePlayers);
+            this.FakePlayers.Clear();
+
             List<CharacterEntity> enemies = CurrentPlayingGrid.GridEntities
                 .Where(x => !x.IsAlly)
                 .ToList();

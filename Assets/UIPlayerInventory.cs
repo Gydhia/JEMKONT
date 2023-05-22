@@ -33,7 +33,7 @@ namespace DownBelow.UI.Inventory
             this.Holder = GameManager.Instance.SelfPlayer;
 
             this.PlayerStorage.SetStorageAndShow(Holder.PlayerInventory);
-            this.PlayerSpecialStorage.SetStorageAndShow(Holder.PlayerSpecialSlot);
+            this.PlayerSpecialStorage.SetStorageAndShow(Holder.PlayerSpecialSlots);
 
             this.Holder.OnEnteredCell += _updateChestInteract;
             this.ToNearestStorageBtn.onClick.AddListener(this.MoveToNearestStorage);

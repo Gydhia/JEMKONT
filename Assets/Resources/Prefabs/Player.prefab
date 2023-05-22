@@ -123,7 +123,7 @@ MonoBehaviour:
   CurrentSelectedItem: {fileID: 0}
   IsAutoAttacking: 0
   inventorySlotSelected: 0
-  testingDeck: {fileID: 11400000, guid: dd2bfd15c03fc73419ff1859368e683d, type: 2}
+  theList: 0
 --- !u!1001 &6116910891150737795
 PrefabInstance:
   m_ObjectHideFlags: 0

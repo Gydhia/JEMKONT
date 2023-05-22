@@ -29,7 +29,7 @@ namespace DownBelow.Entity
             TargetCell.DropDownItem(InvInt);
             if(Item is ToolItem)
             {
-                ((PlayerBehavior)RefEntity).PlayerSpecialSlot.RemoveItem(Item, quantity, preferedSlot);
+                ((PlayerBehavior)RefEntity).PlayerSpecialSlots.RemoveItem(Item, quantity, preferedSlot);
             } else
             {
                 ((PlayerBehavior)RefEntity).PlayerInventory.RemoveItem(Item, quantity, preferedSlot);
