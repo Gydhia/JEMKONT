@@ -6,6 +6,7 @@ using DownBelow.Events;
 using TMPro;
 using UnityEngine.UI;
 using DG.Tweening;
+using DownBelow.Managers;
 
 
 public class CombatFeedbacks : MonoBehaviour
@@ -17,6 +18,8 @@ public class CombatFeedbacks : MonoBehaviour
     [SerializeField] private Color _healthAddedColor;
     [SerializeField] private Image _targetImage;
 
+    [SerializeField] private TextMeshProUGUI healthText;
+    
     #endregion
     private Camera _mainCam;
 
@@ -26,7 +29,9 @@ public class CombatFeedbacks : MonoBehaviour
         _entity.OnHealthRemoved += OnHealthRemoved;
         _entity.OnHealthAdded += OnHealthAdded;
         _entity.OnEntityTargetted += OnEntityTargetted;
-
+        CombatManager.Instance.OnCombatStarted += ShowHealthText;
+        CombatManager.Instance.OnCombatEnded += HidehealthText;
+        
         _healthFeedback.gameObject.SetActive(false);
 
         //Maybe for later add feedbacks for the other effects
@@ -36,6 +41,7 @@ public class CombatFeedbacks : MonoBehaviour
     private void Start()
     {
         _mainCam = Camera.main;
+        
     }
 
     private void OnDisable()
@@ -43,6 +49,8 @@ public class CombatFeedbacks : MonoBehaviour
         _entity.OnHealthRemoved -= OnHealthRemoved;
         _entity.OnHealthAdded -= OnHealthAdded;
         _entity.OnEntityTargetted -= OnEntityTargetted;
+        CombatManager.Instance.OnCombatStarted -= ShowHealthText;
+        CombatManager.Instance.OnCombatEnded -= HidehealthText;
     }
 
     private void LateUpdate()
@@ -62,8 +70,21 @@ public class CombatFeedbacks : MonoBehaviour
             _healthFeedback.gameObject.SetActive(true);
             _healthFeedback.rectTransform.DOShakePosition(1.5f, 0.5f,5).SetEase(Ease.InExpo).OnComplete(() => _healthFeedback.gameObject.SetActive(false));
         }
+        
+        UpdateUILife(Data);
  
     }
+
+    private void ShowHealthText(GridEventData data)
+    {
+        this.healthText.text = this._entity.Health.ToString();
+        healthText.gameObject.SetActive(true);
+    }
+    private void HidehealthText(GridEventData data)
+    {
+        healthText.gameObject.SetActive(false);
+    }
+
 
     private void OnHealthAdded(SpellEventData Data)
     {
@@ -76,6 +97,8 @@ public class CombatFeedbacks : MonoBehaviour
             _healthFeedback.gameObject.SetActive(true);
             _healthFeedback.rectTransform.DOShakePosition(1.5f, 0.5f, 5).SetEase(Ease.InExpo).OnComplete(() => _healthFeedback.gameObject.SetActive(false));
         }
+        
+        UpdateUILife(Data);
     }
 
     private void OnEntityTargetted(EntityEventData Data)
@@ -84,5 +107,23 @@ public class CombatFeedbacks : MonoBehaviour
             .DOFade(1f, 0.35f)
             .SetEase(Ease.InExpo)
             .OnComplete(() => this._targetImage.DOFade(0f, 0.35f));
+    }
+    
+    public void UpdateUILife(SpellEventData data)
+    {
+        int oldLife = int.Parse(this.healthText.text);
+        if (oldLife > this._entity.Health)
+        {
+            this.healthText.DOColor(Color.red, 0.4f).SetEase(Ease.OutQuad);
+            this.healthText.transform.DOShakeRotation(0.8f).SetEase(Ease.OutQuad).OnComplete(() =>
+                this.healthText.DOColor(Color.white, 0.2f).SetEase(Ease.OutQuad));
+            this.healthText.text = this._entity.Health.ToString();
+        } else
+        {
+            this.healthText.DOColor(Color.green, 0.4f).SetEase(Ease.OutQuad);
+            this.healthText.transform.DOPunchScale(Vector3.one * 1.3f, 0.8f).SetEase(Ease.OutQuad).OnComplete(() =>
+                this.healthText.DOColor(Color.white, 0.2f).SetEase(Ease.OutQuad));
+            this.healthText.text = this._entity.Health.ToString();
+        }
     }
 }

@@ -46,14 +46,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5601400ce3110d43803dbaf924faec1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthText: {fileID: 1733455955369825411}
   TurnOrder: 0
   IsAlly: 1
   IsPlayingEntity: 0
   UID: 
   CurrentGrid: {fileID: 0}
   IsMoving: 0
-  EntityCell: {fileID: 0}
+  _entityCell: {fileID: 0}
   NextCell: {fileID: 0}
   CurrentPath: []
   Summons: []
@@ -237,6 +236,10 @@ PrefabInstance:
       propertyPath: _entity
       value: 
       objectReference: {fileID: 2281775837897738858}
+    - target: {fileID: 6885744934641828950, guid: 2b8f56245ad001342801b2cd883ea423, type: 3}
+      propertyPath: healthText
+      value: 
+      objectReference: {fileID: 1733455955369825411}
     - target: {fileID: 7405744802399613382, guid: 2b8f56245ad001342801b2cd883ea423, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0

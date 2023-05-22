@@ -94,8 +94,6 @@ namespace DownBelow.Entity
 
         [OdinSerialize] public List<Alteration> Alterations = new();
 
-        public TextMeshProUGUI healthText;
-
         public int TurnOrder;
         public bool IsAlly = true;
 
@@ -216,30 +214,9 @@ namespace DownBelow.Entity
 
         public void Start()
         {
-            this.OnHealthAdded += UpdateUILife;
-            this.OnHealthRemoved += UpdateUILife;
             this.OnHealthRemoved += AreYouAlive;
-
-            this.healthText.text = this.Health.ToString();
         }
-
-        public void UpdateUILife(SpellEventData data)
-        {
-            int oldLife = int.Parse(this.healthText.text);
-            if (oldLife > this.Health)
-            {
-                this.healthText.DOColor(Color.red, 0.4f).SetEase(Ease.OutQuad);
-                this.healthText.transform.DOShakeRotation(0.8f).SetEase(Ease.OutQuad).OnComplete(() =>
-                    this.healthText.DOColor(Color.white, 0.2f).SetEase(Ease.OutQuad));
-                this.healthText.text = this.Health.ToString();
-            } else
-            {
-                this.healthText.DOColor(Color.green, 0.4f).SetEase(Ease.OutQuad);
-                this.healthText.transform.DOPunchScale(Vector3.one * 1.3f, 0.8f).SetEase(Ease.OutQuad).OnComplete(() =>
-                    this.healthText.DOColor(Color.white, 0.2f).SetEase(Ease.OutQuad));
-                this.healthText.text = this.Health.ToString();
-            }
-        }
+        
 
         public void UpdateUIShield(SpellEventData data)
         {

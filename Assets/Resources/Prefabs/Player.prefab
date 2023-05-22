@@ -97,7 +97,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfe970a6b3853e9438f6751890782215, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthText: {fileID: 1453173727489583644}
   TurnOrder: 0
   IsAlly: 1
   IsPlayingEntity: 0
@@ -123,6 +122,7 @@ MonoBehaviour:
   CurrentSelectedItem: {fileID: 0}
   IsAutoAttacking: 0
   inventorySlotSelected: 0
+  theList: 0
   testingDeck: {fileID: 11400000, guid: dd2bfd15c03fc73419ff1859368e683d, type: 2}
 --- !u!1001 &6116910891150737795
 PrefabInstance:
@@ -263,6 +263,10 @@ PrefabInstance:
       propertyPath: _entity
       value: 
       objectReference: {fileID: -4998914615591247022}
+    - target: {fileID: 6885744934641828950, guid: 2b8f56245ad001342801b2cd883ea423, type: 3}
+      propertyPath: healthText
+      value: 
+      objectReference: {fileID: 1453173727489583644}
     - target: {fileID: 7405744802399613382, guid: 2b8f56245ad001342801b2cd883ea423, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
