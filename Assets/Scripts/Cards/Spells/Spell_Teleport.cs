@@ -23,7 +23,7 @@ namespace DownBelow.Spells
             var cellToTP = TargetCell;
 
 
-            RefEntity.Teleport(cellToTP, Result);
+            RefEntity.SmartTeleport(cellToTP, Result);
             EndAction();
         }
     }
