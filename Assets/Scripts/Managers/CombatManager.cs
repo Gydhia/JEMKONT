@@ -28,11 +28,27 @@ namespace DownBelow.Managers
         public event SpellTargetEventData.Event OnSpellBeginTargetting;
         public event SpellTargetEventData.Event OnSpellEndTargetting;
 
-        public void FireCombatStarted(WorldGrid Grid) =>
-            this.OnCombatStarted?.Invoke(new GridEventData(Grid));
+        public void FireCombatStarted(WorldGrid Grid)
+        {
+            PlayerInputs.player_select_1.canceled += this._switchToFirstPlayer;
+            PlayerInputs.player_select_2.canceled += this._switchToSecondPlayer;
+            PlayerInputs.player_select_3.canceled += this._switchToThirdPlayer;
+            PlayerInputs.player_select_4.canceled += this._switchToFourthPlayer;
 
-        public void FireCombatEnded(WorldGrid Grid) =>
+            this.OnCombatStarted?.Invoke(new GridEventData(Grid));
+        }
+
+        public void FireCombatEnded(WorldGrid Grid)
+        {
+            PlayerInputs.player_select_1.canceled -= this._switchToFirstPlayer;
+            PlayerInputs.player_select_2.canceled -= this._switchToSecondPlayer;
+            PlayerInputs.player_select_3.canceled -= this._switchToThirdPlayer;
+            PlayerInputs.player_select_4.canceled -= this._switchToFourthPlayer;
+
+            GameManager.Instance.FireSelfPlayerSwitched(null);
+
             this.OnCombatEnded?.Invoke(new GridEventData(Grid));
+        }
 
         public void FireCardBeginUse(
             ScriptableCard Card,
@@ -61,6 +77,8 @@ namespace DownBelow.Managers
         private SpellHeader _currentSpellHeader;
         private Spell _currentSpell;
 
+        public int TurnNumber;
+
         #region Run-time
         private Coroutine _turnCoroutine;
 
@@ -70,23 +88,31 @@ namespace DownBelow.Managers
 
         public List<PlayerBehavior> PlayersInGrid = new List<PlayerBehavior>();
 
+        public List<NonCharacterEntity> NCEs;
         /// <summary>
         /// Both used in the setup phase and the playing phase. 
         /// Before combat, this is only used as a placeholder
         /// </summary>
         public List<PlayerBehavior> FakePlayers;
-        private int _currentPlayerIndex;
+        private int _playerIndex = -1;
 
-        public int TurnNumber;
-
-        public List<NonCharacterEntity> NCEs;
-
+        public bool IsPlayerOrOwned(CharacterEntity entity)
+        {
+            if (entity is PlayerBehavior player)
+            {
+                return GameManager.Instance.RealSelfPlayer == player ||
+                    (player.IsFake && player.Owner == GameManager.Instance.RealSelfPlayer);
+            }
+            else
+            {
+                return false;
+            }
+        }
         #endregion
 
-        private void Start()
+        public void Init()
         {
             GameManager.Instance.OnEnteredGrid += this.WelcomePlayerInCombat;
-
             this.OnCardBeginUse += this._beginUseSpell;
         }
 
@@ -123,6 +149,9 @@ namespace DownBelow.Managers
 
                     fakePlayer.ReinitializeAllStats();
                     fakePlayer.healthText.gameObject.SetActive(true);
+
+                    fakePlayer.name = "FakePlayer - " + refTool.DeckPreset.Class.ToString();
+                    fakePlayer.UID = fakePlayer.name;
 
                     this.FakePlayers.Add(fakePlayer);
                 }
@@ -168,6 +197,7 @@ namespace DownBelow.Managers
             CurrentPlayingGrid.HasStarted = true;
 
             this._defineEntitiesTurn();
+            this._setOwnedFakes();
 
             this.FireCombatStarted(CurrentPlayingGrid);
 
@@ -182,14 +212,18 @@ namespace DownBelow.Managers
         }
 
 
-        private void _switchToFirstPlayer(InputAction.CallbackContext ctx) => this._switchSelectedPlayer(0);
-        private void _switchToSecondPlayer(InputAction.CallbackContext ctx) => this._switchSelectedPlayer(1);
-        private void _switchToThirdPlayer(InputAction.CallbackContext ctx) => this._switchSelectedPlayer(2);
-        private void _switchToFourthPlayer(InputAction.CallbackContext ctx) => this._switchSelectedPlayer(3);
+        private void _switchToFirstPlayer(InputAction.CallbackContext ctx) => this._switchSelectedPlayer(-1);
+        private void _switchToSecondPlayer(InputAction.CallbackContext ctx) => this._switchSelectedPlayer(0);
+        private void _switchToThirdPlayer(InputAction.CallbackContext ctx) => this._switchSelectedPlayer(1);
+        private void _switchToFourthPlayer(InputAction.CallbackContext ctx) => this._switchSelectedPlayer(2);
 
         private void _switchSelectedPlayer(int index)
         {
-            this._currentPlayerIndex = index;
+            if(index >= this.FakePlayers.Count || index == this._playerIndex) { return; }
+
+            this._playerIndex = index;
+
+            GameManager.Instance.FireSelfPlayerSwitched(index == -1 ? null : this.FakePlayers[index]);
         }
 
         public void ProcessStartTurn()
@@ -204,8 +238,17 @@ namespace DownBelow.Managers
                     this.TurnNumber % this.PlayingEntities.Count
                 );
 
-            if (CurrentPlayingEntity is PlayerBehavior && Photon.Pun.PhotonNetwork.IsMasterClient)
+            if (CurrentPlayingEntity is PlayerBehavior player)
+            {
                 this._turnCoroutine = StartCoroutine(this._startTurnTimer());
+
+                // Auto switch the current playing entity
+                if (this.IsPlayerOrOwned(player))
+                {
+                    GameManager.Instance.FireSelfPlayerSwitched(player);
+                }
+            }
+
 
             this.OnTurnStarted?.Invoke(new EntityEventData(CurrentPlayingEntity));
         }
@@ -355,9 +398,9 @@ namespace DownBelow.Managers
                 
                 UIManager.Instance.TurnSection.TimeSlider.fillAmount = timeToShowOnSlider;
             }
-
-            // End of allowed time
-            if(CurrentPlayingEntity == GameManager.Instance.SelfPlayer)
+            
+            // End of allowed time, only by the master client to avoid multiple buffing
+            if(Photon.Pun.PhotonNetwork.IsMasterClient && this.IsPlayerOrOwned(CurrentPlayingEntity))
             {
                 NetworkManager.Instance.EntityAskToBuffAction(
                     new EndTurnAction(CurrentPlayingEntity, CurrentPlayingEntity.EntityCell)
@@ -369,9 +412,6 @@ namespace DownBelow.Managers
 
         private void _defineEntitiesTurn()
         {
-            CurrentPlayingGrid.GridEntities.AddRange(this.FakePlayers);
-            this.FakePlayers.Clear();
-
             List<CharacterEntity> enemies = CurrentPlayingGrid.GridEntities
                 .Where(x => !x.IsAlly)
                 .ToList();
@@ -404,6 +444,19 @@ namespace DownBelow.Managers
                     if (i < enemies.Count)
                         this.PlayingEntities.Add(enemies[i]);
                 }
+            }
+        }
+
+        private void _setOwnedFakes()
+        {
+            // We'll now only use it to storage self player fakes
+            this.FakePlayers.Clear();
+            foreach (PlayerBehavior fakePlayer in PlayingEntities.Where(e => e is PlayerBehavior player && player.IsFake))
+            {
+                // Find the owner
+                var owner = GameManager.Instance.Players.Values.SingleOrDefault(p => p.CombatTools.Contains(fakePlayer.ActiveTool));
+                fakePlayer.Owner = owner;
+                this.FakePlayers.Add(fakePlayer);
             }
         }
     }

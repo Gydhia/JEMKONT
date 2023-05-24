@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using DG.Tweening;
+using DownBelow.Events;
 
 namespace DownBelow.UI
 {
@@ -32,9 +33,18 @@ namespace DownBelow.UI
             GameManager.Instance.SelfPlayer.OnSpeedRemoved += _onMoveChanged;
             GameManager.Instance.SelfPlayer.OnManaMissing += _onManaMissing;
 
+            GameManager.Instance.OnSelfPlayerSwitched += OnEntityChanged;
+
             this._onManaChanged(null);
             this._onHealthChanged(null);
             this._onMoveChanged(null);
+        }
+
+        public void OnEntityChanged(EntityEventData Data)
+        {
+            this.SetMana(Data.Entity.Mana, false);
+            this.SetHealth(Data.Entity.Health, false);
+            this.SetMove(Data.Entity.Speed, false);
         }
 
         private void _onManaChanged(Events.SpellEventData data)

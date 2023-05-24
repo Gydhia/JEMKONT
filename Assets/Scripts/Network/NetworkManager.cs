@@ -15,6 +15,7 @@ using DownBelow.Events;
 using System;
 using DownBelow.UI.Menu;
 using Newtonsoft.Json;
+using Photon.Pun.Demo.PunBasics;
 
 namespace DownBelow.Managers
 {
@@ -525,7 +526,9 @@ namespace DownBelow.Managers
         [PunRPC]
         public void PlayerAnswerStartTurn(string PlayerID)
         {
-            this._playersTurnState.Add(GameManager.Instance.Players[PlayerID]);
+            var playerOrFake = CombatManager.Instance.PlayingEntities.Single(pe => pe.UID == PlayerID) as PlayerBehavior;
+
+            this._playersTurnState.Add(playerOrFake.IsFake ? playerOrFake.Owner : playerOrFake);
 
             if (this._playersTurnState.Count >= GameManager.Instance.Players.Count)
             {
@@ -554,7 +557,9 @@ namespace DownBelow.Managers
         [PunRPC]
         public void RespondMasterEndEntityTurn(string PlayerID)
         {
-            this._playersTurnState.Add(GameManager.Instance.Players[PlayerID]);
+            var playerOrFake = CombatManager.Instance.PlayingEntities.Single(pe => pe.UID == PlayerID) as PlayerBehavior;
+
+            this._playersTurnState.Add(playerOrFake.IsFake ? playerOrFake.Owner : playerOrFake);
 
             if (this._playersTurnState.Count >= GameManager.Instance.Players.Count)
             {
@@ -574,9 +579,11 @@ namespace DownBelow.Managers
         }
 
         [PunRPC]
-        public void ConfirmPlayerEndedTurn(string EntityID)
+        public void ConfirmPlayerEndedTurn(string PlayerID)
         {
-            this._playersTurnState.Add(GameManager.Instance.Players[EntityID]);
+            var playerOrFake = CombatManager.Instance.PlayingEntities.Single(pe => pe.UID == PlayerID) as PlayerBehavior;
+
+            this._playersTurnState.Add(playerOrFake.IsFake ? playerOrFake.Owner : playerOrFake);
 
             if (this._playersTurnState.Count >= GameManager.Instance.Players.Count)
             {

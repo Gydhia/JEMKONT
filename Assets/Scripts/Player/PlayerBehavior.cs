@@ -37,21 +37,24 @@ namespace DownBelow.Entity
         }
 
         #endregion
+        /// <summary>
+        /// The owner of this potential FakePlayer. Used in combat
+        /// </summary>
+        public PlayerBehavior Owner;
+        public bool IsFake = false;
 
         public BaseStorage PlayerInventory;
 
         private DateTime _lastTimeAsked = DateTime.Now;
-        private string _nextGrid = string.Empty;
 
         public Interactable NextInteract = null;
 
         public MeshRenderer PlayerBody;
         public PhotonView PlayerView;
 
-        public List<Cell> NextPath { get; private set; }
-        public bool CanEnterGrid => true;
-
         public ToolItem ActiveTool;
+        public List<ToolItem> CombatTools;
+
         public BaseStorage PlayerSpecialSlots;
         public ItemPreset CurrentSelectedItem;
         public bool IsAutoAttacking = false;
@@ -90,9 +93,11 @@ namespace DownBelow.Entity
         {
             base.Init(refCell, refGrid, order);
 
-            if(isFake) { return; }
-
             refGrid.GridEntities.Add(this);
+
+            this.IsFake = isFake;
+
+            if (isFake) { return; }
 
             int playersNb = PhotonNetwork.PlayerList.Length;
 

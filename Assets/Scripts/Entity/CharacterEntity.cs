@@ -300,6 +300,7 @@ namespace DownBelow.Entity
         public virtual void StartTurn()
         {
             this.IsPlayingEntity = true;
+            Debug.Log("starting turn of : " + this.name);
 
             OnTurnBegun?.Invoke(new());
 
@@ -325,6 +326,7 @@ namespace DownBelow.Entity
             {
                 Alter.Apply(this);
             }
+            Debug.Log("ending turn of : " + this.name);
 
             this.IsPlayingEntity = false;
             OnTurnEnded?.Invoke(new());

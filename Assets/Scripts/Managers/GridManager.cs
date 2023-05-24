@@ -235,21 +235,21 @@ namespace DownBelow.Managers
             }
         }
 
-        public void ProcessCellClickUp_Combat(PlayerBehavior selfPlayer)
+        public void ProcessCellClickUp_Combat(PlayerBehavior player)
         {
-            if (selfPlayer.IsPlayingEntity)
+            if (player.IsPlayingEntity)
             {
                 // When not grabbing card
                 if (UI.DraggableCard.SelectedCard == null)
                 {
-                    if (selfPlayer.IsAutoAttacking)
+                    if (player.IsAutoAttacking)
                     {
                         if (LastHoveredCell.Datas.state == CellState.EntityIn)
                         {
-                            if (!selfPlayer.isInAttackRange(LastHoveredCell))
-                                selfPlayer.IsAutoAttacking = false;
+                            if (!player.isInAttackRange(LastHoveredCell))
+                                player.IsAutoAttacking = false;
                             else
-                                selfPlayer.AutoAttack(LastHoveredCell);
+                                player.AutoAttack(LastHoveredCell);
                         }
                     } else if (
                           this.LastHoveredCell.Datas.state == CellState.Walkable
@@ -257,17 +257,17 @@ namespace DownBelow.Managers
                       )
                     {
                         NetworkManager.Instance.EntityAskToBuffAction(
-                            new CombatMovementAction(selfPlayer, this.LastHoveredCell)
+                            new CombatMovementAction(player, this.LastHoveredCell)
                         );
                     }
                 }
             }
             // Clicking to select placement
-            else if (selfPlayer.CurrentGrid is CombatGrid cGrid && !cGrid.HasStarted)
+            else if (player.CurrentGrid is CombatGrid cGrid && !cGrid.HasStarted)
             {
-                if (LastHoveredCell.IsPlacementCell && selfPlayer.EntityCell != LastHoveredCell)
+                if (LastHoveredCell.IsPlacementCell && player.EntityCell != LastHoveredCell)
                 {
-                    selfPlayer.Teleport(LastHoveredCell);
+                    player.Teleport(LastHoveredCell);
                 }
             }
         }

@@ -26,7 +26,12 @@ namespace DownBelow.UI.Inventory
         private void Awake()
         {
             GameManager.Instance.OnPlayersWelcomed += _initInventory;
+
+            GameManager.Instance.OnEnteredGrid += _toggleInventoryUI;
+            GameManager.Instance.OnExitingGrid += _toggleInventoryUI;
         }
+
+        private void _toggleInventoryUI(EntityEventData Data) => this.gameObject.SetActive(!(Data.Entity.CurrentGrid is CombatGrid));
 
         private void _initInventory(GameEventData Data)
         {

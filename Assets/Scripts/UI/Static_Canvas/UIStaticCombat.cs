@@ -1,10 +1,12 @@
 using DownBelow.Events;
 using DownBelow.GridSystem;
 using DownBelow.Managers;
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
+using System.Runtime.InteropServices;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -62,6 +64,46 @@ namespace DownBelow.UI
                 this.DeckDropdowns[counter].SelfDropdown.RefreshShownValue();
                 this.DeckDropdowns[counter].SelfDropdown.interactable = false;
                 counter++;
+            }
+           
+            foreach (var player in CombatManager.Instance.PlayersInGrid.Where(p => p != GameManager.Instance.SelfPlayer))
+            {
+                foreach (var playerTool in player.PlayerSpecialSlots.StorageItems)
+                {
+                    this.DeckDropdowns[counter].gameObject.SetActive(false);
+                    counter++;
+                }                    
+            }
+
+            // Slots remaining
+            if(counter < 4)
+            {
+                int remaining = 4 - counter;
+                int playersInGrid = CombatManager.Instance.PlayersInGrid.Count;
+
+                for (int i = 0; i < remaining;)
+                {
+                    if(playersInGrid == 0)
+                    {
+                        Debug.LogError("There are no players in grid even after entering, fix the callstack with events");
+                        break;
+                    }
+
+                    for (int j = 0; j < playersInGrid; j++)
+                    {
+                        if (CombatManager.Instance.PlayersInGrid[j] == GameManager.Instance.SelfPlayer)
+                        {
+                            this.DeckDropdowns[counter].SelfDropdown.value = counter + 1;
+                            this.DeckDropdowns[counter].SelfDropdown.RefreshShownValue();
+                            this.DeckDropdowns[counter].SelfDropdown.interactable = false;
+
+                            counter++;
+                        }
+
+                        i++;
+                    }
+                }
+                
             }
         }
     }

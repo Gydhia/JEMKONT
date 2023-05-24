@@ -13,6 +13,7 @@ namespace DownBelow.UI
     {
         public TMP_Dropdown SelfDropdown;
         public bool Inited = false;
+        private int _lastIndex = 0;
 
         public void Init()
         {
@@ -36,7 +37,30 @@ namespace DownBelow.UI
 
         private void _updateSelectableDecks(int index)
         {
+            ToolItem tool;
+            if (this._lastIndex != 0)
+            {
+                tool = ToolsManager.Instance.AvailableTools.ElementAt(this._lastIndex - 1);
 
+                // Remove the previous selected tool 
+                if (GameManager.Instance.SelfPlayer.CombatTools.Contains(tool))
+                {
+                    GameManager.Instance.SelfPlayer.CombatTools.Remove(tool);
+                }
+            }
+
+            this._lastIndex = index;
+
+            // Index 0 is for none
+            if (index == 0) { return; }
+
+            tool = ToolsManager.Instance.AvailableTools.ElementAt(this._lastIndex - 1);
+
+            // Add the new one
+            if (!GameManager.Instance.SelfPlayer.CombatTools.Contains(tool))
+            {
+                GameManager.Instance.SelfPlayer.CombatTools.Add(tool);
+            }
         }
     }
 }

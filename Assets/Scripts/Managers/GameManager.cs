@@ -22,6 +22,7 @@ namespace DownBelow.Managers
 
         public event EntityEventData.Event OnEnteredGrid;
         public event EntityEventData.Event OnExitingGrid;
+        public event EntityEventData.Event OnSelfPlayerSwitched;
 
         public void FirePlayersWelcomed()
         {
@@ -45,13 +46,27 @@ namespace DownBelow.Managers
         {
             OnExitingGrid?.Invoke(new EntityEventData(entity));
         }
+        public void FireSelfPlayerSwitched(PlayerBehavior player)
+        {
+            this.SelfPlayer = player != null ? player : this.RealSelfPlayer;
+
+            OnSelfPlayerSwitched?.Invoke(new EntityEventData(this.SelfPlayer));
+        }
         #endregion
 
         public string SaveName;
         public PlayerBehavior PlayerPrefab;
 
         public Dictionary<string, PlayerBehavior> Players;
+        /// <summary>
+        /// The local player or its current FakePlayer
+        /// </summary>
         public PlayerBehavior SelfPlayer;
+        /// <summary>
+        /// The local player
+        /// </summary>
+        public PlayerBehavior RealSelfPlayer { get { return this.SelfPlayer.IsFake ? this.SelfPlayer.Owner : this.SelfPlayer; } }
+
 
         public ItemPreset[] GameItems;
 
@@ -82,6 +97,9 @@ namespace DownBelow.Managers
 
             if(MenuManager.Instance != null)
                 MenuManager.Instance.Init();
+
+            if (CombatManager.Instance != null)
+                CombatManager.Instance.Init();
 
             if (UIManager.Instance != null)
                 UIManager.Instance.Init();
