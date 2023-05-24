@@ -57,6 +57,12 @@ MonoBehaviour:
     - Name: RequiresTargetting
       Entry: 5
       Data: true
+    - Name: SpellResultTargeting
+      Entry: 5
+      Data: false
+    - Name: SpellResultIndex
+      Entry: 3
+      Data: 0
     - Name: SpellShapeMatrix
       Entry: 7
       Data: 3|System.Boolean[,], mscorlib
@@ -294,6 +300,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: SpellHeader
+      Entry: 6
+      Data: 
     - Name: NCEHits
       Entry: 6
       Data: 
@@ -325,6 +334,6 @@ MonoBehaviour:
   Cost: 2
   CardType: 2
   Description: Deal 6 damage in a 3x3 square
-  IllustrationImage: {fileID: 0}
+  IllustrationImage: {fileID: 21300000, guid: bc921e064564ebd4594c82683f941e5f, type: 3}
   Class: 2
   CurrentSpellTargetting: 0
