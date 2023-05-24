@@ -57,6 +57,12 @@ MonoBehaviour:
     - Name: RequiresTargetting
       Entry: 5
       Data: true
+    - Name: SpellResultTargeting
+      Entry: 5
+      Data: false
+    - Name: SpellResultIndex
+      Entry: 3
+      Data: 0
     - Name: SpellShapeMatrix
       Entry: 7
       Data: 3|System.Boolean[,], mscorlib
@@ -987,6 +993,12 @@ MonoBehaviour:
     - Name: TargetType
       Entry: 3
       Data: 7
+    - Name: ProjectileSFX
+      Entry: 6
+      Data: 
+    - Name: CellSFX
+      Entry: 6
+      Data: 
     - Name: IsNegativeEffect
       Entry: 5
       Data: true
@@ -998,6 +1010,9 @@ MonoBehaviour:
       Data: 25
     - Name: 
       Entry: 8
+      Data: 
+    - Name: SpellHeader
+      Entry: 6
       Data: 
     - Name: NCEHits
       Entry: 6
@@ -1047,6 +1062,12 @@ MonoBehaviour:
     - Name: RequiresTargetting
       Entry: 5
       Data: true
+    - Name: SpellResultTargeting
+      Entry: 5
+      Data: false
+    - Name: SpellResultIndex
+      Entry: 3
+      Data: 0
     - Name: SpellShapeMatrix
       Entry: 7
       Data: 8|System.Boolean[,], mscorlib
@@ -1272,6 +1293,12 @@ MonoBehaviour:
     - Name: TargetType
       Entry: 3
       Data: 0
+    - Name: ProjectileSFX
+      Entry: 6
+      Data: 
+    - Name: CellSFX
+      Entry: 6
+      Data: 
     - Name: BaseDamage
       Entry: 3
       Data: 0
@@ -1280,6 +1307,9 @@ MonoBehaviour:
       Data: 0
     - Name: 
       Entry: 8
+      Data: 
+    - Name: SpellHeader
+      Entry: 6
       Data: 
     - Name: NCEHits
       Entry: 6
@@ -1312,6 +1342,6 @@ MonoBehaviour:
   Cost: 1
   CardType: 2
   Description: Deals damage.
-  IllustrationImage: {fileID: 21300000, guid: 99c022fcb87ec6a40971f49f33d6fbb9, type: 3}
+  IllustrationImage: {fileID: 21300000, guid: 6f9f745078f3dab46862a537edb3bf00, type: 3}
   Class: 0
   CurrentSpellTargetting: 0

@@ -24,28 +24,13 @@ MonoBehaviour:
     - Name: UID
       Entry: 2
       Data: 01bcf5121d9ef4902aff29a6a9aca0fe
+    - Name: Spells
+      Entry: 6
+      Data: 
   Title: Unseen Aid
   Cost: 2
   CardType: 3
-  Class: 1
   Description: Gives an ally "Camouflage" for 1 turn and "Critical"
-  IllustrationImage: {fileID: 21300000, guid: df7bdf15de7d3fe4fb2e14e2c817f68c, type: 3}
-  Spells:
-  - ConditionData: {fileID: 0}
-    ActionData: {fileID: -6440053335827846874, guid: fa774b350389d9f4c8c3a52d70cc94a8, type: 3}
-    ApplyToCell: 1
-    ApplyToSelf: 0
-    ApplyToAllies: 0
-    ApplyToEnemies: 0
-    ApplyToAll: 0
-    CurrentAction: {fileID: 0}
-    Caster: {fileID: 0}
-  - ConditionData: {fileID: 0}
-    ActionData: {fileID: -1333561536281553296, guid: fa774b350389d9f4c8c3a52d70cc94a8, type: 3}
-    ApplyToCell: 1
-    ApplyToSelf: 0
-    ApplyToAllies: 0
-    ApplyToEnemies: 0
-    ApplyToAll: 0
-    CurrentAction: {fileID: 0}
-    Caster: {fileID: 0}
+  IllustrationImage: {fileID: 21300000, guid: df674250c908ec44187f65c083353709, type: 3}
+  Class: 1
+  CurrentSpellTargetting: 0

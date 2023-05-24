@@ -24,18 +24,13 @@ MonoBehaviour:
     - Name: UID
       Entry: 2
       Data: 2ae2a1cc1f85af4ee734b9bfa899130e
+    - Name: Spells
+      Entry: 6
+      Data: 
   Title: Sand Snare
   Cost: 2
   CardType: 3
   Description: Set a units Speed to 0 until the end of your next turn, draw a card.
-  IllustrationImage: {fileID: 21300000, guid: 00a1ea73c70bcb548815ccbb24276f90, type: 3}
-  Spells:
-  - ConditionData: {fileID: 0}
-    ActionData: {fileID: 8713967515153432227, guid: db80cf872352d6a489fb2b983ca2fe09, type: 3}
-    ApplyToCell: 1
-    ApplyToSelf: 0
-    ApplyToAllies: 0
-    ApplyToEnemies: 0
-    ApplyToAll: 0
-    CurrentAction: {fileID: 0}
-    Caster: {fileID: 0}
+  IllustrationImage: {fileID: 21300000, guid: 84a3e9d642ff30943acebeb27eff0955, type: 3}
+  Class: 0
+  CurrentSpellTargetting: 0
