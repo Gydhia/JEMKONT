@@ -35,7 +35,7 @@ namespace DownBelow.UI.Inventory
 
         private void _initInventory(GameEventData Data)
         {
-            this.Holder = GameManager.Instance.SelfPlayer;
+            this.Holder = GameManager.SelfPlayer;
 
             this.PlayerStorage.SetStorageAndShow(Holder.PlayerInventory);
             this.PlayerSpecialStorage.SetStorageAndShow(Holder.PlayerSpecialSlots);

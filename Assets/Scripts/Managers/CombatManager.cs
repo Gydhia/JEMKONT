@@ -45,7 +45,7 @@ namespace DownBelow.Managers
             PlayerInputs.player_select_3.canceled -= this._switchToThirdPlayer;
             PlayerInputs.player_select_4.canceled -= this._switchToFourthPlayer;
 
-            GameManager.Instance.FireSelfPlayerSwitched(null);
+            GameManager.Instance.FireSelfPlayerSwitched(null, this._playerIndex, 0);
 
             this.OnCombatEnded?.Invoke(new GridEventData(Grid));
         }
@@ -100,8 +100,8 @@ namespace DownBelow.Managers
         {
             if (entity is PlayerBehavior player)
             {
-                return GameManager.Instance.RealSelfPlayer == player ||
-                    (player.IsFake && player.Owner == GameManager.Instance.RealSelfPlayer);
+                return GameManager.RealSelfPlayer == player ||
+                    (player.IsFake && player.Owner == GameManager.RealSelfPlayer);
             }
             else
             {
@@ -144,7 +144,7 @@ namespace DownBelow.Managers
 
                     fakePlayer.Init(placementCell, currentGrid, 0, true);
 
-                    var refTool = ToolsManager.Instance.ToolPresets.Values.Single(t => t.DeckPreset == deck);
+                    var refTool = CardsManager.Instance.ToolPresets.Values.Single(t => t.DeckPreset == deck);
                     fakePlayer.SetActiveTool(refTool);
 
                     fakePlayer.ReinitializeAllStats();
@@ -174,7 +174,7 @@ namespace DownBelow.Managers
 
             Data.Entity.ReinitializeAllStats();
 
-            if(GameManager.Instance.SelfPlayer == Data.Entity)
+            if(GameManager.SelfPlayer == Data.Entity)
             {
                 PoolManager.Instance.CellIndicatorPool.DisplayPathIndicators(currentGrid.PlacementCells);
             }
@@ -198,6 +198,8 @@ namespace DownBelow.Managers
             this._defineEntitiesTurn();
             this._setOwnedFakes();
 
+            this._switchToFirstPlayer(new InputAction.CallbackContext());
+
             this.FireCombatStarted(CurrentPlayingGrid);
 
             StartCoroutine(this._startCombatDelay(2f));
@@ -211,18 +213,21 @@ namespace DownBelow.Managers
         }
 
 
-        private void _switchToFirstPlayer(InputAction.CallbackContext ctx) => this._switchSelectedPlayer(-1);
-        private void _switchToSecondPlayer(InputAction.CallbackContext ctx) => this._switchSelectedPlayer(0);
-        private void _switchToThirdPlayer(InputAction.CallbackContext ctx) => this._switchSelectedPlayer(1);
-        private void _switchToFourthPlayer(InputAction.CallbackContext ctx) => this._switchSelectedPlayer(2);
+        private void _switchToFirstPlayer(InputAction.CallbackContext ctx) => this._switchSelectedPlayer(0);
+        private void _switchToSecondPlayer(InputAction.CallbackContext ctx) => this._switchSelectedPlayer(1);
+        private void _switchToThirdPlayer(InputAction.CallbackContext ctx) => this._switchSelectedPlayer(2);
+        private void _switchToFourthPlayer(InputAction.CallbackContext ctx) => this._switchSelectedPlayer(3);
 
         private void _switchSelectedPlayer(int index)
         {
-            if(index >= this.FakePlayers.Count || index == this._playerIndex) { return; }
+            if(index > this.FakePlayers.Count || index == this._playerIndex) { return; }
+
+            GameManager.Instance.FireSelfPlayerSwitched(index == 0 ? null : this.FakePlayers[index - 1], 
+                this._playerIndex < 0 ? 0 : this._playerIndex, 
+                index
+            );
 
             this._playerIndex = index;
-
-            GameManager.Instance.FireSelfPlayerSwitched(index == -1 ? null : this.FakePlayers[index]);
         }
 
         public void ProcessStartTurn()
@@ -244,7 +249,7 @@ namespace DownBelow.Managers
                 // Auto switch the current playing entity
                 if (this.IsPlayerOrOwned(player))
                 {
-                    GameManager.Instance.FireSelfPlayerSwitched(player);
+                    GameManager.Instance.FireSelfPlayerSwitched(player, this._playerIndex, this.FakePlayers.IndexOf(player) + 1);
                 }
             }
 
@@ -288,9 +293,15 @@ namespace DownBelow.Managers
         #region CARDS
         private void _beginUseSpell(CardEventData data)
         {
+            if(data.Card.Spells == null)
+            {
+                Debug.LogError("Trying to use a card without Spell. Fix it in editor.");
+            }
+
             // Create the spell header, used to store only usefull datas (=avoid duplications)
             this._currentSpellHeader = new SpellHeader(data.Card.UID, data.Card.Spells.Length, CurrentPlayingEntity.UID);
-            this._currentSpell = data.Card.Spells.First(s => s.Data.RequiresTargetting);
+            this._currentSpell = data.Card.Spells.FirstOrDefault(s => s.Data.RequiresTargetting);
+            this._currentSpell ??= data.Card.Spells[0];
 
             foreach (var spell in data.Card.Spells)
             {

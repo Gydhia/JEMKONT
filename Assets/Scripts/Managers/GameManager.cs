@@ -46,13 +46,13 @@ namespace DownBelow.Managers
         {
             OnExitingGrid?.Invoke(new EntityEventData(entity));
         }
-        public void FireSelfPlayerSwitched(PlayerBehavior player)
+        public void FireSelfPlayerSwitched(PlayerBehavior player, int oldIndex, int newIndex)
         {
-            this.SelfPlayer.SelectedIndicator.gameObject.SetActive(false);
-            this.SelfPlayer = player != null ? player : this.RealSelfPlayer;
-            this.SelfPlayer.SelectedIndicator.gameObject.SetActive(true);
+            SelfPlayer.SelectedIndicator.gameObject.SetActive(false);
+            SelfPlayer = player != null ? player : RealSelfPlayer;
+            SelfPlayer.SelectedIndicator.gameObject.SetActive(true);
 
-            OnSelfPlayerSwitched?.Invoke(new EntityEventData(this.SelfPlayer));
+            OnSelfPlayerSwitched?.Invoke(new EntityEventData(SelfPlayer, oldIndex, newIndex));
         }
         #endregion
 
@@ -63,11 +63,11 @@ namespace DownBelow.Managers
         /// <summary>
         /// The local player or its current FakePlayer
         /// </summary>
-        public PlayerBehavior SelfPlayer;
+        public static PlayerBehavior SelfPlayer;
         /// <summary>
         /// The local player
         /// </summary>
-        public PlayerBehavior RealSelfPlayer { get { return this.SelfPlayer.IsFake ? this.SelfPlayer.Owner : this.SelfPlayer; } }
+        public static PlayerBehavior RealSelfPlayer { get { return SelfPlayer.IsFake ? SelfPlayer.Owner : SelfPlayer; } }
 
 
         public ItemPreset[] GameItems;
@@ -108,9 +108,6 @@ namespace DownBelow.Managers
 
             if (CardsManager.Instance != null)
                 CardsManager.Instance.Init();
-
-            if (ToolsManager.Instance != null)
-                ToolsManager.Instance.Init();
 
             if (GridManager.Instance != null)
                 GridManager.Instance.Init();
@@ -167,8 +164,8 @@ namespace DownBelow.Managers
 
                     if (player.UserId == PhotonNetwork.LocalPlayer.UserId)
                     {
-                        this.SelfPlayer = newPlayer;
-                        CameraManager.Instance.AttachPlayerToCamera(this.SelfPlayer);
+                        SelfPlayer = newPlayer;
+                        CameraManager.Instance.AttachPlayerToCamera(SelfPlayer);
                     }
 
                     this.Players.Add(player.UserId, newPlayer);
@@ -312,7 +309,7 @@ namespace DownBelow.Managers
                     if (NormalActionsBuffer[action.RefEntity].Count > 1)
                     {
                         // Hide everything but the first one that is being played
-                        if(action.RefEntity == this.SelfPlayer)
+                        if(action.RefEntity == SelfPlayer)
                             for (int i = 1; i < NormalActionsBuffer[action.RefEntity].Count; i++)
                                 PoolManager.Instance.CellIndicatorPool.HideActionIndicators(NormalActionsBuffer[action.RefEntity][i]);
 
@@ -324,7 +321,7 @@ namespace DownBelow.Managers
                 NormalActionsBuffer[action.RefEntity].Add(action);
                 action.RefBuffer = NormalActionsBuffer[action.RefEntity];
 
-                if (action.RefEntity == this.SelfPlayer)
+                if (action.RefEntity == SelfPlayer)
                     PoolManager.Instance.CellIndicatorPool.DisplayActionIndicators(action);
 
                 //Still don't know what that means

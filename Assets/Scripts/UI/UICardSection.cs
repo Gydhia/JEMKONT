@@ -7,34 +7,37 @@ using UnityEngine.UI;
 using DownBelow.Mechanics;
 using DownBelow.Managers;
 using Utility.SLayout;
+using DownBelow.Events;
 
 namespace DownBelow.UI
 {
     public class UICardSection : MonoBehaviour
     {
-        public GameObject CardsHolder;
-        public GameObject DiscardHolder;
-        public GameObject DrawHolder;
-
-        public Image DrawPile;
-        public TextMeshProUGUI DrawNumber;
-        public Image DiscardPile;
-        public TextMeshProUGUI DiscardNumber;
+        public List<UICardsHolder> CardsHolders;
 
         public SHorizontalLayoutGroup _cardsLayoutGroup;
 
-        private RectTransform _cardsHolderRectTransform;
-
-        private void Start()
+        public void Init()
         {
-            _cardsHolderRectTransform = CardsHolder.GetComponent<RectTransform>();
+            GameManager.Instance.OnSelfPlayerSwitched += _updateVisibleCards;
+
+            foreach (var holder in this.CardsHolders)
+            {
+                holder.CanvasGroup.alpha = 0;
+                holder.CanvasGroup.blocksRaycasts = false;
+                holder.CanvasGroup.interactable = false;
+            }
         }
 
-        private void Update()
+        private void _updateVisibleCards(EntityEventData Data)
         {
-            // No needs to handle this another way for now. Suck but good
-            this.DiscardNumber.text = CardsManager.Instance.DiscardPile.Count.ToString();
-            this.DrawNumber.text = CardsManager.Instance.DrawPile.Count.ToString();
+            this.CardsHolders[Data.OldIndex].CanvasGroup.alpha = 0;
+            this.CardsHolders[Data.OldIndex].CanvasGroup.blocksRaycasts = false;
+            this.CardsHolders[Data.OldIndex].CanvasGroup.interactable = false;
+
+            this.CardsHolders[Data.NewIndex].CanvasGroup.alpha = 1;
+            this.CardsHolders[Data.NewIndex].CanvasGroup.blocksRaycasts = true;
+            this.CardsHolders[Data.NewIndex].CanvasGroup.interactable = true;
         }
 
         public void UpdateLayoutGroup()
@@ -42,7 +45,5 @@ namespace DownBelow.UI
             _cardsLayoutGroup.enabled = false;
             _cardsLayoutGroup.enabled = true;
         }
-
-
     }
 }

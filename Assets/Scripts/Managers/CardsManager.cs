@@ -8,13 +8,29 @@ using System.Linq;
 using DownBelow.Events;
 using DownBelow.UI;
 using EODE.Wonderland;
+using Sirenix.Serialization;
+using DownBelow.GridSystem;
+using DownBelow.Entity;
+using System.Diagnostics;
 
 namespace DownBelow.Managers
 {
+    public enum PileType
+    {
+        Draw = 1,
+        Discard = 2,
+        Hand = 3,
+        Exausth = 4,
+
+        All = 5
+    }
+
     [ShowOdinSerializedPropertiesInInspector]
     public class CardsManager : _baseManager<CardsManager>
     {
         #region DATAS
+        public DraggableCard CardPrefab;
+
         /// <summary>
         /// Do not use this, Inspector only. Use <see cref="DeckPresets"/>
         /// </summary>
@@ -36,8 +52,38 @@ namespace DownBelow.Managers
                 this.DeckPresets.Add(deck.UID, deck);
             }
 
+            this.ToolPresets = new Dictionary<Guid, ToolItem>();
+            foreach (var tool in this.AvailableTools)
+            {
+                this.ToolPresets.Add(tool.UID, tool);
+            }
+
             CombatManager.Instance.OnCombatStarted += _setupForCombat;
             CombatManager.Instance.OnCombatEnded += _endForCombat;
+        }
+
+        private void _setupForCombat(GridEventData Data)
+        {
+            CombatGrid combatGrid = Data.Grid as CombatGrid;
+
+            var allPlayers = combatGrid.GridEntities.Where(e => e is PlayerBehavior player && player.Deck != null).Cast<PlayerBehavior>();
+
+            // To keep order
+            GameManager.RealSelfPlayer.Deck.SetupForCombat(UIManager.Instance.CardSection.CardsHolders[0]);
+            int counter = 0;
+            foreach (PlayerBehavior player in allPlayers)
+            {
+                player.Deck.SetupForCombat(UIManager.Instance.CardSection.CardsHolders[counter]);
+                counter++;
+            }
+        }
+
+        private void _endForCombat(GridEventData Data)
+        {
+            foreach (var deck in this.AvailableDecks)
+            {
+                deck.EndForCombat();
+            }
         }
 
         private void _loadScriptableCards()
@@ -62,105 +108,33 @@ namespace DownBelow.Managers
         }
         #endregion
 
+        #region TOOLS
+        [OdinSerialize()] public Dictionary<EClass, ToolItem> ToolInstances = new();//Je vois des choses
+
+        public List<ToolItem> AvailableTools;
+
+        [HideInInspector]
+        public Dictionary<Guid, ToolItem> ToolPresets;
+
+        public void AddToInstance(ToolItem toolToAdd)
+        {
+            if (ToolInstances.TryGetValue(toolToAdd.Class, out ToolItem tool))
+            {
+                toolToAdd.DeckPreset = tool.DeckPreset; 
+                toolToAdd.Class = tool.Class;
+                //This might be shitty, we'll see afterwards.
+                //TODO: Photon?
+            }
+            else
+            {
+                ToolInstances.Add(toolToAdd.Class, toolToAdd);
+            }
+        }
+        #endregion
+
         #region COMBAT
-        public DraggableCard CardPrefab;
+        
 
-        public DeckPreset ReferenceDeck;
-
-        public List<DraggableCard> DrawPile = new List<DraggableCard>();
-        public List<DraggableCard> DiscardPile = new List<DraggableCard>();
-        public List<DraggableCard> HandPile = new List<DraggableCard>();
-        public List<DraggableCard> ExhaustedPile = new List<DraggableCard>();
-
-        private void _setupForCombat(GridEventData Data)
-        {
-            GameManager.Instance.SelfPlayer.OnTurnEnded += SelfDrawCard;
-            CombatManager.Instance.OnCardEndUse += TryDiscardCard;
-
-            ReferenceDeck = GameManager.Instance.SelfPlayer.Deck;
-
-            foreach (var card in ReferenceDeck.Deck.Cards)
-            {
-                this.DrawPile.Add(Instantiate(CardPrefab, UIManager.Instance.CardSection.DrawPile.transform));
-                this.DrawPile[^1].Init(card);
-            }
-
-            for (int i = 0; i < SettingsManager.Instance.CombatPreset.CardsToDrawAtStart; i++)
-            {
-                DrawCard();
-            }
-        }
-
-        private void _endForCombat(GridEventData Data)
-        {
-            GameManager.Instance.SelfPlayer.OnTurnEnded -= SelfDrawCard;
-        }
-
-        public void SelfDrawCard(GameEventData Data)
-        {
-            for (int i = 0; i < SettingsManager.Instance.CombatPreset.CardsToDrawAtStart; i++)
-            {
-                DrawCard();
-            }
-        }
-
-        public void TryDiscardCard(CardEventData Data)
-        {
-            if (!Data.Played)
-                return;
-
-            Data.DraggableCard.DiscardToPile();
-
-            this.HandPile.Remove(Data.DraggableCard);
-            this.DiscardPile.Add(Data.DraggableCard);
-        }
-
-        public void DrawCard(ScriptableCard card)
-        {
-            this.HandPile.Add(Instantiate(CardPrefab, UIManager.Instance.CardSection.DrawPile.transform));
-            this.HandPile[^1].Init(card);
-        }
-
-        public void DrawCard()
-        {
-            this.checkPilesState();
-            
-            if(this.DrawPile.Count > 0)
-            {
-                // Get a card from the draw pile --TO--> hand
-                this.HandPile.Add(this.DrawPile[0]);
-                this.DrawPile.RemoveAt(0);
-
-                this.HandPile[^1].DrawFromPile();
-            }
-
-            if (HandPile.Count > 7)
-            {
-                this.HandPile[^1].DiscardToPile();
-                this.HandPile.Remove(this.HandPile[^1]);
-            }
-
-            this.checkPilesState();
-        }
-
-        protected void checkPilesState()
-        {
-            if (DrawPile.Count == 0)
-            {
-                this.ShufflePile(ref this.DiscardPile);
-
-                for (int i = this.DiscardPile.Count - 1; i >= 0; i--)
-                {
-                    this.DrawPile.Add(this.DiscardPile[i]);
-                    this.DiscardPile.RemoveAt(i);
-                }
-            }
-        }
-
-        public void ShufflePile(ref List<DraggableCard> cards)
-        {
-            cards.Shuffle();
-        }
 
         #endregion
     }

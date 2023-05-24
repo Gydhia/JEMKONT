@@ -26,7 +26,7 @@ namespace DownBelow.UI
             options.options.Add(new TMP_Dropdown.OptionData());
 
             this.SelfDropdown.ClearOptions();
-            foreach (var deck in ToolsManager.Instance.AvailableTools)
+            foreach (var deck in CardsManager.Instance.AvailableTools)
             {
                 options.options.Add(new TMP_Dropdown.OptionData(deck.InventoryIcon));
             }
@@ -40,12 +40,12 @@ namespace DownBelow.UI
             ToolItem tool;
             if (this._lastIndex != 0)
             {
-                tool = ToolsManager.Instance.AvailableTools.ElementAt(this._lastIndex - 1);
+                tool = CardsManager.Instance.AvailableTools.ElementAt(this._lastIndex - 1);
 
                 // Remove the previous selected tool 
-                if (GameManager.Instance.SelfPlayer.CombatTools.Contains(tool))
+                if (GameManager.SelfPlayer.CombatTools.Contains(tool))
                 {
-                    GameManager.Instance.SelfPlayer.CombatTools.Remove(tool);
+                    GameManager.SelfPlayer.CombatTools.Remove(tool);
                 }
             }
 
@@ -54,12 +54,12 @@ namespace DownBelow.UI
             // Index 0 is for none
             if (index == 0) { return; }
 
-            tool = ToolsManager.Instance.AvailableTools.ElementAt(this._lastIndex - 1);
+            tool = CardsManager.Instance.AvailableTools.ElementAt(this._lastIndex - 1);
 
             // Add the new one
-            if (!GameManager.Instance.SelfPlayer.CombatTools.Contains(tool))
+            if (!GameManager.SelfPlayer.CombatTools.Contains(tool))
             {
-                GameManager.Instance.SelfPlayer.CombatTools.Add(tool);
+                GameManager.SelfPlayer.CombatTools.Add(tool);
             }
         }
     }

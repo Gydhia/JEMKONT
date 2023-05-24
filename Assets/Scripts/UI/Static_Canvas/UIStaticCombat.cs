@@ -68,18 +68,18 @@ namespace DownBelow.UI
             }
 
             int counter = 0;
-            foreach (var item in GameManager.Instance.SelfPlayer.PlayerSpecialSlots.StorageItems)
+            foreach (var item in GameManager.SelfPlayer.PlayerSpecialSlots.StorageItems)
             {
                 ToolItem toolPreset = item.ItemPreset as ToolItem;
 
                 // +1 since the value 0 is for none
-                this.DeckDropdowns[counter].SelfDropdown.value = (ToolsManager.Instance.AvailableTools.IndexOf(toolPreset) + 1);
+                this.DeckDropdowns[counter].SelfDropdown.value = (CardsManager.Instance.AvailableTools.IndexOf(toolPreset) + 1);
                 this.DeckDropdowns[counter].SelfDropdown.RefreshShownValue();
                 this.DeckDropdowns[counter].SelfDropdown.interactable = false;
                 counter++;
             }
            
-            foreach (var player in CombatManager.Instance.PlayersInGrid.Where(p => p != GameManager.Instance.SelfPlayer))
+            foreach (var player in CombatManager.Instance.PlayersInGrid.Where(p => p != GameManager.SelfPlayer))
             {
                 foreach (var playerTool in player.PlayerSpecialSlots.StorageItems)
                 {
@@ -104,7 +104,7 @@ namespace DownBelow.UI
 
                     for (int j = 0; j < playersInGrid; j++)
                     {
-                        if (CombatManager.Instance.PlayersInGrid[j] == GameManager.Instance.SelfPlayer)
+                        if (CombatManager.Instance.PlayersInGrid[j] == GameManager.SelfPlayer)
                         {
                             this.DeckDropdowns[counter].SelfDropdown.value = counter + 1;
                             this.DeckDropdowns[counter].SelfDropdown.RefreshShownValue();

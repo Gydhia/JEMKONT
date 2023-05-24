@@ -147,7 +147,7 @@ namespace DownBelow.UI.Inventory
         }
         protected virtual void dropOverWorld(PointerEventData eventData)
         {
-            var action = new DropItemAction(GameManager.Instance.SelfPlayer,
+            var action = new DropItemAction(GameManager.SelfPlayer,
                 GridManager.Instance.LastHoveredCell, SelfItem.ItemPreset.UID.ToString(), SelfItem.Quantity.ToString());
             NetworkManager.Instance.EntityAskToBuffAction(action);
             //GridManager.Instance.LastHoveredCell.DropDownItem(SelfItem);

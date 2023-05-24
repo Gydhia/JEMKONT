@@ -53,6 +53,9 @@ namespace DownBelow.Entity
         public PhotonView PlayerView;
 
         public ToolItem ActiveTool;
+        /// <summary>
+        /// Each possessed tools during combat. If alone, there will be 4
+        /// </summary>
         public List<ToolItem> CombatTools;
 
         public BaseStorage PlayerSpecialSlots;
@@ -216,6 +219,7 @@ namespace DownBelow.Entity
         {
             activeTool.ActualPlayer = this;
             this.ActiveTool = activeTool;
+            this.ActiveTool.DeckPreset.LinkedPlayer = this;
             this.SetStatistics(activeTool.DeckPreset.Statistics);
         }
 
@@ -233,10 +237,8 @@ namespace DownBelow.Entity
 
         public void EnterNewGrid(CombatGrid grid)
         {
-
-
+            // TODO : Killian (it's me Killian) plug this somewhere else
             theList = 0; //:)
-
             this.CurrentGrid = grid;
         }
 

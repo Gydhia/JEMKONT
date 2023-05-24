@@ -36,6 +36,7 @@ namespace DownBelow.Managers
             this.TurnSection.Init();
             this.DatasSection.Init();
             this.CombatSection.Init();
+            this.CardSection.Init();
 
             this.TurnSection.gameObject.SetActive(false);
             this.PlayerInfos.gameObject.SetActive(false);
@@ -69,9 +70,9 @@ namespace DownBelow.Managers
         {
             CombatManager.Instance.OnCombatStarted += this.SetupCombatInterface;
 
-            GameManager.Instance.SelfPlayer.OnGatheringStarted += StartGather;
-            GameManager.Instance.SelfPlayer.OnGatheringEnded += EndGather;
-            GameManager.Instance.SelfPlayer.OnGatheringCanceled += EndGather;
+            GameManager.SelfPlayer.OnGatheringStarted += StartGather;
+            GameManager.SelfPlayer.OnGatheringEnded += EndGather;
+            GameManager.SelfPlayer.OnGatheringCanceled += EndGather;
 
             CombatManager.Instance.OnCardBeginUse += this._beginCardDrag;
             CombatManager.Instance.OnCardEndUse += this._endCardDrag;

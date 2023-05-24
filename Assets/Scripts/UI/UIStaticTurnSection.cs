@@ -81,9 +81,9 @@ namespace DownBelow.UI
 
         private void _updateTurn(EntityEventData Data)
         {
-            NextTurnButton.interactable = CombatManager.CurrentPlayingEntity == GameManager.Instance.SelfPlayer;
+            NextTurnButton.interactable = CombatManager.CurrentPlayingEntity == GameManager.SelfPlayer;
 
-            if (Data.Entity != GameManager.Instance.SelfPlayer)
+            if (Data.Entity != GameManager.SelfPlayer)
                 return;
         }
     }

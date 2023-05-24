@@ -34,6 +34,8 @@ namespace DownBelow.UI
         public CardVisual CardVisual;
         public ScriptableCard CardReference;
 
+        public UICardsPile RefPile;
+
         // In %, which part of the bottom screen won't Pin the card ?
         public int PinUpdatePercents = 33;
         public int BottomDeadPercents = 20;
@@ -55,6 +57,12 @@ namespace DownBelow.UI
         private Coroutine _compareCoroutine = null;
         private Coroutine _pinUpdateCoroutine = null;
 
+        public void Init(ScriptableCard CardReference, UICardsPile Pile)
+        {
+            this.RefPile = Pile;
+            this.Init(CardReference);
+        }
+
         public void Init(ScriptableCard CardReference)
         {
             this.m_RectTransform = this.GetComponent<RectTransform>();
@@ -64,6 +72,8 @@ namespace DownBelow.UI
             this.CardVisual.Init(CardReference);
 
             this._subToEvents();
+
+            this.gameObject.SetActive(false);
         }
 
         public void OnPointerDown(PointerEventData eventData)
@@ -73,12 +83,11 @@ namespace DownBelow.UI
         }
 
         // Player is trying to drag the card
-        private void _onLeftClickDown(InputAction.CallbackContext ctx) => this._onLeftClickDown();
         private void _onLeftClickDown()
         {
-            if (GameManager.Instance.SelfPlayer.Mana < this.CardReference.Cost)
+            if (GameManager.SelfPlayer.Mana < this.CardReference.Cost)
             {
-                GameManager.Instance.SelfPlayer.FireMissingMana();
+                GameManager.SelfPlayer.FireMissingMana();
                 return;
             }
                 
@@ -97,7 +106,8 @@ namespace DownBelow.UI
         private void _onLeftClickUp(InputAction.CallbackContext ctx) => this._onLeftClickUp();
         private void _onLeftClickUp()
         {
-            if (SelectedCard != this || this.PinnedToScreen)
+            // TODO : some cards are null which shouldn't happen. Instead of SelectedCard != this, we should remember which one we focused and subs to inputs
+            if (SelectedCard == null || SelectedCard != this || this.PinnedToScreen)
                 return;
             
             
@@ -140,11 +150,13 @@ namespace DownBelow.UI
 
         private void Hover()
         {
+            Debug.Log("Hovered : " + this.name);
             this.m_RectTransform.DOAnchorPosY(HoveredCard._spawnPosition.y + 100f, 0.3f);
         }
 
         private void UnHover()
         {
+            Debug.Log("Unhovered : " + this.name);
             this.m_RectTransform.DOAnchorPosY(HoveredCard._spawnPosition.y - 175f, 0.3f);
         }
 
@@ -158,12 +170,13 @@ namespace DownBelow.UI
             this._pinUpdateCoroutine = StartCoroutine(_updatePinnedPosition());
         }
 
-        public void DrawFromPile()
+        public void DrawFromPile(UICardsPile fromPile, UICardsPile toPile)
         {
+            this.RefPile = toPile;
             this.gameObject.SetActive(true);
             
             this.m_RectTransform.localScale = Vector3.one * 0.2f;
-            this.transform.parent = UIManager.Instance.CardSection.DrawPile.transform;
+            this.transform.parent = fromPile.transform;
             this.transform.position = Vector3.zero;
 
             int result = Random.Range(1, 11);
@@ -173,7 +186,7 @@ namespace DownBelow.UI
             this.m_RectTransform.DOPunchPosition(Vector3.one * 0.8f, 1.3f, result).OnComplete((() =>
             {
                 this.m_RectTransform.localScale = Vector3.one;
-                this.m_RectTransform.parent = UIManager.Instance.CardSection.CardsHolder.transform;
+                this.m_RectTransform.parent = this.RefPile.transform;
                 this._spawnPosition = m_RectTransform.position;
                 this.m_RectTransform.DOAnchorPosY(this._spawnPosition.y, 0.3f);
             }));
@@ -184,14 +197,14 @@ namespace DownBelow.UI
             this._abortCoroutine(ref this._compareCoroutine);
             this._abortCoroutine(ref this._pinUpdateCoroutine);
             this.PinnedToScreen = this.IsDragged = false;
-            this.m_RectTransform.SetParent(UIManager.Instance.CardSection.CardsHolder.transform, false);
+            this.m_RectTransform.SetParent(this.RefPile.transform, false);
             UIManager.Instance.CardSection.UpdateLayoutGroup();
             this.m_RectTransform.DOAnchorPos(this._spawnPosition, 0.3f).SetEase(Ease.OutQuad);
             
             SelectedCard = null;
         }
 
-        public void DiscardToPile()
+        public void DiscardToPile(UICardsPile toPile)
         {
             this._isDestroying = true;
             SelectedCard = null;
@@ -203,7 +216,7 @@ namespace DownBelow.UI
             this.m_RectTransform.DOPunchRotation(Vector3.one * 0.8f, .4f, 3);
             this.m_RectTransform.DOPunchScale(Vector3.one * 0.8f, .4f, 3);
             this.m_RectTransform.DOScale(0.2f, .4f);
-            this.m_RectTransform.DOMove(UIManager.Instance.CardSection.DiscardHolder.transform.position, 0.4f)
+            this.m_RectTransform.DOMove(toPile.transform.position, 0.4f)
                 .OnComplete(() => this.Burn());
         }
 
@@ -287,13 +300,11 @@ namespace DownBelow.UI
 
         private void _subToEvents()
         {
-            PlayerInputs.player_l_click.performed += _onLeftClickDown;
             PlayerInputs.player_l_click.canceled += _onLeftClickUp;
         }
 
         private void _unsubToEvents()
         {
-            PlayerInputs.player_l_click.performed -= _onLeftClickDown;
             PlayerInputs.player_l_click.canceled -= _onLeftClickUp;
         }
 

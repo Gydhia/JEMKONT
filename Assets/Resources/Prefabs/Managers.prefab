@@ -1,54 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1966428020
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1966428021}
-  - component: {fileID: 1966428022}
-  m_Layer: 0
-  m_Name: ToolsManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1966428021
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1966428020}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6008253201538663047}
-  m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1966428022
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1966428020}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 644238189ed9bdf46ba9f570925acb44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AvailableTools:
-  - {fileID: 11400000, guid: 0ae20222b1f41454d9dd8ecaffbc0c1b, type: 2}
-  - {fileID: 11400000, guid: ffdd6310dff45344893994ab9ff94915, type: 2}
-  - {fileID: 11400000, guid: 34b1f29d12145524f84fb53e274345fe, type: 2}
-  - {fileID: 11400000, guid: 2d5ba117188a6554a9000d3a93a0b7b5, type: 2}
 --- !u!1 &1709003694304920991
 GameObject:
   m_ObjectHideFlags: 0
@@ -234,11 +185,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BattleGoing: 0
+  TurnNumber: 0
   PlayingEntities: []
   PlayersInGrid: []
-  FakePlayers: []
-  TurnNumber: 0
   NCEs: []
+  FakePlayers: []
 --- !u!1 &4145856202392196912
 GameObject:
   m_ObjectHideFlags: 0
@@ -269,7 +220,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6008253201538663047}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8322103470459949579
 MonoBehaviour:
@@ -385,7 +336,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SaveName: 
   PlayerPrefab: {fileID: -4998914615591247022, guid: 1d1bd3328be7bc54eb7b01b391b42dc7, type: 3}
-  SelfPlayer: {fileID: 0}
   GameItems: []
 --- !u!1 &6162683752929045887
 GameObject:
@@ -431,18 +381,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57a4408e0e3d1e24c9a6b0a4401a17d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CardPrefab: {fileID: 1023476501226774683, guid: dd17cd64dbb8d844596172368dc9c04c, type: 3}
   AvailableDecks:
   - {fileID: 11400000, guid: c2e0033a467715f4182f725e2d155c12, type: 2}
   - {fileID: 11400000, guid: afde972ffb51c2945915475e3cbd72a0, type: 2}
   - {fileID: 11400000, guid: a94274f9a030fcf49942d26ac3ced7d2, type: 2}
   - {fileID: 11400000, guid: 65297000a20289941b928d0d23e05aa5, type: 2}
   OwnedCards: []
-  CardPrefab: {fileID: 1023476501226774683, guid: dd17cd64dbb8d844596172368dc9c04c, type: 3}
-  ReferenceDeck: {fileID: 0}
-  DrawPile: []
-  DiscardPile: []
-  HandPile: []
-  ExhaustedPile: []
+  AvailableTools:
+  - {fileID: 11400000, guid: 0ae20222b1f41454d9dd8ecaffbc0c1b, type: 2}
+  - {fileID: 11400000, guid: ffdd6310dff45344893994ab9ff94915, type: 2}
+  - {fileID: 11400000, guid: 34b1f29d12145524f84fb53e274345fe, type: 2}
+  - {fileID: 11400000, guid: 2d5ba117188a6554a9000d3a93a0b7b5, type: 2}
 --- !u!1 &7177147408384528591
 GameObject:
   m_ObjectHideFlags: 0
@@ -480,7 +430,6 @@ Transform:
   - {fileID: 5979577254046834277}
   - {fileID: 6052729958245106439}
   - {fileID: 1534578390672292061}
-  - {fileID: 1966428021}
   - {fileID: 1112587114581908483}
   m_Father: {fileID: 0}
   m_RootOrder: 0

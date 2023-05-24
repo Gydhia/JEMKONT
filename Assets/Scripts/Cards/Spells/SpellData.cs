@@ -40,7 +40,7 @@ namespace DownBelow.Spells
         {
             return value switch
             {
-                ETargetType.Self => cell.EntityIn == GameManager.Instance.SelfPlayer,
+                ETargetType.Self => cell.EntityIn == GameManager.SelfPlayer,
                 ETargetType.AllAllies => cell.EntityIn != null && cell.EntityIn.IsAlly,
                 ETargetType.Enemy => cell.EntityIn != null && cell.EntityIn is EnemyEntity,
                 ETargetType.Ally => cell.EntityIn != null && cell.EntityIn is PlayerBehavior,

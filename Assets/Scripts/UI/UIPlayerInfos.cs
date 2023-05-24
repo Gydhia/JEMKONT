@@ -25,13 +25,13 @@ namespace DownBelow.UI
         {
             this.gameObject.SetActive(true);
 
-            GameManager.Instance.SelfPlayer.OnManaAdded += _onManaChanged;
-            GameManager.Instance.SelfPlayer.OnManaRemoved += _onManaChanged;
-            GameManager.Instance.SelfPlayer.OnHealthAdded += _onHealthChanged;
-            GameManager.Instance.SelfPlayer.OnHealthRemoved += _onHealthChanged;
-            GameManager.Instance.SelfPlayer.OnSpeedAdded += _onMoveChanged;
-            GameManager.Instance.SelfPlayer.OnSpeedRemoved += _onMoveChanged;
-            GameManager.Instance.SelfPlayer.OnManaMissing += _onManaMissing;
+            GameManager.SelfPlayer.OnManaAdded += _onManaChanged;
+            GameManager.SelfPlayer.OnManaRemoved += _onManaChanged;
+            GameManager.SelfPlayer.OnHealthAdded += _onHealthChanged;
+            GameManager.SelfPlayer.OnHealthRemoved += _onHealthChanged;
+            GameManager.SelfPlayer.OnSpeedAdded += _onMoveChanged;
+            GameManager.SelfPlayer.OnSpeedRemoved += _onMoveChanged;
+            GameManager.SelfPlayer.OnManaMissing += _onManaMissing;
 
             GameManager.Instance.OnSelfPlayerSwitched += OnEntityChanged;
 
@@ -49,7 +49,7 @@ namespace DownBelow.UI
 
         private void _onManaChanged(Events.SpellEventData data)
         {
-            this.SetMana(GameManager.Instance.SelfPlayer.Mana, true);
+            this.SetMana(GameManager.SelfPlayer.Mana, true);
         }
 
         private void _onManaMissing()
@@ -61,12 +61,12 @@ namespace DownBelow.UI
 
         private void _onHealthChanged(Events.SpellEventData data)
         {
-            this.SetHealth(GameManager.Instance.SelfPlayer.Health, true);
+            this.SetHealth(GameManager.SelfPlayer.Health, true);
         }
 
         private void _onMoveChanged(Events.SpellEventData data)
         {
-            this.SetMove(GameManager.Instance.SelfPlayer.Speed, true);
+            this.SetMove(GameManager.SelfPlayer.Speed, true);
         }
 
         public void SetMana(int value, bool animated = true)
@@ -89,14 +89,14 @@ namespace DownBelow.UI
 
             if (animated)
             {
-                _lifeFill.DOFillAmount((float)((float)value / (float)GameManager.Instance.SelfPlayer.MaxHealth), 0.6f)
+                _lifeFill.DOFillAmount((float)((float)value / (float)GameManager.SelfPlayer.MaxHealth), 0.6f)
                     .SetEase(Ease.OutQuart);
                 this.HealthText.transform.DOPunchScale(Vector3.one * 1.4f, 0.6f).SetEase(Ease.OutQuint);
                 this.HealthText.text = value.ToString();
             }
             else
             {
-                _lifeFill.DOFillAmount((float)((float)value / (float)GameManager.Instance.SelfPlayer.MaxHealth), 0f);
+                _lifeFill.DOFillAmount((float)((float)value / (float)GameManager.SelfPlayer.MaxHealth), 0f);
                 this.HealthText.text = value.ToString();
             }
         }
@@ -116,9 +116,9 @@ namespace DownBelow.UI
 
         public void UpdateAllTexts()
         {
-            this.SetMana(GameManager.Instance.SelfPlayer.Mana, false);
-            this.SetHealth(GameManager.Instance.SelfPlayer.Health, false);
-            this.SetMove(GameManager.Instance.SelfPlayer.Speed, false);
+            this.SetMana(GameManager.SelfPlayer.Mana, false);
+            this.SetHealth(GameManager.SelfPlayer.Health, false);
+            this.SetMove(GameManager.SelfPlayer.Speed, false);
         }
     }
 }

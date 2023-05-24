@@ -153,7 +153,7 @@ namespace DownBelow.Managers
             if (this.LastHoveredCell == null)
                 return;
 
-            PlayerBehavior selfPlayer = GameManager.Instance.SelfPlayer;
+            PlayerBehavior selfPlayer = GameManager.SelfPlayer;
 
             if (selfPlayer.CurrentGrid.IsCombatGrid)
                 this.ProcessCellClickUp_Combat(selfPlayer);
@@ -277,7 +277,7 @@ namespace DownBelow.Managers
             if (this.LastHoveredCell == null)
                 return;
 
-            PlayerBehavior selfPlayer = GameManager.Instance.SelfPlayer;
+            PlayerBehavior selfPlayer = GameManager.SelfPlayer;
 
             if (selfPlayer.CurrentGrid.IsCombatGrid)
                 this.ProcessCellClickDown_Combat(selfPlayer);
@@ -302,7 +302,7 @@ namespace DownBelow.Managers
             if (!GameManager.GameStarted)
                 return;
 
-            PlayerBehavior selfPlayer = GameManager.Instance.SelfPlayer;
+            PlayerBehavior selfPlayer = GameManager.SelfPlayer;
             this.LastHoveredCell = Data.Cell;
 
             if (
@@ -383,7 +383,7 @@ namespace DownBelow.Managers
         public void OnEnteredNewGrid(EntityEventData Data)
         {
             // Affect the visuals ONLY if we are the player transitionning
-            if (Data.Entity == GameManager.Instance.SelfPlayer)
+            if (Data.Entity == GameManager.SelfPlayer)
             {
                 if (Data.Entity.CurrentGrid.IsCombatGrid)
                     this.GenerateShaderBitmap(
@@ -407,7 +407,7 @@ namespace DownBelow.Managers
                 // IMPORTANT : Remember that Disabled GameObjects would disable their scripts to.
                 // Only MasterClient have to handle combat Datas, we'll do as it follows :
                 // When joining a grid already in combat, load the values from MasterClient if we're not, else handle everything.
-                if (GameManager.Instance.SelfPlayer.CurrentGrid != Data.Entity.CurrentGrid)
+                if (GameManager.SelfPlayer.CurrentGrid != Data.Entity.CurrentGrid)
                 {
                     if (Photon.Pun.PhotonNetwork.IsMasterClient)
                         Data.Entity.gameObject.SetActive(false);
