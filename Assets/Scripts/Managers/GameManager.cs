@@ -18,15 +18,15 @@ namespace DownBelow.Managers
     public class GameManager : _baseManager<GameManager>
     {
         #region EVENTS
-        public event GameEventData.Event OnPlayersWelcomed;
+        public event GameEventData.Event OnGameStarted;
 
         public event EntityEventData.Event OnEnteredGrid;
         public event EntityEventData.Event OnExitingGrid;
         public event EntityEventData.Event OnSelfPlayerSwitched;
 
-        public void FirePlayersWelcomed()
+        public void FireGameStarted()
         {
-            this.OnPlayersWelcomed?.Invoke(new());
+            this.OnGameStarted?.Invoke(new());
         }
 
         public void FireEntityEnteredGrid(string entityID)
@@ -179,7 +179,7 @@ namespace DownBelow.Managers
                 }
 
                 GameStarted = true;
-                this.FirePlayersWelcomed();
+                this.FireGameStarted();
             }
         }
 

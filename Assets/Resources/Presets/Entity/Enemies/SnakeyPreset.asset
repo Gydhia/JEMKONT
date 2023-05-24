@@ -26,6 +26,6 @@ MonoBehaviour:
       Data: 5f807b60e19771d49073e272af47be86
   UName: Snakey
   AffectingState: 4
-  Entity: {fileID: 2281775837897738858, guid: e4456af146632a74baebaafe41511228, type: 3}
+  Entity: {fileID: 1036855247208038438, guid: ce6c7d1cd03a0944d85a8411c5bc6097, type: 3}
   IsPNJ: 0
   Statistics: {fileID: 11400000, guid: c9058d4b494a7714f84f95b292811062, type: 2}

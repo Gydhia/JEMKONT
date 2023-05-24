@@ -26,6 +26,6 @@ MonoBehaviour:
       Data: e245b68fb5006d987cdfb4a5d2542a7f
   UName: Buddy
   AffectingState: 4
-  Entity: {fileID: 2281775837897738858, guid: a635a5fbbe346ee46b3b1514f12b72b6, type: 3}
+  Entity: {fileID: 8340611908442532907, guid: 706e51b8d5de2fe4caed39380d72f280, type: 3}
   IsPNJ: 0
   Statistics: {fileID: 11400000, guid: 1dcffb1602498484ca67e301a067c6a9, type: 2}

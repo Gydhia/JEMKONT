@@ -97,7 +97,10 @@ namespace DownBelow.Entity
 
             this.IsFake = isFake;
 
-            if (isFake) { return; }
+            if (isFake) {
+                this.FireEntityInited();
+                return; 
+            }
 
             int playersNb = PhotonNetwork.PlayerList.Length;
 
@@ -114,6 +117,8 @@ namespace DownBelow.Entity
             this.PlayerSpecialSlots.Init(toolSlots);
 
             PlayerInputs.player_scroll.performed += this._scroll;
+
+            this.FireEntityInited();
         }
 
         public override void FireEnteredCell(Cell cell)
@@ -228,7 +233,7 @@ namespace DownBelow.Entity
 
         public void EnterNewGrid(CombatGrid grid)
         {
-            this.healthText.gameObject.SetActive(true);
+
 
             theList = 0; //:)
 

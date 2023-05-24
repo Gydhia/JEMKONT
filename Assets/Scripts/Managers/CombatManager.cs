@@ -148,7 +148,6 @@ namespace DownBelow.Managers
                     fakePlayer.SetActiveTool(refTool);
 
                     fakePlayer.ReinitializeAllStats();
-                    fakePlayer.healthText.gameObject.SetActive(true);
 
                     fakePlayer.name = "FakePlayer - " + refTool.DeckPreset.Class.ToString();
                     fakePlayer.UID = fakePlayer.name;

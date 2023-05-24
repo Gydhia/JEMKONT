@@ -42,7 +42,7 @@ namespace DownBelow.Managers
             this.CardSection.gameObject.SetActive(false);
             this.EntityTooltipUI.gameObject.SetActive(false);
 
-            GameManager.Instance.OnPlayersWelcomed += _subscribe;
+            GameManager.Instance.OnGameStarted += _subscribe;
         }
         public void SwitchSelectedSlot(int oldSlot, int newSlot)
         {

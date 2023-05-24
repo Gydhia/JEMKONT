@@ -49,6 +49,8 @@ namespace DownBelow.Entity
             base.Init(refCell, refGrid);
 
             this.UID = refGrid.UName + this.EnemyStyle.UName + order;
+
+            this.FireEntityInited();
         }
 
         public override void StartTurn() 

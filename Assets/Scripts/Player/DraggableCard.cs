@@ -1,3 +1,4 @@
+using System;
 using DownBelow.Managers;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using DownBelow.Mechanics;
 using System.Linq;
 using System.Security.AccessControl;
 using DG.Tweening;
+using Random = UnityEngine.Random;
 using DownBelow.Events;
 
 namespace DownBelow.UI
@@ -97,15 +99,17 @@ namespace DownBelow.UI
         {
             if (SelectedCard != this || this.PinnedToScreen)
                 return;
-
+            
+            
             this._abortCoroutine(ref this._followCoroutine);
             Debug.Log("Left click on card " + this.name.ToString());
 
             if (Mouse.current.position.ReadValue().y / Screen.height > this.BottomDeadPercents / 100f)
             {
                 this.PinCardToScreen();
+                Debug.Log("PIN");
             }
-            else
+           else
             {
                 this.DiscardToHand();
             }
@@ -180,9 +184,10 @@ namespace DownBelow.UI
             this._abortCoroutine(ref this._compareCoroutine);
             this._abortCoroutine(ref this._pinUpdateCoroutine);
             this.PinnedToScreen = this.IsDragged = false;
-            this.m_RectTransform.parent = UIManager.Instance.CardSection.CardsHolder.transform;
-
+            this.m_RectTransform.SetParent(UIManager.Instance.CardSection.CardsHolder.transform, false);
+            UIManager.Instance.CardSection.UpdateLayoutGroup();
             this.m_RectTransform.DOAnchorPos(this._spawnPosition, 0.3f).SetEase(Ease.OutQuad);
+            
             SelectedCard = null;
         }
 

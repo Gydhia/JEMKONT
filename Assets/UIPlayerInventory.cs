@@ -25,7 +25,7 @@ namespace DownBelow.UI.Inventory
 
         private void Awake()
         {
-            GameManager.Instance.OnPlayersWelcomed += _initInventory;
+            GameManager.Instance.OnGameStarted += _initInventory;
 
             GameManager.Instance.OnEnteredGrid += _toggleInventoryUI;
             GameManager.Instance.OnExitingGrid += _toggleInventoryUI;
