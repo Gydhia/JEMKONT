@@ -12,7 +12,6 @@ namespace DownBelow.Events
     {
         public delegate void Event(EventDataType Data);
 
-
         public EventData()
         {
 
