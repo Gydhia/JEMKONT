@@ -35,9 +35,10 @@ namespace DownBelow.Events
     public class SpellEventDataAlteration : EventData<SpellEventDataAlteration>
     {
         public Alteration Alteration;
-
+        public CharacterEntity Entity;
         public SpellEventDataAlteration(CharacterEntity Entity,Alteration alteration) {
             this.Alteration = alteration;
+            this.Entity = Entity;
         }
     }
 

@@ -20,7 +20,7 @@ namespace DownBelow.Spells
 
             foreach (CharacterEntity target in Result.TargetedCells.FindAll(x => x.EntityIn != null).Select(x => x.EntityIn))
             {
-                target.Teleport(RefEntity.EntityCell, Result);
+                target.SmartTeleport(RefEntity.EntityCell, Result);
             }
 
             EndAction();

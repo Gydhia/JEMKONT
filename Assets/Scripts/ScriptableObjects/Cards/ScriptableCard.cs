@@ -32,14 +32,17 @@ namespace DownBelow.Mechanics
 
         public int Cost;
         public CardType CardType;
-        [TextArea] 
+        [TextArea]
         public string Description;
         public Sprite IllustrationImage;
 
         public EClass Class;
-
+#if UNITY_EDITOR
+        [ValidateInput(nameof(ValidateSpells), "The first spell cannot use the previous targets, for there aren't any!")]
+#endif
         public Spell[] Spells;
-        private void OnValidate() {
+        private void OnValidate()
+        {
             Title = name;
         }
 
@@ -50,7 +53,7 @@ namespace DownBelow.Mechanics
 
         public int GetNextTargettingSpellIndex()
         {
-            for (int i = CurrentSpellTargetting + 1; i < this.Spells.Length; i++)
+            for (int i = CurrentSpellTargetting + 1;i < this.Spells.Length;i++)
             {
                 if (this.Spells[i].Data.RequiresTargetting)
                 {
@@ -61,6 +64,28 @@ namespace DownBelow.Mechanics
 
             return -1;
         }
+#if UNITY_EDITOR
+        private bool ValidateSpells()
+        {
+            bool res = true;
+            for (int i = 0;i < Spells.Length;i++)
+            {
+                Spell item = Spells[i];
+                if (item.Data.SpellResultTargeting)
+                {
+                    if (i == 0)
+                    {
+                        item.Data.SpellResultTargeting = false;
+                        return false;
+                    } else if (item.Data.SpellResultIndex >= i)
+                    {
+                        item.Data.SpellResultIndex = i - 1;
+                    }
+                }
+            }
+            return res;
+        }
+#endif
     }
 
     public enum CardType

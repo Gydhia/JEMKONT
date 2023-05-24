@@ -609,7 +609,13 @@ namespace DownBelow.Entity
 
         #endregion
 
-        public void Teleport(Cell TargetCell, SpellResult Result = null, bool triggerEvents = true)
+        /// <summary>
+        /// Tries to teleport the character entity to the target cell. If it's occupied, will try to teleport on neighbours.
+        /// if you don't want that behavior, try <c>Teleport()</c>.
+        /// </summary>
+        /// <param name="TargetCell"> the targeted cell.</param>
+        /// <param name="Result">If the teleportation is due to a spell, the spell result of the spell.</param>
+        public void SmartTeleport(Cell TargetCell, SpellResult Result = null)
         {
             var cellToTP = TargetCell;
 
@@ -624,27 +630,59 @@ namespace DownBelow.Entity
                 cellToTP = freeNeighbours[0];
             }
 
+            //If the teleportation is due to a spell, add it in the result.
             if (cellToTP.EntityIn != null && Result != null)
             {
                 Result.TeleportedTo.Add(cellToTP.EntityIn);
             }
 
-            transform.position = cellToTP.gameObject.transform.position;
+            if (cellToTP.Datas.state != CellState.Walkable)
+            {
+                transform.position = cellToTP.gameObject.transform.position;
 
-            FireExitedCell();
+                FireExitedCell();
 
-            EntityCell = cellToTP;
+                EntityCell = cellToTP;
 
-            FireEnteredCell(cellToTP);
+                FireEnteredCell(cellToTP);
+            }
+        }
+
+        /// <summary>
+        /// Tries to teleport the character entity to the target cell. If it's occupied, does not.
+        /// If you want a spell that can teleport closely to an occupied cell, try <c>SmartTeleport()</c>.
+        /// </summary>
+        /// <param name="TargetCell"> the targeted cell.</param>
+        /// <param name="Result">If the teleportation is due to a spell, the spell result of the spell.</param>
+        public void Teleport(Cell TargetCell, SpellResult Result = null)
+        {
+            var cellToTP = TargetCell;
+
+            //If the teleportation is due to a spell, add it in the result.
+            if (cellToTP.EntityIn != null && Result != null)
+            {
+                Result.TeleportedTo.Add(cellToTP.EntityIn);
+            }
+
+            if (cellToTP.Datas.state != CellState.Walkable)
+            {
+                transform.position = cellToTP.gameObject.transform.position;
+
+                FireExitedCell();
+
+                EntityCell = cellToTP;
+
+                FireEnteredCell(cellToTP);
+            }
         }
 
         private void OnDestroy()
         {
-            if(this.EntityCell != null)
+            if (this.EntityCell != null)
             {
                 this.FireExitedCell();
             }
-            if(this.CurrentGrid != null)
+            if (this.CurrentGrid != null)
             {
                 this.CurrentGrid.GridEntities.Remove(this);
             }

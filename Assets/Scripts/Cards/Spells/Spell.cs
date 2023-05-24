@@ -19,7 +19,7 @@ namespace DownBelow.Spells
     {
         protected T LocalData => this.Data as T;
 
-        protected Spell(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, SpellCondition ConditionData, int Cost) 
+        protected Spell(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, SpellCondition ConditionData, int Cost)
             : base(CopyData, RefEntity, TargetCell, ParentSpell, ConditionData, Cost)
         {
         }
@@ -72,8 +72,7 @@ namespace DownBelow.Spells
             {
                 EndAction();
                 return;
-            }
-            else
+            } else
             {
                 this.TargetEntities = this.GetTargets(this.TargetCell);
 
@@ -98,28 +97,74 @@ namespace DownBelow.Spells
             }
         }
 
+        public override void EndAction()
+        {
+            Result.Unsubribirse();
+            base.EndAction();
+        }
+
         public List<CharacterEntity> GetTargets(Cell cellTarget)
         {
+            if (Data.SpellResultTargeting)
+            {
+                TargetEntities.AddRange(GetSpellFromIndex(Data.SpellResultIndex).TargetEntities);
+            }
             if (this.Data.RequiresTargetting)
             {
                 TargetedCells = GridUtility.TransposeShapeToCells(ref Data.RotatedShapeMatrix, cellTarget, Data.RotatedShapePosition);
-                NCEHits = TargetedCells                   
+                NCEHits = TargetedCells
                     .Where(cell => cell.AttachedNCE != null)
                     .Select(cell => cell.AttachedNCE)
                     .ToList();
-                return TargetedCells                   
+                return TargetedCells
                     .Where(cell => cell.EntityIn != null)
                     .Select(cell => cell.EntityIn)
                     .ToList();
-            }
-            else if(this.ConditionData != null)
+            } else if (this.ConditionData != null)
             {
                 return this.ConditionData.GetValidatedTargets();
-            }
-            else
+            } else
             {
                 return new List<CharacterEntity> { this.ParentSpell == null ? this.RefEntity : this.ParentSpell.RefEntity };
             }
+        }
+        /// <summary>
+        /// Recursive method going into the parent spell to get the index.
+        /// DO NOT USE THE PARAMETER, it is meant to be used only with the recursive.
+        /// </summary>
+        /// <param name="start">The recursive parameter, DO NOT USE</param>
+        /// <returns></returns>
+        int GetSpellIndex(int start = 0)
+        {
+            int res = start;
+            if (ParentSpell != null)
+            {
+                res = ParentSpell.GetSpellIndex(start + 1);
+            }
+            return res;
+        }
+
+        Spell GetSpellFromIndex(int index)
+        {
+            int thisIndex = GetSpellIndex();
+            if (index > thisIndex)
+            {
+                return null;
+            } else if (index == thisIndex)
+            {
+                return this;
+            } else
+            {
+                if(ParentSpell.GetSpellIndex() == index)
+                {
+                    Debug.Log($"Fetched the result of the spell {this}!");
+                    return ParentSpell;
+                } else
+                {
+                    return ParentSpell.GetSpellFromIndex(index);
+                }
+            }
+
         }
 
         public override object[] GetDatas()
