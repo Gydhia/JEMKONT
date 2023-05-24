@@ -66,11 +66,11 @@ namespace DownBelow.Managers
         {
             CombatGrid combatGrid = Data.Grid as CombatGrid;
 
-            var allPlayers = combatGrid.GridEntities.Where(e => e is PlayerBehavior player && player.Deck != null).Cast<PlayerBehavior>();
+            var allPlayers = combatGrid.GridEntities.Where(e => e is PlayerBehavior player && player.IsFake && player.Deck != null).Cast<PlayerBehavior>();
 
             // To keep order
             GameManager.RealSelfPlayer.Deck.SetupForCombat(UIManager.Instance.CardSection.CardsHolders[0]);
-            int counter = 0;
+            int counter = 1;
             foreach (PlayerBehavior player in allPlayers)
             {
                 player.Deck.SetupForCombat(UIManager.Instance.CardSection.CardsHolders[counter]);

@@ -301,7 +301,6 @@ namespace DownBelow.Managers
             // Create the spell header, used to store only usefull datas (=avoid duplications)
             this._currentSpellHeader = new SpellHeader(data.Card.UID, data.Card.Spells.Length, CurrentPlayingEntity.UID);
             this._currentSpell = data.Card.Spells.FirstOrDefault(s => s.Data.RequiresTargetting);
-            this._currentSpell ??= data.Card.Spells[0];
 
             foreach (var spell in data.Card.Spells)
             {

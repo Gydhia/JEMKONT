@@ -9,7 +9,7 @@ namespace DownBelow.Spells
 {
     public class Spell_ApplyStatFromNCE : Spell<SpellData_Stats>
     {
-        public Spell_ApplyStatFromNCE(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, SpellCondition ConditionData, int Cost) : base(CopyData, RefEntity, TargetCell, ParentSpell, ConditionData, Cost)
+        public Spell_ApplyStatFromNCE(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, SpellCondition ConditionData) : base(CopyData, RefEntity, TargetCell, ParentSpell, ConditionData)
         {
         }
         public override void ExecuteAction()
@@ -29,7 +29,7 @@ namespace DownBelow.Spells
                 GetTargets(item);
                 foreach (var cell in TargetedCells)
                 {
-                    NetworkManager.Instance.EntityAskToBuffAction(new Spell_Stats(new SpellData_Stats(LocalData.IsNegativeEffect, LocalData.Statistic, LocalData.StatAmount), RefEntity, cell, null, null, 0));
+                    NetworkManager.Instance.EntityAskToBuffAction(new Spell_Stats(new SpellData_Stats(LocalData.IsNegativeEffect, LocalData.Statistic, LocalData.StatAmount), RefEntity, cell, null, null));
                 }
             }
             EndAction();
