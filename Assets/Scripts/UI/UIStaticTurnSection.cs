@@ -20,31 +20,17 @@ namespace DownBelow.UI
 
         public Image TimeSlider;
         public Button NextTurnButton;
-        public Button StartCombatButton;
 
         public List<Image> CombatEntities;
 
         public void Init()
         {
-            this.StartCombatButton.gameObject.SetActive(false);
-
             CombatManager.Instance.OnCombatStarted += SetupFromCombatBegin;
             CombatManager.Instance.OnCombatEnded += ClearFromCombatEnd;
-            GameManager.Instance.OnEnteredGrid += _showHideStartButton;
-        }
-
-        private void _showHideStartButton(EntityEventData Data)
-        {
-            if (Data.Entity == GameManager.Instance.SelfPlayer && Data.Entity.CurrentGrid.IsCombatGrid)
-            {
-                this.StartCombatButton.gameObject.SetActive(true);
-            }
         }
 
         public void SetupFromCombatBegin(GridEventData Data)
         {
-            this.StartCombatButton.gameObject.SetActive(false);
-
             for (int i = 0; i < CombatManager.Instance.PlayingEntities.Count; i++)
             {
                 this.CombatEntities.Add(Instantiate(this.SpritePrefab, this.EntitiesHolder, CombatManager.Instance.PlayingEntities[i]));

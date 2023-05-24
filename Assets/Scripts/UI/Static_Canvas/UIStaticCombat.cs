@@ -26,6 +26,9 @@ namespace DownBelow.UI
 
         public void Init()
         {
+            StartCombat.gameObject.SetActive(false);
+            LeaveCombat.gameObject.SetActive(false);
+
             StartCombat.onClick.AddListener(() => NetworkManager.Instance.PlayerAsksToStartCombat());
             LeaveCombat.onClick.AddListener(() => NetworkManager.Instance.PlayerAskToLeaveCombat());
 
@@ -39,9 +42,19 @@ namespace DownBelow.UI
             CombatManager.Instance.OnCombatEnded += _toggleDeckSelectionUI;
         }
 
-        private void _toggleCombatUI(EntityEventData data) => this.gameObject.SetActive(data.Entity.CurrentGrid is CombatGrid);
-
-        private void _toggleDeckSelectionUI(GridEventData Data) => this.DeckSelection.SetActive(Data.Grid is CombatGrid cGrid && !cGrid.HasStarted);
+        private void _toggleCombatUI(EntityEventData data) 
+        {
+            bool inCombatGrid = data.Entity.CurrentGrid is CombatGrid;
+            this.gameObject.SetActive(inCombatGrid);
+            this.StartCombat.gameObject.SetActive(inCombatGrid); 
+            this.LeaveCombat.gameObject.SetActive(inCombatGrid);
+        }
+        private void _toggleDeckSelectionUI(GridEventData Data) 
+        {
+            this.DeckSelection.SetActive(Data.Grid is CombatGrid cGrid && !cGrid.HasStarted);
+            this.StartCombat.gameObject.SetActive(false);
+            this.LeaveCombat.gameObject.SetActive(false);
+        } 
 
 
         private void _updateDropdowns(EntityEventData data)

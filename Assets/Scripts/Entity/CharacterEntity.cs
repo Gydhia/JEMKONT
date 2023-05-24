@@ -96,6 +96,8 @@ namespace DownBelow.Entity
         [OdinSerialize] public List<Alteration> Alterations = new();
 
         public TextMeshProUGUI healthText;
+        public GameObject PlayingIndicator;
+        public GameObject SelectedIndicator;
 
         public int TurnOrder;
         public bool IsAlly = true;
@@ -217,6 +219,13 @@ namespace DownBelow.Entity
 
         public void Start()
         {
+            // TODO : Move it from here later, and same for other indicators, but not a priority
+            this.PlayingIndicator.transform.DOLocalMoveY(0.5f, 1.5f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
+            if(this.SelectedIndicator != null)
+            {
+                this.SelectedIndicator.transform.DOScale(0.13f, 1.5f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
+            }
+
             this.OnHealthAdded += UpdateUILife;
             this.OnHealthRemoved += UpdateUILife;
             this.OnHealthRemoved += AreYouAlive;
@@ -300,7 +309,7 @@ namespace DownBelow.Entity
         public virtual void StartTurn()
         {
             this.IsPlayingEntity = true;
-            Debug.Log("starting turn of : " + this.name);
+            this.PlayingIndicator.SetActive(true);
 
             OnTurnBegun?.Invoke(new());
 
@@ -326,8 +335,8 @@ namespace DownBelow.Entity
             {
                 Alter.Apply(this);
             }
-            Debug.Log("ending turn of : " + this.name);
 
+            this.PlayingIndicator.SetActive(false);
             this.IsPlayingEntity = false;
             OnTurnEnded?.Invoke(new());
         }

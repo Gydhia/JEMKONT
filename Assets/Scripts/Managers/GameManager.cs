@@ -48,7 +48,9 @@ namespace DownBelow.Managers
         }
         public void FireSelfPlayerSwitched(PlayerBehavior player)
         {
+            this.SelfPlayer.SelectedIndicator.gameObject.SetActive(false);
             this.SelfPlayer = player != null ? player : this.RealSelfPlayer;
+            this.SelfPlayer.SelectedIndicator.gameObject.SetActive(true);
 
             OnSelfPlayerSwitched?.Invoke(new EntityEventData(this.SelfPlayer));
         }
