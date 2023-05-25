@@ -39,8 +39,8 @@ public class DeckPreset : SerializedScriptableObject
         this.RefCardsHolder = Holder;
         this.ClearAllPiles();
 
-        GameManager.SelfPlayer.OnTurnEnded += SelfDrawCard;
-        CombatManager.Instance.OnCardEndUse += TryDiscardCard;
+        CombatManager.Instance.OnTurnStarted += _subscribeEntityEvents;
+        LinkedPlayer.OnTurnEnded += SelfDrawCard;
 
         List<DraggableCard> createdCards = new List<DraggableCard>();
         foreach (var card in this.Deck.Cards)
@@ -61,6 +61,8 @@ public class DeckPreset : SerializedScriptableObject
 
     public void SelfDrawCard(GameEventData Data)
     {
+        this._unsubscribeEntityEvents();
+
         for (int i = 0; i < SettingsManager.Instance.CombatPreset.CardsToDrawAtStart; i++)
         {
             DrawCard();
@@ -72,7 +74,7 @@ public class DeckPreset : SerializedScriptableObject
         if (!Data.Played)
             return;
 
-        this.RefCardsHolder.MoveCard(PileType.Hand, PileType.Discard, Data.DraggableCard);
+        this.RefCardsHolder.MoveCard(PileType.Hand, PileType.Discard, Data.DraggableCard, false);
     }
 
     public void CreateAndDrawSpecificCard(ScriptableCard card)
@@ -141,6 +143,18 @@ public class DeckPreset : SerializedScriptableObject
         }
     }
 
+    private void _subscribeEntityEvents(EntityEventData Data)
+    {
+        if(Data.Entity == this.LinkedPlayer)
+        {
+            CombatManager.Instance.OnCardEndUse += TryDiscardCard;
+        }
+    }
+
+    private void _unsubscribeEntityEvents()
+    {
+        CombatManager.Instance.OnCardEndUse -= TryDiscardCard;
+    }
 
     private void _updateUID()
     {

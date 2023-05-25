@@ -10,7 +10,7 @@ namespace DownBelow.Spells
 {
     public class Spell_ThisOnesMine : Spell<SpellData_Summon>
     {
-        public Spell_ThisOnesMine(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, SpellCondition ConditionData, int Cost) : base(CopyData, RefEntity, TargetCell, ParentSpell, ConditionData, Cost)
+        public Spell_ThisOnesMine(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, SpellCondition ConditionData) : base(CopyData, RefEntity, TargetCell, ParentSpell, ConditionData)
         {
         }
         public override void ExecuteAction()

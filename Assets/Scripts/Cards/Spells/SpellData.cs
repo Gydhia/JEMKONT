@@ -64,7 +64,10 @@ namespace DownBelow.Spells
         public void Refresh()
         {
             if (this.TargetType == ETargetType.Self)
+            {
                 this.CastingMatrix = new bool[1, 1] { { true } };
+                this.CasterPosition = Vector2.zero;
+            }
 
             this.RotatedShapeMatrix = this.SpellShapeMatrix;
             this.RotatedShapePosition = this.ShapePosition;

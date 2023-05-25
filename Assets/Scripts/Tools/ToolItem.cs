@@ -12,6 +12,7 @@ public class ToolItem : ItemPreset
     public DeckPreset DeckPreset;
     public EClass Class;
     public PlayerBehavior ActualPlayer;
+    public Color ToolRefColor;
 
     public virtual void WorldAction() 
     {

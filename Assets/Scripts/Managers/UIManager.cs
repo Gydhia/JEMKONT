@@ -113,6 +113,9 @@ namespace DownBelow.Managers
 
         public void UpdateEntityToolTip(CellEventData Data)
         {
+            return;
+            // TODO : The tooltip is taking too much places, rework it or find another utility
+
             if (Data.Cell.EntityIn == null)
                 return;
             // TODO: Make sure the entity notice well the cell they're in while entering a grid

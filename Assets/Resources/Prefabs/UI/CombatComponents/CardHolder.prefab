@@ -368,6 +368,10 @@ MonoBehaviour:
   PileType: 1
   MaxStackedCards: -1
   Cards: []
+  HLayoutGroup: {fileID: 0}
+  AdaptSpacing: 0
+  MinSpacing: -500
+  MaxSpacing: -200
   CardsNumber: {fileID: 162413438447786815}
 --- !u!1 &1701274230994331653
 GameObject:
@@ -449,6 +453,10 @@ MonoBehaviour:
   PileType: 3
   MaxStackedCards: 7
   Cards: []
+  HLayoutGroup: {fileID: 2843844106822496386}
+  AdaptSpacing: 1
+  MinSpacing: -500
+  MaxSpacing: -400
   CardsNumber: {fileID: 0}
 --- !u!1 &1979864792219042841
 GameObject:
@@ -832,4 +840,8 @@ MonoBehaviour:
   PileType: 2
   MaxStackedCards: -1
   Cards: []
+  HLayoutGroup: {fileID: 0}
+  AdaptSpacing: 0
+  MinSpacing: -500
+  MaxSpacing: -200
   CardsNumber: {fileID: 4695927889081551833}

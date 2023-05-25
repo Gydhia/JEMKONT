@@ -8,6 +8,7 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 using DG.Tweening;
 using DownBelow.Events;
+using DownBelow.Entity;
 
 namespace DownBelow.UI
 {
@@ -17,23 +18,22 @@ namespace DownBelow.UI
         public TextMeshProUGUI HealthText;
         public TextMeshProUGUI MoveText;
 
+        public Image DeckRibbon;
+        public Image DeckTool;
+        public TextMeshProUGUI DeckName;
+
+        private CharacterEntity _currentEntity;
+
         [SerializeField] private Image _lifeFill;
 
         private int _previousHealthValue, _previousManaValue, _previousMoveValue;
 
         public void Init()
         {
-            this.gameObject.SetActive(true);
-
-            GameManager.SelfPlayer.OnManaAdded += _onManaChanged;
-            GameManager.SelfPlayer.OnManaRemoved += _onManaChanged;
-            GameManager.SelfPlayer.OnHealthAdded += _onHealthChanged;
-            GameManager.SelfPlayer.OnHealthRemoved += _onHealthChanged;
-            GameManager.SelfPlayer.OnSpeedAdded += _onMoveChanged;
-            GameManager.SelfPlayer.OnSpeedRemoved += _onMoveChanged;
-            GameManager.SelfPlayer.OnManaMissing += _onManaMissing;
-
+            // TODO : unsub at end of fight
             GameManager.Instance.OnSelfPlayerSwitched += OnEntityChanged;
+
+            this.gameObject.SetActive(true);
 
             this._onManaChanged(null);
             this._onHealthChanged(null);
@@ -42,9 +42,20 @@ namespace DownBelow.UI
 
         public void OnEntityChanged(EntityEventData Data)
         {
+            this._unsubscribeEntity();
+            this._currentEntity = Data.Entity;
+            this._subscribeEntity();
+
             this.SetMana(Data.Entity.Mana, false);
             this.SetHealth(Data.Entity.Health, false);
             this.SetMove(Data.Entity.Speed, false);
+
+            if(Data.Entity is PlayerBehavior player)
+            {
+                this.DeckRibbon.color = player.ActiveTool.ToolRefColor;
+                this.DeckTool.sprite = player.ActiveTool.InventoryIcon;
+                this.DeckName.text = player.ActiveTool.Class.ToString();
+            }
         }
 
         private void _onManaChanged(Events.SpellEventData data)
@@ -119,6 +130,30 @@ namespace DownBelow.UI
             this.SetMana(GameManager.SelfPlayer.Mana, false);
             this.SetHealth(GameManager.SelfPlayer.Health, false);
             this.SetMove(GameManager.SelfPlayer.Speed, false);
+        }
+
+        private void _subscribeEntity()
+        {
+            this._currentEntity.OnManaAdded += _onManaChanged;
+            this._currentEntity.OnManaRemoved += _onManaChanged;
+            this._currentEntity.OnHealthAdded += _onHealthChanged;
+            this._currentEntity.OnHealthRemoved += _onHealthChanged;
+            this._currentEntity.OnSpeedAdded += _onMoveChanged;
+            this._currentEntity.OnSpeedRemoved += _onMoveChanged;
+            this._currentEntity.OnManaMissing += _onManaMissing;
+        }
+
+        private void _unsubscribeEntity()
+        {
+            if (this._currentEntity == null) return;
+
+            this._currentEntity.OnManaAdded -= _onManaChanged;
+            this._currentEntity.OnManaRemoved -= _onManaChanged;
+            this._currentEntity.OnHealthAdded -= _onHealthChanged;
+            this._currentEntity.OnHealthRemoved -= _onHealthChanged;
+            this._currentEntity.OnSpeedAdded -= _onMoveChanged;
+            this._currentEntity.OnSpeedRemoved -= _onMoveChanged;
+            this._currentEntity.OnManaMissing -= _onManaMissing;
         }
     }
 }
