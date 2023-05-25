@@ -33,3 +33,4 @@ MonoBehaviour:
   DeckPreset: {fileID: 11400000, guid: a94274f9a030fcf49942d26ac3ced7d2, type: 2}
   Class: 1
   ActualPlayer: {fileID: 0}
+  ToolRefColor: {r: 0.4, g: 0.5529412, b: 0.18039216, a: 1}

@@ -34,6 +34,7 @@ namespace DownBelow.Managers
             PlayerInputs.player_select_2.canceled += this._switchToSecondPlayer;
             PlayerInputs.player_select_3.canceled += this._switchToThirdPlayer;
             PlayerInputs.player_select_4.canceled += this._switchToFourthPlayer;
+            PlayerInputs.player_reselect.canceled += this._switchToSelfPlayer;
 
             this.OnCombatStarted?.Invoke(new GridEventData(Grid));
         }
@@ -44,6 +45,7 @@ namespace DownBelow.Managers
             PlayerInputs.player_select_2.canceled -= this._switchToSecondPlayer;
             PlayerInputs.player_select_3.canceled -= this._switchToThirdPlayer;
             PlayerInputs.player_select_4.canceled -= this._switchToFourthPlayer;
+            PlayerInputs.player_reselect.canceled -= this._switchToSelfPlayer;
 
             GameManager.Instance.FireSelfPlayerSwitched(null, this._playerIndex, 0);
 
@@ -217,6 +219,17 @@ namespace DownBelow.Managers
         private void _switchToSecondPlayer(InputAction.CallbackContext ctx) => this._switchSelectedPlayer(1);
         private void _switchToThirdPlayer(InputAction.CallbackContext ctx) => this._switchSelectedPlayer(2);
         private void _switchToFourthPlayer(InputAction.CallbackContext ctx) => this._switchSelectedPlayer(3);
+        private void _switchToSelfPlayer(InputAction.CallbackContext ctx) 
+        { 
+            if(CurrentPlayingEntity is PlayerBehavior player && IsPlayerOrOwned(player))
+            {
+                this._switchSelectedPlayer(player);
+            }
+        }
+        private void _switchSelectedPlayer(PlayerBehavior player)
+        {
+            this._switchSelectedPlayer(player.IsFake ? this.FakePlayers.IndexOf(player) + 1 : 0);
+        }
 
         private void _switchSelectedPlayer(int index)
         {
@@ -249,7 +262,7 @@ namespace DownBelow.Managers
                 // Auto switch the current playing entity
                 if (this.IsPlayerOrOwned(player))
                 {
-                    GameManager.Instance.FireSelfPlayerSwitched(player, this._playerIndex, this.FakePlayers.IndexOf(player) + 1);
+                    this._switchSelectedPlayer(player);
                 }
             }
 
@@ -378,10 +391,10 @@ namespace DownBelow.Managers
             }
             else
             {
-                ScriptableCard card = DraggableCard.SelectedCard.CardReference;
+                this._currentSpell = currentCard.Spells[currentCard.CurrentSpellTargetting];
 
                 this.FireSpellBeginTargetting(
-                    card.Spells[card.CurrentSpellTargetting],
+                    this._currentSpell,
                     Data.Cell
                 );
             }

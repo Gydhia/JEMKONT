@@ -11,12 +11,12 @@ public class UICardsHolder : SerializedMonoBehaviour
 
     public Dictionary<PileType, UICardsPile> Piles;
 
-    public void MoveCard(PileType FromPile, PileType ToPile, DraggableCard RefCard)
+    public void MoveCard(PileType FromPile, PileType ToPile, DraggableCard RefCard, bool drawed = true)
     {
-        this.MoveCard(FromPile, ToPile, this.Piles[FromPile].Cards.IndexOf(RefCard));
+        this.MoveCard(FromPile, ToPile, this.Piles[FromPile].Cards.IndexOf(RefCard), drawed);
     }
 
-    public void MoveCard(PileType FromPile, PileType ToPile, int specificIndex = 0)
+    public void MoveCard(PileType FromPile, PileType ToPile, int specificIndex = 0, bool drawed = true)
     {
         var FromCards = this.Piles[FromPile].Cards;
         var ToCards = this.Piles[ToPile].Cards;
@@ -30,7 +30,10 @@ public class UICardsHolder : SerializedMonoBehaviour
             ToCards.Add(FromCards[specificIndex]);
             FromCards.RemoveAt(specificIndex);
 
-            ToCards[^1].DrawFromPile(this.Piles[FromPile], this.Piles[ToPile]);
+            if(drawed)
+                ToCards[^1].DrawFromPile(this.Piles[FromPile], this.Piles[ToPile]);
+            else
+                ToCards[^1].DiscardToPile(this.Piles[ToPile]);
         }
 
         if (this.Piles[ToPile].MaxStackedCards != -1)

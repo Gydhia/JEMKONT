@@ -15,6 +15,7 @@ public static class PlayerInputs
     public static InputAction player_select_2;
     public static InputAction player_select_3;
     public static InputAction player_select_4;
+    public static InputAction player_reselect;
 
 
     public static InputAction player_scroll;
@@ -32,5 +33,7 @@ public static class PlayerInputs
         player_select_2 = asset["Select2"];
         player_select_3 = asset["Select3"];
         player_select_4 = asset["Select4"];
+
+        player_reselect = asset["Reselect"];
     }
 }

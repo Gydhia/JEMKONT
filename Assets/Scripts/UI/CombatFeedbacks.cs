@@ -48,7 +48,7 @@ public class CombatFeedbacks : MonoBehaviour
         _mainCam = Camera.main;
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         this._entity.OnHealthRemoved -= OnHealthRemoved;
         this._entity.OnHealthAdded -= OnHealthAdded;

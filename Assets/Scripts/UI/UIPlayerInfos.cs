@@ -18,6 +18,10 @@ namespace DownBelow.UI
         public TextMeshProUGUI HealthText;
         public TextMeshProUGUI MoveText;
 
+        public Image DeckRibbon;
+        public Image DeckTool;
+        public TextMeshProUGUI DeckName;
+
         private CharacterEntity _currentEntity;
 
         [SerializeField] private Image _lifeFill;
@@ -45,6 +49,13 @@ namespace DownBelow.UI
             this.SetMana(Data.Entity.Mana, false);
             this.SetHealth(Data.Entity.Health, false);
             this.SetMove(Data.Entity.Speed, false);
+
+            if(Data.Entity is PlayerBehavior player)
+            {
+                this.DeckRibbon.color = player.ActiveTool.ToolRefColor;
+                this.DeckTool.sprite = player.ActiveTool.InventoryIcon;
+                this.DeckName.text = player.ActiveTool.Class.ToString();
+            }
         }
 
         private void _onManaChanged(Events.SpellEventData data)
