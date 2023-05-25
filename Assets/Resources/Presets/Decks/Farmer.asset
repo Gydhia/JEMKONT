@@ -34,6 +34,18 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 3c48a7b90c0759b478fe24013146f97b, type: 2}
     - {fileID: 11400000, guid: a4a6955df41de2941aee0d1929bab8b7, type: 2}
     - {fileID: 11400000, guid: a4a6955df41de2941aee0d1929bab8b7, type: 2}
+    - {fileID: 11400000, guid: a56148e57e66aa849a69d268f6e46092, type: 2}
+    - {fileID: 11400000, guid: a56148e57e66aa849a69d268f6e46092, type: 2}
+    - {fileID: 11400000, guid: 18ebc542087cc634882432a30ea8ec55, type: 2}
+    - {fileID: 11400000, guid: 18ebc542087cc634882432a30ea8ec55, type: 2}
+    - {fileID: 11400000, guid: b1b1c12ed16678b45b7e99d6b45153c9, type: 2}
+    - {fileID: 11400000, guid: b1b1c12ed16678b45b7e99d6b45153c9, type: 2}
+    - {fileID: 11400000, guid: 78c6dee527830ab44a9ee0bc6d3710a5, type: 2}
+    - {fileID: 11400000, guid: 78c6dee527830ab44a9ee0bc6d3710a5, type: 2}
+    - {fileID: 11400000, guid: 900d466ebe03c864d9e8ad5799a11808, type: 2}
+    - {fileID: 11400000, guid: 900d466ebe03c864d9e8ad5799a11808, type: 2}
+    - {fileID: 11400000, guid: f9eeee727d453454bb182f4fac8a0525, type: 2}
+    - {fileID: 11400000, guid: 306b238296e5e7f4699d5d88ebbdde9f, type: 2}
   Statistics: {fileID: 11400000, guid: acc2fcfe067f4a548a44a691816601e8, type: 2}
   LinkedPlayer: {fileID: 0}
   RefCardsHolder: {fileID: 0}
