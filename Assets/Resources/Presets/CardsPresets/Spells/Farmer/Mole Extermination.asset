@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c24d5ac1331fdca479c3c82f04555faf, type: 3}
-  m_Name: Protein Bar
+  m_Name: Mole Extermination
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -23,14 +23,24 @@ MonoBehaviour:
     SerializationNodes:
     - Name: UID
       Entry: 2
-      Data: 0a71df4fc2820eff841df98c98d135a4
+      Data: 00000000000000000000000000000000
     - Name: Spells
-      Entry: 6
+      Entry: 7
+      Data: 0|DownBelow.Spells.Spell[], Assembly-CSharp
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
       Data: 
-  Title: Protein Bar
+    - Name: 
+      Entry: 8
+      Data: 
+  Title: Mole Extermination
   Cost: 2
   CardType: 1
-  Description: Increases your power.
-  IllustrationImage: {fileID: 21300000, guid: bf0463bc32ac4b24f8fdfc1f067dacb9, type: 3}
-  Class: 0
+  Description: Choose 2 tiles, whenever a character steps on one, they are teleported
+    to the other.
+  IllustrationImage: {fileID: 21300000, guid: 04447b40a547c9742abf4682d0ec3d53, type: 3}
+  Class: 2
   CurrentSpellTargetting: 0

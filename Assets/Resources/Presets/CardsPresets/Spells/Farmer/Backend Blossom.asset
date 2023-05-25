@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c24d5ac1331fdca479c3c82f04555faf, type: 3}
-  m_Name: Strange Mushroom
+  m_Name: Backend Blossom
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -23,14 +23,23 @@ MonoBehaviour:
     SerializationNodes:
     - Name: UID
       Entry: 2
-      Data: 9b4adf0bd655a4909c37c4dd2fb44af0
+      Data: 00000000000000000000000000000000
     - Name: Spells
-      Entry: 6
+      Entry: 7
+      Data: 0|DownBelow.Spells.Spell[], Assembly-CSharp
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
       Data: 
-  Title: Strange Mushroom
+    - Name: 
+      Entry: 8
+      Data: 
+  Title: Backend Blossom
   Cost: 2
   CardType: 3
-  Description: Swap a unit's power and health.
-  IllustrationImage: {fileID: 21300000, guid: c801653d176661f4eb07f8a0bf495bfb, type: 3}
-  Class: 0
+  Description: You and the closest character, allied or ennemy, receive X bonus damage.
+  IllustrationImage: {fileID: 21300000, guid: 2e4668462754e9b4789e2e122037128f, type: 3}
+  Class: 2
   CurrentSpellTargetting: 0

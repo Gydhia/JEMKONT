@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c24d5ac1331fdca479c3c82f04555faf, type: 3}
-  m_Name: Unseen Aid
+  m_Name: Weed Out
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -23,14 +23,24 @@ MonoBehaviour:
     SerializationNodes:
     - Name: UID
       Entry: 2
-      Data: 01bcf5121d9ef4902aff29a6a9aca0fe
+      Data: 00000000000000000000000000000000
     - Name: Spells
-      Entry: 6
+      Entry: 7
+      Data: 0|DownBelow.Spells.Spell[], Assembly-CSharp
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
       Data: 
-  Title: Unseen Aid
+    - Name: 
+      Entry: 8
+      Data: 
+  Title: Weed Out
   Cost: 2
-  CardType: 3
-  Description: Gives an ally "Camouflage" for 1 turn and "Critical"
-  IllustrationImage: {fileID: 21300000, guid: df674250c908ec44187f65c083353709, type: 3}
-  Class: 1
+  CardType: 2
+  Description: Choose one half of the combat arena, if there is only one opponent
+    in that half, they are dealt X damage.
+  IllustrationImage: {fileID: 21300000, guid: 6ddb36be396fe7045b33d1a5753fe027, type: 3}
+  Class: 2
   CurrentSpellTargetting: 0

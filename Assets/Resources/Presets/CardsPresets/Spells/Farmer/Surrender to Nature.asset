@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c24d5ac1331fdca479c3c82f04555faf, type: 3}
-  m_Name: Homemade Ointment
+  m_Name: Surrender to Nature
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -23,14 +23,24 @@ MonoBehaviour:
     SerializationNodes:
     - Name: UID
       Entry: 2
-      Data: 11f1eb615f1e6fe6a1d2444cd8e9325c
+      Data: 00000000000000000000000000000000
     - Name: Spells
-      Entry: 6
+      Entry: 7
+      Data: 0|DownBelow.Spells.Spell[], Assembly-CSharp
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
       Data: 
-  Title: Homemade Ointment
-  Cost: 1
-  CardType: 3
-  Description: Heals a unit.
-  IllustrationImage: {fileID: 21300000, guid: 812b7fac79a9238449779d722f6f841f, type: 3}
-  Class: 0
-  CurrentSpellTargetting: -1
+    - Name: 
+      Entry: 8
+      Data: 
+  Title: Surrender to Nature
+  Cost: 3
+  CardType: 2
+  Description: Set your Healt to 1. All your lost Health is converted into bonus
+    damage.
+  IllustrationImage: {fileID: 21300000, guid: 6ca67894a9d6da3448a87c92d1cdf7c5, type: 3}
+  Class: 2
+  CurrentSpellTargetting: 0

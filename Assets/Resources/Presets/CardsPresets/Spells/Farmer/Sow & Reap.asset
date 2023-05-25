@@ -25,7 +25,16 @@ MonoBehaviour:
       Entry: 2
       Data: 1c9f3be6e43a4ac38bd8e37c0337d935
     - Name: Spells
-      Entry: 6
+      Entry: 7
+      Data: 0|DownBelow.Spells.Spell[], Assembly-CSharp
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
       Data: 
   Title: Sow & Reap
   Cost: 2

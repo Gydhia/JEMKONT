@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c24d5ac1331fdca479c3c82f04555faf, type: 3}
-  m_Name: Shield_Spell
+  m_Name: Chilling Drought
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -20,17 +20,26 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
-  Title: Turtle Shell
+    SerializationNodes:
+    - Name: UID
+      Entry: 2
+      Data: 00000000000000000000000000000000
+    - Name: Spells
+      Entry: 7
+      Data: 0|DownBelow.Spells.Spell[], Assembly-CSharp
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  Title: Chilling Drought
   Cost: 1
-  Description: Shield target
-  IllustrationImage: {fileID: 21300000, guid: 362d9d767515f41458b56dcb08f3f189, type: 3}
-  Spells:
-  - ConditionData: {fileID: 0}
-    ActionData: {fileID: 5045551162097057043, guid: 14680a3b0db1b2645be485d858839a64, type: 3}
-    ApplyToCell: 1
-    ApplyToSelf: 0
-    ApplyToAllies: 0
-    ApplyToEnemies: 0
-    ApplyToAll: 0
-    CurrentAction: {fileID: 0}
+  CardType: 2
+  Description: Deal X damage to an opponent, -Y for each of your cards in hand.
+  IllustrationImage: {fileID: 21300000, guid: 9b4ecb82c640ec740b1c7ec13040b83c, type: 3}
+  Class: 2
+  CurrentSpellTargetting: 0
