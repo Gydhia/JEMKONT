@@ -94,6 +94,54 @@ MonoBehaviour:
   GameEventSystem: {fileID: 0}
   IsPressingShift: 0
   IsPointingOverUI: 0
+--- !u!1 &2196969388600220402
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5946875487599386615}
+  - component: {fileID: 4553370733294527735}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5946875487599386615
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2196969388600220402}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 6244685849401644672}
+  m_Father: {fileID: 6008253201538663047}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4553370733294527735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2196969388600220402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5401b06caa9477a49b76cad611a24b5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioUpdateFrameRate: 15
+  SurroundingCitizenCount: 0
+  SurroundingCarCount: 0
 --- !u!1 &2265214080651548676
 GameObject:
   m_ObjectHideFlags: 0
@@ -229,10 +277,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BattleGoing: 0
-  CurrentPlayingEntity: {fileID: 0}
-  CurrentPlayingGrid: {fileID: 0}
   PlayingEntities: []
   TurnNumber: 0
+  NCEs: []
 --- !u!1 &4145856202392196912
 GameObject:
   m_ObjectHideFlags: 0
@@ -472,9 +519,66 @@ Transform:
   - {fileID: 1534578390672292061}
   - {fileID: 1966428021}
   - {fileID: 1112587114581908483}
+  - {fileID: 5946875487599386615}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8243479148561107456
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6244685849401644672}
+  - component: {fileID: 8978976077583723954}
+  m_Layer: 0
+  m_Name: AkSoundBank
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6244685849401644672
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8243479148561107456}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5946875487599386615}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8978976077583723954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8243479148561107456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 086c3c2a55281c242b7e841097b50b0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  triggerList: f7e1664c
+  useOtherObject: 0
+  data:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 92834d9b5b98d05418a6aae57c5b0a53, type: 2}
+  decodeBank: 0
+  loadAsynchronous: 0
+  saveDecodedBank: 0
+  unloadTriggerList: 958ca0ea
+  bankNameInternal: 
+  valueGuidInternal: 
 --- !u!1 &8470336107691565258
 GameObject:
   m_ObjectHideFlags: 0
@@ -521,6 +625,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CombatSection: {fileID: 0}
   TurnSection: {fileID: 0}
+  EscapeSection: {fileID: 0}
   PlayerInfos: {fileID: 0}
   CardSection: {fileID: 0}
   EntityTooltipUI: {fileID: 0}
