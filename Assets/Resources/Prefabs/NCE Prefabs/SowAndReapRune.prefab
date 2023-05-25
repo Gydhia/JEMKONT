@@ -128,9 +128,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ffb852f551569e418702e4512acbd32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AffectingState: 1
+  AttachedCell: {fileID: 0}
   range: 3
-  Buff:
-    Duration: 2
-    Target: {fileID: 0}
-    InstanciatedFXAnimator: {fileID: 0}
-    value: 2

@@ -68,18 +68,21 @@ namespace DownBelow.Mechanics
         private bool ValidateSpells()
         {
             bool res = true;
-            for (int i = 0;i < Spells.Length;i++)
+            if(Spells != null)
             {
-                Spell item = Spells[i];
-                if (item.Data.SpellResultTargeting)
+                for (int i = 0;i < Spells.Length;i++)
                 {
-                    if (i == 0)
+                    Spell item = Spells[i];
+                    if (item.Data != null && item.Data.SpellResultTargeting)
                     {
-                        item.Data.SpellResultTargeting = false;
-                        return false;
-                    } else if (item.Data.SpellResultIndex >= i)
-                    {
-                        item.Data.SpellResultIndex = i - 1;
+                        if (i == 0)
+                        {
+                            item.Data.SpellResultTargeting = false;
+                            return false;
+                        } else if (item.Data.SpellResultIndex >= i)
+                        {
+                            item.Data.SpellResultIndex = i - 1;
+                        }
                     }
                 }
             }
