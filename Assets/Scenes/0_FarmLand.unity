@@ -21111,6 +21111,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4233501942853302212, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
+      propertyPath: m_text
+      value: Fisherman
+      objectReference: {fileID: 0}
     - target: {fileID: 4482145951850564922, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
@@ -21377,17 +21381,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 927e7db90a8d295428f19e4de064aca1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &808257837 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6210703444833106318, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
-  m_PrefabInstance: {fileID: 808257834}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f0cbb92d5a316744907008f0465cb16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &808257838 stripped
@@ -22043,6 +22036,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6934187204398559036, guid: 60793e52dc35a8f41870bb700c54d09f, type: 3}
   m_PrefabInstance: {fileID: 822429101}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &826357156 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4631314205227915518, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
+  m_PrefabInstance: {fileID: 808257834}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f0cbb92d5a316744907008f0465cb16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &827231815
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -59928,7 +59932,7 @@ PrefabInstance:
     - target: {fileID: 942809737677840814, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
       propertyPath: PlayerInfos
       value: 
-      objectReference: {fileID: 808257837}
+      objectReference: {fileID: 826357156}
     - target: {fileID: 942809737677840814, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
       propertyPath: TurnSection
       value: 
