@@ -15,6 +15,7 @@ using DownBelow.Events;
 using System;
 using DownBelow.UI.Menu;
 using Newtonsoft.Json;
+using Photon.Pun.Demo.PunBasics;
 
 namespace DownBelow.Managers
 {
@@ -335,7 +336,7 @@ namespace DownBelow.Managers
             Array.Copy(refCard.Spells, buffedSpells, refCard.Spells.Length);
 
             WorldGrid currGrid = CombatManager.CurrentPlayingGrid;
-            CharacterEntity caster = GameManager.Instance.Players[spellHeader.CasterID];
+            CharacterEntity caster = CombatManager.Instance.PlayingEntities.Single(pe => pe.UID == spellHeader.CasterID);
 
             for (int i = 0; i < refCard.Spells.Length; i++)
             {
@@ -460,13 +461,13 @@ namespace DownBelow.Managers
 
         // /IMPORTANT\ REPLUG IT KILLIAN PLEASE
         //// TODO: For now we only need to notify the UIManager, think about creating an event later if there are further needs
-        //if (GameManager.Instance.SelfPlayer == movingPlayer)
+        //if (GameManager.SelfPlayer == movingPlayer)
         //    UIManager.Instance.PlayerMoved();
 
 
         public void PlayerAskToLeaveCombat()
         {
-            this.photonView.RPC("RPC_RespondToLeaveCombat", RpcTarget.All, GameManager.Instance.SelfPlayer.UID);
+            this.photonView.RPC("RPC_RespondToLeaveCombat", RpcTarget.All, GameManager.SelfPlayer.UID);
         }
 
         [PunRPC]
@@ -479,7 +480,7 @@ namespace DownBelow.Managers
         // /!\ Only one combat can be active at the moment, that is important
         public void PlayerAsksToStartCombat()
         {
-            this.photonView.RPC("RPC_RespondToStartCombat", RpcTarget.All, GameManager.Instance.SelfPlayer.UID);
+            this.photonView.RPC("RPC_RespondToStartCombat", RpcTarget.All, GameManager.SelfPlayer.UID);
         }
 
         [PunRPC]
@@ -490,7 +491,7 @@ namespace DownBelow.Managers
 
         public void GiftOrRemovePlayerItem(string playerID, ItemPreset item, int quantity)
         {
-            this.photonView.RPC("RPC_RespondGiftOrRemovePlayerItem", RpcTarget.All, GameManager.Instance.SelfPlayer.UID, item.UID.ToString(), quantity);
+            this.photonView.RPC("RPC_RespondGiftOrRemovePlayerItem", RpcTarget.All, GameManager.SelfPlayer.UID, item.UID.ToString(), quantity);
         }
 
         [PunRPC]
@@ -506,7 +507,7 @@ namespace DownBelow.Managers
         {
             this._playersTurnState.Clear();
 
-            this.photonView.RPC("NotifyPlayerStartTurn", RpcTarget.All, GameManager.Instance.SelfPlayer.UID);
+            this.photonView.RPC("NotifyPlayerStartTurn", RpcTarget.All, GameManager.SelfPlayer.UID);
         }
 
         [PunRPC]
@@ -519,13 +520,15 @@ namespace DownBelow.Managers
             //    CombatManager.Instance.CurrentPlayingEntity.StartTurn();
             //}
             CombatManager.CurrentPlayingEntity.StartTurn();
-            this.photonView.RPC("PlayerAnswerStartTurn", RpcTarget.MasterClient, GameManager.Instance.SelfPlayer.UID);
+            this.photonView.RPC("PlayerAnswerStartTurn", RpcTarget.MasterClient, GameManager.SelfPlayer.UID);
         }
 
         [PunRPC]
         public void PlayerAnswerStartTurn(string PlayerID)
         {
-            this._playersTurnState.Add(GameManager.Instance.Players[PlayerID]);
+            var playerOrFake = CombatManager.Instance.PlayingEntities.Single(pe => pe.UID == PlayerID) as PlayerBehavior;
+
+            this._playersTurnState.Add(playerOrFake.IsFake ? playerOrFake.Owner : playerOrFake);
 
             if (this._playersTurnState.Count >= GameManager.Instance.Players.Count)
             {
@@ -548,13 +551,15 @@ namespace DownBelow.Managers
         /// </summary>
         public void PlayerAsksEndTurn()
         {
-            this.photonView.RPC("RespondMasterEndEntityTurn", RpcTarget.MasterClient, GameManager.Instance.SelfPlayer.UID);
+            this.photonView.RPC("RespondMasterEndEntityTurn", RpcTarget.MasterClient, GameManager.SelfPlayer.UID);
         }
 
         [PunRPC]
         public void RespondMasterEndEntityTurn(string PlayerID)
         {
-            this._playersTurnState.Add(GameManager.Instance.Players[PlayerID]);
+            var playerOrFake = CombatManager.Instance.PlayingEntities.Single(pe => pe.UID == PlayerID) as PlayerBehavior;
+
+            this._playersTurnState.Add(playerOrFake.IsFake ? playerOrFake.Owner : playerOrFake);
 
             if (this._playersTurnState.Count >= GameManager.Instance.Players.Count)
             {
@@ -570,13 +575,15 @@ namespace DownBelow.Managers
             // Each player process it 
             CombatManager.Instance.ProcessEndTurn();
 
-            this.photonView.RPC("ConfirmPlayerEndedTurn", RpcTarget.MasterClient, GameManager.Instance.SelfPlayer.UID);
+            this.photonView.RPC("ConfirmPlayerEndedTurn", RpcTarget.MasterClient, GameManager.SelfPlayer.UID);
         }
 
         [PunRPC]
-        public void ConfirmPlayerEndedTurn(string EntityID)
+        public void ConfirmPlayerEndedTurn(string PlayerID)
         {
-            this._playersTurnState.Add(GameManager.Instance.Players[EntityID]);
+            var playerOrFake = CombatManager.Instance.PlayingEntities.Single(pe => pe.UID == PlayerID) as PlayerBehavior;
+
+            this._playersTurnState.Add(playerOrFake.IsFake ? playerOrFake.Owner : playerOrFake);
 
             if (this._playersTurnState.Count >= GameManager.Instance.Players.Count)
             {

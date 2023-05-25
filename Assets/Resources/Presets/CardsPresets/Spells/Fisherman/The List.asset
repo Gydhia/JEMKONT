@@ -57,6 +57,12 @@ MonoBehaviour:
     - Name: RequiresTargetting
       Entry: 5
       Data: true
+    - Name: SpellResultTargeting
+      Entry: 5
+      Data: false
+    - Name: SpellResultIndex
+      Entry: 3
+      Data: 0
     - Name: SpellShapeMatrix
       Entry: 7
       Data: 3|System.Boolean[,], mscorlib
@@ -408,6 +414,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: SpellHeader
+      Entry: 6
+      Data: 
     - Name: NCEHits
       Entry: 6
       Data: 
@@ -439,6 +448,6 @@ MonoBehaviour:
   Cost: 1
   CardType: 2
   Description: For each time you played the list (including this one), deal 2 damage.
-  IllustrationImage: {fileID: 0}
+  IllustrationImage: {fileID: 21300000, guid: f4c35258a0d01414f97a618781f0f2a6, type: 3}
   Class: 3
   CurrentSpellTargetting: 0

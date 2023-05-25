@@ -13,6 +13,7 @@ namespace DownBelow.UI
     {
         public TMP_Dropdown SelfDropdown;
         public bool Inited = false;
+        private int _lastIndex = 0;
 
         public void Init()
         {
@@ -25,7 +26,7 @@ namespace DownBelow.UI
             options.options.Add(new TMP_Dropdown.OptionData());
 
             this.SelfDropdown.ClearOptions();
-            foreach (var deck in ToolsManager.Instance.AvailableTools)
+            foreach (var deck in CardsManager.Instance.AvailableTools)
             {
                 options.options.Add(new TMP_Dropdown.OptionData(deck.InventoryIcon));
             }
@@ -36,7 +37,30 @@ namespace DownBelow.UI
 
         private void _updateSelectableDecks(int index)
         {
+            ToolItem tool;
+            if (this._lastIndex != 0)
+            {
+                tool = CardsManager.Instance.AvailableTools.ElementAt(this._lastIndex - 1);
 
+                // Remove the previous selected tool 
+                if (GameManager.SelfPlayer.CombatTools.Contains(tool))
+                {
+                    GameManager.SelfPlayer.CombatTools.Remove(tool);
+                }
+            }
+
+            this._lastIndex = index;
+
+            // Index 0 is for none
+            if (index == 0) { return; }
+
+            tool = CardsManager.Instance.AvailableTools.ElementAt(this._lastIndex - 1);
+
+            // Add the new one
+            if (!GameManager.SelfPlayer.CombatTools.Contains(tool))
+            {
+                GameManager.SelfPlayer.CombatTools.Add(tool);
+            }
         }
     }
 }

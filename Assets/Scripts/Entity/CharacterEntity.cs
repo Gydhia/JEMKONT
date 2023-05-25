@@ -34,6 +34,8 @@ namespace DownBelow.Entity
         public event SpellEventData.Event OnRangeRemoved;
         public event SpellEventData.Event OnRangeAdded;
 
+        public event GameEventData.Event OnStatisticsChanged;
+
         public Action OnManaMissing;
 
         /// <summary>
@@ -54,6 +56,7 @@ namespace DownBelow.Entity
         public event GameEventData.Event OnDamageTaken;
         public event GameEventData.Event OnDeath;
 
+        public event GameEventData.Event OnInited;
 
         public event CellEventData.Event OnEnteredCell;
         public event CellEventData.Event OnExitedCell;
@@ -61,6 +64,11 @@ namespace DownBelow.Entity
         public void FireMissingMana()
         {
             OnManaMissing?.Invoke();
+        }
+
+        public void FireEntityInited()
+        {
+            this.OnInited?.Invoke(null);
         }
 
         public event SpellEventData.Event OnPushed;
@@ -94,8 +102,6 @@ namespace DownBelow.Entity
         protected EntityStats RefStats;
 
         [OdinSerialize] public List<Alteration> Alterations = new();
-
-        public TextMeshProUGUI healthText;
 
         public int TurnOrder;
         public bool IsAlly = true;
@@ -133,6 +139,8 @@ namespace DownBelow.Entity
 
         public bool CanAutoAttack;
 
+        public GameObject PlayingIndicator;
+        public GameObject SelectedIndicator;
 
         #region alterationBooleans
 
@@ -217,28 +225,15 @@ namespace DownBelow.Entity
 
         public void Start()
         {
-            this.OnHealthAdded += UpdateUILife;
-            this.OnHealthRemoved += UpdateUILife;
+            // TODO : Move it from here later, and same for other indicators, but not a priority
+            this.PlayingIndicator.transform.DOMoveY(this.PlayingIndicator.transform.position.y - 0.5f, 1.5f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
+            if(this.SelectedIndicator != null)
+            {
+                this.SelectedIndicator.transform.DOScale(0.13f, 1.5f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
+            }
             this.OnHealthRemoved += AreYouAlive;
         }
-
-        public void UpdateUILife(SpellEventData data)
-        {
-            int oldLife = int.Parse(this.healthText.text);
-            if (oldLife > this.Health)
-            {
-                this.healthText.DOColor(Color.red, 0.4f).SetEase(Ease.OutQuad);
-                this.healthText.transform.DOShakeRotation(0.8f).SetEase(Ease.OutQuad).OnComplete(() =>
-                    this.healthText.DOColor(Color.white, 0.2f).SetEase(Ease.OutQuad));
-                this.healthText.text = this.Health.ToString();
-            } else
-            {
-                this.healthText.DOColor(Color.green, 0.4f).SetEase(Ease.OutQuad);
-                this.healthText.transform.DOPunchScale(Vector3.one * 1.3f, 0.8f).SetEase(Ease.OutQuad).OnComplete(() =>
-                    this.healthText.DOColor(Color.white, 0.2f).SetEase(Ease.OutQuad));
-                this.healthText.text = this.Health.ToString();
-            }
-        }
+        
 
         public void UpdateUIShield(SpellEventData data)
         {
@@ -300,6 +295,7 @@ namespace DownBelow.Entity
         public virtual void StartTurn()
         {
             this.IsPlayingEntity = true;
+            this.PlayingIndicator.SetActive(true);
 
             OnTurnBegun?.Invoke(new());
 
@@ -326,6 +322,7 @@ namespace DownBelow.Entity
                 Alter.Apply(this);
             }
 
+            this.PlayingIndicator.SetActive(false);
             this.IsPlayingEntity = false;
             OnTurnEnded?.Invoke(new());
         }
@@ -354,7 +351,7 @@ namespace DownBelow.Entity
                 { EntityStatistics.Range, stats.Range }
             };
 
-            this.healthText.text = this.Statistics[EntityStatistics.Health].ToString();
+            this.OnStatisticsChanged?.Invoke(null);
         }
 
         public void ReinitializeAllStats()

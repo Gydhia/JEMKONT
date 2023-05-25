@@ -18,14 +18,15 @@ namespace DownBelow.Managers
     public class GameManager : _baseManager<GameManager>
     {
         #region EVENTS
-        public event GameEventData.Event OnPlayersWelcomed;
+        public event GameEventData.Event OnGameStarted;
 
         public event EntityEventData.Event OnEnteredGrid;
         public event EntityEventData.Event OnExitingGrid;
+        public event EntityEventData.Event OnSelfPlayerSwitched;
 
-        public void FirePlayersWelcomed()
+        public void FireGameStarted()
         {
-            this.OnPlayersWelcomed?.Invoke(new());
+            this.OnGameStarted?.Invoke(new());
         }
 
         public void FireEntityEnteredGrid(string entityID)
@@ -45,13 +46,29 @@ namespace DownBelow.Managers
         {
             OnExitingGrid?.Invoke(new EntityEventData(entity));
         }
+        public void FireSelfPlayerSwitched(PlayerBehavior player, int oldIndex, int newIndex)
+        {
+            SelfPlayer.SelectedIndicator.gameObject.SetActive(false);
+            SelfPlayer = player != null ? player : RealSelfPlayer;
+            SelfPlayer.SelectedIndicator.gameObject.SetActive(true);
+
+            OnSelfPlayerSwitched?.Invoke(new EntityEventData(SelfPlayer, oldIndex, newIndex));
+        }
         #endregion
 
         public string SaveName;
         public PlayerBehavior PlayerPrefab;
 
         public Dictionary<string, PlayerBehavior> Players;
-        public PlayerBehavior SelfPlayer;
+        /// <summary>
+        /// The local player or its current FakePlayer
+        /// </summary>
+        public static PlayerBehavior SelfPlayer;
+        /// <summary>
+        /// The local player
+        /// </summary>
+        public static PlayerBehavior RealSelfPlayer { get { return SelfPlayer.IsFake ? SelfPlayer.Owner : SelfPlayer; } }
+
 
         public ItemPreset[] GameItems;
 
@@ -83,14 +100,14 @@ namespace DownBelow.Managers
             if(MenuManager.Instance != null)
                 MenuManager.Instance.Init();
 
+            if (CombatManager.Instance != null)
+                CombatManager.Instance.Init();
+
             if (UIManager.Instance != null)
                 UIManager.Instance.Init();
 
             if (CardsManager.Instance != null)
                 CardsManager.Instance.Init();
-
-            if (ToolsManager.Instance != null)
-                ToolsManager.Instance.Init();
 
             if (GridManager.Instance != null)
                 GridManager.Instance.Init();
@@ -147,8 +164,8 @@ namespace DownBelow.Managers
 
                     if (player.UserId == PhotonNetwork.LocalPlayer.UserId)
                     {
-                        this.SelfPlayer = newPlayer;
-                        CameraManager.Instance.AttachPlayerToCamera(this.SelfPlayer);
+                        SelfPlayer = newPlayer;
+                        CameraManager.Instance.AttachPlayerToCamera(SelfPlayer);
                     }
 
                     this.Players.Add(player.UserId, newPlayer);
@@ -159,7 +176,7 @@ namespace DownBelow.Managers
                 }
 
                 GameStarted = true;
-                this.FirePlayersWelcomed();
+                this.FireGameStarted();
             }
         }
 
@@ -292,7 +309,7 @@ namespace DownBelow.Managers
                     if (NormalActionsBuffer[action.RefEntity].Count > 1)
                     {
                         // Hide everything but the first one that is being played
-                        if(action.RefEntity == this.SelfPlayer)
+                        if(action.RefEntity == SelfPlayer)
                             for (int i = 1; i < NormalActionsBuffer[action.RefEntity].Count; i++)
                                 PoolManager.Instance.CellIndicatorPool.HideActionIndicators(NormalActionsBuffer[action.RefEntity][i]);
 
@@ -304,7 +321,7 @@ namespace DownBelow.Managers
                 NormalActionsBuffer[action.RefEntity].Add(action);
                 action.RefBuffer = NormalActionsBuffer[action.RefEntity];
 
-                if (action.RefEntity == this.SelfPlayer)
+                if (action.RefEntity == SelfPlayer)
                     PoolManager.Instance.CellIndicatorPool.DisplayActionIndicators(action);
 
                 //Still don't know what that means

@@ -137,7 +137,7 @@ public class ArrowRenderer : MonoBehaviour
     private void _updateArrowTarget(CellEventData Data)
     {
         if(Data.InCurrentGrid)
-            this.SetPositions(GameManager.Instance.SelfPlayer.transform.position, Data.Cell.WorldPosition);
+            this.SetPositions(GameManager.SelfPlayer.transform.position, Data.Cell.WorldPosition);
     }
 
     #endregion

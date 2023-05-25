@@ -12,7 +12,7 @@ using UnityEngine.UI;
 
 namespace DownBelow.UI.Inventory
 {
-    public class UIInventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
+    public class UIInventoryItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
     {
         public static UIInventoryItem LastHoveredItem;
 
@@ -114,6 +114,7 @@ namespace DownBelow.UI.Inventory
             if (this.TotalQuantity == 0)
                 return;
 
+            icon.raycastTarget = false;
             selfButton.image.raycastTarget = false;
             if (selfButton.targetGraphic != null)
                 selfButton.targetGraphic.raycastTarget = false;
@@ -126,11 +127,13 @@ namespace DownBelow.UI.Inventory
             if (this.DroppableOverWorld && GridManager.Instance.LastHoveredCell != null)
             {
                 this.dropOverWorld(eventData);
-            } else if (this.DroppableOverUI && LastHoveredItem != null && LastHoveredItem != this)
+            } 
+            else if (this.DroppableOverUI && LastHoveredItem != null && LastHoveredItem != this)
             {
                 this.dropOverUI(eventData);
             }
 
+            icon.raycastTarget = true;
             selfButton.image.raycastTarget = true;
             if (selfButton.targetGraphic != null)
                 selfButton.targetGraphic.raycastTarget = true;
@@ -147,7 +150,7 @@ namespace DownBelow.UI.Inventory
         }
         protected virtual void dropOverWorld(PointerEventData eventData)
         {
-            var action = new DropItemAction(GameManager.Instance.SelfPlayer,
+            var action = new DropItemAction(GameManager.SelfPlayer,
                 GridManager.Instance.LastHoveredCell, SelfItem.ItemPreset.UID.ToString(), SelfItem.Quantity.ToString());
             NetworkManager.Instance.EntityAskToBuffAction(action);
             //GridManager.Instance.LastHoveredCell.DropDownItem(SelfItem);

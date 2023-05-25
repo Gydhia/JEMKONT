@@ -1,10 +1,12 @@
 using DownBelow.Events;
 using DownBelow.GridSystem;
 using DownBelow.Managers;
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
+using System.Runtime.InteropServices;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,6 +26,9 @@ namespace DownBelow.UI
 
         public void Init()
         {
+            StartCombat.gameObject.SetActive(false);
+            LeaveCombat.gameObject.SetActive(false);
+
             StartCombat.onClick.AddListener(() => NetworkManager.Instance.PlayerAsksToStartCombat());
             LeaveCombat.onClick.AddListener(() => NetworkManager.Instance.PlayerAskToLeaveCombat());
 
@@ -37,9 +42,19 @@ namespace DownBelow.UI
             CombatManager.Instance.OnCombatEnded += _toggleDeckSelectionUI;
         }
 
-        private void _toggleCombatUI(EntityEventData data) => this.gameObject.SetActive(data.Entity.CurrentGrid is CombatGrid);
-
-        private void _toggleDeckSelectionUI(GridEventData Data) => this.DeckSelection.SetActive(Data.Grid is CombatGrid cGrid && !cGrid.HasStarted);
+        private void _toggleCombatUI(EntityEventData data) 
+        {
+            bool inCombatGrid = data.Entity.CurrentGrid is CombatGrid;
+            this.gameObject.SetActive(inCombatGrid);
+            this.StartCombat.gameObject.SetActive(inCombatGrid); 
+            this.LeaveCombat.gameObject.SetActive(inCombatGrid);
+        }
+        private void _toggleDeckSelectionUI(GridEventData Data) 
+        {
+            this.DeckSelection.SetActive(Data.Grid is CombatGrid cGrid && !cGrid.HasStarted);
+            this.StartCombat.gameObject.SetActive(false);
+            this.LeaveCombat.gameObject.SetActive(false);
+        } 
 
 
         private void _updateDropdowns(EntityEventData data)
@@ -53,15 +68,55 @@ namespace DownBelow.UI
             }
 
             int counter = 0;
-            foreach (var item in GameManager.Instance.SelfPlayer.PlayerSpecialSlots.StorageItems)
+            foreach (var item in GameManager.SelfPlayer.PlayerSpecialSlots.StorageItems)
             {
                 ToolItem toolPreset = item.ItemPreset as ToolItem;
 
                 // +1 since the value 0 is for none
-                this.DeckDropdowns[counter].SelfDropdown.value = (ToolsManager.Instance.AvailableTools.IndexOf(toolPreset) + 1);
+                this.DeckDropdowns[counter].SelfDropdown.value = (CardsManager.Instance.AvailableTools.IndexOf(toolPreset) + 1);
                 this.DeckDropdowns[counter].SelfDropdown.RefreshShownValue();
                 this.DeckDropdowns[counter].SelfDropdown.interactable = false;
                 counter++;
+            }
+           
+            foreach (var player in CombatManager.Instance.PlayersInGrid.Where(p => p != GameManager.SelfPlayer))
+            {
+                foreach (var playerTool in player.PlayerSpecialSlots.StorageItems)
+                {
+                    this.DeckDropdowns[counter].gameObject.SetActive(false);
+                    counter++;
+                }                    
+            }
+
+            // Slots remaining
+            if(counter < 4)
+            {
+                int remaining = 4 - counter;
+                int playersInGrid = CombatManager.Instance.PlayersInGrid.Count;
+
+                for (int i = 0; i < remaining;)
+                {
+                    if(playersInGrid == 0)
+                    {
+                        Debug.LogError("There are no players in grid even after entering, fix the callstack with events");
+                        break;
+                    }
+
+                    for (int j = 0; j < playersInGrid; j++)
+                    {
+                        if (CombatManager.Instance.PlayersInGrid[j] == GameManager.SelfPlayer)
+                        {
+                            this.DeckDropdowns[counter].SelfDropdown.value = counter + 1;
+                            this.DeckDropdowns[counter].SelfDropdown.RefreshShownValue();
+                            this.DeckDropdowns[counter].SelfDropdown.interactable = false;
+
+                            counter++;
+                        }
+
+                        i++;
+                    }
+                }
+                
             }
         }
     }

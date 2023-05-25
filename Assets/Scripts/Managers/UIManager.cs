@@ -36,13 +36,14 @@ namespace DownBelow.Managers
             this.TurnSection.Init();
             this.DatasSection.Init();
             this.CombatSection.Init();
+            this.CardSection.Init();
 
             this.TurnSection.gameObject.SetActive(false);
             this.PlayerInfos.gameObject.SetActive(false);
             this.CardSection.gameObject.SetActive(false);
             this.EntityTooltipUI.gameObject.SetActive(false);
 
-            GameManager.Instance.OnPlayersWelcomed += _subscribe;
+            GameManager.Instance.OnGameStarted += _subscribe;
         }
         public void SwitchSelectedSlot(int oldSlot, int newSlot)
         {
@@ -69,9 +70,9 @@ namespace DownBelow.Managers
         {
             CombatManager.Instance.OnCombatStarted += this.SetupCombatInterface;
 
-            GameManager.Instance.SelfPlayer.OnGatheringStarted += StartGather;
-            GameManager.Instance.SelfPlayer.OnGatheringEnded += EndGather;
-            GameManager.Instance.SelfPlayer.OnGatheringCanceled += EndGather;
+            GameManager.SelfPlayer.OnGatheringStarted += StartGather;
+            GameManager.SelfPlayer.OnGatheringEnded += EndGather;
+            GameManager.SelfPlayer.OnGatheringCanceled += EndGather;
 
             CombatManager.Instance.OnCardBeginUse += this._beginCardDrag;
             CombatManager.Instance.OnCardEndUse += this._endCardDrag;
@@ -112,6 +113,9 @@ namespace DownBelow.Managers
 
         public void UpdateEntityToolTip(CellEventData Data)
         {
+            return;
+            // TODO : The tooltip is taking too much places, rework it or find another utility
+
             if (Data.Cell.EntityIn == null)
                 return;
             // TODO: Make sure the entity notice well the cell they're in while entering a grid

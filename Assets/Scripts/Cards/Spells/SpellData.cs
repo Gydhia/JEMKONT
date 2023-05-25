@@ -40,7 +40,7 @@ namespace DownBelow.Spells
         {
             return value switch
             {
-                ETargetType.Self => cell.EntityIn == GameManager.Instance.SelfPlayer,
+                ETargetType.Self => cell.EntityIn == GameManager.SelfPlayer,
                 ETargetType.AllAllies => cell.EntityIn != null && cell.EntityIn.IsAlly,
                 ETargetType.Enemy => cell.EntityIn != null && cell.EntityIn is EnemyEntity,
                 ETargetType.Ally => cell.EntityIn != null && cell.EntityIn is PlayerBehavior,
@@ -64,7 +64,10 @@ namespace DownBelow.Spells
         public void Refresh()
         {
             if (this.TargetType == ETargetType.Self)
+            {
                 this.CastingMatrix = new bool[1, 1] { { true } };
+                this.CasterPosition = Vector2.zero;
+            }
 
             this.RotatedShapeMatrix = this.SpellShapeMatrix;
             this.RotatedShapePosition = this.ShapePosition;

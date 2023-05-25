@@ -37,21 +37,27 @@ namespace DownBelow.Entity
         }
 
         #endregion
+        /// <summary>
+        /// The owner of this potential FakePlayer. Used in combat
+        /// </summary>
+        public PlayerBehavior Owner;
+        public bool IsFake = false;
 
         public BaseStorage PlayerInventory;
 
         private DateTime _lastTimeAsked = DateTime.Now;
-        private string _nextGrid = string.Empty;
 
         public Interactable NextInteract = null;
 
         public MeshRenderer PlayerBody;
         public PhotonView PlayerView;
 
-        public List<Cell> NextPath { get; private set; }
-        public bool CanEnterGrid => true;
-
         public ToolItem ActiveTool;
+        /// <summary>
+        /// Each possessed tools during combat. If alone, there will be 4
+        /// </summary>
+        public List<ToolItem> CombatTools;
+
         public BaseStorage PlayerSpecialSlots;
         public ItemPreset CurrentSelectedItem;
         public bool IsAutoAttacking = false;
@@ -90,9 +96,14 @@ namespace DownBelow.Entity
         {
             base.Init(refCell, refGrid, order);
 
-            if(isFake) { return; }
-
             refGrid.GridEntities.Add(this);
+
+            this.IsFake = isFake;
+
+            if (isFake) {
+                this.FireEntityInited();
+                return; 
+            }
 
             int playersNb = PhotonNetwork.PlayerList.Length;
 
@@ -109,6 +120,8 @@ namespace DownBelow.Entity
             this.PlayerSpecialSlots.Init(toolSlots);
 
             PlayerInputs.player_scroll.performed += this._scroll;
+
+            this.FireEntityInited();
         }
 
         public override void FireEnteredCell(Cell cell)
@@ -206,6 +219,7 @@ namespace DownBelow.Entity
         {
             activeTool.ActualPlayer = this;
             this.ActiveTool = activeTool;
+            this.ActiveTool.DeckPreset.LinkedPlayer = this;
             this.SetStatistics(activeTool.DeckPreset.Statistics);
         }
 
@@ -223,10 +237,8 @@ namespace DownBelow.Entity
 
         public void EnterNewGrid(CombatGrid grid)
         {
-            this.healthText.gameObject.SetActive(true);
-
+            // TODO : Killian (it's me Killian) plug this somewhere else
             theList = 0; //:)
-
             this.CurrentGrid = grid;
         }
 

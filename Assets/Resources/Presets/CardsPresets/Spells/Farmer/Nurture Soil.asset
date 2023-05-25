@@ -24,19 +24,13 @@ MonoBehaviour:
     - Name: UID
       Entry: 2
       Data: ec9f70457bf0a30bd8cd9821c7bd991c
+    - Name: Spells
+      Entry: 6
+      Data: 
   Title: Nurture Soil
   Cost: 1
   CardType: 3
-  Class: 2
   Description: Give an ally +3/+3
-  IllustrationImage: {fileID: 0}
-  Spells:
-  - ConditionData: {fileID: 0}
-    ActionData: {fileID: -570139496098006807, guid: a30cf6579ee0d2f4a81bbffb3a8b52e1, type: 3}
-    ApplyToCell: 1
-    ApplyToSelf: 0
-    ApplyToAllies: 0
-    ApplyToEnemies: 0
-    ApplyToAll: 0
-    CurrentAction: {fileID: 0}
-    Caster: {fileID: 0}
+  IllustrationImage: {fileID: 21300000, guid: ffb3026873cda2946830819f1c7a43a7, type: 3}
+  Class: 2
+  CurrentSpellTargetting: 0

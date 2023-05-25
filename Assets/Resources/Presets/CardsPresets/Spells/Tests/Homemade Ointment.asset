@@ -30,7 +30,7 @@ MonoBehaviour:
   Title: Homemade Ointment
   Cost: 1
   CardType: 3
-  Collection: 0
   Description: Heals a unit.
-  IllustrationImage: {fileID: 21300000, guid: 9b75467b7bf3cf44bb573167d6cdc4af, type: 3}
+  IllustrationImage: {fileID: 21300000, guid: 812b7fac79a9238449779d722f6f841f, type: 3}
+  Class: 0
   CurrentSpellTargetting: -1
