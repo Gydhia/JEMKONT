@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c24d5ac1331fdca479c3c82f04555faf, type: 3}
-  m_Name: Sow & Reap
+  m_Name: Backend Blossom
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -23,7 +23,7 @@ MonoBehaviour:
     SerializationNodes:
     - Name: UID
       Entry: 2
-      Data: 1c9f3be6e43a4ac38bd8e37c0337d935
+      Data: 00000000000000000000000000000000
     - Name: Spells
       Entry: 7
       Data: 0|DownBelow.Spells.Spell[], Assembly-CSharp
@@ -36,11 +36,10 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  Title: Sow & Reap
-  Cost: 2
-  CardType: 1
-  Description: Create a Rune, after 3 turns, all allies in a radius have their damage
-    increased.
-  IllustrationImage: {fileID: 21300000, guid: 1809c49a81359f34abbc86649794389e, type: 3}
+  Title: Backend Blossom
+  Cost: 0
+  CardType: 0
+  Description: 
+  IllustrationImage: {fileID: 21300000, guid: 2e4668462754e9b4789e2e122037128f, type: 3}
   Class: 2
   CurrentSpellTargetting: 0
