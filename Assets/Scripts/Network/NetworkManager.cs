@@ -626,6 +626,7 @@ namespace DownBelow.Managers
 
         public override void OnJoinedRoom()
         {
+            Debug.Log("JOINED ROOM");
             if (!PhotonNetwork.CurrentRoom.IsOffline)
             {
                 if (this.UIRoom != null)
@@ -675,11 +676,13 @@ namespace DownBelow.Managers
 
         public override void OnJoinedLobby()
         {
+            Debug.Log("JOINED LOBBY");
             base.OnJoinedLobby();
         }
 
         public override void OnLeftLobby()
         {
+            Debug.Log("LEFT LOBBY");
             base.OnLeftLobby();
         }
 
@@ -689,9 +692,10 @@ namespace DownBelow.Managers
             string offline = "OfflineMode = " + PhotonNetwork.OfflineMode + "\n";
             string inLobby = "Is In Lobby = " + PhotonNetwork.InLobby + "\n";
             string currLobby = "Current Lobby = " + (PhotonNetwork.CurrentLobby == null ? "NONE" : PhotonNetwork.CurrentLobby.Name) + "\n";
-            string currRoom = "Current Room = " + (PhotonNetwork.CurrentRoom == null ? "NONE" : PhotonNetwork.CurrentRoom.Name);
+            string currRoom = "Current Room = " + (PhotonNetwork.CurrentRoom == null ? "NONE" : PhotonNetwork.CurrentRoom.Name) + "\n";
+            string currServer = "Current server = " + PhotonNetwork.Server;
 
-            Debug.LogError("Current Photon State : \n" + connected + offline + inLobby + currLobby + currRoom);
+            Debug.LogError("Current Photon State : \n" + connected + offline + inLobby + currLobby + currRoom + currServer);
         }
         #endregion
     }
