@@ -6,9 +6,11 @@
 				<SoundcasterSession Name="New Soundcaster Session" ID="{1B29AC6C-45BE-447E-99CA-F83C7C4BF3C4}">
 					<RTPCValueList ShowAll="true"/>
 					<CurrentStateList ShowAll="true">
-						<CurrentStateRef Name="Layers1" ID="{C43C4834-66D1-4B6C-A74C-50262D378DF7}"/>
+						<CurrentStateRef Name="Layers3" ID="{B442D004-8A22-4CDD-B5F3-8BB6505989AC}"/>
 					</CurrentStateList>
-					<CurrentSwitchList ShowAll="true"/>
+					<CurrentSwitchList ShowAll="true">
+						<CurrentSwitchRef Name="Grass" ID="{B9AA152C-9DCA-45D1-BCB9-B3A75EB6874C}"/>
+					</CurrentSwitchList>
 				</SoundcasterSession>
 			</ChildrenList>
 		</WorkUnit>

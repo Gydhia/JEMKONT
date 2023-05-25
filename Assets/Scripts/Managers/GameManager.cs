@@ -45,6 +45,7 @@ namespace DownBelow.Managers
         {
             OnExitingGrid?.Invoke(new EntityEventData(entity));
         }
+
         #endregion
 
         public string SaveName;

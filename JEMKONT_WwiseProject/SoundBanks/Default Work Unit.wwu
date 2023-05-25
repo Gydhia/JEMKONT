@@ -4,10 +4,7 @@
 		<WorkUnit Name="Default Work Unit" ID="{97E32D19-1D07-4D11-9F1F-966B80EDD569}" PersistMode="Standalone">
 			<ChildrenList>
 				<SoundBank Name="SB_AMBIANCE" ID="{90D5AC90-E0B5-4089-906F-111A2FE8F772}">
-					<ObjectInclusionList>
-						<ObjectRef Name="Combat1" ID="{7285B85D-E592-46C7-B17C-5E10E9C83688}" WorkUnitID="{A7B6054A-C5DE-4175-A27F-8806369B3987}" Origin="Manual" Filter="7"/>
-						<ObjectRef Name="Combat0" ID="{8C9EECF1-FF08-4800-9315-D4B53D57B391}" WorkUnitID="{A7B6054A-C5DE-4175-A27F-8806369B3987}" Origin="Manual" Filter="7"/>
-					</ObjectInclusionList>
+					<ObjectInclusionList/>
 					<ObjectExclusionList/>
 					<GameSyncExclusionList/>
 				</SoundBank>
@@ -22,8 +19,15 @@
 					<GameSyncExclusionList/>
 				</SoundBank>
 				<SoundBank Name="SB_MENU" ID="{EF1D5B3F-F363-40F6-9D83-9EF33914A153}">
+					<ObjectInclusionList/>
+					<ObjectExclusionList/>
+					<GameSyncExclusionList/>
+				</SoundBank>
+				<SoundBank Name="SB_GLOBAL" ID="{BFEEB1AF-1A81-431E-99CC-EF5E516CDFF2}">
 					<ObjectInclusionList>
 						<ObjectRef Name="MENU_SSFX" ID="{C832FC90-0B21-4670-8700-0006F887D1E6}" WorkUnitID="{277D41B8-7D18-41D8-BFBF-88A00100C0C8}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Combat1" ID="{7285B85D-E592-46C7-B17C-5E10E9C83688}" WorkUnitID="{A7B6054A-C5DE-4175-A27F-8806369B3987}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Combat0" ID="{8C9EECF1-FF08-4800-9315-D4B53D57B391}" WorkUnitID="{A7B6054A-C5DE-4175-A27F-8806369B3987}" Origin="Manual" Filter="7"/>
 					</ObjectInclusionList>
 					<ObjectExclusionList/>
 					<GameSyncExclusionList/>

@@ -1,6 +1,0 @@
-In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
-	36056990	CLICK2	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\UI_Click_Subtle_mono_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\MENU_SSFX\Click\CLICK2		4370
-	78472428	CLICK1	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\UI_Click_Distinct_mono_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\MENU_SSFX\Click\CLICK1		6134
-	822974898	BLOCK1	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\UI_Click_Tap_Subtle_mono_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\MENU_SSFX\Impossible\BLOCK1		1620
-	823762247	CLICK3	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\UI_Click_Cut_mono_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\MENU_SSFX\Click\CLICK3		2938
-

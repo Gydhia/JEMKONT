@@ -11,6 +11,12 @@
 
 namespace AK
 {
+    namespace EVENTS
+    {
+        static const AkUniqueID PLAY_SSFX__CLICK = 3568964008U;
+        static const AkUniqueID PLAY_SSFX__CLICKBLOCKED = 2149827808U;
+    } // namespace EVENTS
+
     namespace STATES
     {
         namespace LAYERS
@@ -29,18 +35,36 @@ namespace AK
 
     } // namespace STATES
 
+    namespace SWITCHES
+    {
+        namespace GROUND_SWITCH
+        {
+            static const AkUniqueID GROUP = 2578143219U;
+
+            namespace SWITCH
+            {
+                static const AkUniqueID GRASS = 4248645337U;
+                static const AkUniqueID SAND = 803837735U;
+            } // namespace SWITCH
+        } // namespace GROUND_SWITCH
+
+    } // namespace SWITCHES
+
     namespace BANKS
     {
         static const AkUniqueID INIT = 1355168291U;
         static const AkUniqueID SB_AMBIANCE = 1129547629U;
         static const AkUniqueID SB_COMBAT = 2497815141U;
         static const AkUniqueID SB_FARM = 513513905U;
+        static const AkUniqueID SB_GLOBAL = 2711878180U;
         static const AkUniqueID SB_MENU = 135602584U;
     } // namespace BANKS
 
     namespace BUSSES
     {
         static const AkUniqueID MASTER_AUDIO_BUS = 3803692087U;
+        static const AkUniqueID MUSIC = 3991942870U;
+        static const AkUniqueID SSFX = 672574001U;
     } // namespace BUSSES
 
     namespace AUDIO_DEVICES

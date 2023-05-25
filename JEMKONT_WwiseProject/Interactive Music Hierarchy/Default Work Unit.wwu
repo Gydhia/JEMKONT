@@ -23,7 +23,7 @@
 						</Reference>
 					</ReferenceList>
 					<ChildrenList>
-						<MusicPlaylistContainer Name="Combat" ID="{36A3C285-DD3C-4651-A61C-407A34C1BDD7}" ShortID="49255225">
+						<MusicPlaylistContainer Name="ST_Fight" ID="{36A3C285-DD3C-4651-A61C-407A34C1BDD7}" ShortID="49255225">
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{86B68257-100F-4BF5-A2A8-7B8994EA0037}"/>
@@ -267,6 +267,13 @@
 											</ObjectLists>
 										</MusicTrack>
 										<MusicTrack Name="bass piano loop" ID="{021D757F-9BC3-4961-8DF8-21B7CECC0A51}" ShortID="556175680">
+											<PropertyList>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>3</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="OutputBus">
 													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{5FC12D48-6ADB-4B43-883D-07304F613018}"/>
@@ -1127,6 +1134,58 @@
 										<Property Name="PlayMode" Type="int16" Value="2"/>
 									</PropertyList>
 								</MusicPlaylistItem>
+							</Playlist>
+						</MusicPlaylistContainer>
+						<MusicPlaylistContainer Name="ST_Farm" ID="{AEFB53D2-BA71-4A82-99B8-BCD68D714D3C}" ShortID="244169416">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{86B68257-100F-4BF5-A2A8-7B8994EA0037}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{5FC12D48-6ADB-4B43-883D-07304F613018}"/>
+								</Reference>
+							</ReferenceList>
+							<TransitionList>
+								<MusicTransition Name="Root" ID="{C860E51D-3DBC-4456-9AC4-EF99128FC6C5}">
+									<PropertyList>
+										<Property Name="IsFolder" Type="bool" Value="True"/>
+									</PropertyList>
+									<ChildrenList>
+										<MusicTransition Name="Transition" ID="{78FAFC87-E4F4-402B-BD06-6247AB75F209}">
+											<TransitionInfo/>
+										</MusicTransition>
+									</ChildrenList>
+									<TransitionInfo/>
+								</MusicTransition>
+							</TransitionList>
+							<Playlist>
+								<MusicPlaylistItem Name="" ID="{5495F8CC-CBF6-4FBE-BE70-169A6077C4A9}" ShortID="213923076"/>
+							</Playlist>
+						</MusicPlaylistContainer>
+						<MusicPlaylistContainer Name="ST_Menu" ID="{AD91772C-1F8B-492F-A270-EBBA22D58542}" ShortID="439142348">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{86B68257-100F-4BF5-A2A8-7B8994EA0037}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{5FC12D48-6ADB-4B43-883D-07304F613018}"/>
+								</Reference>
+							</ReferenceList>
+							<TransitionList>
+								<MusicTransition Name="Root" ID="{950E9E0E-7327-4C75-A854-27C104D2817E}">
+									<PropertyList>
+										<Property Name="IsFolder" Type="bool" Value="True"/>
+									</PropertyList>
+									<ChildrenList>
+										<MusicTransition Name="Transition" ID="{9E310AF7-2DA6-4D69-84FB-8C7C5B2108C5}">
+											<TransitionInfo/>
+										</MusicTransition>
+									</ChildrenList>
+									<TransitionInfo/>
+								</MusicTransition>
+							</TransitionList>
+							<Playlist>
+								<MusicPlaylistItem Name="" ID="{F4445FE0-4E94-412F-93CC-2FD502068F61}" ShortID="504510707"/>
 							</Playlist>
 						</MusicPlaylistContainer>
 					</ChildrenList>
