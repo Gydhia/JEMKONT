@@ -65,7 +65,8 @@ namespace DownBelow.Spells
         public override async void ExecuteAction()
         {
             Debug.LogWarning($"Executing spell {CardsManager.Instance.ScriptableCards[this.SpellHeader.RefCard].Title}");
-            if(this.ParentSpell == null)
+            int cost = CardsManager.Instance.ScriptableCards[SpellHeader.RefCard].Cost;
+            if (this.ParentSpell == null && this.RefEntity.Mana - cost > 0)
             {
                 this.RefEntity.ApplyStat(EntityStatistics.Mana, -CardsManager.Instance.ScriptableCards[SpellHeader.RefCard].Cost);
             }
