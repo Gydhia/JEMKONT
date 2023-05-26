@@ -21,7 +21,7 @@ namespace DownBelow.Spells.Alterations
             entity.OnDeath += Draw;
         }
 
-        private void Draw(Events.GameEventData Data)
+        private void Draw(Events.EntityEventData Data)
         {
             int max = characterHasToDraw.Deck.RefCardsHolder.Piles[PileType.Hand].MaxStackedCards - characterHasToDraw.Deck.RefCardsHolder.PileSize(PileType.Hand);
             for (int i = 0;i < max;i++)
