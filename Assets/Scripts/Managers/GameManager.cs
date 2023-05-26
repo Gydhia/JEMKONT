@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Sirenix.Utilities;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -112,6 +113,9 @@ namespace DownBelow.Managers
 
             if (GridManager.Instance != null)
                 GridManager.Instance.Init();
+            
+            if(AnalyticsManager.Instance != null)
+                AnalyticsManager.Instance.Init();
 
 
             if(GameData.Game.RefGameDataContainer != null)
@@ -138,6 +142,8 @@ namespace DownBelow.Managers
             {
                 WelcomePlayers();
             }
+            
+            AnalyticsManager.Instance.SendEventPlayerPerLobbyEvent(PhotonNetwork.PlayerList.Length);
         }
 
         public void WelcomePlayerLately()

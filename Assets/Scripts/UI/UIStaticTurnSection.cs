@@ -14,14 +14,14 @@ namespace DownBelow.UI
         public Sprite AllySprite;
         public Sprite EnemySprite;
         // The item to instantiate
-        public Image SpritePrefab;
+        public GameObject SpritePrefab;
         // The parent of the entities
         public Transform EntitiesHolder;
 
         public Image TimeSlider;
         public Button NextTurnButton;
 
-        public List<Image> CombatEntities;
+        public List<EntitySprite> CombatEntities;
 
         public void Init()
         {
@@ -33,10 +33,15 @@ namespace DownBelow.UI
         {
             for (int i = 0; i < CombatManager.Instance.PlayingEntities.Count; i++)
             {
-                this.CombatEntities.Add(Instantiate(this.SpritePrefab, this.EntitiesHolder, CombatManager.Instance.PlayingEntities[i]));
-                this.CombatEntities[i].sprite = CombatManager.Instance.PlayingEntities[i].IsAlly ? AllySprite : EnemySprite;
-                if (i > 0)
-                    this.CombatEntities[i].transform.GetChild(0).gameObject.SetActive(false);
+                Sprite weapon = null;
+                if (CombatManager.Instance.PlayingEntities[i] is PlayerBehavior player)
+                {
+                    weapon = player.ActiveTool.InventoryIcon;
+                }
+                
+                this.CombatEntities.Add(Instantiate(this.SpritePrefab, this.EntitiesHolder, CombatManager.Instance.PlayingEntities[i]).GetComponent<EntitySprite>());
+                this.CombatEntities[i].Init(CombatManager.Instance.PlayingEntities[i].IsAlly ? AllySprite : EnemySprite, i > 0, weapon);
+
             }
 
             this.NextTurnButton.onClick.RemoveAllListeners();
