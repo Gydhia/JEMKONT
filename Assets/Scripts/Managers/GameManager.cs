@@ -247,9 +247,15 @@ namespace DownBelow.Managers
             if (CombatActionsBuffer.Count > 0)
             {
                 IsUsingCombatBuffer = true;
+                try
+                {
+                    CombatActionsBuffer[0].SetCallback(_executeNextFromCombatBufferDelayed);
+                    CombatActionsBuffer[0].ExecuteAction();
+                } catch
+                {
+                    CombatActionsBuffer[0].EndAction();
+                }
 
-                CombatActionsBuffer[0].SetCallback(_executeNextFromCombatBufferDelayed);
-                CombatActionsBuffer[0].ExecuteAction();
             } 
             else
                 IsUsingCombatBuffer = false;

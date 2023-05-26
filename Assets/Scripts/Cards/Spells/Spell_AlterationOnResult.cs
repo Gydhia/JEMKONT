@@ -17,11 +17,14 @@ namespace DownBelow.Spells
 
             GetTargets(TargetCell);
 
-            foreach (CharacterEntity target in Result.TargetedCells.FindAll(x => x.EntityIn != null).Select(x => x.EntityIn))
+            var targets = Result.TargetedCells.FindAll(x => x.EntityIn != null).Select(x => x.EntityIn);
+            if (targets != null)
             {
-                target.AddAlteration(LocalData.Alteration);
+                foreach (CharacterEntity target in targets)
+                {
+                    target.AddAlteration(LocalData.Alteration);
+                }
             }
-
             EndAction();
         }
     }

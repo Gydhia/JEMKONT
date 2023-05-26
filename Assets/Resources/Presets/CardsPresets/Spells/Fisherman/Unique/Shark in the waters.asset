@@ -53,7 +53,7 @@ MonoBehaviour:
       Data: 2|DownBelow.Spells.SpellData, Assembly-CSharp
     - Name: RequiresTargetting
       Entry: 5
-      Data: false
+      Data: true
     - Name: SpellResultTargeting
       Entry: 5
       Data: false
@@ -224,7 +224,7 @@ MonoBehaviour:
       Data: false
     - Name: 
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 5
       Data: false

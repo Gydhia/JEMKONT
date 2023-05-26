@@ -11,11 +11,13 @@ namespace DownBelow.Spells.Alterations
         public LawnOrder(int Duration) : base(Duration)
         {
         }
-        public PlayerBehavior characterHasToDraw;
+       [HideInInspector] public PlayerBehavior characterHasToDraw;
 
         public override void Setup(CharacterEntity entity)
         {
             base.Setup(entity);
+            characterHasToDraw = CombatManager.CurrentPlayingEntity as PlayerBehavior;
+            //This is gonna blow.
             entity.OnDeath += Draw;
         }
 
