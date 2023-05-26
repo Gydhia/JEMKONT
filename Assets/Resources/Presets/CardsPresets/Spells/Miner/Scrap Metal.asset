@@ -813,8 +813,7 @@ MonoBehaviour:
   Title: Scrap Metal
   Cost: 1
   CardType: 1
-  Description: Destroy a non character entity, receive armor for 2 turns. A TESTER
-    QUAND ON EST SUR LA MEME CASE QUE LA NCE.
+  Description: Destroy a non character entity, receive X armor for 2 turns.
   IllustrationImage: {fileID: 21300000, guid: 8b2ecdef46eb36a49be127947f43349c, type: 3}
   Class: 0
   CurrentSpellTargetting: 0
