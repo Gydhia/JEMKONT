@@ -282,6 +282,8 @@ namespace DownBelow.Managers
         /// <param name="resetBuffer">If we empty all the buffer to only keep the passed action</param>
         public void BuffAction(EntityAction action, bool resetBuffer)
         {
+            Debug.Log("ENTITY : " + action.RefEntity + " | Buffing : " + action.GetAssemblyName());
+
             if (action.RefEntity.CurrentGrid.IsCombatGrid)
             {
                 //If the entity is on a combat grid,simply queue the action and do it whenever it's your turn.
