@@ -23,7 +23,7 @@ MonoBehaviour:
     SerializationNodes:
     - Name: UID
       Entry: 2
-      Data: 1905a0db580e52b2f9b5375cdf5655d9
+      Data: aa7b5d5d98c72f92dd4e4f813e71404e
     - Name: Spells
       Entry: 7
       Data: 0|DownBelow.Spells.Spell[], Assembly-CSharp
