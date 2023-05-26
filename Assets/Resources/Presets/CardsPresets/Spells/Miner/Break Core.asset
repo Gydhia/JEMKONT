@@ -897,8 +897,8 @@ MonoBehaviour:
   Title: Break Core
   Cost: 1
   CardType: 2
-  Description: Might not be working, but should deal damage and apply shattered to
-    all opponents around you. For each affected opponents, receive X armor.
+  Description: Deal damage and apply shattered to all opponents around you. For each
+    affected opponents, receive X armor.
   IllustrationImage: {fileID: 21300000, guid: e4b0fe1446fe121449ef780deb8be19f, type: 3}
   Class: 0
   CurrentSpellTargetting: 0

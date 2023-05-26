@@ -366,7 +366,7 @@ MonoBehaviour:
       Data: false
     - Name: TargetType
       Entry: 3
-      Data: 65536
+      Data: 1
     - Name: ProjectileSFX
       Entry: 6
       Data: 

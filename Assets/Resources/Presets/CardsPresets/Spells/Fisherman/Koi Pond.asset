@@ -532,7 +532,8 @@ MonoBehaviour:
   Title: Koi Pond
   Cost: 1
   CardType: 1
-  Description: 
+  Description: Select a tile, for 3 turns, everyone stepping on it will be teleported
+    to a random tile.
   IllustrationImage: {fileID: 21300000, guid: bb18c765cbbb4a941897b36b6ce82a66, type: 3}
   Class: 3
   CurrentSpellTargetting: 0

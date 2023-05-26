@@ -817,7 +817,7 @@ MonoBehaviour:
       Data: false
     - Name: TargetType
       Entry: 3
-      Data: 7
+      Data: 4
     - Name: ProjectileSFX
       Entry: 6
       Data: 
