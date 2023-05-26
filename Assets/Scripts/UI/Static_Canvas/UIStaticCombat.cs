@@ -30,7 +30,8 @@ namespace DownBelow.UI
             LeaveCombat.gameObject.SetActive(false);
 
             StartCombat.onClick.AddListener(() => NetworkManager.Instance.PlayerAsksToStartCombat());
-            LeaveCombat.onClick.AddListener(() => NetworkManager.Instance.PlayerAskToLeaveCombat());
+            // TODO : replug it but not this method
+            //LeaveCombat.onClick.AddListener(() => NetworkManager.Instance.PlayerAskToLeaveCombat());
 
             this.gameObject.SetActive(false);
 

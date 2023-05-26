@@ -11,6 +11,8 @@ using UnityEngine;
 using DownBelow.Mechanics;
 using DownBelow.UI;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
+using System.Runtime.Remoting.Messaging;
 
 namespace DownBelow.Managers
 {
@@ -21,6 +23,7 @@ namespace DownBelow.Managers
         public event GridEventData.Event OnCombatEnded;
         public event EntityEventData.Event OnTurnStarted;
         public event EntityEventData.Event OnTurnEnded;
+        public event EntityEventData.Event OnEntityDeath;
 
         public event CardEventData.Event OnCardBeginUse;
         public event CardEventData.Event OnCardEndUse;
@@ -39,8 +42,10 @@ namespace DownBelow.Managers
             this.OnCombatStarted?.Invoke(new GridEventData(Grid));
         }
 
-        public void FireCombatEnded(WorldGrid Grid)
+        public void FireCombatEnded(WorldGrid Grid, bool AllyVictory)
         {
+            CurrentPlayingGrid.HasStarted = false;
+
             PlayerInputs.player_select_1.canceled -= this._switchToFirstPlayer;
             PlayerInputs.player_select_2.canceled -= this._switchToSecondPlayer;
             PlayerInputs.player_select_3.canceled -= this._switchToThirdPlayer;
@@ -49,7 +54,7 @@ namespace DownBelow.Managers
 
             GameManager.Instance.FireSelfPlayerSwitched(null, this._playerIndex, 0);
 
-            this.OnCombatEnded?.Invoke(new GridEventData(Grid));
+            this.OnCombatEnded?.Invoke(new GridEventData(Grid, AllyVictory));
         }
 
         public void FireCardBeginUse(
@@ -73,6 +78,8 @@ namespace DownBelow.Managers
 
         public void FireSpellEndTargetting(Spell TargetSpell, Cell Cell) =>
             this.OnSpellEndTargetting?.Invoke(new SpellTargetEventData(TargetSpell, Cell));
+
+        public void FireEntityDeath(CharacterEntity Entity) => this.OnEntityDeath?.Invoke(new EntityEventData(Entity));
         #endregion
 
         public bool BattleGoing;
@@ -87,6 +94,7 @@ namespace DownBelow.Managers
         public static CharacterEntity CurrentPlayingEntity;
         public static CombatGrid CurrentPlayingGrid;
         public List<CharacterEntity> PlayingEntities;
+        public List<CharacterEntity> DeadEntities;
 
         public List<PlayerBehavior> PlayersInGrid = new List<PlayerBehavior>();
 
@@ -220,6 +228,7 @@ namespace DownBelow.Managers
 
             this._defineEntitiesTurn();
             this._setOwnedFakes();
+            this._subcribeToEntitiesDeath();
 
             this._switchToFirstPlayer(new InputAction.CallbackContext());
 
@@ -312,12 +321,6 @@ namespace DownBelow.Managers
             UIManager.Instance.TurnSection.TimeSlider.fillAmount = 0f;
 
             this.OnTurnEnded?.Invoke(new EntityEventData(CurrentPlayingEntity));
-        }
-
-        public void EndCombat()
-        {
-            CurrentPlayingGrid.HasStarted = false;
-            this.FireCombatEnded(CurrentPlayingGrid);
         }
 
         private void _setupEnemyEntities()
@@ -506,6 +509,35 @@ namespace DownBelow.Managers
                 var owner = GameManager.Instance.Players.Values.SingleOrDefault(p => p.CombatTools.Contains(fakePlayer.ActiveTool));
                 fakePlayer.Owner = owner;
                 this.FakePlayers.Add(fakePlayer);
+            }
+        }
+
+        private void _subcribeToEntitiesDeath()
+        {
+            foreach (var entity in this.PlayingEntities)
+            {
+                entity.OnDeath += _makeEntityDie;
+            }
+        }
+
+        private void _makeEntityDie(EntityEventData Data)
+        {
+            this.PlayingEntities.Remove(Data.Entity);
+            this.DeadEntities.Add(Data.Entity);
+
+            Data.Entity.Die();
+
+            this.FireEntityDeath(Data.Entity);
+
+            // all Allies dead
+            if(PlayingEntities.Count(p => p.IsAlly) == 0)
+            {
+                this.FireCombatEnded(CurrentPlayingGrid, false);
+            }
+            // all Enemies dead
+            else if(PlayingEntities.Count(p => !p.IsAlly) == 0)
+            {
+                this.FireCombatEnded(CurrentPlayingGrid, true);
             }
         }
     }

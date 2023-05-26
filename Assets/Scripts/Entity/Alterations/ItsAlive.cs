@@ -17,7 +17,7 @@ namespace DownBelow.Spells.Alterations
             Target.OnDeath += Dont;
         }
 
-        private void Dont(Events.GameEventData Data)
+        private void Dont(Events.EntityEventData Data)
         {
             Target.OnDeath -= Dont;
 

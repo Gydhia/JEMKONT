@@ -235,7 +235,7 @@ namespace DownBelow.Entity
 
         #region MOVEMENTS
 
-        public void EnterNewGrid(CombatGrid grid)
+        public void EnterNewGrid(WorldGrid grid)
         {
             // TODO : Killian (it's me Killian) plug this somewhere else
             theList = 0; //:)

@@ -467,18 +467,30 @@ namespace DownBelow.Managers
 
         public void PlayerAskToLeaveCombat()
         {
-            this.photonView.RPC("RPC_RespondToLeaveCombat", RpcTarget.All, GameManager.SelfPlayer.UID);
+            this.photonView.RPC("RPC_RespondMasterToLeaveCombat", RpcTarget.MasterClient, GameManager.SelfPlayer.UID);
         }
 
         [PunRPC]
-        public void RPC_RespondToLeaveCombat(string playerID)
+        public void RPC_RespondMasterToLeaveCombat(string PlayerID)
         {
-            //CombatManager.Instance.StartCombat(GameManager.Instance.Players[playerID].CurrentGrid as CombatGrid);
+            this._playersTurnState.Add(GameManager.Instance.Players[PlayerID]);
+
+            if(this._playersTurnState.Count >= GameManager.Instance.Players.Count)
+            {
+                this.photonView.RPC("RPC_RespondPlayersToLeaveCombat", RpcTarget.All, GameManager.SelfPlayer.UID);
+            }
+        }
+        [PunRPC]
+        public void RPC_RespondPlayersToLeaveCombat(string PlayerID)
+        {
+            this._playersTurnState.Clear();
+
+            GameManager.Instance.ExitAllFromCombat();
         }
 
 
-        // /!\ Only one combat can be active at the moment, that is important
-        public void PlayerAsksToStartCombat()
+         // /!\ Only one combat can be active at the moment, that is important
+         public void PlayerAsksToStartCombat()
         {
             this.photonView.RPC("RPC_RespondToStartCombat", RpcTarget.All, GameManager.SelfPlayer.UID);
         }

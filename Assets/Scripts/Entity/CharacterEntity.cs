@@ -54,7 +54,7 @@ namespace DownBelow.Entity
         public event GameEventData.Event OnTurnEnded;
         public event GameEventData.Event OnTryTakeDamage;
         public event GameEventData.Event OnDamageTaken;
-        public event GameEventData.Event OnDeath;
+        public event EntityEventData.Event OnDeath;
 
         public event GameEventData.Event OnInited;
 
@@ -557,7 +557,10 @@ namespace DownBelow.Entity
 
         public void AreYouAlive(SpellEventData data)
         {
-            if (this.Health <= 0) Die();
+            if (this.Health <= 0)
+            {
+                this.OnDeath?.Invoke(new EntityEventData(this));
+            }
         }
 
         public virtual void Die()
@@ -570,9 +573,8 @@ namespace DownBelow.Entity
                 Alterations.RemoveAt(0);
             }
 
-            //???
-            OnDeath?.Invoke(new());
-            Destroy(this.gameObject);
+            this.FireExitedCell();
+            this.gameObject.SetActive(false);
         }
 
         #endregion

@@ -4,6 +4,7 @@ using DownBelow.GridSystem;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Photon.Pun;
+using Photon.Realtime;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -194,6 +195,36 @@ namespace DownBelow.Managers
 
             CombatManager.Instance.OnCombatStarted += this._subscribeForCombatBuffer;
             CombatManager.Instance.OnCombatEnded -= _unsubscribeForCombatBuffer;
+
+            this._tryExitAllFromCombat();
+        }
+
+        private void _tryExitAllFromCombat()
+        {
+            NetworkManager.Instance.PlayerAskToLeaveCombat();
+        }
+
+        public void ExitAllFromCombat()
+        {
+            System.Guid spawnId = GridManager.Instance.SpawnablesPresets.First(k => k.Value is SpawnPreset).Key;
+
+            var spawnLocations = CombatManager.CurrentPlayingGrid.SelfData.SpawnablePresets.Where(k => k.Value == spawnId).Select(kv => kv.Key);
+            var worldGrid = CombatManager.CurrentPlayingGrid.ParentGrid;
+
+            int counter = 0;
+            foreach (var player in this.Players.Values)
+            {
+                player.FireExitedCell();
+                this.FireEntityExitingGrid(player.UID);
+
+                player.EnterNewGrid(worldGrid);
+
+                this.FireEntityEnteredGrid(player.UID);
+                var newCell = worldGrid.Cells[spawnLocations.ElementAt(counter).latitude, spawnLocations.ElementAt(counter).longitude];
+                player.FireEnteredCell(newCell);
+                
+                counter++;
+            }
         }
 
         #region DEBUG

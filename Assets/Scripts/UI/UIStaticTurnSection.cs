@@ -43,6 +43,7 @@ namespace DownBelow.UI
             this.NextTurnButton.onClick.AddListener(AskEndOfTurn);
 
             CombatManager.Instance.OnTurnStarted += this._updateTurn;
+            CombatManager.Instance.OnEntityDeath += this._updateEntityDeath;
         }
 
         public void ClearFromCombatEnd(GridEventData Data)
@@ -54,6 +55,7 @@ namespace DownBelow.UI
             this.CombatEntities.Clear();
 
             CombatManager.Instance.OnTurnStarted -= this._updateTurn;
+            CombatManager.Instance.OnEntityDeath -= this._updateEntityDeath;
         }
 
         public void ChangeSelectedEntity(int index)
@@ -66,7 +68,6 @@ namespace DownBelow.UI
 
         public void AskEndOfTurn()
         {
-            Debug.LogError("ASKING TO END TURN");
             if (CombatManager.CurrentPlayingGrid != null && CombatManager.CurrentPlayingGrid.HasStarted)
             {
                 NetworkManager.Instance.EntityAskToBuffAction(
@@ -80,6 +81,14 @@ namespace DownBelow.UI
         private void _updateTurn(EntityEventData Data)
         {
             NextTurnButton.interactable = CombatManager.Instance.IsPlayerOrOwned(Data.Entity);
+        }
+
+        private void _updateEntityDeath(EntityEventData Data)
+        {
+            int index = CombatManager.Instance.PlayingEntities.IndexOf(Data.Entity);
+
+            Destroy(this.CombatEntities[index].gameObject);
+            this.CombatEntities.RemoveAt(index);
         }
     }
 

@@ -25,7 +25,7 @@ namespace DownBelow.Spells.Alterations
             EntityStitched.ApplyStat(EntityStatistics.Health, -Data.Value, false);
         }
 
-        protected override void Unsubbing(GameEventData Data)
+        protected override void Unsubbing(EntityEventData Data)
         {
             base.Unsubbing(Data);
             Target.OnHealthRemoved -= ReplicateDamage;
