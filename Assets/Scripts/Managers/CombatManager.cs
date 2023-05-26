@@ -133,20 +133,38 @@ namespace DownBelow.Managers
 
             this.PlayersInGrid.Add(player);
 
-            // If FakePlayers isn't populated (=init), do it
-            if(this.FakePlayers == null || this.FakePlayers.Count == 0)
+            // Take the first tool 
+            List<DeckPreset> realAlliesDeck = new List<DeckPreset>();
+            List<DeckPreset> fakeAlliesDeck = new List<DeckPreset>();
+            foreach (var netPlayer in GameManager.Instance.Players.Values)
             {
-                foreach (var deck in CardsManager.Instance.DeckPresets.Values)
+                if(netPlayer != player && netPlayer.CurrentGrid is CombatGrid)
                 {
-                    if(deck == player.Deck) { continue; }
+                    realAlliesDeck.Add(((ToolItem)netPlayer.PlayerSpecialSlots.StorageItems[0].ItemPreset).DeckPreset);
+                    for (int i = 1; i < netPlayer.PlayerSpecialSlots.StorageItems.Length; i++)
+                    {
+                        fakeAlliesDeck.Add(((ToolItem)netPlayer.PlayerSpecialSlots.StorageItems[i].ItemPreset).DeckPreset);
+                    }
+                }
+            }
 
+            var selfTool = ((ToolItem)player.PlayerSpecialSlots.StorageItems[0].ItemPreset);
+            player.SetActiveTool(selfTool);
+
+            var selfFakeDecks = player.PlayerSpecialSlots.StorageItems.Select(s => (s.ItemPreset as ToolItem).DeckPreset).Where(t => t != selfTool.DeckPreset);
+
+            // If FakePlayers isn't populated (=init), that's a local action
+            if (this.FakePlayers == null || this.FakePlayers.Count == 0)
+            {
+                foreach (var fakeDeck in selfFakeDecks.Union(fakeAlliesDeck))
+                {
                     var fakePlayer = Instantiate(GameManager.Instance.PlayerPrefab, GameManager.Instance.gameObject.transform);
 
                     Cell placementCell = currentGrid.PlacementCells.First(c => c.Datas.state != CellState.EntityIn);
 
                     fakePlayer.Init(placementCell, currentGrid, 0, true);
 
-                    var refTool = CardsManager.Instance.ToolPresets.Values.Single(t => t.DeckPreset == deck);
+                    var refTool = CardsManager.Instance.ToolPresets.Values.Single(t => t.DeckPreset == fakeDeck);
                     fakePlayer.SetActiveTool(refTool);
 
                     fakePlayer.ReinitializeAllStats();
@@ -157,24 +175,27 @@ namespace DownBelow.Managers
                     this.FakePlayers.Add(fakePlayer);
                 }
             }
-
-            // Replace the fake on by the real player
-            var fakeToReplace = this.FakePlayers.SingleOrDefault(f => f.Deck == player.Deck);
-
-            if(fakeToReplace != null)
+            // If already populated, remove the corresponding 
+            else
             {
-                fakeToReplace.FireExitedCell();
-                this.FakePlayers.Remove(fakeToReplace);
+                // Replace the fake on by the real player
+                var fakeToReplace = this.FakePlayers.FirstOrDefault(f => f.Deck == player.Deck);
 
-                Destroy(fakeToReplace.gameObject);
+                if (fakeToReplace != null)
+                {
+                    fakeToReplace.FireExitedCell();
+                    this.FakePlayers.Remove(fakeToReplace);
+
+                    Destroy(fakeToReplace.gameObject);
+                }
             }
 
             Cell playerCell = currentGrid.PlacementCells.First(c => c.Datas.state != CellState.EntityIn);
-            Data.Entity.FireExitedCell();
-            Data.Entity.FireEnteredCell(playerCell);
-            Data.Entity.transform.position = playerCell.WorldPosition;
+            player.FireExitedCell();
+            player.FireEnteredCell(playerCell);
+            player.transform.position = playerCell.WorldPosition;
 
-            Data.Entity.ReinitializeAllStats();
+            player.ReinitializeAllStats();
 
             if(GameManager.SelfPlayer == Data.Entity)
             {
@@ -235,12 +256,18 @@ namespace DownBelow.Managers
         {
             if(index > this.FakePlayers.Count || index == this._playerIndex) { return; }
 
-            GameManager.Instance.FireSelfPlayerSwitched(index == 0 ? null : this.FakePlayers[index - 1], 
-                this._playerIndex < 0 ? 0 : this._playerIndex, 
-                index
-            );
+            var player = index == 0 ? GameManager.RealSelfPlayer : this.FakePlayers[index - 1];
 
-            this._playerIndex = index;
+            if (IsPlayerOrOwned(player))
+            {
+                GameManager.Instance.FireSelfPlayerSwitched(
+                    index == 0 ? null : this.FakePlayers[index - 1],
+                    this._playerIndex < 0 ? 0 : this._playerIndex,
+                    index
+                );
+
+                this._playerIndex = index;
+            }
         }
 
         public void ProcessStartTurn()

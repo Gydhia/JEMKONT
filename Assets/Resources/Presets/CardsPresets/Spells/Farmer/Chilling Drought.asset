@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c24d5ac1331fdca479c3c82f04555faf, type: 3}
-  m_Name: Mole Extermination
+  m_Name: Chilling Drought
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -36,11 +36,10 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  Title: Mole Extermination
-  Cost: 2
-  CardType: 1
-  Description: Choose 2 tiles, whenever a character steps on one, they are teleported
-    to the other.
-  IllustrationImage: {fileID: 21300000, guid: 04447b40a547c9742abf4682d0ec3d53, type: 3}
+  Title: Chilling Drought
+  Cost: 1
+  CardType: 2
+  Description: Deal X damage to an opponent, -Y for each of your cards in hand.
+  IllustrationImage: {fileID: 21300000, guid: 9b4ecb82c640ec740b1c7ec13040b83c, type: 3}
   Class: 2
   CurrentSpellTargetting: 0

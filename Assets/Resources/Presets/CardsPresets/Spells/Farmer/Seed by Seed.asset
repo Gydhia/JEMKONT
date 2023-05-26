@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c24d5ac1331fdca479c3c82f04555faf, type: 3}
-  m_Name: Mole Extermination
+  m_Name: Seed by Seed
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -23,7 +23,7 @@ MonoBehaviour:
     SerializationNodes:
     - Name: UID
       Entry: 2
-      Data: 00000000000000000000000000000000
+      Data: 834d6056870ead1c8d4e3366ebe9a6e6
     - Name: Spells
       Entry: 7
       Data: 0|DownBelow.Spells.Spell[], Assembly-CSharp
@@ -36,11 +36,10 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  Title: Mole Extermination
-  Cost: 2
+  Title: Seed by Seed
+  Cost: 1
   CardType: 1
-  Description: Choose 2 tiles, whenever a character steps on one, they are teleported
-    to the other.
-  IllustrationImage: {fileID: 21300000, guid: 04447b40a547c9742abf4682d0ec3d53, type: 3}
+  Description: Create 3 cards in hand that each deal X damage.
+  IllustrationImage: {fileID: 21300000, guid: b20dd82b6b9f5164fa33b6690be5e098, type: 3}
   Class: 2
   CurrentSpellTargetting: 0

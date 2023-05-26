@@ -507,42 +507,33 @@ namespace DownBelow.Managers
         {
             this._playersTurnState.Clear();
 
-            this.photonView.RPC("NotifyPlayerStartTurn", RpcTarget.All, GameManager.SelfPlayer.UID);
+            this.photonView.RPC("NotifyPlayerStartTurn", RpcTarget.All);
         }
 
         [PunRPC]
-        public void NotifyPlayerStartTurn(string PlayerID)
+        public void NotifyPlayerStartTurn()
         {
             CombatManager.Instance.ProcessStartTurn();
 
-            //if (CombatManager.Instance.CurrentPlayingEntity is PlayerBehavior)
-            //{
-            //    CombatManager.Instance.CurrentPlayingEntity.StartTurn();
-            //}
             CombatManager.CurrentPlayingEntity.StartTurn();
-            this.photonView.RPC("PlayerAnswerStartTurn", RpcTarget.MasterClient, GameManager.SelfPlayer.UID);
+
+            this.photonView.RPC("PlayerAnswerStartTurn", RpcTarget.MasterClient, GameManager.RealSelfPlayer.UID);
         }
 
         [PunRPC]
         public void PlayerAnswerStartTurn(string PlayerID)
         {
-            var playerOrFake = CombatManager.Instance.PlayingEntities.Single(pe => pe.UID == PlayerID) as PlayerBehavior;
+            this._playersTurnState.Add(GameManager.Instance.Players[PlayerID]);
 
-            this._playersTurnState.Add(playerOrFake.IsFake ? playerOrFake.Owner : playerOrFake);
-
+            // When all players have started the playing entity's turn, create the actions IF it's an enemy
             if (this._playersTurnState.Count >= GameManager.Instance.Players.Count)
             {
-                this.NotifyEnemyActions();
-            }
-        }
+                this._playersTurnState.Clear();
 
-        public void NotifyEnemyActions()
-        {
-            var entity = CombatManager.CurrentPlayingEntity;
-
-            if (entity is EnemyEntity enemy)
-            {
-                this.EntityAskToBuffActions(enemy.CreateEnemyActions());
+                if (CombatManager.CurrentPlayingEntity is EnemyEntity enemy)
+                {
+                    this.EntityAskToBuffActions(enemy.CreateEnemyActions());
+                }
             }
         }
 
@@ -626,6 +617,7 @@ namespace DownBelow.Managers
 
         public override void OnJoinedRoom()
         {
+            Debug.Log("JOINED ROOM");
             if (!PhotonNetwork.CurrentRoom.IsOffline)
             {
                 if (this.UIRoom != null)
@@ -675,11 +667,13 @@ namespace DownBelow.Managers
 
         public override void OnJoinedLobby()
         {
+            Debug.Log("JOINED LOBBY");
             base.OnJoinedLobby();
         }
 
         public override void OnLeftLobby()
         {
+            Debug.Log("LEFT LOBBY");
             base.OnLeftLobby();
         }
 
@@ -689,9 +683,10 @@ namespace DownBelow.Managers
             string offline = "OfflineMode = " + PhotonNetwork.OfflineMode + "\n";
             string inLobby = "Is In Lobby = " + PhotonNetwork.InLobby + "\n";
             string currLobby = "Current Lobby = " + (PhotonNetwork.CurrentLobby == null ? "NONE" : PhotonNetwork.CurrentLobby.Name) + "\n";
-            string currRoom = "Current Room = " + (PhotonNetwork.CurrentRoom == null ? "NONE" : PhotonNetwork.CurrentRoom.Name);
+            string currRoom = "Current Room = " + (PhotonNetwork.CurrentRoom == null ? "NONE" : PhotonNetwork.CurrentRoom.Name) + "\n";
+            string currServer = "Current server = " + PhotonNetwork.Server;
 
-            Debug.LogError("Current Photon State : \n" + connected + offline + inLobby + currLobby + currRoom);
+            Debug.LogError("Current Photon State : \n" + connected + offline + inLobby + currLobby + currRoom + currServer);
         }
         #endregion
     }

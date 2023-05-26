@@ -43,7 +43,6 @@ namespace DownBelow.UI
             this.NextTurnButton.onClick.AddListener(AskEndOfTurn);
 
             CombatManager.Instance.OnTurnStarted += this._updateTurn;
-            CombatManager.Instance.OnTurnEnded += this._updateTurn;
         }
 
         public void ClearFromCombatEnd(GridEventData Data)
@@ -55,7 +54,6 @@ namespace DownBelow.UI
             this.CombatEntities.Clear();
 
             CombatManager.Instance.OnTurnStarted -= this._updateTurn;
-            CombatManager.Instance.OnTurnEnded -= this._updateTurn;
         }
 
         public void ChangeSelectedEntity(int index)
@@ -68,11 +66,11 @@ namespace DownBelow.UI
 
         public void AskEndOfTurn()
         {
+            Debug.LogError("ASKING TO END TURN");
             if (CombatManager.CurrentPlayingGrid != null && CombatManager.CurrentPlayingGrid.HasStarted)
             {
-                GameManager.Instance.BuffAction(
-                    new EndTurnAction(CombatManager.CurrentPlayingEntity, null),
-                    false
+                NetworkManager.Instance.EntityAskToBuffAction(
+                    new EndTurnAction(CombatManager.CurrentPlayingEntity, CombatManager.CurrentPlayingEntity.EntityCell)
                 );
 
                 NextTurnButton.interactable = false;
@@ -81,10 +79,7 @@ namespace DownBelow.UI
 
         private void _updateTurn(EntityEventData Data)
         {
-            NextTurnButton.interactable = CombatManager.CurrentPlayingEntity == GameManager.SelfPlayer;
-
-            if (Data.Entity != GameManager.SelfPlayer)
-                return;
+            NextTurnButton.interactable = CombatManager.Instance.IsPlayerOrOwned(Data.Entity);
         }
     }
 

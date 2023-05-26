@@ -37,9 +37,9 @@ MonoBehaviour:
       Entry: 8
       Data: 
   Title: Backend Blossom
-  Cost: 0
-  CardType: 0
-  Description: 
+  Cost: 2
+  CardType: 3
+  Description: You and the closest character, allied or ennemy, receive X bonus damage.
   IllustrationImage: {fileID: 21300000, guid: 2e4668462754e9b4789e2e122037128f, type: 3}
   Class: 2
   CurrentSpellTargetting: 0
