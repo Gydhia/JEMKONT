@@ -2,6 +2,7 @@ using DownBelow.GridSystem;
 using DownBelow.Managers;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime;
 using UnityEngine;
 
 namespace DownBelow.Entity
@@ -45,6 +46,9 @@ namespace DownBelow.Entity
 
         private List<Cell> MovementStraight()
         {
+            if (TargetCell == null || TargetCell.EntityIn == null || TargetCell.EntityIn.EntityCell == null)
+                return null;
+
             GridPosition targPosition = TargetCell.EntityIn.EntityCell.PositionInGrid;
             return GridManager.Instance.FindPath(this.RefEntity, targPosition, false, 1);
         }
@@ -54,6 +58,9 @@ namespace DownBelow.Entity
         /// </summary>
         private List<Cell> MovementStraightToRange()
         {
+            if (TargetCell == null || TargetCell.EntityIn == null || TargetCell.EntityIn.EntityCell == null)
+                return null;
+
             GridPosition targPosition = TargetCell.EntityIn.EntityCell.PositionInGrid;
             return GridManager.Instance.FindPath(this.RefEntity, targPosition, false, this.RefEntity.Range);
         }

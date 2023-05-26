@@ -522,15 +522,15 @@ namespace DownBelow.Managers
 
         private void _makeEntityDie(EntityEventData Data)
         {
+            this.FireEntityDeath(Data.Entity);
+
             this.PlayingEntities.Remove(Data.Entity);
             this.DeadEntities.Add(Data.Entity);
 
             Data.Entity.Die();
 
-            this.FireEntityDeath(Data.Entity);
-
             // all Allies dead
-            if(PlayingEntities.Count(p => p.IsAlly) == 0)
+            if (PlayingEntities.Count(p => p.IsAlly) == 0)
             {
                 this.FireCombatEnded(CurrentPlayingGrid, false);
             }

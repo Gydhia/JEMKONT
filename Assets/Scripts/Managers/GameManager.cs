@@ -201,6 +201,8 @@ namespace DownBelow.Managers
 
         private void _tryExitAllFromCombat()
         {
+            CombatActionsBuffer.Clear();
+
             NetworkManager.Instance.PlayerAskToLeaveCombat();
         }
 

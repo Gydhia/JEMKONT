@@ -574,6 +574,14 @@ namespace DownBelow.Entity
             }
 
             this.FireExitedCell();
+            StartCoroutine(_deathTime());
+        }
+
+        // TODO : temporary to wait for the player to die
+        private IEnumerator _deathTime(float delay = 2f)
+        {
+            yield return new WaitForSeconds(delay);
+
             this.gameObject.SetActive(false);
         }
 

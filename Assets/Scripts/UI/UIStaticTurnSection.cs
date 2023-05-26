@@ -62,8 +62,10 @@ namespace DownBelow.UI
         {
             int last = index == 0 ? CombatEntities.Count - 1 : index - 1;
 
-            this.CombatEntities[last].transform.GetChild(0).gameObject.SetActive(false);
-            this.CombatEntities[index].transform.GetChild(0).gameObject.SetActive(true);
+            if (last < this.CombatEntities.Count)
+                this.CombatEntities[last].transform.GetChild(0).gameObject.SetActive(false);
+            if (index < this.CombatEntities.Count)
+                this.CombatEntities[index].transform.GetChild(0).gameObject.SetActive(true);
         }
 
         public void AskEndOfTurn()

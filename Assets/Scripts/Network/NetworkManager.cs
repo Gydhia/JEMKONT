@@ -554,15 +554,14 @@ namespace DownBelow.Managers
         /// </summary>
         public void PlayerAsksEndTurn()
         {
-            this.photonView.RPC("RespondMasterEndEntityTurn", RpcTarget.MasterClient, GameManager.SelfPlayer.UID);
+            this.photonView.RPC("RespondMasterEndEntityTurn", RpcTarget.MasterClient, GameManager.RealSelfPlayer.UID);
         }
 
         [PunRPC]
         public void RespondMasterEndEntityTurn(string PlayerID)
         {
-            var playerOrFake = CombatManager.Instance.PlayingEntities.Single(pe => pe.UID == PlayerID) as PlayerBehavior;
-
-            this._playersTurnState.Add(playerOrFake.IsFake ? playerOrFake.Owner : playerOrFake);
+            var player = GameManager.Instance.Players.Values.Single(pe => pe.UID == PlayerID);
+            this._playersTurnState.Add(player);
 
             if (this._playersTurnState.Count >= GameManager.Instance.Players.Count)
             {
@@ -578,15 +577,15 @@ namespace DownBelow.Managers
             // Each player process it 
             CombatManager.Instance.ProcessEndTurn();
 
-            this.photonView.RPC("ConfirmPlayerEndedTurn", RpcTarget.MasterClient, GameManager.SelfPlayer.UID);
+            this.photonView.RPC("ConfirmPlayerEndedTurn", RpcTarget.MasterClient, GameManager.RealSelfPlayer.UID);
         }
 
         [PunRPC]
         public void ConfirmPlayerEndedTurn(string PlayerID)
         {
-            var playerOrFake = CombatManager.Instance.PlayingEntities.Single(pe => pe.UID == PlayerID) as PlayerBehavior;
+            var player = GameManager.Instance.Players.Values.Single(pe => pe.UID == PlayerID);
 
-            this._playersTurnState.Add(playerOrFake.IsFake ? playerOrFake.Owner : playerOrFake);
+            this._playersTurnState.Add(player);
 
             if (this._playersTurnState.Count >= GameManager.Instance.Players.Count)
             {
