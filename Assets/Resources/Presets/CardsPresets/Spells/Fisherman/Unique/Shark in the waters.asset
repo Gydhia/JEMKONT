@@ -23,7 +23,7 @@ MonoBehaviour:
     SerializationNodes:
     - Name: UID
       Entry: 2
-      Data: 00000000000000000000000000000000
+      Data: a5ddab69a90994b2a0a3808c35cc2a45
     - Name: Spells
       Entry: 7
       Data: 0|DownBelow.Spells.Spell[], Assembly-CSharp
@@ -48,15 +48,18 @@ MonoBehaviour:
     - Name: ContextActionId
       Entry: 2
       Data: 00000000000000000000000000000000
-    - Name: Cost
-      Entry: 3
-      Data: 0
     - Name: Data
       Entry: 7
       Data: 2|DownBelow.Spells.SpellData, Assembly-CSharp
     - Name: RequiresTargetting
       Entry: 5
       Data: false
+    - Name: SpellResultTargeting
+      Entry: 5
+      Data: false
+    - Name: SpellResultIndex
+      Entry: 3
+      Data: 0
     - Name: SpellShapeMatrix
       Entry: 7
       Data: 3|System.Boolean[,], mscorlib
@@ -290,6 +293,9 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 8
+      Data: 
+    - Name: SpellHeader
+      Entry: 6
       Data: 
     - Name: NCEHits
       Entry: 6

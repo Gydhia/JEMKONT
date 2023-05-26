@@ -23,7 +23,7 @@ MonoBehaviour:
     SerializationNodes:
     - Name: UID
       Entry: 2
-      Data: 00000000000000000000000000000000
+      Data: 5fa2bb963f32bc3f368efa1b2549656a
     - Name: Spells
       Entry: 7
       Data: 0|DownBelow.Spells.Spell[], Assembly-CSharp
@@ -48,9 +48,6 @@ MonoBehaviour:
     - Name: ContextActionId
       Entry: 2
       Data: 00000000000000000000000000000000
-    - Name: Cost
-      Entry: 3
-      Data: 0
     - Name: Data
       Entry: 7
       Data: 2|DownBelow.Spells.SpellData, Assembly-CSharp
@@ -166,17 +163,17 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: RotatedShapeMatrix
-      Entry: 6
-      Data: 
+      Entry: 9
+      Data: 3
     - Name: RotatedShapePosition
       Entry: 7
       Data: UnityEngine.Vector2, UnityEngine.CoreModule
     - Name: 
       Entry: 4
-      Data: 0
+      Data: 2
     - Name: 
       Entry: 4
-      Data: 0
+      Data: 2
     - Name: 
       Entry: 8
       Data: 
