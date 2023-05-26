@@ -15,14 +15,17 @@ namespace DownBelow.Spells
             base.ExecuteAction();
 
             GetTargets(TargetCell);
-
-            foreach (CharacterEntity target in Result.TargetedCells.FindAll(x => x.EntityIn != null).Select(x => x.EntityIn))
+            var targets = Result.TargetedCells.FindAll(x => x.EntityIn != null).Select(x => x.EntityIn);
+            if(targets != null)
             {
-                target.ApplyStat(LocalData.Statistic,
-                    LocalData.StatAmount * (LocalData.IsNegativeEffect ?  -1 : 1));
+                foreach (CharacterEntity target in targets)
+                {
+                    target.ApplyStat(LocalData.Statistic,
+                        LocalData.StatAmount * (LocalData.IsNegativeEffect ? -1 : 1));
+                }
             }
 
-            ExecuteAction();
+            EndAction();
         }
     }
 }

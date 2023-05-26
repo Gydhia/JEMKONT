@@ -48,15 +48,18 @@ MonoBehaviour:
     - Name: ContextActionId
       Entry: 2
       Data: 00000000000000000000000000000000
-    - Name: Cost
-      Entry: 3
-      Data: 0
     - Name: Data
       Entry: 7
       Data: 2|DownBelow.Spells.SpellData_Stats, Assembly-CSharp
     - Name: RequiresTargetting
       Entry: 5
       Data: true
+    - Name: SpellResultTargeting
+      Entry: 5
+      Data: false
+    - Name: SpellResultIndex
+      Entry: 3
+      Data: 0
     - Name: SpellShapeMatrix
       Entry: 7
       Data: 3|System.Boolean[,], mscorlib
@@ -468,6 +471,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: SpellHeader
+      Entry: 6
+      Data: 
     - Name: NCEHits
       Entry: 6
       Data: 
@@ -507,15 +513,18 @@ MonoBehaviour:
     - Name: ContextActionId
       Entry: 2
       Data: 00000000000000000000000000000000
-    - Name: Cost
-      Entry: 3
-      Data: 0
     - Name: Data
       Entry: 7
       Data: 6|DownBelow.Spells.SpellData_Alteration, Assembly-CSharp
     - Name: RequiresTargetting
       Entry: 5
       Data: false
+    - Name: SpellResultTargeting
+      Entry: 5
+      Data: false
+    - Name: SpellResultIndex
+      Entry: 3
+      Data: 0
     - Name: SpellShapeMatrix
       Entry: 7
       Data: 7|System.Boolean[,], mscorlib
@@ -771,6 +780,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: SpellHeader
+      Entry: 6
+      Data: 
     - Name: NCEHits
       Entry: 6
       Data: 
@@ -801,8 +813,7 @@ MonoBehaviour:
   Title: Scrap Metal
   Cost: 1
   CardType: 1
-  Description: Destroy a non character entity, receive armor for 2 turns. A TESTER
-    QUAND ON EST SUR LA MEME CASE QUE LA NCE.
+  Description: Destroy a non character entity, receive X armor for 2 turns.
   IllustrationImage: {fileID: 21300000, guid: 8b2ecdef46eb36a49be127947f43349c, type: 3}
   Class: 0
   CurrentSpellTargetting: 0

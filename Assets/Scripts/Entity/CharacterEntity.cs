@@ -648,7 +648,7 @@ namespace DownBelow.Entity
                 Result.TeleportedTo.Add(cellToTP.EntityIn);
             }
 
-            if (cellToTP.Datas.state != CellState.Walkable)
+            if (cellToTP.Datas.state == CellState.Walkable)
             {
                 transform.position = cellToTP.gameObject.transform.position;
 
@@ -676,7 +676,7 @@ namespace DownBelow.Entity
                 Result.TeleportedTo.Add(cellToTP.EntityIn);
             }
 
-            if (cellToTP.Datas.state != CellState.Walkable)
+            if (cellToTP.Datas.state == CellState.Walkable)
             {
                 transform.position = cellToTP.gameObject.transform.position;
 

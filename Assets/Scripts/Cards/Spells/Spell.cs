@@ -64,6 +64,7 @@ namespace DownBelow.Spells
 
         public override async void ExecuteAction()
         {
+            Debug.LogWarning($"Executing spell {CardsManager.Instance.ScriptableCards[this.SpellHeader.RefCard].Title}");
             if(this.ParentSpell == null)
             {
                 this.RefEntity.ApplyStat(EntityStatistics.Mana, -CardsManager.Instance.ScriptableCards[SpellHeader.RefCard].Cost);
@@ -108,9 +109,11 @@ namespace DownBelow.Spells
         {
             if (Data.SpellResultTargeting)
             {
-                TargetEntities.AddRange(GetSpellFromIndex(Data.SpellResultIndex).TargetEntities);
-            }
-            if (this.Data.RequiresTargetting)
+                var spell = GetSpellFromIndex(Data.SpellResultIndex);
+                TargetEntities = spell.TargetEntities;
+                TargetedCells = spell.TargetedCells;
+                return TargetEntities;
+            } else if (this.Data.RequiresTargetting)
             {
                 TargetedCells = GridUtility.TransposeShapeToCells(ref Data.RotatedShapeMatrix, cellTarget, Data.RotatedShapePosition);
                 NCEHits = TargetedCells
@@ -150,13 +153,14 @@ namespace DownBelow.Spells
             int thisIndex = GetSpellIndex();
             if (index > thisIndex)
             {
+                Debug.LogError("COULD NOT FIND RELATIVE SPELL RESULT (demande a thomas)");
                 return null;
             } else if (index == thisIndex)
             {
                 return this;
             } else
             {
-                if(ParentSpell.GetSpellIndex() == index)
+                if (ParentSpell.GetSpellIndex() == index)
                 {
                     Debug.Log($"Fetched the result of the spell {this}!");
                     return ParentSpell;

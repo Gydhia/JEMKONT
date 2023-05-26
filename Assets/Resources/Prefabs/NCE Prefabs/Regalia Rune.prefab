@@ -45,6 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 236868ed257d63f42b4c2f6056357801, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AffectingState: 1
+  AttachedCell: {fileID: 0}
   range: 3
   ArmorBoost: 2
 --- !u!1 &7394777883758294691

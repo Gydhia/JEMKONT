@@ -156,7 +156,7 @@ namespace DownBelow.UI
 
         private void UnHover()
         {
-            Debug.Log("Unhovered : " + this.name);
+            Debug.Log("Unhovered : " + this.CardReference.name);
             this.m_RectTransform.DOAnchorPosY(HoveredCard._spawnPosition.y - 175f, 0.3f);
         }
 

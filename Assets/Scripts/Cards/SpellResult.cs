@@ -40,6 +40,7 @@ namespace DownBelow.Spells
             this.SpellRef = spellRef;
             this._targets = targets;
             this.Subscribe(this._targets, this.SpellRef.RefEntity);
+            TargetedCells = new();
 
             spellRef.RefEntity.SubToSpell(this);
         }

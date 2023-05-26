@@ -11,6 +11,11 @@ public class UICardsHolder : SerializedMonoBehaviour
 
     public Dictionary<PileType, UICardsPile> Piles;
 
+    public int PileSize(PileType type)
+    {
+        return Piles[type].Cards.Count;
+    }
+
     public void MoveCard(PileType FromPile, PileType ToPile, DraggableCard RefCard, bool drawed = true)
     {
         this.MoveCard(FromPile, ToPile, this.Piles[FromPile].Cards.IndexOf(RefCard), drawed);

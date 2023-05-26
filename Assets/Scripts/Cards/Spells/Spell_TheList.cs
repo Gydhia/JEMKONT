@@ -18,7 +18,7 @@ namespace DownBelow.Spells
             foreach(var target in TargetEntities)
             {
                 ((PlayerBehavior)RefEntity).theList++;
-                target.ApplyStat(EntityStatistics.Health, 2 * ((PlayerBehavior)RefEntity).theList);
+                target.ApplyStat(EntityStatistics.Health, -2 * ((PlayerBehavior)RefEntity).theList);
             }
             EndAction();
         }

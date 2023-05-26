@@ -1,6 +1,7 @@
 using DownBelow.Entity;
 using DownBelow.Events;
 using DownBelow.GridSystem;
+using DownBelow.Spells;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Photon.Pun;
@@ -285,9 +286,15 @@ namespace DownBelow.Managers
             if (CombatActionsBuffer.Count > 0)
             {
                 IsUsingCombatBuffer = true;
+                try
+                {
+                    CombatActionsBuffer[0].SetCallback(_executeNextFromCombatBufferDelayed);
+                    CombatActionsBuffer[0].ExecuteAction();
+                } catch
+                {
+                    CombatActionsBuffer[0].EndAction();
+                }
 
-                CombatActionsBuffer[0].SetCallback(_executeNextFromCombatBufferDelayed);
-                CombatActionsBuffer[0].ExecuteAction();
             } 
             else
                 IsUsingCombatBuffer = false;
@@ -326,6 +333,7 @@ namespace DownBelow.Managers
             if (action.RefEntity.CurrentGrid.IsCombatGrid)
             {
                 //If the entity is on a combat grid,simply queue the action and do it whenever it's your turn.
+              
                 CombatActionsBuffer.Add(action);
                 action.RefBuffer = CombatActionsBuffer;
 

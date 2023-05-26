@@ -17,11 +17,14 @@ namespace DownBelow.Spells
             base.ExecuteAction();
 
             GetTargets(TargetCell);
-
-            foreach (CharacterEntity target in Result.TargetedCells.FindAll(x => x.EntityIn != null).Select(x => x.EntityIn))
-            {
-                target.SmartTeleport(RefEntity.EntityCell, Result);
+            var targets = Result.TargetedCells.FindAll(x => x.EntityIn != null).Select(x => x.EntityIn);
+            if(targets != null) {
+                foreach (CharacterEntity target in targets)
+                {
+                    target.SmartTeleport(RefEntity.EntityCell, Result);
+                }
             }
+            
 
             EndAction();
         }

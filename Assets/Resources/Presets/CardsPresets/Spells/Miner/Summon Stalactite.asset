@@ -25,7 +25,7 @@ MonoBehaviour:
     SerializationNodes:
     - Name: UID
       Entry: 2
-      Data: 018ec1a6db3ce509de648744be4245fa
+      Data: fd997e258acf0ba4c6df74b26a97f853
     - Name: Spells
       Entry: 7
       Data: 0|DownBelow.Spells.Spell[], Assembly-CSharp
@@ -50,15 +50,18 @@ MonoBehaviour:
     - Name: ContextActionId
       Entry: 2
       Data: 00000000000000000000000000000000
-    - Name: Cost
-      Entry: 3
-      Data: 0
     - Name: Data
       Entry: 7
       Data: 2|DownBelow.Spells.SpellData_Summon, Assembly-CSharp
     - Name: RequiresTargetting
       Entry: 5
       Data: true
+    - Name: SpellResultTargeting
+      Entry: 5
+      Data: false
+    - Name: SpellResultIndex
+      Entry: 3
+      Data: 0
     - Name: SpellShapeMatrix
       Entry: 7
       Data: 3|System.Boolean[,], mscorlib
@@ -464,6 +467,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: SpellHeader
+      Entry: 6
+      Data: 
     - Name: NCEHits
       Entry: 6
       Data: 
@@ -503,15 +509,18 @@ MonoBehaviour:
     - Name: ContextActionId
       Entry: 2
       Data: 00000000000000000000000000000000
-    - Name: Cost
-      Entry: 3
-      Data: 0
     - Name: Data
       Entry: 7
       Data: 6|DownBelow.Spells.SpellData_Summon, Assembly-CSharp
     - Name: RequiresTargetting
       Entry: 5
       Data: true
+    - Name: SpellResultTargeting
+      Entry: 5
+      Data: false
+    - Name: SpellResultIndex
+      Entry: 3
+      Data: 0
     - Name: SpellShapeMatrix
       Entry: 7
       Data: 7|System.Boolean[,], mscorlib
@@ -917,6 +926,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: SpellHeader
+      Entry: 6
+      Data: 
     - Name: NCEHits
       Entry: 6
       Data: 
@@ -956,15 +968,18 @@ MonoBehaviour:
     - Name: ContextActionId
       Entry: 2
       Data: 00000000000000000000000000000000
-    - Name: Cost
-      Entry: 3
-      Data: 0
     - Name: Data
       Entry: 7
       Data: 10|DownBelow.Spells.SpellData_Summon, Assembly-CSharp
     - Name: RequiresTargetting
       Entry: 5
       Data: true
+    - Name: SpellResultTargeting
+      Entry: 5
+      Data: false
+    - Name: SpellResultIndex
+      Entry: 3
+      Data: 0
     - Name: SpellShapeMatrix
       Entry: 7
       Data: 11|System.Boolean[,], mscorlib
@@ -1369,6 +1384,9 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 8
+      Data: 
+    - Name: SpellHeader
+      Entry: 6
       Data: 
     - Name: NCEHits
       Entry: 6
