@@ -64,7 +64,10 @@ namespace DownBelow.Spells
 
         public override async void ExecuteAction()
         {
-            this.RefEntity.ApplyStat(EntityStatistics.Mana, -CardsManager.Instance.ScriptableCards[SpellHeader.RefCard].Cost);
+            if(this.ParentSpell == null)
+            {
+                this.RefEntity.ApplyStat(EntityStatistics.Mana, -CardsManager.Instance.ScriptableCards[SpellHeader.RefCard].Cost);
+            }
 
             if (!this.ValidateConditions())
             {
