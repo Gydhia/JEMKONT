@@ -64,6 +64,7 @@ namespace DownBelow.Spells
 
         public override async void ExecuteAction()
         {
+            Debug.LogWarning($"Executing spell {CardsManager.Instance.ScriptableCards[this.SpellHeader.RefCard].Title}");
             this.RefEntity.ApplyStat(EntityStatistics.Mana, -CardsManager.Instance.ScriptableCards[SpellHeader.RefCard].Cost);
 
             if (!this.ValidateConditions())

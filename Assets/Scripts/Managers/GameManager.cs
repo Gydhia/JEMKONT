@@ -1,6 +1,7 @@
 using DownBelow.Entity;
 using DownBelow.Events;
 using DownBelow.GridSystem;
+using DownBelow.Spells;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Photon.Pun;
@@ -287,6 +288,7 @@ namespace DownBelow.Managers
             if (action.RefEntity.CurrentGrid.IsCombatGrid)
             {
                 //If the entity is on a combat grid,simply queue the action and do it whenever it's your turn.
+              
                 CombatActionsBuffer.Add(action);
                 action.RefBuffer = CombatActionsBuffer;
 

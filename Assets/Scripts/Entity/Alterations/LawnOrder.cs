@@ -21,8 +21,11 @@ namespace DownBelow.Spells.Alterations
 
         private void Draw(Events.GameEventData Data)
         {
-            SettingsManager.Instance.CombatPreset.MaxCardsInHand - characterHasToDraw.;
-            characterHasToDraw.Deck.DrawCard();
+            int max = characterHasToDraw.Deck.RefCardsHolder.Piles[PileType.Hand].MaxStackedCards - characterHasToDraw.Deck.RefCardsHolder.PileSize(PileType.Hand);
+            for (int i = 0;i < max;i++)
+            {
+                characterHasToDraw.Deck.DrawCard();
+            }
         }
     }
 }
