@@ -34,3 +34,4 @@ MonoBehaviour:
   Class: 2
   ActualPlayer: {fileID: 0}
   ToolRefColor: {r: 0.4627451, g: 0.33333334, b: 0.16862746, a: 1}
+  FightIcon: {fileID: 21300000, guid: bb995704ea6308046b24acadce7aab33, type: 3}

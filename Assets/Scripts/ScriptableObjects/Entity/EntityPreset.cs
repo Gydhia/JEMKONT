@@ -15,6 +15,8 @@ public class EntityPreset : BaseSpawnablePreset
 
     public EntityStats Statistics;
 
+    public Sprite EntityIcon;
+
     public override void Init(Cell attachedCell)
     {
         EnemyEntity newEntity = Instantiate(this.Entity, attachedCell.WorldPosition, Quaternion.identity, attachedCell.RefGrid.transform) as EnemyEntity;
@@ -24,6 +26,7 @@ public class EntityPreset : BaseSpawnablePreset
         newEntity.Init(attachedCell, attachedCell.RefGrid, attachedCell.PositionInGrid.longitude);
         newEntity.SetStatistics(this.Statistics);
         newEntity.gameObject.SetActive(false);
+        newEntity.EntitySprite = EntityIcon;
 
         attachedCell.RefGrid.GridEntities.Add(newEntity);
     }

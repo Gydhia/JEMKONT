@@ -29,3 +29,4 @@ MonoBehaviour:
   Entity: {fileID: 4121417982332470165, guid: 5a5800351f3f8a942aa4db4f9fdebc57, type: 3}
   IsPNJ: 0
   Statistics: {fileID: 11400000, guid: fe0044797eff9f54098ff0e0f69b9a43, type: 2}
+  EntityIcon: {fileID: 21300000, guid: a02d4de8e58492a4b8469c0ee18f0abe, type: 3}

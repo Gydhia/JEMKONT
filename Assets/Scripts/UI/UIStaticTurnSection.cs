@@ -12,7 +12,6 @@ namespace DownBelow.UI
     public class UIStaticTurnSection : MonoBehaviour
     {
         public Sprite AllySprite;
-        public Sprite EnemySprite;
         // The item to instantiate
         public GameObject SpritePrefab;
         // The parent of the entities
@@ -36,11 +35,11 @@ namespace DownBelow.UI
                 Sprite weapon = null;
                 if (CombatManager.Instance.PlayingEntities[i] is PlayerBehavior player)
                 {
-                    weapon = player.ActiveTool.InventoryIcon;
+                    weapon = player.ActiveTool.FightIcon;
                 }
                 
                 this.CombatEntities.Add(Instantiate(this.SpritePrefab, this.EntitiesHolder, CombatManager.Instance.PlayingEntities[i]).GetComponent<EntitySprite>());
-                this.CombatEntities[i].Init(CombatManager.Instance.PlayingEntities[i].IsAlly ? AllySprite : EnemySprite, i > 0, weapon);
+                this.CombatEntities[i].Init(CombatManager.Instance.PlayingEntities[i].IsAlly ? AllySprite : CombatManager.Instance.PlayingEntities[i].EntitySprite, i <= 0, weapon);
 
             }
 
