@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c24d5ac1331fdca479c3c82f04555faf, type: 3}
-  m_Name: Seed by Seed
+  m_Name: Seed By Seed
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: 25908b71dba0f9b45b8ab07283eb6f6a, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -23,7 +24,7 @@ MonoBehaviour:
     SerializationNodes:
     - Name: UID
       Entry: 2
-      Data: 834d6056870ead1c8d4e3366ebe9a6e6
+      Data: c173db1ac0788d51fa39e34c2df2c901
     - Name: Spells
       Entry: 7
       Data: 0|DownBelow.Spells.Spell[], Assembly-CSharp
@@ -32,7 +33,7 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 7
-      Data: 1|DownBelow.Spells.Spell_Log, Assembly-CSharp
+      Data: 1|DownBelow.Spells.Spell_DrawCard, Assembly-CSharp
     - Name: ID
       Entry: 2
       Data: 00000000000000000000000000000000
@@ -50,10 +51,10 @@ MonoBehaviour:
       Data: 00000000000000000000000000000000
     - Name: Data
       Entry: 7
-      Data: 2|DownBelow.Spells.SpellData, Assembly-CSharp
+      Data: 2|DownBelow.Spells.SpellData_Card, Assembly-CSharp
     - Name: RequiresTargetting
       Entry: 5
-      Data: true
+      Data: false
     - Name: SpellResultTargeting
       Entry: 5
       Data: false
@@ -63,6 +64,123 @@ MonoBehaviour:
     - Name: SpellShapeMatrix
       Entry: 7
       Data: 3|System.Boolean[,], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 25
+    - Name: ranks
+      Entry: 1
+      Data: 5|5
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: ShapePosition
+      Entry: 7
+      Data: UnityEngine.Vector2, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 2
+    - Name: 
+      Entry: 4
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: RotatedShapeMatrix
+      Entry: 6
+      Data: 
+    - Name: RotatedShapePosition
+      Entry: 7
+      Data: UnityEngine.Vector2, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: CastingMatrix
+      Entry: 7
+      Data: 4|System.Boolean[,], mscorlib
     - Name: 
       Entry: 12
       Data: 25
@@ -150,36 +268,6 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: ShapePosition
-      Entry: 7
-      Data: UnityEngine.Vector2, UnityEngine.CoreModule
-    - Name: 
-      Entry: 4
-      Data: 2
-    - Name: 
-      Entry: 4
-      Data: 2
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: RotatedShapeMatrix
-      Entry: 6
-      Data: 
-    - Name: RotatedShapePosition
-      Entry: 7
-      Data: UnityEngine.Vector2, UnityEngine.CoreModule
-    - Name: 
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: CastingMatrix
-      Entry: 6
-      Data: 
     - Name: CasterPosition
       Entry: 7
       Data: UnityEngine.Vector2, UnityEngine.CoreModule
@@ -204,6 +292,12 @@ MonoBehaviour:
     - Name: CellSFX
       Entry: 6
       Data: 
+    - Name: SpecificCard
+      Entry: 10
+      Data: 0
+    - Name: DrawNumber
+      Entry: 3
+      Data: 3
     - Name: 
       Entry: 8
       Data: 
@@ -237,10 +331,10 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  Title: Seed by Seed
+  Title: Seed By Seed
   Cost: 1
-  CardType: 1
-  Description: Create 3 cards in hand that each deal X damage.
+  CardType: 3
+  Description: Create 3 cards in hand that each deal damage.
   IllustrationImage: {fileID: 21300000, guid: b20dd82b6b9f5164fa33b6690be5e098, type: 3}
   Class: 2
   CurrentSpellTargetting: 0
