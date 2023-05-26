@@ -90,7 +90,11 @@ namespace DownBelow.UI
                 GameManager.SelfPlayer.FireMissingMana();
                 return;
             }
-                
+
+            if (!GameManager.SelfPlayer.IsPlayingEntity)
+            {
+                return;
+            }
 
             // Forbid the card drag if currently using another one
             if (HoveredCard == this && SelectedCard == null && !this._isDestroying)
