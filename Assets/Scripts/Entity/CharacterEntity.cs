@@ -118,6 +118,8 @@ namespace DownBelow.Entity
         public bool IsMoving = false;
 
         public Cell _entityCell;
+
+        public Sprite EntitySprite;
         public Cell EntityCell
         {
             get { return this._entityCell; }

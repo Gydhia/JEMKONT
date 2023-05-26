@@ -13,7 +13,7 @@ public class ToolItem : ItemPreset
     public EClass Class;
     public PlayerBehavior ActualPlayer;
     public Color ToolRefColor;
-
+    public Sprite FightIcon;
     public virtual void WorldAction() 
     {
         switch (Class) {
