@@ -24,7 +24,7 @@ MonoBehaviour:
     SerializationNodes:
     - Name: UID
       Entry: 2
-      Data: 00000000000000000000000000000000
+      Data: 229aab96d84b69a6b17231d5db29d240
     - Name: Spells
       Entry: 7
       Data: 0|DownBelow.Spells.Spell[], Assembly-CSharp
@@ -49,15 +49,18 @@ MonoBehaviour:
     - Name: ContextActionId
       Entry: 2
       Data: 00000000000000000000000000000000
-    - Name: Cost
-      Entry: 3
-      Data: 0
     - Name: Data
       Entry: 7
       Data: 2|DownBelow.Spells.SpellData_Summon, Assembly-CSharp
     - Name: RequiresTargetting
       Entry: 5
       Data: false
+    - Name: SpellResultTargeting
+      Entry: 5
+      Data: false
+    - Name: SpellResultIndex
+      Entry: 3
+      Data: 0
     - Name: SpellShapeMatrix
       Entry: 7
       Data: 3|System.Boolean[,], mscorlib
@@ -496,6 +499,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: SpellHeader
+      Entry: 6
+      Data: 
     - Name: NCEHits
       Entry: 6
       Data: 
@@ -526,7 +532,8 @@ MonoBehaviour:
   Title: Koi Pond
   Cost: 1
   CardType: 1
-  Description: 
+  Description: Select a tile, for 3 turns, everyone stepping on it will be teleported
+    to a random tile.
   IllustrationImage: {fileID: 21300000, guid: bb18c765cbbb4a941897b36b6ce82a66, type: 3}
   Class: 3
   CurrentSpellTargetting: 0

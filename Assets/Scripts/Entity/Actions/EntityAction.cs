@@ -31,7 +31,7 @@ namespace DownBelow.Entity
         public Guid ContextActionId;
         protected EntityAction contextAction;
 
-        protected List<Action> EndCallbacks = new List<Action>();
+        protected List<Action> EndCallbacks;
 
         public virtual bool AllowedToProcess() { return true; }
 
@@ -40,10 +40,13 @@ namespace DownBelow.Entity
             this.RefEntity = RefEntity;
             this.TargetCell = TargetCell;
             this.ID = Guid.NewGuid();
+            this.EndCallbacks = new List<Action>();
         }
 
         public void SetCallback(Action EndCallback)
         {
+            this.EndCallbacks ??= new List<Action>();
+
             this.EndCallbacks.Add(EndCallback);
         }
 

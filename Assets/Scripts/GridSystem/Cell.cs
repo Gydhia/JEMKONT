@@ -43,6 +43,7 @@ namespace DownBelow.GridSystem
             }
         }
         public Interactable AttachedInteract;
+        public bool IsPlacementCell = false;
 
         public GridPosition PositionInGrid => new GridPosition(this.Datas.widthPos, this.Datas.heightPos);
         public Vector3 WorldPosition => this.gameObject.transform.position;
@@ -111,8 +112,8 @@ namespace DownBelow.GridSystem
                 int qtyRemainingInItem = ItemContained.Quantity;
                 if (ItemContained.ItemPreset is ToolItem toolItem)
                 {
-                    qtyRemainingInItem -= player.PlayerSpecialSlot.TryAddItem(ItemContained.ItemPreset, ItemContained.Quantity);
-                    player.ActiveTool = toolItem;
+                    qtyRemainingInItem -= player.PlayerSpecialSlots.TryAddItem(ItemContained.ItemPreset, ItemContained.Quantity);
+                    player.SetActiveTool(toolItem);
                 } else
                 {
                     qtyRemainingInItem -= player.PlayerInventory.TryAddItem(ItemContained.ItemPreset, ItemContained.Quantity);

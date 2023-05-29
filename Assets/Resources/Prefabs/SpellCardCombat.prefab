@@ -238,7 +238,6 @@ MonoBehaviour:
   IsDragged: 0
   PinnedToScreen: 0
   PinnedLeft: 0
-  PinnedForMultipleActions: 0
 --- !u!114 &3441320804725292703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -586,7 +585,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 812b7fac79a9238449779d722f6f841f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9b4ecb82c640ec740b1c7ec13040b83c, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1

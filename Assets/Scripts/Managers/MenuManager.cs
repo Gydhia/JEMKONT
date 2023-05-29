@@ -29,6 +29,9 @@ namespace DownBelow.Managers
 
         public GameObject PopupHolders;
 
+        public MenuPopup_Lobby UILobby;
+        public MenuPopup_Room UIRoom;
+
         private Dictionary<MenuPopup, BaseMenuPopup> _menuPopups;
         public MenuPopup LastPopup;
         private List<MenuPopup> _popupBuffer = new List<MenuPopup>();

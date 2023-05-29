@@ -1,31 +1,42 @@
 using DownBelow.Entity;
 using DownBelow.Events;
 using DownBelow.GridSystem;
+using DownBelow.Spells;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Photon.Pun;
+using Photon.Realtime;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Sirenix.Utilities;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace DownBelow.Managers
 {
+    public enum LevelName
+    {
+        MainMenu,
+        FarmLand,
+        
+    }
+
     public class GameManager : _baseManager<GameManager>
     {
         #region EVENTS
-        public event GameEventData.Event OnPlayersWelcomed;
+        public event GameEventData.Event OnGameStarted;
 
         public event EntityEventData.Event OnEnteredGrid;
         public event EntityEventData.Event OnExitingGrid;
+        public event EntityEventData.Event OnSelfPlayerSwitched;
 
-        public void FirePlayersWelcomed()
+        public void FireGameStarted()
         {
-            this.OnPlayersWelcomed?.Invoke(new());
+            this.OnGameStarted?.Invoke(new());
         }
 
         public void FireEntityEnteredGrid(string entityID)
@@ -45,15 +56,29 @@ namespace DownBelow.Managers
         {
             OnExitingGrid?.Invoke(new EntityEventData(entity));
         }
+        public void FireSelfPlayerSwitched(PlayerBehavior player, int oldIndex, int newIndex)
+        {
+            SelfPlayer.SelectedIndicator.gameObject.SetActive(false);
+            SelfPlayer = player != null ? player : RealSelfPlayer;
+            SelfPlayer.SelectedIndicator.gameObject.SetActive(true);
+
+            OnSelfPlayerSwitched?.Invoke(new EntityEventData(SelfPlayer, oldIndex, newIndex));
+        }
         #endregion
 
         public string SaveName;
-
-        [SerializeField]
-        private PlayerBehavior _playerPrefab;
+        public PlayerBehavior PlayerPrefab;
 
         public Dictionary<string, PlayerBehavior> Players;
-        public PlayerBehavior SelfPlayer;
+        /// <summary>
+        /// The local player or its current FakePlayer
+        /// </summary>
+        public static PlayerBehavior SelfPlayer;
+        /// <summary>
+        /// The local player
+        /// </summary>
+        public static PlayerBehavior RealSelfPlayer { get { return SelfPlayer.IsFake ? SelfPlayer.Owner : SelfPlayer; } }
+
 
         public ItemPreset[] GameItems;
 
@@ -61,12 +86,14 @@ namespace DownBelow.Managers
 
         #region Players_Actions_Buffer
 
-        public static List<EntityAction> CombatActionsBuffer = new List<EntityAction>();
         public static Dictionary<CharacterEntity, List<EntityAction>> NormalActionsBuffer =
             new Dictionary<CharacterEntity, List<EntityAction>>();
+        public static Dictionary<CharacterEntity, bool> IsUsingNormalBuffer =
+            new Dictionary<CharacterEntity, bool>();
 
+        public static List<EntityAction> CombatActionsBuffer = new List<EntityAction>();
         public static bool IsUsingCombatBuffer = false;
-        public static bool IsUsingNormalBuffer = false;
+        
 
         #endregion
 
@@ -83,6 +110,9 @@ namespace DownBelow.Managers
             if(MenuManager.Instance != null)
                 MenuManager.Instance.Init();
 
+            if (CombatManager.Instance != null)
+                CombatManager.Instance.Init();
+
             if (UIManager.Instance != null)
                 UIManager.Instance.Init();
 
@@ -91,6 +121,9 @@ namespace DownBelow.Managers
 
             if (GridManager.Instance != null)
                 GridManager.Instance.Init();
+            
+            if(AnalyticsManager.Instance != null)
+                AnalyticsManager.Instance.Init();
 
 
             if(GameData.Game.RefGameDataContainer != null)
@@ -117,6 +150,8 @@ namespace DownBelow.Managers
             {
                 WelcomePlayers();
             }
+            
+            AnalyticsManager.Instance.SendEventPlayerPerLobbyEvent(PhotonNetwork.PlayerList.Length);
         }
 
         public void WelcomePlayerLately()
@@ -135,25 +170,29 @@ namespace DownBelow.Managers
                 int counter = 0;
                 foreach (var player in PhotonNetwork.PlayerList)
                 {
-                    PlayerBehavior newPlayer = Instantiate(this._playerPrefab, Vector3.zero, Quaternion.identity, this.transform);
+                    PlayerBehavior newPlayer = Instantiate(this.PlayerPrefab, Vector3.zero, Quaternion.identity, this.transform);
                     //newPlayer.Deck = CardsManager.Instance.DeckPresets.Values.Single(d => d.Name == "TestDeck").Copy();
                  
-                    newPlayer.Init(SettingsManager.Instance.FishermanStats, GridManager.Instance.MainWorldGrid.Cells[spawnLocations.ElementAt(counter).latitude, spawnLocations.ElementAt(counter).longitude], GridManager.Instance.MainWorldGrid);
+                    newPlayer.Init(GridManager.Instance.MainWorldGrid.Cells[spawnLocations.ElementAt(counter).latitude, spawnLocations.ElementAt(counter).longitude], GridManager.Instance.MainWorldGrid);
                     // TODO: make it works with world grids
                     newPlayer.UID = player.UserId;
 
                     if (player.UserId == PhotonNetwork.LocalPlayer.UserId)
                     {
-                        this.SelfPlayer = newPlayer;
-                        CameraManager.Instance.AttachPlayerToCamera(this.SelfPlayer);
+                        SelfPlayer = newPlayer;
+                        CameraManager.Instance.AttachPlayerToCamera(SelfPlayer);
                     }
 
                     this.Players.Add(player.UserId, newPlayer);
+
+                    IsUsingNormalBuffer.Add(newPlayer, false);
+
                     counter++;
                 }
 
                 GameStarted = true;
-                this.FirePlayersWelcomed();
+                this.FireGameStarted();
+                NetworkManager.Instance.SelfLoadedGame();
             }
         }
 
@@ -171,6 +210,38 @@ namespace DownBelow.Managers
 
             CombatManager.Instance.OnCombatStarted += this._subscribeForCombatBuffer;
             CombatManager.Instance.OnCombatEnded -= _unsubscribeForCombatBuffer;
+
+            this._tryExitAllFromCombat();
+        }
+
+        private void _tryExitAllFromCombat()
+        {
+            CombatActionsBuffer.Clear();
+
+            NetworkManager.Instance.PlayerAskToLeaveCombat();
+        }
+
+        public void ExitAllFromCombat()
+        {
+            System.Guid spawnId = GridManager.Instance.SpawnablesPresets.First(k => k.Value is SpawnPreset).Key;
+
+            var spawnLocations = CombatManager.CurrentPlayingGrid.SelfData.SpawnablePresets.Where(k => k.Value == spawnId).Select(kv => kv.Key);
+            var worldGrid = CombatManager.CurrentPlayingGrid.ParentGrid;
+
+            int counter = 0;
+            foreach (var player in this.Players.Values)
+            {
+                player.FireExitedCell();
+                this.FireEntityExitingGrid(player.UID);
+
+                player.EnterNewGrid(worldGrid);
+
+                this.FireEntityEnteredGrid(player.UID);
+                var newCell = worldGrid.Cells[spawnLocations.ElementAt(counter).latitude, spawnLocations.ElementAt(counter).longitude];
+                player.FireEnteredCell(newCell);
+                
+                counter++;
+            }
         }
 
         #region DEBUG
@@ -223,9 +294,15 @@ namespace DownBelow.Managers
             if (CombatActionsBuffer.Count > 0)
             {
                 IsUsingCombatBuffer = true;
+                try
+                {
+                    CombatActionsBuffer[0].SetCallback(_executeNextFromCombatBufferDelayed);
+                    CombatActionsBuffer[0].ExecuteAction();
+                } catch
+                {
+                    CombatActionsBuffer[0].EndAction();
+                }
 
-                CombatActionsBuffer[0].SetCallback(_executeNextFromCombatBufferDelayed);
-                CombatActionsBuffer[0].ExecuteAction();
             } 
             else
                 IsUsingCombatBuffer = false;
@@ -235,13 +312,13 @@ namespace DownBelow.Managers
         {
             if (NormalActionsBuffer[refEntity].Count > 0)
             {
-                IsUsingNormalBuffer = true;
+                IsUsingNormalBuffer[refEntity] = true;
 
                 NormalActionsBuffer[refEntity][0].SetCallback(() => ExecuteNextNormalBuffer(refEntity));
                 NormalActionsBuffer[refEntity][0].ExecuteAction();
             } 
             else
-                IsUsingNormalBuffer = false;
+                IsUsingNormalBuffer[refEntity] = false;
         }
 
         public void BuffSpell(CardEventData Data)
@@ -249,17 +326,7 @@ namespace DownBelow.Managers
             if (!Data.Played)
                 return;
 
-            //string serializedSpell = JsonConvert.SerializeObject(Data.GeneratedSpells, Formatting.None,
-            //            new JsonSerializerSettings()
-            //            {
-            //                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-            //            });
-
-            //Spells.Spell[] spells = JsonConvert.DeserializeObject<Spells.Spell[]>(serializedSpell);
-
-
-            for (int i = 0; i < Data.GeneratedSpells.Length; i++)
-                this.BuffAction(Data.GeneratedSpells[i], false);
+            NetworkManager.Instance.EntityAskToBuffSpell(Data.GeneratedHeader);
         }
 
         /// <summary>
@@ -269,9 +336,12 @@ namespace DownBelow.Managers
         /// <param name="resetBuffer">If we empty all the buffer to only keep the passed action</param>
         public void BuffAction(EntityAction action, bool resetBuffer)
         {
+            Debug.Log("ENTITY : " + action.RefEntity + " | Buffing : " + action.GetAssemblyName());
+
             if (action.RefEntity.CurrentGrid.IsCombatGrid)
             {
                 //If the entity is on a combat grid,simply queue the action and do it whenever it's your turn.
+              
                 CombatActionsBuffer.Add(action);
                 action.RefBuffer = CombatActionsBuffer;
 
@@ -296,7 +366,7 @@ namespace DownBelow.Managers
                     if (NormalActionsBuffer[action.RefEntity].Count > 1)
                     {
                         // Hide everything but the first one that is being played
-                        if(action.RefEntity == this.SelfPlayer)
+                        if(action.RefEntity == SelfPlayer)
                             for (int i = 1; i < NormalActionsBuffer[action.RefEntity].Count; i++)
                                 PoolManager.Instance.CellIndicatorPool.HideActionIndicators(NormalActionsBuffer[action.RefEntity][i]);
 
@@ -308,11 +378,11 @@ namespace DownBelow.Managers
                 NormalActionsBuffer[action.RefEntity].Add(action);
                 action.RefBuffer = NormalActionsBuffer[action.RefEntity];
 
-                if (action.RefEntity == this.SelfPlayer)
+                if (action.RefEntity == SelfPlayer)
                     PoolManager.Instance.CellIndicatorPool.DisplayActionIndicators(action);
 
                 //Still don't know what that means
-                if (!IsUsingNormalBuffer)
+                if (!IsUsingNormalBuffer[action.RefEntity])
                     this.ExecuteNextNormalBuffer(action.RefEntity);
             }
         }
@@ -330,6 +400,7 @@ namespace DownBelow.Managers
         }
 
         #endregion
+
 
         #region SAVE
 

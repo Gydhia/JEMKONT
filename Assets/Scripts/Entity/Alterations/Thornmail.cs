@@ -32,7 +32,7 @@ namespace DownBelow.Spells.Alterations
         private void SpikeyDamage(Events.SpellEventData Data)
         {
             Debug.Log($"{Data.Entity.name} did damage to {this.Target} but they have spikey damage!");
-            NetworkManager.Instance.EntityAskToBuffAction(new Spell_Stats(new SpellData_Stats(true, EntityStatistics.Health, this.Target.Defense*multiplier), this.Target, Data.Entity.EntityCell, null, null, 0));
+            NetworkManager.Instance.EntityAskToBuffAction(new Spell_Stats(new SpellData_Stats(true, EntityStatistics.Health, this.Target.Defense*multiplier), this.Target, Data.Entity.EntityCell, null, null));
         }
     }
 

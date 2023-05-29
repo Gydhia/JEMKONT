@@ -8,7 +8,7 @@ namespace DownBelow.Spells
 {
     public class Spell_TeleportStoredToCaster : Spell<SpellData>
     {
-        public Spell_TeleportStoredToCaster(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, SpellCondition ConditionData, int Cost) : base(CopyData, RefEntity, TargetCell, ParentSpell, ConditionData, Cost)
+        public Spell_TeleportStoredToCaster(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, SpellCondition ConditionData) : base(CopyData, RefEntity, TargetCell, ParentSpell, ConditionData)
         {
         }
 
@@ -17,11 +17,14 @@ namespace DownBelow.Spells
             base.ExecuteAction();
 
             GetTargets(TargetCell);
-
-            foreach (CharacterEntity target in Result.TargetedCells.FindAll(x => x.EntityIn != null).Select(x => x.EntityIn))
-            {
-                target.Teleport(RefEntity.EntityCell, Result);
+            var targets = Result.TargetedCells.FindAll(x => x.EntityIn != null).Select(x => x.EntityIn);
+            if(targets != null) {
+                foreach (CharacterEntity target in targets)
+                {
+                    target.SmartTeleport(RefEntity.EntityCell, Result);
+                }
             }
+            
 
             EndAction();
         }

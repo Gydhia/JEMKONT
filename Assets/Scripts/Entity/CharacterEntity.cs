@@ -34,6 +34,8 @@ namespace DownBelow.Entity
         public event SpellEventData.Event OnRangeRemoved;
         public event SpellEventData.Event OnRangeAdded;
 
+        public event GameEventData.Event OnStatisticsChanged;
+
         public Action OnManaMissing;
 
         /// <summary>
@@ -52,8 +54,9 @@ namespace DownBelow.Entity
         public event GameEventData.Event OnTurnEnded;
         public event GameEventData.Event OnTryTakeDamage;
         public event GameEventData.Event OnDamageTaken;
-        public event GameEventData.Event OnDeath;
+        public event EntityEventData.Event OnDeath;
 
+        public event GameEventData.Event OnInited;
 
         public event CellEventData.Event OnEnteredCell;
         public event CellEventData.Event OnExitedCell;
@@ -63,11 +66,17 @@ namespace DownBelow.Entity
             OnManaMissing?.Invoke();
         }
 
+        public void FireEntityInited()
+        {
+            this.OnInited?.Invoke(null);
+        }
+
         public event SpellEventData.Event OnPushed;
         #endregion
         #region firingEvents
         public void FireExitedCell()
         {
+            this.EntityCell.Datas.state = CellState.Walkable;
             this.EntityCell.EntityIn = null;
 
             this.OnExitedCell?.Invoke(new CellEventData(this.EntityCell));
@@ -94,8 +103,6 @@ namespace DownBelow.Entity
 
         [OdinSerialize] public List<Alteration> Alterations = new();
 
-        public TextMeshProUGUI healthText;
-
         public int TurnOrder;
         public bool IsAlly = true;
 
@@ -111,6 +118,8 @@ namespace DownBelow.Entity
         public bool IsMoving = false;
 
         public Cell _entityCell;
+
+        public Sprite EntitySprite;
         public Cell EntityCell
         {
             get { return this._entityCell; }
@@ -132,6 +141,8 @@ namespace DownBelow.Entity
 
         public bool CanAutoAttack;
 
+        public GameObject PlayingIndicator;
+        public GameObject SelectedIndicator;
 
         #region alterationBooleans
 
@@ -216,30 +227,15 @@ namespace DownBelow.Entity
 
         public void Start()
         {
-            this.OnHealthAdded += UpdateUILife;
-            this.OnHealthRemoved += UpdateUILife;
-            this.OnHealthRemoved += AreYouAlive;
-
-            this.healthText.text = this.Health.ToString();
-        }
-
-        public void UpdateUILife(SpellEventData data)
-        {
-            int oldLife = int.Parse(this.healthText.text);
-            if (oldLife > this.Health)
+            // TODO : Move it from here later, and same for other indicators, but not a priority
+            this.PlayingIndicator.transform.DOMoveY(this.PlayingIndicator.transform.position.y - 0.5f, 1.5f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
+            if(this.SelectedIndicator != null)
             {
-                this.healthText.DOColor(Color.red, 0.4f).SetEase(Ease.OutQuad);
-                this.healthText.transform.DOShakeRotation(0.8f).SetEase(Ease.OutQuad).OnComplete(() =>
-                    this.healthText.DOColor(Color.white, 0.2f).SetEase(Ease.OutQuad));
-                this.healthText.text = this.Health.ToString();
-            } else
-            {
-                this.healthText.DOColor(Color.green, 0.4f).SetEase(Ease.OutQuad);
-                this.healthText.transform.DOPunchScale(Vector3.one * 1.3f, 0.8f).SetEase(Ease.OutQuad).OnComplete(() =>
-                    this.healthText.DOColor(Color.white, 0.2f).SetEase(Ease.OutQuad));
-                this.healthText.text = this.Health.ToString();
+                this.SelectedIndicator.transform.DOScale(0.13f, 1.5f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
             }
+            this.OnHealthRemoved += AreYouAlive;
         }
+        
 
         public void UpdateUIShield(SpellEventData data)
         {
@@ -301,6 +297,7 @@ namespace DownBelow.Entity
         public virtual void StartTurn()
         {
             this.IsPlayingEntity = true;
+            this.PlayingIndicator.SetActive(true);
 
             OnTurnBegun?.Invoke(new());
 
@@ -327,6 +324,7 @@ namespace DownBelow.Entity
                 Alter.Apply(this);
             }
 
+            this.PlayingIndicator.SetActive(false);
             this.IsPlayingEntity = false;
             OnTurnEnded?.Invoke(new());
         }
@@ -334,22 +332,28 @@ namespace DownBelow.Entity
 
         #region STATS
 
-        public virtual void Init(EntityStats stats, Cell refCell, WorldGrid refGrid, int order = 0)
+        public virtual void Init(Cell refCell, WorldGrid refGrid, int order = 0, bool isFake = false)
         {
             this.transform.position = refCell.WorldPosition;
             this.EntityCell = refCell;
             this.CurrentGrid = refGrid;
+        }
 
+        public virtual void SetStatistics(EntityStats stats)
+        {
             this.RefStats = stats;
-            this.Statistics = new Dictionary<EntityStatistics, int>();
+            this.Statistics = new Dictionary<EntityStatistics, int>
+            {
+                { EntityStatistics.MaxMana, stats.MaxMana },
+                { EntityStatistics.Health, stats.Health },
+                { EntityStatistics.Strength, stats.Strength },
+                { EntityStatistics.Speed, stats.Speed },
+                { EntityStatistics.Mana, stats.Mana },
+                { EntityStatistics.Defense, stats.Defense },
+                { EntityStatistics.Range, stats.Range }
+            };
 
-            this.Statistics.Add(EntityStatistics.MaxMana, stats.MaxMana);
-            this.Statistics.Add(EntityStatistics.Health, stats.Health);
-            this.Statistics.Add(EntityStatistics.Strength, stats.Strength);
-            this.Statistics.Add(EntityStatistics.Speed, stats.Speed);
-            this.Statistics.Add(EntityStatistics.Mana, stats.Mana);
-            this.Statistics.Add(EntityStatistics.Defense, stats.Defense);
-            this.Statistics.Add(EntityStatistics.Range, stats.Range);
+            this.OnStatisticsChanged?.Invoke(null);
         }
 
         public void ReinitializeAllStats()
@@ -555,7 +559,10 @@ namespace DownBelow.Entity
 
         public void AreYouAlive(SpellEventData data)
         {
-            if (this.Health <= 0) Die();
+            if (this.Health <= 0)
+            {
+                this.OnDeath?.Invoke(new EntityEventData(this));
+            }
         }
 
         public virtual void Die()
@@ -568,9 +575,16 @@ namespace DownBelow.Entity
                 Alterations.RemoveAt(0);
             }
 
-            //???
-            OnDeath?.Invoke(new());
-            Destroy(this.gameObject);
+            this.FireExitedCell();
+            StartCoroutine(_deathTime());
+        }
+
+        // TODO : temporary to wait for the player to die
+        private IEnumerator _deathTime(float delay = 2f)
+        {
+            yield return new WaitForSeconds(delay);
+
+            this.gameObject.SetActive(false);
         }
 
         #endregion
@@ -607,7 +621,13 @@ namespace DownBelow.Entity
 
         #endregion
 
-        public void Teleport(Cell TargetCell, SpellResult Result, bool triggerEvents = true)
+        /// <summary>
+        /// Tries to teleport the character entity to the target cell. If it's occupied, will try to teleport on neighbours.
+        /// if you don't want that behavior, try <c>Teleport()</c>.
+        /// </summary>
+        /// <param name="TargetCell"> the targeted cell.</param>
+        /// <param name="Result">If the teleportation is due to a spell, the spell result of the spell.</param>
+        public void SmartTeleport(Cell TargetCell, SpellResult Result = null)
         {
             var cellToTP = TargetCell;
 
@@ -622,18 +642,62 @@ namespace DownBelow.Entity
                 cellToTP = freeNeighbours[0];
             }
 
+            //If the teleportation is due to a spell, add it in the result.
             if (cellToTP.EntityIn != null && Result != null)
             {
                 Result.TeleportedTo.Add(cellToTP.EntityIn);
             }
 
-            transform.position = cellToTP.gameObject.transform.position;
+            if (cellToTP.Datas.state == CellState.Walkable)
+            {
+                transform.position = cellToTP.gameObject.transform.position;
 
-            FireExitedCell();
+                FireExitedCell();
 
-            EntityCell = cellToTP;
+                EntityCell = cellToTP;
 
-            FireEnteredCell(cellToTP);
+                FireEnteredCell(cellToTP);
+            }
+        }
+
+        /// <summary>
+        /// Tries to teleport the character entity to the target cell. If it's occupied, does not.
+        /// If you want a spell that can teleport closely to an occupied cell, try <c>SmartTeleport()</c>.
+        /// </summary>
+        /// <param name="TargetCell"> the targeted cell.</param>
+        /// <param name="Result">If the teleportation is due to a spell, the spell result of the spell.</param>
+        public void Teleport(Cell TargetCell, SpellResult Result = null)
+        {
+            var cellToTP = TargetCell;
+
+            //If the teleportation is due to a spell, add it in the result.
+            if (cellToTP.EntityIn != null && Result != null)
+            {
+                Result.TeleportedTo.Add(cellToTP.EntityIn);
+            }
+
+            if (cellToTP.Datas.state == CellState.Walkable)
+            {
+                transform.position = cellToTP.gameObject.transform.position;
+
+                FireExitedCell();
+
+                EntityCell = cellToTP;
+
+                FireEnteredCell(cellToTP);
+            }
+        }
+
+        private void OnDestroy()
+        {
+            if (this.EntityCell != null)
+            {
+                this.FireExitedCell();
+            }
+            if (this.CurrentGrid != null)
+            {
+                this.CurrentGrid.GridEntities.Remove(this);
+            }
         }
     }
 }

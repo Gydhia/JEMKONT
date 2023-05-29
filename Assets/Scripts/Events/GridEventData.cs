@@ -8,10 +8,12 @@ namespace DownBelow.Events
     public class GridEventData : EventData<GridEventData>
     {
         public WorldGrid Grid;
+        public bool AlliesVictory;
 
-        public GridEventData(WorldGrid Grid)
+        public GridEventData(WorldGrid Grid, bool AlliesVictory = false)
         {
             this.Grid = Grid;
+            this.AlliesVictory = AlliesVictory;
         }
     }
 }

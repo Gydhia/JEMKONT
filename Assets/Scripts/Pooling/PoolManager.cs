@@ -13,6 +13,7 @@ namespace DownBelow.Managers
         private void Start()
         {
             CellIndicatorPool.InitPool(20);
+            CellIndicatorPool.Init();
         }
     }
 }

@@ -128,3 +128,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15de398dced0d4444b3391ce0afbe424, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AffectingState: 1
+  AttachedCell: {fileID: 0}
+  StatAffected: 0
+  Value: 3
+  NumberOfDuplicates: 0

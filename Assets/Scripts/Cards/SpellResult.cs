@@ -5,6 +5,7 @@ using DownBelow.Spells.Alterations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace DownBelow.Spells
@@ -22,7 +23,7 @@ namespace DownBelow.Spells
         public event SpellEventData.Event OnDamageDealt;
         public event SpellEventData.Event OnHealReceived;
         public event SpellEventData.Event OnHealGiven;
-        public event SpellEventData.Event OnAlterationGiven;
+        public event SpellEventDataAlteration.Event OnAlterationGiven;
         /// <summary>
         /// Called whenever a spell modifies a stat. All info in data.
         /// </summary>
@@ -31,12 +32,15 @@ namespace DownBelow.Spells
         public List<Cell> TargetedCells;
         private List<CharacterEntity> _targets;
         public Spell SpellRef;
+        public CharacterEntity Caster;
 
         public virtual void Setup(List<CharacterEntity> targets, Spell spellRef)
         {
+            Caster = spellRef.RefEntity;
             this.SpellRef = spellRef;
             this._targets = targets;
             this.Subscribe(this._targets, this.SpellRef.RefEntity);
+            TargetedCells = new();
 
             spellRef.RefEntity.SubToSpell(this);
         }
@@ -53,7 +57,7 @@ namespace DownBelow.Spells
         {
             OnHealGiven?.Invoke(data);
         }
-        public void FireOnAlterationGiven(SpellEventData data)
+        public void FireOnAlterationGiven(SpellEventDataAlteration data)
         {
             OnAlterationGiven?.Invoke(data);
         }
@@ -82,7 +86,7 @@ namespace DownBelow.Spells
 
         public Dictionary<CharacterEntity, StatModification> StatModified;
         public Dictionary<EntityStatistics, int> SelfStatModified;
-        public Dictionary<CharacterEntity,Alteration> AlterationGiven;
+        public Dictionary<CharacterEntity,List<Alteration>> AlterationGiven;
 
         public List<CharacterEntity> TeleportedTo;
 
@@ -93,7 +97,7 @@ namespace DownBelow.Spells
 
             this.StatModified = new Dictionary<CharacterEntity, StatModification>();
             this.SelfStatModified = new Dictionary<EntityStatistics, int>();
-            this.AlterationGiven = new Dictionary<CharacterEntity, Alteration>();
+            this.AlterationGiven = new();
 
             this.TeleportedTo = new();
 
@@ -120,6 +124,37 @@ namespace DownBelow.Spells
             caster.OnStrengthRemoved += this._updateSelfStat;
 
             caster.OnSpeedAdded += this._updateSelfStat;
+        }
+
+        /// <summary>
+        /// unscrubarse evense
+        /// </summary>
+        public void Unsubribirse()
+        {
+            foreach (CharacterEntity entity in _targets)
+            {
+                if (entity == Caster)
+                    continue;
+
+                entity.OnHealthRemoved -= this._updateDamages;
+                entity.OnHealthAdded -= this._updateHealings;
+
+                entity.OnStrengthAdded -= this._updateStat;
+                entity.OnStrengthRemoved -= this._updateStat;
+                entity.OnSpeedAdded -= this._updateStat;
+                entity.OnSpeedRemoved -= this._updateStat;
+                entity.OnAlterationReceived -= this._updateAlterations;
+                entity.OnAlterationGiven -= Caster.FireOnAlterationGiven;
+            }
+
+            Caster.OnHealthRemoved -= this._updateSelfDamages;
+            Caster.OnHealthAdded -= this._updateSelfHealings;
+
+            Caster.OnStrengthAdded -= this._updateSelfStat;
+            Caster.OnStrengthRemoved -= this._updateSelfStat;
+
+            Caster.OnSpeedAdded -= this._updateSelfStat;
+
         }
 
         private void _updateStat(SpellEventData data)
@@ -158,7 +193,11 @@ namespace DownBelow.Spells
 
         private void _updateAlterations(SpellEventDataAlteration data)
         {
-           
+            if (!this.AlterationGiven.ContainsKey(data.Entity))
+                this.AlterationGiven.Add(data.Entity, new());
+
+            this.FireOnAlterationGiven(data);
+            this.AlterationGiven[data.Entity].Add(data.Alteration);
         }
 
         private void _updateSelfDamages(SpellEventData data)

@@ -2,6 +2,7 @@ using DownBelow.GridSystem;
 using DownBelow.Managers;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace DownBelow.Entity
@@ -20,12 +21,23 @@ namespace DownBelow.Entity
         {
             // For now we assume that only player can switch from grids
             PlayerBehavior player = (PlayerBehavior)this.RefEntity;
+            CombatGrid newGrid = GridManager.Instance.GetGridFromName(this.TargetGrid) as CombatGrid;
 
-            GameManager.Instance.FireEntityExitingGrid(player);
+            // If the player has a special item
+            if (player.PlayerSpecialSlots.StorageItems.All(s => s.ItemPreset != null) && !newGrid.HasStarted)
+            {
+                GameManager.Instance.FireEntityExitingGrid(player);
 
-            player.EnterNewGrid(GridManager.Instance.GetGridFromName(this.TargetGrid) as CombatGrid);
+                player.EnterNewGrid(newGrid);
 
-            GameManager.Instance.FireEntityEnteredGrid(player);
+                GameManager.Instance.FireEntityEnteredGrid(player);
+            }
+            else
+            {
+                UIManager.Instance.DatasSection.ShowWarningText(newGrid.HasStarted ?
+                    "You cannot enter a combat grid that has started combat" :
+                    "You cannot enter a combat grid without all items equiped");
+            }
 
             //TODO: Abort all actions?
             EndAction();

@@ -12,15 +12,15 @@ namespace DownBelow.Events
     {
         public ScriptableCard Card;
         public DraggableCard DraggableCard;
-        public Spell[] GeneratedSpells;
+        public SpellHeader GeneratedHeader;
         public Cell Cell;
         public bool Played;
 
-        public CardEventData(ScriptableCard Card, DraggableCard DraggableCard, Spell[] GeneratedSpells = null, Cell Cell = null, bool Played = false)
+        public CardEventData(ScriptableCard Card, DraggableCard DraggableCard, SpellHeader GeneratedHeader = null, Cell Cell = null, bool Played = false)
         {
             this.Card = Card;
             this.DraggableCard = DraggableCard;
-            this.GeneratedSpells = GeneratedSpells;
+            this.GeneratedHeader = GeneratedHeader;
             this.Cell = Cell;
             this.Played = Played;
         }

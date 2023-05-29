@@ -14,7 +14,7 @@ namespace DownBelow.Events
         public CellEventData(Cell Cell)
         {
             this.Cell = Cell;
-            this.InCurrentGrid = this.Cell.RefGrid == GameManager.Instance.SelfPlayer.CurrentGrid;
+            this.InCurrentGrid = this.Cell.RefGrid == GameManager.SelfPlayer.CurrentGrid;
         }
     }
 }

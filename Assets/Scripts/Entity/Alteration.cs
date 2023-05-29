@@ -66,7 +66,7 @@ namespace DownBelow.Spells.Alterations
             entity.OnDeath += Unsubbing;
         }
 
-        protected virtual void Unsubbing(GameEventData Data)
+        protected virtual void Unsubbing(EntityEventData Data)
         {
             Target.OnTurnEnded -= DecrementAlterationCountdown; //TODO: call this when you die.
         }
@@ -89,7 +89,7 @@ namespace DownBelow.Spells.Alterations
         {
             //FxGoAway?
             SFXManager.Instance.RefreshAlterationSFX(entity);
-            Unsubbing(new());
+            Unsubbing(new EntityEventData(this.Target));
             Target.Alterations.Remove(this);
         }
 

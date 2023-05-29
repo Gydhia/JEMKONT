@@ -25,7 +25,7 @@ public abstract class PlaceableItem : ItemPreset
 
             try
             {
-                var stack = GameManager.Instance.SelfPlayer.PlayerInventory.StorageItems.ToList().First(x => x.ItemPreset == this);
+                var stack = GameManager.SelfPlayer.PlayerInventory.StorageItems.ToList().First(x => x.ItemPreset == this);
                 stack.RemoveQuantity();
                 PrevisualizationInstance = null;
                 data.Cell.Datas.state = AffectingState;
@@ -58,7 +58,7 @@ public abstract class PlaceableItem : ItemPreset
     {
         try
         {
-            var stack = GameManager.Instance.SelfPlayer.PlayerInventory.StorageItems.ToList().First(x => x.ItemPreset == this);
+            var stack = GameManager.SelfPlayer.PlayerInventory.StorageItems.ToList().First(x => x.ItemPreset == this);
             if (stack.Quantity <= 0)
             {
                 InputManager.Instance.OnNewCellHovered -= Previsualize;

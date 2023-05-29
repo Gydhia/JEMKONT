@@ -43,22 +43,21 @@ namespace DownBelow.UI.Menu
         {
             if (animated)
             {
-                _selfRectTransform.DOShakeAnchorPos(0.8f, 20f, 20).OnComplete(() =>
+                _selfRectTransform.DOShakeAnchorPos(1.1f, 20f, 20);
+                
+                _selfRectTransform.DOAnchorMax(new Vector2(_selfPanelAnchors.z, _selfPanelAnchors.w + 0.08f), 0.4f).SetEase(Ease.InQuad);
+                _selfRectTransform.DOAnchorMin(new Vector2(_selfPanelAnchors.x, _selfPanelAnchors.y + 0.08f), 0.4f).SetEase(Ease.InQuad).OnComplete(() =>
                 {
-                    _selfRectTransform.DOAnchorMax(new Vector2(_selfPanelAnchors.z, _selfPanelAnchors.w + 0.08f), 0.4f).SetEase(Ease.InQuad);
-                    _selfRectTransform.DOAnchorMin(new Vector2(_selfPanelAnchors.x, _selfPanelAnchors.y + 0.08f), 0.4f).SetEase(Ease.InQuad).OnComplete(() =>
+                    _selfRectTransform.DOAnchorMax(new Vector2(_selfPanelAnchors.z, _selfPanelAnchors.w - _offset), 0.8f).SetEase(Ease.OutQuint);
+                    _selfRectTransform.DOAnchorMin(new Vector2(_selfPanelAnchors.x, _selfPanelAnchors.y - _offset), 0.8f).SetEase(Ease.OutQuint).OnComplete(() =>
                     {
-                        _selfRectTransform.DOAnchorMax(new Vector2(_selfPanelAnchors.z, _selfPanelAnchors.w - _offset), 0.6f).SetEase(Ease.OutQuint);
-                        _selfRectTransform.DOAnchorMin(new Vector2(_selfPanelAnchors.x, _selfPanelAnchors.y - _offset), 0.6f).SetEase(Ease.OutQuint).OnComplete(() =>
+                        IsHidden = true;
+                        this.gameObject.SetActive(false);
+                        _selfCanvasGroup.alpha = 0;
+                        if (this.PopupType != MenuManager.Instance.LastPopup)
                         {
-                            IsHidden = true;
-                            this.gameObject.SetActive(false);
-                            _selfCanvasGroup.alpha = 0;
-                            if (this.PopupType != MenuManager.Instance.LastPopup)
-                            {
-                                MenuManager.Instance.ShowNextPopup();
-                            }
-                        });
+                            MenuManager.Instance.ShowNextPopup();
+                        }
                     });
                 });
             }

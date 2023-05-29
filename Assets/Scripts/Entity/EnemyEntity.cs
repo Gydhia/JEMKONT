@@ -44,11 +44,13 @@ namespace DownBelow.Entity
 
         protected List<EnemyAction> _turnBehaviors = new List<EnemyAction>();
 
-        public override void Init(EntityStats stats, Cell refCell, WorldGrid refGrid, int order = 0) 
+        public override void Init(Cell refCell, WorldGrid refGrid, int order = 0, bool isFake = false) 
         {
-            base.Init(stats, refCell, refGrid);
+            base.Init(refCell, refGrid);
 
             this.UID = refGrid.UName + this.EnemyStyle.UName + order;
+
+            this.FireEntityInited();
         }
 
         public override void StartTurn() 
@@ -64,12 +66,15 @@ namespace DownBelow.Entity
             var movementAction = new EnemyMovementAction(this, this.EntityCell, this.movementType.ToString());
             movementAction.SetContextAction(targettingAction);
 
+            var attackAction = new AttackingAction(this, this.EntityCell);
+            attackAction.SetContextAction(targettingAction);
+
             var endTurnAction = new EndTurnAction(this, this.EntityCell);
 
             // TODO : Implement a deck for enemy
             //var attackAction = new Spell();
 
-            return new EntityAction[3] { targettingAction, movementAction, endTurnAction };
+            return new EntityAction[4] { targettingAction, movementAction, attackAction, endTurnAction };
         }
 
         // All Attack Behaviours

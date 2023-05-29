@@ -29,14 +29,9 @@ MonoBehaviour:
   InventoryIcon: {fileID: 21300000, guid: 55fa76305df17454bb7aa27b9dd1bf9d, type: 3}
   ItemPrefab: {fileID: 0}
   MaxStack: 1
-  DroppedItemPrefab: {fileID: 919132149155446097, guid: c783bf94f1d766349a376eecc0f4f801, type: 3}
-  Deck:
-    Cards:
-    - {fileID: 11400000, guid: a4bd6d4842e41b347a6c5e845162e976, type: 2}
-    - {fileID: 11400000, guid: a4bd6d4842e41b347a6c5e845162e976, type: 2}
-    - {fileID: 11400000, guid: a4bd6d4842e41b347a6c5e845162e976, type: 2}
-    - {fileID: 11400000, guid: a4bd6d4842e41b347a6c5e845162e976, type: 2}
-    - {fileID: 11400000, guid: a4bd6d4842e41b347a6c5e845162e976, type: 2}
-    - {fileID: 11400000, guid: a4bd6d4842e41b347a6c5e845162e976, type: 2}
+  DroppedItemPrefab: {fileID: 7398621043639688843, guid: 6a102bcec989b8c408529a700d4ec62d, type: 3}
+  DeckPreset: {fileID: 11400000, guid: afde972ffb51c2945915475e3cbd72a0, type: 2}
   Class: 3
   ActualPlayer: {fileID: 0}
+  ToolRefColor: {r: 0.30588236, g: 0.5882353, b: 0.54509807, a: 1}
+  FightIcon: {fileID: 21300000, guid: 716ccb6a2ebb2ac4fbaace087fb184fd, type: 3}

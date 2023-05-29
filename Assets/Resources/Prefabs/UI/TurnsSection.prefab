@@ -471,7 +471,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AllySprite: {fileID: 21300000, guid: 8ffef94fef0791440a2d5c4fe41939ed, type: 3}
   EnemySprite: {fileID: 21300000, guid: 945c94fa95e16461b814ba86437b2f71, type: 3}
-  SpritePrefab: {fileID: 3086965284080062921, guid: 13c6c0fbe7db1514e81b6331157efb8a, type: 3}
+  SpritePrefab: {fileID: 3705572419075981963, guid: 13c6c0fbe7db1514e81b6331157efb8a, type: 3}
   EntitiesHolder: {fileID: 4438578326227344358}
   TimeSlider: {fileID: 6895354687323811056}
   NextTurnButton: {fileID: 5312382794933435147}

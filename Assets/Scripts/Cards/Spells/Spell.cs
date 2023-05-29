@@ -19,27 +19,26 @@ namespace DownBelow.Spells
     {
         protected T LocalData => this.Data as T;
 
-        protected Spell(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, SpellCondition ConditionData, int Cost) 
-            : base(CopyData, RefEntity, TargetCell, ParentSpell, ConditionData, Cost)
+        protected Spell(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, SpellCondition ConditionData)
+            : base(CopyData, RefEntity, TargetCell, ParentSpell, ConditionData)
         {
         }
     }
 
     public abstract class Spell : EntityAction
     {
-        public Spell(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, SpellCondition ConditionData, int Cost)
+        public Spell(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, SpellCondition ConditionData)
            : base(RefEntity, TargetCell)
         {
             this.Data = CopyData;
             this.Data.Refresh();
             this.ParentSpell = ParentSpell;
             this.ConditionData = ConditionData;
-            this.Cost = Cost;
         }
 
-        [HideInInspector]
-        public int Cost;
         public SpellData Data;
+        [HideInInspector]
+        public SpellHeader SpellHeader;
 
         #region PLAYABLE
         [HideInInspector, JsonIgnore]
@@ -65,14 +64,18 @@ namespace DownBelow.Spells
 
         public override async void ExecuteAction()
         {
-            this.RefEntity.ApplyStat(EntityStatistics.Mana, -this.Cost);
+            Debug.LogWarning($"Executing spell {CardsManager.Instance.ScriptableCards[this.SpellHeader.RefCard].Title}");
+            int cost = CardsManager.Instance.ScriptableCards[SpellHeader.RefCard].Cost;
+            if (this.ParentSpell == null && this.RefEntity.Mana - cost > 0)
+            {
+                this.RefEntity.ApplyStat(EntityStatistics.Mana, -CardsManager.Instance.ScriptableCards[SpellHeader.RefCard].Cost);
+            }
 
             if (!this.ValidateConditions())
             {
                 EndAction();
                 return;
-            }
-            else
+            } else
             {
                 this.TargetEntities = this.GetTargets(this.TargetCell);
 
@@ -97,28 +100,77 @@ namespace DownBelow.Spells
             }
         }
 
+        public override void EndAction()
+        {
+            Result.Unsubribirse();
+            base.EndAction();
+        }
+
         public List<CharacterEntity> GetTargets(Cell cellTarget)
         {
-            if (this.Data.RequiresTargetting)
+            if (Data.SpellResultTargeting)
+            {
+                var spell = GetSpellFromIndex(Data.SpellResultIndex);
+                TargetEntities = spell.TargetEntities;
+                TargetedCells = spell.TargetedCells;
+                return TargetEntities;
+            } else if (this.Data.RequiresTargetting)
             {
                 TargetedCells = GridUtility.TransposeShapeToCells(ref Data.RotatedShapeMatrix, cellTarget, Data.RotatedShapePosition);
-                NCEHits = TargetedCells                   
+                NCEHits = TargetedCells
                     .Where(cell => cell.AttachedNCE != null)
                     .Select(cell => cell.AttachedNCE)
                     .ToList();
-                return TargetedCells                   
+                return TargetedCells
                     .Where(cell => cell.EntityIn != null)
                     .Select(cell => cell.EntityIn)
                     .ToList();
-            }
-            else if(this.ConditionData != null)
+            } else if (this.ConditionData != null)
             {
                 return this.ConditionData.GetValidatedTargets();
-            }
-            else
+            } else
             {
                 return new List<CharacterEntity> { this.ParentSpell == null ? this.RefEntity : this.ParentSpell.RefEntity };
             }
+        }
+        /// <summary>
+        /// Recursive method going into the parent spell to get the index.
+        /// DO NOT USE THE PARAMETER, it is meant to be used only with the recursive.
+        /// </summary>
+        /// <param name="start">The recursive parameter, DO NOT USE</param>
+        /// <returns></returns>
+        int GetSpellIndex(int start = 0)
+        {
+            int res = start;
+            if (ParentSpell != null)
+            {
+                res = ParentSpell.GetSpellIndex(start + 1);
+            }
+            return res;
+        }
+
+        Spell GetSpellFromIndex(int index)
+        {
+            int thisIndex = GetSpellIndex();
+            if (index > thisIndex)
+            {
+                Debug.LogError("COULD NOT FIND RELATIVE SPELL RESULT (demande a thomas)");
+                return null;
+            } else if (index == thisIndex)
+            {
+                return this;
+            } else
+            {
+                if (ParentSpell.GetSpellIndex() == index)
+                {
+                    Debug.Log($"Fetched the result of the spell {this}!");
+                    return ParentSpell;
+                } else
+                {
+                    return ParentSpell.GetSpellFromIndex(index);
+                }
+            }
+
         }
 
         public override object[] GetDatas()

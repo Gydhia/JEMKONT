@@ -23,7 +23,7 @@ MonoBehaviour:
     SerializationNodes: []
   Health: 70
   BaseShield: 0
-  Strength: 90
+  Strength: 5
   Mana: 1
   Speed: 3
   Defense: 40

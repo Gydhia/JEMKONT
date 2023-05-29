@@ -90,13 +90,7 @@ namespace DownBelow.UI.Menu
             this.LeaveRoomBtn.interactable = true;
             this.LobbyName.text = PhotonNetwork.CurrentRoom.Name;
 
-            if (PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.PlayerCount == 1)
-            {
-                this._playerList[0].ReadyToggle.isOn = true;
-                this.StartBtn.interactable = true;
-            }
-            else
-                this.StartBtn.interactable = false;
+            this.StartBtn.interactable = false;
 
             OnRoomJoined?.Invoke();
         }

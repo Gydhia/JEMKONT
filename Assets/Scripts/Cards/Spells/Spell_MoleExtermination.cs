@@ -2,13 +2,21 @@ using DownBelow.Entity;
 using DownBelow.GridSystem;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 namespace DownBelow.Spells
 {
-
+    public class SpellData_MoleExtermination : SpellData_Summon
+    {
+        public SpellData_MoleExtermination(NCEPreset NCEPreset) : base(NCEPreset)
+        {
+        }
+        [HideInInspector] public MoleHole otherHole;
+        [HideInInspector] public MoleHole Hole;
+    }
     public class Spell_MoleExtermination : Spell<SpellData_Summon>
     {
-        public Spell_MoleExtermination(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, SpellCondition ConditionData, int Cost) : base(CopyData, RefEntity, TargetCell, ParentSpell, ConditionData, Cost)
+        public Spell_MoleExtermination(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, SpellCondition ConditionData) : base(CopyData, RefEntity, TargetCell, ParentSpell, ConditionData)
         {
         }
 
@@ -16,9 +24,22 @@ namespace DownBelow.Spells
         {
             base.ExecuteAction();
             GetTargets(TargetCell);
-            foreach (Cell targetCell in TargetedCells)
+            var targets = Result.TargetedCells.FindAll(x => x.EntityIn != null);
+            if (targets != null)
             {
-                Managers.CombatManager.Instance.StartCoroutine(SummonNCE(targetCell, LocalData, RefEntity));
+                foreach (var target in targets)
+                {
+                    Managers.CombatManager.Instance.StartCoroutine(SummonNCE(target, LocalData, RefEntity));
+                }
+                for (int i = 0;i < targets.Count;i++)
+                {
+                    Cell target = targets[i];
+                    if(target.AttachedNCE is MoleHole hole)
+                    {
+                        int index = i == targets.Count - 1 ? 0 : i + 1;
+                        hole.otherHole = targets[index].AttachedNCE as MoleHole;
+                    }
+                }
             }
             EndAction();
         }
@@ -28,7 +49,5 @@ namespace DownBelow.Spells
             summondata.NCEPreset.InitNCE(cell, RefEntity);
             yield return null;
         }
-
     }
 }
-

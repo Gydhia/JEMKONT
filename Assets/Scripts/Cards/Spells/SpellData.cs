@@ -40,7 +40,7 @@ namespace DownBelow.Spells
         {
             return value switch
             {
-                ETargetType.Self => cell.EntityIn == GameManager.Instance.SelfPlayer,
+                ETargetType.Self => cell.EntityIn == GameManager.SelfPlayer,
                 ETargetType.AllAllies => cell.EntityIn != null && cell.EntityIn.IsAlly,
                 ETargetType.Enemy => cell.EntityIn != null && cell.EntityIn is EnemyEntity,
                 ETargetType.Ally => cell.EntityIn != null && cell.EntityIn is PlayerBehavior,
@@ -64,7 +64,10 @@ namespace DownBelow.Spells
         public void Refresh()
         {
             if (this.TargetType == ETargetType.Self)
+            {
                 this.CastingMatrix = new bool[1, 1] { { true } };
+                this.CasterPosition = Vector2.zero;
+            }
 
             this.RotatedShapeMatrix = this.SpellShapeMatrix;
             this.RotatedShapePosition = this.ShapePosition;
@@ -94,7 +97,11 @@ namespace DownBelow.Spells
         [Button, FoldoutGroup("Spell Targeting"), HorizontalGroup("Spell Targeting/Buttons", Width = 0.5f, Order = 0, MaxWidth = 200)]
         public void RegenerateCasting() { CastingMatrix = new bool[5, 5]; CasterPosition = new Vector2(2, 2); }
 
-
+        [HorizontalGroup("SpellResult", Width = 0.5f, Order = 0, MaxWidth = 200)]
+        public bool SpellResultTargeting;
+        [InfoBox("If this is on, the targets of the result of the spell you want can be added to the targets of this spell, i.e: Damage, then break the defense of the same ones.\\/")]
+        [Min(0), ShowIf(nameof(SpellResultTargeting)), HorizontalGroup("SpellResult", Width = 0.5f, Order = 0, MaxWidth = 200)]
+        public int SpellResultIndex;
 
         [TableMatrix(DrawElementMethod = "_processDrawSpellShape", SquareCells = true, ResizableColumns = false, HorizontalTitle = nameof(SpellShapeMatrix)), OdinSerialize]
         [FoldoutGroup("Spell Targeting"), HorizontalGroup("Spell Targeting/Grids", Width = 0.5f, Order = 1, MaxWidth = 200)]

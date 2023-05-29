@@ -1,15 +1,12 @@
 using DownBelow.Entity;
 using DownBelow.GridSystem;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.Tilemaps;
-using UnityEngine;
+
 namespace DownBelow.Spells
 {
     public class Spell_StatsOnResult : Spell<SpellData_Stats>
     {
-        public Spell_StatsOnResult(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, SpellCondition ConditionData, int Cost) : base(CopyData, RefEntity, TargetCell, ParentSpell, ConditionData, Cost)
+        public Spell_StatsOnResult(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, SpellCondition ConditionData) : base(CopyData, RefEntity, TargetCell, ParentSpell, ConditionData)
         {
         }
 
@@ -18,14 +15,17 @@ namespace DownBelow.Spells
             base.ExecuteAction();
 
             GetTargets(TargetCell);
-
-            foreach (CharacterEntity target in Result.TargetedCells.FindAll(x => x.EntityIn != null).Select(x => x.EntityIn))
+            var targets = Result.TargetedCells.FindAll(x => x.EntityIn != null).Select(x => x.EntityIn);
+            if(targets != null)
             {
-                target.ApplyStat(LocalData.Statistic,
-                    LocalData.StatAmount * (LocalData.IsNegativeEffect ?  -1 : 1));
+                foreach (CharacterEntity target in targets)
+                {
+                    target.ApplyStat(LocalData.Statistic,
+                        LocalData.StatAmount * (LocalData.IsNegativeEffect ? -1 : 1));
+                }
             }
 
-            ExecuteAction();
+            EndAction();
         }
     }
 }

@@ -12,17 +12,10 @@ namespace DownBelow.Managers
         public InputPreset InputPreset;
         public CombatPreset CombatPreset;
         public GameUIPreset GameUIPreset;
+        public SoundPreset SoundPreset;
 
-        // for test
-        public EntityStats FishermanStats;
-        public EntityStats MinerStats;
-        public EntityStats FarmerStats;
-        public EntityStats HerbalistStats;
-
-        //ActualPlayerDeck
         public Deck PlayerDeck;
         public EClass PlayerClass;
-        
     }
 
 }

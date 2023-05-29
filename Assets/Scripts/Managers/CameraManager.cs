@@ -23,9 +23,9 @@ namespace DownBelow.Managers
 
         private void _setupCamera(EntityEventData Data)
         {
-            if (GameManager.Instance.SelfPlayer == Data.Entity)
+            if (GameManager.SelfPlayer == Data.Entity)
             {
-                if (GameManager.Instance.SelfPlayer.CurrentGrid.IsCombatGrid) 
+                if (GameManager.SelfPlayer.CurrentGrid.IsCombatGrid) 
                 {
                     this.VirtualCamera.Follow = null;
 

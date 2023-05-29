@@ -25,7 +25,7 @@ namespace DownBelow.Spells.Alterations
             Target.ApplyStat(EntityStatistics.Strength, DamageIncrease);
         }
 
-        protected override void Unsubbing(GameEventData Data)
+        protected override void Unsubbing(EntityEventData Data)
         {
             base.Unsubbing(Data);
             ((PlayerBehavior)Target).OnCardPlayed -= Buff;

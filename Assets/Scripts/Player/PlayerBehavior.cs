@@ -4,15 +4,10 @@ using DownBelow.Inventory;
 using DownBelow.Managers;
 using DownBelow.Spells;
 using DownBelow.UI.Inventory;
-using EODE.Wonderland;
 using Photon.Pun;
-using Photon.Realtime;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using static UnityEngine.Rendering.VirtualTexturing.Debugging;
 
 namespace DownBelow.Entity
 {
@@ -42,22 +37,28 @@ namespace DownBelow.Entity
         }
 
         #endregion
+        /// <summary>
+        /// The owner of this potential FakePlayer. Used in combat
+        /// </summary>
+        public PlayerBehavior Owner;
+        public bool IsFake = false;
 
         public BaseStorage PlayerInventory;
 
         private DateTime _lastTimeAsked = DateTime.Now;
-        private string _nextGrid = string.Empty;
 
         public Interactable NextInteract = null;
 
         public MeshRenderer PlayerBody;
         public PhotonView PlayerView;
 
-        public List<Cell> NextPath { get; private set; }
-        public bool CanEnterGrid => true;
-
         public ToolItem ActiveTool;
-        public BaseStorage PlayerSpecialSlot;
+        /// <summary>
+        /// Each possessed tools during combat. If alone, there will be 4
+        /// </summary>
+        public List<ToolItem> CombatTools;
+
+        public BaseStorage PlayerSpecialSlots;
         public ItemPreset CurrentSelectedItem;
         public bool IsAutoAttacking = false;
         public int inventorySlotSelected = 0;
@@ -65,15 +66,17 @@ namespace DownBelow.Entity
         private bool scrollBusy;
         private PlaceableItem lastPlaceable;
         [HideInInspector] public int theList= 0;
-        public Deck Deck
+        public DeckPreset Deck
         {
-            get => testingDeck.Deck;
-            set => testingDeck.Deck = value;
+            get 
+            {
+                return (this.ActiveTool == null || ActiveTool.DeckPreset == null) ?
+                    null :
+                    ActiveTool.DeckPreset;
+            }
         }
 
-        // TEMPORARY
-        public DeckPreset testingDeck;
-
+       
         public override int Mana
         {
             get => Mathf.Min(Statistics[EntityStatistics.Mana] + NumberOfTurnsPlayed,
@@ -89,27 +92,40 @@ namespace DownBelow.Entity
 
         #endregion
 
-        public override void Init(EntityStats stats, Cell refCell, WorldGrid refGrid, int order = 0)
+        public override void Init(Cell refCell, WorldGrid refGrid, int order = 0, bool isFake = false)
         {
-            base.Init(stats, refCell, refGrid, order);
+            base.Init(refCell, refGrid, order);
 
             refGrid.GridEntities.Add(this);
+
+            this.IsFake = isFake;
+
+            if (isFake) {
+                this.FireEntityInited();
+                return; 
+            }
+
+            int playersNb = PhotonNetwork.PlayerList.Length;
+
             this.PlayerInventory = new BaseStorage();
             this.PlayerInventory.Init(
-                SettingsManager.Instance.GameUIPreset.SlotsByPlayer[Photon.Pun.PhotonNetwork.PlayerList.Length - 1]);
-            this.PlayerSpecialSlot = new BaseStorage();
-            this.PlayerSpecialSlot.Init(1);
+                SettingsManager.Instance.GameUIPreset.SlotsByPlayer[playersNb - 1]);
+
+            int toolSlots = 4;
+            if (playersNb == 2) toolSlots = 2;
+            if (playersNb == 3) toolSlots = PhotonNetwork.IsMasterClient ? 2 : 1;
+            if (playersNb == 4) toolSlots = 1;
+
+            this.PlayerSpecialSlots = new BaseStorage();
+            this.PlayerSpecialSlots.Init(toolSlots);
 
             PlayerInputs.player_scroll.performed += this._scroll;
+
+            this.FireEntityInited();
         }
 
         public override void FireEnteredCell(Cell cell)
         {
-            /*if (cell.ItemContained != null && cell.ItemContained.ItemPreset != null)
-            {
-                cell.TryPickUpItem(this);
-            }
-            //*/
             base.FireEnteredCell(cell);
         }
 
@@ -203,7 +219,8 @@ namespace DownBelow.Entity
         {
             activeTool.ActualPlayer = this;
             this.ActiveTool = activeTool;
-            this.RefStats = ToolsManager.Instance.ToolStats[activeTool.Class];
+            this.ActiveTool.DeckPreset.LinkedPlayer = this;
+            this.SetStatistics(activeTool.DeckPreset.Statistics);
         }
 
         public override void StartTurn()
@@ -218,46 +235,11 @@ namespace DownBelow.Entity
 
         #region MOVEMENTS
 
-        //    // TODO: parse these values in a different way later
-        //    if (this.CurrentGrid.IsCombatGrid) {
-        //        GridManager.Instance.ShowPossibleCombatMovements(this);
-        //    }
-        //    if (this.NextPath != null) {
-        //        this.MoveWithPath(this.NextPath, _nextGrid);
-        //        this.NextPath = null;
-        //    } else if (this._nextGrid != string.Empty) {
-        //        // TODO: This means we shouldn't ask network to change grid, it's made up when moving
-        //        if (Photon.Pun.PhotonNetwork.LocalPlayer.UserId == GameManager.Instance.SelfPlayer.PlayerID)
-        //            NetworkManager.Instance.PlayerAsksToEnterGrid(this, this.CurrentGrid, this._nextGrid);
-        //        this.NextCell = null;
-        //        this._nextGrid = string.Empty;
-        //    } else if (this.NextInteract != null) {
-        //        NetworkManager.Instance.PlayerAsksToInteract(NextInteract.RefCell);
-        //        this.NextInteract = null;
-        //    }
-        //}
-
-        public void EnterNewGrid(CombatGrid grid)
+        public void EnterNewGrid(WorldGrid grid)
         {
-            this.healthText.gameObject.SetActive(true);
-            Cell closestCell =
-                GridUtility.GetClosestAvailableCombatCell(this.CurrentGrid, grid, this.EntityCell.PositionInGrid);
-
-            while (closestCell.Datas.state != CellState.Walkable)
-            {
-                List<Cell> neighbours = GridManager.Instance.GetCombatNeighbours(closestCell, grid);
-                closestCell = neighbours.First(cell => cell.Datas.state == CellState.Walkable);
-                if (closestCell == null)
-                    closestCell = neighbours[0];
-            }
+            // TODO : Killian (it's me Killian) plug this somewhere else
             theList = 0; //:)
-            this.FireExitedCell();
-
             this.CurrentGrid = grid;
-
-            this.FireEnteredCell(closestCell);
-
-            this.transform.position = closestCell.WorldPosition;
         }
 
         public bool RespectedDelayToAsk()

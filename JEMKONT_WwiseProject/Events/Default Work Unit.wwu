@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{BFD99B94-A3EE-40B7-B316-A7F992C54FB1}" SchemaVersion="110">
+	<Events>
+		<WorkUnit Name="Default Work Unit" ID="{BFD99B94-A3EE-40B7-B316-A7F992C54FB1}" PersistMode="Standalone">
+			<ChildrenList>
+				<Folder Name="MUS" ID="{1A18C8EF-8D17-4FCD-AD97-47286720CD97}" ShortID="601505754">
+					<ChildrenList>
+						<Folder Name="Fight" ID="{0D9F202E-7A8C-4B13-90DA-309D3A160E2F}" ShortID="1062470314">
+							<ChildrenList>
+								<Event Name="Play_MUS_Combat" ID="{D82259F8-02F5-4283-87BB-55BD31E81E06}">
+									<ChildrenList>
+										<Action Name="" ID="{04F6A78D-0082-4116-8F1D-0EEC9641185C}" ShortID="610876745">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="ST_Fight" ID="{36A3C285-DD3C-4651-A61C-407A34C1BDD7}" WorkUnitID="{A7B6054A-C5DE-4175-A27F-8806369B3987}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+							</ChildrenList>
+						</Folder>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="SSFX" ID="{40D125A9-D6D7-46BE-A3EC-23E2D212020A}" ShortID="199483849">
+					<ChildrenList>
+						<Event Name="Play_SSFX_" ID="{001B3B77-A472-43CA-B871-20733DFB780F}"/>
+						<Event Name="Play_SSFX__Click" ID="{66C723BE-5CFE-4055-8D5F-66C2DA128B91}">
+							<ChildrenList>
+								<Action Name="" ID="{C8A533F8-F610-480B-A527-2D4507A8751C}" ShortID="1060026412">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Click" ID="{19540006-339D-492A-98A4-1305E78DBB44}" WorkUnitID="{277D41B8-7D18-41D8-BFBF-88A00100C0C8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Play_SSFX__Walk" ID="{C8041101-53F6-42F4-9B2D-4CDD2ADA5EA2}">
+							<ChildrenList>
+								<Action Name="" ID="{99D24B76-6627-46A7-8B15-B8CD79B77CF1}" ShortID="153149802">
+									<PropertyList>
+										<Property Name="Delay" Type="Real64">
+											<ModifierList>
+												<ModifierInfo>
+													<Modifier Name="" ID="{2FE7F686-7E3A-4D41-AB74-F9FE4E83E672}">
+														<PropertyList>
+															<Property Name="Max" Type="Real64" Value="0.7"/>
+														</PropertyList>
+													</Modifier>
+												</ModifierInfo>
+											</ModifierList>
+										</Property>
+										<Property Name="FadeTime" Type="Real64" Value="2"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Walking" ID="{2A538C4F-9856-4376-A812-1B44546B8122}" WorkUnitID="{277D41B8-7D18-41D8-BFBF-88A00100C0C8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Play_SSFX__ClickBlocked" ID="{9E97308C-7D81-43C0-8F12-A52526FDD905}">
+							<ChildrenList>
+								<Action Name="" ID="{DA1BCE60-CE28-4BB2-AFB2-C5BA6C673CA3}" ShortID="60646886">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Impossible" ID="{A3C274FA-D64D-4420-A779-6221D7FBFDFF}" WorkUnitID="{277D41B8-7D18-41D8-BFBF-88A00100C0C8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Play_SSFX__FightWin" ID="{A6C1C678-8948-455F-9E5A-9267B2234F2E}">
+							<ChildrenList>
+								<Action Name="" ID="{BF3D1687-E591-4627-AED1-447632E3F61C}" ShortID="960905219">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="win" ID="{EFD69081-9638-4B7D-9B3A-33E52057B126}" WorkUnitID="{277D41B8-7D18-41D8-BFBF-88A00100C0C8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="MUS_LAYER" ID="{9E7B6713-3FD5-4E98-8F5E-4316700EF1CF}" ShortID="267737303">
+					<ChildrenList>
+						<Event Name="Set_Layer_0" ID="{4014F967-5A9C-496A-A95C-FF80CCAC0FF1}">
+							<ChildrenList>
+								<Action Name="" ID="{20622973-2B70-4E90-A00B-D540E2B4AADB}" ShortID="292664741">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="22"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Layers0" ID="{E9622987-65EA-4CB8-96CA-E8C70608AF3B}" WorkUnitID="{42DA5743-3E96-4121-A2FF-F533C2AAA80C}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Set_Layer_1" ID="{A40F952C-0213-4B5E-9C3F-5CC8C7F79A83}">
+							<ChildrenList>
+								<Action Name="" ID="{239B2F3D-9D69-4AF4-B046-FC44573F0889}" ShortID="137818542">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="22"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Layers1" ID="{C43C4834-66D1-4B6C-A74C-50262D378DF7}" WorkUnitID="{42DA5743-3E96-4121-A2FF-F533C2AAA80C}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Set_Layer_2" ID="{D3214071-A75F-497A-9B3B-4D8390B89916}">
+							<ChildrenList>
+								<Action Name="" ID="{28BA294B-99B6-4F8E-93E5-416F77035C54}" ShortID="44036031">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="22"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Layers2" ID="{C0A7FF62-99FE-425D-9BDC-929EE8B7D3CE}" WorkUnitID="{42DA5743-3E96-4121-A2FF-F533C2AAA80C}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Set_Layer_3" ID="{64942D12-2EE9-40F2-B055-2F1F8D32F280}">
+							<ChildrenList>
+								<Action Name="" ID="{F5F0A64E-1991-4913-A3AB-36042C9EA2F9}" ShortID="692557560">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="22"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Layers3" ID="{B442D004-8A22-4CDD-B5F3-8BB6505989AC}" WorkUnitID="{42DA5743-3E96-4121-A2FF-F533C2AAA80C}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="GROUND" ID="{729BD2AC-6D15-4055-9206-F701F6C798C1}" ShortID="227139236">
+					<ChildrenList>
+						<Event Name="Set_Grass" ID="{169AB82C-0784-41AD-A4AA-75251D55B88E}">
+							<ChildrenList>
+								<Action Name="" ID="{43A19511-5392-4F03-880A-F41BA257AE51}" ShortID="15140196">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="23"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Grass" ID="{B9AA152C-9DCA-45D1-BCB9-B3A75EB6874C}" WorkUnitID="{2AA07A72-D769-4D35-A76E-03849372A4FE}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Set_Sand" ID="{876F4106-1A85-47EA-8EC6-15E9BD502574}">
+							<ChildrenList>
+								<Action Name="" ID="{2D2B20EF-B722-4C82-B92A-B326D6BE56E4}" ShortID="1019794369">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="23"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Sand" ID="{F1790D9A-31B7-43D5-8215-CA445F5AAB96}" WorkUnitID="{2AA07A72-D769-4D35-A76E-03849372A4FE}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="FILTERS" ID="{717317E6-2BFD-4A2C-B7D3-94131E936398}" ShortID="452631864">
+					<ChildrenList>
+						<Event Name="Pause" ID="{6FD1F8C8-CA3B-4563-B9D4-5B278E87B507}"/>
+						<Event Name="Resume" ID="{F1691854-030C-40A7-B17F-2A86A04C8559}"/>
+					</ChildrenList>
+				</Folder>
+			</ChildrenList>
+		</WorkUnit>
+	</Events>
+</WwiseDocument>

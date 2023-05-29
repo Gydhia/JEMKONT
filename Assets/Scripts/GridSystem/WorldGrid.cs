@@ -31,7 +31,7 @@ namespace DownBelow.GridSystem
 
         public Dictionary<string, CombatGrid> InnerCombatGrids = new Dictionary<string, CombatGrid>();
 
-        public void Init(GridData data)
+        public virtual void Init(GridData data)
         {
             this.GridHeight = data.GridHeight;
             this.GridWidth = data.GridWidth;

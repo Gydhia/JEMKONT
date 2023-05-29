@@ -339,7 +339,10 @@ namespace DownBelow.GridSystem
         {
             return new GridPosition(cell.PositionInGrid.longitude - cell.RefGrid.SelfData.Longitude, cell.PositionInGrid.latitude - cell.RefGrid.SelfData.Latitude);
         }
-
+        public static Cell GetCell(this WorldGrid grid, GridPosition cellPosition)
+        {
+            return grid.Cells[cellPosition.latitude, cellPosition.longitude];
+        }
         /// <summary>
         /// Gets the assembly name for a class.
         /// </summary>
