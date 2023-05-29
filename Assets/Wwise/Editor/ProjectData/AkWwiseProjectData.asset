@@ -1,0 +1,786 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87a770909d29fe946b131a27f672071f, type: 3}
+  m_Name: AkWwiseProjectData
+  m_EditorClassIdentifier: 
+  AcousticTextureWwu:
+  - PhysicalPath: Virtual Acoustics\Default Work Unit.wwu
+    PathAndIcons:
+    - ElementName: Virtual Acoustics
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: Default Work Unit
+      ObjectType: 12
+      guid: 6adbcdce49052b4b9aeb10f52b2cf7ea
+    ParentPath: Virtual Acoustics\Default Work Unit
+    guid: 6adbcdce49052b4b9aeb10f52b2cf7ea
+    GuidInternal: 
+    m_lastTime: -8585171264544059223
+    List: []
+  AuxBusWwu:
+  - PhysicalPath: Master-Mixer Hierarchy\Default Work Unit.wwu
+    PathAndIcons:
+    - ElementName: Master-Mixer Hierarchy
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: Default Work Unit
+      ObjectType: 12
+      guid: 482dc15fdb6a434b883d07304f613018
+    ParentPath: Master-Mixer Hierarchy\Default Work Unit
+    guid: 482dc15fdb6a434b883d07304f613018
+    GuidInternal: 
+    m_lastTime: -8585171205488793429
+    List:
+    - name: Master Audio Bus
+      guid: d8a41415a61d2a41a17e75ca0c2149f3
+      id: 3803692087
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 482dc15fdb6a434b883d07304f613018
+      - ElementName: Master Audio Bus
+        ObjectType: 2
+        guid: d8a41415a61d2a41a17e75ca0c2149f3
+      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus
+    - name: Music
+      guid: 4a347e328b9dc846813e9f300f18b017
+      id: 3991942870
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 482dc15fdb6a434b883d07304f613018
+      - ElementName: Master Audio Bus
+        ObjectType: 2
+        guid: d8a41415a61d2a41a17e75ca0c2149f3
+      - ElementName: Music
+        ObjectType: 2
+        guid: 4a347e328b9dc846813e9f300f18b017
+      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\Music
+    - name: SSFX
+      guid: 07c3370b20580d4e80639d66e2e54f8d
+      id: 672574001
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 482dc15fdb6a434b883d07304f613018
+      - ElementName: Master Audio Bus
+        ObjectType: 2
+        guid: d8a41415a61d2a41a17e75ca0c2149f3
+      - ElementName: SSFX
+        ObjectType: 2
+        guid: 07c3370b20580d4e80639d66e2e54f8d
+      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\SSFX
+  BankWwu:
+  - PhysicalPath: SoundBanks\Default Work Unit.wwu
+    PathAndIcons:
+    - ElementName: SoundBanks
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: Default Work Unit
+      ObjectType: 12
+      guid: 192de397071d114d9f1f966b80edd569
+    ParentPath: SoundBanks\Default Work Unit
+    guid: 192de397071d114d9f1f966b80edd569
+    GuidInternal: 
+    m_lastTime: -8585171205488743429
+    List:
+    - name: SB_AMBIANCE
+      guid: 90acd590b5e08940906f111a2fe8f772
+      id: 1129547629
+      PathAndIcons:
+      - ElementName: SoundBanks
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 192de397071d114d9f1f966b80edd569
+      - ElementName: SB_AMBIANCE
+        ObjectType: 7
+        guid: 90acd590b5e08940906f111a2fe8f772
+      Path: SoundBanks\Default Work Unit\SB_AMBIANCE
+    - name: SB_COMBAT
+      guid: b068b7ee954f1642bb99d5e7d2ce8161
+      id: 2497815141
+      PathAndIcons:
+      - ElementName: SoundBanks
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 192de397071d114d9f1f966b80edd569
+      - ElementName: SB_COMBAT
+        ObjectType: 7
+        guid: b068b7ee954f1642bb99d5e7d2ce8161
+      Path: SoundBanks\Default Work Unit\SB_COMBAT
+    - name: SB_FARM
+      guid: f92de8680689cf4dbf02425ebaad8f17
+      id: 513513905
+      PathAndIcons:
+      - ElementName: SoundBanks
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 192de397071d114d9f1f966b80edd569
+      - ElementName: SB_FARM
+        ObjectType: 7
+        guid: f92de8680689cf4dbf02425ebaad8f17
+      Path: SoundBanks\Default Work Unit\SB_FARM
+    - name: SB_GLOBAL
+      guid: afb1eebf811a1e4399ccef5e516cdff2
+      id: 2711878180
+      PathAndIcons:
+      - ElementName: SoundBanks
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 192de397071d114d9f1f966b80edd569
+      - ElementName: SB_GLOBAL
+        ObjectType: 7
+        guid: afb1eebf811a1e4399ccef5e516cdff2
+      Path: SoundBanks\Default Work Unit\SB_GLOBAL
+    - name: SB_MENU
+      guid: 3f5b1def63f3f6409d839ef33914a153
+      id: 135602584
+      PathAndIcons:
+      - ElementName: SoundBanks
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 192de397071d114d9f1f966b80edd569
+      - ElementName: SB_MENU
+        ObjectType: 7
+        guid: 3f5b1def63f3f6409d839ef33914a153
+      Path: SoundBanks\Default Work Unit\SB_MENU
+  EventWwu:
+  - PhysicalPath: Events\Default Work Unit.wwu
+    PathAndIcons:
+    - ElementName: Events
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: Default Work Unit
+      ObjectType: 12
+      guid: 949bd9bfeea3b740b316a7f992c54fb1
+    ParentPath: Events\Default Work Unit
+    guid: 949bd9bfeea3b740b316a7f992c54fb1
+    GuidInternal: 
+    m_lastTime: -8585165751443843985
+    List:
+    - name: Fight
+      guid: 2e209f0d8c7a134b90da309d3a160e2f
+      id: 514064485
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 949bd9bfeea3b740b316a7f992c54fb1
+      - ElementName: MUS
+        ObjectType: 4
+        guid: efc8181a178dcd4fad9747286720cd97
+      - ElementName: Fight
+        ObjectType: 4
+        guid: 2e209f0d8c7a134b90da309d3a160e2f
+      Path: Events\Default Work Unit\MUS\Fight
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: FILTERS
+      guid: e6177371fd2b2c4ab7d394131e936398
+      id: 848540298
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 949bd9bfeea3b740b316a7f992c54fb1
+      - ElementName: FILTERS
+        ObjectType: 4
+        guid: e6177371fd2b2c4ab7d394131e936398
+      Path: Events\Default Work Unit\FILTERS
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: GROUND
+      guid: acd29b72156d55409206f701f6c798c1
+      id: 2528658256
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 949bd9bfeea3b740b316a7f992c54fb1
+      - ElementName: GROUND
+        ObjectType: 4
+        guid: acd29b72156d55409206f701f6c798c1
+      Path: Events\Default Work Unit\GROUND
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: MUS
+      guid: efc8181a178dcd4fad9747286720cd97
+      id: 712897226
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 949bd9bfeea3b740b316a7f992c54fb1
+      - ElementName: MUS
+        ObjectType: 4
+        guid: efc8181a178dcd4fad9747286720cd97
+      Path: Events\Default Work Unit\MUS
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: MUS_LAYER
+      guid: 13677b9ed53f984e8f5e4316700ef1cf
+      id: 2327601844
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 949bd9bfeea3b740b316a7f992c54fb1
+      - ElementName: MUS_LAYER
+        ObjectType: 4
+        guid: 13677b9ed53f984e8f5e4316700ef1cf
+      Path: Events\Default Work Unit\MUS_LAYER
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Pause
+      guid: c8f8d16f3bca6345b9d45b278e87b507
+      id: 3092587493
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 949bd9bfeea3b740b316a7f992c54fb1
+      - ElementName: FILTERS
+        ObjectType: 4
+        guid: e6177371fd2b2c4ab7d394131e936398
+      - ElementName: Pause
+        ObjectType: 3
+        guid: c8f8d16f3bca6345b9d45b278e87b507
+      Path: Events\Default Work Unit\FILTERS\Pause
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_MUS_Combat
+      guid: f85922d8f502834287bb55bd31e81e06
+      id: 968124462
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 949bd9bfeea3b740b316a7f992c54fb1
+      - ElementName: MUS
+        ObjectType: 4
+        guid: efc8181a178dcd4fad9747286720cd97
+      - ElementName: Fight
+        ObjectType: 4
+        guid: 2e209f0d8c7a134b90da309d3a160e2f
+      - ElementName: Play_MUS_Combat
+        ObjectType: 3
+        guid: f85922d8f502834287bb55bd31e81e06
+      Path: Events\Default Work Unit\MUS\Fight\Play_MUS_Combat
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_SSFX_
+      guid: 773b1b0072a4ca43b87120733dfb780f
+      id: 54287365
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 949bd9bfeea3b740b316a7f992c54fb1
+      - ElementName: SSFX
+        ObjectType: 4
+        guid: a925d140d7d6be46a3ec23e2d212020a
+      - ElementName: Play_SSFX_
+        ObjectType: 3
+        guid: 773b1b0072a4ca43b87120733dfb780f
+      Path: Events\Default Work Unit\SSFX\Play_SSFX_
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_SSFX__Click
+      guid: be23c766fe5c55408d5f66c2da128b91
+      id: 3568964008
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 949bd9bfeea3b740b316a7f992c54fb1
+      - ElementName: SSFX
+        ObjectType: 4
+        guid: a925d140d7d6be46a3ec23e2d212020a
+      - ElementName: Play_SSFX__Click
+        ObjectType: 3
+        guid: be23c766fe5c55408d5f66c2da128b91
+      Path: Events\Default Work Unit\SSFX\Play_SSFX__Click
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_SSFX__ClickBlocked
+      guid: 8c30979e817dc0438f12a52526fdd905
+      id: 2149827808
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 949bd9bfeea3b740b316a7f992c54fb1
+      - ElementName: SSFX
+        ObjectType: 4
+        guid: a925d140d7d6be46a3ec23e2d212020a
+      - ElementName: Play_SSFX__ClickBlocked
+        ObjectType: 3
+        guid: 8c30979e817dc0438f12a52526fdd905
+      Path: Events\Default Work Unit\SSFX\Play_SSFX__ClickBlocked
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_SSFX__FightWin
+      guid: 78c6c1a648895f459e5a9267b2234f2e
+      id: 3590565784
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 949bd9bfeea3b740b316a7f992c54fb1
+      - ElementName: SSFX
+        ObjectType: 4
+        guid: a925d140d7d6be46a3ec23e2d212020a
+      - ElementName: Play_SSFX__FightWin
+        ObjectType: 3
+        guid: 78c6c1a648895f459e5a9267b2234f2e
+      Path: Events\Default Work Unit\SSFX\Play_SSFX__FightWin
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_SSFX__Walk
+      guid: 011104c8f653f4429b2d4cdd2ada5ea2
+      id: 71458555
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 949bd9bfeea3b740b316a7f992c54fb1
+      - ElementName: SSFX
+        ObjectType: 4
+        guid: a925d140d7d6be46a3ec23e2d212020a
+      - ElementName: Play_SSFX__Walk
+        ObjectType: 3
+        guid: 011104c8f653f4429b2d4cdd2ada5ea2
+      Path: Events\Default Work Unit\SSFX\Play_SSFX__Walk
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Resume
+      guid: 541869f10c03a740b17f2a86a04c8559
+      id: 953277036
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 949bd9bfeea3b740b316a7f992c54fb1
+      - ElementName: FILTERS
+        ObjectType: 4
+        guid: e6177371fd2b2c4ab7d394131e936398
+      - ElementName: Resume
+        ObjectType: 3
+        guid: 541869f10c03a740b17f2a86a04c8559
+      Path: Events\Default Work Unit\FILTERS\Resume
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Set_Grass
+      guid: 2cb89a168407ad41a4aa75251d55b88e
+      id: 4038830388
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 949bd9bfeea3b740b316a7f992c54fb1
+      - ElementName: GROUND
+        ObjectType: 4
+        guid: acd29b72156d55409206f701f6c798c1
+      - ElementName: Set_Grass
+        ObjectType: 3
+        guid: 2cb89a168407ad41a4aa75251d55b88e
+      Path: Events\Default Work Unit\GROUND\Set_Grass
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Set_Layer_0
+      guid: 67f914409c5a6a49a95cff80ccac0ff1
+      id: 217388420
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 949bd9bfeea3b740b316a7f992c54fb1
+      - ElementName: MUS_LAYER
+        ObjectType: 4
+        guid: 13677b9ed53f984e8f5e4316700ef1cf
+      - ElementName: Set_Layer_0
+        ObjectType: 3
+        guid: 67f914409c5a6a49a95cff80ccac0ff1
+      Path: Events\Default Work Unit\MUS_LAYER\Set_Layer_0
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Set_Layer_1
+      guid: 2c950fa413025e4b9c3f5cc8c7f79a83
+      id: 217388421
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 949bd9bfeea3b740b316a7f992c54fb1
+      - ElementName: MUS_LAYER
+        ObjectType: 4
+        guid: 13677b9ed53f984e8f5e4316700ef1cf
+      - ElementName: Set_Layer_1
+        ObjectType: 3
+        guid: 2c950fa413025e4b9c3f5cc8c7f79a83
+      Path: Events\Default Work Unit\MUS_LAYER\Set_Layer_1
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Set_Layer_2
+      guid: 714021d35fa77a499b3b4d8390b89916
+      id: 217388422
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 949bd9bfeea3b740b316a7f992c54fb1
+      - ElementName: MUS_LAYER
+        ObjectType: 4
+        guid: 13677b9ed53f984e8f5e4316700ef1cf
+      - ElementName: Set_Layer_2
+        ObjectType: 3
+        guid: 714021d35fa77a499b3b4d8390b89916
+      Path: Events\Default Work Unit\MUS_LAYER\Set_Layer_2
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Set_Layer_3
+      guid: 122d9464e92ef240b0552f1f8d32f280
+      id: 217388423
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 949bd9bfeea3b740b316a7f992c54fb1
+      - ElementName: MUS_LAYER
+        ObjectType: 4
+        guid: 13677b9ed53f984e8f5e4316700ef1cf
+      - ElementName: Set_Layer_3
+        ObjectType: 3
+        guid: 122d9464e92ef240b0552f1f8d32f280
+      Path: Events\Default Work Unit\MUS_LAYER\Set_Layer_3
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Set_Sand
+      guid: 06416f87851aea478ec615e9bd502574
+      id: 4022000560
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 949bd9bfeea3b740b316a7f992c54fb1
+      - ElementName: GROUND
+        ObjectType: 4
+        guid: acd29b72156d55409206f701f6c798c1
+      - ElementName: Set_Sand
+        ObjectType: 3
+        guid: 06416f87851aea478ec615e9bd502574
+      Path: Events\Default Work Unit\GROUND\Set_Sand
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: SSFX
+      guid: a925d140d7d6be46a3ec23e2d212020a
+      id: 672574001
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 949bd9bfeea3b740b316a7f992c54fb1
+      - ElementName: SSFX
+        ObjectType: 4
+        guid: a925d140d7d6be46a3ec23e2d212020a
+      Path: Events\Default Work Unit\SSFX
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+  RtpcWwu:
+  - PhysicalPath: Game Parameters\Default Work Unit.wwu
+    PathAndIcons:
+    - ElementName: Game Parameters
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: Default Work Unit
+      ObjectType: 12
+      guid: ff666b964546ef4e9c0e4a1de8f844b7
+    ParentPath: Game Parameters\Default Work Unit
+    guid: ff666b964546ef4e9c0e4a1de8f844b7
+    GuidInternal: 
+    m_lastTime: -8585171264553319224
+    List: []
+  StateWwu:
+  - PhysicalPath: States\Default Work Unit.wwu
+    PathAndIcons:
+    - ElementName: States
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: Default Work Unit
+      ObjectType: 12
+      guid: 4357da42963e2141a2fff533c2aaa80c
+    ParentPath: States\Default Work Unit
+    guid: 4357da42963e2141a2fff533c2aaa80c
+    GuidInternal: 
+    m_lastTime: -8585165779445870767
+    List:
+    - name: Layers
+      guid: 32472acbdfceb946825b5f434b80a263
+      id: 3298531235
+      PathAndIcons:
+      - ElementName: States
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 4357da42963e2141a2fff533c2aaa80c
+      - ElementName: Layers
+        ObjectType: 9
+        guid: 32472acbdfceb946825b5f434b80a263
+      Path: States\Default Work Unit\Layers
+      values:
+      - name: Layers0
+        guid: 872962e9ea65b84c96cae8c70608af3b
+        id: 602912169
+        PathAndIcons:
+        - ElementName: States
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: 4357da42963e2141a2fff533c2aaa80c
+        - ElementName: Layers
+          ObjectType: 9
+          guid: 32472acbdfceb946825b5f434b80a263
+        - ElementName: Layers0
+          ObjectType: 8
+          guid: 872962e9ea65b84c96cae8c70608af3b
+      - name: Layers1
+        guid: 34483cc4d1666c4ba74c50262d378df7
+        id: 602912168
+        PathAndIcons:
+        - ElementName: States
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: 4357da42963e2141a2fff533c2aaa80c
+        - ElementName: Layers
+          ObjectType: 9
+          guid: 32472acbdfceb946825b5f434b80a263
+        - ElementName: Layers1
+          ObjectType: 8
+          guid: 34483cc4d1666c4ba74c50262d378df7
+      - name: Layers2
+        guid: 62ffa7c0fe995d429bdc929ee8b7d3ce
+        id: 602912171
+        PathAndIcons:
+        - ElementName: States
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: 4357da42963e2141a2fff533c2aaa80c
+        - ElementName: Layers
+          ObjectType: 9
+          guid: 32472acbdfceb946825b5f434b80a263
+        - ElementName: Layers2
+          ObjectType: 8
+          guid: 62ffa7c0fe995d429bdc929ee8b7d3ce
+      - name: Layers3
+        guid: 04d042b4228add4cb5f38bb6505989ac
+        id: 602912170
+        PathAndIcons:
+        - ElementName: States
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: 4357da42963e2141a2fff533c2aaa80c
+        - ElementName: Layers
+          ObjectType: 9
+          guid: 32472acbdfceb946825b5f434b80a263
+        - ElementName: Layers3
+          ObjectType: 8
+          guid: 04d042b4228add4cb5f38bb6505989ac
+      - name: None
+        guid: d6c9ff61882f5e4bb7b5eeababd4c73b
+        id: 748895195
+        PathAndIcons:
+        - ElementName: States
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: 4357da42963e2141a2fff533c2aaa80c
+        - ElementName: Layers
+          ObjectType: 9
+          guid: 32472acbdfceb946825b5f434b80a263
+        - ElementName: None
+          ObjectType: 8
+          guid: d6c9ff61882f5e4bb7b5eeababd4c73b
+      ValueGuids: []
+      ValueIcons: []
+      valuesInternal: []
+  SwitchWwu:
+  - PhysicalPath: Switches\Default Work Unit.wwu
+    PathAndIcons:
+    - ElementName: Switches
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: Default Work Unit
+      ObjectType: 12
+      guid: 727aa02a69d7354da76e03849372a4fe
+    ParentPath: Switches\Default Work Unit
+    guid: 727aa02a69d7354da76e03849372a4fe
+    GuidInternal: 
+    m_lastTime: -8585165779445915672
+    List:
+    - name: Ground_Switch
+      guid: f3df87100802db4ba2f24f3cc73bd78c
+      id: 2578143219
+      PathAndIcons:
+      - ElementName: Switches
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 727aa02a69d7354da76e03849372a4fe
+      - ElementName: Ground_Switch
+        ObjectType: 11
+        guid: f3df87100802db4ba2f24f3cc73bd78c
+      Path: Switches\Default Work Unit\Ground_Switch
+      values:
+      - name: Grass
+        guid: 2c15aab9ca9dd145bcb9b3a75eb6874c
+        id: 4248645337
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: 727aa02a69d7354da76e03849372a4fe
+        - ElementName: Ground_Switch
+          ObjectType: 11
+          guid: f3df87100802db4ba2f24f3cc73bd78c
+        - ElementName: Grass
+          ObjectType: 10
+          guid: 2c15aab9ca9dd145bcb9b3a75eb6874c
+      - name: Sand
+        guid: 9a0d79f1b731d5438215ca445f5aab96
+        id: 803837735
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: 727aa02a69d7354da76e03849372a4fe
+        - ElementName: Ground_Switch
+          ObjectType: 11
+          guid: f3df87100802db4ba2f24f3cc73bd78c
+        - ElementName: Sand
+          ObjectType: 10
+          guid: 9a0d79f1b731d5438215ca445f5aab96
+      ValueGuids: []
+      ValueIcons: []
+      valuesInternal: []
+  TriggerWwu:
+  - PhysicalPath: Triggers\Default Work Unit.wwu
+    PathAndIcons:
+    - ElementName: Triggers
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: Default Work Unit
+      ObjectType: 12
+      guid: 059de49afdf0cf4fb646f586885de550
+    ParentPath: Triggers\Default Work Unit
+    guid: 059de49afdf0cf4fb646f586885de550
+    GuidInternal: 
+    m_lastTime: -8585171264544059223
+    List: []
+  ExpandedFileSystemItemIds: 010000000200000003000000040000000500000006000000080000000b0000000d0000000e0000000f000000150000001600000017000000
+  ExpandedWaapiItemIds: 0200000004000000050000000600000007000000080000000a0000000e00000010000000120000001400000017000000
+  AutoSyncSelection: 0
+  autoPopulateEnabled: 1
+  currentDataSource: 1
+  CurrentPluginConfig: 
