@@ -7,37 +7,42 @@ using TMPro;
 
 public class LoadingScreen : MonoBehaviour
 {
-    public string sceneToLoad;
-    public GameObject loadingUI;
+    public List<Sprite> SpritePool;
+    public Image TargetImage;
 
-
-    private void Start()
+    private bool _inited = false;
+    
+    public void Init()
     {
-        DontDestroyOnLoad(gameObject);
-        loadingUI.SetActive(true);
-        
-        StartCoroutine(LoadSceneAsync());
+        if (this._inited) return;
+
+        this._inited = true;
+
+        DontDestroyOnLoad(this.gameObject);
+        this.gameObject.SetActive(false);
     }
 
-    private IEnumerator LoadSceneAsync()
+    public void Show()
     {
-        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(sceneToLoad);
+        this.ChangeImageSprite();
+        this.gameObject.SetActive(true);
+    }
 
-        asyncOperation.allowSceneActivation = false;
+    public void Hide()
+    {
+        this.gameObject.SetActive(false);
+    }
 
-        while (asyncOperation.progress < 0.9f)
+    public void ChangeImageSprite()
+    {
+        if (SpritePool.Count == 0)
         {
-            yield return null;
+            Debug.LogError("La liste des sprites est vide !");
+            return;
         }
 
+        int randomIndex = Random.Range(0, SpritePool.Count);
 
-
-        asyncOperation.allowSceneActivation = true;
-        yield return new WaitForSeconds(5f);
-
-        loadingUI.SetActive(false);
-
-        
+        TargetImage.sprite = SpritePool[randomIndex];
     }
-
 }

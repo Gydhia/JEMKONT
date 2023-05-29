@@ -18,6 +18,13 @@ using UnityEngine.SceneManagement;
 
 namespace DownBelow.Managers
 {
+    public enum LevelName
+    {
+        MainMenu,
+        FarmLand,
+        
+    }
+
     public class GameManager : _baseManager<GameManager>
     {
         #region EVENTS
@@ -185,6 +192,7 @@ namespace DownBelow.Managers
 
                 GameStarted = true;
                 this.FireGameStarted();
+                NetworkManager.Instance.SelfLoadedGame();
             }
         }
 
@@ -392,6 +400,7 @@ namespace DownBelow.Managers
         }
 
         #endregion
+
 
         #region SAVE
 

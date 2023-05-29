@@ -33,9 +33,7 @@ namespace DownBelow.UI
 
         public void OnClickBackToMenu()
         {
-            // TODO: Add a validation popup and notify all other players
-            GameData.Game.RefGameDataContainer = null;
-            UnityEngine.SceneManagement.SceneManager.LoadScene("UI_MainMenu");
+            NetworkManager.Instance.LoadScene(LevelName.MainMenu);
         }
     }
 }

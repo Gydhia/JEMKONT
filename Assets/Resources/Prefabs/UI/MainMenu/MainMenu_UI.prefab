@@ -330,6 +330,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PopupHolders: {fileID: 7185631272507928381}
+  UILobby: {fileID: 8063260676721581486}
+  UIRoom: {fileID: 8946364140518139425}
   LastPopup: 0
   GoingToHost: 0
   HostButton: {fileID: 5614608535237707232}
@@ -1449,6 +1451,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2541715705410646443, guid: e84bbb831a70ba64ca97bda1a9ea9084, type: 3}
   m_PrefabInstance: {fileID: 3189129033877857639}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8063260676721581486 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4874156112350361801, guid: e84bbb831a70ba64ca97bda1a9ea9084, type: 3}
+  m_PrefabInstance: {fileID: 3189129033877857639}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99efe00194468004b9bbf052f1561563, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5532014959514359204
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1951,3 +1964,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6601317027868440298, guid: 3e0dd091d4b92514295770ad9966080a, type: 3}
   m_PrefabInstance: {fileID: 9114840947588166542}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8946364140518139425 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 169365771440166319, guid: 3e0dd091d4b92514295770ad9966080a, type: 3}
+  m_PrefabInstance: {fileID: 9114840947588166542}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3726124a0f3a2a4eb8e68d061cb2aa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

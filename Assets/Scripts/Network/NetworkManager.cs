@@ -16,6 +16,9 @@ using System;
 using DownBelow.UI.Menu;
 using Newtonsoft.Json;
 using Photon.Pun.Demo.PunBasics;
+using UnityEngine.SceneManagement;
+using System.ComponentModel;
+using Sirenix.Serialization;
 
 namespace DownBelow.Managers
 {
@@ -60,13 +63,12 @@ namespace DownBelow.Managers
         public event GameEventData.Event OnInternetReached;
         public event GameEventData.Event OnInternetLost;
 
+        private bool _inited = false;
+
         public bool HasInternet;
 
         private string sharedSaveBuffer;
         private int endWrapCount = 0;
-
-        public MenuPopup_Lobby UILobby;
-        public MenuPopup_Room UIRoom;
 
         protected DisconnectTarget DisconnectCallback = DisconnectTarget.None; 
 
@@ -77,7 +79,7 @@ namespace DownBelow.Managers
         /// <summary>
         /// Players for whom playing entity has ended its turn
         /// </summary>
-        private List<PlayerBehavior> _playersTurnState = new List<PlayerBehavior>();
+        private List<string> _playersNetState = new List<string>();
 
         private void Awake()
         {
@@ -85,6 +87,7 @@ namespace DownBelow.Managers
             {
                 Instance = this;
                 this.transform.parent = null;
+
                 DontDestroyOnLoad(this.gameObject);
             }
             else
@@ -109,9 +112,30 @@ namespace DownBelow.Managers
 
         public void Init()
         {
+            if (this._inited) return;
 
+            this._inited = true;
+
+            this.LoadingScreen.Init();
         }
 
+        public void SelfLoadedGame()
+        {
+            this.photonView.RPC("RPC_SelfLoadedGame", RpcTarget.AllBuffered, GameManager.RealSelfPlayer.UID);
+        }
+
+        [PunRPC]
+        public void RPC_SelfLoadedGame(string PlayerID)
+        {
+            this._playersNetState.Add(PlayerID);
+
+            // Hide loading screen ONLY when all players have loaded the scene
+            if (this._playersNetState.Count >= GameManager.Instance.Players.Count)
+            {
+                this._playersNetState.Clear();
+                this.LoadingScreen.Hide();
+            }
+        }
         private void Update()
         {
             if (this.HasInternet && Application.internetReachability == NetworkReachability.NotReachable)
@@ -211,7 +235,7 @@ namespace DownBelow.Managers
 
         #region UI_calls
 
-        public GameObject LoadingScreen;
+        public LoadingScreen LoadingScreen;
         public void ClickOnStart()
         {
             if (PhotonNetwork.IsMasterClient)
@@ -220,11 +244,10 @@ namespace DownBelow.Managers
                 {
                     PhotonNetwork.JoinRandomOrCreateRoom();
                 }
-                //PhotonNetwork.CurrentRoom.IsOpen = false;
-                //PhotonNetwork.CurrentRoom.IsVisible = false;
+                PhotonNetwork.CurrentRoom.IsOpen = false;
+                PhotonNetwork.CurrentRoom.IsVisible = false;
 
-                PhotonNetwork.LoadLevel("0_FarmLand");
-                LoadingScreen.SetActive(true);
+                this.LoadScene(LevelName.FarmLand);
             }
             else
             {
@@ -234,6 +257,13 @@ namespace DownBelow.Managers
 
         public void ShareSaveThroughRoom()
         {
+            // No need to share files when alone
+            if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
+            {
+                this.ClickOnStart();
+                return;
+            }
+
             var saveFile = GameData.Game.RefGameDataContainer.SavegameFile;
 
             var textReader = saveFile.OpenText();
@@ -258,19 +288,18 @@ namespace DownBelow.Managers
 
             textReader.Close();
 
-            if(PhotonNetwork.CurrentRoom.PlayerCount == 1)
-            {
-                this.ClickOnStart();
-            }
-            else
-            {
-                this.photonView.RPC("WrapSaveParts", RpcTarget.All);
-            }
+            this.photonView.RPC("WrapSaveParts", RpcTarget.All);   
         }
 
         [PunRPC]
         public void OnReceivedSharedSavePart(string savePart)
         {
+            // As a client, we wanna show the loading screen when receiving datas
+            if (!this.LoadingScreen.gameObject.activeInHierarchy)
+            {
+                this.LoadingScreen.Show();
+            }
+
             this.sharedSaveBuffer += savePart;
         }
 
@@ -477,9 +506,9 @@ namespace DownBelow.Managers
         [PunRPC]
         public void RPC_RespondMasterToLeaveCombat(string PlayerID)
         {
-            this._playersTurnState.Add(GameManager.Instance.Players[PlayerID]);
+            this._playersNetState.Add(PlayerID);
 
-            if(this._playersTurnState.Count >= GameManager.Instance.Players.Count)
+            if(this._playersNetState.Count >= GameManager.Instance.Players.Count)
             {
                 this.photonView.RPC("RPC_RespondPlayersToLeaveCombat", RpcTarget.All, GameManager.SelfPlayer.UID);
             }
@@ -487,7 +516,7 @@ namespace DownBelow.Managers
         [PunRPC]
         public void RPC_RespondPlayersToLeaveCombat(string PlayerID)
         {
-            this._playersTurnState.Clear();
+            this._playersNetState.Clear();
 
             GameManager.Instance.ExitAllFromCombat();
         }
@@ -521,7 +550,7 @@ namespace DownBelow.Managers
 
         public void StartEntityTurn()
         {
-            this._playersTurnState.Clear();
+            this._playersNetState.Clear();
 
             this.photonView.RPC("NotifyPlayerStartTurn", RpcTarget.All);
         }
@@ -539,12 +568,12 @@ namespace DownBelow.Managers
         [PunRPC]
         public void PlayerAnswerStartTurn(string PlayerID)
         {
-            this._playersTurnState.Add(GameManager.Instance.Players[PlayerID]);
+            this._playersNetState.Add(PlayerID);
 
             // When all players have started the playing entity's turn, create the actions IF it's an enemy
-            if (this._playersTurnState.Count >= GameManager.Instance.Players.Count)
+            if (this._playersNetState.Count >= GameManager.Instance.Players.Count)
             {
-                this._playersTurnState.Clear();
+                this._playersNetState.Clear();
 
                 if (CombatManager.CurrentPlayingEntity is EnemyEntity enemy)
                 {
@@ -564,10 +593,9 @@ namespace DownBelow.Managers
         [PunRPC]
         public void RespondMasterEndEntityTurn(string PlayerID)
         {
-            var player = GameManager.Instance.Players.Values.Single(pe => pe.UID == PlayerID);
-            this._playersTurnState.Add(player);
+            this._playersNetState.Add(PlayerID);
 
-            if (this._playersTurnState.Count >= GameManager.Instance.Players.Count)
+            if (this._playersNetState.Count >= GameManager.Instance.Players.Count)
             {
                 this.photonView.RPC("RespondPlayerEndEntityTurn", RpcTarget.All, PlayerID);
             }
@@ -576,7 +604,7 @@ namespace DownBelow.Managers
         [PunRPC]
         public void RespondPlayerEndEntityTurn(string PlayerID)
         {
-            this._playersTurnState.Clear();
+            this._playersNetState.Clear();
 
             // Each player process it 
             CombatManager.Instance.ProcessEndTurn();
@@ -587,11 +615,9 @@ namespace DownBelow.Managers
         [PunRPC]
         public void ConfirmPlayerEndedTurn(string PlayerID)
         {
-            var player = GameManager.Instance.Players.Values.Single(pe => pe.UID == PlayerID);
+            this._playersNetState.Add(PlayerID);
 
-            this._playersTurnState.Add(player);
-
-            if (this._playersTurnState.Count >= GameManager.Instance.Players.Count)
+            if (this._playersNetState.Count >= GameManager.Instance.Players.Count)
             {
                 this.StartEntityTurn();
             }
@@ -621,13 +647,13 @@ namespace DownBelow.Managers
 
         public override void OnRoomListUpdate(List<RoomInfo> roomList)
         {
-            this.UILobby?.UpdateRoomList(roomList);
+            MenuManager.Instance.UILobby?.UpdateRoomList(roomList);
         }
 
 
         public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
         {
-            this.UIRoom?.UpdatePlayersFromProperties(targetPlayer);
+            MenuManager.Instance.UIRoom?.UpdatePlayersFromProperties(targetPlayer);
         }
 
         public override void OnJoinedRoom()
@@ -635,10 +661,10 @@ namespace DownBelow.Managers
             Debug.Log("JOINED ROOM");
             if (!PhotonNetwork.CurrentRoom.IsOffline)
             {
-                if (this.UIRoom != null)
+                if (MenuManager.Instance.UIRoom != null)
                 {
                     MenuManager.Instance.SelectPopup(MenuPopup.Room);
-                    this.UIRoom.OnJoinedRoom();
+                    MenuManager.Instance.UIRoom.OnJoinedRoom();
                 }
                 else
                 {
@@ -653,23 +679,34 @@ namespace DownBelow.Managers
 
         public override void OnPlayerEnteredRoom(Player newPlayer)
         {
-            this.UIRoom?.UpdatePlayersList();
-            this.UIRoom?.UpdatePlayersState();
+            MenuManager.Instance.UIRoom?.UpdatePlayersList();
+            MenuManager.Instance.UIRoom?.UpdatePlayersState();
         }
 
         public override void OnLeftRoom()
         {
-            this.UIRoom?.OnSelfLeftRoom();
+            MenuManager.Instance.UIRoom?.OnSelfLeftRoom();
         }
 
         public override void OnPlayerLeftRoom(Player otherPlayer)
         {
-            this.UIRoom?.OnPlayerLeftRoom();
+            if(MenuManager.Instance.UIRoom != null)
+            {
+                MenuManager.Instance.UIRoom.OnPlayerLeftRoom();
+            }
+            else
+            {
+                // Everyone should leave the game
+                if (otherPlayer.IsMasterClient)
+                {
+                    this.LoadScene(LevelName.MainMenu);
+                }
+            }
         }
 
         public override void OnConnectedToMaster()
         {
-            if (this.UILobby != null)
+            if (MenuManager.Instance.UILobby != null)
             {
                 PhotonNetwork.JoinLobby();
                 MenuManager.Instance.SwitchConnectionAspect(true);
@@ -703,6 +740,32 @@ namespace DownBelow.Managers
 
             Debug.LogError("Current Photon State : \n" + connected + offline + inLobby + currLobby + currRoom + currServer);
         }
+        #endregion
+
+        #region SCENE_LOADING
+
+        public void LoadScene(LevelName levelName)
+        {
+            switch (levelName)
+            {
+                case LevelName.FarmLand:
+                    PhotonNetwork.LoadLevel("0_FarmLand");
+                    break;
+                case LevelName.MainMenu:
+                    // Empty the ref GameData to avoid problems while in mainmenu
+                    GameData.Game.RefGameDataContainer = null;
+
+                    // Leave the room to avoid useless synchronisation
+                    PhotonNetwork.LeaveRoom();
+
+                    // Locally load scene, since network has to be lost
+                    UnityEngine.SceneManagement.SceneManager.LoadScene("UI_MainMenu");
+                    break;
+            }
+
+            this.LoadingScreen.Show();
+        }
+
         #endregion
     }
 
