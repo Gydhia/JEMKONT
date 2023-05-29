@@ -40,6 +40,7 @@ namespace DownBelow.Managers
         public int[] GridLocation;
         public string ActionType;
         public object[] Datas;
+       
 
         public SerializedAction(string actionID, string contextAction, string entityID, string grid, int[] gridLocation, string actionType, object[] datas)
         {
@@ -209,6 +210,8 @@ namespace DownBelow.Managers
         }
 
         #region UI_calls
+
+        public GameObject LoadingScreen;
         public void ClickOnStart()
         {
             if (PhotonNetwork.IsMasterClient)
@@ -221,6 +224,7 @@ namespace DownBelow.Managers
                 //PhotonNetwork.CurrentRoom.IsVisible = false;
 
                 PhotonNetwork.LoadLevel("0_FarmLand");
+                LoadingScreen.SetActive(true);
             }
             else
             {
