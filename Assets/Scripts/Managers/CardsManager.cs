@@ -36,28 +36,8 @@ namespace DownBelow.Managers
         /// </summary>
         public List<DeckPreset> AvailableDecks;
 
-        [HideInInspector]
-        public Dictionary<Guid, DeckPreset> DeckPresets;
-        public Dictionary<Guid, ScriptableCard> ScriptableCards;
-        public List<ScriptableCard> OwnedCards;
-
         public void Init()
-        {
-            this._loadScriptableCards();
-
-            // Generate decks according to what we plugged. We need a Guid access for easy network
-            this.DeckPresets = new Dictionary<Guid, DeckPreset>();
-            foreach (var deck in this.AvailableDecks)
-            {
-                this.DeckPresets.Add(deck.UID, deck);
-            }
-
-            this.ToolPresets = new Dictionary<Guid, ToolItem>();
-            foreach (var tool in this.AvailableTools)
-            {
-                this.ToolPresets.Add(tool.UID, tool);
-            }
-
+        {          
             CombatManager.Instance.OnCombatStarted += _setupForCombat;
             CombatManager.Instance.OnCombatEnded += _endForCombat;
         }
@@ -85,58 +65,14 @@ namespace DownBelow.Managers
                 deck.EndForCombat();
             }
         }
-
-        private void _loadScriptableCards()
-        {
-            List<DeckPreset> decks = Resources.LoadAll<DeckPreset>("Presets/Decks").ToList();
-
-            this.DeckPresets = new Dictionary<Guid, DeckPreset>();
-            this.ScriptableCards = new Dictionary<Guid, ScriptableCard>();
-            this.OwnedCards = new List<ScriptableCard>();
-
-            foreach (var deck in decks)
-            {
-                this.DeckPresets.Add(deck.UID, deck);
-
-                // Only take the unique cards
-                foreach (var card in deck.Deck.Cards)
-                {
-                    if (!this.ScriptableCards.ContainsKey(card.UID))
-                        this.ScriptableCards.Add(card.UID, card);
-                }
-            }
-        }
         #endregion
 
         #region TOOLS
         [OdinSerialize()] public Dictionary<EClass, ToolItem> ToolInstances = new();//Je vois des choses
 
         public List<ToolItem> AvailableTools;
-
-        [HideInInspector]
-        public Dictionary<Guid, ToolItem> ToolPresets;
-
-        public void AddToInstance(ToolItem toolToAdd)
-        {
-            if (ToolInstances.TryGetValue(toolToAdd.Class, out ToolItem tool))
-            {
-                toolToAdd.DeckPreset = tool.DeckPreset; 
-                toolToAdd.Class = tool.Class;
-                //This might be shitty, we'll see afterwards.
-                //TODO: Photon?
-            }
-            else
-            {
-                ToolInstances.Add(toolToAdd.Class, toolToAdd);
-            }
-        }
         #endregion
 
-        #region COMBAT
-        
-
-
-        #endregion
     }
 }
 

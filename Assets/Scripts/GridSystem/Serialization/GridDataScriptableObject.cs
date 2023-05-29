@@ -135,7 +135,7 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
         {
             this.LazyLoadedData.TopLeftOffset = newGrid.TopLeftOffset;
 
-            GridManager.Instance.LoadEveryEntities();
+            SettingsManager.Instance.LoadGridsRelative();
 
             this.GenerateGrid(newGrid.GridHeight, newGrid.GridWidth);
 
@@ -177,10 +177,10 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
 
         foreach (var spawnable in refEntities)
         {
-            if (GridManager.Instance.SpawnablesPresets.ContainsKey(spawnable.Value))
+            if (SettingsManager.Instance.SpawnablesPresets.ContainsKey(spawnable.Value))
             {
-                setEntities.Add(spawnable.Key, GridManager.Instance.SpawnablesPresets[spawnable.Value]);
-                refCells[spawnable.Key.latitude, spawnable.Key.longitude].state = GridManager.Instance.SpawnablesPresets[spawnable.Value].AffectingState;
+                setEntities.Add(spawnable.Key, SettingsManager.Instance.SpawnablesPresets[spawnable.Value]);
+                refCells[spawnable.Key.latitude, spawnable.Key.longitude].state = SettingsManager.Instance.SpawnablesPresets[spawnable.Value].AffectingState;
             }
             else
             {

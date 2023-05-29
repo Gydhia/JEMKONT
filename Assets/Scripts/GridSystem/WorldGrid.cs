@@ -101,7 +101,7 @@ namespace DownBelow.GridSystem
                 // Used to generate UID
                 foreach (var spawnable in gridData.SpawnablePresets)
                     if (spawnable.Value != null)
-                        if (GridManager.Instance.SpawnablesPresets.TryGetValue(spawnable.Value, out BaseSpawnablePreset spawnSO))
+                        if (SettingsManager.Instance.SpawnablesPresets.TryGetValue(spawnable.Value, out BaseSpawnablePreset spawnSO))
                             // TODO: Differentiate enemies and NPC. For now they'll be enemies
                             spawnSO.Init(this.Cells[spawnable.Key.latitude, spawnable.Key.longitude]);
             }

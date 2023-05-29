@@ -64,11 +64,11 @@ namespace DownBelow.Spells
 
         public override async void ExecuteAction()
         {
-            Debug.LogWarning($"Executing spell {CardsManager.Instance.ScriptableCards[this.SpellHeader.RefCard].Title}");
-            int cost = CardsManager.Instance.ScriptableCards[SpellHeader.RefCard].Cost;
+            Debug.LogWarning($"Executing spell {SettingsManager.Instance.ScriptableCards[this.SpellHeader.RefCard].Title}");
+            int cost = SettingsManager.Instance.ScriptableCards[SpellHeader.RefCard].Cost;
             if (this.ParentSpell == null && this.RefEntity.Mana - cost > 0)
             {
-                this.RefEntity.ApplyStat(EntityStatistics.Mana, -CardsManager.Instance.ScriptableCards[SpellHeader.RefCard].Cost);
+                this.RefEntity.ApplyStat(EntityStatistics.Mana, -SettingsManager.Instance.ScriptableCards[SpellHeader.RefCard].Cost);
             }
 
             if (!this.ValidateConditions())

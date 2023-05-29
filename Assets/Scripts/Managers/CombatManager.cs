@@ -172,7 +172,7 @@ namespace DownBelow.Managers
 
                     fakePlayer.Init(placementCell, currentGrid, 0, true);
 
-                    var refTool = CardsManager.Instance.ToolPresets.Values.Single(t => t.DeckPreset == fakeDeck);
+                    var refTool = SettingsManager.Instance.ToolPresets.Values.Single(t => t.DeckPreset == fakeDeck);
                     fakePlayer.SetActiveTool(refTool);
 
                     fakePlayer.ReinitializeAllStats();

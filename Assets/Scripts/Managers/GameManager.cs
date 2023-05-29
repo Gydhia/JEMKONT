@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using Sirenix.Utilities;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using DownBelow.Loading;
 
 namespace DownBelow.Managers
 {
@@ -104,6 +105,9 @@ namespace DownBelow.Managers
 
         public void Init()
         {
+            if (SettingsManager.Instance != null)
+                SettingsManager.Instance.Init();
+
             if (NetworkManager.Instance != null)
                 NetworkManager.Instance.Init();
 
@@ -130,6 +134,11 @@ namespace DownBelow.Managers
             {
                 GridManager.Instance.CreateWholeWorld(GameData.Game.RefGameDataContainer);
                 this.ProcessPlayerWelcoming();
+            }
+            else if (MenuManager.Instance == null)
+            {
+                // We're directly loading the FarmLand
+                LoadingScreen.Instance.Show();
             }
         }
 
@@ -163,7 +172,7 @@ namespace DownBelow.Managers
         {
             if (PhotonNetwork.PlayerList.Length >= 1)
             {
-                System.Guid spawnId = GridManager.Instance.SpawnablesPresets.First(k => k.Value is SpawnPreset).Key;
+                System.Guid spawnId = SettingsManager.Instance.SpawnablesPresets.First(k => k.Value is SpawnPreset).Key;
                 var spawnLocations = GridManager.Instance.MainWorldGrid.SelfData.SpawnablePresets.Where(k => k.Value == spawnId).Select(kv => kv.Key);
 
                 this.Players = new Dictionary<string, PlayerBehavior>();
@@ -223,7 +232,7 @@ namespace DownBelow.Managers
 
         public void ExitAllFromCombat()
         {
-            System.Guid spawnId = GridManager.Instance.SpawnablesPresets.First(k => k.Value is SpawnPreset).Key;
+            System.Guid spawnId = SettingsManager.Instance.SpawnablesPresets.First(k => k.Value is SpawnPreset).Key;
 
             var spawnLocations = CombatManager.CurrentPlayingGrid.SelfData.SpawnablePresets.Where(k => k.Value == spawnId).Select(kv => kv.Key);
             var worldGrid = CombatManager.CurrentPlayingGrid.ParentGrid;
@@ -478,19 +487,6 @@ namespace DownBelow.Managers
             return gamedata.Save(Instance._getFileToSave(saveName));
         }
 
-        public string CreateBaseGridsJSON()
-        {
-            TextAsset[] jsons = Resources.LoadAll<TextAsset>("Saves/Grids/");
-            JArray gridsArray = new JArray();
-
-            foreach (TextAsset json in jsons)
-            {
-                JObject grid = JsonConvert.DeserializeObject<JObject>(json.text);
-                gridsArray.Add(grid);
-            }
-
-            return gridsArray.ToString();
-        }
         public GridData[] CreateBaseGridsDatas()
         {
             TextAsset[] jsons = Resources.LoadAll<TextAsset>("Saves/Grids/");
@@ -507,5 +503,14 @@ namespace DownBelow.Managers
         }
 
         #endregion
+
+        private void OnDestroy()
+        {
+            this._unsubscribeForCombatBuffer(null);
+
+            CombatActionsBuffer.Clear();
+            NormalActionsBuffer.Clear();
+
+        }
     }
 }

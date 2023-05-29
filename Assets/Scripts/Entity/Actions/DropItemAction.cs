@@ -17,7 +17,7 @@ namespace DownBelow.Entity
         public DropItemAction(CharacterEntity RefEntity, Cell TargetCell, string UID, string quantity, string preferedSlot = "-1") : base(RefEntity, TargetCell)
         {
             var GUID = Guid.Parse(UID);
-            this.Item = GridManager.Instance.ItemsPresets[GUID];
+            this.Item = SettingsManager.Instance.ItemsPresets[GUID];
             short.TryParse(quantity, out this.quantity);
             short.TryParse(preferedSlot, out this.preferedSlot);
         }
@@ -44,7 +44,7 @@ namespace DownBelow.Entity
 
         public override void SetDatas(object[] Datas)
         {
-            Item = GridManager.Instance.ItemsPresets[Guid.Parse((string)Datas[0])];
+            Item = SettingsManager.Instance.ItemsPresets[Guid.Parse((string)Datas[0])];
             short.TryParse(Datas[1].ToString(), out quantity);
             short.TryParse(Datas[2].ToString(), out preferedSlot);
         }

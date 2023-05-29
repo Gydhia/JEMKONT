@@ -38,10 +38,6 @@ namespace DownBelow.Managers
 
 #region Datas
         public Dictionary<string, GridData> SavedGrids;
-
-        public Dictionary<Guid, BaseSpawnablePreset> SpawnablesPresets;
-        public Dictionary<Guid, ItemPreset> ItemsPresets;
-
 #endregion
 
         private List<Cell> _possiblePath = new List<Cell>();
@@ -79,8 +75,6 @@ namespace DownBelow.Managers
         public void Init()
         {
             base.Awake();
-
-            this.LoadEveryEntities();
 
             // Events
             if(InputManager.Instance != null)
@@ -816,20 +810,6 @@ namespace DownBelow.Managers
 
             this.LoadGridsFromJSON();
         }        
-
-        public void LoadEveryEntities()
-        {
-            var spawnablesPresets = Resources.LoadAll<BaseSpawnablePreset>("Presets").ToList();
-            var itemsPresets = Resources.LoadAll<ItemPreset>("Presets/Inventory/Items");
-
-            this.SpawnablesPresets = new Dictionary<Guid, BaseSpawnablePreset>();
-            this.ItemsPresets = new Dictionary<Guid, ItemPreset>();
-
-            foreach (var spawnable in spawnablesPresets)
-                this.SpawnablesPresets.Add(spawnable.UID, spawnable);
-            foreach (var item in itemsPresets)
-                this.ItemsPresets.Add(item.UID, item);
-        }
 #endregion
 
 #region SHADERS_BITMAP
