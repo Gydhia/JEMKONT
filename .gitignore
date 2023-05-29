@@ -76,8 +76,12 @@ crashlytics-build.properties
 /Assets/PolygonNatureBiomes/URP_ExtractMe_Nature_Biomes.unitypackage.meta
 
 # Wwise 
-/SiliconCity_WwiseProject/.cache
-/SiliconCity_WwiseProject/**/*.akd
-/SiliconCity_WwiseProject/*.wsettings
-/SiliconCity_WwiseProject/*.validationcache
-/SiliconCity_WwiseProject/*.prof
+/JEMKONT_WwiseProject/.cache
+/JEMKONT_WwiseProject/**/*.akd
+/JEMKONT_WwiseProject/*.wsettings
+/JEMKONT_WwiseProject/*.validationcache
+/JEMKONT_WwiseProject/*.prof
+
+# Builds
+*.apk
+*.unitypackage

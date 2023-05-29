@@ -220,7 +220,11 @@ namespace DownBelow.Managers
             CombatManager.Instance.OnCombatStarted += this._subscribeForCombatBuffer;
             CombatManager.Instance.OnCombatEnded -= _unsubscribeForCombatBuffer;
 
-            this._tryExitAllFromCombat();
+            // Editor only utility
+            if(Data != null)
+            {
+                this._tryExitAllFromCombat();
+            }
         }
 
         private void _tryExitAllFromCombat()
