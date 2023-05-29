@@ -26,6 +26,9 @@ public class AudioHolder : MonoBehaviour
 
         AudioHolder.Instance = this;
 
+        // Set it to root 
+        this.transform.parent = null;
+
         Object.DontDestroyOnLoad(this.gameObject);
     }
 }

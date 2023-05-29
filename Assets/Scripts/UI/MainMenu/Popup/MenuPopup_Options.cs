@@ -82,17 +82,17 @@ public class MenuPopup_Options : BaseMenuPopup
 
     private void OnGameVolumeUpdated(float value)
     {
-        
+        AkSoundEngine.SetRTPCValue("RTPC_Volume_Master", value, AkSoundEngine.AK_INVALID_GAME_OBJECT);
     }
 
     private void OnMusicVolumeUpdated(float value)
     {
-        
+        AkSoundEngine.SetRTPCValue("RTPC_Volume_Music", value, AkSoundEngine.AK_INVALID_GAME_OBJECT);
     }
 
     private void OnEffectsVolumeUpdated(float value)
     {
-        
+        AkSoundEngine.SetRTPCValue("RTPC_Volume_SFX", value, AkSoundEngine.AK_INVALID_GAME_OBJECT);
     }
 
     #endregion

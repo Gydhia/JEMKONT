@@ -114,9 +114,12 @@ namespace DownBelow.Managers
         {
             if (this._inited) return;
 
-            this._inited = true;
+            if(this.LoadingScreen != null)
+            {
+                this._inited = true;
 
-            this.LoadingScreen.Init();
+                this.LoadingScreen.Init();
+            }  
         }
 
         public void SelfLoadedGame()
@@ -133,7 +136,7 @@ namespace DownBelow.Managers
             if (this._playersNetState.Count >= GameManager.Instance.Players.Count)
             {
                 this._playersNetState.Clear();
-                this.LoadingScreen.Hide();
+                this.LoadingScreen?.Hide();
             }
         }
         private void Update()
@@ -647,13 +650,13 @@ namespace DownBelow.Managers
 
         public override void OnRoomListUpdate(List<RoomInfo> roomList)
         {
-            MenuManager.Instance.UILobby?.UpdateRoomList(roomList);
+            MenuManager.Instance?.UILobby?.UpdateRoomList(roomList);
         }
 
 
         public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
         {
-            MenuManager.Instance.UIRoom?.UpdatePlayersFromProperties(targetPlayer);
+            MenuManager.Instance?.UIRoom?.UpdatePlayersFromProperties(targetPlayer);
         }
 
         public override void OnJoinedRoom()
@@ -661,7 +664,7 @@ namespace DownBelow.Managers
             Debug.Log("JOINED ROOM");
             if (!PhotonNetwork.CurrentRoom.IsOffline)
             {
-                if (MenuManager.Instance.UIRoom != null)
+                if (MenuManager.Instance && MenuManager.Instance.UIRoom != null)
                 {
                     MenuManager.Instance.SelectPopup(MenuPopup.Room);
                     MenuManager.Instance.UIRoom.OnJoinedRoom();
@@ -690,7 +693,7 @@ namespace DownBelow.Managers
 
         public override void OnPlayerLeftRoom(Player otherPlayer)
         {
-            if(MenuManager.Instance.UIRoom != null)
+            if(MenuManager.Instance && MenuManager.Instance.UIRoom != null)
             {
                 MenuManager.Instance.UIRoom.OnPlayerLeftRoom();
             }
@@ -706,7 +709,7 @@ namespace DownBelow.Managers
 
         public override void OnConnectedToMaster()
         {
-            if (MenuManager.Instance.UILobby != null)
+            if (MenuManager.Instance && MenuManager.Instance.UILobby != null)
             {
                 PhotonNetwork.JoinLobby();
                 MenuManager.Instance.SwitchConnectionAspect(true);

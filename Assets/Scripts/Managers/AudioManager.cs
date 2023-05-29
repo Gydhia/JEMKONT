@@ -15,10 +15,6 @@ namespace DownBelow.Managers
         private int _currentAudioUpdateFrame = 0;
         [SerializeField]
         private int _audioUpdateFrameRate = 15;
-        public float SurroundingCitizenCount = 0;
-        public float SurroundingCarCount = 0;
-        [ShowInInspector]
-        private bool _debugSurroundingCitizenRadius = false;
 
         private void SetVolumes()
         {
