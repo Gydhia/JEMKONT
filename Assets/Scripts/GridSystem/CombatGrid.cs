@@ -23,7 +23,7 @@ namespace DownBelow.GridSystem
 
             foreach (var sp in data.SpawnablePresets)
             {
-                if(GridManager.Instance.SpawnablesPresets[sp.Value] is SpawnPreset)
+                if(SettingsManager.Instance.SpawnablesPresets[sp.Value] is SpawnPreset)
                 {
                     var cell = this.Cells[sp.Key.latitude, sp.Key.longitude];
                     cell.IsPlacementCell = true;

@@ -1,3 +1,4 @@
+using DownBelow.Loading;
 using DownBelow.UI.Menu;
 using System.Collections;
 using System.Collections.Generic;
@@ -60,6 +61,12 @@ namespace DownBelow.Managers
             this.JoinButton.interactable = connected;
 
             this.ConnectionButton.interactable = !connected;
+        }
+
+        public override void Awake()
+        {
+            base.Awake();
+            LoadingScreen.Instance.Hide();
         }
 
         public void OnTryReconnectClick()

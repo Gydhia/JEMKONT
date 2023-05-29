@@ -16,7 +16,7 @@ namespace DownBelow.GridSystem
 
         public override List<ScriptableCard> GetItemsPool()
         {
-            return CardsManager.Instance.ScriptableCards.Values.ToList().Except(CardsManager.Instance.OwnedCards).ToList();
+            return SettingsManager.Instance.ScriptableCards.Values.ToList().Except(SettingsManager.Instance.OwnedCards).ToList();
         }
 
         public override void Init(InteractablePreset InteractableRef, Cell RefCell)
@@ -27,10 +27,10 @@ namespace DownBelow.GridSystem
 
         public override void GiveItemToPlayer(ScriptableCard Item)
         {
-            if (CardsManager.Instance.OwnedCards.Contains(Item))
+            if (SettingsManager.Instance.OwnedCards.Contains(Item))
                 Debug.LogError(Item.name + " IS ALREADY IN THE OWNED CARDS");
 
-            CardsManager.Instance.OwnedCards.Add(Item);
+            SettingsManager.Instance.OwnedCards.Add(Item);
         }
 
         protected override void RefreshPurchase()

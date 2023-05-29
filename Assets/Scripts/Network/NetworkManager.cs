@@ -1,24 +1,16 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
-using UnityEngine.UI;
-using TMPro;
-using ExitGames.Client.Photon;
 using DownBelow.Entity;
 using DownBelow.GridSystem;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using DownBelow.Mechanics;
 using DownBelow.Events;
 using System;
-using DownBelow.UI.Menu;
 using Newtonsoft.Json;
-using Photon.Pun.Demo.PunBasics;
-using UnityEngine.SceneManagement;
-using System.ComponentModel;
-using Sirenix.Serialization;
+using DownBelow.Loading;
+using EODE.Wonderland;
 
 namespace DownBelow.Managers
 {
@@ -89,6 +81,19 @@ namespace DownBelow.Managers
                 this.transform.parent = null;
 
                 DontDestroyOnLoad(this.gameObject);
+
+                // SUPER MEGA IMPORTANT. photonView isn't reliable with DontDestroyOnLoad, so we're adding it manually at the first instantiation.
+                if(this.photonView == null)
+                {
+                    var newView = this.gameObject.AddComponent<PhotonView>();
+
+                    newView.OwnershipTransfer = OwnershipOption.Fixed;
+                    newView.ViewID = PhotonNetwork.AllocateViewID(0);
+                }
+                else
+                {
+                    Debug.LogError("NetworkManager already has a photonView at first Instantiation. This shouldn't occur since it'll collide by returning to the loaded scene");
+                }
             }
             else
             {
@@ -112,14 +117,7 @@ namespace DownBelow.Managers
 
         public void Init()
         {
-            if (this._inited) return;
-
-            if(this.LoadingScreen != null)
-            {
-                this._inited = true;
-
-                this.LoadingScreen.Init();
-            }  
+            this._inited = true;
         }
 
         public void SelfLoadedGame()
@@ -136,7 +134,7 @@ namespace DownBelow.Managers
             if (this._playersNetState.Count >= GameManager.Instance.Players.Count)
             {
                 this._playersNetState.Clear();
-                this.LoadingScreen?.Hide();
+                LoadingScreen.Instance.Hide();
             }
         }
         private void Update()
@@ -237,8 +235,6 @@ namespace DownBelow.Managers
         }
 
         #region UI_calls
-
-        public LoadingScreen LoadingScreen;
         public void ClickOnStart()
         {
             if (PhotonNetwork.IsMasterClient)
@@ -298,10 +294,7 @@ namespace DownBelow.Managers
         public void OnReceivedSharedSavePart(string savePart)
         {
             // As a client, we wanna show the loading screen when receiving datas
-            if (!this.LoadingScreen.gameObject.activeInHierarchy)
-            {
-                this.LoadingScreen.Show();
-            }
+            LoadingScreen.Instance.Show();
 
             this.sharedSaveBuffer += savePart;
         }
@@ -366,7 +359,7 @@ namespace DownBelow.Managers
         {
             Spells.SpellHeader spellHeader = JsonConvert.DeserializeObject<Spells.SpellHeader>(header);
 
-            ScriptableCard refCard = CardsManager.Instance.ScriptableCards[spellHeader.RefCard];
+            ScriptableCard refCard = SettingsManager.Instance.ScriptableCards[spellHeader.RefCard];
 
             Spells.Spell[] buffedSpells = new Spells.Spell[refCard.Spells.Length];
             Array.Copy(refCard.Spells, buffedSpells, refCard.Spells.Length);
@@ -545,7 +538,7 @@ namespace DownBelow.Managers
         [PunRPC]
         public void RPC_RespondGiftOrRemovePlayerItem(string playerID, string itemID, int quantity)
         {
-            GameManager.Instance.Players[playerID].TakeResources(GridManager.Instance.ItemsPresets[System.Guid.Parse(itemID)], quantity);
+            GameManager.Instance.Players[playerID].TakeResources(SettingsManager.Instance.ItemsPresets[System.Guid.Parse(itemID)], quantity);
         }
 
         #region TURNS
@@ -682,13 +675,13 @@ namespace DownBelow.Managers
 
         public override void OnPlayerEnteredRoom(Player newPlayer)
         {
-            MenuManager.Instance.UIRoom?.UpdatePlayersList();
-            MenuManager.Instance.UIRoom?.UpdatePlayersState();
+            MenuManager.Instance?.UIRoom?.UpdatePlayersList();
+            MenuManager.Instance?.UIRoom?.UpdatePlayersState();
         }
 
         public override void OnLeftRoom()
         {
-            MenuManager.Instance.UIRoom?.OnSelfLeftRoom();
+            MenuManager.Instance?.UIRoom?.OnSelfLeftRoom();
         }
 
         public override void OnPlayerLeftRoom(Player otherPlayer)
@@ -766,7 +759,7 @@ namespace DownBelow.Managers
                     break;
             }
 
-            this.LoadingScreen.Show();
+            LoadingScreen.Instance.Show();
         }
 
         #endregion
