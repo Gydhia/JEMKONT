@@ -91,7 +91,11 @@ namespace DownBelow.Managers
                 this._menuPopups[fPage.PopupType].Init();
             }
 
-            StartCoroutine(SelectPopupDelay(MenuPopup.StateName, 0.5f));
+            // Only show this the first time
+            if (string.IsNullOrEmpty(Photon.Pun.PhotonNetwork.NickName))
+            {
+                StartCoroutine(SelectPopupDelay(MenuPopup.StateName, 0.5f));
+            }
         }
 
         public IEnumerator SelectPopupDelay(MenuPopup popup, float time)
