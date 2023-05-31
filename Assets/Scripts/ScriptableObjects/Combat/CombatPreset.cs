@@ -8,6 +8,9 @@ namespace DownBelow.GameData
     [CreateAssetMenu(fileName = "CombatPreset", menuName = "Jemkont/Combat Preset", order = 1)]
     public class CombatPreset : SerializedScriptableObject
     {
+        [Tooltip("The base preset applied to players to have a minimum of datas")]
+        public EntityStats EmptyStatistics;
+
         [Tooltip("Time in seconds for a turn"), Range(0f, 360f)]
         public float TurnTime = 60f;
         [Range(0f, 360f)]

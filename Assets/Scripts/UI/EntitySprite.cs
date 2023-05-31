@@ -70,7 +70,8 @@ namespace DownBelow.UI
         private void OnDestroy()
         {
             this._refEntity.OnDeath -= this.SetDead;
-            GameManager.Instance.OnSelfPlayerSwitched -= _toggleSelectedState;
+            if(GameManager.Instance != null)
+                GameManager.Instance.OnSelfPlayerSwitched -= _toggleSelectedState;
         }
     }
  

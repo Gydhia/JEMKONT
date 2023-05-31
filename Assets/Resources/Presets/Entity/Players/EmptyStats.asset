@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee0a5c06f975fc2439495b8bb3efc3fa, type: 3}
-  m_Name: CombatPreset
+  m_Script: {fileID: 11500000, guid: 559503cbc8aa225459309d515bf15158, type: 3}
+  m_Name: EmptyStats
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -21,9 +21,11 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  EmptyStatistics: {fileID: 11400000, guid: 0e954c696020f6143a1a11afce1647a9, type: 2}
-  TurnTime: 50
-  EditorTurnTime: 20
-  CardsToDrawAtStart: 3
-  CardsToDrawAtTurn: 2
-  DelayBetweenActions: 0.4
+  Health: 10
+  BaseShield: 0
+  Strength: 1
+  Mana: 1
+  Speed: 1
+  Defense: 1
+  Range: 1
+  MaxMana: 1

@@ -127,9 +127,9 @@ namespace DownBelow.Spells
         }
 
         /// <summary>
-        /// unscrubarse evense
+        /// Unsubscribe events
         /// </summary>
-        public void Unsubribirse()
+        public void Unsubscribe()
         {
             foreach (CharacterEntity entity in _targets)
             {

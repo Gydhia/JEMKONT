@@ -129,6 +129,11 @@ namespace DownBelow.Entity
         {
             base.Init(refCell, refGrid, order);
 
+            if(this.RefStats == null)
+            {
+                this.SetStatistics(SettingsManager.Instance.CombatPreset.EmptyStatistics, false);
+            }
+
             refGrid.GridEntities.Add(this);
 
             if (this.IsFake)
