@@ -1199,6 +1199,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2722922969260134470}
     m_Modifications:
+    - target: {fileID: 675741900792169424, guid: ae2820748d315244dab4fcc771e1ecf6, type: 3}
+      propertyPath: m_Spacing
+      value: 18
+      objectReference: {fileID: 0}
     - target: {fileID: 2757229924307986125, guid: ae2820748d315244dab4fcc771e1ecf6, type: 3}
       propertyPath: m_Pivot.x
       value: 1

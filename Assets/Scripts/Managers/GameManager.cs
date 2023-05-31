@@ -215,14 +215,15 @@ namespace DownBelow.Managers
 
         private void _unsubscribeForCombatBuffer(GridEventData Data)
         {
-            CombatManager.Instance.OnCardEndUse -= this.BuffSpell;
-
-            CombatManager.Instance.OnCombatStarted += this._subscribeForCombatBuffer;
-            CombatManager.Instance.OnCombatEnded -= _unsubscribeForCombatBuffer;
-
             // Editor only utility
-            if(Data != null)
+            if (Data != null)
             {
+                CombatManager.Instance.OnCardEndUse -= this.BuffSpell;
+
+                CombatManager.Instance.OnCombatStarted += this._subscribeForCombatBuffer;
+                CombatManager.Instance.OnCombatEnded -= _unsubscribeForCombatBuffer;
+
+            
                 this._tryExitAllFromCombat();
             }
         }

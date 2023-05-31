@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace DownBelow.GridSystem
 {
-    public class InteractableResource : Interactable
+    public class InteractableResource : Interactable<ResourcePreset>
     {
         public MeshRenderer GatheredMesh;
         [ReadOnly] public bool isMature = true;

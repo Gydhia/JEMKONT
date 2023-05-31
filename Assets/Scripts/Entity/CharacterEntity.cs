@@ -332,7 +332,7 @@ namespace DownBelow.Entity
 
         #region STATS
 
-        public virtual void Init(Cell refCell, WorldGrid refGrid, int order = 0, bool isFake = false)
+        public virtual void Init(Cell refCell, WorldGrid refGrid, int order = 0)
         {
             this.transform.position = refCell.WorldPosition;
             this.EntityCell = refCell;

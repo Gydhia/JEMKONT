@@ -32,15 +32,8 @@ namespace DownBelow.UI
         {
             for (int i = 0; i < CombatManager.Instance.PlayingEntities.Count; i++)
             {
-                Sprite weapon = null;
-                if (CombatManager.Instance.PlayingEntities[i] is PlayerBehavior player)
-                {
-                    weapon = player.ActiveTool.FightIcon;
-                }
-                
                 this.CombatEntities.Add(Instantiate(this.SpritePrefab, this.EntitiesHolder, CombatManager.Instance.PlayingEntities[i]).GetComponent<EntitySprite>());
-                this.CombatEntities[i].Init(CombatManager.Instance.PlayingEntities[i].IsAlly ? AllySprite : CombatManager.Instance.PlayingEntities[i].EntitySprite, i <= 0, weapon);
-
+                this.CombatEntities[i].Init(CombatManager.Instance.PlayingEntities[i], i <= 0);
             }
 
             this.NextTurnButton.onClick.RemoveAllListeners();
@@ -52,9 +45,10 @@ namespace DownBelow.UI
 
         public void ClearFromCombatEnd(GridEventData Data)
         {
-            for (int i = 0; i < this.CombatEntities.Count; i++)
+            // Dead entities are removed from list, so clear it this way
+            foreach (Transform entity in this.EntitiesHolder)
             {
-                Destroy(this.CombatEntities[i].gameObject);
+                Destroy(entity.gameObject);
             }
             this.CombatEntities.Clear();
 
@@ -67,9 +61,9 @@ namespace DownBelow.UI
             int last = index == 0 ? CombatEntities.Count - 1 : index - 1;
 
             if (last < this.CombatEntities.Count)
-                this.CombatEntities[last].transform.GetChild(0).gameObject.SetActive(false);
+                this.CombatEntities[last].SetSelected(false);
             if (index < this.CombatEntities.Count)
-                this.CombatEntities[index].transform.GetChild(0).gameObject.SetActive(true);
+                this.CombatEntities[index].SetSelected(true);
         }
 
         public void AskEndOfTurn()
@@ -92,8 +86,6 @@ namespace DownBelow.UI
         private void _updateEntityDeath(EntityEventData Data)
         {
             int index = CombatManager.Instance.PlayingEntities.IndexOf(Data.Entity);
-
-            Destroy(this.CombatEntities[index].gameObject);
             this.CombatEntities.RemoveAt(index);
         }
     }
