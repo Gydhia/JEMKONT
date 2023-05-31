@@ -190,7 +190,7 @@ namespace DownBelow.Managers
                         }
                         else
                         {
-                            UIManager.Instance.PlayerInfos.SendMessage("[REQUIRES " + iResource.LocalPreset.GatherableBy.ToString() + "]\nYou haven't the right tool to gather this");
+                            UIManager.Instance.DatasSection.ShowWarningText("[REQUIRES " + iResource.LocalPreset.GatherableBy.ToString() + "]\nYou haven't the right tool to gather this");
                         }
                     }
                     else

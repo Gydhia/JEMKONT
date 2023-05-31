@@ -43,6 +43,7 @@ namespace DownBelow.Entity
         /// </summary>
         public PlayerBehavior Owner;
         public bool IsFake = false;
+        public int Index = -1;
 
         public BaseStorage PlayerInventory;
 

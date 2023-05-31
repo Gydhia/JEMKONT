@@ -1,10 +1,5 @@
 using DownBelow.Events;
-using DownBelow.GridSystem;
-using EODE.Wonderland;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using UnityEditor.Tilemaps;
 using UnityEngine;
 
 namespace DownBelow.Entity
