@@ -35,8 +35,8 @@ public class UICardsPile : MonoBehaviour
         }
     }
 
-    public void ShufflePile(ref List<DraggableCard> cards)
+    public void ShufflePile(string UID)
     {
-        cards.Shuffle();
+        this.Cards.Shuffle(UID);
     }
 }

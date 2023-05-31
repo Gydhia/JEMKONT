@@ -43,9 +43,9 @@ namespace DownBelow.UI
                 tool = CardsManager.Instance.AvailableTools.ElementAt(this._lastIndex - 1);
 
                 // Remove the previous selected tool 
-                if (GameManager.SelfPlayer.CombatTools.Contains(tool))
+                if (GameManager.SelfPlayer.ActiveTools.Contains(tool))
                 {
-                    GameManager.SelfPlayer.CombatTools.Remove(tool);
+                    GameManager.SelfPlayer.ActiveTools.Remove(tool);
                 }
             }
 
@@ -57,9 +57,9 @@ namespace DownBelow.UI
             tool = CardsManager.Instance.AvailableTools.ElementAt(this._lastIndex - 1);
 
             // Add the new one
-            if (!GameManager.SelfPlayer.CombatTools.Contains(tool))
+            if (!GameManager.SelfPlayer.ActiveTools.Contains(tool))
             {
-                GameManager.SelfPlayer.CombatTools.Add(tool);
+                GameManager.SelfPlayer.ActiveTools.Add(tool);
             }
         }
     }

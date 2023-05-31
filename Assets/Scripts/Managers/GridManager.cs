@@ -182,10 +182,21 @@ namespace DownBelow.Managers
                         actions[0] = new MovementAction(selfPlayer, closestCell);
 
                     // Then buff the interact/gather action to process after the movement
-                    actions[1] =
-                        cell.AttachedInteract is InteractableResource
-                            ? new GatheringAction(selfPlayer, cell)
-                            : new InteractAction(selfPlayer, cell);
+                    if(cell.AttachedInteract is InteractableResource iResource)
+                    {
+                        if(selfPlayer.CanGatherThisResource(iResource.LocalPreset.GatherableBy))
+                        {
+                            actions[1] = new GatheringAction(selfPlayer, cell);
+                        }
+                        else
+                        {
+                            UIManager.Instance.PlayerInfos.SendMessage("[REQUIRES " + iResource.LocalPreset.GatherableBy.ToString() + "]\nYou haven't the right tool to gather this");
+                        }
+                    }
+                    else
+                    {
+                        actions[1] = new InteractAction(selfPlayer, cell);
+                    }
 
                     NetworkManager.Instance.EntityAskToBuffActions(actions);
 
@@ -389,9 +400,9 @@ namespace DownBelow.Managers
 
                 foreach (PlayerBehavior player in GameManager.Instance.Players.Values)
                 {
-                    if (player.CurrentGrid != Data.Entity.CurrentGrid)
-                        player.gameObject.SetActive(false);
-                    else
+                    //if (player.CurrentGrid != Data.Entity.CurrentGrid)
+                    //    player.gameObject.SetActive(false);
+                    //else
                         player.gameObject.SetActive(true);
                 }
             }

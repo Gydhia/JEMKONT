@@ -22,10 +22,6 @@ public class Deck
         this.Cards = new List<ScriptableCard>(other.Cards);
     }
 
-    public void ShuffleDeck() 
-    {
-        this.Cards.Shuffle();
-    }
     
     public ScriptableCard DrawCard() 
     {

@@ -141,30 +141,21 @@ namespace DownBelow.Managers
 
             this.PlayersInGrid.Add(player);
 
-            // Take the first tool 
-            List<DeckPreset> realAlliesDeck = new List<DeckPreset>();
+           
             List<DeckPreset> fakeAlliesDeck = new List<DeckPreset>();
             foreach (var netPlayer in GameManager.Instance.Players.Values)
             {
-                if(netPlayer != player && netPlayer.CurrentGrid is CombatGrid)
+                // Skip the first since its owned
+                for (int i = 1; i < netPlayer.ActiveTools.Count; i++)
                 {
-                    realAlliesDeck.Add(((ToolItem)netPlayer.PlayerSpecialSlots.StorageItems[0].ItemPreset).DeckPreset);
-                    for (int i = 1; i < netPlayer.PlayerSpecialSlots.StorageItems.Length; i++)
-                    {
-                        fakeAlliesDeck.Add(((ToolItem)netPlayer.PlayerSpecialSlots.StorageItems[i].ItemPreset).DeckPreset);
-                    }
+                    fakeAlliesDeck.Add(((ToolItem)netPlayer.PlayerSpecialSlots.StorageItems[i].ItemPreset).DeckPreset);
                 }
             }
-
-            var selfTool = ((ToolItem)player.PlayerSpecialSlots.StorageItems[0].ItemPreset);
-            player.SetActiveTool(selfTool);
-
-            var selfFakeDecks = player.PlayerSpecialSlots.StorageItems.Select(s => (s.ItemPreset as ToolItem).DeckPreset).Where(t => t != selfTool.DeckPreset);
 
             // If FakePlayers isn't populated (=init), that's a local action
             if (this.FakePlayers == null || this.FakePlayers.Count == 0)
             {
-                foreach (var fakeDeck in selfFakeDecks.Union(fakeAlliesDeck))
+                foreach (var fakeDeck in fakeAlliesDeck)
                 {
                     var fakePlayer = Instantiate(GameManager.Instance.PlayerPrefab, GameManager.Instance.gameObject.transform);
 
@@ -258,7 +249,7 @@ namespace DownBelow.Managers
         }
         private void _switchSelectedPlayer(PlayerBehavior player)
         {
-            this._switchSelectedPlayer(player.IsFake ? this.FakePlayers.IndexOf(player) + 1 : 0);
+            this._switchSelectedPlayer(this.GetPlayerInputIndex(player));
         }
 
         private void _switchSelectedPlayer(int index)
@@ -277,6 +268,11 @@ namespace DownBelow.Managers
 
                 this._playerIndex = index;
             }
+        }
+
+        public int GetPlayerInputIndex(PlayerBehavior player)
+        {
+            return player.IsFake ? this.FakePlayers.IndexOf(player) + 1 : 0;
         }
 
         public void ProcessStartTurn()
@@ -435,7 +431,11 @@ namespace DownBelow.Managers
 
         private IEnumerator _startTurnTimer()
         {
+#if UNITY_EDITOR
+            float time = SettingsManager.Instance.CombatPreset.EditorTurnTime;
+#else
             float time = SettingsManager.Instance.CombatPreset.TurnTime;
+#endif
             float timePassed = 0f;
 
             UIManager.Instance.TurnSection.TimeSlider.fillAmount = 0f;
@@ -506,7 +506,7 @@ namespace DownBelow.Managers
             foreach (PlayerBehavior fakePlayer in PlayingEntities.Where(e => e is PlayerBehavior player && player.IsFake))
             {
                 // Find the owner
-                var owner = GameManager.Instance.Players.Values.SingleOrDefault(p => p.CombatTools.Contains(fakePlayer.ActiveTool));
+                var owner = GameManager.Instance.Players.Values.SingleOrDefault(p => p.ActiveTools.Contains(fakePlayer.ActiveTool));
                 fakePlayer.Owner = owner;
                 this.FakePlayers.Add(fakePlayer);
             }

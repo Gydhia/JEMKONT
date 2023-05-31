@@ -156,6 +156,9 @@ namespace DownBelow.Managers
 
         public void SetupCombatInterface(GridEventData Data)
         {
+            if (GameManager.RealSelfPlayer.CurrentGrid != Data.Grid)
+                return;
+
             if (Data.Grid.IsCombatGrid)
             {
                 this._setupCombatInterface();

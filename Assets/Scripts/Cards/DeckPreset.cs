@@ -37,6 +37,7 @@ public class DeckPreset : SerializedScriptableObject
     public void SetupForCombat(UICardsHolder Holder)
     {
         this.RefCardsHolder = Holder;
+        this.RefCardsHolder.LinkedPlayer = this.LinkedPlayer;
         this.ClearAllPiles();
 
         CombatManager.Instance.OnTurnStarted += _subscribeEntityEvents;

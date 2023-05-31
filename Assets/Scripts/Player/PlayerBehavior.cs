@@ -7,6 +7,7 @@ using DownBelow.UI.Inventory;
 using Photon.Pun;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace DownBelow.Entity
@@ -52,11 +53,12 @@ namespace DownBelow.Entity
         public MeshRenderer PlayerBody;
         public PhotonView PlayerView;
 
+
         public ToolItem ActiveTool;
         /// <summary>
-        /// Each possessed tools during combat. If alone, there will be 4
+        /// Each possessed tools. If alone in combat, there will be 4. Out of combat, depends of the max players
         /// </summary>
-        public List<ToolItem> CombatTools;
+        public List<ToolItem> ActiveTools;
 
         public BaseStorage PlayerSpecialSlots;
         public ItemPreset CurrentSelectedItem;
@@ -81,6 +83,11 @@ namespace DownBelow.Entity
         {
             get => Mathf.Min(Statistics[EntityStatistics.Mana] + NumberOfTurnsPlayed,
                 Statistics[EntityStatistics.MaxMana]);
+        }
+
+        public bool CanGatherThisResource(EClass resourceClass)
+        {
+            return this.ActiveTools.Count > 0 && this.ActiveTools.Any(a => a.Class == resourceClass);
         }
 
         #region cards constants
@@ -195,7 +202,8 @@ namespace DownBelow.Entity
                     lastPlaceable = placeable;
                     InputManager.Instance.OnNewCellHovered += lastPlaceable.Previsualize;
                     InputManager.Instance.OnCellRightClickDown += lastPlaceable.Place;
-                } else
+                }
+                else
                 {
                     if(lastPlaceable!= null)
                     {
@@ -204,7 +212,8 @@ namespace DownBelow.Entity
                         lastPlaceable = null;
                     }
                 }
-            } else
+            }
+            else
             {
                 if(lastPlaceable!= null)
                 {
@@ -218,9 +227,30 @@ namespace DownBelow.Entity
         public void SetActiveTool(ToolItem activeTool)
         {
             activeTool.ActualPlayer = this;
-            this.ActiveTool = activeTool;
-            this.ActiveTool.DeckPreset.LinkedPlayer = this;
-            this.SetStatistics(activeTool.DeckPreset.Statistics);
+            activeTool.DeckPreset.LinkedPlayer = this;
+            
+            // Only set the player stats from one tool, the first one picked up
+            if (this.ActiveTool == null)
+            {
+                this.ActiveTool = activeTool;
+                this.SetStatistics(activeTool.DeckPreset.Statistics);
+            }
+
+            this.ActiveTools.Add(activeTool);
+        }
+
+        public void RemoveActiveTool(ToolItem removedTool)
+        {
+            removedTool.ActualPlayer = null;
+            removedTool.DeckPreset.LinkedPlayer = null;
+            this.ActiveTools.Remove(removedTool);
+
+            this.ActiveTool = this.ActiveTools.Count > 0 ?
+                this.ActiveTools[0] : 
+                null;
+            
+            if(this.ActiveTool != null)
+                this.SetStatistics(this.ActiveTool.DeckPreset.Statistics);
         }
 
         public override void StartTurn()
