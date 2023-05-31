@@ -84,6 +84,11 @@ namespace DownBelow.Managers
         private void _switchEscapeState(UnityEngine.InputSystem.InputAction.CallbackContext ctx) => this.SwitchEscapeState();
         public void SwitchEscapeState()
         {
+#if !UNITY_EDITOR
+            if (GameManager.RealSelfPlayer.CurrentGrid.IsCombatGrid)
+                return;
+#endif
+
             bool isActive = EscapeSection.gameObject.activeSelf;
 
             EscapeSection.gameObject.SetActive(!isActive);
@@ -156,6 +161,9 @@ namespace DownBelow.Managers
 
         public void SetupCombatInterface(GridEventData Data)
         {
+            if (GameManager.RealSelfPlayer.CurrentGrid != Data.Grid)
+                return;
+
             if (Data.Grid.IsCombatGrid)
             {
                 this._setupCombatInterface();

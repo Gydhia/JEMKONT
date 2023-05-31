@@ -1,3 +1,4 @@
+using DownBelow.Entity;
 using DownBelow.Managers;
 using DownBelow.UI;
 using Sirenix.OdinInspector;
@@ -8,6 +9,7 @@ using UnityEngine;
 public class UICardsHolder : SerializedMonoBehaviour
 {
     public CanvasGroup CanvasGroup;
+    public PlayerBehavior LinkedPlayer;
 
     public Dictionary<PileType, UICardsPile> Piles;
 
@@ -83,6 +85,6 @@ public class UICardsHolder : SerializedMonoBehaviour
 
     public void ShufflePile(PileType Pile)
     {
-        this.Piles[Pile].Cards.Shuffle();
+        this.Piles[Pile].ShufflePile(this.LinkedPlayer.UID);
     }
 }

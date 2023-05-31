@@ -7,7 +7,6 @@ using UnityEditor;
 
 namespace DownBelow.Entity
 {
-
     public class DropItemAction : EntityAction
     {
         public ItemPreset Item;
@@ -27,10 +26,12 @@ namespace DownBelow.Entity
             InventoryItem InvInt = new();
             InvInt.Init(Item, 0, (int)quantity);
             TargetCell.DropDownItem(InvInt);
-            if(Item is ToolItem)
+            if(Item is ToolItem tool)
             {
-                ((PlayerBehavior)RefEntity).PlayerSpecialSlots.RemoveItem(Item, quantity, preferedSlot);
-            } else
+                ((PlayerBehavior)this.RefEntity).RemoveActiveTool(tool);
+                ((PlayerBehavior)RefEntity).PlayerSpecialSlots.RemoveItem(tool, quantity, preferedSlot);
+            }
+            else
             {
                 ((PlayerBehavior)RefEntity).PlayerInventory.RemoveItem(Item, quantity, preferedSlot);
             }

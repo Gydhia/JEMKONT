@@ -18,4 +18,13 @@ public class GameUIPreset : SerializedScriptableObject
     public Color AttackColor;
     public Color PowerColor;
     public Color SkillColor;
+
+    [FoldoutGroup("Combat turns")]
+    public Sprite Ally;
+    [FoldoutGroup("Combat turns")]
+    public Sprite Dead;
+    [FoldoutGroup("Combat turns")]
+    public Sprite SelectedBackground;
+    [FoldoutGroup("Combat turns")]
+    public Sprite NormalBackground;
 }

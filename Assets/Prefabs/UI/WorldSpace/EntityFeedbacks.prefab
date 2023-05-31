@@ -225,7 +225,7 @@ GameObject:
   - component: {fileID: 688568986285258991}
   - component: {fileID: 6885744934641828950}
   m_Layer: 2
-  m_Name: Combat Feedbacks
+  m_Name: EntityFeedbacks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

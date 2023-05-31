@@ -89,10 +89,10 @@ namespace DownBelow.GridSystem
             ItemContained.Init(item.ItemPreset, item.Slot, item.Quantity);
             ItemContainedObject = Instantiate(ItemContained.ItemPreset.DroppedItemPrefab, this.transform.position, quaternion.identity);
             //Mettre un animator sur le prefab pour le faire tourner ou jsp
-#if UNITY_EDITOR
-            EditorGUIUtility.PingObject(this);
-            Selection.activeObject = this;
-#endif
+//#if UNITY_EDITOR
+//            EditorGUIUtility.PingObject(this);
+//            Selection.activeObject = this;
+//#endif
         }
         public bool HasItem(out InventoryItem item)
         {

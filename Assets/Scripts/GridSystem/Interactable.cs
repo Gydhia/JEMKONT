@@ -1,10 +1,16 @@
 using DownBelow.Managers;
+using DownBelow.Spells;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace DownBelow.GridSystem
 {
+
+    public abstract class Interactable<T> : Interactable where T : InteractablePreset
+    {
+        public T LocalPreset => this.InteractablePreset as T;
+    }
     public abstract class Interactable : MonoBehaviour
     {
 

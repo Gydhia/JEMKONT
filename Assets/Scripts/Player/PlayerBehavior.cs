@@ -7,6 +7,7 @@ using DownBelow.UI.Inventory;
 using Photon.Pun;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace DownBelow.Entity
@@ -42,6 +43,7 @@ namespace DownBelow.Entity
         /// </summary>
         public PlayerBehavior Owner;
         public bool IsFake = false;
+        public int Index = -1;
 
         public BaseStorage PlayerInventory;
 
@@ -52,11 +54,17 @@ namespace DownBelow.Entity
         public MeshRenderer PlayerBody;
         public PhotonView PlayerView;
 
-        public ToolItem ActiveTool;
+
+        public ToolItem ActiveTool => ActiveTools.Count > 0 ? ActiveTools[0] : null;
+        public ToolItem CombatTool => CombatTools[0];
         /// <summary>
-        /// Each possessed tools during combat. If alone, there will be 4
+        /// Each possessed tools that differs according to number of players
         /// </summary>
-        public List<ToolItem> CombatTools;
+        public List<ToolItem> ActiveTools = new List<ToolItem>();
+        /// <summary>
+        /// Each tools set for combat. If in combat alone in a 2 players room, there will be 4 tools.
+        /// </summary>
+        public List<ToolItem> CombatTools = new List<ToolItem>();
 
         public BaseStorage PlayerSpecialSlots;
         public ItemPreset CurrentSelectedItem;
@@ -70,9 +78,9 @@ namespace DownBelow.Entity
         {
             get 
             {
-                return (this.ActiveTool == null || ActiveTool.DeckPreset == null) ?
+                return (this.CombatTool == null || CombatTool.DeckPreset == null) ?
                     null :
-                    ActiveTool.DeckPreset;
+                    CombatTool.DeckPreset;
             }
         }
 
@@ -81,6 +89,11 @@ namespace DownBelow.Entity
         {
             get => Mathf.Min(Statistics[EntityStatistics.Mana] + NumberOfTurnsPlayed,
                 Statistics[EntityStatistics.MaxMana]);
+        }
+
+        public bool CanGatherThisResource(EClass resourceClass)
+        {
+            return this.ActiveTools.Count > 0 && this.ActiveTools.Any(a => a.Class == resourceClass);
         }
 
         #region cards constants
@@ -92,15 +105,34 @@ namespace DownBelow.Entity
 
         #endregion
 
-        public override void Init(Cell refCell, WorldGrid refGrid, int order = 0, bool isFake = false)
+        /// <summary>
+        /// Used by fake players
+        /// </summary>
+        /// <param name="refCell"></param>
+        /// <param name="refGrid"></param>
+        public void Init(Cell refCell, WorldGrid refGrid, ToolItem refItem, PlayerBehavior owner)
+        {
+            this.IsFake = true;
+            this.Owner = owner;
+
+            this.SetActiveTool(refItem);
+            this.CombatTools.Add(refItem);
+            this.ReinitializeAllStats();
+
+            this.name = "FakePlayer - " + refItem.Class.ToString();
+            this.UID = owner.UID + refItem.Class.ToString();
+
+            this.Init(refCell, refGrid);
+        }
+
+        public override void Init(Cell refCell, WorldGrid refGrid, int order = 0)
         {
             base.Init(refCell, refGrid, order);
 
             refGrid.GridEntities.Add(this);
 
-            this.IsFake = isFake;
-
-            if (isFake) {
+            if (this.IsFake)
+            {
                 this.FireEntityInited();
                 return; 
             }
@@ -195,7 +227,8 @@ namespace DownBelow.Entity
                     lastPlaceable = placeable;
                     InputManager.Instance.OnNewCellHovered += lastPlaceable.Previsualize;
                     InputManager.Instance.OnCellRightClickDown += lastPlaceable.Place;
-                } else
+                }
+                else
                 {
                     if(lastPlaceable!= null)
                     {
@@ -204,7 +237,8 @@ namespace DownBelow.Entity
                         lastPlaceable = null;
                     }
                 }
-            } else
+            }
+            else
             {
                 if(lastPlaceable!= null)
                 {
@@ -218,9 +252,25 @@ namespace DownBelow.Entity
         public void SetActiveTool(ToolItem activeTool)
         {
             activeTool.ActualPlayer = this;
-            this.ActiveTool = activeTool;
-            this.ActiveTool.DeckPreset.LinkedPlayer = this;
-            this.SetStatistics(activeTool.DeckPreset.Statistics);
+            activeTool.DeckPreset.LinkedPlayer = this;
+            
+            // Only set the player stats from one tool, the first one picked up
+            if (this.ActiveTool == null)
+            {
+                this.SetStatistics(activeTool.DeckPreset.Statistics);
+            }
+
+            this.ActiveTools.Add(activeTool);
+        }
+
+        public void RemoveActiveTool(ToolItem removedTool)
+        {
+            removedTool.ActualPlayer = null;
+            removedTool.DeckPreset.LinkedPlayer = null;
+            this.ActiveTools.Remove(removedTool);
+            
+            if(this.ActiveTool != null)
+                this.SetStatistics(this.ActiveTool.DeckPreset.Statistics);
         }
 
         public override void StartTurn()

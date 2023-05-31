@@ -2,17 +2,15 @@ using DownBelow.Spells;
 using DownBelow.Entity;
 using DownBelow.Events;
 using DownBelow.GridSystem;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using UnityEngine;
 using DownBelow.Mechanics;
 using DownBelow.UI;
 using UnityEngine.InputSystem;
-using UnityEngine.Rendering;
-using System.Runtime.Remoting.Messaging;
+using Sirenix.Utilities;
+using Photon.Realtime;
 
 namespace DownBelow.Managers
 {
@@ -104,7 +102,7 @@ namespace DownBelow.Managers
         /// Before combat, this is only used as a placeholder
         /// </summary>
         public List<PlayerBehavior> FakePlayers;
-        private int _playerIndex = -1;
+        private int _playerIndex = 0;
 
         public bool IsPlayerOrOwned(CharacterEntity entity)
         {
@@ -141,63 +139,73 @@ namespace DownBelow.Managers
 
             this.PlayersInGrid.Add(player);
 
-            // Take the first tool 
-            List<DeckPreset> realAlliesDeck = new List<DeckPreset>();
-            List<DeckPreset> fakeAlliesDeck = new List<DeckPreset>();
+            int totalTools = CardsManager.Instance.AvailableTools.Count;
+
+            Dictionary<PlayerBehavior, List<ToolItem>> allyTools = new Dictionary<PlayerBehavior, List<ToolItem>>();
+            List<ToolItem> allTools = CardsManager.Instance.AvailableTools.ToList();
+            List<ToolItem> freeTools = new List<ToolItem>();
+
+            int usedTools = 0;
             foreach (var netPlayer in GameManager.Instance.Players.Values)
             {
-                if(netPlayer != player && netPlayer.CurrentGrid is CombatGrid)
+                netPlayer.CombatTools.Clear();
+
+                if(netPlayer.CurrentGrid.IsCombatGrid)
                 {
-                    realAlliesDeck.Add(((ToolItem)netPlayer.PlayerSpecialSlots.StorageItems[0].ItemPreset).DeckPreset);
-                    for (int i = 1; i < netPlayer.PlayerSpecialSlots.StorageItems.Length; i++)
-                    {
-                        fakeAlliesDeck.Add(((ToolItem)netPlayer.PlayerSpecialSlots.StorageItems[i].ItemPreset).DeckPreset);
-                    }
+                    netPlayer.CombatTools.AddRange(netPlayer.ActiveTools);
+                    allyTools.Add(netPlayer, new List<ToolItem>(netPlayer.ActiveTools));
+                    usedTools += netPlayer.ActiveTools.Count;
                 }
+                else
+                {
+                    freeTools.AddRange(netPlayer.ActiveTools);
+                }
+
+                foreach (var rTool in netPlayer.ActiveTools)
+                    allTools.Remove(rTool);
             }
 
-            var selfTool = ((ToolItem)player.PlayerSpecialSlots.StorageItems[0].ItemPreset);
-            player.SetActiveTool(selfTool);
+            // Merge the tools on ground to the equiped tools
+            freeTools.AddRange(allTools);
 
-            var selfFakeDecks = player.PlayerSpecialSlots.StorageItems.Select(s => (s.ItemPreset as ToolItem).DeckPreset).Where(t => t != selfTool.DeckPreset);
-
-            // If FakePlayers isn't populated (=init), that's a local action
-            if (this.FakePlayers == null || this.FakePlayers.Count == 0)
+            if (usedTools < totalTools)
             {
-                foreach (var fakeDeck in selfFakeDecks.Union(fakeAlliesDeck))
+                int playersInGrid = PlayersInGrid.Count;
+                int playerIndex = 0;
+
+                foreach (var tool in freeTools)
                 {
-                    var fakePlayer = Instantiate(GameManager.Instance.PlayerPrefab, GameManager.Instance.gameObject.transform);
+                    var playerToAdd = this.PlayersInGrid[playerIndex];
 
-                    Cell placementCell = currentGrid.PlacementCells.First(c => c.Datas.state != CellState.EntityIn);
+                    playerToAdd.CombatTools.Add(tool);
+                    allyTools[playerToAdd].Add(tool);
 
-                    fakePlayer.Init(placementCell, currentGrid, 0, true);
-
-                    var refTool = SettingsManager.Instance.ToolPresets.Values.Single(t => t.DeckPreset == fakeDeck);
-                    fakePlayer.SetActiveTool(refTool);
-
-                    fakePlayer.ReinitializeAllStats();
-
-                    fakePlayer.name = "FakePlayer - " + refTool.DeckPreset.Class.ToString();
-                    fakePlayer.UID = fakePlayer.name;
-
-                    this.FakePlayers.Add(fakePlayer);
+                    playerIndex = (playerIndex + 1 >= playersInGrid) ? 0 : playerIndex + 1;
                 }
             }
-            // If already populated, remove the corresponding 
-            else
+
+            if(FakePlayers != null && this.FakePlayers.Count > 0)
             {
-                // Replace the fake on by the real player
-                var fakeToReplace = this.FakePlayers.FirstOrDefault(f => f.Deck == player.Deck);
-
-                if (fakeToReplace != null)
+                foreach (var fake in FakePlayers)
                 {
-                    fakeToReplace.FireExitedCell();
-                    this.FakePlayers.Remove(fakeToReplace);
-
-                    Destroy(fakeToReplace.gameObject);
+                    fake.FireExitedCell();
+                    Destroy(fake.gameObject);
                 }
+                FakePlayers.Clear();
             }
 
+            FakePlayers = new List<PlayerBehavior>();
+            foreach (var playerDecks in allyTools)
+            {
+                // Each client has one deck or more. Create fake players for each deck excepting the first one
+                foreach (var tool in playerDecks.Value.Skip(1))
+                {
+                    this.FakePlayers.Add(
+                        this._createFakePlayer(currentGrid, tool, playerDecks.Key)
+                    );
+                }
+            }
+            
             Cell playerCell = currentGrid.PlacementCells.First(c => c.Datas.state != CellState.EntityIn);
             player.FireExitedCell();
             player.FireEnteredCell(playerCell);
@@ -209,6 +217,16 @@ namespace DownBelow.Managers
             {
                 PoolManager.Instance.CellIndicatorPool.DisplayPathIndicators(currentGrid.PlacementCells);
             }
+        }
+
+        private PlayerBehavior _createFakePlayer(CombatGrid currentGrid, ToolItem toolToAssign, PlayerBehavior owner)
+        {
+            var fakePlayer = Instantiate(GameManager.Instance.PlayerPrefab, GameManager.Instance.gameObject.transform);
+
+            Cell placementCell = currentGrid.PlacementCells.First(c => c.Datas.state != CellState.EntityIn);
+            fakePlayer.Init(placementCell, currentGrid, toolToAssign, owner);
+
+            return fakePlayer;
         }
 
         public void StartCombat(CombatGrid startingGrid)
@@ -227,7 +245,6 @@ namespace DownBelow.Managers
             CurrentPlayingGrid.HasStarted = true;
 
             this._defineEntitiesTurn();
-            this._setOwnedFakes();
             this._subcribeToEntitiesDeath();
 
             this._switchToFirstPlayer(new InputAction.CallbackContext());
@@ -258,20 +275,22 @@ namespace DownBelow.Managers
         }
         private void _switchSelectedPlayer(PlayerBehavior player)
         {
-            this._switchSelectedPlayer(player.IsFake ? this.FakePlayers.IndexOf(player) + 1 : 0);
+            this._switchSelectedPlayer(player.Index);
         }
 
         private void _switchSelectedPlayer(int index)
         {
-            if(index > this.FakePlayers.Count || index == this._playerIndex) { return; }
+            var player = this.FakePlayers.SingleOrDefault(f => f.Index == index);
+            player ??= GameManager.RealSelfPlayer.Index == index ? GameManager.RealSelfPlayer : null;
 
-            var player = index == 0 ? GameManager.RealSelfPlayer : this.FakePlayers[index - 1];
+            if (player == null)
+                return;
 
             if (IsPlayerOrOwned(player))
             {
                 GameManager.Instance.FireSelfPlayerSwitched(
-                    index == 0 ? null : this.FakePlayers[index - 1],
-                    this._playerIndex < 0 ? 0 : this._playerIndex,
+                    player,
+                    this._playerIndex,
                     index
                 );
 
@@ -435,7 +454,11 @@ namespace DownBelow.Managers
 
         private IEnumerator _startTurnTimer()
         {
+#if UNITY_EDITOR
+            float time = SettingsManager.Instance.CombatPreset.EditorTurnTime;
+#else
             float time = SettingsManager.Instance.CombatPreset.TurnTime;
+#endif
             float timePassed = 0f;
 
             UIManager.Instance.TurnSection.TimeSlider.fillAmount = 0f;
@@ -467,8 +490,9 @@ namespace DownBelow.Managers
             List<CharacterEntity> enemies = CurrentPlayingGrid.GridEntities
                 .Where(x => !x.IsAlly)
                 .ToList();
-            List<CharacterEntity> players = CurrentPlayingGrid.GridEntities
+            List<PlayerBehavior> players = CurrentPlayingGrid.GridEntities
                 .Where(x => x.IsAlly)
+                .Cast<PlayerBehavior>()
                 .ToList();
 
             for (int i = 0; i < players.Count; i++)
@@ -478,6 +502,7 @@ namespace DownBelow.Managers
 
             this.PlayingEntities = new List<CharacterEntity>();
 
+            int indexIncr = 0;
             // We check both for the tests, if we have more allies than ennemies or inverse
             if (enemies.Count >= players.Count)
             {
@@ -485,7 +510,11 @@ namespace DownBelow.Managers
                 {
                     this.PlayingEntities.Add(enemies[i]);
                     if (i < players.Count)
+                    {
                         this.PlayingEntities.Add(players[i]);
+                        if (this.IsPlayerOrOwned(players[i]))
+                            players[i].Index = indexIncr++;
+                    }
                 }
             }
             else
@@ -493,22 +522,11 @@ namespace DownBelow.Managers
                 for (int i = 0; i < players.Count; i++)
                 {
                     this.PlayingEntities.Add(players[i]);
+                    if (this.IsPlayerOrOwned(players[i]))
+                        players[i].Index = indexIncr++;
                     if (i < enemies.Count)
                         this.PlayingEntities.Add(enemies[i]);
                 }
-            }
-        }
-
-        private void _setOwnedFakes()
-        {
-            // We'll now only use it to storage self player fakes
-            this.FakePlayers.Clear();
-            foreach (PlayerBehavior fakePlayer in PlayingEntities.Where(e => e is PlayerBehavior player && player.IsFake))
-            {
-                // Find the owner
-                var owner = GameManager.Instance.Players.Values.SingleOrDefault(p => p.CombatTools.Contains(fakePlayer.ActiveTool));
-                fakePlayer.Owner = owner;
-                this.FakePlayers.Add(fakePlayer);
             }
         }
 

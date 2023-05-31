@@ -112,6 +112,8 @@ namespace DownBelow.Entity
         // TODO: Change it to a real Guid later
         public string UID = string.Empty;
 
+        public string EntityName = "Entity";
+
         public WorldGrid CurrentGrid;
 
         // Movements
@@ -332,7 +334,7 @@ namespace DownBelow.Entity
 
         #region STATS
 
-        public virtual void Init(Cell refCell, WorldGrid refGrid, int order = 0, bool isFake = false)
+        public virtual void Init(Cell refCell, WorldGrid refGrid, int order = 0)
         {
             this.transform.position = refCell.WorldPosition;
             this.EntityCell = refCell;

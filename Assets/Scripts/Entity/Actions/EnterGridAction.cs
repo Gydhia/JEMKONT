@@ -32,7 +32,8 @@ namespace DownBelow.Entity
 
                 GameManager.Instance.FireEntityEnteredGrid(player);
             }
-            else
+            // Only notifies if it's the local player
+            else if (player == GameManager.RealSelfPlayer)
             {
                 UIManager.Instance.DatasSection.ShowWarningText(newGrid.HasStarted ?
                     "You cannot enter a combat grid that has started combat" :

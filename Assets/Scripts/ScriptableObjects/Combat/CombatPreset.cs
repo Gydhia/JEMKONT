@@ -10,6 +10,8 @@ namespace DownBelow.GameData
     {
         [Tooltip("Time in seconds for a turn"), Range(0f, 360f)]
         public float TurnTime = 60f;
+        [Range(0f, 360f)]
+        public float EditorTurnTime = 20f;
 
         [Range(0f, 10f)]
         public int CardsToDrawAtStart = 3;

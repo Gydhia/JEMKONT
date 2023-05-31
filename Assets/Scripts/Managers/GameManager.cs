@@ -180,12 +180,11 @@ namespace DownBelow.Managers
                 foreach (var player in PhotonNetwork.PlayerList)
                 {
                     PlayerBehavior newPlayer = Instantiate(this.PlayerPrefab, Vector3.zero, Quaternion.identity, this.transform);
-                    //newPlayer.Deck = CardsManager.Instance.DeckPresets.Values.Single(d => d.Name == "TestDeck").Copy();
-                 
-                    newPlayer.Init(GridManager.Instance.MainWorldGrid.Cells[spawnLocations.ElementAt(counter).latitude, spawnLocations.ElementAt(counter).longitude], GridManager.Instance.MainWorldGrid);
-                    // TODO: make it works with world grids
-                    newPlayer.UID = player.UserId;
 
+                    newPlayer.EntityName = player.NickName;
+                    newPlayer.UID = player.UserId;
+                    newPlayer.Init(GridManager.Instance.MainWorldGrid.Cells[spawnLocations.ElementAt(counter).latitude, spawnLocations.ElementAt(counter).longitude], GridManager.Instance.MainWorldGrid);
+                                      
                     if (player.UserId == PhotonNetwork.LocalPlayer.UserId)
                     {
                         SelfPlayer = newPlayer;
@@ -215,14 +214,15 @@ namespace DownBelow.Managers
 
         private void _unsubscribeForCombatBuffer(GridEventData Data)
         {
-            CombatManager.Instance.OnCardEndUse -= this.BuffSpell;
-
-            CombatManager.Instance.OnCombatStarted += this._subscribeForCombatBuffer;
-            CombatManager.Instance.OnCombatEnded -= _unsubscribeForCombatBuffer;
-
             // Editor only utility
-            if(Data != null)
+            if (Data != null)
             {
+                CombatManager.Instance.OnCardEndUse -= this.BuffSpell;
+
+                CombatManager.Instance.OnCombatStarted += this._subscribeForCombatBuffer;
+                CombatManager.Instance.OnCombatEnded -= _unsubscribeForCombatBuffer;
+
+            
                 this._tryExitAllFromCombat();
             }
         }

@@ -31,7 +31,13 @@ namespace DownBelow.UI.Inventory
             GameManager.Instance.OnExitingGrid += _toggleInventoryUI;
         }
 
-        private void _toggleInventoryUI(EntityEventData Data) => this.gameObject.SetActive(!(Data.Entity.CurrentGrid is CombatGrid));
+        private void _toggleInventoryUI(EntityEventData Data) 
+        {
+            if (Data.Entity != GameManager.RealSelfPlayer)
+                return;
+
+            this.gameObject.SetActive(!(Data.Entity.CurrentGrid is CombatGrid));
+        }
 
         private void _initInventory(GameEventData Data)
         {
