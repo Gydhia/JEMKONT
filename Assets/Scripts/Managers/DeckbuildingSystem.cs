@@ -54,9 +54,12 @@ namespace DownBelow.Managers
         #region ButtonMethods
         public void ShowDeckBuilding()
         {
+            DeckDisplayed = GameManager.SelfPlayer.ActiveTools[0].Class;
             decks = new();
+            DecksNumbers = new();
             foreach (var item in GameManager.SelfPlayer.ActiveTools)
             {
+                DecksNumbers.Add(item.Class, new());
                 decks.Add(item.Class, item.DeckPreset.Deck.Cards);
             }
             state = EDeckBuildState.Shown;
