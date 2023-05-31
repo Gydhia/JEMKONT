@@ -112,6 +112,8 @@ namespace DownBelow.Entity
         // TODO: Change it to a real Guid later
         public string UID = string.Empty;
 
+        public string EntityName = "Entity";
+
         public WorldGrid CurrentGrid;
 
         // Movements
