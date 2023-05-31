@@ -35,46 +35,58 @@ namespace DownBelow.Managers
         public GameObject BG;
 
         private EDeckBuildState state;
-        private Deck ActualDeck { get => SettingsManager.Instance.PlayerDeck; set => SettingsManager.Instance.PlayerDeck = value; }
 
-        [BoxGroup("Presets")]
-        public ScriptableCardList CardList;
-        [BoxGroup("Presets")]
-        public EClass CollectionToDisplay;
+        private Dictionary<EClass, List<ScriptableCard>> decks;
+        private List<ScriptableCard> ActualDeck => decks[DeckDisplayed];
+
+        public EClass DeckDisplayed;
+
         private int maxCardsDisplayed
         {
-            get => CardList.MaxCollectionCount();
+            get => SettingsManager.Instance.MaxCollectionCount();
         }
 
-        Dictionary<ScriptableCard, int> DeckNumbers = new();
+        Dictionary<EClass, Dictionary<ScriptableCard, int>> DecksNumbers = new();
+        Dictionary<ScriptableCard, int> DeckNumbers => DecksNumbers[DeckDisplayed];
         List<DraggableCard> CardPool = new();
         const int MAXSAMECARDNUMBER = 3;
 
         #region ButtonMethods
         public void ShowDeckBuilding()
         {
+            decks = new();
+            foreach (var item in GameManager.SelfPlayer.ActiveTools)
+            {
+                decks.Add(item.Class, item.DeckPreset.Deck.Cards);
+            }
             state = EDeckBuildState.Shown;
             ToggleShowButton(false);
             BG.SetActive(true);
             UIManager.Instance.PlayerInventory.gameObject.SetActive(false);
 
             //Displaying the actual deck to the left
-            DisplayDeck(ActualDeck);
+            DisplayDeck(DeckDisplayed);
 
             //ShowingMiddleCards;
-            ChangeCollectionDisplayed((int)CollectionToDisplay);
+            ChangeCollectionDisplayed((int)DeckDisplayed);
 
         }
 
         public void SaveDeck()
         {
-            foreach (var item in DeckNumbers)
+            foreach (var DeckNums in DecksNumbers)
             {
-                ActualDeck.Cards.Clear();
-                for (int i = 0;i < item.Value;i++)
+                foreach (var item in DeckNums.Value)
                 {
-                    ActualDeck.Cards.Add(item.Key);
+                    for (int i = 0;i < item.Value;i++)
+                    {
+                        decks[DeckNums.Key].Add(item.Key);
+                    }
                 }
+            }
+            foreach (var item in GameManager.SelfPlayer.ActiveTools)
+            {
+                item.DeckPreset.Deck.Cards = decks[item.Class];
             }
         }
 
@@ -96,7 +108,7 @@ namespace DownBelow.Managers
         }
         private void Start()
         {
-            //ShowDeckBuilding();
+            ShowDeckBuilding();
         }
         void Init()
         {
@@ -110,8 +122,10 @@ namespace DownBelow.Managers
             }
         }
 
-
-        void HideAllUI()
+        /// <summary>
+        /// To call when we need to hide the "Deckbuilding menu" button.
+        /// </summary>
+        public void HideAllUI()
         {
             state = EDeckBuildState.Hidden;
             ToggleShowButton(false);
@@ -131,10 +145,20 @@ namespace DownBelow.Managers
         }
 
         #region ACTUALDECKDRAWING
-        public void DisplayDeck(Deck deck)
+        public void DisplayDeck(EClass eclass)
         {
-            ActualDeck = deck;
-            foreach (var item in deck.Cards)
+            if (decks.TryGetValue(eclass, out List<ScriptableCard> d))
+            {
+                DisplayDeck(d);
+            } else
+            {
+                //Stay on the previous deck..? display something like "missing the tool" or sum
+            }
+        }
+
+        public void DisplayDeck(List<ScriptableCard> deck)
+        {
+            foreach (var item in deck)
             {
                 TryAddCopy(item);
             }
@@ -146,11 +170,13 @@ namespace DownBelow.Managers
         {
             var count = SmallCardsParent.childCount;
             DeckNumbers.RemoveAll(x => x.Value <= 0);
+
             for (int i = count - 1;i >= 0;i--)
             {
                 Destroy(SmallCardsParent.GetChild(i).gameObject);
             }
-            foreach (KeyValuePair<ScriptableCard, int> pair in DeckNumbers)
+
+            foreach (var pair in DeckNumbers)
             {
                 var card = Instantiate(LittleCardPrefab, SmallCardsParent).GetComponent<SmallCardDeckbuilding>();
                 card.Init(pair.Key, pair.Value, () => RemoveOneCopy(pair.Key));
@@ -164,7 +190,7 @@ namespace DownBelow.Managers
                 if (number >= MAXSAMECARDNUMBER)
                 {
                     //TODO: ERROR: can't add more than 3 cards
-                    Debug.LogError($"ERROR: trying to have more than 3 {card.Title} in deck actual deck.");
+                    Debug.Log($"ERROR: trying to have more than 3 {card.Title} in deck actual deck.");
                     return;
                 }
             }
@@ -194,14 +220,14 @@ namespace DownBelow.Managers
             //Fuck les keufs
             CardPool.FindAll(x => x.gameObject.activeSelf).ForEach(card => { card.gameObject.SetActive(false); });
 
-            for (int i = 0;i < CardList.CollectionCards(collection).Count;i++)
+            for (int i = 0;i < SettingsManager.Instance.CollectionCards(collection).Count;i++)
             {
                 CardPool[i].gameObject.SetActive(true);
                 //CardPool[i].AddToDeckOnClick = collection == SettingsManager.Instance.PlayerClass;
-                CardPool[i].Init(CardList.CollectionCards(collection)[i]);
+                CardPool[i].Init(SettingsManager.Instance.CollectionCards(collection)[i]);
             }
 
-            CollectionToDisplay = collection;
+            DeckDisplayed = collection;
             CollectionHeader.text = $"{Enum.GetName(typeof(EClass), intcollection)} Cards";
         }
         #endregion
