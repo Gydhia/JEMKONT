@@ -24,8 +24,9 @@ public class CombatFeedbacks : MonoBehaviour
     private Camera _mainCam;
 
 
-    private void OnEnable()
+    private void Awake()
     {
+        this._mainCam = Camera.main;
         this._entity.OnInited += this.Init;   
     }
 
@@ -41,11 +42,6 @@ public class CombatFeedbacks : MonoBehaviour
         this._healthFeedback.gameObject.SetActive(false);
         this.healthText.gameObject.SetActive(this._entity.CurrentGrid is CombatGrid cGrid && cGrid.HasStarted);
         //Maybe for later add feedbacks for the other effects
-    }
-
-    private void Start()
-    {
-        _mainCam = Camera.main;
     }
 
     private void OnDestroy()

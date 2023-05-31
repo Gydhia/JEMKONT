@@ -52,9 +52,9 @@ namespace DownBelow.UI
 
             if(Data.Entity is PlayerBehavior player)
             {
-                this.DeckRibbon.color = player.ActiveTool.ToolRefColor;
-                this.DeckTool.sprite = player.ActiveTool.InventoryIcon;
-                this.DeckName.text = player.ActiveTool.Class.ToString();
+                this.DeckRibbon.color = player.CombatTool.ToolRefColor;
+                this.DeckTool.sprite = player.CombatTool.InventoryIcon;
+                this.DeckName.text = player.CombatTool.Class.ToString();
             }
         }
 

@@ -54,11 +54,16 @@ namespace DownBelow.Entity
         public PhotonView PlayerView;
 
 
-        public ToolItem ActiveTool;
+        public ToolItem ActiveTool => ActiveTools.Count > 0 ? ActiveTools[0] : null;
+        public ToolItem CombatTool => CombatTools[0];
         /// <summary>
-        /// Each possessed tools. If alone in combat, there will be 4. Out of combat, depends of the max players
+        /// Each possessed tools that differs according to number of players
         /// </summary>
-        public List<ToolItem> ActiveTools;
+        public List<ToolItem> ActiveTools = new List<ToolItem>();
+        /// <summary>
+        /// Each tools set for combat. If in combat alone in a 2 players room, there will be 4 tools.
+        /// </summary>
+        public List<ToolItem> CombatTools = new List<ToolItem>();
 
         public BaseStorage PlayerSpecialSlots;
         public ItemPreset CurrentSelectedItem;
@@ -72,9 +77,9 @@ namespace DownBelow.Entity
         {
             get 
             {
-                return (this.ActiveTool == null || ActiveTool.DeckPreset == null) ?
+                return (this.CombatTool == null || CombatTool.DeckPreset == null) ?
                     null :
-                    ActiveTool.DeckPreset;
+                    CombatTool.DeckPreset;
             }
         }
 
@@ -99,15 +104,34 @@ namespace DownBelow.Entity
 
         #endregion
 
-        public override void Init(Cell refCell, WorldGrid refGrid, int order = 0, bool isFake = false)
+        /// <summary>
+        /// Used by fake players
+        /// </summary>
+        /// <param name="refCell"></param>
+        /// <param name="refGrid"></param>
+        public void Init(Cell refCell, WorldGrid refGrid, ToolItem refItem, PlayerBehavior owner)
+        {
+            this.IsFake = true;
+            this.Owner = owner;
+
+            this.SetActiveTool(refItem);
+            this.CombatTools.Add(refItem);
+            this.ReinitializeAllStats();
+
+            this.name = "FakePlayer - " + refItem.Class.ToString();
+            this.UID = owner.UID + refItem.Class.ToString();
+
+            this.Init(refCell, refGrid);
+        }
+
+        public override void Init(Cell refCell, WorldGrid refGrid, int order = 0)
         {
             base.Init(refCell, refGrid, order);
 
             refGrid.GridEntities.Add(this);
 
-            this.IsFake = isFake;
-
-            if (isFake) {
+            if (this.IsFake)
+            {
                 this.FireEntityInited();
                 return; 
             }
@@ -232,7 +256,6 @@ namespace DownBelow.Entity
             // Only set the player stats from one tool, the first one picked up
             if (this.ActiveTool == null)
             {
-                this.ActiveTool = activeTool;
                 this.SetStatistics(activeTool.DeckPreset.Statistics);
             }
 
@@ -244,10 +267,6 @@ namespace DownBelow.Entity
             removedTool.ActualPlayer = null;
             removedTool.DeckPreset.LinkedPlayer = null;
             this.ActiveTools.Remove(removedTool);
-
-            this.ActiveTool = this.ActiveTools.Count > 0 ?
-                this.ActiveTools[0] : 
-                null;
             
             if(this.ActiveTool != null)
                 this.SetStatistics(this.ActiveTool.DeckPreset.Statistics);

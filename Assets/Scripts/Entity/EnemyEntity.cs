@@ -44,7 +44,7 @@ namespace DownBelow.Entity
 
         protected List<EnemyAction> _turnBehaviors = new List<EnemyAction>();
 
-        public override void Init(Cell refCell, WorldGrid refGrid, int order = 0, bool isFake = false) 
+        public override void Init(Cell refCell, WorldGrid refGrid, int order = 0) 
         {
             base.Init(refCell, refGrid);
 

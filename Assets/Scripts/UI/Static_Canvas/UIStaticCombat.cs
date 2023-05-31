@@ -43,9 +43,12 @@ namespace DownBelow.UI
             CombatManager.Instance.OnCombatEnded += _toggleDeckSelectionUI;
         }
 
-        private void _toggleCombatUI(EntityEventData data) 
+        private void _toggleCombatUI(EntityEventData Data) 
         {
-            bool inCombatGrid = data.Entity.CurrentGrid is CombatGrid;
+            if (Data.Entity != GameManager.RealSelfPlayer)
+                return;
+
+            bool inCombatGrid = Data.Entity.CurrentGrid is CombatGrid;
             this.gameObject.SetActive(inCombatGrid);
             this.StartCombat.gameObject.SetActive(inCombatGrid); 
             this.LeaveCombat.gameObject.SetActive(inCombatGrid);
@@ -60,6 +63,9 @@ namespace DownBelow.UI
 
         private void _updateDropdowns(EntityEventData data)
         {
+            if (!GameManager.RealSelfPlayer.CurrentGrid.IsCombatGrid)
+                return;
+
             if (!this.DeckDropdowns[0].Inited)
             {
                 foreach (var dropdown in this.DeckDropdowns)
@@ -69,55 +75,20 @@ namespace DownBelow.UI
             }
 
             int counter = 0;
-            foreach (var item in GameManager.SelfPlayer.PlayerSpecialSlots.StorageItems)
+            foreach (var tool in GameManager.RealSelfPlayer.CombatTools)
             {
-                ToolItem toolPreset = item.ItemPreset as ToolItem;
-
                 // +1 since the value 0 is for none
-                this.DeckDropdowns[counter].SelfDropdown.value = (CardsManager.Instance.AvailableTools.IndexOf(toolPreset) + 1);
+                this.DeckDropdowns[counter].gameObject.SetActive(true);
+
+                this.DeckDropdowns[counter].SelfDropdown.SetValueWithoutNotify(CardsManager.Instance.AvailableTools.IndexOf(tool) + 1);
                 this.DeckDropdowns[counter].SelfDropdown.RefreshShownValue();
                 this.DeckDropdowns[counter].SelfDropdown.interactable = false;
                 counter++;
             }
-           
-            foreach (var player in CombatManager.Instance.PlayersInGrid.Where(p => p != GameManager.SelfPlayer))
+
+            for (int i = counter; i < CardsManager.Instance.AvailableTools.Count; i++)
             {
-                foreach (var playerTool in player.PlayerSpecialSlots.StorageItems)
-                {
-                    this.DeckDropdowns[counter].gameObject.SetActive(false);
-                    counter++;
-                }                    
-            }
-
-            // Slots remaining
-            if(counter < 4)
-            {
-                int remaining = 4 - counter;
-                int playersInGrid = CombatManager.Instance.PlayersInGrid.Count;
-
-                for (int i = 0; i < remaining;)
-                {
-                    if(playersInGrid == 0)
-                    {
-                        Debug.LogError("There are no players in grid even after entering, fix the callstack with events");
-                        break;
-                    }
-
-                    for (int j = 0; j < playersInGrid; j++)
-                    {
-                        if (CombatManager.Instance.PlayersInGrid[j] == GameManager.SelfPlayer)
-                        {
-                            this.DeckDropdowns[counter].SelfDropdown.value = counter + 1;
-                            this.DeckDropdowns[counter].SelfDropdown.RefreshShownValue();
-                            this.DeckDropdowns[counter].SelfDropdown.interactable = false;
-
-                            counter++;
-                        }
-
-                        i++;
-                    }
-                }
-                
+                this.DeckDropdowns[i].gameObject.SetActive(false);
             }
         }
     }

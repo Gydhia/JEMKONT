@@ -84,6 +84,11 @@ namespace DownBelow.Managers
         private void _switchEscapeState(UnityEngine.InputSystem.InputAction.CallbackContext ctx) => this.SwitchEscapeState();
         public void SwitchEscapeState()
         {
+#if !UNITY_EDITOR
+            if (GameManager.RealSelfPlayer.CurrentGrid.IsCombatGrid)
+                return;
+#endif
+
             bool isActive = EscapeSection.gameObject.activeSelf;
 
             EscapeSection.gameObject.SetActive(!isActive);
