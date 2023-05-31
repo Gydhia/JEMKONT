@@ -1,0 +1,19 @@
+State Group	ID	Name			Wwise Object Path	Notes
+	3298531235	Layers			\Default Work Unit\Layers	
+
+State	ID	Name	State Group			Notes
+	602912168	Layers1	Layers			
+	602912169	Layers0	Layers			
+	602912170	Layers3	Layers			
+	602912171	Layers2	Layers			
+	748895195	None	Layers			
+
+Audio Bus	ID	Name			Wwise Object Path	Notes
+	672574001	SSFX			\Default Work Unit\Master Audio Bus\SSFX	
+	3803692087	Master Audio Bus			\Default Work Unit\Master Audio Bus	
+	3991942870	Music			\Default Work Unit\Master Audio Bus\Music	
+
+Audio Devices	ID	Name	Type				Notes
+	2317455096	No_Output	No Output			
+	3859886410	System	System			
+

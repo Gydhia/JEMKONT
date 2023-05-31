@@ -13,10 +13,11 @@ namespace DownBelow.UI.Inventory
 {
     public class UIPlayerInventory : MonoBehaviour
     {
-        public UIInventoryItem ClassItem;
+        public UIInventoryTool ClassItem;
         public UIInventoryItem SelectedItem;
 
         public UIStorage PlayerStorage;
+        public UIStorage PlayerSpecialStorage;
         public PlayerBehavior Holder;
 
         private InteractableStorage _nearestInteractable;
@@ -24,14 +25,26 @@ namespace DownBelow.UI.Inventory
 
         private void Awake()
         {
-            GameManager.Instance.OnPlayersWelcomed += _initInventory;
+            GameManager.Instance.OnGameStarted += _initInventory;
+
+            GameManager.Instance.OnEnteredGrid += _toggleInventoryUI;
+            GameManager.Instance.OnExitingGrid += _toggleInventoryUI;
+        }
+
+        private void _toggleInventoryUI(EntityEventData Data) 
+        {
+            if (Data.Entity != GameManager.RealSelfPlayer)
+                return;
+
+            this.gameObject.SetActive(!(Data.Entity.CurrentGrid is CombatGrid));
         }
 
         private void _initInventory(GameEventData Data)
         {
-            this.Holder = GameManager.Instance.SelfPlayer;
+            this.Holder = GameManager.SelfPlayer;
 
             this.PlayerStorage.SetStorageAndShow(Holder.PlayerInventory);
+            this.PlayerSpecialStorage.SetStorageAndShow(Holder.PlayerSpecialSlots);
 
             this.Holder.OnEnteredCell += _updateChestInteract;
             this.ToNearestStorageBtn.onClick.AddListener(this.MoveToNearestStorage);

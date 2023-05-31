@@ -1,15 +1,18 @@
+using DownBelow.Entity;
 using DownBelow.Events;
 using DownBelow.Inventory;
+using DownBelow.Managers;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace DownBelow.UI.Inventory
 {
-    public class UIInventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
+    public class UIInventoryItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
     {
         public static UIInventoryItem LastHoveredItem;
 
@@ -23,8 +26,13 @@ namespace DownBelow.UI.Inventory
 
         public InventoryItem SelfItem => this.SelfStorage.Storage.StorageItems[this.Slot];
 
+        public Image SelectedImage;
+
         private Transform _parentAfterDrag;
         private Vector3 _positionAfterDrag;
+
+        protected virtual bool DroppableOverUI => true;
+        protected virtual bool DroppableOverWorld => true;
 
         private void Start()
         {
@@ -45,8 +53,7 @@ namespace DownBelow.UI.Inventory
                 this.icon.sprite = Item.ItemPreset.InventoryIcon;
                 this.TotalQuantity = Item.Quantity;
                 this.quantity.text = this.TotalQuantity.ToString();
-            }
-            else
+            } else
             {
                 this.icon.sprite = Managers.SettingsManager.Instance.GameUIPreset.ItemCase;
                 this.quantity.text = string.Empty;
@@ -56,13 +63,12 @@ namespace DownBelow.UI.Inventory
 
         public void RefreshItem(ItemEventData Data)
         {
-            if(Data.ItemData.Quantity > 0)
+            if (Data.ItemData.Quantity > 0)
             {
                 this.icon.sprite = Data.ItemData.ItemPreset.InventoryIcon;
                 this.TotalQuantity = Data.ItemData.Quantity;
                 this.quantity.text = this.TotalQuantity.ToString();
-            }
-            else
+            } else
             {
                 this.icon.sprite = Managers.SettingsManager.Instance.GameUIPreset.ItemCase;
                 this.quantity.text = string.Empty;
@@ -78,6 +84,11 @@ namespace DownBelow.UI.Inventory
         {
             this.TotalQuantity += quantity;
             this.quantity.text = this.TotalQuantity.ToString();
+        }
+
+        public void SelectedSlot(bool value)
+        {
+            SelectedImage.color = new Color(SelectedImage.color.r, SelectedImage.color.g, SelectedImage.color.b, value ? 1 : 0);
         }
 
         public void RemoveItem()
@@ -103,29 +114,47 @@ namespace DownBelow.UI.Inventory
             if (this.TotalQuantity == 0)
                 return;
 
+            icon.raycastTarget = false;
             selfButton.image.raycastTarget = false;
-            if(selfButton.targetGraphic != null)
+            if (selfButton.targetGraphic != null)
                 selfButton.targetGraphic.raycastTarget = false;
-            selfButton.transform.position = Input.mousePosition;
+            selfButton.transform.position = Mouse.current.position.ReadValue();
         }
         public void OnEndDrag(PointerEventData eventData)
         {
             if (this.TotalQuantity == 0)
                 return;
-
-            if (LastHoveredItem && LastHoveredItem != this)
+            if (this.DroppableOverWorld && GridManager.Instance.LastHoveredCell != null)
             {
-                int remainings = LastHoveredItem.SelfStorage.Storage.TryAddItem(this.SelfItem.ItemPreset, this.TotalQuantity, LastHoveredItem.Slot);
-                this.SelfStorage.Storage.RemoveItem(this.SelfItem.ItemPreset, this.TotalQuantity - remainings, this.Slot);
+                this.dropOverWorld(eventData);
+            } 
+            else if (this.DroppableOverUI && LastHoveredItem != null && LastHoveredItem != this)
+            {
+                this.dropOverUI(eventData);
             }
 
+            icon.raycastTarget = true;
             selfButton.image.raycastTarget = true;
             if (selfButton.targetGraphic != null)
                 selfButton.targetGraphic.raycastTarget = true;
             selfButton.transform.position = this._positionAfterDrag;
             selfButton.transform.SetParent(this._parentAfterDrag);
         }
-
+        protected virtual void dropOverUI(PointerEventData eventData)
+        {
+            if (LastHoveredItem && LastHoveredItem != this)
+            {
+                int remainings = LastHoveredItem.SelfStorage.Storage.TryAddItem(this.SelfItem.ItemPreset, this.TotalQuantity, LastHoveredItem.Slot);
+                this.SelfStorage.Storage.RemoveItem(this.SelfItem.ItemPreset, this.TotalQuantity - remainings, this.Slot);
+            }
+        }
+        protected virtual void dropOverWorld(PointerEventData eventData)
+        {
+            var action = new DropItemAction(GameManager.SelfPlayer,
+                GridManager.Instance.LastHoveredCell, SelfItem.ItemPreset.UID.ToString(), SelfItem.Quantity.ToString());
+            NetworkManager.Instance.EntityAskToBuffAction(action);
+            //GridManager.Instance.LastHoveredCell.DropDownItem(SelfItem);
+        }
         public void OnPointerEnter(PointerEventData eventData)
         {
             LastHoveredItem = this;

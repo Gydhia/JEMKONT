@@ -5,6 +5,7 @@ using DownBelow.Inventory;
 using DownBelow.Managers;
 using Sirenix.OdinInspector;
 using System;
+using DownBelow.Entity;
 
 namespace DownBelow
 {
@@ -22,9 +23,15 @@ namespace DownBelow
         public Outline ItemPrefab;
 
         public int MaxStack = 1;
+        public GameObject DroppedItemPrefab;
 
         //Fields
-
+        public void Drop(PlayerBehavior player)
+        {
+            //Player.ActualItem = null;
+            //Instanciate dropped item prefab;
+            //
+        }
         private void _updateUID()
         {
             using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())

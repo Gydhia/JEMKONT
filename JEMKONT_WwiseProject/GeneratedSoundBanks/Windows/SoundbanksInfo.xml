@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SoundBanksInfo Platform="Windows" BasePlatform="Windows" SchemaVersion="16" SoundBankVersion="145">
+	<RootPaths>
+		<ProjectRoot>../..</ProjectRoot>
+		<SourceFilesRoot>../../.cache/Windows</SourceFilesRoot>
+		<SoundBanksRoot>.</SoundBanksRoot>
+		<ExternalSourcesInputFile></ExternalSourcesInputFile>
+		<ExternalSourcesOutputRoot>.</ExternalSourcesOutputRoot>
+	</RootPaths>
+	<DialogueEvents/>
+	<SoundBanks>
+		<SoundBank Id="135602584" Type="User" Language="SFX" Hash="{B9A10348-02EF-8E21-8675-46B448409EC2}">
+			<ShortName>SB_MENU</ShortName>
+			<Path>SB_MENU.bnk</Path>
+		</SoundBank>
+		<SoundBank Id="513513905" Type="User" Language="SFX" Hash="{9DF81C0C-AEAC-A558-A595-3B2CAA9782A1}">
+			<ShortName>SB_FARM</ShortName>
+			<Path>SB_FARM.bnk</Path>
+		</SoundBank>
+		<SoundBank Id="1129547629" Type="User" Language="SFX" Hash="{CEC61C15-F617-BB92-D4C1-21B1B0D5483C}">
+			<ShortName>SB_AMBIANCE</ShortName>
+			<Path>SB_AMBIANCE.bnk</Path>
+		</SoundBank>
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{96F23E0A-4E8C-31D9-0C88-F879EBF80249}">
+			<ShortName>Init</ShortName>
+			<Path>Init.bnk</Path>
+			<Plugins>
+				<AudioDevices>
+					<Plugin Id="2317455096" Name="No_Output" LibName="No Output" LibId="11862023"/>
+					<Plugin Id="3859886410" Name="System" LibName="System" LibId="11403271"/>
+				</AudioDevices>
+			</Plugins>
+			<Busses>
+				<Bus Id="672574001" Name="SSFX"/>
+				<Bus Id="3803692087" Name="Master Audio Bus"/>
+				<Bus Id="3991942870" Name="Music"/>
+			</Busses>
+			<StateGroups>
+				<StateGroup Id="3298531235" Name="Layers">
+					<States>
+						<State Id="602912168" Name="Layers1"/>
+						<State Id="602912169" Name="Layers0"/>
+						<State Id="602912170" Name="Layers3"/>
+						<State Id="602912171" Name="Layers2"/>
+						<State Id="748895195" Name="None"/>
+					</States>
+				</StateGroup>
+			</StateGroups>
+			<SwitchGroups>
+				<SwitchGroup Id="2578143219" Name="Ground_Switch">
+					<Switches>
+						<Switch Id="803837735" Name="Sand"/>
+						<Switch Id="4248645337" Name="Grass"/>
+					</Switches>
+				</SwitchGroup>
+			</SwitchGroups>
+		</SoundBank>
+		<SoundBank Id="2497815141" Type="User" Language="SFX" Hash="{F89595BA-B665-C607-2B3B-288438B0081E}">
+			<ShortName>SB_COMBAT</ShortName>
+			<Path>SB_COMBAT.bnk</Path>
+		</SoundBank>
+		<SoundBank Id="2711878180" Type="User" Language="SFX" Hash="{8C9B1563-25FA-A79F-C4D9-209B9FB03969}">
+			<ShortName>SB_GLOBAL</ShortName>
+			<Path>SB_GLOBAL.bnk</Path>
+			<Media>
+				<File Id="36056990" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>UI_Click_Subtle_mono.wav</ShortName>
+					<CachePath>SFX/UI_Click_Subtle_mono_10C4C929.wem</CachePath>
+				</File>
+				<File Id="65588681" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>dbFight03.wav</ShortName>
+					<CachePath>SFX/dbFight03_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="78472428" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>UI_Click_Distinct_mono.wav</ShortName>
+					<CachePath>SFX/UI_Click_Distinct_mono_10C4C929.wem</CachePath>
+				</File>
+				<File Id="488747114" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>hihats loop.wav</ShortName>
+					<CachePath>SFX/hihats loop_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="597632551" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>dbFight04.wav</ShortName>
+					<CachePath>SFX/dbFight04_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="708396059" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>kalimba loop.wav</ShortName>
+					<CachePath>SFX/kalimba loop_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="801563757" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>dbFight01.wav</ShortName>
+					<CachePath>SFX/dbFight01_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="822974898" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>UI_Click_Tap_Subtle_mono.wav</ShortName>
+					<CachePath>SFX/UI_Click_Tap_Subtle_mono_10C4C929.wem</CachePath>
+				</File>
+				<File Id="823762247" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>UI_Click_Cut_mono.wav</ShortName>
+					<CachePath>SFX/UI_Click_Cut_mono_10C4C929.wem</CachePath>
+				</File>
+				<File Id="920520952" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>bass piano loop.wav</ShortName>
+					<CachePath>SFX/bass piano loop_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="959241070" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>dbFight02.wav</ShortName>
+					<CachePath>SFX/dbFight02_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="991806595" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>dbFight00.wav</ShortName>
+					<CachePath>SFX/dbFight00_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="1002096085" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harp loop.wav</ShortName>
+					<CachePath>SFX/harp loop_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="1002181933" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>reverb piano loop.wav</ShortName>
+					<CachePath>SFX/reverb piano loop_D79FB2B7.wem</CachePath>
+				</File>
+			</Media>
+			<Events>
+				<Event Id="3568964008" Name="Play_SSFX__Click" DurationType="OneShot" DurationMin="0.038318895" DurationMax="0.06845805">
+					<MediaRefs>
+						<MediaRef Id="36056990"/>
+						<MediaRef Id="78472428"/>
+						<MediaRef Id="823762247"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2149827808" Name="Play_SSFX__ClickBlocked" DurationType="OneShot" DurationMin="0.017278912" DurationMax="0.017278912">
+					<MediaRefs>
+						<MediaRef Id="822974898"/>
+					</MediaRefs>
+				</Event>
+			</Events>
+		</SoundBank>
+	</SoundBanks>
+	<FileHash>{74D866C5-0695-947F-2ED0-DB55D17F3FFE}</FileHash>
+</SoundBanksInfo>

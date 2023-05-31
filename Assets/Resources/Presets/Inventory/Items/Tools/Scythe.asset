@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 631c082ce4ad09f49b957037d0d3c305, type: 3}
+  m_Name: Scythe
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: UID
+      Entry: 2
+      Data: 580129ba1016169e54fa7dedd0ef5e08
+  Type: 0
+  ItemName: Scythe
+  InventoryIcon: {fileID: 21300000, guid: 157c130bbbff61a4a9bc8e24195b9f28, type: 3}
+  ItemPrefab: {fileID: 0}
+  MaxStack: 1
+  DroppedItemPrefab: {fileID: 1208034724250076874, guid: 26b481b7fff2e984bbeab7e8ab8950d0, type: 3}
+  DeckPreset: {fileID: 11400000, guid: a94274f9a030fcf49942d26ac3ced7d2, type: 2}
+  Class: 1
+  ActualPlayer: {fileID: 0}
+  ToolRefColor: {r: 0.4, g: 0.5529412, b: 0.18039216, a: 1}
+  FightIcon: {fileID: 21300000, guid: f907e14f24cf0844aa51850a98682d7f, type: 3}

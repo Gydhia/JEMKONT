@@ -8,9 +8,5 @@ namespace DownBelow.Spells.Alterations {
     public class StunAlteration : Alteration {
         public StunAlteration(int Cooldown) : base(Cooldown) {
         }
-
-        public override EAlterationType ToEnum() {
-            return EAlterationType.Stun;
-        }
     }
 }

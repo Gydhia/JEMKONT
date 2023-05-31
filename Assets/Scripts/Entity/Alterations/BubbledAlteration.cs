@@ -11,13 +11,11 @@ namespace DownBelow.Spells.Alterations {
         }
         public override void DecrementAlterationCountdown(EventData data) {
             base.DecrementAlterationCountdown(data);
-            if(Cooldown <= 0) {
+            if(Duration <= 0) {
                 Target.OnHealthRemoved -= DecrementAlterationCountdown;
             }
         }
-        public override EAlterationType ToEnum() {
-            return EAlterationType.Bubbled;
-        }
+
         public override bool ClassicCountdown => false;
     }
 }

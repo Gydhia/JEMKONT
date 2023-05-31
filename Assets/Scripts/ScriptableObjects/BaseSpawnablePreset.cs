@@ -55,7 +55,11 @@ public class BaseSpawnablePreset : SerializedScriptableObject, IEquatable<BaseSp
 
     public virtual void Init(Cell attachedCell)
     {
-        Debug.LogError("Init hasn't been overrided");
+        attachedCell.Datas.state = this.AffectingState;
+        if(!this.UName.Contains("Spawn"))
+        {
+            Debug.LogError("Init hasn't been overrided");
+        }
     }
 
     public bool Equals(BaseSpawnablePreset other)

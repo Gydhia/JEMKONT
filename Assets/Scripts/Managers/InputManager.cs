@@ -4,13 +4,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 namespace DownBelow.Managers
 {
     public class InputManager : _baseManager<InputManager>
     {
+        #region INPUT_SYSTEM
+
+        public PlayerInput PlayerInput;
+        public InputActionAsset InputActionAsset;
+
+        #endregion
+
         #region EVENTS
-        public event CellEventData.Event OnCellRightClick;
+        public event CellEventData.Event OnCellRightClickDown;
 
         public event CellEventData.Event OnCellClickedUp;
         public event CellEventData.Event OnCellClickedDown;
@@ -19,7 +27,7 @@ namespace DownBelow.Managers
 
         public void FireCellRightClick(Cell Cell)
         {
-            this.OnCellRightClick?.Invoke(new CellEventData(Cell));
+            this.OnCellRightClickDown?.Invoke(new CellEventData(Cell));
         }
         public void FireCellClickedUp(Cell Cell)
         {
@@ -36,71 +44,141 @@ namespace DownBelow.Managers
         #endregion
 
         public Interactable LastInteractable;
-        public EventSystem EventSystem;
+        public EventSystem GameEventSystem;
+
+        public bool IsPressingShift = false;
+        public bool IsPointingOverUI = false;
+
+        public override void Awake()
+        {
+            base.Awake();
+
+            PlayerInputs.Init(this.InputActionAsset);
+
+            this.SubscribeToInputEvents();
+        }
+
+        public void SubscribeToInputEvents()
+        {
+            PlayerInputs.player_l_click.performed += this._onLeftClickDown;
+            PlayerInputs.player_l_click.canceled += this._onLeftClickUp;
+
+            PlayerInputs.player_r_click.performed += this._onRightClickDown;
+
+            PlayerInputs.player_interact.canceled += this._onInteract;
+
+            PlayerInputs.player_escape.canceled += this._onEscape;
+        }
 
         private void Update()
         {
             if (!GameManager.GameStarted)
                 return;
 
+            this.IsPointingOverUI = EventSystem.current.IsPointerOverGameObject() ;
+
+
+            if (!ReferenceEquals(Keyboard.current, null))
+                this.IsPressingShift = Keyboard.current.shiftKey.IsPressed();
+
             #region CELLS_RAYCAST
-            RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            // layer 7 = Cell
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 7))
+            if (!this.IsPointingOverUI)
             {
-                if (hit.collider != null && hit.collider.TryGetComponent(out Cell cell))
+                RaycastHit hit;
+                Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+                // layer 7 = Cell
+                if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 7))
                 {
-                    // Avoid executing this code when it has already been done
-                    if (cell != GridManager.Instance.LastHoveredCell)
-                        this.FireNewCellHovered(cell);
+                    if (hit.collider != null && hit.collider.TryGetComponent(out Cell cell))
+                    {
+                        // Avoid executing this code when it has already been done
+                        if (cell != GridManager.Instance.LastHoveredCell)
+                            this.FireNewCellHovered(cell);
+                    }
                 }
+                else
+                {
+                    GridManager.Instance.LastHoveredCell = null;
+                }
+                #endregion
+                #region INTERACTABLEs_RAYCAST
+                // layer 8 = Interactable
+                if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 8))
+                {
+                    if (hit.collider != null && hit.collider.TryGetComponent(out Interactable interactable))
+                    {
+                        if (interactable != this.LastInteractable)
+                        {
+                            if (LastInteractable != null)
+                                this.LastInteractable.OnUnfocused();
+                            this.LastInteractable = interactable;
+                            this.LastInteractable.OnFocused();
+                        }
+                    }
+                }
+                else if (this.LastInteractable != null)
+                {
+                    this.LastInteractable.OnUnfocused();
+                    this.LastInteractable = null;
+                }
+                #endregion
             }
             else
             {
+                if(this.LastInteractable != null)
+                {
+                    this.LastInteractable.OnUnfocused();
+                    this.LastInteractable = null;
+                }
+                
                 GridManager.Instance.LastHoveredCell = null;
             }
-            #endregion
-            #region INTERACTABLEs_RAYCAST
-            // layer 8 = Interactable
-            if(Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 8))
+        }
+
+        private void _onLeftClickDown(InputAction.CallbackContext ctx) => this.OnLeftClickDown();
+        public void OnLeftClickDown()
+        {
+            if (this.IsPointingOverUI)
+                return;
+
+            if (GridManager.Instance.LastHoveredCell != null)
+                this.FireCellClickedDown(GridManager.Instance.LastHoveredCell);
+        }
+
+        private void _onLeftClickUp(InputAction.CallbackContext ctx) => this.OnLeftClickUp();
+        public void OnLeftClickUp()
+        {
+            if (this.IsPointingOverUI)
+                return;
+
+            if (GridManager.Instance.LastHoveredCell != null)
             {
-                if (hit.collider != null && hit.collider.TryGetComponent(out Interactable interactable))
-                {
-                    if(interactable != this.LastInteractable)
-                    {
-                        if (LastInteractable != null)
-                            this.LastInteractable.OnUnfocused();
-                        this.LastInteractable = interactable;
-                        this.LastInteractable.OnFocused();
-                    }
-                }
-            }
-            else if (this.LastInteractable != null)
-            {
-                this.LastInteractable.OnUnfocused();
-                this.LastInteractable = null;   
-            }
-            #endregion
-            if (!EventSystem.IsPointerOverGameObject())
-            {
-                if (Input.GetMouseButtonUp(1))
-                {
-                    if (GridManager.Instance.LastHoveredCell != null)
-                        this.FireCellRightClick(GridManager.Instance.LastHoveredCell);
-                }
-                if (Input.GetMouseButtonUp(0))
-                {
-                    if (GridManager.Instance.LastHoveredCell != null)
-                        this.FireCellClickedUp(GridManager.Instance.LastHoveredCell);
-                }
-                if (Input.GetMouseButtonDown(0))
-                {
-                    if (GridManager.Instance.LastHoveredCell != null)
-                        this.FireCellClickedDown(GridManager.Instance.LastHoveredCell);
-                }
+                this.FireCellClickedUp(GridManager.Instance.LastHoveredCell);
             }
         }
+
+        private void _onRightClickDown(InputAction.CallbackContext ctx) => this.OnRightClickDown();
+        public void OnRightClickDown()
+        {
+            if (this.IsPointingOverUI)
+                return;
+
+            if (GridManager.Instance.LastHoveredCell != null)
+                this.FireCellRightClick(GridManager.Instance.LastHoveredCell);
+        }
+
+        private void _onInteract(InputAction.CallbackContext ctx) => this.OnInteract();
+        public void OnInteract()
+        {
+
+        }
+
+        private void _onEscape(InputAction.CallbackContext ctx) => this.OnEscape();
+        public void OnEscape()
+        {
+
+        }
+
 
         public void ChangeCursorAppearance(CursorAppearance newAppearance)
         {

@@ -25,26 +25,27 @@ MonoBehaviour:
       Entry: 2
       Data: 59e2d555a3cca19306186cfe0b67c35c
   Name: BaseFisherman
-  Class: 0
+  Class: 3
   Deck:
     Cards:
-    - {fileID: 11400000, guid: 17cca61da856a0a4abc846a9ec5ce6a4, type: 2}
-    - {fileID: 11400000, guid: 931eb095137ef8148bc5a6f656a17390, type: 2}
-    - {fileID: 11400000, guid: 931eb095137ef8148bc5a6f656a17390, type: 2}
-    - {fileID: 11400000, guid: e6089736fe0b82948952e94e53c3ba6b, type: 2}
-    - {fileID: 11400000, guid: e6089736fe0b82948952e94e53c3ba6b, type: 2}
-    - {fileID: 11400000, guid: c8ec0ab5a83846d438943c97c32b320c, type: 2}
-    - {fileID: 11400000, guid: c8ec0ab5a83846d438943c97c32b320c, type: 2}
-    - {fileID: 11400000, guid: 33a72a420cd0f99489654a79543ebc3c, type: 2}
-    - {fileID: 11400000, guid: 33a72a420cd0f99489654a79543ebc3c, type: 2}
-    - {fileID: 11400000, guid: e1dc70314cde4324da42748300aedede, type: 2}
-    - {fileID: 11400000, guid: e1dc70314cde4324da42748300aedede, type: 2}
-    - {fileID: 11400000, guid: df3af346f5c9d3e42adc01d9ff4cfb39, type: 2}
-    - {fileID: 11400000, guid: df3af346f5c9d3e42adc01d9ff4cfb39, type: 2}
-    - {fileID: 11400000, guid: df3af346f5c9d3e42adc01d9ff4cfb39, type: 2}
-    - {fileID: 11400000, guid: 13877796ab985c344ac1ece8f2afe63b, type: 2}
     - {fileID: 11400000, guid: 13877796ab985c344ac1ece8f2afe63b, type: 2}
     - {fileID: 11400000, guid: 13877796ab985c344ac1ece8f2afe63b, type: 2}
     - {fileID: 11400000, guid: a4bd6d4842e41b347a6c5e845162e976, type: 2}
     - {fileID: 11400000, guid: a4bd6d4842e41b347a6c5e845162e976, type: 2}
-    - {fileID: 11400000, guid: a4bd6d4842e41b347a6c5e845162e976, type: 2}
+    - {fileID: 11400000, guid: df3af346f5c9d3e42adc01d9ff4cfb39, type: 2}
+    - {fileID: 11400000, guid: df3af346f5c9d3e42adc01d9ff4cfb39, type: 2}
+    - {fileID: 11400000, guid: ab349cd419987d3429052a6ab9d3c630, type: 2}
+    - {fileID: 11400000, guid: ab349cd419987d3429052a6ab9d3c630, type: 2}
+    - {fileID: 11400000, guid: 1506203bd4b6a7d4299699a46d90f69f, type: 2}
+    - {fileID: 11400000, guid: 1506203bd4b6a7d4299699a46d90f69f, type: 2}
+    - {fileID: 11400000, guid: 513bcbbdfe643e8489087eabb036c78b, type: 2}
+    - {fileID: 11400000, guid: 513bcbbdfe643e8489087eabb036c78b, type: 2}
+    - {fileID: 11400000, guid: d9b478ad65744cb4ca4f5ce668a2a367, type: 2}
+    - {fileID: 11400000, guid: d9b478ad65744cb4ca4f5ce668a2a367, type: 2}
+    - {fileID: 11400000, guid: 370bb121faa8ad34b9e33140c9315129, type: 2}
+    - {fileID: 11400000, guid: 370bb121faa8ad34b9e33140c9315129, type: 2}
+    - {fileID: 11400000, guid: 0a37ffd3e3876f4409448dea3a7f6323, type: 2}
+    - {fileID: 11400000, guid: 1eb7bf8073162f4448155f73d9824b50, type: 2}
+  Statistics: {fileID: 11400000, guid: 4d576a35a0dcc0e4cb45e35dc060d9d9, type: 2}
+  LinkedPlayer: {fileID: 0}
+  RefCardsHolder: {fileID: 0}

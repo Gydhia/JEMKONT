@@ -5,39 +5,74 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 using System;
 using System.Linq;
+using DownBelow.Events;
+using DownBelow.UI;
+using EODE.Wonderland;
+using Sirenix.Serialization;
+using DownBelow.GridSystem;
+using DownBelow.Entity;
+using System.Diagnostics;
 
 namespace DownBelow.Managers
 {
+    public enum PileType
+    {
+        Draw = 1,
+        Discard = 2,
+        Hand = 3,
+        Exausth = 4,
+
+        All = 5
+    }
+
     [ShowOdinSerializedPropertiesInInspector]
     public class CardsManager : _baseManager<CardsManager>
     {
-        public Dictionary<Guid, DeckPreset> DeckPresets;
-        public Dictionary<Guid, ScriptableCard> ScriptableCards;
+        #region DATAS
+        public DraggableCard CardPrefab;
+
+        /// <summary>
+        /// Do not use this, Inspector only. Use <see cref="DeckPresets"/>
+        /// </summary>
+        public List<DeckPreset> AvailableDecks;
 
         public void Init()
-        {
-            this._loadScriptableCards();
+        {          
+            CombatManager.Instance.OnCombatStarted += _setupForCombat;
+            CombatManager.Instance.OnCombatEnded += _endForCombat;
         }
 
-        private void _loadScriptableCards()
+        private void _setupForCombat(GridEventData Data)
         {
-            List<DeckPreset> decks = Resources.LoadAll<DeckPreset>("Presets/Decks").ToList();
+            CombatGrid combatGrid = Data.Grid as CombatGrid;
 
-            this.DeckPresets = new Dictionary<Guid, DeckPreset>();
-            this.ScriptableCards = new Dictionary<Guid, ScriptableCard>();
+            var allPlayers = combatGrid.GridEntities.Where(e => e is PlayerBehavior player && player != GameManager.RealSelfPlayer && player.Deck != null).Cast<PlayerBehavior>();
 
-            foreach (var deck in decks)
+            // To keep order, we exclude selfPlayer from the rest so we're sure that he's first
+            GameManager.RealSelfPlayer.Deck.SetupForCombat(UIManager.Instance.CardSection.CardsHolders[0]);
+            int counter = 1;
+            foreach (PlayerBehavior player in allPlayers)
             {
-                this.DeckPresets.Add(deck.UID, deck);
-
-                // Only take the unique cards
-                foreach (var card in deck.Deck.Cards)
-                {
-                    if (!this.ScriptableCards.ContainsKey(card.UID))
-                        this.ScriptableCards.Add(card.UID, card);
-                }
+                player.Deck.SetupForCombat(UIManager.Instance.CardSection.CardsHolders[counter]);
+                counter++;
             }
         }
+
+        private void _endForCombat(GridEventData Data)
+        {
+            foreach (var deck in this.AvailableDecks)
+            {
+                deck.EndForCombat();
+            }
+        }
+        #endregion
+
+        #region TOOLS
+        [OdinSerialize()] public Dictionary<EClass, ToolItem> ToolInstances = new();//Je vois des choses
+
+        public List<ToolItem> AvailableTools;
+        #endregion
+
     }
 }
 

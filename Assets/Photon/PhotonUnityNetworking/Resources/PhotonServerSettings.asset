@@ -27,9 +27,9 @@ MonoBehaviour:
     EnableProtocolFallback: 1
     AuthMode: 0
     EnableLobbyStatistics: 0
-    NetworkLogging: 1
+    NetworkLogging: 5
   DevRegion: eu
-  PunLogging: 0
+  PunLogging: 2
   EnableSupportLogger: 0
   RunInBackground: 1
   StartInOfflineMode: 0
@@ -54,6 +54,20 @@ MonoBehaviour:
   - RPC_OnTurnBegan
   - RPC_CastSpell
   - RPC_OnTurnEnded
+  - RPC_RespondWithProcessedBuffedAction
+  - ConfirmPlayerEndedTurn
+  - NotifyPlayerStartTurn
+  - PlayerAnswerStartTurn
+  - RespondMasterEndEntityTurn
+  - RespondPlayerEndEntityTurn
+  - OnReceivedSharedSavePart
+  - ReceiveEndWrap
+  - WrapSaveParts
+  - RPC_OnEntityAskedBuffSpell
+  - RPC_RespondToLeaveCombat
+  - RPC_RespondMasterToLeaveCombat
+  - RPC_RespondPlayersToLeaveCombat
+  - RPC_SelfLoadedGame
   DisableAutoOpenWizard: 1
-  ShowSettings: 0
+  ShowSettings: 1
   DevRegionSetOnce: 1

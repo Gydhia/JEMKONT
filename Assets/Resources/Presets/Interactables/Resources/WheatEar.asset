@@ -25,10 +25,11 @@ MonoBehaviour:
       Entry: 2
       Data: bb3baaaa65c11a72292e412279d29210
   UName: Wheat ear
-  AffectingState: 4
+  AffectingState: 8
   ObjectPrefab: {fileID: 8025783147948518094, guid: 40674c61b805e4b4098a9473a23e5954, type: 3}
   OutlineColor: {r: 0.21725611, g: 0.5471698, b: 0.1264685, a: 1}
   InteractAnimation: {fileID: 0}
+  GatherableBy: 2
   ResourceItem: {fileID: 11400000, guid: db90c336454dd6d44be1bfcde89c090b, type: 2}
   DroppedObject: {fileID: 0}
   OnceGatheredObject: {fileID: 2664790825941896147, guid: 58338db5afb0ea146a18b2585cddd0bd, type: 3}

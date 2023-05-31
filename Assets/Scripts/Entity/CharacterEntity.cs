@@ -10,17 +10,19 @@ using UnityEngine;
 using UnityEngine.Events;
 using Sirenix.Serialization;
 using System;
+using TMPro;
+using DG.Tweening;
+using System.CodeDom;
 
 namespace DownBelow.Entity
 {
     public abstract class CharacterEntity : MonoBehaviour
     {
+        #region events
         public delegate void StatModified();
 
         public event SpellEventData.Event OnHealthRemoved;
         public event SpellEventData.Event OnHealthAdded;
-        public event SpellEventData.Event OnShieldRemoved;
-        public event SpellEventData.Event OnShieldAdded;
         public event SpellEventData.Event OnStrengthRemoved;
         public event SpellEventData.Event OnStrengthAdded;
         public event SpellEventData.Event OnSpeedRemoved;
@@ -31,33 +33,81 @@ namespace DownBelow.Entity
         public event SpellEventData.Event OnDefenseAdded;
         public event SpellEventData.Event OnRangeRemoved;
         public event SpellEventData.Event OnRangeAdded;
+
+        public event GameEventData.Event OnStatisticsChanged;
+
+        public Action OnManaMissing;
+
         /// <summary>
         /// When you give an alteration to someone else.
         /// </summary>
-        public event SpellEventData.Event OnAlterationGiven;
+        public event SpellEventDataAlteration.Event OnAlterationGiven;
+
         /// <summary>
         /// When you receive an alteration from someone else.
         /// </summary>
-        public event SpellEventData.Event OnAlterationReceived;
+        public event SpellEventDataAlteration.Event OnAlterationReceived;
 
+        public event EntityEventData.Event OnEntityTargetted;
 
         public event GameEventData.Event OnTurnBegun;
         public event GameEventData.Event OnTurnEnded;
         public event GameEventData.Event OnTryTakeDamage;
         public event GameEventData.Event OnDamageTaken;
-        public event GameEventData.Event OnDeath;
+        public event EntityEventData.Event OnDeath;
 
+        public event GameEventData.Event OnInited;
 
+        public event CellEventData.Event OnEnteredCell;
+        public event CellEventData.Event OnExitedCell;
+
+        public void FireMissingMana()
+        {
+            OnManaMissing?.Invoke();
+        }
+
+        public void FireEntityInited()
+        {
+            this.OnInited?.Invoke(null);
+        }
+
+        public event SpellEventData.Event OnPushed;
+        #endregion
+        #region firingEvents
+        public void FireExitedCell()
+        {
+            this.EntityCell.Datas.state = CellState.Walkable;
+            this.EntityCell.EntityIn = null;
+
+            this.OnExitedCell?.Invoke(new CellEventData(this.EntityCell));
+        }
+
+        public virtual void FireEnteredCell(Cell cell)
+        {
+            this.EntityCell = cell;
+
+            this.OnEnteredCell?.Invoke(new CellEventData(cell));
+        }
+
+        public void FireEntityTargetted(CharacterEntity targeter)
+        {
+            this.OnEntityTargetted?.Invoke(new(targeter));
+        }
+
+        public void FireEntityPushed(SpellEventData data)
+        {
+            this.OnPushed?.Invoke(data);
+        }
+        #endregion
         protected EntityStats RefStats;
 
         [OdinSerialize] public List<Alteration> Alterations = new();
 
-        public UnityEngine.UI.Slider HealthFill;
-        public UnityEngine.UI.Slider ShieldFill;
-
         public int TurnOrder;
         public bool IsAlly = true;
+
         public bool IsPlayingEntity = false;
+
         // Used for NPC. Determined UID to parse over network. 
         // TODO: Change it to a real Guid later
         public string UID = string.Empty;
@@ -66,7 +116,23 @@ namespace DownBelow.Entity
 
         // Movements
         public bool IsMoving = false;
-        public Cell EntityCell = null;
+
+        public Cell _entityCell;
+
+        public Sprite EntitySprite;
+        public Cell EntityCell
+        {
+            get { return this._entityCell; }
+            set
+            {
+                if (_entityCell != null)
+                    this._entityCell.EntityIn = null;
+
+                this._entityCell = value;
+                this._entityCell.EntityIn = this;
+            }
+        }
+
         public Cell NextCell = null;
         protected Coroutine moveCor = null;
         public List<Cell> CurrentPath;
@@ -75,63 +141,81 @@ namespace DownBelow.Entity
 
         public bool CanAutoAttack;
 
+        public GameObject PlayingIndicator;
+        public GameObject SelectedIndicator;
 
         #region alterationBooleans
-        public bool Snared { get => Alterations.Any(x => x.GetType() == typeof(SnareAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Snare].Contains(x.ToEnum())); }//DONE
-        public bool Stunned { get => Alterations.Any(x => x.GetType() == typeof(StunAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Stun].Contains(x.ToEnum())); }//DONE
-        public bool Disarmed { get => Alterations.Any(x => x.GetType() == typeof(DisarmedAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Disarmed].Contains(x.ToEnum())); }//DONE
-        public bool Critical { get => Alterations.Any(x => x.GetType() == typeof(CriticalAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Critical].Contains(x.ToEnum())); }//Ouille. On met �a de c�t� le temps d'un gros refactor. impossible. Edit ah? 
-        public bool Dodge { get => Alterations.Any(x => x.GetType() == typeof(DodgeAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Dodge].Contains(x.ToEnum())); }//DONE
-        public bool Camouflage { get => Alterations.Any(x => x.GetType() == typeof(CamouflageAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Camouflage].Contains(x.ToEnum())); }//DONE
-        public bool Provoke { get => Alterations.Any(x => x.GetType() == typeof(ProvokeAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Provoke].Contains(x.ToEnum())); }//DONE
-        public bool Ephemeral { get => Alterations.Any(x => x.GetType() == typeof(EphemeralAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Ephemeral].Contains(x.ToEnum())); }//DONE
-        public bool Confused { get => Alterations.Any(x => x.GetType() == typeof(ConfusionAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Confusion].Contains(x.ToEnum())); }//DONE
-        public bool Shattered { get => Alterations.Any(x => x.GetType() == typeof(ShatteredAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Shattered].Contains(x.ToEnum())); }//DONE
-        public bool DoT { get => Alterations.Any(x => x.GetType() == typeof(DoTAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.DoT].Contains(x.ToEnum())); }//DONE
-        public bool Inspired { get => Alterations.Any(x => x.GetType() == typeof(InspirationAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Inspiration].Contains(x.ToEnum())); }//DONE 
-        public bool Bubbled { get => Alterations.Any(x => x.GetType() == typeof(BubbledAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Bubbled].Contains(x.ToEnum())); }//DONE
-        public bool MindControl { get => Alterations.Any(x => x.GetType() == typeof(MindControlAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.MindControl].Contains(x.ToEnum())); }//FUCK YOU
-        public bool Sleeping { get => Alterations.Any(x => x.GetType() == typeof(SleepAlteration)) && !Alterations.Any(x => Alteration.overrides[EAlterationType.Sleep].Contains(x.ToEnum())); }//DONE
+
+        public bool Snared
+        {
+            get => Alterations.Any(x => x.GetType() == typeof(SnareAlteration));
+        } //DONE
+
+        public bool Stunned
+        {
+            get => Alterations.Any(x => x.GetType() == typeof(StunAlteration));
+        } //DONE
+
+        public bool Shattered
+        {
+            get => Alterations.Any(x => x.GetType() == typeof(ShatteredAlteration));
+        } //DONE
+
+        public bool DoT
+        {
+            get => Alterations.Any(x => x.GetType() == typeof(DoTAlteration));
+        } //DONE
+
+        public bool Bubbled
+        {
+            get => Alterations.Any(x => x.GetType() == typeof(BubbledAlteration));
+        } //DONE
+
+        public bool Sleeping
+        {
+            get => Alterations.Any(x => x.GetType() == typeof(SleepAlteration));
+        } //DONE
+
         /// <summary>
-        /// Returns the current Damage Up/Down alteration value. returns 0 of there isn't any.
+        /// Returns the current additionnal/reductionnal value we have on the given stat.
         /// </summary>
-        public int DmgUpDown {
-            get {
-                var alt = Alterations.Find(x => x is DmgUpDownAlteration);
-                if (alt != null && !Alterations.Any(x => Alteration.overrides[EAlterationType.DmgUpDown].Contains(x.ToEnum()))) return ((DmgUpDownAlteration)alt).value;
-                return 0;
+        /// <param name="stat">The given stat.</param>
+        /// <returns></returns>
+        int Buff(EntityStatistics stat)
+        {
+            int res = 0;
+            var alt = Alterations.Find(x => x is BuffAlteration buffAlt && buffAlt.StatToBuff == stat);
+            if (alt != null && alt is BuffAlteration buff)
+            {
+                res = buff.value;
             }
-        }
-        /// <summary>
-        /// Returns the current Speed Up/Down alteration value. returns 0 of there isn't any.
-        /// </summary>
-        public int SpeedUpDown {
-            get {
-                var alt = Alterations.Find(x => x is SpeedUpDownAlteration);
-                if (alt != null && !Alterations.Any(x => Alteration.overrides[EAlterationType.SpeedUpDown].Contains(x.ToEnum()))) return ((SpeedUpDownAlteration)alt).value;
-                return 0;
-            }
+            return res;
         }
         #endregion
 
-        public int MaxHealth { get => RefStats.Health; set => RefStats.Health = value; }
-        public Dictionary<EntityStatistics,int> Statistics;
-        public int Health { get => Statistics[EntityStatistics.Health]; }
-        public int Shield { get => Statistics[EntityStatistics.Shield]; }
-        public int Strength { get => Statistics[EntityStatistics.Strength]; }
-        public int Speed { get => Snared ? 0 : Statistics[EntityStatistics.Speed] + SpeedUpDown; }
-        public virtual int Mana { get => Statistics[EntityStatistics.Mana]; }
-        public int Defense { get => Shattered ? 0 : Statistics[EntityStatistics.Defense]; }
-        public int Range { get => Statistics[EntityStatistics.Range]; }
-        public int NumberOfTurnsPlayed = 0;
-        /// <summary>
-        /// </summary>
-        /// <returns>the auto attack spell of this entity. Can be any Spell.</returns>
-        public abstract Spell AutoAttackSpell();
-
-        public bool TryGoTo(Cell destination,int cost) 
+        public int MaxHealth
         {
+            get => RefStats.Health;
+            set => RefStats.Health = value;
+        }
 
+        public Dictionary<EntityStatistics, int> Statistics;
+
+        public int Health => Statistics[EntityStatistics.Health] + Buff(EntityStatistics.Health);
+        public int Strength => Statistics[EntityStatistics.Strength] + Buff(EntityStatistics.Strength);
+        public int Speed => Snared ? 0 : Statistics[EntityStatistics.Speed] + Buff(EntityStatistics.Speed);
+        public virtual int Mana => Statistics[EntityStatistics.Mana] + Buff(EntityStatistics.Mana);
+        public int Defense => Shattered ? 0 : Statistics[EntityStatistics.Defense] + Buff(EntityStatistics.Defense);
+        public int Range => Statistics[EntityStatistics.Range] + Buff(EntityStatistics.Range);
+
+
+        public int NumberOfTurnsPlayed = 0;
+
+
+        public List<EntityAction> EntityActionsBuffer = new List<EntityAction>();
+
+        public bool TryGoTo(Cell destination, int cost)
+        {
             this.EntityCell.EntityIn = null;
 
             this.EntityCell = destination;
@@ -141,190 +225,148 @@ namespace DownBelow.Entity
             return true;
         }
 
-        public void Start() {
-            this.OnHealthAdded += UpdateUILife;
-            this.OnHealthRemoved += UpdateUILife;
+        public void Start()
+        {
+            // TODO : Move it from here later, and same for other indicators, but not a priority
+            this.PlayingIndicator.transform.DOMoveY(this.PlayingIndicator.transform.position.y - 0.5f, 1.5f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
+            if(this.SelectedIndicator != null)
+            {
+                this.SelectedIndicator.transform.DOScale(0.13f, 1.5f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
+            }
             this.OnHealthRemoved += AreYouAlive;
-
-            this.OnShieldAdded += UpdateUIShield;
-            this.OnShieldRemoved += UpdateUIShield;
-
-            this.HealthFill.maxValue = this.Statistics[EntityStatistics.Health];
-            this.HealthFill.minValue = 0;
-            this.HealthFill.value = this.Health;
-
-            this.ShieldFill.maxValue = this.Statistics[EntityStatistics.Health];
-            this.ShieldFill.minValue = 0;
-            this.ShieldFill.value = 0;
         }
-        public void UpdateUILife(SpellEventData data) {
-            this.HealthFill.value = this.Health;
+        
+
+        public void UpdateUIShield(SpellEventData data)
+        {
         }
 
-        public void UpdateUIShield(SpellEventData data) {
-            this.ShieldFill.value = this.Shield;
+        private void LateUpdate()
+        {
         }
-
-        private void LateUpdate() {
-            this.HealthFill.transform.LookAt(Camera.main.transform.position);
-            this.ShieldFill.transform.LookAt(Camera.main.transform.position);
-        }
-
-        #region MOVEMENTS
-
-        public virtual void MoveWithPath(List<Cell> newPath,string otherGrid) {
-            // Useless to animate hidden players
-            if (!this.gameObject.activeSelf) {
-                // /!\ TEMPORY ONLY, SET THE CELL AS THE LAST ONE OF PATH
-                // We should have events instead for later on
-                this.EntityCell = newPath[^1];
-                return;
-            }
-
-            if (this.moveCor == null) {
-                this.CurrentPath = newPath;
-                // That's ugly, find a clean way to build the path instead
-                if (!this.CurrentPath.Contains(this.EntityCell))
-                    this.CurrentPath.Insert(0,this.EntityCell);
-                this.moveCor = StartCoroutine(FollowPath());
-            }
-        }
-
-        public virtual IEnumerator FollowPath() {
-            this.IsMoving = true;
-            int currentCell = 0, targetCell = 1;
-
-            float timer;
-            while (currentCell < this.CurrentPath.Count - 1) {
-                timer = 0f;
-                while (timer <= 0.2f) {
-                    this.transform.position = Vector3.Lerp(CurrentPath[currentCell].gameObject.transform.position,CurrentPath[targetCell].gameObject.transform.position,timer / 0.2f);
-                    timer += Time.deltaTime;
-                    yield return null;
-                }
-
-                this.EntityCell.Datas.state = CellState.Walkable;
-                this.EntityCell.EntityIn = null;
-
-                this.EntityCell = CurrentPath[targetCell];
-
-                this.EntityCell.Datas.state = CellState.EntityIn;
-                this.EntityCell.EntityIn = this;
-
-                currentCell++;
-                targetCell++;
-
-                if (targetCell <= this.CurrentPath.Count - 1)
-                    this.NextCell = CurrentPath[targetCell];
-            }
-
-            this.moveCor = null;
-            this.IsMoving = false;
-        }
-
-        #endregion
 
         #region ATTACKS
+
         /// <summary>
         /// Tries to attack the given cell.
         /// </summary>
         /// <param name="cellToAttack">The cell to attack.</param>
-        public void AutoAttack(Cell cellToAttack) {
-            if (!isInAttackRange(cellToAttack)) {
+        public void AutoAttack(Cell cellToAttack)
+        {
+            if (!isInAttackRange(cellToAttack))
+            {
                 return;
             }
+
             //Normally already verified. Just in case
             //Calculate straight path, see if obstacle.
             this.CanAutoAttack = false;
-            var path = GridManager.Instance.FindPath(this,cellToAttack.PositionInGrid, true);
+            var path = GridManager.Instance.FindPath(this, cellToAttack.PositionInGrid, true);
 
             var notwalkable = path.Find(x => x.Datas.state != CellState.Walkable);
-            if (notwalkable != null) {
-                switch (notwalkable.Datas.state) {
+            if (notwalkable != null)
+            {
+                switch (notwalkable.Datas.state)
+                {
                     case CellState.Blocked:
                         break;
-                    case CellState.Shared:
-                        break;
                     case CellState.EntityIn:
-                        CastAutoAttack(notwalkable);
+                        //CastAutoAttack(notwalkable);
                         break;
                 }
-            } else {
+            } else
+            {
                 //There isn't any obstacle in the path, so the attack should go for it.
-                if(cellToAttack.Datas.state == CellState.EntityIn)
-                    CastAutoAttack(cellToAttack);
+                //if(cellToAttack.Datas.state == CellState.EntityIn)
+                //    CastAutoAttack(cellToAttack);
                 //TODO: Shield/overheal? What do i do? Have we got shield in the game??????????????????????
             }
         }
-        protected void CastAutoAttack(Cell cell) 
+
+        public bool isInAttackRange(Cell cell)
         {
-            AutoAttackSpell().ExecuteSpell(this,cell);
-        }
-        public bool isInAttackRange(Cell cell) 
-        {
-            bool res = Range >= Mathf.Abs(cell.PositionInGrid.latitude - EntityCell.PositionInGrid.latitude) + Mathf.Abs(cell.PositionInGrid.longitude - EntityCell.PositionInGrid.longitude);
+            bool res = Range >= Mathf.Abs(cell.PositionInGrid.latitude - EntityCell.PositionInGrid.latitude) +
+                Mathf.Abs(cell.PositionInGrid.longitude - EntityCell.PositionInGrid.longitude);
             return res;
         }
+
         #endregion
 
         #region TURNS
-        public virtual void EndTurn() 
-        {
-            NumberOfTurnsPlayed++;
-            CanAutoAttack = false;
-            foreach (Alteration Alter in Alterations) {
-                Alter.Apply(this);
-            }
-            this.IsPlayingEntity = false;
-            OnTurnEnded?.Invoke(new());
-        }
-        public virtual void StartTurn() 
+
+        public virtual void StartTurn()
         {
             this.IsPlayingEntity = true;
+            this.PlayingIndicator.SetActive(true);
 
             OnTurnBegun?.Invoke(new());
-            CanAutoAttack = !Disarmed;//CanAutoAttack = true if !Disarmed
 
             this.ReinitializeStat(EntityStatistics.Speed);
             this.ReinitializeStat(EntityStatistics.Mana);
 
             UIManager.Instance.PlayerInfos.UpdateAllTexts();
 
-            if (this.Stunned || this.Sleeping) 
+            if (this.Stunned || this.Sleeping)
+            {
                 EndTurn();
+                return;
+            }
 
-            GridManager.Instance.ShowPossibleCombatMovements(this);
+            GridManager.Instance.CalculatePossibleCombatMovements(this);
+        }
+
+        public virtual void EndTurn()
+        {
+            NumberOfTurnsPlayed++;
+            CanAutoAttack = false;
+            foreach (Alteration Alter in Alterations)
+            {
+                Alter.Apply(this);
+            }
+
+            this.PlayingIndicator.SetActive(false);
+            this.IsPlayingEntity = false;
+            OnTurnEnded?.Invoke(new());
         }
         #endregion
 
         #region STATS
-        public virtual void Init(EntityStats stats,Cell refCell,WorldGrid refGrid,int order = 0) {
+
+        public virtual void Init(Cell refCell, WorldGrid refGrid, int order = 0)
+        {
             this.transform.position = refCell.WorldPosition;
             this.EntityCell = refCell;
             this.CurrentGrid = refGrid;
-
-            this.RefStats = stats;
-            this.Statistics = new Dictionary<EntityStatistics,int>();
-
-            this.Statistics.Add(EntityStatistics.MaxMana,stats.MaxMana);
-            this.Statistics.Add(EntityStatistics.Health,stats.Health);
-            this.Statistics.Add(EntityStatistics.Shield,stats.BaseShield);
-            this.Statistics.Add(EntityStatistics.Strength,stats.Strength);
-            this.Statistics.Add(EntityStatistics.Speed,stats.Speed);
-            this.Statistics.Add(EntityStatistics.Mana,stats.Mana);
-            this.Statistics.Add(EntityStatistics.Defense,stats.Defense);
-            this.Statistics.Add(EntityStatistics.Range,stats.Range);
         }
 
-        public void ReinitializeAllStats() {
+        public virtual void SetStatistics(EntityStats stats)
+        {
+            this.RefStats = stats;
+            this.Statistics = new Dictionary<EntityStatistics, int>
+            {
+                { EntityStatistics.MaxMana, stats.MaxMana },
+                { EntityStatistics.Health, stats.Health },
+                { EntityStatistics.Strength, stats.Strength },
+                { EntityStatistics.Speed, stats.Speed },
+                { EntityStatistics.Mana, stats.Mana },
+                { EntityStatistics.Defense, stats.Defense },
+                { EntityStatistics.Range, stats.Range }
+            };
+
+            this.OnStatisticsChanged?.Invoke(null);
+        }
+
+        public void ReinitializeAllStats()
+        {
             foreach (EntityStatistics stat in System.Enum.GetValues(typeof(EntityStatistics)))
                 this.ReinitializeStat(stat);
         }
 
-        public void ReinitializeStat(EntityStatistics stat) {
-            switch (stat) {
+        public void ReinitializeStat(EntityStatistics stat)
+        {
+            switch (stat)
+            {
                 case EntityStatistics.Health: this.Statistics[EntityStatistics.Health] = this.RefStats.Health; break;
-                case EntityStatistics.Shield: this.Statistics[EntityStatistics.Shield] = this.RefStats.BaseShield; break;
                 case EntityStatistics.Mana: this.Statistics[EntityStatistics.Mana] = this.RefStats.Mana; break;
                 case EntityStatistics.Speed: this.Statistics[EntityStatistics.Speed] = this.RefStats.Speed; break;
                 case EntityStatistics.Strength: this.Statistics[EntityStatistics.Strength] = this.RefStats.Strength; break;
@@ -338,32 +380,34 @@ namespace DownBelow.Entity
         /// </summary>
         /// <param name="stat">The statistic to modify.</param>
         /// <param name="value">The value to modify the stat for (negative or positive.)</param>
-        /// <param name="overShield">Only used to determined if a damage stat should pierce through shieldHP. Will be ignored if stat != health value is positive.</param>
-        public void ApplyStat(EntityStatistics stat,int value,bool overShield = false) 
+        ///<param name="triggerEvents">true by default. Used to </param>
+        public void ApplyStat(EntityStatistics stat, int value, bool triggerEvents = true)
         {
             Debug.Log($"Applied stat {stat}, {value}, {Environment.StackTrace} ");
             Statistics[stat] += value;
 
-            switch (stat) 
+            switch (stat)
             {
                 case EntityStatistics.Health:
-                    this._applyHealth(value, overShield); break;
-                case EntityStatistics.Shield: 
-                    this._applyShield(value); break;
-                case EntityStatistics.Mana: 
+                    this._applyHealth(value, triggerEvents); break;
+                case EntityStatistics.Mana:
                     this._applyMana(value); break;
                 case EntityStatistics.Speed:
-                    this._applySpeed(value); break;
+                    this._applySpeed(value);
+                    break;
                 case EntityStatistics.Strength:
-                    this._applyStrength(value); break;
+                    this._applyStrength(value);
+                    break;
                 case EntityStatistics.Defense:
-                    this._applyDefense(value); break;
+                    this._applyDefense(value);
+                    break;
                 case EntityStatistics.Range:
-                    this._applyRange(value); break;
+                    this._applyRange(value);
+                    break;
             }
         }
 
-        private void _applyHealth(int value, bool overShield)
+        private void _applyHealth(int value, bool triggerEvents = true)
         {
             if (value > 0)
             {
@@ -373,40 +417,25 @@ namespace DownBelow.Entity
                 //else
                 //Statistics[EntityStatistics.Health] += value;
                 //value stays at its primary value.
-                this.OnHealthAdded?.Invoke(new(this, value));
-            }
-            else
+                if (triggerEvents)
+                {
+                    this.OnHealthAdded?.Invoke(new(this, value));
+                }
+            } else
             {
                 value = Mathf.Max(0, Defense - value);
                 if (this.Bubbled)
                 {
                     value = 0;
                 }
-                if (this.Dodge)
+                if (triggerEvents)
                 {
-                    if (UnityEngine.Random.Range(0, 1) == 0) value = 0;
+                    this.OnHealthRemoved?.Invoke(new SpellEventData(this, value));
+                    if (value != 0) this.OnDamageTaken?.Invoke(new());
                 }
-                int onShield = this.Shield - value > 0 ? value : this.Shield;
-                int onLife = overShield ? value : -(onShield - value);
-                value = -onLife;
-                if (!overShield)
-                {
-                    this.Statistics[EntityStatistics.Shield] -= onShield;//Only exception where we
-                    this.OnShieldRemoved?.Invoke(new SpellEventData(this, onShield));
-                }
-
-                this.OnHealthRemoved?.Invoke(new SpellEventData(this, onLife));
-                if (value != 0) this.OnDamageTaken?.Invoke(new());
             }
         }
 
-        private void _applyShield(int value)
-        {
-            if (value > 0)
-                OnShieldAdded?.Invoke(new(this, value));
-            else 
-                OnShieldRemoved?.Invoke(new(this, -value));
-        }
         private void _applyMana(int value)
         {
             if (value > 0)
@@ -414,6 +443,7 @@ namespace DownBelow.Entity
             else
                 OnManaRemoved?.Invoke(new(this, -value));
         }
+
         private void _applySpeed(int value)
         {
             if (value > 0)
@@ -421,6 +451,7 @@ namespace DownBelow.Entity
             else
                 OnSpeedRemoved?.Invoke(new(this, -value));
         }
+
         private void _applyStrength(int value)
         {
             if (value > 0)
@@ -428,6 +459,7 @@ namespace DownBelow.Entity
             else
                 OnStrengthRemoved?.Invoke(new(this, -value));
         }
+
         private void _applyDefense(int value)
         {
             if (value > 0)
@@ -445,72 +477,37 @@ namespace DownBelow.Entity
         }
 
 
-        public override string ToString() {
+        public override string ToString()
+        {
             return @$"Name : {name}
-IsAlly : {IsAlly}
-GridPos : {EntityCell}";
+            IsAlly : {IsAlly}
+            GridPos : {EntityCell}";
         }
-        public void AddAlteration(EAlterationType type,int duration,int value) {
-            OnAlterationReceived?.Invoke(new SpellEventDataAlteration(this,duration,type));
-            Debug.Log($"Alteration: {type} to {this.name}");
-            Alteration alteration;
-            alteration = type switch
-            {
-                EAlterationType.Stun => new StunAlteration(duration),
-                EAlterationType.Snare => new SnareAlteration(duration),
-                EAlterationType.Disarmed => new DisarmedAlteration(duration),
-                EAlterationType.Critical => new CriticalAlteration(duration),
-                EAlterationType.Dodge => new DodgeAlteration(duration),
-                EAlterationType.Camouflage => new CamouflageAlteration(duration),
-                EAlterationType.Provoke => new ProvokeAlteration(duration),
-                EAlterationType.Ephemeral => new EphemeralAlteration(duration),
-                EAlterationType.Confusion => new ConfusionAlteration(duration),
-                EAlterationType.Shattered => new ShatteredAlteration(duration),
-                EAlterationType.DoT => new DoTAlteration(duration, 2),//Idfk how much dmg
-                EAlterationType.Bubbled => new BubbledAlteration(duration),
-                EAlterationType.MindControl => new MindControlAlteration(duration),
-                EAlterationType.SpeedUpDown => new SpeedUpDownAlteration(duration, value),
-                EAlterationType.DmgUpDown => new DmgUpDownAlteration(duration, value),
-                EAlterationType.Inspiration => new InspirationAlteration(duration),
-                EAlterationType.Sleep => new SleepAlteration(duration),
-                _ => throw new System.NotImplementedException($"NEED TO IMPLEMENT ENUM MEMBER {type}"),
-            };
-            var found = Alterations.Find(x => x.GetType() == alteration.GetType());
-            if (found != null)
+        public void AddAlterations(List<Alteration> alterations)
+        {
+            alterations.ForEach(x => AddAlteration(x));
+        }
+        public void AddAlteration(Alteration alteration)
+        {
+            OnAlterationReceived?.Invoke(new SpellEventDataAlteration(this, alteration));
+            Debug.Log($"Alteration: {alteration} to {this.name}");
+            var alreadyFound = Alterations.Find(x => x.GetType() == alteration.GetType());
+            if (alreadyFound != null)
             {
                 //TODO : GD? Add Duration? Set duration?
-            }
-            else
+            } else
             {
                 Alterations.Add(alteration);
             }
-
             alteration.Setup(this);
+
             if (alteration.ClassicCountdown)
             {
                 this.OnTurnEnded += alteration.DecrementAlterationCountdown;
-            }
-            else
+            } else
             {
                 switch (alteration)
                 {
-                    case CriticalAlteration crit:
-                        //Don't worry guys
-                        //Edit: WHY???? WHERE DID I- WHAT???? HELP
-                        //Re-Edit : yeah check SubToSpell
-                        break;
-                    case DodgeAlteration dodge:
-                        this.OnHealthRemoved += alteration.DecrementAlterationCountdown;
-                        break;
-                    case CamouflageAlteration camo:
-                        this.OnTurnEnded += camo.DecrementAlterationCountdown;
-                        this.OnHealthRemoved += camo.DecrementAlterationCountdown;
-                        break;
-                    case ProvokeAlteration prov:
-                        this.OnTurnEnded += prov.DecrementAlterationCountdown;
-                        this.OnHealthRemoved += prov.DecrementAlterationCountdown;
-                        //OnDamageReceived too? tf
-                        break;
                     case ShatteredAlteration shat:
                         this.OnTurnEnded += shat.DecrementAlterationCountdown;
                         this.OnHealthRemoved += shat.DecrementAlterationCountdown;
@@ -528,33 +525,16 @@ GridPos : {EntityCell}";
                 }
             }
         }
+
         public void RemoveAlteration(Alteration alteration)
         {
             if (alteration.ClassicCountdown)
             {
                 this.OnTurnEnded += alteration.DecrementAlterationCountdown;
-            }
-            else
+            } else
             {
                 switch (alteration)
                 {
-                    case CriticalAlteration crit:
-                        //Don't worry guys
-                        //Edit: WHY???? WHERE DID I- WHAT???? HELP
-                        //Re-Edit : yeah check SubToSpell
-                        break;
-                    case DodgeAlteration dodge:
-                        this.OnHealthRemoved -= alteration.DecrementAlterationCountdown;
-                        break;
-                    case CamouflageAlteration camo:
-                        this.OnTurnEnded -= camo.DecrementAlterationCountdown;
-                        this.OnHealthRemoved -= camo.DecrementAlterationCountdown;
-                        break;
-                    case ProvokeAlteration prov:
-                        this.OnTurnEnded -= prov.DecrementAlterationCountdown;
-                        //OnDamageReceived too? tf
-                        this.OnHealthRemoved -= prov.DecrementAlterationCountdown;
-                        break;
                     case ShatteredAlteration shat:
                         this.OnTurnEnded -= shat.DecrementAlterationCountdown;
                         this.OnHealthRemoved -= shat.DecrementAlterationCountdown;
@@ -572,70 +552,152 @@ GridPos : {EntityCell}";
                 }
             }
         }
+
         #endregion
 
         #region INSTANCE
-        public void AreYouAlive(SpellEventData data) {
-            if (this.Health <= 0) Die();
+
+        public void AreYouAlive(SpellEventData data)
+        {
+            if (this.Health <= 0)
+            {
+                this.OnDeath?.Invoke(new EntityEventData(this));
+            }
         }
-        public virtual void Die() {
-            while (Alterations.Count > 0) {
+
+        public virtual void Die()
+        {
+            while (Alterations.Count > 0)
+            {
                 Alteration alt = Alterations[0];
                 alt.WearsOff(this);
-                RemoveAlteration(alt);//You know what? Fuck you *unsubs your alterations*
+                RemoveAlteration(alt); //You know what? Fuck you *unsubs your alterations*
                 Alterations.RemoveAt(0);
             }
-            //???
-            OnDeath?.Invoke(new());
-            Destroy(this.gameObject);
+
+            this.FireExitedCell();
+            StartCoroutine(_deathTime());
         }
+
+        // TODO : temporary to wait for the player to die
+        private IEnumerator _deathTime(float delay = 2f)
+        {
+            yield return new WaitForSeconds(delay);
+
+            this.gameObject.SetActive(false);
+        }
+
         #endregion
 
         #region SKILLS
-        public void SubToSpell(SpellAction Action) {
-            //oh
-            foreach (var item in Alterations) {
-                switch (item) {
-                    case CriticalAlteration crit:
-                        Action.OnDamageDealt += crit.DecrementAlterationCountdown;
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-        public void UnsubToSpell(SpellAction Action) {
-            foreach (var item in Alterations) {
-                switch (item) {
-                    case CriticalAlteration crit:
-                        Action.OnDamageDealt -= crit.DecrementAlterationCountdown;
-                        break;
-                    default:
-                        break;
-                }
-            }
+
+        public void SubToSpell(SpellResult Action)
+        {
         }
 
-        internal void FireOnAlterationGiven(SpellEventData Data) {
+        public void UnsubToSpell(SpellResult Action)
+        {
+        }
+
+        internal void FireOnAlterationGiven(SpellEventDataAlteration Data)
+        {
             OnAlterationGiven?.Invoke(Data);
         }
-        public string AlterationStates() {
+
+        public string AlterationStates()
+        {
             string res = "";
-            if(Alterations.Count > 0) {
+            if (Alterations.Count > 0)
+            {
                 res += "Alterations of this Entity:\n";
-                foreach (Alteration item in Alterations) {
+                foreach (Alteration item in Alterations)
+                {
                     res += item.ToString();
                 }
             }
+
             return res;
         }
+
         #endregion
 
-        #region DEBUG
-        public string AlterationBools() {
-            return $"{nameof(Snared)}:{Snared}\n{nameof(Stunned)}:{Stunned}\n{nameof(Disarmed)}:{Disarmed}\n{nameof(Critical)}:{Critical}\n{nameof(Dodge)}:{Dodge}\n{nameof(Camouflage)}:{Camouflage}\n{nameof(Provoke)}:{Provoke}\n{nameof(Ephemeral)}:{Ephemeral}\n{nameof(Confused)}:{Confused}\n{nameof(Shattered)}:{Shattered}\n{nameof(DoT)}:{DoT}\n{nameof(Inspired)}:{Inspired}\n{nameof(Bubbled)}:{Bubbled}\n{nameof(MindControl)}:{MindControl}\n{nameof(Sleeping)}:{Sleeping}\n";
+        /// <summary>
+        /// Tries to teleport the character entity to the target cell. If it's occupied, will try to teleport on neighbours.
+        /// if you don't want that behavior, try <c>Teleport()</c>.
+        /// </summary>
+        /// <param name="TargetCell"> the targeted cell.</param>
+        /// <param name="Result">If the teleportation is due to a spell, the spell result of the spell.</param>
+        public void SmartTeleport(Cell TargetCell, SpellResult Result = null)
+        {
+            var cellToTP = TargetCell;
+
+            //Could be changed to a "while(cellToTP != walkable)"?
+            if (cellToTP.Datas.state != CellState.Walkable)
+            {
+                List<Cell> freeNeighbours = GridManager.Instance.GetNormalNeighbours(cellToTP, cellToTP.RefGrid)
+                    .FindAll(x => x.Datas.state == CellState.Walkable)
+                    .OrderByDescending(x => Math.Abs(x.PositionInGrid.latitude - this.EntityCell.PositionInGrid.latitude) + Math.Abs(x.PositionInGrid.longitude - this.EntityCell.PositionInGrid.longitude))
+                    .ToList();
+                //Someday will need a Foreach, but i just don't know what we need to check on the cells before tp'ing, so just tp on the farther one.
+                cellToTP = freeNeighbours[0];
+            }
+
+            //If the teleportation is due to a spell, add it in the result.
+            if (cellToTP.EntityIn != null && Result != null)
+            {
+                Result.TeleportedTo.Add(cellToTP.EntityIn);
+            }
+
+            if (cellToTP.Datas.state == CellState.Walkable)
+            {
+                transform.position = cellToTP.gameObject.transform.position;
+
+                FireExitedCell();
+
+                EntityCell = cellToTP;
+
+                FireEnteredCell(cellToTP);
+            }
         }
-        #endregion
+
+        /// <summary>
+        /// Tries to teleport the character entity to the target cell. If it's occupied, does not.
+        /// If you want a spell that can teleport closely to an occupied cell, try <c>SmartTeleport()</c>.
+        /// </summary>
+        /// <param name="TargetCell"> the targeted cell.</param>
+        /// <param name="Result">If the teleportation is due to a spell, the spell result of the spell.</param>
+        public void Teleport(Cell TargetCell, SpellResult Result = null)
+        {
+            var cellToTP = TargetCell;
+
+            //If the teleportation is due to a spell, add it in the result.
+            if (cellToTP.EntityIn != null && Result != null)
+            {
+                Result.TeleportedTo.Add(cellToTP.EntityIn);
+            }
+
+            if (cellToTP.Datas.state == CellState.Walkable)
+            {
+                transform.position = cellToTP.gameObject.transform.position;
+
+                FireExitedCell();
+
+                EntityCell = cellToTP;
+
+                FireEnteredCell(cellToTP);
+            }
+        }
+
+        private void OnDestroy()
+        {
+            if (this.EntityCell != null)
+            {
+                this.FireExitedCell();
+            }
+            if (this.CurrentGrid != null)
+            {
+                this.CurrentGrid.GridEntities.Remove(this);
+            }
+        }
     }
 }
-

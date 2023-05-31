@@ -1,5 +1,6 @@
 using DownBelow.Entity;
 using DownBelow.Events;
+using DownBelow.GridSystem;
 using DownBelow.Managers;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,54 +12,81 @@ namespace DownBelow.UI
     public class UIStaticTurnSection : MonoBehaviour
     {
         public Sprite AllySprite;
-        public Sprite EnemySprite;
         // The item to instantiate
-        public Image SpritePrefab;
+        public GameObject SpritePrefab;
         // The parent of the entities
         public Transform EntitiesHolder;
 
-        public Slider TimeSlider;
+        public Image TimeSlider;
         public Button NextTurnButton;
 
-        public List<Image> CombatEntities;
+        public List<EntitySprite> CombatEntities;
 
-        public void Init(List<CharacterEntity> combatEntities)
+        public void Init()
         {
-            for (int i = 0; i < combatEntities.Count; i++)
+            CombatManager.Instance.OnCombatStarted += SetupFromCombatBegin;
+            CombatManager.Instance.OnCombatEnded += ClearFromCombatEnd;
+        }
+
+        public void SetupFromCombatBegin(GridEventData Data)
+        {
+            for (int i = 0; i < CombatManager.Instance.PlayingEntities.Count; i++)
             {
-                this.CombatEntities.Add(Instantiate(this.SpritePrefab, this.EntitiesHolder, combatEntities[i]));
-                this.CombatEntities[i].sprite = combatEntities[i].IsAlly ? AllySprite : EnemySprite;
-                if (i > 0)
-                    this.CombatEntities[i].transform.GetChild(0).gameObject.SetActive(false);
+                this.CombatEntities.Add(Instantiate(this.SpritePrefab, this.EntitiesHolder, CombatManager.Instance.PlayingEntities[i]).GetComponent<EntitySprite>());
+                this.CombatEntities[i].Init(CombatManager.Instance.PlayingEntities[i], i <= 0);
             }
 
             this.NextTurnButton.onClick.RemoveAllListeners();
             this.NextTurnButton.onClick.AddListener(AskEndOfTurn);
 
             CombatManager.Instance.OnTurnStarted += this._updateTurn;
-            CombatManager.Instance.OnTurnEnded+= this._updateTurn;
+            CombatManager.Instance.OnEntityDeath += this._updateEntityDeath;
+        }
+
+        public void ClearFromCombatEnd(GridEventData Data)
+        {
+            // Dead entities are removed from list, so clear it this way
+            foreach (Transform entity in this.EntitiesHolder)
+            {
+                Destroy(entity.gameObject);
+            }
+            this.CombatEntities.Clear();
+
+            CombatManager.Instance.OnTurnStarted -= this._updateTurn;
+            CombatManager.Instance.OnEntityDeath -= this._updateEntityDeath;
         }
 
         public void ChangeSelectedEntity(int index)
         {
             int last = index == 0 ? CombatEntities.Count - 1 : index - 1;
 
-            this.CombatEntities[last].transform.GetChild(0).gameObject.SetActive(false);
-            this.CombatEntities[index].transform.GetChild(0).gameObject.SetActive(true);
+            if (last < this.CombatEntities.Count)
+                this.CombatEntities[last].SetSelected(false);
+            if (index < this.CombatEntities.Count)
+                this.CombatEntities[index].SetSelected(true);
         }
 
         public void AskEndOfTurn()
         {
-            if (CombatManager.Instance.CurrentPlayingGrid != null && CombatManager.Instance.CurrentPlayingGrid.HasStarted)
-                CombatManager.Instance.ProcessEndTurn(GameManager.Instance.SelfPlayer.UID);
+            if (CombatManager.CurrentPlayingGrid != null && CombatManager.CurrentPlayingGrid.HasStarted)
+            {
+                NetworkManager.Instance.EntityAskToBuffAction(
+                    new EndTurnAction(CombatManager.CurrentPlayingEntity, CombatManager.CurrentPlayingEntity.EntityCell)
+                );
+
+                NextTurnButton.interactable = false;
+            }
         }
 
         private void _updateTurn(EntityEventData Data)
         {
-            NextTurnButton.interactable = CombatManager.Instance.CurrentPlayingEntity == GameManager.Instance.SelfPlayer;
+            NextTurnButton.interactable = CombatManager.Instance.IsPlayerOrOwned(Data.Entity);
+        }
 
-            if (Data.Entity != GameManager.Instance.SelfPlayer)
-                return;
+        private void _updateEntityDeath(EntityEventData Data)
+        {
+            int index = CombatManager.Instance.PlayingEntities.IndexOf(Data.Entity);
+            this.CombatEntities.RemoveAt(index);
         }
     }
 

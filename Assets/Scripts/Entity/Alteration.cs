@@ -10,46 +10,21 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Timers;
 using UnityEngine;
-namespace DownBelow.Spells.Alterations {
+namespace DownBelow.Spells.Alterations
+{
 
-    public enum EAlterationType {
-        Stun,
-        Snare,
-        Disarmed,
-        Critical,
-        Dodge,
-        Camouflage,
-        Provoke,
-        Ephemeral,
-        Confusion,
-        Shattered,
-        DoT,
-        Sleep,
-        Bubbled,
-        SpeedUpDown,
-        Inspiration,
-        DmgUpDown,
-        MindControl,
-    }
-    public abstract class Alteration {
-        /// <summary>
+    [Serializable]
+    public abstract class Alteration
+    {
+        /*// <summary>
         /// Key is overriden by value.
         /// </summary>
         public static Dictionary<EAlterationType,EAlterationType[]> overrides = new() {
             { EAlterationType.Stun, new EAlterationType[0] },
             { EAlterationType.Snare, new EAlterationType[0] },
-            { EAlterationType.Disarmed, new EAlterationType[0] },
-            { EAlterationType.Critical, new EAlterationType[0] },
-            { EAlterationType.Dodge, new EAlterationType[0] },
-            { EAlterationType.Camouflage, new EAlterationType[0] },
-            { EAlterationType.Provoke, new EAlterationType[0]},
-            { EAlterationType.Ephemeral, new EAlterationType[0] },
-            { EAlterationType.Confusion, new EAlterationType[0] },
             { EAlterationType.Shattered, new EAlterationType[0] },
             { EAlterationType.DoT, new EAlterationType[0] },
             { EAlterationType.Bubbled, new EAlterationType[0] },
-            { EAlterationType.MindControl, new EAlterationType[0] },
-            { EAlterationType.Inspiration, new EAlterationType[0] },
             { EAlterationType.DmgUpDown, new EAlterationType[0] },
             { EAlterationType.SpeedUpDown, new EAlterationType[0] },
             { EAlterationType.Sleep, new EAlterationType[0] },
@@ -59,18 +34,9 @@ namespace DownBelow.Spells.Alterations {
             return type switch {
                 StunAlteration => EAlterationType.Stun,
                 SnareAlteration => EAlterationType.Snare,
-                DisarmedAlteration => EAlterationType.Disarmed,
-                CriticalAlteration => EAlterationType.Critical,
-                DodgeAlteration => EAlterationType.Dodge,
-                CamouflageAlteration => EAlterationType.Camouflage,
-                ProvokeAlteration => EAlterationType.Provoke,
-                EphemeralAlteration => EAlterationType.Ephemeral,
-                ConfusionAlteration => EAlterationType.Confusion,
                 ShatteredAlteration => EAlterationType.Shattered,
                 DoTAlteration => EAlterationType.DoT,
                 BubbledAlteration => EAlterationType.Bubbled,
-                MindControlAlteration => EAlterationType.MindControl,
-                InspirationAlteration => EAlterationType.Inspiration,
                 DmgUpDownAlteration => EAlterationType.DmgUpDown,
                 SpeedUpDownAlteration => EAlterationType.SpeedUpDown,
 
@@ -78,47 +44,77 @@ namespace DownBelow.Spells.Alterations {
             };
         }
         public abstract EAlterationType ToEnum();
-        public int Cooldown;
-        public CharacterEntity Target;
+        //*/
 
-        public Animator InstanciatedFXAnimator;
+        public int Duration;
+
+        [HideInInspector] public CharacterEntity Target;
+
+        [HideInInspector] public Animator InstanciatedFXAnimator;
 
         public virtual bool ClassicCountdown { get => true; }
 
-        public virtual void Setup(CharacterEntity entity) {
+        /// <summary>
+        /// Called when an alteration is put on the entity passed.
+        /// </summary>
+        /// <param name="entity">The affected entity.</param>
+        public virtual void Setup(CharacterEntity entity)
+        {
             Target = entity;
             //SetupFx?
             SFXManager.Instance.RefreshAlterationSFX(entity);
-            Debug.Log(entity.AlterationBools());
+            entity.OnDeath += Unsubbing;
         }
 
-        public virtual void Apply(CharacterEntity entity) {
+        protected virtual void Unsubbing(EntityEventData Data)
+        {
+            Target.OnTurnEnded -= DecrementAlterationCountdown; //TODO: call this when you die.
+        }
+
+        /// <summary>
+        /// Called every time an alteration has an effect. 
+        /// </summary>
+        /// <param name="entity"></param>
+        public virtual void Apply(CharacterEntity entity)
+        {
             SFXManager.Instance.RefreshAlterationSFX(entity);
-            Debug.Log(entity.AlterationBools());
+
         }
 
-        public virtual void WearsOff(CharacterEntity entity) {
+        /// <summary>
+        /// Called when an alteration wears off.
+        /// </summary>
+        /// <param name="entity"></param>
+        public virtual void WearsOff(CharacterEntity entity)
+        {
             //FxGoAway?
             SFXManager.Instance.RefreshAlterationSFX(entity);
-            Debug.Log(entity.AlterationBools());
+            Unsubbing(new EntityEventData(this.Target));
+            Target.Alterations.Remove(this);
         }
 
-        public virtual void DecrementAlterationCountdown(Events.EventData data) {
-            Cooldown--;
-            if (Cooldown <= 0) {
-                Target.Alterations.Remove(this);
+        /// <summary>
+        /// Called when an alteration ticks down.
+        /// </summary>
+        /// <param name="data"></param>
+        public virtual void DecrementAlterationCountdown(Events.EventData data)
+        {
+            Duration--;
+            if (Duration <= 0 && ClassicCountdown)
+            {
                 WearsOff(Target);
-                Target.OnTurnEnded -= DecrementAlterationCountdown; //TODO: call this when you die.
             }
         }
 
-        public Alteration(int Cooldown) {
-            this.Cooldown = Cooldown;
+        public Alteration(int Duration)
+        {
+            this.Duration = Duration;
         }
 
-        public override string ToString() {
+        public override string ToString()
+        {
             string cc = ClassicCountdown ? "\n(Can also decrement with other conditions)" : "";
-            return $"{ToEnum()} for {Cooldown} turns.{cc}";
+            return $"{this.GetType().Name} for {Duration} turns.{cc}";
         }
     }
 }

@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c822fa1b655f4264eb14b0cae6335971, type: 3}
+  m_Name: EEB768B0-4F95-4216-BB99-D5E7D2CE8161
+  m_EditorClassIdentifier: 
+  objectName: SB_COMBAT
+  id: 2497815141
+  guid: EEB768B0-4F95-4216-BB99-D5E7D2CE8161

@@ -74,3 +74,14 @@ crashlytics-build.properties
 /Assets/Plugins/Sirenix/Demos/Custom Drawers.unitypackage.meta
 /Assets/Plugins/Sirenix/Demos/Custom Attribute Processors.unitypackage.meta
 /Assets/PolygonNatureBiomes/URP_ExtractMe_Nature_Biomes.unitypackage.meta
+
+# Wwise 
+/JEMKONT_WwiseProject/.cache
+/JEMKONT_WwiseProject/**/*.akd
+/JEMKONT_WwiseProject/*.wsettings
+/JEMKONT_WwiseProject/*.validationcache
+/JEMKONT_WwiseProject/*.prof
+
+# Builds
+*.apk
+*.unitypackage

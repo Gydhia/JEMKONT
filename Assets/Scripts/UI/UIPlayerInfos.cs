@@ -7,6 +7,8 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using DG.Tweening;
+using DownBelow.Events;
+using DownBelow.Entity;
 
 namespace DownBelow.UI
 {
@@ -16,60 +18,142 @@ namespace DownBelow.UI
         public TextMeshProUGUI HealthText;
         public TextMeshProUGUI MoveText;
 
+        public Image DeckRibbon;
+        public Image DeckTool;
+        public TextMeshProUGUI DeckName;
+
+        private CharacterEntity _currentEntity;
+
         [SerializeField] private Image _lifeFill;
+
+        private int _previousHealthValue, _previousManaValue, _previousMoveValue;
 
         public void Init()
         {
-            this.gameObject.SetActive(true);
+            // TODO : unsub at end of fight
+            GameManager.Instance.OnSelfPlayerSwitched += OnEntityChanged;
 
-            GameManager.Instance.SelfPlayer.OnManaAdded += _onManaChanged;
-            GameManager.Instance.SelfPlayer.OnManaRemoved += _onManaChanged;
-            GameManager.Instance.SelfPlayer.OnHealthAdded += _onHealthChanged;
-            GameManager.Instance.SelfPlayer.OnHealthRemoved += _onHealthChanged;
-            GameManager.Instance.SelfPlayer.OnSpeedAdded += _onMoveChanged;
-            GameManager.Instance.SelfPlayer.OnSpeedRemoved += _onMoveChanged;
+            this.gameObject.SetActive(true);
 
             this._onManaChanged(null);
             this._onHealthChanged(null);
             this._onMoveChanged(null);
         }
 
-        private void _onManaChanged(Events.SpellEventData data) { this.SetManaText(GameManager.Instance.SelfPlayer.Mana); }
-        private void _onHealthChanged(Events.SpellEventData data) { this.SetHealthText(GameManager.Instance.SelfPlayer.Health); }
-        private void _onMoveChanged(Events.SpellEventData data) { this.SetMoveText(GameManager.Instance.SelfPlayer.Speed); }
-
-        public void SetManaText(int value)
+        public void OnEntityChanged(EntityEventData Data)
         {
-            this.ManaText.text = value.ToString();
+            this._unsubscribeEntity();
+            this._currentEntity = Data.Entity;
+            this._subscribeEntity();
+
+            this.SetMana(Data.Entity.Mana, false);
+            this.SetHealth(Data.Entity.Health, false);
+            this.SetMove(Data.Entity.Speed, false);
+
+            if(Data.Entity is PlayerBehavior player)
+            {
+                this.DeckRibbon.color = player.CombatTool.ToolRefColor;
+                this.DeckTool.sprite = player.CombatTool.InventoryIcon;
+                this.DeckName.text = player.CombatTool.Class.ToString();
+            }
         }
-        public void SetHealthText(int value, bool animated = true)
-        {
-            this.HealthText.text = value.ToString();
 
+        private void _onManaChanged(Events.SpellEventData data)
+        {
+            this.SetMana(GameManager.SelfPlayer.Mana, true);
+        }
+
+        private void _onManaMissing()
+        {
+            this.ManaText.DOColor(Color.red, 0.3f).SetEase(Ease.OutQuad).OnComplete(() =>
+                this.ManaText.DOColor(Color.white, 0.3f).SetEase(Ease.OutQuad));
+            this.ManaText.transform.DOScale(Vector3.one * 2f, 0.15f).SetEase(Ease.InOutElastic).OnComplete((() =>this.ManaText.transform.DOScale(Vector3.one, 0.15f).SetEase(Ease.InOutElastic) ));
+        }
+
+        private void _onHealthChanged(Events.SpellEventData data)
+        {
+            this.SetHealth(GameManager.SelfPlayer.Health, true);
+        }
+
+        private void _onMoveChanged(Events.SpellEventData data)
+        {
+            this.SetMove(GameManager.SelfPlayer.Speed, true);
+        }
+
+        public void SetMana(int value, bool animated = true)
+        {
+            if (animated)
+            {
+                this.ManaText.transform.DOPunchScale(Vector3.one * 1.4f, 0.6f).SetEase(Ease.OutQuint);
+                this.ManaText.text = value.ToString();
+            }
+            else
+            {
+                this.ManaText.text = value.ToString();
+            }
+        }
+
+        public void SetHealth(int value, bool animated = true)
+        {
             if (value < 0)
                 value = 0;
 
             if (animated)
             {
-                _lifeFill.DOFillAmount((float)((float)value / (float)GameManager.Instance.SelfPlayer.MaxHealth), 0.6f).SetEase(Ease.OutQuart);
+                _lifeFill.DOFillAmount((float)((float)value / (float)GameManager.SelfPlayer.MaxHealth), 0.6f)
+                    .SetEase(Ease.OutQuart);
+                this.HealthText.transform.DOPunchScale(Vector3.one * 1.4f, 0.6f).SetEase(Ease.OutQuint);
+                this.HealthText.text = value.ToString();
             }
             else
             {
-                _lifeFill.DOFillAmount((float)((float)value / (float)GameManager.Instance.SelfPlayer.MaxHealth), 0f);
+                _lifeFill.DOFillAmount((float)((float)value / (float)GameManager.SelfPlayer.MaxHealth), 0f);
+                this.HealthText.text = value.ToString();
             }
-            
         }
-        public void SetMoveText(int value)
+
+        public void SetMove(int value, bool animated = true)
         {
-            this.MoveText.text = value.ToString();
+            if (animated)
+            {
+                this.MoveText.transform.DOPunchScale(Vector3.one * 1.4f, 0.6f).SetEase(Ease.OutQuint);
+                this.MoveText.text = value.ToString();
+            }
+            else
+            {
+                this.MoveText.text = value.ToString();
+            }
         }
 
         public void UpdateAllTexts()
         {
-            this.SetManaText(GameManager.Instance.SelfPlayer.Mana);
-            this.SetHealthText(GameManager.Instance.SelfPlayer.Health);
-            this.SetMoveText(GameManager.Instance.SelfPlayer.Speed);
+            this.SetMana(GameManager.SelfPlayer.Mana, false);
+            this.SetHealth(GameManager.SelfPlayer.Health, false);
+            this.SetMove(GameManager.SelfPlayer.Speed, false);
+        }
+
+        private void _subscribeEntity()
+        {
+            this._currentEntity.OnManaAdded += _onManaChanged;
+            this._currentEntity.OnManaRemoved += _onManaChanged;
+            this._currentEntity.OnHealthAdded += _onHealthChanged;
+            this._currentEntity.OnHealthRemoved += _onHealthChanged;
+            this._currentEntity.OnSpeedAdded += _onMoveChanged;
+            this._currentEntity.OnSpeedRemoved += _onMoveChanged;
+            this._currentEntity.OnManaMissing += _onManaMissing;
+        }
+
+        private void _unsubscribeEntity()
+        {
+            if (this._currentEntity == null) return;
+
+            this._currentEntity.OnManaAdded -= _onManaChanged;
+            this._currentEntity.OnManaRemoved -= _onManaChanged;
+            this._currentEntity.OnHealthAdded -= _onHealthChanged;
+            this._currentEntity.OnHealthRemoved -= _onHealthChanged;
+            this._currentEntity.OnSpeedAdded -= _onMoveChanged;
+            this._currentEntity.OnSpeedRemoved -= _onMoveChanged;
+            this._currentEntity.OnManaMissing -= _onManaMissing;
         }
     }
-
 }

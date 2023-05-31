@@ -115,8 +115,8 @@ public class ArrowRenderer : MonoBehaviour
 
     public void Init()
     {
-        CombatManager.Instance.OnCardBeginDrag += this._shouldFollowCard;
-        CombatManager.Instance.OnCardEndDrag += this._stopFollowCard;
+        CombatManager.Instance.OnCardBeginUse += this._shouldFollowCard;
+        CombatManager.Instance.OnCardEndUse += this._stopFollowCard;
     }
 
     private void _shouldFollowCard(CardEventData Data)
@@ -137,7 +137,7 @@ public class ArrowRenderer : MonoBehaviour
     private void _updateArrowTarget(CellEventData Data)
     {
         if(Data.InCurrentGrid)
-            this.SetPositions(GameManager.Instance.SelfPlayer.transform.position, Data.Cell.WorldPosition);
+            this.SetPositions(GameManager.SelfPlayer.transform.position, Data.Cell.WorldPosition);
     }
 
     #endregion
