@@ -36,7 +36,7 @@ namespace DownBelow.Spells
             base.ExecuteAction();
 
             var targets = this.GetTargets(this.TargetCell);
-            if(LocalData.Statistic == EntityStatistics.Health)
+            if(LocalData.Statistic == EntityStatistics.Health && NCEHits != null)
             {
                 //This means it is a damaging spell. Then, the NCE is hit (we don't want it to be hit if we are lowering the defense or something.)
                 foreach (NonCharacterEntity nce in NCEHits)

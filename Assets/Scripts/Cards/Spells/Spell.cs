@@ -130,14 +130,57 @@ namespace DownBelow.Spells
                 return this.ConditionData.GetValidatedTargets();
             } else
             {
-                return new List<CharacterEntity> { this.ParentSpell == null ? this.RefEntity : this.ParentSpell.RefEntity };
+                List<Cell> TargetCellsToTranspose = null;
+                switch (this.Data.TargetType)
+                {
+                    case ETargetType.Ally:
+                    case ETargetType.AllAllies:
+                        TargetCellsToTranspose.AddRange(CombatManager.Instance.PlayingEntities.FindAll(x => x.IsAlly).Select(x => x.EntityCell).ToList());
+                        break;
+                    case ETargetType.Self:
+                        TargetCellsToTranspose.Add(this.ParentSpell == null ? this.RefEntity.EntityCell : this.ParentSpell.RefEntity.EntityCell);
+                        break;
+                    case ETargetType.Enemy:
+                    case ETargetType.AllEnemies:
+                        TargetCellsToTranspose.AddRange(CombatManager.Instance.PlayingEntities.FindAll(x => !x.IsAlly).Select(x => x.EntityCell).ToList());
+                        break;
+                    case ETargetType.Empty:
+                        //(en vrai jpense jfais tout péter dans le doute c'est bien)
+                        throw new Exception($"The spell {this.GetType()} of the card {SettingsManager.Instance.ScriptableCards[this.SpellHeader.RefCard].name} is set to a targetting type of 'Empty' but has no targetting. This is not allowed.");
+                        //Lisez et comprenez cette ligne avant de me pinger, pégus.
+                    case ETargetType.NCEs:
+                        TargetCellsToTranspose.AddRange(CombatManager.Instance.NCEs.Select(x => x.AttachedCell));
+                        break;
+                    case ETargetType.CharacterEntities:
+                        TargetCellsToTranspose.AddRange(CombatManager.Instance.PlayingEntities.Select(x=>x.EntityCell));
+                        break; 
+
+                    case ETargetType.Entities:
+                        TargetCellsToTranspose.AddRange(CombatManager.Instance.NCEs.Select(x => x.AttachedCell).ToList());
+                        TargetCellsToTranspose.AddRange(CombatManager.Instance.PlayingEntities.Select(x => x.EntityCell).ToList());
+                        break;
+                    case ETargetType.All:
+                        var cells = CombatManager.Instance.PlayingEntities[0].CurrentGrid.Cells;
+                        for (int col = 0;col < cells.GetLength(0);col++)
+                        {
+                            for (int row = 0;row < cells.GetLength(1);row++)
+                            {
+                                TargetCellsToTranspose.Add(cells[col, row]);
+                            }
+                        }
+                        break;
+                    default:
+                        TargetCellsToTranspose.Add(this.ParentSpell == null ? this.RefEntity.EntityCell : this.ParentSpell.RefEntity.EntityCell);
+                        break;
+                }
+                foreach (var item in TargetCellsToTranspose)
+                {
+                    TargetedCells.AddRange(GridUtility.TransposeShapeToCells(ref Data.RotatedShapeMatrix, item, Data.RotatedShapePosition));
+                }
+                TargetEntities.AddRange(TargetedCells.FindAll(x => x.EntityIn != null).Select(x => x.EntityIn));
+                return TargetEntities;
             }
         }
-        /// <summary>
-        /// returns the index of the spell
-        /// </summary>
-        /// <returns></returns>
-        int GetSpellIndex() => SettingsManager.Instance.ScriptableCards[this.SpellHeader.RefCard].Spells.ToList().IndexOf(this);
 
         Spell GetSpellFromIndex(int index)
         {
