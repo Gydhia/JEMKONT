@@ -446,7 +446,7 @@ namespace DownBelow.Managers
             for (int i = 0; i < pActions.Length; i++)
             {
                 WorldGrid entityGrid = GridManager.Instance.GetGridFromName(pActions[i].GridName);
-                Cell targetCell = entityGrid.Cells[pActions[i].GridLocation[0], pActions[i].GridLocation[1]];
+                Cell targetCell = pActions[i].GridLocation == null ? GameManager.NullCell : entityGrid.Cells[pActions[i].GridLocation[0], pActions[i].GridLocation[1]];
                 CharacterEntity entity = entityGrid.GridEntities.Single(e => e.UID == pActions[i].EntityID);
 
                 pActions[i].Datas ??= new object[0];

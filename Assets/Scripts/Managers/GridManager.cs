@@ -1095,6 +1095,12 @@ namespace DownBelow.Managers
             this.latitude = latitude;
         }
 
+        public GridPosition(int[] positions)
+        {
+            this.longitude = positions[1];
+            this.latitude = positions[0];
+        }
+
         public static readonly GridPosition zero = new GridPosition(0, 0);
 
         public int longitude { get; private set; }
