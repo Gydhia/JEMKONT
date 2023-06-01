@@ -43,6 +43,7 @@ namespace DownBelow.Entity
         /// </summary>
         public PlayerBehavior Owner;
         public bool IsFake = false;
+        public int Index = -1;
 
         public BaseStorage PlayerInventory;
 
@@ -127,6 +128,11 @@ namespace DownBelow.Entity
         public override void Init(Cell refCell, WorldGrid refGrid, int order = 0)
         {
             base.Init(refCell, refGrid, order);
+
+            if(this.RefStats == null)
+            {
+                this.SetStatistics(SettingsManager.Instance.CombatPreset.EmptyStatistics, false);
+            }
 
             refGrid.GridEntities.Add(this);
 

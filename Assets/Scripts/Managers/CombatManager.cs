@@ -10,6 +10,7 @@ using DownBelow.Mechanics;
 using DownBelow.UI;
 using UnityEngine.InputSystem;
 using Sirenix.Utilities;
+using Photon.Realtime;
 
 namespace DownBelow.Managers
 {
@@ -101,7 +102,7 @@ namespace DownBelow.Managers
         /// Before combat, this is only used as a placeholder
         /// </summary>
         public List<PlayerBehavior> FakePlayers;
-        private int _playerIndex = -1;
+        private int _playerIndex = 0;
 
         public bool IsPlayerOrOwned(CharacterEntity entity)
         {
@@ -274,30 +275,27 @@ namespace DownBelow.Managers
         }
         private void _switchSelectedPlayer(PlayerBehavior player)
         {
-            this._switchSelectedPlayer(this.GetPlayerInputIndex(player));
+            this._switchSelectedPlayer(player.Index);
         }
 
         private void _switchSelectedPlayer(int index)
         {
-            if(index > this.FakePlayers.Count || index == this._playerIndex) { return; }
+            var player = this.FakePlayers.SingleOrDefault(f => f.Index == index);
+            player ??= GameManager.RealSelfPlayer.Index == index ? GameManager.RealSelfPlayer : null;
 
-            var player = index == 0 ? GameManager.RealSelfPlayer : this.FakePlayers[index - 1];
+            if (player == null)
+                return;
 
             if (IsPlayerOrOwned(player))
             {
                 GameManager.Instance.FireSelfPlayerSwitched(
-                    index == 0 ? null : this.FakePlayers[index - 1],
-                    this._playerIndex < 0 ? 0 : this._playerIndex,
+                    player,
+                    this._playerIndex,
                     index
                 );
 
                 this._playerIndex = index;
             }
-        }
-
-        public int GetPlayerInputIndex(PlayerBehavior player)
-        {
-            return player.IsFake ? this.FakePlayers.IndexOf(player) + 1 : 0;
         }
 
         public void ProcessStartTurn()
@@ -492,8 +490,9 @@ namespace DownBelow.Managers
             List<CharacterEntity> enemies = CurrentPlayingGrid.GridEntities
                 .Where(x => !x.IsAlly)
                 .ToList();
-            List<CharacterEntity> players = CurrentPlayingGrid.GridEntities
+            List<PlayerBehavior> players = CurrentPlayingGrid.GridEntities
                 .Where(x => x.IsAlly)
+                .Cast<PlayerBehavior>()
                 .ToList();
 
             for (int i = 0; i < players.Count; i++)
@@ -503,6 +502,7 @@ namespace DownBelow.Managers
 
             this.PlayingEntities = new List<CharacterEntity>();
 
+            int indexIncr = 0;
             // We check both for the tests, if we have more allies than ennemies or inverse
             if (enemies.Count >= players.Count)
             {
@@ -510,7 +510,11 @@ namespace DownBelow.Managers
                 {
                     this.PlayingEntities.Add(enemies[i]);
                     if (i < players.Count)
+                    {
                         this.PlayingEntities.Add(players[i]);
+                        if (this.IsPlayerOrOwned(players[i]))
+                            players[i].Index = indexIncr++;
+                    }
                 }
             }
             else
@@ -518,6 +522,8 @@ namespace DownBelow.Managers
                 for (int i = 0; i < players.Count; i++)
                 {
                     this.PlayingEntities.Add(players[i]);
+                    if (this.IsPlayerOrOwned(players[i]))
+                        players[i].Index = indexIncr++;
                     if (i < enemies.Count)
                         this.PlayingEntities.Add(enemies[i]);
                 }

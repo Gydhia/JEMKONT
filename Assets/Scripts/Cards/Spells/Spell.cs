@@ -75,7 +75,8 @@ namespace DownBelow.Spells
             {
                 EndAction();
                 return;
-            } else
+            } 
+            else
             {
                 this.TargetEntities = this.GetTargets(this.TargetCell);
 
@@ -102,7 +103,7 @@ namespace DownBelow.Spells
 
         public override void EndAction()
         {
-            Result.Unsubribirse();
+            Result?.Unsubscribe();
             base.EndAction();
         }
 

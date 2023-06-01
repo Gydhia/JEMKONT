@@ -144,16 +144,36 @@ namespace DownBelow.UI.Inventory
         {
             if (LastHoveredItem && LastHoveredItem != this)
             {
-                int remainings = LastHoveredItem.SelfStorage.Storage.TryAddItem(this.SelfItem.ItemPreset, this.TotalQuantity, LastHoveredItem.Slot);
-                this.SelfStorage.Storage.RemoveItem(this.SelfItem.ItemPreset, this.TotalQuantity - remainings, this.Slot);
+                string fromPos = this.SelfStorage.Storage.RefCell == null ? 
+                    "" :
+                    this.SelfStorage.Storage.RefCell.PositionInGrid.latitude + "," + this.SelfStorage.Storage.RefCell.PositionInGrid.longitude;
+
+                var action = new DropItemAction(
+                        GameManager.RealSelfPlayer,
+                        LastHoveredItem.SelfStorage.Storage.RefCell ,
+                        fromPos,
+                        this.SelfItem.ItemPreset.UID.ToString(),
+                        this.TotalQuantity.ToString(),
+                        true.ToString(),
+                        LastHoveredItem.Slot.ToString(),
+                        this.Slot.ToString()
+                    );
+
+                NetworkManager.Instance.EntityAskToBuffAction(action);
             }
         }
         protected virtual void dropOverWorld(PointerEventData eventData)
         {
-            var action = new DropItemAction(GameManager.SelfPlayer,
-                GridManager.Instance.LastHoveredCell, SelfItem.ItemPreset.UID.ToString(), SelfItem.Quantity.ToString());
+            var action = new DropItemAction(
+                    GameManager.RealSelfPlayer,
+                    GridManager.Instance.LastHoveredCell,
+                    null,
+                    SelfItem.ItemPreset.UID.ToString(), 
+                    SelfItem.Quantity.ToString(),
+                    false.ToString()
+                );
+
             NetworkManager.Instance.EntityAskToBuffAction(action);
-            //GridManager.Instance.LastHoveredCell.DropDownItem(SelfItem);
         }
         public void OnPointerEnter(PointerEventData eventData)
         {

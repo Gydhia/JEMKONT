@@ -80,6 +80,7 @@ namespace DownBelow.Managers
         /// </summary>
         public static PlayerBehavior RealSelfPlayer { get { return SelfPlayer.IsFake ? SelfPlayer.Owner : SelfPlayer; } }
 
+        public static Cell NullCell = new Cell();
 
         public ItemPreset[] GameItems;
 
@@ -180,12 +181,11 @@ namespace DownBelow.Managers
                 foreach (var player in PhotonNetwork.PlayerList)
                 {
                     PlayerBehavior newPlayer = Instantiate(this.PlayerPrefab, Vector3.zero, Quaternion.identity, this.transform);
-                    //newPlayer.Deck = CardsManager.Instance.DeckPresets.Values.Single(d => d.Name == "TestDeck").Copy();
-                 
-                    newPlayer.Init(GridManager.Instance.MainWorldGrid.Cells[spawnLocations.ElementAt(counter).latitude, spawnLocations.ElementAt(counter).longitude], GridManager.Instance.MainWorldGrid);
-                    // TODO: make it works with world grids
-                    newPlayer.UID = player.UserId;
 
+                    newPlayer.EntityName = player.NickName;
+                    newPlayer.UID = player.UserId;
+                    newPlayer.Init(GridManager.Instance.MainWorldGrid.Cells[spawnLocations.ElementAt(counter).latitude, spawnLocations.ElementAt(counter).longitude], GridManager.Instance.MainWorldGrid);
+                                      
                     if (player.UserId == PhotonNetwork.LocalPlayer.UserId)
                     {
                         SelfPlayer = newPlayer;

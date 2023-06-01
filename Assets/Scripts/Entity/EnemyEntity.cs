@@ -101,7 +101,7 @@ namespace DownBelow.Entity
         /// Arguments : Type = "Min" or "Max" depending on getting the closest or farthest
         /// </summary>
         public CharacterEntity[] PlayersOrderedByDistance(string type, out int sameDist) {
-            var Players = CurrentGrid.GridEntities.FindAll(x => x.IsAlly);
+            var Players = CurrentGrid.GridEntities.FindAll(x => x.IsAlly && x.Health > 0);
 
             int[] distances = new int[Players.Count];
             //Get all distances to player (from path) and set them in distances

@@ -15,11 +15,15 @@ namespace DownBelow.GridSystem
             base.Init(InteractableRef, RefCell);
 
             this.Storage = new BaseStorage();
-            this.Storage.Init(this.InteractablePreset as StoragePreset);
+            this.Storage.Init(this.InteractablePreset as StoragePreset, RefCell);
         }
         public override void Interact(Entity.PlayerBehavior player)
         {
-            UIManager.Instance.CurrentStorage.SetStorageAndShow(this.Storage);
+            // Only show the ui if we're the one who asked
+            if(player == GameManager.RealSelfPlayer)
+            {
+                UIManager.Instance.CurrentStorage.SetStorageAndShow(this.Storage);
+            }
         }
     }
 }

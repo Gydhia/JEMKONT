@@ -112,6 +112,8 @@ namespace DownBelow.Entity
         // TODO: Change it to a real Guid later
         public string UID = string.Empty;
 
+        public string EntityName = "Entity";
+
         public WorldGrid CurrentGrid;
 
         // Movements
@@ -339,7 +341,7 @@ namespace DownBelow.Entity
             this.CurrentGrid = refGrid;
         }
 
-        public virtual void SetStatistics(EntityStats stats)
+        public virtual void SetStatistics(EntityStats stats, bool notify = true)
         {
             this.RefStats = stats;
             this.Statistics = new Dictionary<EntityStatistics, int>
@@ -353,7 +355,10 @@ namespace DownBelow.Entity
                 { EntityStatistics.Range, stats.Range }
             };
 
-            this.OnStatisticsChanged?.Invoke(null);
+            if (notify)
+            {
+                this.OnStatisticsChanged?.Invoke(null);
+            }
         }
 
         public void ReinitializeAllStats()

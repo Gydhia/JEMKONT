@@ -190,7 +190,7 @@ namespace DownBelow.Managers
                         }
                         else
                         {
-                            UIManager.Instance.PlayerInfos.SendMessage("[REQUIRES " + iResource.LocalPreset.GatherableBy.ToString() + "]\nYou haven't the right tool to gather this");
+                            UIManager.Instance.DatasSection.ShowWarningText("[REQUIRES " + iResource.LocalPreset.GatherableBy.ToString() + "]\nYou haven't the right tool to gather this");
                         }
                     }
                     else
@@ -1093,6 +1093,12 @@ namespace DownBelow.Managers
         {
             this.longitude = longitude;
             this.latitude = latitude;
+        }
+
+        public GridPosition(int[] positions)
+        {
+            this.longitude = positions[1];
+            this.latitude = positions[0];
         }
 
         public static readonly GridPosition zero = new GridPosition(0, 0);

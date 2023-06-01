@@ -165,11 +165,33 @@
                 },
                 {
                     "name": "",
+                    "id": "96d8f154-39a6-46e5-9d1a-046cdbbe58ac",
+                    "path": "<Keyboard>/numpad1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Select1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "03f7f6c5-e703-423d-9dfe-11377cad7744",
                     "path": "<Keyboard>/2",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
+                    "action": "Select2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "dd2dd1e1-7ed3-4ad0-81ed-d3568e5d1d1f",
+                    "path": "<Keyboard>/numpad2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
                     "action": "Select2",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -187,11 +209,33 @@
                 },
                 {
                     "name": "",
+                    "id": "5497e147-8ee3-4f80-9e3c-eebaa27f2516",
+                    "path": "<Keyboard>/numpad3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Select3",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "c87c70c2-afe6-410c-89f2-7c1af739de52",
                     "path": "<Keyboard>/4",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
+                    "action": "Select4",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3fc2ef22-87aa-4b20-a57d-b06d05cd56a1",
+                    "path": "<Keyboard>/numpad4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
                     "action": "Select4",
                     "isComposite": false,
                     "isPartOfComposite": false
