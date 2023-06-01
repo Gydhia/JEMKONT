@@ -372,8 +372,13 @@ namespace DownBelow.Managers
             }
 
             DraggableCard.SelectedCard.CardReference.CurrentSpellTargetting = 0;
-
-            this.FireSpellBeginTargetting(this._currentSpell, data.Cell);
+            if (this._currentSpell.Data.RequiresTargetting)
+            {
+                this.FireSpellBeginTargetting(this._currentSpell, data.Cell);
+            } else
+            {
+                this._currentSpell.ExecuteAction(); //bruh lets try;
+            }
 
             InputManager.Instance.OnCellRightClickDown += _abortUsedSpell;
             InputManager.Instance.OnCellClickedUp += _processSpellClick;
