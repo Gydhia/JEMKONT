@@ -131,47 +131,61 @@ namespace DownBelow.Spells
                 return this.ConditionData.GetValidatedTargets();
             } else
             {
-                return new List<CharacterEntity> { this.ParentSpell == null ? this.RefEntity : this.ParentSpell.RefEntity };
+                List<Cell> TargetCellsToTranspose = null;
+                switch (this.Data.TargetType)
+                {
+                    case ETargetType.Ally:
+                    case ETargetType.AllAllies:
+                        TargetCellsToTranspose.AddRange(CombatManager.Instance.PlayingEntities.FindAll(x => x.IsAlly).Select(x => x.EntityCell).ToList());
+                        break;
+                    case ETargetType.Self:
+                        TargetCellsToTranspose.Add(this.ParentSpell == null ? this.RefEntity.EntityCell : this.ParentSpell.RefEntity.EntityCell);
+                        break;
+                    case ETargetType.Enemy:
+                    case ETargetType.AllEnemies:
+                        TargetCellsToTranspose.AddRange(CombatManager.Instance.PlayingEntities.FindAll(x => !x.IsAlly).Select(x => x.EntityCell).ToList());
+                        break;
+                    case ETargetType.Empty:
+                        //(en vrai jpense jfais tout péter dans le doute c'est bien)
+                        throw new Exception($"The spell {this.GetType()} of the card {SettingsManager.Instance.ScriptableCards[this.SpellHeader.RefCard].name} is set to a targetting type of 'Empty' but has no targetting. This is not allowed.");
+                        //Lisez et comprenez cette ligne avant de me pinger, pégus.
+                    case ETargetType.NCEs:
+                        TargetCellsToTranspose.AddRange(CombatManager.Instance.NCEs.Select(x => x.AttachedCell));
+                        break;
+                    case ETargetType.CharacterEntities:
+                        TargetCellsToTranspose.AddRange(CombatManager.Instance.PlayingEntities.Select(x=>x.EntityCell));
+                        break; 
+
+                    case ETargetType.Entities:
+                        TargetCellsToTranspose.AddRange(CombatManager.Instance.NCEs.Select(x => x.AttachedCell).ToList());
+                        TargetCellsToTranspose.AddRange(CombatManager.Instance.PlayingEntities.Select(x => x.EntityCell).ToList());
+                        break;
+                    case ETargetType.All:
+                        var cells = CombatManager.Instance.PlayingEntities[0].CurrentGrid.Cells;
+                        for (int col = 0;col < cells.GetLength(0);col++)
+                        {
+                            for (int row = 0;row < cells.GetLength(1);row++)
+                            {
+                                TargetCellsToTranspose.Add(cells[col, row]);
+                            }
+                        }
+                        break;
+                    default:
+                        TargetCellsToTranspose.Add(this.ParentSpell == null ? this.RefEntity.EntityCell : this.ParentSpell.RefEntity.EntityCell);
+                        break;
+                }
+                foreach (var item in TargetCellsToTranspose)
+                {
+                    TargetedCells.AddRange(GridUtility.TransposeShapeToCells(ref Data.RotatedShapeMatrix, item, Data.RotatedShapePosition));
+                }
+                TargetEntities.AddRange(TargetedCells.FindAll(x => x.EntityIn != null).Select(x => x.EntityIn));
+                return TargetEntities;
             }
-        }
-        /// <summary>
-        /// Recursive method going into the parent spell to get the index.
-        /// DO NOT USE THE PARAMETER, it is meant to be used only with the recursive.
-        /// </summary>
-        /// <param name="start">The recursive parameter, DO NOT USE</param>
-        /// <returns></returns>
-        int GetSpellIndex(int start = 0)
-        {
-            int res = start;
-            if (ParentSpell != null)
-            {
-                res = ParentSpell.GetSpellIndex(start + 1);
-            }
-            return res;
         }
 
         Spell GetSpellFromIndex(int index)
         {
-            int thisIndex = GetSpellIndex();
-            if (index > thisIndex)
-            {
-                Debug.LogError("COULD NOT FIND RELATIVE SPELL RESULT (demande a thomas)");
-                return null;
-            } else if (index == thisIndex)
-            {
-                return this;
-            } else
-            {
-                if (ParentSpell.GetSpellIndex() == index)
-                {
-                    Debug.Log($"Fetched the result of the spell {this}!");
-                    return ParentSpell;
-                } else
-                {
-                    return ParentSpell.GetSpellFromIndex(index);
-                }
-            }
-
+            return SettingsManager.Instance.ScriptableCards[this.SpellHeader.RefCard].Spells[index];
         }
 
         public override object[] GetDatas()

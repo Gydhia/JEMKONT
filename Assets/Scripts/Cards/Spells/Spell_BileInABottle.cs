@@ -24,9 +24,9 @@ namespace DownBelow.Spells
 
             foreach (PlayerBehavior item in CombatManager.Instance.PlayingEntities.FindAll(x => x.IsAlly))
             {
-                //TODO: Add drawing
+                item.Deck.DrawCard();
 
-                //TODO: add healing foreach card in hand
+                item.ApplyStat(EntityStatistics.Health, LocalData.HealingPerCard * item.Deck.RefCardsHolder.PileSize(PileType.Hand));
             }
 
             EndAction();

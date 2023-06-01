@@ -236,7 +236,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8470581299613062704}
   - component: {fileID: 61703643789524008}
-  - component: {fileID: 2577900669534779065}
   - component: {fileID: 4094393223376925304}
   m_Layer: 0
   m_Name: SpellCardUI
@@ -299,31 +298,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.02, y: 2.86}
   m_EdgeRadius: 0
---- !u!114 &2577900669534779065
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1236948560037684}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69f4b39e3349e8241b4f8db77c5924d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CardData: {fileID: 11400000, guid: 7f2750a367c2d0341b602bf959d7d5d9, type: 2}
-  IllustrationImage: {fileID: 9096573638424049284}
-  ShineImage: {fileID: 8600297445977905193}
-  CostText: {fileID: 2881650663093787906}
-  TitleText: {fileID: 7592525668707456867}
-  DescText: {fileID: 8266263323093915107}
-  IsDeckbuilding: 1
-  isInPlacingMode: 0
-  isHovered: 0
-  isPressed: 0
-  isDragged: 0
-  dragSensivity: 60
-  transformDragSensitivity: 180
 --- !u!222 &4094393223376925304
 CanvasRenderer:
   m_ObjectHideFlags: 0

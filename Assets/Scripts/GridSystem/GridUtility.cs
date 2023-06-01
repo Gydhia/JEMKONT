@@ -291,6 +291,10 @@ namespace DownBelow.GridSystem
 
         public static bool IsCellWithinPlayerRange(ref bool[,] playerRange, GridPosition playerPos, GridPosition targetCell, Vector2 pRelativePos)
         {
+            if (playerRange == null || !playerRange.Contains(true))
+            {
+                return true;
+            }
             var (width, height) = (playerRange.GetLength(1), playerRange.GetLength(0));
 
             var (playerX, playerY) = (playerPos.longitude, playerPos.latitude);
