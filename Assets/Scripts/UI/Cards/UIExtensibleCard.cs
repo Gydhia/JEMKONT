@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace DownBelow.UI
@@ -35,9 +36,9 @@ namespace DownBelow.UI
 
         //private void Update()
         //{
-        //   if(RectTransformUtility.RectangleContainsScreenPoint((RectTransform)this.transform, Input.mousePosition))
+        //    if (RectTransformUtility.RectangleContainsScreenPoint((RectTransform)this.transform, Mouse.current.position.ReadValue()))
         //    {
-        //        if (Input.GetMouseButtonDown(0))
+        //        if (Mouse.current.leftButton.wasPressedThisFrame)
         //        {
         //            this.ToggleExpandCard();
         //        }
