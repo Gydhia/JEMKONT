@@ -134,43 +134,14 @@ namespace DownBelow.Spells
             }
         }
         /// <summary>
-        /// Recursive method going into the parent spell to get the index.
-        /// DO NOT USE THE PARAMETER, it is meant to be used only with the recursive.
+        /// returns the index of the spell
         /// </summary>
-        /// <param name="start">The recursive parameter, DO NOT USE</param>
         /// <returns></returns>
-        int GetSpellIndex(int start = 0)
-        {
-            int res = start;
-            if (ParentSpell != null)
-            {
-                res = ParentSpell.GetSpellIndex(start + 1);
-            }
-            return res;
-        }
+        int GetSpellIndex() => SettingsManager.Instance.ScriptableCards[this.SpellHeader.RefCard].Spells.ToList().IndexOf(this);
 
         Spell GetSpellFromIndex(int index)
         {
-            int thisIndex = GetSpellIndex();
-            if (index > thisIndex)
-            {
-                Debug.LogError("COULD NOT FIND RELATIVE SPELL RESULT (demande a thomas)");
-                return null;
-            } else if (index == thisIndex)
-            {
-                return this;
-            } else
-            {
-                if (ParentSpell.GetSpellIndex() == index)
-                {
-                    Debug.Log($"Fetched the result of the spell {this}!");
-                    return ParentSpell;
-                } else
-                {
-                    return ParentSpell.GetSpellFromIndex(index);
-                }
-            }
-
+            return SettingsManager.Instance.ScriptableCards[this.SpellHeader.RefCard].Spells[index];
         }
 
         public override object[] GetDatas()

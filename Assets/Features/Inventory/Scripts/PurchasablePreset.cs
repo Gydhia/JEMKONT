@@ -1,6 +1,9 @@
 using DownBelow;
+using DownBelow.Entity;
 using DownBelow.GridSystem;
 using DownBelow.UI.Inventory;
+using Photon.Pun;
+using Photon.Pun.Demo.PunBasics;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,12 +17,13 @@ public class PurchasablePreset : InteractablePreset
     public bool RandomizeCost;
 
     public Dictionary<ItemPreset, int> Costs;
-    [ShowIf("@RandomizeCost")]
-    public List<int[]> CostsRange;
+
+    [ShowIf("@RandomizeCost"),MinMaxSlider(0, 30, true)]
+    public Vector2Int CostsRange = new(2,4);
 
     private void OnValidate()
     {
-        
+
     }
 
     public void ActualizeCosts()
@@ -27,9 +31,11 @@ public class PurchasablePreset : InteractablePreset
         if (!this.RandomizeCost)
             return;
 
-        for (int i = 0; i < this.Costs.Count; i++)
+        for (int i = 0;i < this.Costs.Count;i++)
         {
-            int randomCost = UnityEngine.Random.Range(this.CostsRange[i][0], this.CostsRange[i][1]);
+            string UID = DownBelow.Managers.GameManager.MasterPlayer.UID;
+
+            int randomCost = RandomHelper.RandInt(this.CostsRange.x, this.CostsRange.y, UID);
 
             var key = Costs.ElementAt(i).Key;
             this.Costs[key] = randomCost;

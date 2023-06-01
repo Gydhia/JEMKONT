@@ -1,8 +1,9 @@
+using DownBelow.Managers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = System.Random;
-public static class ListHelper
+public static class RandomHelper
 {
     private static Random rng = new Random();
 
@@ -20,5 +21,10 @@ public static class ListHelper
             list[newIndex] = list[count];
             list[count] = value;
         }
+    }
+    public static int RandInt(int minInclusive, int maxExclusive, string UID)
+    {
+        rng = new Random(UID.GetHashCode());
+        return rng.Next(minInclusive, maxExclusive);
     }
 }

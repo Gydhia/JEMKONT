@@ -70,6 +70,8 @@ namespace DownBelow.Managers
         public string SaveName;
         public PlayerBehavior PlayerPrefab;
 
+        public static PlayerBehavior MasterPlayer => Instance.Players[PhotonNetwork.MasterClient.UserId];
+
         public Dictionary<string, PlayerBehavior> Players;
         /// <summary>
         /// The local player or its current FakePlayer
