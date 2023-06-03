@@ -5,8 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="aca4d1f6-1684-4e09-8416-8dbba01ed650" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/UI_MainMenu.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/UI_MainMenu.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.JEMKONT/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.JEMKONT/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DownBelow-Var-Renderer.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DownBelow-Var-Renderer.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/FlatKit/Demos/[Demo] Fruit Vase/FruitVaseScene-Var-OutlineSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/FlatKit/Demos/[Demo] Fruit Vase/FruitVaseScene-Var-OutlineSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/PolygonNatureBiomes/PNB_Tropical_Jungle/Materials/Plants/Palm_Mat_01.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PolygonNatureBiomes/PNB_Tropical_Jungle/Materials/Plants/Palm_Mat_01.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/PolygonNatureBiomes/PNB_Tropical_Jungle/Materials/Plants/Pohutukawa_Mat_01.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PolygonNatureBiomes/PNB_Tropical_Jungle/Materials/Plants/Pohutukawa_Mat_01.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/PolygonNatureBiomes/PNB_Tropical_Jungle/Materials/Plants/Tree_Mat_03.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PolygonNatureBiomes/PNB_Tropical_Jungle/Materials/Plants/Tree_Mat_03.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/PolygonNatureBiomes/PNB_Tropical_Jungle/Materials/PolygonNatureBiomesTropical_Mat_01.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PolygonNatureBiomes/PNB_Tropical_Jungle/Materials/PolygonNatureBiomesTropical_Mat_01.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Material/M_Plane.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Material/M_Plane.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/0_FarmLand.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/0_FarmLand.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Managers/CameraManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Managers/CameraManager.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,7 +52,7 @@
 }</component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Standalone Player" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="E:/Builds/DownBelow\JEMKONT.exe" />
+      <option name="EXE_PATH" value="$USER_HOME$/OneDrive/Bureau/BuildJEMKONT\Down Below.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="E:\Builds\DownBelow" />
       <option name="PASS_PARENT_ENVS" value="1" />
@@ -52,7 +60,7 @@
       <method v="2" />
     </configuration>
     <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="D:\Games\Editor\2021.3.10f1\Editor\Unity.exe" />
+      <option name="EXE_PATH" value="D:\Games\Editor\Unity 2021.3.26f1\Editor\Unity.exe" />
       <option name="PROGRAM_PARAMETERS" value="-projectPath D:\projects\JEMKONT -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="D:\projects\JEMKONT" />
       <option name="PASS_PARENT_ENVS" value="1" />
@@ -60,7 +68,7 @@
       <method v="2" />
     </configuration>
     <configuration name="UnitTests (batch mode)" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="D:\Games\Editor\2021.3.10f1\Editor\Unity.exe" />
+      <option name="EXE_PATH" value="D:\Games\Editor\Unity 2021.3.26f1\Editor\Unity.exe" />
       <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath D:\projects\JEMKONT -testResults Logs/results.xml -testPlatform EditMode -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="D:\projects\JEMKONT" />
       <option name="PASS_PARENT_ENVS" value="1" />
@@ -109,6 +117,8 @@
       <workItem from="1684782881832" duration="2057000" />
       <workItem from="1685002924954" duration="6132000" />
       <workItem from="1685092004016" duration="1589000" />
+      <workItem from="1685645317661" duration="792000" />
+      <workItem from="1685780984904" duration="2205000" />
     </task>
     <servers />
   </component>
