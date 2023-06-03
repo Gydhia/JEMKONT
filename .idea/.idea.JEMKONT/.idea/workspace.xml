@@ -6,15 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="aca4d1f6-1684-4e09-8416-8dbba01ed650" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.JEMKONT/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.JEMKONT/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DownBelow-Var-Renderer.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DownBelow-Var-Renderer.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/FlatKit/Demos/[Demo] Fruit Vase/FruitVaseScene-Var-OutlineSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/FlatKit/Demos/[Demo] Fruit Vase/FruitVaseScene-Var-OutlineSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/PolygonNatureBiomes/PNB_Tropical_Jungle/Materials/Plants/Palm_Mat_01.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PolygonNatureBiomes/PNB_Tropical_Jungle/Materials/Plants/Palm_Mat_01.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/PolygonNatureBiomes/PNB_Tropical_Jungle/Materials/Plants/Pohutukawa_Mat_01.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PolygonNatureBiomes/PNB_Tropical_Jungle/Materials/Plants/Pohutukawa_Mat_01.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/PolygonNatureBiomes/PNB_Tropical_Jungle/Materials/Plants/Tree_Mat_03.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PolygonNatureBiomes/PNB_Tropical_Jungle/Materials/Plants/Tree_Mat_03.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/PolygonNatureBiomes/PNB_Tropical_Jungle/Materials/PolygonNatureBiomesTropical_Mat_01.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PolygonNatureBiomes/PNB_Tropical_Jungle/Materials/PolygonNatureBiomesTropical_Mat_01.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Material/M_Plane.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Material/M_Plane.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/0_FarmLand.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/0_FarmLand.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Managers/CameraManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Managers/CameraManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/SpellCardCombat.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/SpellCardCombat.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/SpellCardUI.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/SpellCardUI.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/CardVisual.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/CardVisual.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

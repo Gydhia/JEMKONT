@@ -1,3 +1,4 @@
+using System;
 using DownBelow.Managers;
 using DownBelow.Mechanics;
 using System.Collections;
@@ -17,15 +18,22 @@ namespace DownBelow.UI
         public TextMeshProUGUI TitleText;
         public TextMeshProUGUI DescText;
 
+        private ScriptableCard _cardReference;
+        private void OnEnable()
+        {
+            this.CostText.color = GameManager.SelfPlayer.Mana < this._cardReference.Cost ? Color.red : Color.white;
+        }
+
         public void Init(ScriptableCard CardReference)
         {
+            this._cardReference = CardReference;
             this.ShineImage.enabled = false;
-            this.CostText.text = CardReference.Cost.ToString();
-            this.TitleText.text = CardReference.Title;
-            this.DescText.text = CardReference.Description;
-            this.IllustrationImage.sprite = CardReference.IllustrationImage;
+            this.CostText.text = this._cardReference.Cost.ToString();
+            this.TitleText.text = this._cardReference.Title;
+            this.DescText.text = this._cardReference.Description;
+            this.IllustrationImage.sprite = this._cardReference.IllustrationImage;
 
-            switch (CardReference.CardType)
+            switch (this._cardReference.CardType)
             {
                 case CardType.Attack:
                     ShineImage.color = SettingsManager.Instance.GameUIPreset.AttackColor;
@@ -39,6 +47,7 @@ namespace DownBelow.UI
                 default:
                     break;
             }
+            
         }
         public void Hover()
         {
