@@ -41,7 +41,7 @@ namespace DownBelow.Entity
         private void Explode(EnemyEntity entity)
         {
             //Effect
-            NetworkManager.Instance.EntityAskToBuffAction(new Spell_Stats(new SpellData_Stats(!(Value < 0), StatAffected, System.Math.Abs(Value)), RefEntity, AttachedCell, null, null));
+            entity.ApplyStat(StatAffected, Value);
 
             //Duplicate on random free neighbours
             Cell[] randomDupeCells = new Cell[NumberOfDuplicates];
@@ -52,10 +52,10 @@ namespace DownBelow.Entity
                 randomDupeCells[i] = rand;
                 neighbours.Remove(rand);
             }
+
             foreach (var cell in randomDupeCells)
             {
-                NetworkManager.Instance.EntityAskToBuffAction(new Spell_SummonNCE(new SpellData_Summon(PresetRef), RefEntity, cell, null, null));
-
+                GameManager.Instance.StartCoroutine(Spell_SummonNCE.SummonNCE(cell, new SpellData_Summon(PresetRef),RefEntity));
             }
 
             DestroyEntity();

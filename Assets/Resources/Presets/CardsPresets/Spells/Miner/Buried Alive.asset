@@ -55,7 +55,7 @@ MonoBehaviour:
       Data: 2|DownBelow.Spells.SpellData_Alteration, Assembly-CSharp
     - Name: RequiresTargetting
       Entry: 5
-      Data: true
+      Data: false
     - Name: SpellResultTargeting
       Entry: 5
       Data: false
@@ -310,10 +310,10 @@ MonoBehaviour:
       Data: 7|DownBelow.Spells.SpellData_Alteration, Assembly-CSharp
     - Name: RequiresTargetting
       Entry: 5
-      Data: true
+      Data: false
     - Name: SpellResultTargeting
       Entry: 5
-      Data: false
+      Data: true
     - Name: SpellResultIndex
       Entry: 3
       Data: 0
