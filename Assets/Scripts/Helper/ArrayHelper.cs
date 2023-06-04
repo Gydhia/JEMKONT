@@ -1,4 +1,5 @@
 using DownBelow.GridSystem;
+using EODE.Wonderland;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,10 +7,38 @@ using static UnityEngine.UI.Image;
 
 public static class ArrayHelper
 {
+    /// <summary>
+    /// Désolé kiki j'ai eu la flemme de créer une classe juste pour ça....................
+    /// En échange je t'ai fait une méthode qui return un random d'un tableau 2D..........
+    /// </summary>
+    /// <param name="entityStat"></param>
+    /// <returns>The minimum value of the statistic.</returns>
+    public static int MinValue(this EntityStatistics entityStat) => entityStat switch
+    {
+        EntityStatistics.None => 0,
+        EntityStatistics.Health => 1,
+        EntityStatistics.Mana => 0,
+        EntityStatistics.MaxMana => 1,
+        EntityStatistics.Speed => 0,
+        EntityStatistics.Strength => 0,
+        EntityStatistics.Defense => 0,
+        EntityStatistics.Range => 0,
+        _ => 0,
+    };
+
     public static void Add<T>(ref T[] array, T item)
     {
         Array.Resize(ref array, array.Length + 1);
         array[array.Length - 1] = item;
+    }
+
+
+    public static T Random<T>(this T[,] array)
+    {
+        int x = UnityEngine.Random.Range(0, array.GetLength(0));
+        int y = UnityEngine.Random.Range(0, array.GetLength(1));
+
+        return array[x, y];
     }
 
     public static bool Contains<T>(this T[,] array, T value)

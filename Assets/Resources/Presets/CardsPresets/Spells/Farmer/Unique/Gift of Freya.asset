@@ -32,7 +32,7 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 7
-      Data: 1|DownBelow.Spells.Spell_Log, Assembly-CSharp
+      Data: 1|DownBelow.Spells.Spell_ShareAlteration, Assembly-CSharp
     - Name: ID
       Entry: 2
       Data: 00000000000000000000000000000000
@@ -50,10 +50,10 @@ MonoBehaviour:
       Data: 00000000000000000000000000000000
     - Name: Data
       Entry: 7
-      Data: 2|DownBelow.Spells.SpellData, Assembly-CSharp
+      Data: 2|DownBelow.Spells.SpellData_Alteration, Assembly-CSharp
     - Name: RequiresTargetting
       Entry: 5
-      Data: true
+      Data: false
     - Name: SpellResultTargeting
       Entry: 5
       Data: false
@@ -107,7 +107,7 @@ MonoBehaviour:
       Data: false
     - Name: 
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 5
       Data: false
@@ -284,12 +284,33 @@ MonoBehaviour:
       Data: false
     - Name: TargetType
       Entry: 3
-      Data: 0
+      Data: 256
     - Name: ProjectileSFX
       Entry: 6
       Data: 
     - Name: CellSFX
       Entry: 6
+      Data: 
+    - Name: Alteration
+      Entry: 7
+      Data: 5|BuffAlteration, Assembly-CSharp
+    - Name: Duration
+      Entry: 3
+      Data: 0
+    - Name: Target
+      Entry: 6
+      Data: 
+    - Name: InstanciatedFXAnimator
+      Entry: 6
+      Data: 
+    - Name: StatToBuff
+      Entry: 3
+      Data: 20
+    - Name: value
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
       Data: 
     - Name: 
       Entry: 8

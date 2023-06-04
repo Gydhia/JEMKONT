@@ -5,6 +5,7 @@ using DownBelow.Managers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using EODE.Wonderland;
 
 public class KoiPond : TempObject
 {
@@ -18,13 +19,18 @@ public class KoiPond : TempObject
     }
     void CheckIfOnCell(CellEventData data)
     {
-        var player = data.Cell.EntityIn;
-        if (this.AttachedCell == player.EntityCell)
+        CharacterEntity target = data.Cell.EntityIn;
+        if (this.AttachedCell == target.EntityCell)
         {
             //We are on cell
             //TP
-            
-        } 
+            Cell cellToTp = data.Cell.RefGrid.Cells.Random();
+            while (cellToTp.Datas.state.HasFlag(CellState.NonWalkable))
+            {
+                cellToTp = data.Cell.RefGrid.Cells.Random();
+            }
+            target.Teleport(cellToTp);
+        }
     }
     public override void DestroyEntity()
     {
