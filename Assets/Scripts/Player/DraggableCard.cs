@@ -275,6 +275,11 @@ namespace DownBelow.UI
                 }
 
                 this.m_RectTransform.position = newPos;
+                
+                if (Mouse.current.position.ReadValue().y / Screen.height > this.BottomDeadPercents / 100f)
+                {
+                    _onLeftClickUp();
+                }
             }
         }
         private IEnumerator _updatePinnedPosition()
