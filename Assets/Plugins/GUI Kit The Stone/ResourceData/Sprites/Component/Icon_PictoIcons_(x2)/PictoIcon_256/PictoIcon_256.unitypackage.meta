@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Plugins/GUI Kit The Stone/ResourceData/Sprites/Component/Icon_PictoIcons_(x2)/PictoIcon_256/PictoIcon_256.unitypackage.meta
 guid: 11c11412844f13e40a0a516a45761e43
+========
+guid: 9b6f072c152d9c449a9254feb34ea76a
+>>>>>>>> origin/JT-76-Adapt-actions-network-construct-to-JSON:Assets/AssetsImported/SpecialSkillsEffectsPack/Patch/Decals/HDRPdecal.unitypackage.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

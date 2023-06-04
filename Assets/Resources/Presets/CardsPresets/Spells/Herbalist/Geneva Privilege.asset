@@ -435,7 +435,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 5|DownBelow.Spells.Spell_StatsOnResult, Assembly-CSharp
+      Data: 5|DownBelow.Spells.Spell_Stats, Assembly-CSharp
     - Name: ID
       Entry: 2
       Data: 00000000000000000000000000000000
@@ -459,7 +459,7 @@ MonoBehaviour:
       Data: false
     - Name: SpellResultTargeting
       Entry: 5
-      Data: false
+      Data: true
     - Name: SpellResultIndex
       Entry: 3
       Data: 0
@@ -720,7 +720,7 @@ MonoBehaviour:
       Data: false
     - Name: TargetType
       Entry: 3
-      Data: 0
+      Data: 2
     - Name: ProjectileSFX
       Entry: 6
       Data: 
@@ -735,7 +735,7 @@ MonoBehaviour:
       Data: 20
     - Name: StatAmount
       Entry: 3
-      Data: 3
+      Data: 10
     - Name: 
       Entry: 8
       Data: 

@@ -70,6 +70,8 @@ namespace DownBelow.Managers
         public string SaveName;
         public PlayerBehavior PlayerPrefab;
 
+        public static PlayerBehavior MasterPlayer => Instance.Players[PhotonNetwork.MasterClient.UserId];
+
         public Dictionary<string, PlayerBehavior> Players;
         /// <summary>
         /// The local player or its current FakePlayer
@@ -80,6 +82,7 @@ namespace DownBelow.Managers
         /// </summary>
         public static PlayerBehavior RealSelfPlayer { get { return SelfPlayer.IsFake ? SelfPlayer.Owner : SelfPlayer; } }
 
+        public static Cell NullCell = new Cell();
 
         public ItemPreset[] GameItems;
 
@@ -311,8 +314,9 @@ namespace DownBelow.Managers
                 {
                     CombatActionsBuffer[0].SetCallback(_executeNextFromCombatBufferDelayed);
                     CombatActionsBuffer[0].ExecuteAction();
-                } catch
+                } catch (Exception ex)
                 {
+                    Debug.LogError(ex);
                     CombatActionsBuffer[0].EndAction();
                 }
 

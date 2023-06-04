@@ -21,6 +21,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
+  EmptyStatistics: {fileID: 11400000, guid: 0e954c696020f6143a1a11afce1647a9, type: 2}
   TurnTime: 50
   EditorTurnTime: 20
   CardsToDrawAtStart: 3

@@ -1,4 +1,5 @@
 using DownBelow.Events;
+using DownBelow.GridSystem;
 using DownBelow.Inventory;
 using DownBelow.UI.Inventory;
 using System;
@@ -12,6 +13,7 @@ namespace DownBelow.UI.Inventory
     [Serializable]
     public class BaseStorage
     {
+        public Cell RefCell;
         public InventoryItem[] StorageItems;
         public int MaxSlots;
 
@@ -24,8 +26,9 @@ namespace DownBelow.UI.Inventory
         }
         #endregion
 
-        public void Init(StoragePreset preset)
+        public void Init(StoragePreset preset, Cell RefCell)
         {
+            this.RefCell = RefCell;
             this.Init(preset.MaxSlots);
         }
 
