@@ -10,9 +10,7 @@ namespace DownBelow.Entity
         public InteractAction(CharacterEntity RefEntity, Cell TargetCell)
             : base(RefEntity, TargetCell)
         {
-
         }
-
 
         public override void ExecuteAction()
         {

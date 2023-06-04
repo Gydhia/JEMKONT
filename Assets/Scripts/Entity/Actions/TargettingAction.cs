@@ -1,9 +1,4 @@
 using DownBelow.GridSystem;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using static DownBelow.Entity.EnemyEntity;
 
 namespace DownBelow.Entity
 {
@@ -59,9 +54,6 @@ namespace DownBelow.Entity
             return new object[0];
         }
 
-        public override void SetDatas(object[] Datas)
-        {
-           
-        }
+        public override void SetDatas(object[] Datas) { }
     }
 }

@@ -11,10 +11,14 @@ namespace DownBelow.Entity
     {
         public MovementType Type;
 
-        public EnemyMovementAction(CharacterEntity RefEntity, Cell TargetCell, string Type) 
+        public EnemyMovementAction(CharacterEntity RefEntity, Cell TargetCell) 
             : base(RefEntity, TargetCell)
         {
-            this.Type = (MovementType)System.Enum.Parse(typeof(MovementType), Type);
+        }
+
+        public virtual void Init(MovementType Type)
+        {
+            this.Type = Type;
         }
 
         public override void ExecuteAction()
@@ -72,7 +76,6 @@ namespace DownBelow.Entity
 
         public override void SetDatas(object[] Datas)
         {
-            base.SetDatas(Datas);
             this.Type = (MovementType)System.Enum.Parse(typeof(MovementType), Datas[0].ToString());
         }
     }

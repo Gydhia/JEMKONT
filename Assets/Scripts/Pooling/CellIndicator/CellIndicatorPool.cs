@@ -44,6 +44,8 @@ namespace DownBelow.Pools
         #region ACTIONS
         public void DisplayActionIndicators(EntityAction action, Color? color = null)
         {
+            if(action.TargetCell == null) { return; }
+
             color ??= this._getColorFromAction(action);
 
             CellIndicator indicator = GetPooled();

@@ -366,7 +366,8 @@ namespace DownBelow.Managers
                 // So don't call it twice to avoid double buffering which should NEVER happens
                 if (!IsUsingCombatBuffer)
                     this.ExecuteNextFromCombatBuffer();
-            } else
+            } 
+            else
             {
                 //if we're not in combat and that the buffer didn't have any actions for this entity; create the key with a new list (to be able to add actions inside)
                 if (!NormalActionsBuffer.ContainsKey(action.RefEntity))

@@ -144,34 +144,27 @@ namespace DownBelow.UI.Inventory
         {
             if (LastHoveredItem && LastHoveredItem != this)
             {
-                string fromPos = this.SelfStorage.Storage.RefCell == null ? 
-                    "" :
-                    this.SelfStorage.Storage.RefCell.PositionInGrid.latitude + "," + this.SelfStorage.Storage.RefCell.PositionInGrid.longitude;
-
-                var action = new DropItemAction(
-                        GameManager.RealSelfPlayer,
-                        LastHoveredItem.SelfStorage.Storage.RefCell ,
-                        fromPos,
-                        this.SelfItem.ItemPreset.UID.ToString(),
-                        this.TotalQuantity.ToString(),
-                        true.ToString(),
-                        LastHoveredItem.Slot.ToString(),
-                        this.Slot.ToString()
-                    );
+                var action = new DropItemAction(GameManager.RealSelfPlayer, LastHoveredItem.SelfStorage.Storage.RefCell);
+                action.Init(
+                    this.SelfStorage.Storage.RefCell,
+                    this.SelfItem.ItemPreset,
+                    this.TotalQuantity,
+                    true,
+                    LastHoveredItem.Slot,
+                    this.Slot
+                 );
 
                 NetworkManager.Instance.EntityAskToBuffAction(action);
             }
         }
         protected virtual void dropOverWorld(PointerEventData eventData)
         {
-            var action = new DropItemAction(
-                    GameManager.RealSelfPlayer,
-                    GridManager.Instance.LastHoveredCell,
-                    null,
-                    SelfItem.ItemPreset.UID.ToString(), 
-                    SelfItem.Quantity.ToString(),
-                    false.ToString()
-                );
+            var action = new DropItemAction(GameManager.RealSelfPlayer, GridManager.Instance.LastHoveredCell);
+            action.Init(
+                null,
+                SelfItem.ItemPreset,
+                SelfItem.Quantity,
+                false);
 
             NetworkManager.Instance.EntityAskToBuffAction(action);
         }
