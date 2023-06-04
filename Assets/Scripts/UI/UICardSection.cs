@@ -8,6 +8,7 @@ using DownBelow.Mechanics;
 using DownBelow.Managers;
 using Utility.SLayout;
 using DownBelow.Events;
+using DownBelow.GridSystem;
 
 namespace DownBelow.UI
 {
@@ -17,6 +18,8 @@ namespace DownBelow.UI
 
         public List<SHorizontalLayoutGroup>  _cardsLayoutGroups;
 
+        public Action<CellEventData> OnCharacterSwitch;
+        
         public void Init()
         {
             GameManager.Instance.OnSelfPlayerSwitched += _updateVisibleCards;
@@ -35,9 +38,14 @@ namespace DownBelow.UI
             this.CardsHolders[Data.OldIndex].CanvasGroup.blocksRaycasts = false;
             this.CardsHolders[Data.OldIndex].CanvasGroup.interactable = false;
 
+            OnCharacterSwitch?.Invoke(new CellEventData(GridManager.Instance.LastHoveredCell));
+
+            
             this.CardsHolders[Data.NewIndex].CanvasGroup.alpha = 1;
             this.CardsHolders[Data.NewIndex].CanvasGroup.blocksRaycasts = true;
             this.CardsHolders[Data.NewIndex].CanvasGroup.interactable = true;
+            
+            
         }
 
         public void SetAllLayoutGroups(bool enabled)
@@ -48,6 +56,7 @@ namespace DownBelow.UI
             }
             
         }
+        
         
     }
 }
