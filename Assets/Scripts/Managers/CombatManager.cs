@@ -407,7 +407,6 @@ namespace DownBelow.Managers
             InputManager.Instance.OnCellClickedUp -= _processSpellClick;
             UIManager.Instance.CardSection.OnCharacterSwitch -= _abortUsedSpell;
             
-            Debug.Log("Coucou");
         }
 
         public static bool IsCellCastable(Cell cell, Spell spell)
