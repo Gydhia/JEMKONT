@@ -88,6 +88,10 @@ PrefabInstance:
       propertyPath: attackType
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3151041345836561540, guid: cb1bb2b81a4acd043865938c346ae768, type: 3}
+      propertyPath: _healthFeedback
+      value: 
+      objectReference: {fileID: 2167202789145668048}
     - target: {fileID: 6272104108903258575, guid: cb1bb2b81a4acd043865938c346ae768, type: 3}
       propertyPath: m_Name
       value: E_Crabby
@@ -138,6 +142,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cb1bb2b81a4acd043865938c346ae768, type: 3}
+--- !u!114 &2167202789145668048 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3818133447618976589, guid: cb1bb2b81a4acd043865938c346ae768, type: 3}
+  m_PrefabInstance: {fileID: 3093919413563208349}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &4872424810304477602 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7598025418865716031, guid: cb1bb2b81a4acd043865938c346ae768, type: 3}
