@@ -1,9 +1,11 @@
 using DownBelow.Managers;
 using DownBelow.Mechanics;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace DownBelow.UI
@@ -17,6 +19,8 @@ namespace DownBelow.UI
         public TextMeshProUGUI TitleText;
         public TextMeshProUGUI DescText;
 
+        private ScriptableCard dataRef;
+
         public void Init(ScriptableCard CardReference)
         {
             this.ShineImage.enabled = false;
@@ -25,21 +29,34 @@ namespace DownBelow.UI
             this.DescText.text = CardReference.Description;
             this.IllustrationImage.sprite = CardReference.IllustrationImage;
 
-            switch (CardReference.CardType)
+            dataRef = CardReference;
+
+            ShineImage.color = CardReference.CardType switch
             {
-                case CardType.Attack:
-                    ShineImage.color = SettingsManager.Instance.GameUIPreset.AttackColor;
-                    break;
-                case CardType.Power:
-                    ShineImage.color = SettingsManager.Instance.GameUIPreset.PowerColor;
-                    break;
-                case CardType.Skill:
-                    ShineImage.color = SettingsManager.Instance.GameUIPreset.SkillColor;
-                    break;
-                default:
-                    break;
+                CardType.Attack => SettingsManager.Instance.GameUIPreset.AttackColor,
+                CardType.Power => SettingsManager.Instance.GameUIPreset.PowerColor,
+                CardType.Skill => SettingsManager.Instance.GameUIPreset.SkillColor,
+                CardType.None => SettingsManager.Instance.GameUIPreset.SkillColor,
+                _ => SettingsManager.Instance.GameUIPreset.SkillColor,
+            };
+        }
+
+        private void Update()
+        {
+            if (RectTransformUtility.RectangleContainsScreenPoint((RectTransform)transform, Mouse.current.position.ReadValue()))
+            {
+                if (Mouse.current.leftButton.wasPressedThisFrame)
+                {
+                    LeftClick();
+                }
             }
         }
+
+        public void LeftClick()
+        {
+            DeckbuildingSystem.Instance.TryAddCopy(dataRef,true);
+        }
+
         public void Hover()
         {
             this.ShineImage.enabled = true;

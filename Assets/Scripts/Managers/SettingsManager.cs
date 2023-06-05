@@ -82,13 +82,18 @@ namespace DownBelow.Managers
             }
         }
         /// <summary>
-        /// returns all the cards the players has of the given collection.
+        /// returns all the cards of the given collection.
         /// </summary>
         /// <param name="collection">the given collection.</param>
         /// <returns>all the cards of the given collection.</returns>
         public List<ScriptableCard> CollectionCards(EClass collection)
         {
-            return OwnedCards.Where(x => x.Class == collection).ToList();
+            return ScriptableCards.Where(x => x.Value.Class == collection).Select(x=>x.Value).ToList();
+        }
+
+        public List<ScriptableCard> OwnedClassCards(EClass classs)
+        {
+            return OwnedCards.FindAll(x => x.Class == classs);
         }
 
         public int MaxCollectionCount()

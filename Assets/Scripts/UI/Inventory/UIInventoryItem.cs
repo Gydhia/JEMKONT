@@ -124,7 +124,7 @@ namespace DownBelow.UI.Inventory
         {
             if (this.TotalQuantity == 0)
                 return;
-            if (this.DroppableOverWorld && GridManager.Instance.LastHoveredCell != null)
+            if (this.DroppableOverWorld && GridManager.Instance.LastHoveredCell != null && GridManager.Instance.LastHoveredCell.RefGrid == GameManager.SelfPlayer && GridManager.Instance.LastHoveredCell.Datas.state.HasFlag(GridSystem.CellState.Walkable))
             {
                 this.dropOverWorld(eventData);
             } 

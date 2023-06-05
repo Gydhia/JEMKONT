@@ -23,15 +23,18 @@ namespace DownBelow.Entity
 
         public override void ExecuteAction()
         {
+            if (!TargetCell.Datas.state.HasFlag(CellState.Walkable))
+            {
+                return;
+            }
             InventoryItem InvInt = new();
             InvInt.Init(Item, 0, (int)quantity);
             TargetCell.DropDownItem(InvInt);
-            if(Item is ToolItem tool)
+            if (Item is ToolItem tool)
             {
                 ((PlayerBehavior)this.RefEntity).RemoveActiveTool(tool);
                 ((PlayerBehavior)RefEntity).PlayerSpecialSlots.RemoveItem(tool, quantity, preferedSlot);
-            }
-            else
+            } else
             {
                 ((PlayerBehavior)RefEntity).PlayerInventory.RemoveItem(Item, quantity, preferedSlot);
             }
