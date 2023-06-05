@@ -238,6 +238,7 @@ GameObject:
   - component: {fileID: 61703643789524008}
   - component: {fileID: 4094393223376925304}
   - component: {fileID: 2052059365189439625}
+  - component: {fileID: -4586676224386220334}
   m_Layer: 0
   m_Name: SpellCardUI
   m_TagString: Untagged
@@ -324,6 +325,19 @@ MonoBehaviour:
   CostText: {fileID: 2881650663093787906}
   TitleText: {fileID: 7592525668707456867}
   DescText: {fileID: 8266263323093915107}
+  CardReference: {fileID: 0}
+--- !u!114 &-4586676224386220334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1236948560037684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f0199b55c80c6d449c65a986a034485, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1269627508535022
 GameObject:
   m_ObjectHideFlags: 0

@@ -20,22 +20,23 @@ namespace DownBelow.UI
         public TextMeshProUGUI TitleText;
         public TextMeshProUGUI DescText;
 
-        private ScriptableCard _cardReference;
+        [HideInInspector] public ScriptableCard CardReference;
+
         private void OnEnable()
         {
-            this.CostText.color = GameManager.SelfPlayer.Mana < this._cardReference.Cost ? Color.red : Color.white;
+            this.CostText.color = GameManager.SelfPlayer.Mana < this.CardReference.Cost ? Color.red : Color.white;
         }
 
         public void Init(ScriptableCard CardReference)
         {
-            this._cardReference = CardReference;
+            this.CardReference = CardReference;
             this.ShineImage.enabled = false;
-            this.CostText.text = this._cardReference.Cost.ToString();
-            this.TitleText.text = this._cardReference.Title;
-            this.DescText.text = this._cardReference.Description;
-            this.IllustrationImage.sprite = this._cardReference.IllustrationImage;
+            this.CostText.text = this.CardReference.Cost.ToString();
+            this.TitleText.text = this.CardReference.Title;
+            this.DescText.text = this.CardReference.Description;
+            this.IllustrationImage.sprite = this.CardReference.IllustrationImage;
 
-            _cardReference = CardReference;
+            this.CardReference = CardReference;
 
             ShineImage.color = CardReference.CardType switch
             {
@@ -45,6 +46,7 @@ namespace DownBelow.UI
                 CardType.None => SettingsManager.Instance.GameUIPreset.SkillColor,
                 _ => SettingsManager.Instance.GameUIPreset.SkillColor,
             };
+
         }
 
         private void Update()
@@ -60,7 +62,7 @@ namespace DownBelow.UI
 
         public void LeftClick()
         {
-            DeckbuildingSystem.Instance.TryAddCopy(_cardReference, true);
+            DeckbuildingSystem.Instance.TryAddCopy(CardReference, true);
         }
 
         public void Hover()
