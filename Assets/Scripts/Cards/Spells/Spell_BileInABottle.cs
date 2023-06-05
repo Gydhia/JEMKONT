@@ -3,6 +3,7 @@ using DownBelow.GridSystem;
 using DownBelow.Managers;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace DownBelow.Spells
@@ -22,7 +23,7 @@ namespace DownBelow.Spells
         {
             base.ExecuteAction();
 
-            foreach (PlayerBehavior item in CombatManager.Instance.PlayingEntities.FindAll(x => x.IsAlly))
+            foreach (PlayerBehavior item in CombatManager.Instance.PlayingEntities.FindAll(x => x.IsAlly).Cast<PlayerBehavior>())
             {
                 item.Deck.DrawCard();
 

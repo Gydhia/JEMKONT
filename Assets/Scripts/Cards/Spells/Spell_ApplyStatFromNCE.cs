@@ -15,10 +15,15 @@ namespace DownBelow.Spells
         public override void ExecuteAction()
         {
             base.ExecuteAction();
-            List<Cell> targetCells = null;
-            if(CombatManager.Instance.NCEs != null && CombatManager.Instance.NCEs.Count > 0)
+            GetTargets(TargetCell);
+            foreach (var cell in TargetedCells)
             {
-                targetCells = CombatManager.Instance.NCEs.Select(x=>x.AttachedCell).ToList();
+                NetworkManager.Instance.EntityAskToBuffAction(new Spell_Stats(new SpellData_Stats(LocalData.IsNegativeEffect, LocalData.Statistic, LocalData.StatAmount), RefEntity, cell, null, null));
+            }
+            List<Cell> targetCells = null;
+            if (CombatManager.Instance.NCEs != null && CombatManager.Instance.NCEs.Count > 0)
+            {
+                targetCells = CombatManager.Instance.NCEs.Select(x => x.AttachedCell).ToList();
             }
             if (targetCells == null)
             {
@@ -26,11 +31,7 @@ namespace DownBelow.Spells
             }
             foreach (var item in targetCells)
             {
-                GetTargets(item);
-                foreach (var cell in TargetedCells)
-                {
-                    NetworkManager.Instance.EntityAskToBuffAction(new Spell_Stats(new SpellData_Stats(LocalData.IsNegativeEffect, LocalData.Statistic, LocalData.StatAmount), RefEntity, cell, null, null));
-                }
+                
             }
             EndAction();
         }

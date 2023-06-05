@@ -13,7 +13,7 @@ namespace DownBelow.Spells
 
     public class Spell_ChillingDrought : Spell<SpellData_ChillingDrought>
     {
-        public Spell_ChillingDrought(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, SpellCondition ConditionData) : base(CopyData, RefEntity, TargetCell, ParentSpell, ConditionData)   
+        public Spell_ChillingDrought(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, SpellCondition ConditionData) : base(CopyData, RefEntity, TargetCell, ParentSpell, ConditionData)
         {
         }
 
@@ -21,8 +21,9 @@ namespace DownBelow.Spells
         {
             base.ExecuteAction();
 
-            //GetTargets(TargetCell)[0].ApplyStat(LocalData.BaseDamage; 
-            // cant do it for now, need hand of the refentity
+            GetTargets(TargetCell)[0].ApplyStat(EntityStatistics.Health,
+                LocalData.BaseDamage -
+                (((PlayerBehavior)RefEntity).Deck.RefCardsHolder.PileSize(Managers.PileType.Hand) * LocalData.DamagePenaltyPerCard));
 
             EndAction();
         }

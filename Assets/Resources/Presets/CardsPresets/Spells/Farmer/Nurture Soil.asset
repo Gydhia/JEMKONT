@@ -54,7 +54,7 @@ MonoBehaviour:
       Data: 2|DownBelow.Spells.SpellData_Summon, Assembly-CSharp
     - Name: RequiresTargetting
       Entry: 5
-      Data: true
+      Data: false
     - Name: SpellResultTargeting
       Entry: 5
       Data: false
@@ -318,7 +318,7 @@ MonoBehaviour:
       Data: false
     - Name: TargetType
       Entry: 3
-      Data: 2
+      Data: 0
     - Name: ProjectileSFX
       Entry: 6
       Data: 

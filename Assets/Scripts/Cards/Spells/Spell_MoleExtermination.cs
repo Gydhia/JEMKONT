@@ -29,7 +29,7 @@ namespace DownBelow.Spells
             {
                 foreach (var target in targets)
                 {
-                    Managers.CombatManager.Instance.StartCoroutine(SummonNCE(target, LocalData, RefEntity));
+                    Managers.CombatManager.Instance.StartCoroutine(Spell_SummonNCE.SummonNCE(target, LocalData, RefEntity));
                 }
                 for (int i = 0;i < targets.Count;i++)
                 {
@@ -44,10 +44,5 @@ namespace DownBelow.Spells
             EndAction();
         }
 
-        public static IEnumerator SummonNCE(Cell cell, SpellData_Summon summondata, CharacterEntity RefEntity)
-        {
-            summondata.NCEPreset.InitNCE(cell, RefEntity);
-            yield return null;
-        }
     }
 }
