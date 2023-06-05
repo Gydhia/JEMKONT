@@ -57,6 +57,7 @@ namespace DownBelow.UI
         private Coroutine _compareCoroutine = null;
         private Coroutine _pinUpdateCoroutine = null;
 
+        private int _childOrder;
         public void Init(ScriptableCard CardReference, UICardsPile Pile)
         {
             this.RefPile = Pile;
@@ -152,16 +153,24 @@ namespace DownBelow.UI
             this._followCoroutine = StartCoroutine(this._followCursor());
         }
 
+
         private void Hover()
         {
             Debug.Log("Hovered : " + this.name);
+            UIManager.Instance.CardSection.SetAllLayoutGroups(false);
+            _childOrder = this.m_RectTransform.GetSiblingIndex();
+            this.m_RectTransform.SetSiblingIndex(this.m_RectTransform.childCount - 1);
             this.m_RectTransform.DOAnchorPosY(HoveredCard._spawnPosition.y + 100f, 0.3f);
+            
         }
 
         private void UnHover()
         {
             Debug.Log("Unhovered : " + this.CardReference.name);
+            
             this.m_RectTransform.DOAnchorPosY(HoveredCard._spawnPosition.y - 175f, 0.3f);
+            this.m_RectTransform.SetSiblingIndex(_childOrder);
+            UIManager.Instance.CardSection.SetAllLayoutGroups(true);
         }
 
         public void PinCardToScreen()
@@ -202,7 +211,8 @@ namespace DownBelow.UI
             this._abortCoroutine(ref this._pinUpdateCoroutine);
             this.PinnedToScreen = this.IsDragged = false;
             this.m_RectTransform.SetParent(this.RefPile.transform, false);
-            UIManager.Instance.CardSection.UpdateLayoutGroup();
+            UIManager.Instance.CardSection.SetAllLayoutGroups(false);
+            UIManager.Instance.CardSection.SetAllLayoutGroups(true);
             this.m_RectTransform.DOAnchorPos(this._spawnPosition, 0.3f).SetEase(Ease.OutQuad);
             
             SelectedCard = null;
@@ -265,6 +275,11 @@ namespace DownBelow.UI
                 }
 
                 this.m_RectTransform.position = newPos;
+                
+                if (Mouse.current.position.ReadValue().y / Screen.height > this.BottomDeadPercents / 100f)
+                {
+                    _onLeftClickUp();
+                }
             }
         }
         private IEnumerator _updatePinnedPosition()

@@ -29,8 +29,8 @@ namespace DownBelow.Managers
                 {
                     this.VirtualCamera.Follow = null;
 
-                    this.VirtualCamera.transform.position = new Vector3(52f, 25f, -45f);
-                    this.VirtualCamera.transform.eulerAngles = new Vector3(70f, 0f, 0f);
+                    this.VirtualCamera.transform.position = new Vector3(61.28f, 25f, -52.17f);
+                    this.VirtualCamera.transform.eulerAngles = new Vector3(45f, -30f, 0f);
                 }
                 else
                 {

@@ -43,10 +43,10 @@ namespace DownBelow.UI.Menu
         {
             if (animated)
             {
-                _selfRectTransform.DOShakeAnchorPos(1.1f, 20f, 20);
+               // _selfRectTransform.DOShakeAnchorPos(1.1f, 20f, 20);
                 
-                _selfRectTransform.DOAnchorMax(new Vector2(_selfPanelAnchors.z, _selfPanelAnchors.w + 0.08f), 0.4f).SetEase(Ease.InQuad);
-                _selfRectTransform.DOAnchorMin(new Vector2(_selfPanelAnchors.x, _selfPanelAnchors.y + 0.08f), 0.4f).SetEase(Ease.InQuad).OnComplete(() =>
+                _selfRectTransform.DOAnchorMax(new Vector2(_selfPanelAnchors.z, _selfPanelAnchors.w + 0.08f), 0.2f).SetEase(Ease.InQuad);
+                _selfRectTransform.DOAnchorMin(new Vector2(_selfPanelAnchors.x, _selfPanelAnchors.y + 0.08f), 0.2f).SetEase(Ease.InQuad).OnComplete(() =>
                 {
                     _selfRectTransform.DOAnchorMax(new Vector2(_selfPanelAnchors.z, _selfPanelAnchors.w - _offset), 0.8f).SetEase(Ease.OutQuint);
                     _selfRectTransform.DOAnchorMin(new Vector2(_selfPanelAnchors.x, _selfPanelAnchors.y - _offset), 0.8f).SetEase(Ease.OutQuint).OnComplete(() =>

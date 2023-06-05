@@ -36,6 +36,7 @@ namespace DownBelow.Managers
             PlayerInputs.player_select_3.canceled += this._switchToThirdPlayer;
             PlayerInputs.player_select_4.canceled += this._switchToFourthPlayer;
             PlayerInputs.player_reselect.canceled += this._switchToSelfPlayer;
+            
 
             this.OnCombatStarted?.Invoke(new GridEventData(Grid));
         }
@@ -49,7 +50,8 @@ namespace DownBelow.Managers
             PlayerInputs.player_select_3.canceled -= this._switchToThirdPlayer;
             PlayerInputs.player_select_4.canceled -= this._switchToFourthPlayer;
             PlayerInputs.player_reselect.canceled -= this._switchToSelfPlayer;
-
+            
+            
             GameManager.Instance.FireSelfPlayerSwitched(null, this._playerIndex, 0);
 
             this.OnCombatEnded?.Invoke(new GridEventData(Grid, AllyVictory));
@@ -252,6 +254,8 @@ namespace DownBelow.Managers
             this.FireCombatStarted(CurrentPlayingGrid);
 
             StartCoroutine(this._startCombatDelay(2f));
+            
+          //  UIManager.Instance.CardSection.OnCharacterSwitch += _abortUsedSpell;
         }
 
         private IEnumerator _startCombatDelay(float time)
@@ -379,7 +383,10 @@ namespace DownBelow.Managers
             }
 
             InputManager.Instance.OnCellRightClickDown += _abortUsedSpell;
+            
             InputManager.Instance.OnCellClickedUp += _processSpellClick;
+            
+            UIManager.Instance.CardSection.OnCharacterSwitch += _abortUsedSpell;
         }
 
         private void _abortUsedSpell(CellEventData Data)
@@ -403,6 +410,8 @@ namespace DownBelow.Managers
 
             InputManager.Instance.OnCellRightClickDown -= _abortUsedSpell;
             InputManager.Instance.OnCellClickedUp -= _processSpellClick;
+            UIManager.Instance.CardSection.OnCharacterSwitch -= _abortUsedSpell;
+            
         }
 
         public static bool IsCellCastable(Cell cell, Spell spell)
@@ -563,5 +572,6 @@ namespace DownBelow.Managers
                 this.FireCombatEnded(CurrentPlayingGrid, true);
             }
         }
+        
     }
 }
