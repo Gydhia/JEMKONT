@@ -24,14 +24,21 @@ namespace DownBelow.UI
         [FoldoutGroup("D&D Attributes")]
         public GameObject Body;
 
+        [FoldoutGroup("D&D Attributes")]
+        public TextMeshProUGUI RessourceCost;
+        [FoldoutGroup("D&D Attributes")]
+        public Image RessourceImage;
+
         private bool _expanded = false;
 
-        public void Init(ScriptableCard Card)
+        public void Init(ScriptableCard Card, KeyValuePair<ItemPreset, int> costs)
         {
             this.ManaCost.text = Card.Cost.ToString();
             this.CardName.text = Card.Title;
             this.Description.text = Card.Description;
             this.CardImage.sprite = Card.IllustrationImage;
+            this.RessourceCost.text = costs.Value.ToString();
+            this.RessourceImage.sprite = costs.Key.InventoryIcon;
         }
 
         //private void Update()

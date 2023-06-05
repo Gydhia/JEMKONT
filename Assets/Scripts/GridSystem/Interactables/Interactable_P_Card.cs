@@ -56,7 +56,7 @@ namespace DownBelow.GridSystem
 
             this.Preset.ActualizeCosts();
             this.CurrentItemPurchase = choosenCard;
-            this.UICard.Init(this.CurrentItemPurchase);
+            this.UICard.Init(this.CurrentItemPurchase, Preset.Costs.First());
         }
 
         protected override void TryBuy(PlayerBehavior player)
