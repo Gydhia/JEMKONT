@@ -58,7 +58,7 @@ namespace DownBelow.Entity
                 GameManager.Instance.StartCoroutine(Spell_SummonNCE.SummonNCE(cell, new SpellData_Summon(PresetRef),RefEntity));
             }
 
-            DestroyEntity();
+            DestroyEntity(3f);
         }
     }
 }

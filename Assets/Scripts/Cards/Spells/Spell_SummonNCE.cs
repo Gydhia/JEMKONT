@@ -35,7 +35,7 @@ namespace DownBelow.Spells
             EndAction();
         }
 
-        public static IEnumerator SummonNCE(Cell cell, SpellData_Summon summondata, CharacterEntity RefEntity)
+        public static IEnumerator<NonCharacterEntity> SummonNCE(Cell cell, SpellData_Summon summondata, CharacterEntity RefEntity)
         {
             summondata.NCEPreset.InitNCE(cell, RefEntity);
             yield return null;

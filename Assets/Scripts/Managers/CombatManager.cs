@@ -395,7 +395,9 @@ namespace DownBelow.Managers
 
         public void AbortUsedSpell(CellEventData Data)
         {
-            this.FireCardEndUse(
+            if(DraggableCard.SelectedCard != null)
+            {
+                this.FireCardEndUse(
                 DraggableCard.SelectedCard.CardReference,
                 DraggableCard.SelectedCard,
                 this._currentSpellHeader,
@@ -403,14 +405,20 @@ namespace DownBelow.Managers
                 false
             );
 
-            this.FireSpellEndTargetting(
-                this._currentSpell,
-                Data.Cell
-            );
+            }
+            if (this._currentSpell != null && Data.Cell != null)
+            {
+                this.FireSpellEndTargetting(
+                                this._currentSpell,
+                                Data.Cell
+                            );
+            }
 
             this._currentSpell = null;
-
-            DraggableCard.SelectedCard.DiscardToHand();
+            if (DraggableCard.SelectedCard != null)
+            {
+                DraggableCard.SelectedCard.DiscardToHand();
+            }
 
             InputManager.Instance.OnCellClickedUp -= _processSpellClick;
             UIManager.Instance.CardSection.OnCharacterSwitch -= AbortUsedSpell;

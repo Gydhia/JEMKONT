@@ -83,7 +83,7 @@ PrefabInstance:
     - target: {fileID: 3151041345836561540, guid: cb1bb2b81a4acd043865938c346ae768, type: 3}
       propertyPath: _healthFeedback
       value: 
-      objectReference: {fileID: 6097463721125922414}
+      objectReference: {fileID: 4437098198887498960}
     - target: {fileID: 6272104108903258575, guid: cb1bb2b81a4acd043865938c346ae768, type: 3}
       propertyPath: m_Name
       value: E_Buddy
@@ -139,9 +139,9 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7598025418865716031, guid: cb1bb2b81a4acd043865938c346ae768, type: 3}
   m_PrefabInstance: {fileID: 6945173872183811363}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6097463721125922414 stripped
+--- !u!114 &4437098198887498960 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3818133447618976589, guid: cb1bb2b81a4acd043865938c346ae768, type: 3}
+  m_CorrespondingSourceObject: {fileID: 6769345214510275059, guid: cb1bb2b81a4acd043865938c346ae768, type: 3}
   m_PrefabInstance: {fileID: 6945173872183811363}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}

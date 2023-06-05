@@ -131,6 +131,8 @@ namespace DownBelow.Spells
                 return this.ConditionData.GetValidatedTargets();
             } else
             {
+                TargetedCells = new();
+                TargetEntities = new();
                 List<Cell> TargetCellsToTranspose = new List<Cell>();
                 switch (this.Data.TargetType)
                 {
@@ -174,7 +176,7 @@ namespace DownBelow.Spells
                         TargetCellsToTranspose.Add(this.ParentSpell == null ? this.RefEntity.EntityCell : this.ParentSpell.RefEntity.EntityCell);
                         break;
                 }
-                foreach (var item in TargetCellsToTranspose)
+                foreach (Cell item in TargetCellsToTranspose)
                 {
                     TargetedCells.AddRange(GridUtility.TransposeShapeToCells(ref Data.RotatedShapeMatrix, item, Data.RotatedShapePosition));
                 }

@@ -32,7 +32,7 @@ public class KoiPond : TempObject
             target.Teleport(cellToTp);
         }
     }
-    public override void DestroyEntity()
+    public override void DestroyEntity(float timer = 0f)
     {
         foreach (var item in CombatManager.Instance.PlayingEntities)
         {

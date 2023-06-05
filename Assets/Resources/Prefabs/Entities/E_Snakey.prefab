@@ -26,7 +26,7 @@ PrefabInstance:
     - target: {fileID: 3151041345836561540, guid: cb1bb2b81a4acd043865938c346ae768, type: 3}
       propertyPath: _healthFeedback
       value: 
-      objectReference: {fileID: 2973188290234231395}
+      objectReference: {fileID: 4634157012769237213}
     - target: {fileID: 6272104108903258575, guid: cb1bb2b81a4acd043865938c346ae768, type: 3}
       propertyPath: m_Name
       value: E_Snakey
@@ -77,9 +77,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cb1bb2b81a4acd043865938c346ae768, type: 3}
---- !u!114 &2973188290234231395 stripped
+--- !u!114 &4634157012769237213 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3818133447618976589, guid: cb1bb2b81a4acd043865938c346ae768, type: 3}
+  m_CorrespondingSourceObject: {fileID: 6769345214510275059, guid: cb1bb2b81a4acd043865938c346ae768, type: 3}
   m_PrefabInstance: {fileID: 2143254769439797550}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
