@@ -68,6 +68,8 @@ namespace DownBelow.Managers
             PlayerInputs.player_interact.canceled += this._onInteract;
 
             PlayerInputs.player_escape.canceled += this._onEscape;
+
+            PlayerInputs.player_F4.performed += this._onF4Down;
         }
 
         private void Update()
@@ -132,6 +134,15 @@ namespace DownBelow.Managers
                 }
                 
                 GridManager.Instance.LastHoveredCell = null;
+            }
+        }
+        private void _onF4Down(InputAction.CallbackContext ctx) => this.OnF4Down();
+        private void OnF4Down()
+        {
+            if (PlayerInputs.player_alt.IsPressed())
+            {
+                Debug.Log("Quitting...");
+                Application.Quit();
             }
         }
 

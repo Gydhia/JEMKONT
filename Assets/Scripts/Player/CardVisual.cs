@@ -1,10 +1,12 @@
 using System;
 using DownBelow.Managers;
 using DownBelow.Mechanics;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace DownBelow.UI
@@ -33,22 +35,34 @@ namespace DownBelow.UI
             this.DescText.text = this._cardReference.Description;
             this.IllustrationImage.sprite = this._cardReference.IllustrationImage;
 
-            switch (this._cardReference.CardType)
+            _cardReference = CardReference;
+
+            ShineImage.color = CardReference.CardType switch
             {
-                case CardType.Attack:
-                    ShineImage.color = SettingsManager.Instance.GameUIPreset.AttackColor;
-                    break;
-                case CardType.Power:
-                    ShineImage.color = SettingsManager.Instance.GameUIPreset.PowerColor;
-                    break;
-                case CardType.Skill:
-                    ShineImage.color = SettingsManager.Instance.GameUIPreset.SkillColor;
-                    break;
-                default:
-                    break;
-            }
-            
+                CardType.Attack => SettingsManager.Instance.GameUIPreset.AttackColor,
+                CardType.Power => SettingsManager.Instance.GameUIPreset.PowerColor,
+                CardType.Skill => SettingsManager.Instance.GameUIPreset.SkillColor,
+                CardType.None => SettingsManager.Instance.GameUIPreset.SkillColor,
+                _ => SettingsManager.Instance.GameUIPreset.SkillColor,
+            };
         }
+
+        private void Update()
+        {
+            if (RectTransformUtility.RectangleContainsScreenPoint((RectTransform)transform, Mouse.current.position.ReadValue()))
+            {
+                if (Mouse.current.leftButton.wasPressedThisFrame)
+                {
+                    LeftClick();
+                }
+            }
+        }
+
+        public void LeftClick()
+        {
+            DeckbuildingSystem.Instance.TryAddCopy(_cardReference, true);
+        }
+
         public void Hover()
         {
             this.ShineImage.enabled = true;
