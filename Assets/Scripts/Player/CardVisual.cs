@@ -49,22 +49,6 @@ namespace DownBelow.UI
 
         }
 
-        private void Update()
-        {
-            if (RectTransformUtility.RectangleContainsScreenPoint((RectTransform)transform, Mouse.current.position.ReadValue()))
-            {
-                if (Mouse.current.leftButton.wasPressedThisFrame)
-                {
-                    LeftClick();
-                }
-            }
-        }
-
-        public void LeftClick()
-        {
-            DeckbuildingSystem.Instance.TryAddCopy(CardReference, true);
-        }
-
         public void Hover()
         {
             this.ShineImage.enabled = true;
