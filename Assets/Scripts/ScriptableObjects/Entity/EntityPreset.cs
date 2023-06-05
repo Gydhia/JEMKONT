@@ -26,7 +26,6 @@ public class EntityPreset : BaseSpawnablePreset
         newEntity.Init(attachedCell, attachedCell.RefGrid, attachedCell.PositionInGrid.longitude);
         newEntity.SetStatistics(this.Statistics);
         newEntity.gameObject.SetActive(false);
-        newEntity.EntitySprite = EntityIcon;
 
         attachedCell.RefGrid.GridEntities.Add(newEntity);
     }

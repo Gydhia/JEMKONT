@@ -131,7 +131,7 @@ namespace DownBelow.Spells
                 return this.ConditionData.GetValidatedTargets();
             } else
             {
-                List<Cell> TargetCellsToTranspose = null;
+                List<Cell> TargetCellsToTranspose = new List<Cell>();
                 switch (this.Data.TargetType)
                 {
                     case ETargetType.Ally:

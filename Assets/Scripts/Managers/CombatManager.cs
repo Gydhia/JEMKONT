@@ -367,6 +367,9 @@ namespace DownBelow.Managers
             // Create the spell header, used to store only usefull datas (=avoid duplications)
             this._currentSpellHeader = new SpellHeader(data.Card.UID, data.Card.Spells.Length, CurrentPlayingEntity.UID);
             this._currentSpell = data.Card.Spells.FirstOrDefault(s => s.Data.RequiresTargetting);
+            // If no targeting required
+            bool targeting = this._currentSpell != null;
+            this._currentSpell ??= data.Card.Spells[0];
 
             foreach (var spell in data.Card.Spells)
             {
@@ -374,22 +377,23 @@ namespace DownBelow.Managers
             }
 
             DraggableCard.SelectedCard.CardReference.CurrentSpellTargetting = 0;
-            if (this._currentSpell.Data.RequiresTargetting)
+
+            if (targeting)
             {
                 this.FireSpellBeginTargetting(this._currentSpell, data.Cell);
-            } else
-            {
-                this._currentSpell.ExecuteAction(); //bruh lets try;
-            }
 
-            InputManager.Instance.OnCellRightClickDown += _abortUsedSpell;
-            
-            InputManager.Instance.OnCellClickedUp += _processSpellClick;
-            
-            UIManager.Instance.CardSection.OnCharacterSwitch += _abortUsedSpell;
+                InputManager.Instance.OnCellClickedUp += _processSpellClick;
+
+                UIManager.Instance.CardSection.OnCharacterSwitch += AbortUsedSpell;
+            }
+            else
+            {
+                _currentSpellHeader.TargetedCells[0] = CurrentPlayingEntity.EntityCell.PositionInGrid;
+                this.FireCardEndUse(data.Card, DraggableCard.SelectedCard, this._currentSpellHeader, CurrentPlayingEntity.EntityCell, true);
+            }
         }
 
-        private void _abortUsedSpell(CellEventData Data)
+        public void AbortUsedSpell(CellEventData Data)
         {
             this.FireCardEndUse(
                 DraggableCard.SelectedCard.CardReference,
@@ -408,9 +412,8 @@ namespace DownBelow.Managers
 
             DraggableCard.SelectedCard.DiscardToHand();
 
-            InputManager.Instance.OnCellRightClickDown -= _abortUsedSpell;
             InputManager.Instance.OnCellClickedUp -= _processSpellClick;
-            UIManager.Instance.CardSection.OnCharacterSwitch -= _abortUsedSpell;
+            UIManager.Instance.CardSection.OnCharacterSwitch -= AbortUsedSpell;
             
         }
 
@@ -442,6 +445,7 @@ namespace DownBelow.Managers
                 return;
 
             this._currentSpellHeader.TargetedCells[currentCard.CurrentSpellTargetting] = Data.Cell.PositionInGrid;
+
             this.FireSpellEndTargetting(this._currentSpell, Data.Cell);
 
             // Means that there are no more targetting spells in the array, so we finished
@@ -449,7 +453,6 @@ namespace DownBelow.Managers
             {
                 this.FireCardEndUse(currentCard, DraggableCard.SelectedCard, this._currentSpellHeader, Data.Cell, true);
 
-                InputManager.Instance.OnCellRightClickDown -= _abortUsedSpell;
                 InputManager.Instance.OnCellClickedUp -= _processSpellClick;
             }
             else

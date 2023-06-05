@@ -200,6 +200,7 @@ namespace DownBelow.Pools
                 Debug.LogError("NULL SPELL");
                 return;
             }
+
             this._currentSpell = Data.TargetSpell;
             this._displaySpellIndicators(ref this._currentSpell.Data.CastingMatrix, CombatManager.CurrentPlayingEntity.EntityCell, false);
 

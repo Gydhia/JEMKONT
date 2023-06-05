@@ -42,6 +42,7 @@ namespace DownBelow.UI
         public float DistanceToDrag = 5f;
         public float FollowSensivity = 0.12f;
 
+        public bool AnyTargeting;
         public bool IsDragged = false;
         public bool PinnedToScreen = false;
         public bool PinnedLeft = false;
@@ -72,7 +73,7 @@ namespace DownBelow.UI
             this.CardReference = CardReference;
             this.CardVisual.Init(CardReference);
 
-            this._subToEvents();
+            this.AnyTargeting = this.CardReference.Spells.Any(s => s.Data.RequiresTargetting);
 
             this.gameObject.SetActive(false);
         }
@@ -109,22 +110,46 @@ namespace DownBelow.UI
 
         // Player released the card.
         private void _onLeftClickUp(InputAction.CallbackContext ctx) => this._onLeftClickUp();
+
         private void _onLeftClickUp()
         {
-            // TODO : some cards are null which shouldn't happen. Instead of SelectedCard != this, we should remember which one we focused and subs to inputs
-            if (SelectedCard == null || SelectedCard != this || this.PinnedToScreen)
-                return;
-            
-            
+            PlayerInputs.player_l_click.canceled -= _onLeftClickUp;
+            PlayerInputs.player_r_click.canceled -= _onRightClick;
+
+            // We left clicked while draggin the card in the dead zone, so cancel
+            if (AnyTargeting || (Mouse.current.position.ReadValue().y / Screen.height < this.BottomDeadPercents / 100f))
+            {
+                this.DiscardToHand();
+            }
+            else
+            {
+                this.PlayNotTargetCard();
+            }
+        }
+
+        private void _onRightClick(InputAction.CallbackContext ctx) => this._onRightClick();
+        private void _onRightClick()
+        {
+            this._abortCoroutine(ref _followCoroutine);
+
+            PlayerInputs.player_l_click.canceled -= _onLeftClickUp;
+            PlayerInputs.player_r_click.canceled -= _onRightClick;
+
+            CombatManager.Instance.AbortUsedSpell(new CellEventData(GameManager.SelfPlayer.EntityCell));
+        }
+
+        private void UpdateCardToPlayable()
+        {
+            // For spells that requires targeting, we'll pin the card
+            PlayerInputs.player_l_click.canceled -= _onLeftClickUp;
+
             this._abortCoroutine(ref this._followCoroutine);
-            Debug.Log("Left click on card " + this.name.ToString());
 
             if (Mouse.current.position.ReadValue().y / Screen.height > this.BottomDeadPercents / 100f)
             {
                 this.PinCardToScreen();
-                Debug.Log("PIN");
             }
-           else
+            else
             {
                 this.DiscardToHand();
             }
@@ -150,6 +175,10 @@ namespace DownBelow.UI
             this._abortCoroutine(ref this._compareCoroutine);
 
             this.IsDragged = true;
+
+            PlayerInputs.player_l_click.canceled += _onLeftClickUp;
+            PlayerInputs.player_r_click.canceled += _onRightClick;
+
             this._followCoroutine = StartCoroutine(this._followCursor());
         }
 
@@ -183,6 +212,12 @@ namespace DownBelow.UI
             this._pinUpdateCoroutine = StartCoroutine(_updatePinnedPosition());
         }
 
+        public void PlayNotTargetCard()
+        {
+            this._abortCoroutine(ref this._followCoroutine);
+            CombatManager.Instance.FireCardBeginUse(this.CardReference);
+        }
+
         public void DrawFromPile(UICardsPile fromPile, UICardsPile toPile)
         {
             this.RefPile = toPile;
@@ -207,6 +242,8 @@ namespace DownBelow.UI
 
         public void DiscardToHand()
         {
+            PlayerInputs.player_r_click.canceled -= _onRightClick;
+
             this._abortCoroutine(ref this._compareCoroutine);
             this._abortCoroutine(ref this._pinUpdateCoroutine);
             this.PinnedToScreen = this.IsDragged = false;
@@ -276,9 +313,9 @@ namespace DownBelow.UI
 
                 this.m_RectTransform.position = newPos;
                 
-                if (Mouse.current.position.ReadValue().y / Screen.height > this.BottomDeadPercents / 100f)
+                if (this.AnyTargeting && Mouse.current.position.ReadValue().y / Screen.height > this.BottomDeadPercents / 100f)
                 {
-                    _onLeftClickUp();
+                    UpdateCardToPlayable();
                 }
             }
         }
@@ -317,19 +354,10 @@ namespace DownBelow.UI
             this.m_RectTransform.DOLocalMove(Vector2.zero, 0.3f).SetEase(Ease.InOutQuint);
         }
 
-        private void _subToEvents()
-        {
-            PlayerInputs.player_l_click.canceled += _onLeftClickUp;
-        }
-
-        private void _unsubToEvents()
-        {
-            PlayerInputs.player_l_click.canceled -= _onLeftClickUp;
-        }
-
         private void OnDestroy()
         {
-            this._unsubToEvents();
+            PlayerInputs.player_l_click.canceled -= _onLeftClickUp;
+            PlayerInputs.player_l_click.canceled -= _onRightClick;
         }
     }
 
