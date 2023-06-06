@@ -79,7 +79,7 @@ namespace DownBelow.Managers
                     break;
                 case ESFXTravelType.Instantaneous:
                     SfxData.OnSFXStarted?.Invoke(new SFXEventData(SfxData));
-                    Destroy(Instantiate(SfxData.Prefab, SfxData.target.transform.position, Quaternion.identity), 6f);
+                    Destroy(Instantiate(SfxData.Prefab, SfxData.target.transform.position, SfxData.Prefab.transform.rotation), 6f);
                     SfxData.OnSFXEnded?.Invoke(new SFXEventData(SfxData));
                     //TODO: quaternion.LookRotation to target?
                     break;
