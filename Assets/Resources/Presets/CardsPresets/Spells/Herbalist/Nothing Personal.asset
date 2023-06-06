@@ -16,7 +16,9 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
+    - {fileID: 11400000, guid: 1a809be3311568c45a307232300fa5f6, type: 2}
     - {fileID: 11400000, guid: c68db44ce83e6c245a2d78f7d3d91a1f, type: 2}
+    - {fileID: 11400000, guid: 9d0f6268ebf7985479145d8a3660f730, type: 2}
     - {fileID: 11400000, guid: 245b5429eb789ad4788394ce31be6408, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
@@ -50,6 +52,9 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 8
+      Data: 
+    - Name: RefGrid
+      Entry: 6
       Data: 
     - Name: RefEntity
       Entry: 6
@@ -298,8 +303,8 @@ MonoBehaviour:
       Entry: 3
       Data: 3
     - Name: ProjectileSFX
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 0
     - Name: CellSFX
       Entry: 6
       Data: 
@@ -553,6 +558,9 @@ MonoBehaviour:
     - Name: RefBuffer
       Entry: 9
       Data: 2
+    - Name: RefGrid
+      Entry: 6
+      Data: 
     - Name: RefEntity
       Entry: 6
       Data: 
@@ -847,6 +855,12 @@ MonoBehaviour:
     - Name: StatAmount
       Entry: 3
       Data: 3
+    - Name: GivesAlteration
+      Entry: 5
+      Data: false
+    - Name: duration
+      Entry: 3
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -992,7 +1006,7 @@ MonoBehaviour:
       Data: 
     - Name: ConditionData
       Entry: 10
-      Data: 0
+      Data: 1
     - Name: 
       Entry: 8
       Data: 
@@ -1005,6 +1019,9 @@ MonoBehaviour:
     - Name: RefBuffer
       Entry: 9
       Data: 2
+    - Name: RefGrid
+      Entry: 6
+      Data: 
     - Name: RefEntity
       Entry: 6
       Data: 
@@ -1285,8 +1302,8 @@ MonoBehaviour:
       Entry: 3
       Data: 2
     - Name: ProjectileSFX
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 2
     - Name: CellSFX
       Entry: 6
       Data: 
@@ -1299,6 +1316,12 @@ MonoBehaviour:
     - Name: StatAmount
       Entry: 3
       Data: 3
+    - Name: GivesAlteration
+      Entry: 5
+      Data: false
+    - Name: duration
+      Entry: 3
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -1444,7 +1467,7 @@ MonoBehaviour:
       Data: 
     - Name: ConditionData
       Entry: 10
-      Data: 1
+      Data: 3
     - Name: 
       Entry: 8
       Data: 

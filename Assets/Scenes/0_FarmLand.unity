@@ -20850,7 +20850,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7177104878325752, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 72
       objectReference: {fileID: 0}
     - target: {fileID: 7177104878325752, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -20990,7 +20990,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2678564370340161760, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 72
       objectReference: {fileID: 0}
     - target: {fileID: 2678564370340161760, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -21138,7 +21138,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3808426073630346338, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 72
       objectReference: {fileID: 0}
     - target: {fileID: 3808426073630346338, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -21178,7 +21178,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4044596493284675526, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 72
       objectReference: {fileID: 0}
     - target: {fileID: 4044596493284675526, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -60267,6 +60267,10 @@ PrefabInstance:
     - target: {fileID: 8070630671700927374, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
       propertyPath: PossibleAutoAttacks.Array.data[0]
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8204484604120715693, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: PlayerDeck.Cards.Array.size
+      value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 8267398679234714750, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
       propertyPath: EventSystem

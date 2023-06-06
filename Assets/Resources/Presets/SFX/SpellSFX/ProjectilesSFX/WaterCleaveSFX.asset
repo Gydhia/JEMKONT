@@ -10,8 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ed9d74509586bda4f9ecae3a2dda3c20, type: 3}
-  m_Name: ShockSFX
+  m_Name: WaterCleaveSFX
   m_EditorClassIdentifier: 
-  Prefab: {fileID: 1595252117517162, guid: e7776336bc56a9b4caa1c90ea92ff765, type: 3}
-  TravelType: 3
-  TravelTime: 0.35
+  Prefab: {fileID: 2701445711194013708, guid: 4fa95da4b78a5664281300455f03abe0, type: 3}
+  TravelType: 4
+  TravelDuration: 0.35
+  TravelUnit: 1.2

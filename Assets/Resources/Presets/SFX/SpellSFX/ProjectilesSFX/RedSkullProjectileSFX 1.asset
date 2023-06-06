@@ -10,8 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ed9d74509586bda4f9ecae3a2dda3c20, type: 3}
-  m_Name: BasicSFX
+  m_Name: RedSkullProjectileSFX 1
   m_EditorClassIdentifier: 
-  Prefab: {fileID: 1990380580032880, guid: 46b312e00ed9c1f459ea9f0e55bfac77, type: 3}
+  Prefab: {fileID: 3156110449367217068, guid: 8ad5071db19714e45a0120606ddfcc3b, type: 3}
   TravelType: 1
-  TravelTime: 0.35
+  TravelDuration: 0.35
+  TravelUnit: 1.2

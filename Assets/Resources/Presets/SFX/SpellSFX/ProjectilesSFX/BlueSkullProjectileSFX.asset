@@ -10,8 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ed9d74509586bda4f9ecae3a2dda3c20, type: 3}
-  m_Name: BuffProjSFX
+  m_Name: BlueSkullProjectileSFX
   m_EditorClassIdentifier: 
-  Prefab: {fileID: 5990112604267223275, guid: e18c351ac3f6ed7409f6cae5ba1302eb, type: 3}
+  Prefab: {fileID: 8524126609201465966, guid: bcba409f94c190d40bcaccd9398874c9, type: 3}
   TravelType: 1
-  TravelTime: 0.35
+  TravelDuration: 0.35
+  TravelUnit: 1.2

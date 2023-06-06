@@ -10,8 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ed9d74509586bda4f9ecae3a2dda3c20, type: 3}
-  m_Name: DebuffProjSFX
+  m_Name: GreenSkullProjectileSFX 1
   m_EditorClassIdentifier: 
-  Prefab: {fileID: 1019054629656254, guid: 0dd71cf1c4378844fae81b273f0ba817, type: 3}
-  TravelType: 2
-  TravelTime: 0.35
+  Prefab: {fileID: 3705222264767170648, guid: 71671d23af3c5574692c8d6f60d1aaea, type: 3}
+  TravelType: 1
+  TravelDuration: 0.35
+  TravelUnit: 1.2
