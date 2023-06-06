@@ -1,6 +1,7 @@
 using DownBelow.Entity;
 using DownBelow.GridSystem;
 using DownBelow.Managers;
+using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,10 +9,15 @@ using System.Linq;
 using UnityEngine;
 namespace DownBelow.Spells
 {
-    /// <summary>
-    /// Teleports RefEntity to the closest walkable cell
-    /// </summary>
-    public class Spell_Teleport : Spell<SpellData>
+    public enum ETeleportType { GoTo, PullTo };
+
+    public class SpellData_Teleport : SpellData
+    {
+        [InfoBox("Pull : teleport the target to YOU.\nGoTo: You get teleported TO the target.")]
+        public ETeleportType TeleportType;
+    }
+
+    public class Spell_Teleport : Spell<SpellData_Teleport>
     {
         public Spell_Teleport(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, SpellCondition ConditionData) : base(CopyData, RefEntity, TargetCell, ParentSpell, ConditionData)
         {
@@ -20,10 +26,30 @@ namespace DownBelow.Spells
         public override void ExecuteAction()
         {
             base.ExecuteAction();
-            var cellToTP = TargetCell;
-
-
-            RefEntity.SmartTeleport(cellToTP, Result);
+            GetTargets(TargetCell);
+            if (TargetEntities.Count == 1)
+            {
+                var cellToTP = LocalData.TeleportType == ETeleportType.PullTo ? RefEntity.EntityCell : TargetCell;
+                if (LocalData.TeleportType == ETeleportType.PullTo)
+                {
+                    TargetEntities[0].SmartTeleport(cellToTP, Result);
+                } else
+                {
+                    RefEntity.SmartTeleport(cellToTP, Result);
+                }
+            } else if (LocalData.TeleportType == ETeleportType.PullTo)
+            {
+                string debug = "NO ENTITIES";
+                if (TargetEntities.Count > 0)
+                {
+                    debug = "";
+                    foreach (var item in TargetEntities)
+                    {
+                        debug += item.ToString();
+                    }
+                }
+                Debug.LogWarning($"TargetEntities.Count != 1 in the teleport spell. This is not an issue, but it's not normal. Entities: {debug}");
+            }
             EndAction();
         }
     }

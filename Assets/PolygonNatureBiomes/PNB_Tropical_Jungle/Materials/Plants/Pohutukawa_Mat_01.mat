@@ -2,14 +2,17 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Pohutukawa_Mat_01
   m_Shader: {fileID: 4800000, guid: 6697e1f185bc8b840a2f02567abf15b5, type: 3}
-  m_ShaderKeywords: _FROSTINGSWITCH_ON _SNOWSWITCH_ON
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - _FROSTINGSWITCH_ON
+  - _SNOWSWITCH_ON
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -167,6 +170,7 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - _AlphaCutoff: 0.5
     - _Big_Wave: 10
@@ -205,8 +209,8 @@ Material:
     - _LeafMetallic: 0
     - _LeafNoiseAmount: 0.017
     - _LeafNoiseScale: 1
-    - _LeafNormalAmount: 0.5
-    - _LeafSmoothness: 0.2
+    - _LeafNormalAmount: 0.43
+    - _LeafSmoothness: 0
     - _Metallic: 0.132
     - _Mode: 0
     - _NormalAmount: 0.5
@@ -263,14 +267,14 @@ Material:
     - _FrostingColour: {r: 0.5283019, g: 0, b: 0, a: 0}
     - _GustHighlight: {r: 0.11320752, g: 0.11320752, b: 0.11320752, a: 0}
     - _GustSmoothing: {r: 0.5, g: 0.5, b: 0.5, a: 0}
-    - _LeafBaseColour: {r: 0, g: 0, b: 0, a: 0}
-    - _LeafNoiseColour: {r: 0, g: 0, b: 0, a: 0}
+    - _LeafBaseColour: {r: 0.7735849, g: 0.19187821, b: 0, a: 0}
+    - _LeafNoiseColour: {r: 1, g: 0.31457603, b: 0, a: 0}
     - _LeafNoiseLargeColour: {r: 0.07843138, g: 0.02015968, b: 0, a: 0}
     - _LeafTint: {r: 0.07843138, g: 0.02015968, b: 0, a: 0}
     - _SnowColour: {r: 0.5754717, g: 0.009979278, b: 0, a: 0}
     - _Tint: {r: 0, g: 0, b: 0, a: 0}
-    - _TrunkBaseColour: {r: 0.07843138, g: 0.02015968, b: 0, a: 0}
+    - _TrunkBaseColour: {r: 0.5188679, g: 0.29692408, b: 0.05090778, a: 0}
     - _TrunkEmissiveColour: {r: 0, g: 0, b: 0, a: 0}
-    - _TrunkNoiseColour: {r: 0, g: 0, b: 0, a: 0}
+    - _TrunkNoiseColour: {r: 0.4716981, g: 0.22472261, b: 0, a: 0}
     - _TrunkTint: {r: 0.07843138, g: 0.02015968, b: 0, a: 0}
   m_BuildTextureStacks: []

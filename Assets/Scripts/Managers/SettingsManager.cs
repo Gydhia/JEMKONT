@@ -81,6 +81,30 @@ namespace DownBelow.Managers
                 this.ToolPresets.Add(tool.UID, tool);
             }
         }
+        /// <summary>
+        /// returns all the cards of the given collection.
+        /// </summary>
+        /// <param name="collection">the given collection.</param>
+        /// <returns>all the cards of the given collection.</returns>
+        public List<ScriptableCard> CollectionCards(EClass collection)
+        {
+            return ScriptableCards.Where(x => x.Value.Class == collection).Select(x=>x.Value).ToList();
+        }
+
+        public List<ScriptableCard> OwnedClassCards(EClass classs)
+        {
+            return OwnedCards.FindAll(x => x.Class == classs);
+        }
+
+        public int MaxCollectionCount()
+        {
+            int max = 0;
+            foreach (var item in Enum.GetValues(typeof(EClass)))
+            {
+                max = Mathf.Max(max, CollectionCards((EClass)item).Count);
+            }
+            return max;
+        }
     }
 
 }

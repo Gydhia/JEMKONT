@@ -11,8 +11,12 @@ namespace DownBelow.Entity
     {
         public string TargetGrid;
 
-        public EnterGridAction(CharacterEntity RefEntity, Cell TargetCell, string TargetGrid)
+        public EnterGridAction(CharacterEntity RefEntity, Cell TargetCell)
             : base(RefEntity, TargetCell)
+        {
+        }
+
+        public virtual void Init(string TargetGrid)
         {
             this.TargetGrid = TargetGrid;
         }

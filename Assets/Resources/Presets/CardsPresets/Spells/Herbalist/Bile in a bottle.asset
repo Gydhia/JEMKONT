@@ -1,0 +1,337 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c24d5ac1331fdca479c3c82f04555faf, type: 3}
+  m_Name: Bile in a bottle
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: UID
+      Entry: 2
+      Data: b8cf94c7ddb061ca875e08cbcad94771
+    - Name: Spells
+      Entry: 7
+      Data: 0|DownBelow.Spells.Spell[], Assembly-CSharp
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 1|DownBelow.Spells.Spell_BileInABottle, Assembly-CSharp
+    - Name: ID
+      Entry: 2
+      Data: 00000000000000000000000000000000
+    - Name: RefBuffer
+      Entry: 6
+      Data: 
+    - Name: RefEntity
+      Entry: 6
+      Data: 
+    - Name: TargetCell
+      Entry: 6
+      Data: 
+    - Name: ContextActionId
+      Entry: 2
+      Data: 00000000000000000000000000000000
+    - Name: Data
+      Entry: 7
+      Data: 2|DownBelow.Spells.SpellData_BIAB, Assembly-CSharp
+    - Name: RequiresTargetting
+      Entry: 5
+      Data: false
+    - Name: SpellResultTargeting
+      Entry: 5
+      Data: false
+    - Name: SpellResultIndex
+      Entry: 3
+      Data: 0
+    - Name: SpellShapeMatrix
+      Entry: 7
+      Data: 3|System.Boolean[,], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 25
+    - Name: ranks
+      Entry: 1
+      Data: 5|5
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: ShapePosition
+      Entry: 7
+      Data: UnityEngine.Vector2, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 2
+    - Name: 
+      Entry: 4
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: RotatedShapeMatrix
+      Entry: 6
+      Data: 
+    - Name: RotatedShapePosition
+      Entry: 7
+      Data: UnityEngine.Vector2, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: CastingMatrix
+      Entry: 7
+      Data: 4|System.Boolean[,], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 25
+    - Name: ranks
+      Entry: 1
+      Data: 5|5
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: CasterPosition
+      Entry: 7
+      Data: UnityEngine.Vector2, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 2
+    - Name: 
+      Entry: 4
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: RotateShapeWithCast
+      Entry: 5
+      Data: false
+    - Name: TargetType
+      Entry: 3
+      Data: 256
+    - Name: ProjectileSFX
+      Entry: 6
+      Data: 
+    - Name: CellSFX
+      Entry: 6
+      Data: 
+    - Name: HealingPerCard
+      Entry: 3
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: SpellHeader
+      Entry: 6
+      Data: 
+    - Name: NCEHits
+      Entry: 6
+      Data: 
+    - Name: TargetedCells
+      Entry: 6
+      Data: 
+    - Name: TargetEntities
+      Entry: 6
+      Data: 
+    - Name: ParentSpell
+      Entry: 6
+      Data: 
+    - Name: Result
+      Entry: 6
+      Data: 
+    - Name: ConditionData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  Title: Bile in a bottle
+  Cost: 2
+  CardType: 2
+  Description: All allies draw 1 card. They are then healed by X for each card in
+    their hand.
+  IllustrationImage: {fileID: 21300000, guid: 44b62bdd66dc688408c07e86a957f139, type: 3}
+  Class: 1
+  CurrentSpellTargetting: 0

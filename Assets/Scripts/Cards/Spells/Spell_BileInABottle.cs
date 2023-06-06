@@ -3,6 +3,7 @@ using DownBelow.GridSystem;
 using DownBelow.Managers;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace DownBelow.Spells
@@ -22,11 +23,11 @@ namespace DownBelow.Spells
         {
             base.ExecuteAction();
 
-            foreach (PlayerBehavior item in CombatManager.Instance.PlayingEntities.FindAll(x => x.IsAlly))
+            foreach (PlayerBehavior item in CombatManager.Instance.PlayingEntities.FindAll(x => x.IsAlly).Cast<PlayerBehavior>())
             {
-                //TODO: Add drawing
+                item.Deck.DrawCard();
 
-                //TODO: add healing foreach card in hand
+                item.ApplyStat(EntityStatistics.Health, LocalData.HealingPerCard * item.Deck.RefCardsHolder.PileSize(PileType.Hand));
             }
 
             EndAction();

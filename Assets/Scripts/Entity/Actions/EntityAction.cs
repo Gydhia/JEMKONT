@@ -2,11 +2,9 @@ using DownBelow.GridSystem;
 using DownBelow.Managers;
 using Sirenix.OdinInspector;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace DownBelow.Entity
 {
@@ -18,6 +16,8 @@ namespace DownBelow.Entity
         [HideInInspector]
         public List<EntityAction> RefBuffer;
 
+        [HideInInspector]
+        public WorldGrid RefGrid;
         [HideInInspector]
         public CharacterEntity RefEntity;
         [HideInInspector]
@@ -42,6 +42,8 @@ namespace DownBelow.Entity
             this.ID = Guid.NewGuid();
             this.EndCallbacks = new List<Action>();
         }
+
+        public virtual void Init() { }
 
         public void SetCallback(Action EndCallback)
         {

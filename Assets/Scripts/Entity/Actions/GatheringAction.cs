@@ -55,9 +55,6 @@ namespace DownBelow.Entity
             return new object[0];
         }
 
-        public override void SetDatas(object[] Datas)
-        {
-
-        }
+        public override void SetDatas(object[] Datas) { }
     }
 }

@@ -229,13 +229,16 @@ namespace DownBelow.Managers
                             new MovementAction(selfPlayer, closestCell)
                         );
                     else
+                    {
+                        var enterAction = new EnterGridAction(selfPlayer, closestCell);
+                        enterAction.Init(otherGrid);
+                        
                         NetworkManager.Instance.EntityAskToBuffActions(
-                            new EntityAction[2]
-                            {
+                            new EntityAction[2] {
                                 new MovementAction(selfPlayer, closestCell),
-                                new EnterGridAction(selfPlayer, closestCell, otherGrid)
-                            }
-                        );
+                                enterAction
+                            });
+                    }
                 }
             }
         }
@@ -1095,11 +1098,7 @@ namespace DownBelow.Managers
             this.latitude = latitude;
         }
 
-        public GridPosition(int[] positions)
-        {
-            this.longitude = positions[1];
-            this.latitude = positions[0];
-        }
+        public int[] GetData() { return new int[2] { latitude, longitude }; }
 
         public static readonly GridPosition zero = new GridPosition(0, 0);
 

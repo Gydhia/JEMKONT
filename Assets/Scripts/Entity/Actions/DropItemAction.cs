@@ -9,34 +9,26 @@ namespace DownBelow.Entity
 {
     public class DropItemAction : EntityAction
     {
-        public Cell ToCell;
         public Cell FromCell;
         public ItemPreset Item;
-        public short Quantity;
-        public short ToSlot;
-        public short FromSlot;
+        public int Quantity;
+        public int ToSlot;
+        public int FromSlot;
         public bool OverUI;
 
-        public DropItemAction(CharacterEntity RefEntity, Cell ToCell, string FromCell, string UID, string quantity, string overUI, string toSlot = "-1", string fromSlot = "-1") 
-            : base(RefEntity, ToCell)
+        public DropItemAction(CharacterEntity RefEntity, Cell TargetCell) 
+            : base(RefEntity, TargetCell)
         {
-            var GUID = Guid.Parse(UID);
-            
-            if (string.IsNullOrEmpty(FromCell))
-            {
-                this.FromCell = null;
-            }
-            else
-            {
-                int[] pos = FromCell.Split(',').Select(n => Convert.ToInt32(n)).ToArray();
-                this.FromCell = this.RefEntity.CurrentGrid.Cells[pos[0], pos[1]];
-            }
+        }
 
-            this.Item = SettingsManager.Instance.ItemsPresets[GUID];
-            short.TryParse(quantity, out this.Quantity);
-            short.TryParse(toSlot, out this.ToSlot);
-            short.TryParse(fromSlot, out this.FromSlot);
-            bool.TryParse(overUI, out this.OverUI);
+        public virtual void Init(Cell FromCell, ItemPreset Item, int Quantity, bool OverUI, int ToSlot = -1, int FromSlot = -1)
+        {
+            this.FromCell = FromCell;
+            this.Item = Item;
+            this.Quantity = Quantity;
+            this.OverUI = OverUI;
+            this.ToSlot = ToSlot;
+            this.FromSlot = FromSlot;
         }
 
         public override void ExecuteAction()
@@ -46,9 +38,9 @@ namespace DownBelow.Entity
             // Dropping over UI
             if (this.OverUI)
             {
-                bool fromPlayerToStorage = this.FromCell == null;
-                var fromStorage = fromPlayerToStorage ? player.PlayerInventory : ((InteractableStorage)TargetCell.AttachedInteract).Storage;
-                var toStorage = fromPlayerToStorage ? ((InteractableStorage)TargetCell.AttachedInteract).Storage : player.PlayerInventory;
+                // We assume that a null cell means playerInventory
+                var fromStorage = FromCell == null ? player.PlayerInventory : ((InteractableStorage)FromCell.AttachedInteract).Storage;
+                var toStorage = TargetCell == null ? player.PlayerInventory : ((InteractableStorage)TargetCell.AttachedInteract).Storage;
 
                 int remainings = toStorage.TryAddItem(this.Item, this.Quantity, this.ToSlot);
                 fromStorage.RemoveItem(this.Item, this.Quantity - remainings, this.FromSlot);
@@ -76,27 +68,28 @@ namespace DownBelow.Entity
         public override object[] GetDatas()
         {
             return new object[6] {
-                this.ToCell == null ? "" : (FromCell.PositionInGrid.latitude + "," + FromCell.PositionInGrid.longitude),
-                Item.UID.ToString(),
-                Quantity.ToString(), 
-                OverUI.ToString(),
-                ToSlot.ToString(), 
-                FromSlot.ToString()
+                FromCell == null ? null : FromCell.PositionInGrid.GetData(),
+                Item.UID,
+                Quantity, 
+                OverUI,
+                ToSlot, 
+                FromSlot
             };
         }
 
         public override void SetDatas(object[] Datas)
         {
-            if (!string.IsNullOrEmpty(Datas[0].ToString()))
+            if (Datas[0] != null)
             {
-                int[] pos = Datas[0].ToString().Split(';').Select(n => Convert.ToInt32(n)).ToArray();
-                this.ToCell = this.TargetCell.RefGrid.Cells[pos[0], pos[1]];
+                int[] pos = Newtonsoft.Json.JsonConvert.DeserializeObject<int[]>(Datas[0].ToString());
+                this.FromCell = this.RefGrid.Cells[pos[0], pos[1]];
             }
-            Item = SettingsManager.Instance.ItemsPresets[Guid.Parse((string)Datas[1])];
-            short.TryParse(Datas[2].ToString(), out Quantity);
-            bool.TryParse(Datas[3].ToString(), out OverUI);
-            short.TryParse(Datas[4].ToString(), out ToSlot);
-            short.TryParse(Datas[5].ToString(), out FromSlot);
+            
+            this.Item = SettingsManager.Instance.ItemsPresets[Guid.Parse((string)Datas[1])];
+            this.Quantity = Convert.ToInt32(Datas[2]);
+            this.OverUI = (bool)Datas[3];
+            this.ToSlot = Convert.ToInt32(Datas[4]);
+            this.FromSlot = Convert.ToInt32(Datas[5]);
         }
     }
 }

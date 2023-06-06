@@ -236,8 +236,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8470581299613062704}
   - component: {fileID: 61703643789524008}
-  - component: {fileID: 2577900669534779065}
   - component: {fileID: 4094393223376925304}
+  - component: {fileID: 2052059365189439625}
+  - component: {fileID: -4586676224386220334}
   m_Layer: 0
   m_Name: SpellCardUI
   m_TagString: Untagged
@@ -263,8 +264,8 @@ RectTransform:
   - {fileID: 1225922747276171160}
   - {fileID: 1684682375018235458}
   - {fileID: 224258816964859082}
-  - {fileID: 3213878888724108243}
   - {fileID: 1251176378767732497}
+  - {fileID: 3213878888724108243}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -299,31 +300,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.02, y: 2.86}
   m_EdgeRadius: 0
---- !u!114 &2577900669534779065
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1236948560037684}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69f4b39e3349e8241b4f8db77c5924d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CardData: {fileID: 11400000, guid: 7f2750a367c2d0341b602bf959d7d5d9, type: 2}
-  IllustrationImage: {fileID: 9096573638424049284}
-  ShineImage: {fileID: 8600297445977905193}
-  CostText: {fileID: 2881650663093787906}
-  TitleText: {fileID: 7592525668707456867}
-  DescText: {fileID: 8266263323093915107}
-  IsDeckbuilding: 1
-  isInPlacingMode: 0
-  isHovered: 0
-  isPressed: 0
-  isDragged: 0
-  dragSensivity: 60
-  transformDragSensitivity: 180
 --- !u!222 &4094393223376925304
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -332,6 +308,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1236948560037684}
   m_CullTransparentMesh: 1
+--- !u!114 &2052059365189439625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1236948560037684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f94e3df0ac4d724c88d9a013d56c9e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IllustrationImage: {fileID: 9096573638424049284}
+  ShineImage: {fileID: 8600297445977905193}
+  CostText: {fileID: 2881650663093787906}
+  TitleText: {fileID: 7592525668707456867}
+  DescText: {fileID: 8266263323093915107}
+  CardReference: {fileID: 0}
+--- !u!114 &-4586676224386220334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1236948560037684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f0199b55c80c6d449c65a986a034485, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1269627508535022
 GameObject:
   m_ObjectHideFlags: 0
@@ -500,7 +506,7 @@ RectTransform:
   m_Children:
   - {fileID: 224272124916262928}
   m_Father: {fileID: 8470581299613062704}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -705,11 +711,11 @@ RectTransform:
   m_Children:
   - {fileID: 224227664054466946}
   m_Father: {fileID: 8470581299613062704}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -5.6}
+  m_AnchoredPosition: {x: 0.5, y: 141}
   m_SizeDelta: {x: 202, y: 68}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4753850457215514411

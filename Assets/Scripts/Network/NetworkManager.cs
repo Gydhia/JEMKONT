@@ -11,6 +11,7 @@ using System;
 using Newtonsoft.Json;
 using DownBelow.Loading;
 using EODE.Wonderland;
+using DownBelow.Spells;
 
 namespace DownBelow.Managers
 {
@@ -37,7 +38,7 @@ namespace DownBelow.Managers
         public object[] Datas;
        
 
-        public SerializedAction(string actionID, string contextAction, string entityID, string grid, int[] gridLocation, string actionType, object[] datas)
+        public SerializedAction(string actionID, string contextAction, string entityID, string grid, Cell targetCell, string actionType, object[] datas)
         {
             this.ActionID = actionID;
             this.ContextAction = contextAction;
@@ -45,7 +46,9 @@ namespace DownBelow.Managers
             this.GridName = grid;
             this.ActionType = actionType;
             this.Datas = datas;
-            this.GridLocation = gridLocation;
+            this.GridLocation = targetCell == null ?
+                null : 
+                new int[2] { targetCell.PositionInGrid.latitude, targetCell.PositionInGrid.longitude };
             this.Datas = datas;
         }
     }
@@ -388,7 +391,7 @@ namespace DownBelow.Managers
                 action.ContextActionId.ToString(),
                 action.RefEntity.UID,
                 action.RefEntity.CurrentGrid.UName,
-                new int[2] { action.TargetCell.PositionInGrid.latitude, action.TargetCell.PositionInGrid.longitude },
+                action.TargetCell,
                 action.GetType().ToString(),
                 action.GetDatas()
                 );
@@ -412,7 +415,7 @@ namespace DownBelow.Managers
                          action.ContextActionId.ToString(),
                          action.RefEntity.UID,
                          action.RefEntity.CurrentGrid.UName,
-                         new int[2] { action.TargetCell.PositionInGrid.latitude, action.TargetCell.PositionInGrid.longitude },
+                         action.TargetCell,
                          action.GetAssemblyName(),
                          action.GetDatas()
                      );
@@ -446,26 +449,17 @@ namespace DownBelow.Managers
             for (int i = 0; i < pActions.Length; i++)
             {
                 WorldGrid entityGrid = GridManager.Instance.GetGridFromName(pActions[i].GridName);
-                Cell targetCell = pActions[i].GridLocation == null ? GameManager.NullCell : entityGrid.Cells[pActions[i].GridLocation[0], pActions[i].GridLocation[1]];
+                Cell targetCell = pActions[i].GridLocation == null ? null : entityGrid.Cells[pActions[i].GridLocation[0], pActions[i].GridLocation[1]];
                 CharacterEntity entity = entityGrid.GridEntities.Single(e => e.UID == pActions[i].EntityID);
 
                 pActions[i].Datas ??= new object[0];
-                object[] fullDatas = new object[2 + pActions[i].Datas.Length];
-
-                fullDatas[0] = entity;
-                fullDatas[1] = targetCell;
-                for (int j = 2; j < fullDatas.Length; j++)
-                {
-                    fullDatas[j] = pActions[i].Datas[j - 2];
-                }
 
                 Type type = Type.GetType(pActions[i].ActionType);
-                EntityAction myAction = Activator.CreateInstance(type, fullDatas) as EntityAction;
+                EntityAction myAction = Activator.CreateInstance(type, new object[2] { entity, targetCell }) as EntityAction;
+                myAction.RefGrid = entityGrid;
 
                 myAction.ID = Guid.Parse(pActions[i].ActionID);
                 myAction.ContextActionId = Guid.Parse(pActions[i].ContextAction);
-                myAction.RefEntity = entity;
-                myAction.TargetCell = targetCell;
 
                 myAction.SetDatas(pActions[i].Datas);
                 generatedActions.Add(myAction);

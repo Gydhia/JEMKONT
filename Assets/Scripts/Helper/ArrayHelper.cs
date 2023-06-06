@@ -1,13 +1,59 @@
+using DownBelow.GridSystem;
+using EODE.Wonderland;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using static UnityEngine.UI.Image;
 
 public static class ArrayHelper
 {
+    /// <summary>
+    /// Désolé kiki j'ai eu la flemme de créer une classe juste pour ça....................
+    /// En échange je t'ai fait une méthode qui return un random d'un tableau 2D..........
+    /// </summary>
+    /// <param name="entityStat"></param>
+    /// <returns>The minimum value of the statistic.</returns>
+    public static int MinValue(this EntityStatistics entityStat) => entityStat switch
+    {
+        EntityStatistics.None => 0,
+        EntityStatistics.Health => 1,
+        EntityStatistics.Mana => 0,
+        EntityStatistics.MaxMana => 1,
+        EntityStatistics.Speed => 0,
+        EntityStatistics.Strength => 0,
+        EntityStatistics.Defense => 0,
+        EntityStatistics.Range => 0,
+        _ => 0,
+    };
+
     public static void Add<T>(ref T[] array, T item)
     {
         Array.Resize(ref array, array.Length + 1);
         array[array.Length - 1] = item;
+    }
+
+
+    public static T Random<T>(this T[,] array)
+    {
+        int x = UnityEngine.Random.Range(0, array.GetLength(0));
+        int y = UnityEngine.Random.Range(0, array.GetLength(1));
+
+        return array[x, y];
+    }
+
+    public static bool Contains<T>(this T[,] array, T value)
+    {
+        for (int col = 0;col < array.GetLength(0);col++)
+        {
+            for (int row = 0;row < array.GetLength(1);row++)
+            {
+                if (array[col, row].Equals(value))
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public static bool ArrayEquals<T>(T[] lhs, T[] rhs)
@@ -22,7 +68,7 @@ public static class ArrayHelper
             return false;
         }
 
-        for (int i = 0; i < lhs.Length; i++)
+        for (int i = 0;i < lhs.Length;i++)
         {
             if (!lhs[i].Equals(rhs[i]))
             {
@@ -45,7 +91,7 @@ public static class ArrayHelper
             return false;
         }
 
-        for (int i = 0; i < lhs.Length; i++)
+        for (int i = 0;i < lhs.Length;i++)
         {
             if ((object)lhs[i] != (object)rhs[i])
             {
@@ -60,7 +106,7 @@ public static class ArrayHelper
     {
         int num = array.Length;
         Array.Resize(ref array, array.Length + items.Length);
-        for (int i = 0; i < items.Length; i++)
+        for (int i = 0;i < items.Length;i++)
         {
             array[num + i] = items[i];
         }
@@ -140,15 +186,14 @@ public static class ArrayHelper
         {
             // Since 2D arrays are only one line of elements, we need to offset the difference if we go from 5 to 3 or else
             if (newRoNum < columnCount)
-                for (int co = 0; co < newRoNum; co++)
+                for (int co = 0;co < newRoNum;co++)
                     Array.Copy(original, co * newRoNum + (co * (columnCount - newRoNum)), newArray, co * columnCount2, newRoNum);
             // For columns we shouldn't try to copy in the new array more than we have
             else
-                for (int co = 0; co < newCoNum; co++)
+                for (int co = 0;co < newCoNum;co++)
                     Array.Copy(original, co * columnCount, newArray, co * columnCount2, columnCount);
-        }
-        else
-            for (int co = 0; co <= columns; co++)
+        } else
+            for (int co = 0;co <= columns;co++)
                 Array.Copy(original, co * columnCount, newArray, co * columnCount2, columnCount);
 
         return newArray;
@@ -161,16 +206,16 @@ public static class ArrayHelper
         int newRows = rows + 1;
         T[,] newArray = new T[newRows, cols];
 
-        for (int i = 0; i < newRows; i++)
+        for (int i = 0;i < newRows;i++)
         {
             if (i < index)
-                for (int j = 0; j < cols; j++)
+                for (int j = 0;j < cols;j++)
                     newArray[i, j] = originalArray[i, j];
             else if (i == index)
-                for (int j = 0; j < cols; j++)
+                for (int j = 0;j < cols;j++)
                     newArray[i, j] = default(T);
             else
-                for (int j = 0; j < cols; j++)
+                for (int j = 0;j < cols;j++)
                     newArray[i, j] = originalArray[i - 1, j];
         }
 
@@ -184,9 +229,9 @@ public static class ArrayHelper
         int newCols = cols + 1;
         T[,] newArray = new T[rows, newCols];
 
-        for (int i = 0; i < rows; i++)
+        for (int i = 0;i < rows;i++)
         {
-            for (int j = 0; j < newCols; j++)
+            for (int j = 0;j < newCols;j++)
             {
                 if (j < index)
                     newArray[i, j] = originalArray[i, j];
@@ -209,7 +254,7 @@ public static class ArrayHelper
 
         // Copy elements from the old array to the new array,
         // skipping the column we want to remove.
-        for (int row = 0; row < numRows; row++)
+        for (int row = 0;row < numRows;row++)
         {
             int sourceIndex = row * numColumns;
             int destinationIndex = row * (numColumns - 1);
@@ -231,7 +276,7 @@ public static class ArrayHelper
         // Copy elements from the old array to the new array,
         // skipping the row we want to remove.
         int destinationIndex = 0;
-        for (int sourceIndex = 0; sourceIndex < numRows; sourceIndex++)
+        for (int sourceIndex = 0;sourceIndex < numRows;sourceIndex++)
         {
             if (sourceIndex != rowIndex)
             {

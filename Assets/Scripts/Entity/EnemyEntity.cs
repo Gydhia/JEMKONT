@@ -42,8 +42,6 @@ namespace DownBelow.Entity
         #endregion
 
 
-        protected List<EnemyAction> _turnBehaviors = new List<EnemyAction>();
-
         public override void Init(Cell refCell, WorldGrid refGrid, int order = 0) 
         {
             base.Init(refCell, refGrid);
@@ -63,7 +61,8 @@ namespace DownBelow.Entity
         {
             var targettingAction = new TargettingAction(this, this.EntityCell);
 
-            var movementAction = new EnemyMovementAction(this, this.EntityCell, this.movementType.ToString());
+            var movementAction = new EnemyMovementAction(this, this.EntityCell);
+            movementAction.Init(this.movementType);
             movementAction.SetContextAction(targettingAction);
 
             var attackAction = new AttackingAction(this, this.EntityCell);

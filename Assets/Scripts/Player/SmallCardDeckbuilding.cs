@@ -1,9 +1,7 @@
 using DownBelow.Mechanics;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class SmallCardDeckbuilding : MonoBehaviour {
     public TextMeshProUGUI[] texts;
@@ -12,15 +10,14 @@ public class SmallCardDeckbuilding : MonoBehaviour {
     private ScriptableCard card;
 
     private void Update() {
-        if (RectTransformUtility.RectangleContainsScreenPoint((RectTransform)transform, Input.mousePosition)) {
-            if (LeftClick != null && Input.GetMouseButtonDown(0)) {
+        if (RectTransformUtility.RectangleContainsScreenPoint((RectTransform)transform, Mouse.current.position.ReadValue())) {
+            if (LeftClick != null && Mouse.current.leftButton.wasPressedThisFrame) {
                 LeftClick();
             }
-            if (card != null && Input.GetMouseButtonDown(1)) {
+            if (card != null && Mouse.current.rightButton.wasPressedThisFrame) {
                 RightClick();
             }
         }
-
     }
     public void Init(ScriptableCard card, int number, UnityEngine.Events.UnityAction call) {
         texts[0].text = number.ToString();

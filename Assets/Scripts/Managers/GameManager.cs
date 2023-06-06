@@ -70,6 +70,8 @@ namespace DownBelow.Managers
         public string SaveName;
         public PlayerBehavior PlayerPrefab;
 
+        public static PlayerBehavior MasterPlayer => Instance.Players[PhotonNetwork.MasterClient.UserId];
+
         public Dictionary<string, PlayerBehavior> Players;
         /// <summary>
         /// The local player or its current FakePlayer
@@ -312,8 +314,9 @@ namespace DownBelow.Managers
                 {
                     CombatActionsBuffer[0].SetCallback(_executeNextFromCombatBufferDelayed);
                     CombatActionsBuffer[0].ExecuteAction();
-                } catch
+                } catch (Exception ex)
                 {
+                    Debug.LogError(ex);
                     CombatActionsBuffer[0].EndAction();
                 }
 
@@ -363,7 +366,8 @@ namespace DownBelow.Managers
                 // So don't call it twice to avoid double buffering which should NEVER happens
                 if (!IsUsingCombatBuffer)
                     this.ExecuteNextFromCombatBuffer();
-            } else
+            } 
+            else
             {
                 //if we're not in combat and that the buffer didn't have any actions for this entity; create the key with a new list (to be able to add actions inside)
                 if (!NormalActionsBuffer.ContainsKey(action.RefEntity))

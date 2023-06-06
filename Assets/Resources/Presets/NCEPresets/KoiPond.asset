@@ -21,5 +21,5 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  entityToSummon: {fileID: 0}
+  entityToSummon: {fileID: -6534472123414177492, guid: 29bab65bf0a116142b779be07519fac9, type: 3}
   Duration: 3
