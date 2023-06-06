@@ -79,8 +79,11 @@ namespace DownBelow.GridSystem
                     player.PlayerInventory.RemoveItem(item.Key, item.Value);
 
                 this.RefreshPurchase();
-            } else
-                Debug.Log("Can't buy this item, missing resources");
+            }
+            else
+            {
+                UIManager.Instance.DatasSection.ShowWarningText("You're missing ressources to buy");
+            }
         }
     }
 }
