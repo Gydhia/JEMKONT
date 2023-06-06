@@ -5,6 +5,7 @@ using DownBelow.Managers;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace DownBelow.Spells
@@ -15,9 +16,9 @@ namespace DownBelow.Spells
         {
         }
 
-        public override void ExecuteAction()
+        public override async Task DoSpellBehavior()
         {
-            base.ExecuteAction();
+            await base.DoSpellBehavior();
             var targets = GetTargets(TargetCell);
             if (targets == null || targets.Count > 2)
             {

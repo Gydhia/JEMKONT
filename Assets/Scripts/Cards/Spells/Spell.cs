@@ -10,6 +10,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 
@@ -82,21 +83,26 @@ namespace DownBelow.Spells
 
                 this.Result = new SpellResult();
                 this.Result.Setup(this.TargetEntities, this);
-                if (Data.ProjectileSFX != null)
+                await DoSpellBehavior();
+            }
+        }
+
+        public virtual async Task DoSpellBehavior()
+        {
+            if (Data.ProjectileSFX != null)
+            {
+                await SFXManager.Instance.DOSFX(new RuntimeSFXData(Data.ProjectileSFX, RefEntity, TargetCell, this));
+            }
+            if (Data.CellSFX != null && TargetedCells != null && TargetedCells.Count != 0)
+            {
+                for (int i = 0;i < TargetedCells.Count;i++)
                 {
-                    await SFXManager.Instance.DOSFX(new RuntimeSFXData(Data.ProjectileSFX, RefEntity, TargetCell, this));
-                }
-                if (Data.CellSFX != null && TargetedCells != null && TargetedCells.Count != 0)
-                {
-                    for (int i = 0;i < TargetedCells.Count;i++)
-                    {
-                        var targetedCell = this.TargetedCells[i];
-                        if (i != TargetedCells.Count)
-                            //Not awaiting since we want to do it all. Suggestion could be to wait 0.05s to have some kind of wave effect.
-                            SFXManager.Instance.DOSFX(new(Data.CellSFX, RefEntity, targetedCell, this));
-                        else
-                            await SFXManager.Instance.DOSFX(new(Data.CellSFX, RefEntity, targetedCell, this));
-                    }
+                    var targetedCell = this.TargetedCells[i];
+                    if (i != TargetedCells.Count)
+                        //Not awaiting since we want to do it all. Suggestion could be to wait 0.05s to have some kind of wave effect.
+                        SFXManager.Instance.DOSFX(new(Data.CellSFX, RefEntity, targetedCell, this));
+                    else
+                        await SFXManager.Instance.DOSFX(new(Data.CellSFX, RefEntity, targetedCell, this));
                 }
             }
         }

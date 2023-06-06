@@ -5,6 +5,7 @@ using ExternalPropertyAttributes;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace DownBelow.Spells
@@ -31,9 +32,9 @@ namespace DownBelow.Spells
         {
         }
 
-        public override void ExecuteAction()
+        public override async Task DoSpellBehavior()
         {
-            base.ExecuteAction();
+            await base.DoSpellBehavior();
             GetTargets(TargetCell);
             if (LocalData is SpellData_AddSpecificTarget Specific)
             {

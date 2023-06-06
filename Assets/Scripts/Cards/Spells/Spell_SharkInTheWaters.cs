@@ -4,6 +4,7 @@ using DownBelow.Managers;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 namespace DownBelow.Spells
 {
@@ -13,9 +14,9 @@ namespace DownBelow.Spells
         {
         }
 
-        public override void ExecuteAction()
+        public override async Task DoSpellBehavior()
         {
-            base.ExecuteAction();
+            await base.DoSpellBehavior();
             var hurtEnemies = CombatManager.Instance.PlayingEntities.Where(x => !x.IsAlly && x.Health < x.MaxHealth).ToList();
             foreach (var item in hurtEnemies)
             {

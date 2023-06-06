@@ -4,6 +4,7 @@ using DownBelow.GridSystem;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace DownBelow.Spells
@@ -46,9 +47,9 @@ namespace DownBelow.Spells
         {
         }
 
-        public override void ExecuteAction()
+        public override async Task DoSpellBehavior()
         {
-            base.ExecuteAction();
+            await base.DoSpellBehavior();
 
             Managers.CombatManager.Instance.StartCoroutine(this.TryToPush());
         }

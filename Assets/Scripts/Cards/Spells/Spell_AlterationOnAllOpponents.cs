@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace DownBelow.Spells
@@ -15,9 +16,9 @@ namespace DownBelow.Spells
         public Spell_AlterationOnAllOpponents(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, SpellCondition ConditionData) : base(CopyData, RefEntity, TargetCell, ParentSpell, ConditionData)
         {
         }
-        public override void ExecuteAction()
+        public override async Task DoSpellBehavior()
         {
-            base.ExecuteAction();
+            await base.DoSpellBehavior();
             foreach (CharacterEntity entity in CombatManager.Instance.PlayingEntities.Where(e => !e.IsAlly))
             {
                 LocalData.Alteration.Apply(entity);

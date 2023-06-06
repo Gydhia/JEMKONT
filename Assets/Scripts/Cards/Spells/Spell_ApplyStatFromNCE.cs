@@ -4,6 +4,7 @@ using DownBelow.Managers;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 namespace DownBelow.Spells
 {
@@ -12,9 +13,9 @@ namespace DownBelow.Spells
         public Spell_ApplyStatFromNCE(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, SpellCondition ConditionData) : base(CopyData, RefEntity, TargetCell, ParentSpell, ConditionData)
         {
         }
-        public override void ExecuteAction()
+        public override async Task DoSpellBehavior()
         {
-            base.ExecuteAction();
+            await base.DoSpellBehavior();
             GetTargets(TargetCell);
             foreach (var cell in TargetedCells)
             {

@@ -5,6 +5,7 @@ using DownBelow.Mechanics;
 using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 namespace DownBelow.Spells
 {
@@ -22,9 +23,9 @@ namespace DownBelow.Spells
         {
         }
 
-        public override async void ExecuteAction()
+        public override async Task DoSpellBehavior()
         {
-            base.ExecuteAction();
+            await base.DoSpellBehavior();
 
             CharacterEntity target = GetTargets(TargetCell)[0];
             int healAmount = target.Health / 2;

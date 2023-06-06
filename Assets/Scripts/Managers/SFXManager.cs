@@ -116,10 +116,9 @@ namespace DownBelow.Managers
                     proj.transform.DOLookAt(SfxData.target.transform.position, 0f);
                     var part = proj.transform.GetChild(0).GetComponent<ParticleSystem>();
                     var vel = part.velocityOverLifetime;
-                    float dist = Mathf.Abs(SfxData.caster.transform.position.x - SfxData.target.transform.position.x)
-                        + Mathf.Abs(SfxData.caster.transform.position.y - SfxData.target.transform.position.y);
+                    float dist = Mathf.Abs(SfxData.caster.transform.localPosition.x - SfxData.target.transform.localPosition.x)
+                        + Mathf.Abs(SfxData.caster.transform.localPosition.z - SfxData.target.transform.localPosition.z);
                     float velocity = 5f / SfxData.TravelUnit * dist;
-                    Debug.Log($"Distance : {dist} Velocity : {velocity} projRot: {proj.transform.rotation.eulerAngles}");
                     vel.x = velocity;
                     part.Play();
                     await new WaitForSeconds(SfxData.TravelDuration);
