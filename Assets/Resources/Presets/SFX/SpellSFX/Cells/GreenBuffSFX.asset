@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ed9d74509586bda4f9ecae3a2dda3c20, type: 3}
-  m_Name: BuffSFX
+  m_Name: GreenBuffSFX
   m_EditorClassIdentifier: 
-  Prefab: {fileID: 5990112604267223275, guid: e18c351ac3f6ed7409f6cae5ba1302eb, type: 3}
+  Prefab: {fileID: 1286864560048534, guid: 358379edd0637fe48b6302ac57b60d09, type: 3}
   TravelType: 0
-  TravelTime: 0.35
+  TravelDuration: 0.35

@@ -16,9 +16,9 @@ namespace DownBelow.Spells
         public override void ExecuteAction()
         {
             base.ExecuteAction();
-
-            Result.TargetedCells[0].EntityIn.AddAlteration(new SomberStitch(-1, TargetedCells[1].EntityIn));
-            Result.TargetedCells[1].EntityIn.AddAlteration(new SomberStitch(-1, TargetedCells[0].EntityIn));
+            GetTargets(TargetCell);
+            TargetedCells[0].EntityIn.AddAlteration(new SomberStitch(-1, TargetedCells[1].EntityIn));
+            TargetedCells[1].EntityIn.AddAlteration(new SomberStitch(-1, TargetedCells[0].EntityIn));
 
             EndAction();
         }

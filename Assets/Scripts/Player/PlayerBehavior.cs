@@ -88,7 +88,7 @@ namespace DownBelow.Entity
         public override int Mana
         {
             get => Mathf.Min(Statistics[EntityStatistics.Mana] + NumberOfTurnsPlayed,
-                Statistics[EntityStatistics.MaxMana]);
+                Statistics[EntityStatistics.MaxMana])+Buff(EntityStatistics.Mana);
         }
 
         public bool CanGatherThisResource(EClass resourceClass)
@@ -288,6 +288,12 @@ namespace DownBelow.Entity
             base.EndTurn();
         }
 
+        public override string ToString()
+        {
+            var res = base.ToString()+"\n";
+            res += $"Class: {ActiveTool?.Class}";
+            return res;
+        }
         #region MOVEMENTS
 
         public void EnterNewGrid(WorldGrid grid)

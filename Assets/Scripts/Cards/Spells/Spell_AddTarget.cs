@@ -1,8 +1,10 @@
 using DownBelow.Entity;
 using DownBelow.GridSystem;
 using DownBelow.Managers;
+using ExternalPropertyAttributes;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace DownBelow.Spells
@@ -11,6 +13,14 @@ namespace DownBelow.Spells
     {
         public enum ESpecificTargettingType { GetClosest, }
         public ESpecificTargettingType SpecificTargetType;
+    }
+    public class SpellData_CombineWithSpellResult : SpellData
+    {
+        [Min(0), ShowIf(nameof(DoCombine))]
+        [BoxGroup("Combine Result")]
+        public int SpellResultIndexToCombine;
+        [BoxGroup("Combine Result")]
+        public bool DoCombine;
     }
     /// <summary>
     /// Does nothing more than storing cells in result
@@ -32,7 +42,8 @@ namespace DownBelow.Spells
                     case SpellData_AddSpecificTarget.ESpecificTargettingType.GetClosest:
                         int min = int.MaxValue;
                         CharacterEntity minEntity = null;
-                        foreach (var item in TargetEntities)
+                        var targets = TargetEntities.FindAll(x => x != RefEntity);
+                        foreach (var item in targets)
                         {
                             int newMin = Mathf.Min(GridManager.Instance.FindPath(RefEntity, item.EntityCell.PositionInGrid, true).Count, min);
                             if (newMin != min)
@@ -43,11 +54,16 @@ namespace DownBelow.Spells
                         }
                         TargetEntities.Clear();
                         TargetEntities.Add(minEntity);
+                        TargetedCells.AddRange(TargetEntities.Select(x => x.EntityCell));
                         break;
                 }
+            }else if(LocalData is SpellData_CombineWithSpellResult combine)
+            {
+                var spell = GetSpellFromIndex(combine.SpellResultIndexToCombine);
+                TargetedCells.AddRange(spell.Result.TargetedCells);
+                TargetEntities.AddRange(spell.TargetEntities);
             }
             Result.TargetedCells.AddRange(TargetedCells);
-
             EndAction();
         }
     }
