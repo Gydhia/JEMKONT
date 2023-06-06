@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections;
+using UnityEngine.InputSystem;
 
 public class PortalsFX2_MouseOrbit : MonoBehaviour
 {
@@ -28,10 +29,9 @@ public class PortalsFX2_MouseOrbit : MonoBehaviour
     void LateUpdate()
     {
         if (distance < 2) distance = 2;
-        distance -= Input.GetAxis("Mouse ScrollWheel")*2;
-        if (target && (Input.GetMouseButton(0) || Input.GetMouseButton(1)))
+        if (target && (Mouse.current.leftButton.wasPressedThisFrame || Mouse.current.rightButton.wasPressedThisFrame))
         {
-            var pos = Input.mousePosition;
+            var pos = Mouse.current.position.ReadValue();
             var dpiScale = 1f;
             if (Screen.dpi < 1) dpiScale = 1;
             if (Screen.dpi < 200) dpiScale = 1;
@@ -42,8 +42,6 @@ public class PortalsFX2_MouseOrbit : MonoBehaviour
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
 
-            x += Input.GetAxis("Mouse X")*xSpeed*0.02f;
-            y -= Input.GetAxis("Mouse Y")*ySpeed*0.02f;
 
             y = ClampAngle(y, yMinLimit, yMaxLimit);
             var rotation = Quaternion.Euler(y, x, 0);
