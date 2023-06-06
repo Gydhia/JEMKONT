@@ -22,6 +22,8 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   EmptyStatistics: {fileID: 11400000, guid: 0e954c696020f6143a1a11afce1647a9, type: 2}
+  WhiteCharacter: {fileID: 2800000, guid: 34004cd4d766a3941bfc28c24c34383c, type: 3}
+  WhiteColor: {r: 0.9245283, g: 0.9245283, b: 0.9245283, a: 1}
   TurnTime: 50
   EditorTurnTime: 20
   CardsToDrawAtStart: 3

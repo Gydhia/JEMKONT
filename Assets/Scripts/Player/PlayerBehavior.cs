@@ -51,7 +51,7 @@ namespace DownBelow.Entity
 
         public Interactable NextInteract = null;
 
-        public MeshRenderer PlayerBody;
+        public Transform ToolHolder;
         public PhotonView PlayerView;
 
 
@@ -143,6 +143,8 @@ namespace DownBelow.Entity
             }
 
             int playersNb = PhotonNetwork.PlayerList.Length;
+
+            this._setCharacterVisuals(null);
 
             this.PlayerInventory = new BaseStorage();
             this.PlayerInventory.Init(
@@ -263,6 +265,7 @@ namespace DownBelow.Entity
             if (this.ActiveTool == null)
             {
                 this.SetStatistics(activeTool.DeckPreset.Statistics);
+                this._setCharacterVisuals(activeTool);
             }
 
             this.ActiveTools.Add(activeTool);
@@ -272,10 +275,35 @@ namespace DownBelow.Entity
         {
             removedTool.ActualPlayer = null;
             removedTool.DeckPreset.LinkedPlayer = null;
+
+            bool isCurrentTool = removedTool == this.ActiveTool;
+
             this.ActiveTools.Remove(removedTool);
-            
-            if(this.ActiveTool != null)
-                this.SetStatistics(this.ActiveTool.DeckPreset.Statistics);
+
+            if(isCurrentTool || this.ActiveTool == null)
+            {
+                this.SetStatistics(this.ActiveTool ? this.ActiveTool.DeckPreset.Statistics : SettingsManager.Instance.CombatPreset.EmptyStatistics);
+                this._setCharacterVisuals(this.ActiveTool);
+            }  
+        }
+
+        private void _setCharacterVisuals(ToolItem toolRef)
+        {
+            foreach (Transform child in this.ToolHolder)
+            {
+                Destroy(child.gameObject);
+            }
+
+            if(toolRef != null)
+            {
+                Instantiate(toolRef.DroppedItemPrefab, this.ToolHolder);
+            }
+
+            // Skin
+            this.Renderer.materials[0].SetTexture("_BaseMap", toolRef ? toolRef.CharacterTexture : SettingsManager.Instance.CombatPreset.WhiteCharacter);
+            this.Renderer.materials[0].mainTexture = toolRef ? toolRef.CharacterTexture : SettingsManager.Instance.CombatPreset.WhiteCharacter;
+            // Hairs
+            this.Renderer.materials[1].SetColor("_BaseColor", toolRef ? toolRef.ToolRefColor : SettingsManager.Instance.CombatPreset.WhiteColor);
         }
 
         public override void StartTurn()

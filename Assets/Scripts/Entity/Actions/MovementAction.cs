@@ -1,9 +1,11 @@
 using DownBelow.GridSystem;
 using DownBelow.Managers;
+using DownBelow.Spells;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 namespace DownBelow.Entity
 {
@@ -66,7 +68,18 @@ namespace DownBelow.Entity
                 timer = 0f;
                 while (timer <= TimeToCrossCell)
                 {
-                    this.RefEntity.transform.position = Vector3.Lerp(this.calculatedPath[currentCell].gameObject.transform.position, this.calculatedPath[targetCell].gameObject.transform.position, timer / TimeToCrossCell);
+                    Vector3 newPos = Vector3.Lerp(this.calculatedPath[currentCell].gameObject.transform.position, this.calculatedPath[targetCell].gameObject.transform.position, timer / TimeToCrossCell);
+                    float velocity = (newPos - this.RefEntity.transform.position).magnitude;
+
+                    this.RefEntity.Animator.SetFloat("Speed", velocity);
+
+                    var targetRotation = Quaternion.LookRotation(newPos - this.RefEntity.transform.position);
+                    this.RefEntity.transform.rotation = Quaternion.Slerp(this.RefEntity.transform.rotation, targetRotation, timer / TimeToCrossCell);
+
+                    this.RefEntity.transform.position = newPos;
+
+                    //this.RefEntity.transform.LookAt(this.calculatedPath[targetCell].gameObject.transform.position);
+
                     timer += Time.deltaTime;
                     yield return null;
                 }
@@ -92,6 +105,8 @@ namespace DownBelow.Entity
             }
             if (!this.abortAction)
                 this.EndAction();
+
+            this.RefEntity.Animator.SetFloat("Speed", 0f);
         }
 
         public override void EndAction()

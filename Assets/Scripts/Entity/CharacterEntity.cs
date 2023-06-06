@@ -13,6 +13,7 @@ using System;
 using TMPro;
 using DG.Tweening;
 using System.CodeDom;
+using UnityEditor.Animations;
 
 namespace DownBelow.Entity
 {
@@ -132,6 +133,9 @@ namespace DownBelow.Entity
                 this._entityCell.EntityIn = this;
             }
         }
+
+        public SkinnedMeshRenderer Renderer;
+        public Animator Animator;
 
         public Cell NextCell = null;
         protected Coroutine moveCor = null;
