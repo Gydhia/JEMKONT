@@ -134,6 +134,7 @@ namespace DownBelow.Entity
             }
         }
 
+        public Transform EntityHolder;
         public SkinnedMeshRenderer Renderer;
         public Animator Animator;
 

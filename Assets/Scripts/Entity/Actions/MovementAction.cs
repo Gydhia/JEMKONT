@@ -74,7 +74,7 @@ namespace DownBelow.Entity
                     this.RefEntity.Animator.SetFloat("Speed", velocity);
 
                     var targetRotation = Quaternion.LookRotation(newPos - this.RefEntity.transform.position);
-                    this.RefEntity.transform.rotation = Quaternion.Slerp(this.RefEntity.transform.rotation, targetRotation, timer / TimeToCrossCell);
+                    this.RefEntity.EntityHolder.rotation = Quaternion.Slerp(this.RefEntity.EntityHolder.transform.rotation, targetRotation, timer / TimeToCrossCell);
 
                     this.RefEntity.transform.position = newPos;
 
