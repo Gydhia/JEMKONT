@@ -13,15 +13,21 @@ namespace DownBelow.GridSystem
     public class Interactable_P_Card : InteractablePurchase<ScriptableCard>
     {
         public UIExtensibleCard UICard;
+        public Transform OrbHolder;
+        public ParticleSystem BuyParticle;
 
         public override List<ScriptableCard> GetItemsPool()
         {
-            return SettingsManager.Instance.ScriptableCards.Values.Except(SettingsManager.Instance.OwnedCards).ToList();
+            return SettingsManager.Instance.ScriptableCards.Values.Where(c => c.Class == this.Preset.SpecificClass).Except(SettingsManager.Instance.OwnedCards).ToList();
         }
 
         public override void Init(InteractablePreset InteractableRef, Cell RefCell)
         {
             base.Init(InteractableRef, RefCell);
+
+            var particle = Instantiate(this.Preset.OrbParticlePrefab, this.OrbHolder);
+            particle.gameObject.transform.localScale = new Vector3(4f, 4f, 4f);
+
             GameManager.Instance.OnGameStarted += Instance_OnGameStarted;
         }
 
@@ -64,6 +70,9 @@ namespace DownBelow.GridSystem
             if (this.CanBuy())
             {
                 Debug.Log("Just bought : " + this.CurrentItemPurchase);
+
+                this.BuyParticle.Play();
+
                 this.GiveItemToPlayer(this.CurrentItemPurchase);
 
                 foreach (var item in this.Preset.Costs)

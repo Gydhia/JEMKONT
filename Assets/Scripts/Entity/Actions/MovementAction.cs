@@ -61,10 +61,18 @@ namespace DownBelow.Entity
             this.RefEntity.IsMoving = true;
             
             int currentCell = 0, targetCell = 1;
-            float TimeToCrossCell = SettingsManager.Instance.GridsPreset.TimeToCrossCell;
+            float constantCrossTime = SettingsManager.Instance.GridsPreset.TimeToCrossCell;
+            float TimeToCrossCell;
             float timer;
             while (currentCell < this.calculatedPath.Count - 1)
             {
+                bool isDiagonal =
+                    this.RefEntity.EntityCell.PositionInGrid.latitude != this.calculatedPath[targetCell].PositionInGrid.latitude &&
+                    this.RefEntity.EntityCell.PositionInGrid.longitude != this.calculatedPath[targetCell].PositionInGrid.longitude;
+
+                // squaredroot ratio for diagonals
+                TimeToCrossCell = isDiagonal ? constantCrossTime * 1.4142f : constantCrossTime;
+
                 timer = 0f;
                 while (timer <= TimeToCrossCell)
                 {

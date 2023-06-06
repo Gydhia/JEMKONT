@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8825f9f21f71f34bbaa748c56ec12d6, type: 3}
+  m_Name: PurchasablePreset_Herbalist
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: 1e5a5998004f5224ea7527f9e1fcd1c6, type: 2}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: UID
+      Entry: 2
+      Data: 180c6b1a5263c4ae93cd459436b5f17c
+    - Name: Costs
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[DownBelow.ItemPreset, Assembly-CSharp],[System.Int32,
+        mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.ObjectEqualityComparer`1[[DownBelow.ItemPreset,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 10
+      Data: 0
+    - Name: $v
+      Entry: 3
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  UName: CardsHerborist
+  AffectingState: 8
+  ObjectPrefab: {fileID: 2958236804319997038, guid: 45d057279f0a91f459697d8ff1b749c5, type: 3}
+  OutlineColor: {r: 0.47668213, g: 0.78842044, b: 0.9811321, a: 0.6}
+  InteractAnimation: {fileID: 0}
+  RandomizeItem: 1
+  RandomizeCost: 1
+  SpecificClass: 1
+  OrbParticlePrefab: {fileID: 198321097266275502, guid: a901836938e187840a4f579aefa3a06d, type: 3}
+  CostsRange: {x: 2, y: 4}
