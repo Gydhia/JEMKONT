@@ -3,6 +3,7 @@ using DownBelow.GridSystem;
 using DownBelow.Spells.Alterations;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace DownBelow.Spells
@@ -18,9 +19,9 @@ namespace DownBelow.Spells
         {
         }
 
-        public override void ExecuteAction()
+        public override async Task DoSpellBehavior()
         {
-            base.ExecuteAction();
+            await base.DoSpellBehavior();
             GetTargets(TargetCell);
             foreach (var entity in TargetEntities)
             {

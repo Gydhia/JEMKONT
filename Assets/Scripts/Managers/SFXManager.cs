@@ -18,28 +18,33 @@ namespace DownBelow.Managers
     [ShowOdinSerializedPropertiesInInspector]
     public class SFXManager : _baseManager<SFXManager>
     {
+        public const string AlterationReminderState = "Reminder";
+        public const float AlterationSFXDuration = 0.35f;
 
         public ScriptableSFXAlterationList AlterationSFXList;
 
-        public void RefreshAlterationSFX(Entity.CharacterEntity entity)
+        public async Task RefreshAlterationSFX(Entity.CharacterEntity entity)
         {
             foreach (Alteration alt in entity.Alterations)
             {
-                AlterationSFXToEntity(alt, entity);
+                await AlterationSFXToEntity(alt, entity);
             }
         }
 
-        void AlterationSFXToEntity(Alteration alt, Entity.CharacterEntity ent)
+        async Task AlterationSFXToEntity(Alteration alt, Entity.CharacterEntity ent)
         {
             if (alt.InstanciatedFXAnimator != null)
             {
-                alt.InstanciatedFXAnimator.SetTrigger("Reminder");
+                alt.InstanciatedFXAnimator.SetTrigger(AlterationReminderState);
+                await new WaitForSeconds(AlterationSFXDuration);
             } else
             {
+                //FirstAnimation
                 if (AlterationSFXList.AlterationsSFX.TryGetValue(alt.GetType(), out var prefab))
                 {
                     var go = Instantiate(prefab, ent.transform);
                     alt.InstanciatedFXAnimator = go.GetComponent<Animator>();
+                    await new WaitForSeconds(AlterationSFXDuration);
                 }
             }
         }
@@ -74,7 +79,7 @@ namespace DownBelow.Managers
                     break;
                 case ESFXTravelType.Instantaneous:
                     SfxData.OnSFXStarted?.Invoke(new SFXEventData(SfxData));
-                    Destroy(Instantiate(SfxData.Prefab, SfxData.target.transform.position, Quaternion.identity), 6f);
+                    Destroy(Instantiate(SfxData.Prefab, SfxData.target.transform.position, SfxData.Prefab.transform.rotation), 6f);
                     SfxData.OnSFXEnded?.Invoke(new SFXEventData(SfxData));
                     //TODO: quaternion.LookRotation to target?
                     break;
@@ -105,6 +110,20 @@ namespace DownBelow.Managers
                     //Landed again!
                     if (anim != null) anim.SetTrigger("Landed");
                     Destroy(proj, landTime);
+                    break;
+                case ESFXTravelType.InPlaceProjectile:
+                    proj = Instantiate(SfxData.Prefab, SfxData.caster.transform.position, Quaternion.identity);
+                    proj.transform.DOLookAt(SfxData.target.transform.position, 0f);
+                    var part = proj.transform.GetChild(0).GetComponent<ParticleSystem>();
+                    var vel = part.velocityOverLifetime;
+                    float dist = Mathf.Abs(SfxData.caster.transform.localPosition.x - SfxData.target.transform.localPosition.x)
+                        + Mathf.Abs(SfxData.caster.transform.localPosition.z - SfxData.target.transform.localPosition.z);
+                    float velocity = 5f / SfxData.TravelUnit * dist;
+                    vel.x = velocity;
+                    part.Play();
+                    await new WaitForSeconds(SfxData.TravelDuration);
+                    SfxData.OnSFXEnded?.Invoke(new SFXEventData(SfxData));
+                    Destroy(proj, 3);
                     break;
             }
         }

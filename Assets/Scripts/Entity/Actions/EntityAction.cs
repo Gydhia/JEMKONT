@@ -77,9 +77,9 @@ namespace DownBelow.Entity
             {
                 foreach (Action callback in this.EndCallbacks)
                 {
-                    Debug.Log($"Before invoking endcallback\n{callback.Method.Name}.\n{GameManager.Instance.BufferStatus()}");
+                    //Debug.Log($"Before invoking endcallback\n{callback.Method.Name}.\n{GameManager.Instance.BufferStatus()}");
                     callback.Invoke();
-                    Debug.Log($"Invoked endcallback\n{callback.Method.Name}.\n{GameManager.Instance.BufferStatus()}");
+                    //Debug.Log($"Invoked endcallback\n{callback.Method.Name}.\n{GameManager.Instance.BufferStatus()}");
                 }
             }
         }

@@ -84,6 +84,17 @@ namespace DownBelow.Mechanics
                         {
                             item.Data.SpellResultIndex = i - 1;
                         }
+                        if(item.Data is SpellData_CombineWithSpellResult comb)
+                        {
+                            if (i == 0)
+                            {
+                                comb.DoCombine = false;
+                                return false;
+                            } else if (comb.SpellResultIndexToCombine >= i)
+                            {
+                                comb.SpellResultIndexToCombine = i - 1;
+                            }
+                        }
                     }
                 }
             }

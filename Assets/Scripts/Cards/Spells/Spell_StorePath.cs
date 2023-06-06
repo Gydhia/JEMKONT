@@ -4,6 +4,7 @@ using DownBelow.Managers;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 namespace DownBelow.Spells
 {
@@ -14,9 +15,9 @@ namespace DownBelow.Spells
         {
         }
 
-        public override void ExecuteAction()
+        public override async Task DoSpellBehavior()
         {
-            base.ExecuteAction();
+            await base.DoSpellBehavior();
 
             //Need path between two target cells in result?
             var start = Result.TargetedCells.Find(x => x.EntityIn != null).EntityIn;

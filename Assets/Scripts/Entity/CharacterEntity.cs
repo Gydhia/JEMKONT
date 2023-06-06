@@ -186,7 +186,7 @@ namespace DownBelow.Entity
         /// </summary>
         /// <param name="stat">The given stat.</param>
         /// <returns></returns>
-        int Buff(EntityStatistics stat)
+        protected int Buff(EntityStatistics stat)
         {
             int res = 0;
             var alt = Alterations.Find(x => x is BuffAlteration buffAlt && buffAlt.StatToBuff == stat);
@@ -195,6 +195,11 @@ namespace DownBelow.Entity
                 res = buff.value;
             }
             return res;
+        }
+
+        Alteration GetAlteration<T>() where T : Alteration
+        {
+            return Alterations.Find(x => x.GetType() == typeof(T));
         }
         #endregion
 
@@ -234,13 +239,13 @@ namespace DownBelow.Entity
         {
             // TODO : Move it from here later, and same for other indicators, but not a priority
             this.PlayingIndicator.transform.DOMoveY(this.PlayingIndicator.transform.position.y - 0.5f, 1.5f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
-            if(this.SelectedIndicator != null)
+            if (this.SelectedIndicator != null)
             {
                 this.SelectedIndicator.transform.DOScale(0.13f, 1.5f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
             }
             this.OnHealthRemoved += AreYouAlive;
         }
-        
+
 
         public void UpdateUIShield(SpellEventData data)
         {
@@ -299,10 +304,11 @@ namespace DownBelow.Entity
 
         #region TURNS
 
-        public virtual void StartTurn()
+        public virtual async void StartTurn()
         {
             this.IsPlayingEntity = true;
             this.PlayingIndicator.SetActive(true);
+
 
             OnTurnBegun?.Invoke(new());
 
@@ -310,6 +316,9 @@ namespace DownBelow.Entity
             this.ReinitializeStat(EntityStatistics.Mana);
 
             UIManager.Instance.PlayerInfos.UpdateAllTexts();
+
+            await SFXManager.Instance.RefreshAlterationSFX(this);
+
 
             if (this.Stunned || this.Sleeping)
             {
@@ -391,7 +400,7 @@ namespace DownBelow.Entity
         ///<param name="triggerEvents">true by default. Used to </param>
         public void ApplyStat(EntityStatistics stat, int value, bool triggerEvents = true)
         {
-            Debug.Log($"Applied stat {stat}, {value}, {Environment.StackTrace} ");
+            Debug.Log($"Applied stat {stat}, {value} to {ToString()} {Environment.StackTrace} ");
             Statistics[stat] += value;
 
             switch (stat)

@@ -65,7 +65,6 @@ namespace DownBelow.Spells.Alterations
         public virtual void Apply(CharacterEntity entity)
         {
             SFXManager.Instance.RefreshAlterationSFX(entity);
-
         }
 
         /// <summary>
