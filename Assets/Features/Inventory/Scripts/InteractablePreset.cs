@@ -15,6 +15,8 @@ public class InteractablePreset : BaseSpawnablePreset
 
     public override void Init(Cell attachedCell)
     {
+        base.Init(attachedCell);
+
         Interactable newInteractable =
             Instantiate(this.ObjectPrefab, attachedCell.transform);
 

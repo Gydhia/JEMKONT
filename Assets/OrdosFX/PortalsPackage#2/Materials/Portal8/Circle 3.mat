@@ -2,17 +2,20 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: Circle 3
   m_Shader: {fileID: 4800000, guid: 7e8b89250ddcc8b42a2528dac8f2ee2f, type: 3}
-  m_ShaderKeywords: USE_CUTOUT
+  m_ValidKeywords:
+  - USE_CUTOUT
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2999
+  m_CustomRenderQueue: 5000
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -58,6 +61,7 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - _AlphaMul: 1
     - _AlphaPow: 1
@@ -85,3 +89,4 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _ThicknessColor: {r: 2.7647057, g: 4.317239, b: 8, a: 1}
     - _TintColor: {r: 0.77833045, g: 1.6560973, b: 1.7352941, a: 1}
+  m_BuildTextureStacks: []

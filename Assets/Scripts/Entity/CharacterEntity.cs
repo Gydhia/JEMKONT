@@ -119,6 +119,8 @@ namespace DownBelow.Entity
 
         // Movements
         public bool IsMoving = false;
+        public bool CanMove = true;
+
 
         private Cell _entityCell;
         public Cell EntityCell

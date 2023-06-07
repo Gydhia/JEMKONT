@@ -13,6 +13,8 @@ public class ItemDroppedPreset : BaseSpawnablePreset
 
     public override void Init(Cell attachedCell)
     {
+        base.Init(attachedCell);
+
         InventoryItem InvInt = new InventoryItem();
         InvInt.Init(Item, 0, quantity);
         attachedCell.DropDownItem(InvInt);

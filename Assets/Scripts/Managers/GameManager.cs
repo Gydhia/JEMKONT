@@ -97,8 +97,7 @@ namespace DownBelow.Managers
 
         public static List<EntityAction> CombatActionsBuffer = new List<EntityAction>();
         public static bool IsUsingCombatBuffer = false;
-        
-
+       
         #endregion
 
         private void Start()

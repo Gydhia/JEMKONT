@@ -19,6 +19,8 @@ public class EntityPreset : BaseSpawnablePreset
 
     public override void Init(Cell attachedCell)
     {
+        base.Init(attachedCell);
+
         EnemyEntity newEntity = Instantiate(this.Entity, attachedCell.WorldPosition, Quaternion.identity, attachedCell.RefGrid.transform) as EnemyEntity;
        
         newEntity.IsAlly = IsPNJ && !attachedCell.RefGrid.IsCombatGrid;
