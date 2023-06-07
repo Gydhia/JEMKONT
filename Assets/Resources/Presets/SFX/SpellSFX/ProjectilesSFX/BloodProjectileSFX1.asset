@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed9d74509586bda4f9ecae3a2dda3c20, type: 3}
   m_Name: BloodProjectileSFX1
   m_EditorClassIdentifier: 
-  Prefab: {fileID: 1658112780640456, guid: a4ecf9bba65b0b84286159aa10fc4bc2, type: 3}
+  Prefab: {fileID: 5764590846284722614, guid: ed429befffd9e28479c6fb71c92bca1c, type: 3}
   TravelType: 1
   TravelDuration: 0.35
+  TravelUnit: 1.2
