@@ -16,6 +16,10 @@ public class PurchasablePreset : InteractablePreset
     public bool RandomizeItem;
     public bool RandomizeCost;
 
+    public EClass SpecificClass;
+
+    public ParticleSystem OrbParticlePrefab;
+
     public Dictionary<ItemPreset, int> Costs;
 
     [ShowIf("@RandomizeCost"),MinMaxSlider(0, 30, true)]

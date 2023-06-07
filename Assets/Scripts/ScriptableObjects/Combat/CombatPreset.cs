@@ -11,6 +11,9 @@ namespace DownBelow.GameData
         [Tooltip("The base preset applied to players to have a minimum of datas")]
         public EntityStats EmptyStatistics;
 
+        public Texture2D WhiteCharacter;
+        public Color WhiteColor;
+
         [Tooltip("Time in seconds for a turn"), Range(0f, 360f)]
         public float TurnTime = 60f;
         [Range(0f, 360f)]

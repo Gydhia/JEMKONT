@@ -15,6 +15,8 @@ public class ToolItem : ItemPreset
     public Color ToolRefColor;
     public Sprite FightIcon;
 
+    public Texture2D CharacterTexture;
+
     public virtual void WorldAction() 
     {
         switch (Class) {

@@ -1,9 +1,11 @@
 using DownBelow.GridSystem;
 using DownBelow.Managers;
+using DownBelow.Spells;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 namespace DownBelow.Entity
 {
@@ -59,14 +61,33 @@ namespace DownBelow.Entity
             this.RefEntity.IsMoving = true;
             
             int currentCell = 0, targetCell = 1;
-            float TimeToCrossCell = SettingsManager.Instance.GridsPreset.TimeToCrossCell;
+            float constantCrossTime = SettingsManager.Instance.GridsPreset.TimeToCrossCell;
+            float TimeToCrossCell;
             float timer;
             while (currentCell < this.calculatedPath.Count - 1)
             {
+                bool isDiagonal =
+                    this.RefEntity.EntityCell.PositionInGrid.latitude != this.calculatedPath[targetCell].PositionInGrid.latitude &&
+                    this.RefEntity.EntityCell.PositionInGrid.longitude != this.calculatedPath[targetCell].PositionInGrid.longitude;
+
+                // squaredroot ratio for diagonals
+                TimeToCrossCell = isDiagonal ? constantCrossTime * 1.4142f : constantCrossTime;
+
                 timer = 0f;
                 while (timer <= TimeToCrossCell)
                 {
-                    this.RefEntity.transform.position = Vector3.Lerp(this.calculatedPath[currentCell].gameObject.transform.position, this.calculatedPath[targetCell].gameObject.transform.position, timer / TimeToCrossCell);
+                    Vector3 newPos = Vector3.Lerp(this.calculatedPath[currentCell].gameObject.transform.position, this.calculatedPath[targetCell].gameObject.transform.position, timer / TimeToCrossCell);
+                    float velocity = (newPos - this.RefEntity.transform.position).magnitude;
+
+                    this.RefEntity.Animator.SetFloat("Speed", velocity);
+
+                    var targetRotation = Quaternion.LookRotation(newPos - this.RefEntity.transform.position);
+                    this.RefEntity.EntityHolder.rotation = Quaternion.Slerp(this.RefEntity.EntityHolder.transform.rotation, targetRotation, timer / TimeToCrossCell);
+
+                    this.RefEntity.transform.position = newPos;
+
+                    //this.RefEntity.transform.LookAt(this.calculatedPath[targetCell].gameObject.transform.position);
+
                     timer += Time.deltaTime;
                     yield return null;
                 }
@@ -92,6 +113,8 @@ namespace DownBelow.Entity
             }
             if (!this.abortAction)
                 this.EndAction();
+
+            this.RefEntity.Animator.SetFloat("Speed", 0f);
         }
 
         public override void EndAction()

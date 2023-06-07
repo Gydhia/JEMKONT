@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using System.Collections;
 using System.Runtime.Serialization.Formatters;
+using UnityEngine.InputSystem;
 
 public class PortalsFX2_DemoGUI : MonoBehaviour
 {
@@ -53,22 +54,22 @@ public class PortalsFX2_DemoGUI : MonoBehaviour
 
     private void OnGUI()
     {
-        if (Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.RightArrow) || Input.GetKeyUp(KeyCode.DownArrow))
+        if (Mouse.current.leftButton.wasPressedThisFrame || Keyboard.current.rightArrowKey.wasPressedThisFrame || Keyboard.current.downArrowKey.wasPressedThisFrame)
             isButtonPressed = false;
 
-        if (GUI.Button(new Rect(10*dpiScale, 15*dpiScale, 135*dpiScale, 37*dpiScale), "PREVIOUS EFFECT") || (!isButtonPressed && Input.GetKeyDown(KeyCode.LeftArrow)))
+        if (GUI.Button(new Rect(10*dpiScale, 15*dpiScale, 135*dpiScale, 37*dpiScale), "PREVIOUS EFFECT") || (!isButtonPressed && Keyboard.current.leftArrowKey.wasPressedThisFrame))
         {
             isButtonPressed = true;
             ChangeCurrent(-1);
         }
-        if (GUI.Button(new Rect(160*dpiScale, 15*dpiScale, 135*dpiScale, 37*dpiScale), "NEXT EFFECT") || (!isButtonPressed && Input.GetKeyDown(KeyCode.RightArrow)))
+        if (GUI.Button(new Rect(160*dpiScale, 15*dpiScale, 135*dpiScale, 37*dpiScale), "NEXT EFFECT") || (!isButtonPressed && Keyboard.current.rightArrowKey.wasPressedThisFrame))
         {
             isButtonPressed = true;
             ChangeCurrent(+1);
         }
         var offset = 0f;
       
-        if (GUI.Button(new Rect(10*dpiScale, 63*dpiScale + offset, 285*dpiScale, 37*dpiScale), "Day / Night") || (!isButtonPressed && Input.GetKeyDown(KeyCode.DownArrow)))
+        if (GUI.Button(new Rect(10*dpiScale, 63*dpiScale + offset, 285*dpiScale, 37*dpiScale), "Day / Night") || (!isButtonPressed && Keyboard.current.downArrowKey.wasPressedThisFrame))
         {
             ChangeDayNight();
         }
