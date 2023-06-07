@@ -24,14 +24,14 @@ namespace DownBelow.Spells
             if (start == null)
             {
                 Debug.LogError("Invalid Cast: Cast has no entity. (Spell_StorePath needs this)");
-                EndAction();
+                return;
             }
             var end = Result.TargetedCells.Find(x => x != start);
             List<Cell> path = GridManager.Instance.FindPath(start, end.PositionInGrid, true);
             Result.TargetedCells.Clear();
             Result.TargetedCells.AddRange(path.FindAll(x => x != start.EntityCell && x != end));
 
-            EndAction();
+            
         }
     }
 }

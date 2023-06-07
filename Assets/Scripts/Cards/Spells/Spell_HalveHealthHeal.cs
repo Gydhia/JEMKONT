@@ -48,8 +48,6 @@ namespace DownBelow.Spells
                 item.ApplyStat(EntityStatistics.Health, healAmount);
                 await SFXManager.Instance.DOSFX(new(LocalData.BonusCellSFX, RefEntity, item.EntityCell, this));
             }
-
-            EndAction();
         }
 
     }

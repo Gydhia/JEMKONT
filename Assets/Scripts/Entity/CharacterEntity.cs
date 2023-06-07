@@ -62,6 +62,15 @@ namespace DownBelow.Entity
         public event CellEventData.Event OnEnteredCell;
         public event CellEventData.Event OnExitedCell;
 
+        public event TeleportationEventData.Event OnTeleportation;
+
+        public event SpellEventData.Event OnPushed;
+        #endregion
+        #region firingEvents
+        public void FireOnTeleportation(TeleportationEventData data)
+        {
+            OnTeleportation?.Invoke(data);
+        }
         public void FireMissingMana()
         {
             OnManaMissing?.Invoke();
@@ -72,9 +81,6 @@ namespace DownBelow.Entity
             this.OnInited?.Invoke(null);
         }
 
-        public event SpellEventData.Event OnPushed;
-        #endregion
-        #region firingEvents
         public void FireExitedCell()
         {
             this.EntityCell.Datas.state = CellState.Walkable;
@@ -650,7 +656,8 @@ namespace DownBelow.Entity
         /// </summary>
         /// <param name="TargetCell"> the targeted cell.</param>
         /// <param name="Result">If the teleportation is due to a spell, the spell result of the spell.</param>
-        public void SmartTeleport(Cell TargetCell, SpellResult Result = null)
+        /// <returns>The modified cell to tp on.</returns>
+        public Cell SmartTeleport(Cell TargetCell, SpellResult Result = null)
         {
             var cellToTP = TargetCell;
 
@@ -666,16 +673,6 @@ namespace DownBelow.Entity
                 cellToTP = freeNeighbours[0];
             }
 
-            //If the teleportation is due to a spell, add it in the result.
-            if (Result != null)
-            {
-                Result.Teleported = true;
-                if (cellToTP.EntityIn != null)
-                {
-                    Result.TeleportedTo.Add(cellToTP.EntityIn);
-                }
-            }
-
             if (cellToTP.Datas.state == CellState.Walkable)
             {
                 transform.position = cellToTP.gameObject.transform.position;
@@ -686,6 +683,7 @@ namespace DownBelow.Entity
 
                 FireEnteredCell(cellToTP);
             }
+            return cellToTP;
         }
 
         /// <summary>
@@ -697,16 +695,6 @@ namespace DownBelow.Entity
         public void Teleport(Cell TargetCell, SpellResult Result = null)
         {
             var cellToTP = TargetCell;
-
-            //If the teleportation is due to a spell, add it in the result.
-            if (Result != null)
-            {
-                Result.Teleported = true;
-                if(cellToTP.EntityIn != null)
-                {
-                    Result.TeleportedTo.Add(cellToTP.EntityIn);
-                }
-            }
 
             if (cellToTP.Datas.state == CellState.Walkable)
             {

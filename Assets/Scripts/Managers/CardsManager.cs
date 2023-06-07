@@ -33,6 +33,7 @@ namespace DownBelow.Managers
 
         /// <summary>
         /// Do not use this, Inspector only. Use <see cref="DeckPresets"/>
+        /// Contains decks with all cards of each class
         /// </summary>
         public List<DeckPreset> AvailableDecks;
 

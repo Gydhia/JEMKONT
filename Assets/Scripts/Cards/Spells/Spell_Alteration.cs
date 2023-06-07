@@ -27,8 +27,6 @@ namespace DownBelow.Spells
             {
                 entity.AddAlteration(LocalData.Alteration);
             }        
-
-            EndAction();
         }
     }
 

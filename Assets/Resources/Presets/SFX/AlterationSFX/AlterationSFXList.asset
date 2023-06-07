@@ -15,7 +15,10 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 236227460312623688, guid: 3f67f820445bad94cbb1889aba805a25, type: 3}
+    - {fileID: 1388739475963207349, guid: c208f90ac03cc164587e44351cd4b20f, type: 3}
+    - {fileID: 7718590588461952457, guid: 14076145544d90e419d5826a844bebfa, type: 3}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -23,18 +26,86 @@ MonoBehaviour:
     SerializationNodes:
     - Name: AlterationsSFX
       Entry: 7
-      Data: 0|System.Collections.Generic.Dictionary`2[[System.Type, mscorlib],[UnityEngine.GameObject,
-        UnityEngine.CoreModule]], mscorlib
-    - Name: comparer
-      Entry: 7
-      Data: 1|System.Collections.Generic.ObjectEqualityComparer`1[[System.Type, mscorlib]],
+      Data: 0|System.Collections.Generic.List`1[[AlterationSFX, Assembly-CSharp]],
         mscorlib
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 7
+      Data: 1|AlterationSFX, Assembly-CSharp
+    - Name: Alteration
+      Entry: 7
+      Data: 2|DownBelow.Spells.Alterations.DoTAlteration, Assembly-CSharp
+    - Name: Duration
+      Entry: 3
+      Data: 0
+    - Name: Target
+      Entry: 6
+      Data: 
+    - Name: InstanciatedFXAnimator
+      Entry: 6
+      Data: 
+    - Name: Damage
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: AlterationSFXPrefab
+      Entry: 10
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
     - Name: 
-      Entry: 12
+      Entry: 7
+      Data: 3|AlterationSFX, Assembly-CSharp
+    - Name: Alteration
+      Entry: 7
+      Data: 4|DownBelow.Spells.Alterations.SnareAlteration, Assembly-CSharp
+    - Name: Duration
+      Entry: 3
       Data: 0
+    - Name: Target
+      Entry: 6
+      Data: 
+    - Name: InstanciatedFXAnimator
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: AlterationSFXPrefab
+      Entry: 10
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 5|AlterationSFX, Assembly-CSharp
+    - Name: Alteration
+      Entry: 7
+      Data: 6|DownBelow.Spells.Alterations.StunAlteration, Assembly-CSharp
+    - Name: Duration
+      Entry: 3
+      Data: 0
+    - Name: Target
+      Entry: 6
+      Data: 
+    - Name: InstanciatedFXAnimator
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: AlterationSFXPrefab
+      Entry: 10
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 13
       Data: 

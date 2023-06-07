@@ -45,8 +45,6 @@ namespace DownBelow.Spells
                 }
 
             }
-
-            EndAction();
         }
     }
 }

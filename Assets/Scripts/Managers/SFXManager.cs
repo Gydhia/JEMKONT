@@ -40,7 +40,7 @@ namespace DownBelow.Managers
             } else
             {
                 //FirstAnimation
-                if (AlterationSFXList.AlterationsSFX.TryGetValue(alt.GetType(), out var prefab))
+                if (AlterationSFXList.TryGetValue(alt, out var prefab))
                 {
                     var go = Instantiate(prefab, ent.transform);
                     alt.InstanciatedFXAnimator = go.GetComponent<Animator>();

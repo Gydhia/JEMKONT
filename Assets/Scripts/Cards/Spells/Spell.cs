@@ -84,6 +84,7 @@ namespace DownBelow.Spells
                 this.Result = new SpellResult();
                 this.Result.Setup(this.TargetEntities, this);
                 await DoSpellBehavior();
+                EndAction();
             }
         }
 
@@ -109,7 +110,10 @@ namespace DownBelow.Spells
 
         public override void EndAction()
         {
-            Result?.Unsubscribe();
+            if (Result != null && Result.SetUp)
+            {
+                Result?.Unsubscribe();
+            }
             base.EndAction();
         }
 
@@ -186,7 +190,7 @@ namespace DownBelow.Spells
                 TargetedCells.Clear();
                 foreach (Cell cell in realTargeted)
                 {
-                    if (TargettingCondition.Validated(Result, cell))
+                    if (TargettingCondition.Validated(ParentSpell.Result, cell))
                     {
                         TargetedCells.Add(cell);
                     }
@@ -195,6 +199,11 @@ namespace DownBelow.Spells
             TargetEntities = new();
             TargetEntities.AddRange(TargetedCells.FindAll(x => x.EntityIn != null).Select(x => x.EntityIn));
             return TargetEntities;
+        }
+
+        protected int Index()
+        {
+            return Array.IndexOf(SettingsManager.Instance.ScriptableCards[this.SpellHeader.RefCard].Spells, this);
         }
 
         protected Spell GetSpellFromIndex(int index)

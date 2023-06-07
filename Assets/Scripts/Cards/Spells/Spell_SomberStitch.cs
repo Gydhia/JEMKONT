@@ -20,8 +20,6 @@ namespace DownBelow.Spells
             GetTargets(TargetCell);
             TargetedCells[0].EntityIn.AddAlteration(new SomberStitch(-1, TargetedCells[1].EntityIn));
             TargetedCells[1].EntityIn.AddAlteration(new SomberStitch(-1, TargetedCells[0].EntityIn));
-
-            EndAction();
         }
     }
 

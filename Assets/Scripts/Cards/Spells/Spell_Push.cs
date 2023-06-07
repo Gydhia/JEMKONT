@@ -139,8 +139,6 @@ namespace DownBelow.Spells
                 entity.FireEntityPushed(new SpellEventData(RefEntity, LocalData.PushAmount));
 
             }
-
-            this.EndAction();
         }
     }
 }

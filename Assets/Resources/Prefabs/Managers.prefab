@@ -428,11 +428,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CardPrefab: {fileID: 1023476501226774683, guid: dd17cd64dbb8d844596172368dc9c04c, type: 3}
   AvailableDecks:
-  - {fileID: 11400000, guid: c2e0033a467715f4182f725e2d155c12, type: 2}
-  - {fileID: 11400000, guid: afde972ffb51c2945915475e3cbd72a0, type: 2}
-  - {fileID: 11400000, guid: a94274f9a030fcf49942d26ac3ced7d2, type: 2}
-  - {fileID: 11400000, guid: 65297000a20289941b928d0d23e05aa5, type: 2}
-  OwnedCards: []
+  - {fileID: 11400000, guid: a3f65a1593777804f9d744b524117ddb, type: 2}
+  - {fileID: 11400000, guid: fe2ab668ed34fee42967a85ed0007de0, type: 2}
+  - {fileID: 11400000, guid: 81dd7a4a7c47e374592465c5ed25b691, type: 2}
+  - {fileID: 11400000, guid: 7dcdc6310c835974f923a13b72c25976, type: 2}
   AvailableTools:
   - {fileID: 11400000, guid: 0ae20222b1f41454d9dd8ecaffbc0c1b, type: 2}
   - {fileID: 11400000, guid: ffdd6310dff45344893994ab9ff94915, type: 2}

@@ -25,8 +25,6 @@ namespace DownBelow.Spells
             GetTargets(TargetCell)[0].ApplyStat(EntityStatistics.Health,
                 LocalData.BaseDamage -
                 (((PlayerBehavior)RefEntity).Deck.RefCardsHolder.PileSize(Managers.PileType.Hand) * LocalData.DamagePenaltyPerCard));
-
-            EndAction();
         }
     }
 }

@@ -102,7 +102,6 @@ namespace DownBelow.Spells
                     }
                 }
             }
-            this.EndAction();
         }
     }
 }

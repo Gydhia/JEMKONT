@@ -1,4 +1,5 @@
 using DownBelow.Entity;
+using DownBelow.Events;
 using DownBelow.GridSystem;
 using DownBelow.Managers;
 using Sirenix.OdinInspector;
@@ -11,6 +12,21 @@ using UnityEngine;
 
 namespace DownBelow.Spells
 {
+    public class TeleportationEventData : EventData<TeleportationEventData>
+    {
+        public CharacterEntity EntityThatTeleported;
+        public CharacterEntity EntityTheyTriedTeleportingTo; 
+        public Cell StartCell; 
+        public Cell EndCell;
+
+        public TeleportationEventData(CharacterEntity EntityThatTeleported, CharacterEntity EntityTheyTriedTeleportingTo, Cell StartCell, Cell EndCell)
+        {
+            this.EntityThatTeleported = EntityThatTeleported;
+            this.EntityTheyTriedTeleportingTo = EntityTheyTriedTeleportingTo;
+            this.StartCell = StartCell;
+            this.EndCell = EndCell;
+        }
+    }
     public enum ETeleportType { GoTo, PullTo };
 
     public class SpellData_Teleport : SpellData
@@ -34,11 +50,17 @@ namespace DownBelow.Spells
                 var cellToTP = LocalData.TeleportType == ETeleportType.PullTo ? RefEntity.EntityCell : TargetCell;
                 if (LocalData.TeleportType == ETeleportType.PullTo)
                 {
-                    TargetEntities[0].SmartTeleport(cellToTP, Result);
+                    Cell oldCell = TargetEntities[0].EntityCell;
+                    cellToTP = TargetEntities[0].SmartTeleport(cellToTP, Result);
+                    RefEntity.FireOnTeleportation(new(TargetEntities[0], RefEntity,oldCell,cellToTP));
                 } else
                 {
-                    RefEntity.SmartTeleport(cellToTP, Result);
+                    Cell oldCell = RefEntity.EntityCell;
+                    cellToTP = RefEntity.SmartTeleport(cellToTP, Result);
+                    RefEntity.FireOnTeleportation(new(RefEntity,TargetCell.EntityIn,oldCell,cellToTP));
                 }
+                TargetedCells.Clear();
+                TargetedCells.Add(LocalData.TeleportType == ETeleportType.PullTo ? cellToTP : TargetCell);
             } else if (LocalData.TeleportType == ETeleportType.PullTo)
             {
                 string debug = "NO ENTITIES";
@@ -52,7 +74,7 @@ namespace DownBelow.Spells
                 }
                 Debug.LogWarning($"TargetEntities.Count != 1 in the teleport spell. This is not an issue, but it's not normal. Entities: {debug}");
             }
-            EndAction();
+
         }
     }
 }

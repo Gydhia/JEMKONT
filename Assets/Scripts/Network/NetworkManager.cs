@@ -367,6 +367,7 @@ namespace DownBelow.Managers
             Spells.Spell[] buffedSpells = new Spells.Spell[refCard.Spells.Length];
             Array.Copy(refCard.Spells, buffedSpells, refCard.Spells.Length);
 
+
             WorldGrid currGrid = CombatManager.CurrentPlayingGrid;
             CharacterEntity caster = CombatManager.Instance.PlayingEntities.Single(pe => pe.UID == spellHeader.CasterID);
 
@@ -375,7 +376,7 @@ namespace DownBelow.Managers
                 buffedSpells[i].TargetCell = currGrid.GetCell(spellHeader.TargetedCells[i]);
                 buffedSpells[i].SpellHeader = spellHeader;
                 buffedSpells[i].RefEntity = caster;
-
+                if (i > 0) buffedSpells[i].ParentSpell = buffedSpells[i - 1];
                 GameManager.Instance.BuffAction(buffedSpells[i], false);
             }
         }

@@ -30,8 +30,6 @@ namespace DownBelow.Spells
 
                 item.ApplyStat(EntityStatistics.Health, LocalData.HealingPerCard * item.Deck.RefCardsHolder.PileSize(PileType.Hand));
             }
-
-            EndAction();
         }
 
     }

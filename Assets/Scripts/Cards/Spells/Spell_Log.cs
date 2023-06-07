@@ -18,7 +18,6 @@ namespace DownBelow.Spells
         {
             await base.DoSpellBehavior();
             Debug.LogWarning("Spell Is bugged. Watch out.");
-            EndAction();
         }
     }
 }
