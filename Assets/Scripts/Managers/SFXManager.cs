@@ -55,7 +55,7 @@ namespace DownBelow.Managers
             GameObject proj = null;
             Animator anim = null;
             float landTime;
-
+            Debug.Log($"SFX on {SfxData.target.name} ");
             if (anim != null)
             {
                 landTime = (float)anim.GetStateDuration("Landed");

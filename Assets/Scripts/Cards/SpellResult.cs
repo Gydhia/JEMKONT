@@ -88,6 +88,7 @@ namespace DownBelow.Spells
         public Dictionary<EntityStatistics, int> SelfStatModified;
         public Dictionary<CharacterEntity,List<Alteration>> AlterationGiven;
 
+        public bool Teleported;
         public List<CharacterEntity> TeleportedTo;
 
         public void Subscribe(List<CharacterEntity> targets, CharacterEntity caster)

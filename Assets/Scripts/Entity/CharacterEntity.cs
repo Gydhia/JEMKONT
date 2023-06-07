@@ -503,9 +503,15 @@ namespace DownBelow.Entity
         {
             OnAlterationReceived?.Invoke(new SpellEventDataAlteration(this, alteration));
             Debug.Log($"Alteration: {alteration} to {this.name}");
-            var alreadyFound = Alterations.Find(x => x.GetType() == alteration.GetType());
+            Alteration alreadyFound = null;
+            if (alteration is not BuffAlteration)
+            {
+                alreadyFound = Alterations.Find(x => x.GetType() == alteration.GetType());
+            }
             if (alreadyFound != null)
             {
+                alreadyFound.Duration = alteration.Duration;
+                return;
                 //TODO : GD? Add Duration? Set duration?
             } else
             {
@@ -650,14 +656,19 @@ namespace DownBelow.Entity
                     .FindAll(x => x.Datas.state == CellState.Walkable)
                     .OrderByDescending(x => Math.Abs(x.PositionInGrid.latitude - this.EntityCell.PositionInGrid.latitude) + Math.Abs(x.PositionInGrid.longitude - this.EntityCell.PositionInGrid.longitude))
                     .ToList();
-                //Someday will need a Foreach, but i just don't know what we need to check on the cells before tp'ing, so just tp on the farther one.
+                //Someday will need a Foreach, but i just don't know what other things we need to check on the cells before tp'ing,
+                //so just tp on the farther one.
                 cellToTP = freeNeighbours[0];
             }
 
             //If the teleportation is due to a spell, add it in the result.
-            if (cellToTP.EntityIn != null && Result != null)
+            if (Result != null)
             {
-                Result.TeleportedTo.Add(cellToTP.EntityIn);
+                Result.Teleported = true;
+                if (cellToTP.EntityIn != null)
+                {
+                    Result.TeleportedTo.Add(cellToTP.EntityIn);
+                }
             }
 
             if (cellToTP.Datas.state == CellState.Walkable)
@@ -683,9 +694,13 @@ namespace DownBelow.Entity
             var cellToTP = TargetCell;
 
             //If the teleportation is due to a spell, add it in the result.
-            if (cellToTP.EntityIn != null && Result != null)
+            if (Result != null)
             {
-                Result.TeleportedTo.Add(cellToTP.EntityIn);
+                Result.Teleported = true;
+                if(cellToTP.EntityIn != null)
+                {
+                    Result.TeleportedTo.Add(cellToTP.EntityIn);
+                }
             }
 
             if (cellToTP.Datas.state == CellState.Walkable)

@@ -16,8 +16,8 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 11400000, guid: a08a30947208c954f9a8455f346fccde, type: 2}
-    - {fileID: 11400000, guid: 31a4546bb2ab3c14998ce3d8bd6fe1bf, type: 2}
+    - {fileID: 11400000, guid: 9d8389d995e19c2449ce5ae0eef2a825, type: 2}
+    - {fileID: 11400000, guid: 65bf73130377c1f4893530798ca5c91c, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -39,6 +39,9 @@ MonoBehaviour:
       Entry: 2
       Data: 00000000000000000000000000000000
     - Name: RefBuffer
+      Entry: 6
+      Data: 
+    - Name: RefGrid
       Entry: 6
       Data: 
     - Name: RefEntity
@@ -282,6 +285,9 @@ MonoBehaviour:
       Entry: 6
       Data: 
     - Name: ConditionData
+      Entry: 6
+      Data: 
+    - Name: TargettingCondition
       Entry: 10
       Data: 0
     - Name: 
@@ -294,6 +300,9 @@ MonoBehaviour:
       Entry: 2
       Data: 00000000000000000000000000000000
     - Name: RefBuffer
+      Entry: 6
+      Data: 
+    - Name: RefGrid
       Entry: 6
       Data: 
     - Name: RefEntity
@@ -546,6 +555,9 @@ MonoBehaviour:
       Entry: 6
       Data: 
     - Name: ConditionData
+      Entry: 6
+      Data: 
+    - Name: TargettingCondition
       Entry: 10
       Data: 1
     - Name: 
@@ -560,8 +572,7 @@ MonoBehaviour:
   Title: Buried Alive
   Cost: 3
   CardType: 1
-  Description: Shatter all opponents, all shattered opponents are stunned. (needs
-    to click twice for now)
+  Description: Shatter all opponents, all shattered opponents are stunned.
   IllustrationImage: {fileID: 21300000, guid: ff92d85d3ff87af47b3a424efb3b1abe, type: 3}
   Class: 0
   CurrentSpellTargetting: 0

@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9aa42fcadda9d7949bab6e2940ae6d69, type: 3}
-  m_Name: TPIsEnemy
+  m_Script: {fileID: 11500000, guid: 7fa26cf2eb114034c9ace28b2cbe34ec, type: 3}
+  m_Name: TPdToAlly
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -20,23 +20,5 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes:
-    - Name: Alteration
-      Entry: 6
-      Data: 
-    - Name: NotAlteration
-      Entry: 6
-      Data: 
-  TargetedEntities: []
-  TargetType: 1
-  Dmgs: 0
-  OneDamagedTarget: 0
-  Damages: 0
-  Healing: 0
-  OneHealedTarget: 0
-  Heal: 0
-  IsAltered: 0
-  NotAltered: 0
-  TeleportedToEntity: 1
-  TeleportedToAlly: 0
-  TeleportedToEnemy: 1
+    SerializationNodes: []
+  TypeOfTargetOnTeleported: 2

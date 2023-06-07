@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9aa42fcadda9d7949bab6e2940ae6d69, type: 3}
+  m_Script: {fileID: 11500000, guid: bc39ba128a7b8494394262522ef5acec, type: 3}
   m_Name: IsShattered
   m_EditorClassIdentifier: 
   serializationData:
@@ -36,31 +36,3 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: NotAlteration
-      Entry: 7
-      Data: 1|DownBelow.Spells.Alterations.ShatteredAlteration, Assembly-CSharp
-    - Name: Duration
-      Entry: 3
-      Data: 0
-    - Name: Target
-      Entry: 6
-      Data: 
-    - Name: InstanciatedFXAnimator
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-  TargetedEntities: []
-  TargetType: 0
-  Dmgs: 0
-  OneDamagedTarget: 0
-  Damages: 0
-  Healing: 0
-  OneHealedTarget: 0
-  Heal: 0
-  IsAltered: 1
-  NotAltered: 0
-  TeleportedToEntity: 0
-  TeleportedToAlly: 0
-  TeleportedToEnemy: 0

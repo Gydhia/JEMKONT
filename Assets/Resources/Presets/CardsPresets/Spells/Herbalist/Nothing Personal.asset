@@ -17,9 +17,9 @@ MonoBehaviour:
     SerializedBytes: 
     ReferencedUnityObjects:
     - {fileID: 11400000, guid: 1a809be3311568c45a307232300fa5f6, type: 2}
-    - {fileID: 11400000, guid: c68db44ce83e6c245a2d78f7d3d91a1f, type: 2}
+    - {fileID: 11400000, guid: fa30452e029a1d94db4b8edb62466406, type: 2}
     - {fileID: 11400000, guid: 9d0f6268ebf7985479145d8a3660f730, type: 2}
-    - {fileID: 11400000, guid: 245b5429eb789ad4788394ce31be6408, type: 2}
+    - {fileID: 11400000, guid: 8a7ebf8ab85a42247a7d25fd8ef24b7b, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -527,6 +527,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: Teleported
+      Entry: 5
+      Data: false
     - Name: TeleportedTo
       Entry: 7
       Data: 20|System.Collections.Generic.List`1[[DownBelow.Entity.CharacterEntity,
@@ -544,6 +547,9 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: ConditionData
+      Entry: 6
+      Data: 
+    - Name: TargettingCondition
       Entry: 6
       Data: 
     - Name: 
@@ -988,6 +994,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: Teleported
+      Entry: 5
+      Data: false
     - Name: TeleportedTo
       Entry: 7
       Data: 32|System.Collections.Generic.List`1[[DownBelow.Entity.CharacterEntity,
@@ -1005,6 +1014,9 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: ConditionData
+      Entry: 6
+      Data: 
+    - Name: TargettingCondition
       Entry: 10
       Data: 1
     - Name: 
@@ -1449,6 +1461,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: Teleported
+      Entry: 5
+      Data: false
     - Name: TeleportedTo
       Entry: 7
       Data: 44|System.Collections.Generic.List`1[[DownBelow.Entity.CharacterEntity,
@@ -1466,6 +1481,9 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: ConditionData
+      Entry: 6
+      Data: 
+    - Name: TargettingCondition
       Entry: 10
       Data: 3
     - Name: 
