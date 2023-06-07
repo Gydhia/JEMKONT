@@ -32,11 +32,14 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 7
-      Data: 1|DownBelow.Spells.Spell_Alteration, Assembly-CSharp
+      Data: 1|DownBelow.Spells.Spell_Push, Assembly-CSharp
     - Name: ID
       Entry: 2
       Data: 00000000000000000000000000000000
     - Name: RefBuffer
+      Entry: 6
+      Data: 
+    - Name: RefGrid
       Entry: 6
       Data: 
     - Name: RefEntity
@@ -50,10 +53,10 @@ MonoBehaviour:
       Data: 00000000000000000000000000000000
     - Name: Data
       Entry: 7
-      Data: 2|DownBelow.Spells.SpellData_Alteration, Assembly-CSharp
+      Data: 2|DownBelow.Spells.SpellData_Push, Assembly-CSharp
     - Name: RequiresTargetting
       Entry: 5
-      Data: true
+      Data: false
     - Name: SpellResultTargeting
       Entry: 5
       Data: false
@@ -65,25 +68,10 @@ MonoBehaviour:
       Data: 3|System.Boolean[,], mscorlib
     - Name: 
       Entry: 12
-      Data: 25
+      Data: 36
     - Name: ranks
       Entry: 1
-      Data: 5|5
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
+      Data: 6|6
     - Name: 
       Entry: 5
       Data: false
@@ -108,6 +96,54 @@ MonoBehaviour:
     - Name: 
       Entry: 5
       Data: true
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
     - Name: 
       Entry: 5
       Data: false
@@ -155,10 +191,10 @@ MonoBehaviour:
       Data: UnityEngine.Vector2, UnityEngine.CoreModule
     - Name: 
       Entry: 4
-      Data: 2
+      Data: 1
     - Name: 
       Entry: 4
-      Data: 2
+      Data: 1
     - Name: 
       Entry: 8
       Data: 
@@ -182,10 +218,43 @@ MonoBehaviour:
       Data: 4|System.Boolean[,], mscorlib
     - Name: 
       Entry: 12
-      Data: 25
+      Data: 36
     - Name: ranks
       Entry: 1
-      Data: 5|5
+      Data: 6|6
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
     - Name: 
       Entry: 5
       Data: false
@@ -272,10 +341,10 @@ MonoBehaviour:
       Data: UnityEngine.Vector2, UnityEngine.CoreModule
     - Name: 
       Entry: 4
-      Data: 2
+      Data: 1
     - Name: 
       Entry: 4
-      Data: 2
+      Data: 1
     - Name: 
       Entry: 8
       Data: 
@@ -284,28 +353,28 @@ MonoBehaviour:
       Data: false
     - Name: TargetType
       Entry: 3
-      Data: 1
+      Data: 65536
     - Name: ProjectileSFX
       Entry: 6
       Data: 
     - Name: CellSFX
       Entry: 6
       Data: 
-    - Name: Alteration
-      Entry: 7
-      Data: 5|DownBelow.Spells.Alterations.DisarmedAlteration, Assembly-CSharp
-    - Name: Duration
+    - Name: PushType
       Entry: 3
       Data: 1
-    - Name: Target
-      Entry: 6
-      Data: 
-    - Name: InstanciatedFXAnimator
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
+    - Name: PushDelay
+      Entry: 4
+      Data: 0
+    - Name: PushAmount
+      Entry: 3
+      Data: 1
+    - Name: PushDamages
+      Entry: 3
+      Data: 0
+    - Name: PushDamagesMultiplier
+      Entry: 4
+      Data: 1
     - Name: 
       Entry: 8
       Data: 
@@ -342,7 +411,7 @@ MonoBehaviour:
   Title: Angler's Eye
   Cost: 1
   CardType: 3
-  Description: Gives a enemy "I cannot counterattack" for 1 turn.
+  Description: All opponents are repelled 1 tile to the right
   IllustrationImage: {fileID: 21300000, guid: b96e652cc6497b74daa00f8e0147499e, type: 3}
   Class: 3
   CurrentSpellTargetting: 0

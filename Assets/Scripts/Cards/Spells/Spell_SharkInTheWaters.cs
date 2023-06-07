@@ -22,7 +22,6 @@ namespace DownBelow.Spells
             {
                 item.ApplyStat(EntityStatistics.Health, item.MaxHealth - item.Health);
             }
-            EndAction();
         }
     }
 

@@ -2,6 +2,7 @@ using DownBelow.Entity;
 using DownBelow.Events;
 using DownBelow.GridSystem;
 using DownBelow.Spells.Alterations;
+using Photon.Pun.Demo.Procedural;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -33,9 +34,10 @@ namespace DownBelow.Spells
         private List<CharacterEntity> _targets;
         public Spell SpellRef;
         public CharacterEntity Caster;
-
+        public bool SetUp;
         public virtual void Setup(List<CharacterEntity> targets, Spell spellRef)
         {
+            SetUp = true; 
             Caster = spellRef.RefEntity;
             this.SpellRef = spellRef;
             this._targets = targets;
@@ -88,6 +90,7 @@ namespace DownBelow.Spells
         public Dictionary<EntityStatistics, int> SelfStatModified;
         public Dictionary<CharacterEntity,List<Alteration>> AlterationGiven;
 
+        public bool Teleported;
         public List<CharacterEntity> TeleportedTo;
 
         public void Subscribe(List<CharacterEntity> targets, CharacterEntity caster)
@@ -115,6 +118,7 @@ namespace DownBelow.Spells
                 entity.OnSpeedRemoved += this._updateStat;
                 entity.OnAlterationReceived += this._updateAlterations;
                 entity.OnAlterationGiven += caster.FireOnAlterationGiven;
+                entity.OnTeleportation += TeleportedEntity;
             }
 
             caster.OnHealthRemoved += this._updateSelfDamages;
@@ -123,7 +127,15 @@ namespace DownBelow.Spells
             caster.OnStrengthAdded += this._updateSelfStat;
             caster.OnStrengthRemoved += this._updateSelfStat;
 
+            caster.OnTeleportation += TeleportedEntity;
+
             caster.OnSpeedAdded += this._updateSelfStat;
+        }
+
+        private void TeleportedEntity(TeleportationEventData Data)
+        {
+            Teleported = true;
+            TeleportedTo.Add(Data.EntityTheyTriedTeleportingTo);
         }
 
         /// <summary>
@@ -131,20 +143,24 @@ namespace DownBelow.Spells
         /// </summary>
         public void Unsubscribe()
         {
-            foreach (CharacterEntity entity in _targets)
+            if(_targets != null)
             {
-                if (entity == Caster)
-                    continue;
+                foreach (CharacterEntity entity in _targets)
+                {
+                    if (entity == Caster)
+                        continue;
 
-                entity.OnHealthRemoved -= this._updateDamages;
-                entity.OnHealthAdded -= this._updateHealings;
+                    entity.OnHealthRemoved -= this._updateDamages;
+                    entity.OnHealthAdded -= this._updateHealings;
+                    entity.OnTeleportation -= TeleportedEntity;
 
-                entity.OnStrengthAdded -= this._updateStat;
-                entity.OnStrengthRemoved -= this._updateStat;
-                entity.OnSpeedAdded -= this._updateStat;
-                entity.OnSpeedRemoved -= this._updateStat;
-                entity.OnAlterationReceived -= this._updateAlterations;
-                entity.OnAlterationGiven -= Caster.FireOnAlterationGiven;
+                    entity.OnStrengthAdded -= this._updateStat;
+                    entity.OnStrengthRemoved -= this._updateStat;
+                    entity.OnSpeedAdded -= this._updateStat;
+                    entity.OnSpeedRemoved -= this._updateStat;
+                    entity.OnAlterationReceived -= this._updateAlterations;
+                    entity.OnAlterationGiven -= Caster.FireOnAlterationGiven;
+                }
             }
 
             Caster.OnHealthRemoved -= this._updateSelfDamages;
@@ -152,6 +168,7 @@ namespace DownBelow.Spells
 
             Caster.OnStrengthAdded -= this._updateSelfStat;
             Caster.OnStrengthRemoved -= this._updateSelfStat;
+            Caster.OnTeleportation -= TeleportedEntity;
 
             Caster.OnSpeedAdded -= this._updateSelfStat;
 

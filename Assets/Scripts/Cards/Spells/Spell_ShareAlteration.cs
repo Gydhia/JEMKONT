@@ -21,8 +21,6 @@ namespace DownBelow.Spells
 
             GetTargets(TargetCell)
                 .ForEach(x=>x.AddAlterations(RefEntity.Alterations.FindAll(x=>x.GetType() == LocalData.GetType())));
-
-            EndAction();
         }
     }
 }

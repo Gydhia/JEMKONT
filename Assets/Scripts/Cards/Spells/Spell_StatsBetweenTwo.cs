@@ -22,7 +22,7 @@ namespace DownBelow.Spells
             var targets = GetTargets(TargetCell);
             if (targets == null || targets.Count > 2)
             {
-                EndAction();
+                
                 return;
             }
             List<Cell> EntityCells = new List<Cell>() {
@@ -41,7 +41,7 @@ namespace DownBelow.Spells
                     cell.AttachedNCE.Hit();
                 }
             }
-            EndAction();
+            
         }
     }
 }

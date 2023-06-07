@@ -21,7 +21,7 @@ namespace DownBelow.Spells
                 ((PlayerBehavior)RefEntity).theList++;
                 target.ApplyStat(EntityStatistics.Health, -2 * ((PlayerBehavior)RefEntity).theList);
             }
-            EndAction();
+            
         }
     }
 

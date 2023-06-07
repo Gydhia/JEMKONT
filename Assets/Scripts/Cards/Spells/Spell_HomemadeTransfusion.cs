@@ -28,7 +28,6 @@ namespace DownBelow.Spells
             {
                 target.ApplyStat(EntityStatistics.Health, -(LocalData.HealingValue*2));
             }
-            EndAction();
         }
     }
 

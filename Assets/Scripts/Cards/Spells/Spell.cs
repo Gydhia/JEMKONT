@@ -54,6 +54,7 @@ namespace DownBelow.Spells
         public SpellResult Result;
 
         public SpellCondition ConditionData;
+        public ConditionBase TargettingCondition;
 
         public bool ValidateConditions()
         {
@@ -76,14 +77,14 @@ namespace DownBelow.Spells
             {
                 EndAction();
                 return;
-            } 
-            else
+            } else
             {
                 this.TargetEntities = this.GetTargets(this.TargetCell);
 
                 this.Result = new SpellResult();
                 this.Result.Setup(this.TargetEntities, this);
                 await DoSpellBehavior();
+                EndAction();
             }
         }
 
@@ -109,7 +110,10 @@ namespace DownBelow.Spells
 
         public override void EndAction()
         {
-            Result?.Unsubscribe();
+            if (Result != null && Result.SetUp)
+            {
+                Result?.Unsubscribe();
+            }
             base.EndAction();
         }
 
@@ -118,29 +122,19 @@ namespace DownBelow.Spells
             if (Data.SpellResultTargeting)
             {
                 var spell = GetSpellFromIndex(Data.SpellResultIndex);
-                TargetEntities = spell.TargetEntities;
                 TargetedCells = spell.TargetedCells;
-                return TargetEntities;
             } else if (this.Data.RequiresTargetting)
             {
                 TargetedCells = GridUtility.TransposeShapeToCells(ref Data.RotatedShapeMatrix, cellTarget, Data.RotatedShapePosition);
                 NCEHits = TargetedCells
-                    .Where(cell => cell.AttachedNCE != null)
+                    .FindAll(cell => cell.AttachedNCE != null)
                     .Select(cell => cell.AttachedNCE)
                     .ToList();
-                return TargetedCells
-                    .Where(cell => cell.EntityIn != null)
-                    .Select(cell => cell.EntityIn)
-                    .ToList();
-            } else if (this.ConditionData != null)
-            {
-                return this.ConditionData.GetValidatedTargets();
             } else
             {
                 TargetedCells = new();
-                TargetEntities = new();
                 List<Cell> TargetCellsToTranspose = new List<Cell>();
-                if(this.Data.TargetType.HasFlag(ETargetType.Ally) || this.Data.TargetType.HasFlag(ETargetType.AllAllies))
+                if (this.Data.TargetType.HasFlag(ETargetType.Ally) || this.Data.TargetType.HasFlag(ETargetType.AllAllies))
                 {
                     TargetCellsToTranspose.AddRange(CombatManager.Instance.PlayingEntities.FindAll(x => x.IsAlly).Select(x => x.EntityCell).ToList());
                 }
@@ -148,7 +142,7 @@ namespace DownBelow.Spells
                 {
                     TargetCellsToTranspose.Add(this.ParentSpell == null ? this.RefEntity.EntityCell : this.ParentSpell.RefEntity.EntityCell);
                 }
-                if(this.Data.TargetType.HasFlag(ETargetType.Enemy) || this.Data.TargetType.HasFlag(ETargetType.AllEnemies))
+                if (this.Data.TargetType.HasFlag(ETargetType.Enemy) || this.Data.TargetType.HasFlag(ETargetType.AllEnemies))
                 {
                     TargetCellsToTranspose.AddRange(CombatManager.Instance.PlayingEntities.FindAll(x => !x.IsAlly).Select(x => x.EntityCell).ToList());
                 }
@@ -188,9 +182,28 @@ namespace DownBelow.Spells
                 {
                     TargetedCells.AddRange(GridUtility.TransposeShapeToCells(ref Data.RotatedShapeMatrix, item, Data.RotatedShapePosition));
                 }
-                TargetEntities.AddRange(TargetedCells.FindAll(x => x.EntityIn != null).Select(x => x.EntityIn));
-                return TargetEntities;
             }
+            if (this.TargettingCondition != null)
+            {
+                var realTargeted = new List<Cell>();
+                realTargeted.AddRange(TargetedCells);
+                TargetedCells.Clear();
+                foreach (Cell cell in realTargeted)
+                {
+                    if (TargettingCondition.Validated(ParentSpell.Result, cell))
+                    {
+                        TargetedCells.Add(cell);
+                    }
+                }
+            }
+            TargetEntities = new();
+            TargetEntities.AddRange(TargetedCells.FindAll(x => x.EntityIn != null).Select(x => x.EntityIn));
+            return TargetEntities;
+        }
+
+        protected int Index()
+        {
+            return Array.IndexOf(SettingsManager.Instance.ScriptableCards[this.SpellHeader.RefCard].Spells, this);
         }
 
         protected Spell GetSpellFromIndex(int index)

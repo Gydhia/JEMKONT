@@ -40,7 +40,7 @@ namespace DownBelow.Managers
             } else
             {
                 //FirstAnimation
-                if (AlterationSFXList.AlterationsSFX.TryGetValue(alt.GetType(), out var prefab))
+                if (AlterationSFXList.TryGetValue(alt, out var prefab))
                 {
                     var go = Instantiate(prefab, ent.transform);
                     alt.InstanciatedFXAnimator = go.GetComponent<Animator>();
@@ -55,7 +55,7 @@ namespace DownBelow.Managers
             GameObject proj = null;
             Animator anim = null;
             float landTime;
-
+            Debug.Log($"SFX on {SfxData.target.name} ");
             if (anim != null)
             {
                 landTime = (float)anim.GetStateDuration("Landed");
@@ -80,6 +80,7 @@ namespace DownBelow.Managers
                 case ESFXTravelType.Instantaneous:
                     SfxData.OnSFXStarted?.Invoke(new SFXEventData(SfxData));
                     Destroy(Instantiate(SfxData.Prefab, SfxData.target.transform.position, SfxData.Prefab.transform.rotation), 6f);
+                    await new WaitForSeconds(.1f);
                     SfxData.OnSFXEnded?.Invoke(new SFXEventData(SfxData));
                     //TODO: quaternion.LookRotation to target?
                     break;

@@ -42,7 +42,7 @@ namespace DownBelow.Spells
                 }
             }
 
-            EndAction();
+            
         }
     }
 }

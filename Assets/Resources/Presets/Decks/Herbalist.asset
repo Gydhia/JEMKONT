@@ -28,9 +28,13 @@ MonoBehaviour:
   Class: 1
   Deck:
     Cards:
-    - {fileID: 11400000, guid: 9b7f4817f36bd3b4ca3ffb7fa0b23688, type: 2}
-    - {fileID: 11400000, guid: 9b7f4817f36bd3b4ca3ffb7fa0b23688, type: 2}
-    - {fileID: 11400000, guid: 9b7f4817f36bd3b4ca3ffb7fa0b23688, type: 2}
+    - {fileID: 11400000, guid: 46c7a8fdb3bee3f4b9a97bbb62072112, type: 2}
+    - {fileID: 11400000, guid: 46c7a8fdb3bee3f4b9a97bbb62072112, type: 2}
+    - {fileID: 11400000, guid: 46c7a8fdb3bee3f4b9a97bbb62072112, type: 2}
+    - {fileID: 11400000, guid: 46c7a8fdb3bee3f4b9a97bbb62072112, type: 2}
+    - {fileID: 11400000, guid: 46c7a8fdb3bee3f4b9a97bbb62072112, type: 2}
+    - {fileID: 11400000, guid: 46c7a8fdb3bee3f4b9a97bbb62072112, type: 2}
+    - {fileID: 11400000, guid: 46c7a8fdb3bee3f4b9a97bbb62072112, type: 2}
   Statistics: {fileID: 11400000, guid: 431193b9be546b642821e7c04419e789, type: 2}
   LinkedPlayer: {fileID: 0}
   RefCardsHolder: {fileID: 0}

@@ -65,7 +65,6 @@ namespace DownBelow.Spells
                 TargetEntities.AddRange(spell.TargetEntities);
             }
             Result.TargetedCells.AddRange(TargetedCells);
-            EndAction();
         }
     }
 

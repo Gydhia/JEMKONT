@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7112091756367074148}
+  - component: {fileID: 2003385070155860556}
   m_Layer: 0
   m_Name: DOTSFX
   m_TagString: Untagged
@@ -32,6 +33,27 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &2003385070155860556
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 236227460312623688}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 22100000, guid: 6ac7200c11b4a0b4ea3cb44869cef07d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &6551732837992709611
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -39,8 +61,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7112091756367074148}
     m_Modifications:
+    - target: {fileID: 3977637424724557556, guid: 5244243277b4bf84caf72ce255da4703, type: 3}
+      propertyPath: EmissionModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6414299286064722294, guid: 5244243277b4bf84caf72ce255da4703, type: 3}
+      propertyPath: EmissionModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6449610605794382840, guid: 5244243277b4bf84caf72ce255da4703, type: 3}
       propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6449897412842099486, guid: 5244243277b4bf84caf72ce255da4703, type: 3}
+      propertyPath: EmissionModule.enabled
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6611354391489944552, guid: 5244243277b4bf84caf72ce255da4703, type: 3}

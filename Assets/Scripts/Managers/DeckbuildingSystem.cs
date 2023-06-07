@@ -116,8 +116,13 @@ namespace DownBelow.Managers
         private void Start()
         {
             GameManager.Instance.OnGameStarted += DBuild_OnGameStart;
+            CombatManager.Instance.OnCombatStarted += CannotDeckbuild;
+            CombatManager.Instance.OnCombatEnded += CanDeckbuild;
         }
+
         private void DBuild_OnGameStart(Events.GameEventData Data) => Init();
+        private void CannotDeckbuild(Events.GridEventData Data) => HideAllUI();
+        private void CanDeckbuild(Events.GridEventData Data) => HideDeckBuilding();
 
         void Init()
         {
@@ -206,7 +211,7 @@ namespace DownBelow.Managers
 
         public void TryAddCopy(ScriptableCard card, bool forceRedraw = false)
         {
-            TryAddCopyInDeck(card,DeckDisplayed, forceRedraw);
+            TryAddCopyInDeck(card, DeckDisplayed, forceRedraw);
         }
 
         void RefreshDeckDrawing()

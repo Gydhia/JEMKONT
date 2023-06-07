@@ -23,8 +23,6 @@ namespace DownBelow.Spells
                     LocalData.StatAmount * (LocalData.IsNegativeEffect ? -1 : 1)
                 );
             }
-
-            EndAction();
         }
     }
 

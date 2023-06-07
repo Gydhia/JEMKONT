@@ -6280,6 +6280,10 @@ PrefabInstance:
       propertyPath: PossibleAutoAttacks.Array.data[0]
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 8204484604120715693, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: PlayerDeck.Cards.Array.size
+      value: 21
+      objectReference: {fileID: 0}
     - target: {fileID: 8267398679234714750, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
       propertyPath: EventSystem
       value: 
