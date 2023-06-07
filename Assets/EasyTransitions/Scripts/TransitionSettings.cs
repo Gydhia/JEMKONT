@@ -4,7 +4,7 @@ using UnityEngine;
 namespace EasyTransition
 {
 
-    [CreateAssetMenu(fileName = "TransitionSettings", menuName = "Florian Butz/New Transition Settings", order = 0)]
+    [CreateAssetMenu(fileName = "TransitionSettings", menuName = "DownBelow/Screen Transitions/Transition Settings", order = 0)]
     public class TransitionSettings : ScriptableObject
     {
         [HideInInspector]   public Material multiplyColorMaterial;

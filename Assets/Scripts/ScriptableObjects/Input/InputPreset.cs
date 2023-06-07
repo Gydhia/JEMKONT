@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace DownBelow.GameData
 {
-    [CreateAssetMenu(menuName = "Presets/InputPreset")]
+    [CreateAssetMenu(menuName = "DownBelow/BasePresets/InputPreset")]
     public class InputPreset : SerializedScriptableObject
     {
         [Header("Cursors")]

@@ -9,7 +9,7 @@ using DownBelow.Entity;
 
 namespace DownBelow
 {
-    [CreateAssetMenu(fileName = "Item", menuName = "DownBelow/ScriptableObject/Item", order = 1)]
+    [CreateAssetMenu(fileName = "Item", menuName = "DownBelow/Inventory/Item", order = 1)]
     public class ItemPreset : SerializedScriptableObject
     {
         [ReadOnly]

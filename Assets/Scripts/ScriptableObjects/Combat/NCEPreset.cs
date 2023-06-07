@@ -4,7 +4,7 @@ using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-[CreateAssetMenu(fileName = "New NCE Preset", menuName = "DownBelow/Presets/NCEPreset")]
+[CreateAssetMenu(fileName = "New NCE Preset", menuName = "DownBelow/Entity/NCEPreset")]
 public class NCEPreset : SerializedScriptableObject
 {
     public NonCharacterEntity entityToSummon;

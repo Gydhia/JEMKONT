@@ -13,6 +13,8 @@ using DownBelow.Events;
 using UnityEngine.Rendering;
 using EODE.Wonderland;
 using DownBelow.UI;
+using System.Data.SqlTypes;
+using UnityEditor;
 
 namespace DownBelow.Managers
 {
@@ -21,13 +23,21 @@ namespace DownBelow.Managers
         public static readonly string SavesPath = "/Resources/Saves/Grids/";
 
         #region Assets_reference
+        [ValueDropdown("GetSavedGrids")]
+        public string MainGrid;
+        private IEnumerable<string> GetSavedGrids()
+        {
+            LoadGridsFromJSON();
+            return SavedGrids.Keys;
+        }
+
         public Cell CellPrefab;
 
-        [SerializeField]
-        public WorldGrid CombatGridPrefab;
+        public CombatGrid CombatGridPrefab;
+        public WorldGrid WorldGridPrefab;
 
         [SerializeField]
-        private Transform _objectsHandler;
+        private Transform _gridsHandler;
 
         [SerializeField]
         public Transform _gridsDataHandler;
@@ -123,23 +133,27 @@ namespace DownBelow.Managers
                 this.CreateGrid(grid, grid.GridName);
             }
 
-            this.MainWorldGrid = this.WorldGrids["FarmLand"];
+            this.MainWorldGrid = this.WorldGrids[this.MainGrid];
+            this.MainWorldGrid.gameObject.SetActive(true);
+
             this.GenerateShaderBitmap(this.MainWorldGrid.SelfData);
         }
 
         public void CreateGrid(GridData gridData, string gridId)
         {
+            var prefab = gridData.IsCombatGrid ? this.CombatGridPrefab : this.WorldGridPrefab;
+
             WorldGrid newGrid = Instantiate(
-                this.CombatGridPrefab,
-                gridData.TopLeftOffset,
-                Quaternion.identity,
-                this._objectsHandler
+                prefab,
+                this._gridsHandler
             );
 
             newGrid.UName = gridId;
             newGrid.Init(gridData);
 
             this.WorldGrids.Add(newGrid.UName, newGrid);
+
+            newGrid.gameObject.SetActive(false);
         }
 
         public void ProcessCellClickUp(CellEventData data)
@@ -734,9 +748,10 @@ namespace DownBelow.Managers
                         innerGrid.Value.SelfData.SpawnablePresets
                 ));
             }
-
+            
             return new GridData(
                 grid.UName,
+                grid.SelfData.GridLevelPath,
                 false,
                 grid.GridHeight,
                 grid.GridWidth,

@@ -7,7 +7,7 @@ using System;
 using DownBelow.Entity;
 using DownBelow.GridSystem;
 
-[CreateAssetMenu(menuName = "Entity/EntityPreset")]
+[CreateAssetMenu(menuName = "DownBelow/Entity/EntityPreset")]
 public class EntityPreset : BaseSpawnablePreset
 {
     public CharacterEntity Entity;

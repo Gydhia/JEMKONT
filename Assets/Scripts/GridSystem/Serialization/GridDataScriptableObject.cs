@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using WebSocketSharp;
 
 [CreateAssetMenu(fileName = "EditorGridData", menuName = "DownBelow/Editor/EditorGridData", order = 0)]
 public class GridDataScriptableObject : SerializedBigDataScriptableObject<EditorGridData>
@@ -38,6 +39,22 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
 
     [ValueDropdown("GetSavedGrids"), OnValueChanged("LoadSelectedGrid")]
     public string SelectedGrid;
+
+    [OnValueChanged("_generateLevelPath"), InfoBox("Level has to be set", InfoMessageType.Warning, "@LevelPrefab == null")]
+    public GameObject LevelPrefab;
+
+    private void _generateLevelPath()
+    {
+        if(this.LevelPrefab == null)
+        {
+            this.LazyLoadedData.LevelPrefabPath = string.Empty;
+        }
+        else
+        {
+            var parent = PrefabUtility.GetCorrespondingObjectFromSource(LevelPrefab);
+            this.LazyLoadedData.LevelPrefabPath = AssetDatabase.GetAssetPath(parent);
+        }
+    }
 
     [Button(ButtonSizes.Large), HorizontalGroup("De_Serialization", 0.5f), BoxGroup("De_Serialization/Modifications"), GUIColor(1f, 0.9f, 0.75f)]
     public void Apply()
@@ -131,21 +148,21 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
 
     public void LoadSelectedGrid()
     {
-        if (GridManager.Instance.SavedGrids.TryGetValue(this.SelectedGrid, out GridData newGrid))
+        if (GridManager.Instance.SavedGrids.TryGetValue(this.SelectedGrid, out GridData loadedGrid))
         {
-            this.LazyLoadedData.TopLeftOffset = newGrid.TopLeftOffset;
+            this.LazyLoadedData.TopLeftOffset = loadedGrid.TopLeftOffset;
 
             SettingsManager.Instance.LoadGridsRelative();
 
-            this.GenerateGrid(newGrid.GridHeight, newGrid.GridWidth);
+            this.GenerateGrid(loadedGrid.GridHeight, loadedGrid.GridWidth);
 
-            foreach (CellData cellData in newGrid.CellDatas)
+            foreach (CellData cellData in loadedGrid.CellDatas)
                 this.LazyLoadedData.CellDatas[cellData.heightPos, cellData.widthPos].state = cellData.state;
 
             this.LazyLoadedData.InnerGrids = new List<InnerGridData>();
-            if (newGrid.InnerGrids != null)
+            if (loadedGrid.InnerGrids != null)
             {
-                foreach (var innerGrid in newGrid.InnerGrids)
+                foreach (var innerGrid in loadedGrid.InnerGrids)
                 {
                     this.LazyLoadedData.InnerGrids.Add(new InnerGridData());
                     this.LazyLoadedData.InnerGrids[^1].GenerateGrid(innerGrid.GridHeight, innerGrid.GridWidth, innerGrid.Longitude, innerGrid.Latitude);
@@ -157,17 +174,21 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
                 }
             }
 
-            if (newGrid.SpawnablePresets != null)
-                this.LazyLoadedData.Spawnables = this._setSpawnablePresets(this.LazyLoadedData.CellDatas, newGrid.SpawnablePresets);
+            if (loadedGrid.SpawnablePresets != null)
+                this.LazyLoadedData.Spawnables = this._setSpawnablePresets(this.LazyLoadedData.CellDatas, loadedGrid.SpawnablePresets);
             else
                 this.LazyLoadedData.Spawnables.Clear();
 
-            GridManager.Instance.GenerateShaderBitmap(newGrid, null, true);
+            GridManager.Instance.GenerateShaderBitmap(loadedGrid, null, true);
             this.ResizePlane();
 
             this._oldHeight = this.LazyLoadedData.GridHeight;
             this._oldWidth = this.LazyLoadedData.GridWidth;
             this._oldPosition = this.LazyLoadedData.TopLeftOffset;
+            this.LevelPrefab = string.IsNullOrEmpty(loadedGrid.GridLevelPath) ?
+                null :
+                AssetDatabase.LoadAssetAtPath<GameObject>(loadedGrid.GridLevelPath);
+            this.LazyLoadedData.LevelPrefabPath = loadedGrid.GridLevelPath;
         }
     }
 
@@ -231,6 +252,7 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
 
         this._plane.transform.localScale = new Vector3(this.LazyLoadedData.GridWidth * (cellsWidth / 10f), 0f, this.LazyLoadedData.GridHeight * (cellsWidth / 10f));
         this._plane.transform.localPosition = new Vector3((this.LazyLoadedData.GridWidth * cellsWidth) / 2, 0f, -(this.LazyLoadedData.GridHeight * cellsWidth) / 2);
+        this._plane.transform.localPosition += new Vector3(this.LazyLoadedData.TopLeftOffset.x, this.LazyLoadedData.TopLeftOffset.y, this.LazyLoadedData.TopLeftOffset.z);
     }
 
     public GridPosition GetGridIndexFromWorld(Vector3 worldPos)
@@ -301,6 +323,7 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
         // /!\ By default, the grid containing InnerGrids is not a combatgrid
         return new GridData(
             this.SelectedGrid,
+            this.LazyLoadedData.LevelPrefabPath,
             false,
             this.LazyLoadedData.GridHeight,
             this.LazyLoadedData.GridWidth,
@@ -343,18 +366,18 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
         {
             case KeyCode.Keypad0:
                 PenType = CellState.Walkable;
-                this.MakeWalkable(hit.point);
+                this.MakeWalkable(hit.point - this.LazyLoadedData.TopLeftOffset);
                 break;
             case KeyCode.Keypad1:
                 PenType = CellState.Blocked;
-                this.MakeBlock(hit.point);
+                this.MakeBlock(hit.point - this.LazyLoadedData.TopLeftOffset);
                 break;
             case KeyCode.Keypad2:
                 PenType = CellState.EntityIn;
-                this.MakeEntity(hit.point); ;
+                this.MakeEntity(hit.point - this.LazyLoadedData.TopLeftOffset);
                 break;
             case KeyCode.F:
-                this.FindDictionaryKey(hit.point);
+                this.FindDictionaryKey(hit.point - this.LazyLoadedData.TopLeftOffset);
                 break;
         }
     }

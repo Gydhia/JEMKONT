@@ -5,7 +5,7 @@ using DownBelow.Inventory;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-[CreateAssetMenu(menuName = "DownBelow/ScriptableObject/Interactables/ItemDropped")]
+[CreateAssetMenu(menuName = "DownBelow/Interactables/ItemDropped")]
 public class ItemDroppedPreset : BaseSpawnablePreset
 {
     public ItemPreset Item;

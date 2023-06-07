@@ -5,7 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-[CreateAssetMenu(menuName ="DownBelow/AlterationSFXList")]
+[CreateAssetMenu(menuName ="DownBelow/Cards/AlterationSFXList")]
 public class ScriptableSFXAlterationList : SerializedScriptableObject
 {
     public Dictionary<Type, GameObject> AlterationsSFX;

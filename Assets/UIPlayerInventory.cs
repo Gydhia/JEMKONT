@@ -36,7 +36,7 @@ namespace DownBelow.UI.Inventory
             if (Data.Entity != GameManager.RealSelfPlayer)
                 return;
 
-            this.gameObject.SetActive(!(Data.Entity.CurrentGrid is CombatGrid));
+            this.gameObject.SetActive(!Data.Entity.CurrentGrid.IsCombatGrid);
         }
 
         private void _initInventory(GameEventData Data)

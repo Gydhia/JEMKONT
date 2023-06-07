@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d635c5c15d1099d47909698e1ce4952a, type: 3}
-  m_Name: GridPortal
+  m_Script: {fileID: 11500000, guid: ebfd46f83b4aa044a8d3b542efad383b, type: 3}
+  m_Name: Portal_FarmLand
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -23,9 +23,10 @@ MonoBehaviour:
     SerializationNodes:
     - Name: UID
       Entry: 2
-      Data: b6d7699956dea5001699210a3cfee20c
-  UName: GridPortal
+      Data: fb06f6d6683bd650aaab6f81d184c047
+  UName: PortalFarm
   AffectingState: 8
   ObjectPrefab: {fileID: 2023544193209507618, guid: ad46d9d023c0ef64c9789561ce2ac1ef, type: 3}
-  OutlineColor: {r: 0.7798742, g: 0.9662667, b: 1, a: 1}
+  OutlineColor: {r: 0.33298922, g: 0.6226415, b: 0.23300101, a: 0.6}
   InteractAnimation: {fileID: 0}
+  TargetGrid: FarmLand

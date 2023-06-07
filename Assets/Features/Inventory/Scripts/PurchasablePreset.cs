@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PurchasablePreset", menuName = "DownBelow/ScriptableObject/Interactables/Purchasable", order = 2)]
+[CreateAssetMenu(fileName = "PurchasablePreset", menuName = "DownBelow/Interactables/Purchasable", order = 2)]
 public class PurchasablePreset : InteractablePreset
 {
     public bool RandomizeItem;

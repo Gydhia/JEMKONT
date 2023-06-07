@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4706689021377430463}
-  - component: {fileID: 2420647313775234594}
+  - component: {fileID: 613952523817220313}
   m_Layer: 0
-  m_Name: Grid
+  m_Name: WorldGrid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,7 +32,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2420647313775234594
+--- !u!114 &613952523817220313
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,7 +41,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7667379347255253134}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cbe7459226dd9824d9ca15222bc66c49, type: 3}
+  m_Script: {fileID: 11500000, guid: b0e6e96387771ce419c63cb1034200f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   serializationData:
@@ -78,13 +78,9 @@ MonoBehaviour:
       Data: 
   UName: 
   IsCombatGrid: 0
-  GridHeight: 2
-  GridWidth: 2
+  GridHeight: 0
+  GridWidth: 0
   TopLeftOffset: {x: 0, y: 0, z: 0}
   SelfData:
     InnerGrids: []
   GridEntities: []
-  Longitude: 0
-  Latitude: 0
-  HasStarted: 0
-  ParentGrid: {fileID: 0}

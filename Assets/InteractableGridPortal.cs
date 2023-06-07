@@ -9,17 +9,17 @@ using UnityEngine.InputSystem.Android.LowLevel;
 
 namespace DownBelow
 {
-    public class InteractableGridPortal : Interactable
+    public class InteractableGridPortal : Interactable<PortalInteractablePreset>
     {
-        public string TargetedGrid;
-
         public TransitionSettings TransitionSettings;
 
         public Transform Portal;
         public GameObject InnerCrackParticles;
         public GameObject MainCrack;
         public GameObject CrackBorders;
+
         public ParticleSystem Orb;
+        public ParticleSystem BubbleTrail;
 
         public float Delay;
 
@@ -30,7 +30,7 @@ namespace DownBelow
 
         private void Start()
         {
-            this.Portal.DOMoveY(this.transform.position.y - 0.2f, 1.5f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
+            this.Portal.DOMoveY(this.transform.localPosition.y - 0.2f, 3f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
             this.Portal.gameObject.SetActive(false);
         }
 
@@ -66,6 +66,8 @@ namespace DownBelow
                 main.startLifetime = 0;
                 main.maxParticles = 0;
             }
+
+            this.BubbleTrail.gameObject.SetActive(true);
         }
 
         // Open the portal
@@ -96,9 +98,11 @@ namespace DownBelow
 
         private void _teleportToGrid()
         {
-            if(GridManager.Instance.WorldGrids.TryGetValue(this.TargetedGrid, out WorldGrid grid))
+            if(GridManager.Instance.WorldGrids.TryGetValue(this.LocalPreset.TargetGrid, out WorldGrid grid))
             {
                 var gridAction = new EnterGridAction(GameManager.RealSelfPlayer, grid.Cells[0, 0]);
+                gridAction.Init(this.LocalPreset.TargetGrid);
+
                 NetworkManager.Instance.EntityAskToBuffAction(gridAction);
             }
 
@@ -110,6 +114,15 @@ namespace DownBelow
             this.InnerCrackParticles.SetActive(false);
             this.MainCrack.SetActive(false);
             this.CrackBorders.transform.localScale = Vector3.zero;
+        }
+
+        private void OnEnable()
+        {
+            if(!this._isPlaying && this._playedOnce)
+            {
+                this._hideInteractParticle();
+                this._openPortal();
+            }
         }
     }
 

@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PlaceableItem", menuName = "DownBelow/ScriptableObject/PlaceableItem", order = 1)]
+[CreateAssetMenu(fileName = "PlaceableItem", menuName = "DownBelow/Inventory/PlaceableItem", order = 1)]
 public class PlaceableItemPreset : PlaceableItem
 {
     public GameObject ObjectToPlace;

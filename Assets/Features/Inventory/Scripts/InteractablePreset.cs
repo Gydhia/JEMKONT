@@ -1,11 +1,12 @@
 using DownBelow.GridSystem;
+using DownBelow.Managers;
 using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Interactable", menuName = "DownBelow/ScriptableObject/Interactables/InteractablePreset", order = 2)]
+[CreateAssetMenu(fileName = "Interactable", menuName = "DownBelow/Interactables/InteractablePreset", order = 2)]
 public class InteractablePreset : BaseSpawnablePreset
 {
     public Interactable ObjectPrefab;

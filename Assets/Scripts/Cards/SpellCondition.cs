@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace DownBelow.Spells
 {
-    [CreateAssetMenu(menuName = "Cards/Condition_SO")]
+    [CreateAssetMenu(menuName = "DownBelow/Cards/Condition_SO")]
     public class SpellCondition : SerializedScriptableObject
     {
         private SpellResult _currentResult;

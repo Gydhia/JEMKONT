@@ -4,6 +4,7 @@ using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using Utility.SLayout;
 
 public class UICardsPile : MonoBehaviour
@@ -22,6 +23,12 @@ public class UICardsPile : MonoBehaviour
 
     public TextMeshProUGUI CardsNumber;
 
+    public Transform VisualMoveTarget;
+
+    public Transform CardsHolder;
+    public GameObject OverviewContent;
+    public bool UnorganizeCards;
+
     private void Update()
     {
         if(this.CardsNumber != null)
@@ -38,5 +45,20 @@ public class UICardsPile : MonoBehaviour
     public void ShufflePile(string UID)
     {
         this.Cards.Shuffle(UID);
+    }
+
+    public void ClickOnPile()
+    {
+        this.OverviewContent.SetActive(!this.OverviewContent.activeSelf);
+
+        if (this.UnorganizeCards)
+        {
+            this._randomPlaceCards();
+        }
+    }
+
+    private void _randomPlaceCards()
+    {
+
     }
 }
