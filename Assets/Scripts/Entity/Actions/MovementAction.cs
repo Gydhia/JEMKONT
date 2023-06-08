@@ -45,18 +45,6 @@ namespace DownBelow.Entity
                 return;
             }
 
-            // Useless to animate hidden players
-            if (!this.RefEntity.gameObject.activeSelf)
-            {
-                // /!\ TEMPORARY ONLY, SET THE CELL AS THE LAST ONE OF PATH
-                // We should have events instead for later on
-                if (this.calculatedPath.Count > 0)
-                    this.RefEntity.EntityCell = this.calculatedPath[^1];
-
-                EndAction();
-                return;
-            }
-
             // TODO : Ahah. So, it's the only solution and a not that bad idea, but maybe we should have a common MonoBehaviour for this instead of GameManager ?
             GameManager.Instance.StartCoroutine(this.FollowPath());
         }

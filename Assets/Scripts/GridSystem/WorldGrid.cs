@@ -41,7 +41,7 @@ namespace DownBelow.GridSystem
 
             if (!data.IsCombatGrid)
             {
-                var prefabToLoad = AssetDatabase.LoadAssetAtPath<GameObject>(data.GridLevelPath);
+                var prefabToLoad = Resources.Load<GameObject>(data.GridLevelPath);
                 var loaded = Instantiate(prefabToLoad, this.transform);
 
                 if (!loaded.TryGetComponent(out Level))

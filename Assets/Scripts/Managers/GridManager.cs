@@ -18,6 +18,16 @@ using UnityEditor;
 
 namespace DownBelow.Managers
 {
+    public enum Border
+    {
+        None = 0,
+
+        Left = 1,
+        Right = 2,
+        Top = 3,
+        Bottom = 4
+    }
+
     public class GridManager : _baseManager<GridManager>
     {
         public static readonly string SavesPath = "/Resources/Saves/Grids/";
@@ -179,40 +189,42 @@ namespace DownBelow.Managers
                 if (InputManager.Instance.LastInteractable != null)
                 {
                     Cell cell = InputManager.Instance.LastInteractable.RefCell;
-                    closestCell = GridUtility.GetClosestCellToShape(
-                        selfPlayer.CurrentGrid,
-                        cell.Datas.heightPos,
-                        cell.Datas.widthPos,
-                        1,
-                        1,
-                        selfPlayer.EntityCell.PositionInGrid
-                    );
-                    selfPlayer.NextInteract = InputManager.Instance.LastInteractable;
 
-                    EntityAction[] actions = new EntityAction[2];
+                    closestCell = GridUtility.GetNearestWalkableCell(cell, selfPlayer.EntityCell.PositionInGrid);
 
-                    // Buff the movement action if we're too far away
-                    if (!GetCombatNeighbours(selfPlayer.EntityCell, selfPlayer.EntityCell.RefGrid).Contains(cell))
-                        actions[0] = new MovementAction(selfPlayer, closestCell);
-
-                    // Then buff the interact/gather action to process after the movement
-                    if(cell.AttachedInteract is InteractableResource iResource)
+                    if(closestCell != null)
                     {
-                        if(selfPlayer.CanGatherThisResource(iResource.LocalPreset.GatherableBy))
+                        selfPlayer.NextInteract = InputManager.Instance.LastInteractable;
+
+                        EntityAction[] actions = new EntityAction[2];
+
+                        // Buff the movement action if we're too far away
+                        if (!GetCombatNeighbours(selfPlayer.EntityCell, selfPlayer.EntityCell.RefGrid).Contains(cell))
+                            actions[0] = new MovementAction(selfPlayer, closestCell);
+
+                        // Then buff the interact/gather action to process after the movement
+                        if (cell.AttachedInteract is InteractableResource iResource)
                         {
-                            actions[1] = new GatheringAction(selfPlayer, cell);
+                            if (selfPlayer.CanGatherThisResource(iResource.LocalPreset.GatherableBy))
+                            {
+                                actions[1] = new GatheringAction(selfPlayer, cell);
+                            }
+                            else
+                            {
+                                UIManager.Instance.DatasSection.ShowWarningText("[REQUIRES " + iResource.LocalPreset.GatherableBy.ToString() + "]\nYou haven't the right tool to gather this");
+                            }
                         }
                         else
                         {
-                            UIManager.Instance.DatasSection.ShowWarningText("[REQUIRES " + iResource.LocalPreset.GatherableBy.ToString() + "]\nYou haven't the right tool to gather this");
+                            actions[1] = new InteractAction(selfPlayer, cell);
                         }
+
+                        NetworkManager.Instance.EntityAskToBuffActions(actions);
                     }
                     else
                     {
-                        actions[1] = new InteractAction(selfPlayer, cell);
+                        UIManager.Instance.DatasSection.ShowWarningText("You can't interact with an unreachable cell");
                     }
-
-                    NetworkManager.Instance.EntityAskToBuffActions(actions);
 
                     return;
                 } 

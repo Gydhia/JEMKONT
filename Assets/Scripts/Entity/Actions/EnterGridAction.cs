@@ -68,11 +68,19 @@ namespace DownBelow.Entity
 
             System.Guid spawnId = SettingsManager.Instance.SpawnablesPresets.First(k => k.Value is SpawnPreset).Key;
             // It SHOULDNT be null, it's dev job to put these
-            GridPosition spawnLocation = worldGrid.SelfData.SpawnablePresets.Where(k => k.Value == spawnId).Select(kv => kv.Key).First();
+            var spawnLocations = worldGrid.SelfData.SpawnablePresets.Where(k => k.Value == spawnId).Select(kv => kv.Key);
 
-            Cell spawnCell = worldGrid.Cells[spawnLocation.latitude, spawnLocation.longitude];
+            Cell spawnCell = null;
+            foreach (var loc in spawnLocations)
+            {
+                if (worldGrid.Cells[loc.latitude, loc.longitude].Datas.state == CellState.Walkable)
+                {
+                    spawnCell = worldGrid.Cells[loc.latitude, loc.longitude];
+                    break;
+                }
+            }
 
-            if (spawnCell.Datas.state == CellState.Walkable)
+            if (spawnCell != null)
             {
                 player.FireExitedCell();
                 GameManager.Instance.FireEntitySwitchingGrid(player, worldGrid);

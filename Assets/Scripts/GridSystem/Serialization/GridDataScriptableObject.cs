@@ -53,8 +53,9 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
         }
         else
         {
-            var parent = PrefabUtility.GetCorrespondingObjectFromSource(LevelPrefab);
-            this.LazyLoadedData.LevelPrefabPath = AssetDatabase.GetAssetPath(parent);
+            string path = AssetDatabase.GetAssetPath(LevelPrefab).Split('.')[0];
+            // To remove the Assets/Resources
+            this.LazyLoadedData.LevelPrefabPath = path.Remove(0, 17);
         }
     }
 
@@ -191,7 +192,8 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
             this._oldPosition = this.LazyLoadedData.TopLeftOffset;
             this.LevelPrefab = string.IsNullOrEmpty(loadedGrid.GridLevelPath) ?
                 null :
-                AssetDatabase.LoadAssetAtPath<GameObject>(loadedGrid.GridLevelPath);
+                Resources.Load<GameObject>(loadedGrid.GridLevelPath);
+
             this.LazyLoadedData.LevelPrefabPath = loadedGrid.GridLevelPath;
         }
     }
