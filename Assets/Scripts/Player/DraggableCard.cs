@@ -61,8 +61,10 @@ namespace DownBelow.UI
         private int _childOrder;
         public void Init(ScriptableCard CardReference, UICardsPile Pile)
         {
-            this.RefPile = Pile;
             this.Init(CardReference);
+
+            this.RefPile = Pile;
+            this.m_RectTransform.pivot = this.RefPile.CardPivot;
         }
 
         public void Init(ScriptableCard CardReference)
@@ -93,7 +95,7 @@ namespace DownBelow.UI
                 return;
             }
 
-            if (!GameManager.SelfPlayer.IsPlayingEntity)
+            if (!GameManager.SelfPlayer.IsPlayingEntity || !this.RefPile.AuthorizeHover)
             {
                 return;
             }
@@ -185,18 +187,20 @@ namespace DownBelow.UI
 
         private void Hover()
         {
-            Debug.Log("Hovered : " + this.name);
+            if (!this.RefPile.AuthorizeHover)
+                return;
+
             UIManager.Instance.CardSection.SetAllLayoutGroups(false);
             _childOrder = this.m_RectTransform.GetSiblingIndex();
             this.m_RectTransform.SetSiblingIndex(this.m_RectTransform.childCount - 1);
             this.m_RectTransform.DOAnchorPosY(HoveredCard._spawnPosition.y + 100f, 0.3f);
-            
         }
 
         private void UnHover()
         {
-            Debug.Log("Unhovered : " + this.CardReference.name);
-            
+            if (!this.RefPile.AuthorizeHover)
+                return;
+
             this.m_RectTransform.DOAnchorPosY(HoveredCard._spawnPosition.y - 175f, 0.3f);
             this.m_RectTransform.SetSiblingIndex(_childOrder);
             UIManager.Instance.CardSection.SetAllLayoutGroups(true);
@@ -222,7 +226,7 @@ namespace DownBelow.UI
         {
             this.RefPile = toPile;
             this.gameObject.SetActive(true);
-            
+
             this.m_RectTransform.localScale = Vector3.one * 0.2f;
             this.transform.parent = fromPile.VisualMoveTarget;
             this.transform.position = Vector3.zero;
@@ -237,6 +241,9 @@ namespace DownBelow.UI
                 this.m_RectTransform.parent = this.RefPile.CardsHolder;
                 this._spawnPosition = m_RectTransform.position;
                 this.m_RectTransform.DOAnchorPosY(this._spawnPosition.y, 0.3f);
+
+                // FOR CARDS OVERVIEW, we're resetting this
+                this.m_RectTransform.pivot = this.RefPile.CardPivot;
             }));
         }
 

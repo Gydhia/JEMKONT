@@ -225,6 +225,7 @@ MonoBehaviour:
   AdaptSpacing: 1
   MinSpacing: -500
   MaxSpacing: -400
+  CardPivot: {x: 0.5, y: 0.5}
   CardsNumber: {fileID: 0}
   VisualMoveTarget: {fileID: 6478722474700500118}
   CardsHolder: {fileID: 6478722474700500118}
@@ -380,6 +381,10 @@ PrefabInstance:
     - target: {fileID: 2736580632612684822, guid: 37411cff5062d5b49b20300a2e9511cf, type: 3}
       propertyPath: PileType
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2736580632612684822, guid: 37411cff5062d5b49b20300a2e9511cf, type: 3}
+      propertyPath: CardPivot.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3241638837387773131, guid: 37411cff5062d5b49b20300a2e9511cf, type: 3}
       propertyPath: m_SizeDelta.y
@@ -893,6 +898,10 @@ PrefabInstance:
     - target: {fileID: 2604704996770831034, guid: 37411cff5062d5b49b20300a2e9511cf, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2736580632612684822, guid: 37411cff5062d5b49b20300a2e9511cf, type: 3}
+      propertyPath: CardPivot.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2736580632612684822, guid: 37411cff5062d5b49b20300a2e9511cf, type: 3}
       propertyPath: UnorganizeCards

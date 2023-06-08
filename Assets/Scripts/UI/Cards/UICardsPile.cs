@@ -20,6 +20,10 @@ public class UICardsPile : MonoBehaviour
     [ShowIf("AdaptSpacing")]
     public float MaxSpacing = -200;
 
+    [Tooltip("When a card arrive in this pile, what pivot should it have ?")]
+    public Vector2 CardPivot = new Vector2(0.5f, 0.5f);
+    [Tooltip("If we can hover cards in this pile")]
+    public bool AuthorizeHover = false;
 
     public TextMeshProUGUI CardsNumber;
 
