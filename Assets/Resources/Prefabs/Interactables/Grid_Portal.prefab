@@ -5037,7 +5037,6 @@ MonoBehaviour:
   RefCell: {fileID: 0}
   Mesh: {fileID: 6929934130561614042}
   Outline: {fileID: 1974102354225883303}
-  TargetedGrid: Arena1
   TransitionSettings: {fileID: 11400000, guid: 2eec88d4ca6df24419aab2fd6b04c543, type: 2}
   Portal: {fileID: 7224192957786302094}
   InnerCrackParticles: {fileID: 8135690118470374158}
@@ -5899,10 +5898,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 581177315602956584, guid: 23bcb863c6aa21244a69c737fbb43fc9, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 581177315602956584, guid: 23bcb863c6aa21244a69c737fbb43fc9, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 581177315602956584, guid: 23bcb863c6aa21244a69c737fbb43fc9, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1492692849372185456, guid: 23bcb863c6aa21244a69c737fbb43fc9, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2357392501179803650, guid: 23bcb863c6aa21244a69c737fbb43fc9, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: e6345cdff7e1d83418f6e3dbb34f1354, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 23bcb863c6aa21244a69c737fbb43fc9, type: 3}
 --- !u!4 &7224192957786302094 stripped

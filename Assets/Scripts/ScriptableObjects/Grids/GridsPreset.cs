@@ -21,6 +21,8 @@ namespace DownBelow.GameData
         public GameObject GridShader;
 
         public ArrowRenderer SpellArrowPrefab;
+
+        public ParticleSystem CombatEntracePrefab;
     }
 
 }

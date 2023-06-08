@@ -90,8 +90,6 @@ namespace DownBelow.Managers
         /// </summary>
         public static PlayerBehavior RealSelfPlayer { get { return SelfPlayer.IsFake ? SelfPlayer.Owner : SelfPlayer; } }
 
-        public static Cell NullCell = new Cell();
-
         public ItemPreset[] GameItems;
 
         public static bool GameStarted = false;

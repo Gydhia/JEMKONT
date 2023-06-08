@@ -33,7 +33,7 @@ namespace DownBelow.GridSystem
 
         public Dictionary<string, CombatGrid> InnerCombatGrids = new Dictionary<string, CombatGrid>();
 
-        public virtual void Init(GridData data)
+        public virtual void Init(GridData data, WorldGrid ParentGrid = null)
         {
             this.GridHeight = data.GridHeight;
             this.GridWidth = data.GridWidth;
@@ -134,10 +134,7 @@ namespace DownBelow.GridSystem
             {
                 CombatGrid newInnerGrid = Instantiate(GridManager.Instance.CombatGridPrefab, Vector3.zero, Quaternion.identity, this.transform) as CombatGrid;
 
-                newInnerGrid.Init(innerGrid);
-                newInnerGrid.ParentGrid = this;
-                newInnerGrid.Longitude = innerGrid.Longitude;
-                newInnerGrid.Latitude = innerGrid.Latitude;
+                newInnerGrid.Init(innerGrid, this);
                 newInnerGrid.UName = this.UName + count; 
 
                 this.InnerCombatGrids.Add(newInnerGrid.UName, newInnerGrid);
@@ -273,7 +270,7 @@ namespace DownBelow.GridSystem
         /// <summary>
         /// /!\ Constructor made for the InnerGrids (aka CombatGrids), don't use it for WorldGrids
         /// </summary>
-        public GridData(string GridName, bool IsCombatGrid, int GridHeight, int GridWidth, int Longitude, int Latitude, List<CellData> CellDatas, Dictionary<GridPosition, Guid> EntitiesSpawns)
+        public GridData(string GridName, bool IsCombatGrid, int GridHeight, int GridWidth, int Longitude, int Latitude, List<GridPosition> Entrances, List<CellData> CellDatas, Dictionary<GridPosition, Guid> EntitiesSpawns)
         {
             this.GridName = GridName;
             this.IsCombatGrid = IsCombatGrid;
@@ -281,6 +278,7 @@ namespace DownBelow.GridSystem
             this.GridWidth = GridWidth;
             this.Longitude = Longitude;
             this.Latitude = Latitude;
+            this.Entrances = Entrances;
             this.CellDatas = CellDatas;
             this.SpawnablePresets = EntitiesSpawns;
         }
@@ -320,6 +318,10 @@ namespace DownBelow.GridSystem
 
         [DataMember]
         public List<GridData> InnerGrids;
+
+        [DataMember]
+        public List<GridPosition> Entrances;
+
         [DataMember]
         public List<CellData> CellDatas { get; set; }
 

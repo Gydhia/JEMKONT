@@ -136,7 +136,8 @@ namespace DownBelow.Managers
             this.MainWorldGrid = this.WorldGrids[this.MainGrid];
             this.MainWorldGrid.gameObject.SetActive(true);
 
-            this.GenerateShaderBitmap(this.MainWorldGrid.SelfData);
+            UniversalRenderPipelineHelper.SetRendererFeatureActive("GridRender", false);
+            //this.GenerateShaderBitmap(this.MainWorldGrid.SelfData);
         }
 
         public void CreateGrid(GridData gridData, string gridId)
@@ -174,7 +175,6 @@ namespace DownBelow.Managers
             if (this.LastHoveredCell.Datas.state != CellState.Blocked)
             {
                 Cell closestCell = this.LastHoveredCell;
-                string otherGrid = string.Empty;
 
                 if (InputManager.Instance.LastInteractable != null)
                 {
@@ -215,7 +215,8 @@ namespace DownBelow.Managers
                     NetworkManager.Instance.EntityAskToBuffActions(actions);
 
                     return;
-                } else if (this.LastHoveredCell.HasItem(out var item))
+                } 
+                else if (this.LastHoveredCell.HasItem(out var item))
                 {
                     //If we have a dropped item on the cell.
                     EntityAction[] actions = new EntityAction[2];
@@ -223,29 +224,21 @@ namespace DownBelow.Managers
                     actions[1] = new PickupItemAction(selfPlayer, this.LastHoveredCell);
                     NetworkManager.Instance.EntityAskToBuffActions(actions);
                     return;
-                } else
-                {
-                    if (selfPlayer.CurrentGrid != this.LastHoveredCell.RefGrid)
-                    {
-                        closestCell = GridUtility.GetClosestCellToShape(
-                            selfPlayer.CurrentGrid,
-                            this.LastHoveredCell.RefGrid as CombatGrid,
-                            selfPlayer.EntityCell.PositionInGrid
-                        );
-                        otherGrid = this.LastHoveredCell.RefGrid.UName;
-                    }
                 }
+
 
                 if (closestCell != null)
                 {
-                    if (string.IsNullOrEmpty(otherGrid))
+                    if (closestCell.RedirectedGrid == null)
+                    {
                         NetworkManager.Instance.EntityAskToBuffAction(
                             new MovementAction(selfPlayer, closestCell)
                         );
+                    }
                     else
                     {
                         var enterAction = new EnterGridAction(selfPlayer, closestCell);
-                        enterAction.Init(otherGrid);
+                        enterAction.Init(closestCell.RedirectedGrid.UName);
                         
                         NetworkManager.Instance.EntityAskToBuffActions(
                             new EntityAction[2] {
@@ -408,12 +401,18 @@ namespace DownBelow.Managers
             if (Data.Entity == GameManager.SelfPlayer)
             {
                 if (Data.Entity.CurrentGrid.IsCombatGrid)
+                {
                     this.GenerateShaderBitmap(
                         ((CombatGrid)Data.Entity.CurrentGrid).ParentGrid.SelfData,
                         Data.Entity.CurrentGrid.SelfData
                     );
+                }
                 else
-                    this.GenerateShaderBitmap(Data.Entity.CurrentGrid.SelfData);
+                {
+                    // We decided to not have grid when out of combat
+                    this._disableGridTexture();
+                    //this.GenerateShaderBitmap(Data.Entity.CurrentGrid.SelfData);
+                }
 
                 foreach (PlayerBehavior player in GameManager.Instance.Players.Values)
                 {
@@ -744,6 +743,7 @@ namespace DownBelow.Managers
                         innerGrid.Value.GridWidth,
                         innerGrid.Value.Latitude,
                         innerGrid.Value.Longitude,
+                        innerGrid.Value.SelfData.Entrances,
                         this._getCellsData(innerGrid.Value),
                         innerGrid.Value.SelfData.SpawnablePresets
                 ));
@@ -914,6 +914,9 @@ namespace DownBelow.Managers
                 this._generateShaderBitmap(world, innerGrid);
 
             this.BitmapTexture.Apply();
+
+            UniversalRenderPipelineHelper.SetRendererFeatureActive("GridRender", true);
+
             if (editor)
             {
                 this.BitmapShaderEditor.SetVector(
@@ -921,7 +924,8 @@ namespace DownBelow.Managers
                     new Vector2(-world.TopLeftOffset.x, -(world.TopLeftOffset.z - 1))
                 );
                 this.BitmapShaderEditor.SetTexture("_Texture2D", this.BitmapTexture);
-            } else
+            } 
+            else
             {
                 this.BitmapShader.SetVector(
                     "_Offset",
@@ -929,6 +933,11 @@ namespace DownBelow.Managers
                 );
                 this.BitmapShader.SetTexture("_Texture2D", this.BitmapTexture);
             }
+        }
+
+        private void _disableGridTexture()
+        {
+            UniversalRenderPipelineHelper.SetRendererFeatureActive("GridRender", false);
         }
 
         private void _generateShaderBitmap(GridData world, GridData innerGrid)
