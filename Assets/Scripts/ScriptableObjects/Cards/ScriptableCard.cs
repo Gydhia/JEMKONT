@@ -13,7 +13,7 @@ namespace DownBelow.Mechanics
 {
     public enum ECardType { Melee, Ranged, Special }
 
-    [CreateAssetMenu(menuName = "Cards/SO_Card")]
+    [CreateAssetMenu(menuName = "DownBelow/Cards/SO_Card")]
     public class ScriptableCard : SerializedScriptableObject
     {
         #region SERIALIZATION

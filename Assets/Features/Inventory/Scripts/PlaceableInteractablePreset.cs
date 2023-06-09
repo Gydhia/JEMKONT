@@ -9,7 +9,7 @@ using System.Linq;
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName = "PlaceableInteractable.asset", menuName = "DownBelow/ScriptableObject/PlaceableInteractable", order = 1)]
+[CreateAssetMenu(fileName = "PlaceableInteractable.asset", menuName = "DownBelow/Interactables/PlaceableInteractable", order = 1)]
 public class PlaceableInteractablePreset : PlaceableItem
 {
     public InteractablePreset Interactable;

@@ -39,14 +39,8 @@ namespace DownBelow.Entity
 
         public virtual void MoveWithPath()
         {
-            // Useless to animate hidden players
-            if (!this.RefEntity.gameObject.activeSelf)
+            if (!this.RefEntity.CanMove)
             {
-                // /!\ TEMPORARY ONLY, SET THE CELL AS THE LAST ONE OF PATH
-                // We should have events instead for later on
-                if (this.calculatedPath.Count > 0)
-                    this.RefEntity.EntityCell = this.calculatedPath[^1];
-
                 EndAction();
                 return;
             }
@@ -98,7 +92,7 @@ namespace DownBelow.Entity
 
                 this.RefEntity.FireEnteredCell(this.calculatedPath[targetCell]);
 
-                if (this.abortAction)
+                if (this.abortAction || !this.RefEntity.CanMove)
                 {
                     this.RefEntity.NextCell = null;
                     this.EndAction();
@@ -114,8 +108,21 @@ namespace DownBelow.Entity
             if (!this.abortAction)
                 this.EndAction();
 
-            this.RefEntity.Animator.SetFloat("Speed", 0f);
+            if (this._shouldEndAnim())
+            {
+                this.RefEntity.Animator.SetFloat("Speed", 0f);
+            }
         }
+
+        private bool _shouldEndAnim()
+        {
+            return
+               this is CombatMovementAction ||
+               this.RefBuffer.Count == 0 ||
+               !(this.RefBuffer[0] is MovementAction) ||
+               (this.RefBuffer.Count > 1 && !(this.RefBuffer[1] is MovementAction));
+        }
+
 
         public override void EndAction()
         {

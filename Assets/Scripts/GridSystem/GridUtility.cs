@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 
@@ -87,8 +88,6 @@ namespace DownBelow.GridSystem
         }
         public static Cell GetClosestCellToShape(WorldGrid refGrid, int latitude, int longitude, int height, int width, GridPosition entityPos)
         {
-            // T0DO: Width and height aren't returning the expected result
-
             // Top
             if (entityPos.latitude < latitude)
             {
@@ -178,6 +177,97 @@ namespace DownBelow.GridSystem
                     "left : " + left +
                     "right : " + right);
                 return null;
+            }
+        }
+
+        public static Cell GetNearestWalkableCell(Cell targetCell, GridPosition playerPos)
+        {
+            var grid = targetCell.RefGrid;
+            int targetHeight = targetCell.Datas.heightPos;
+            int targetWidth = targetCell.Datas.widthPos;
+
+            Cell nearestCell = null;
+            int nearestDistance = int.MaxValue;
+            int cellDist = 0;
+            Cell sideCell = null;
+
+            // Check the left cell
+            sideCell = GetCellFromBorder(targetCell, Border.Left);
+            cellDist = GetDistance(targetHeight, targetWidth - 1, playerPos);
+            if (sideCell != null && sideCell.Datas.state == CellState.Walkable && cellDist < nearestDistance)
+            {
+                nearestCell = sideCell;
+                nearestDistance = cellDist;
+            }
+
+            // Check the right cell
+            sideCell = GetCellFromBorder(targetCell, Border.Right);
+            cellDist = GetDistance(targetHeight, targetWidth + 1, playerPos);
+            if (sideCell != null && sideCell.Datas.state == CellState.Walkable && cellDist < nearestDistance)
+            {
+                nearestCell = sideCell;
+                nearestDistance = cellDist;
+            }
+
+            // Check the top cell
+            sideCell = GetCellFromBorder(targetCell, Border.Top);
+            cellDist = GetDistance(targetHeight - 1, targetWidth, playerPos);
+            if (sideCell != null && sideCell.Datas.state == CellState.Walkable && cellDist < nearestDistance)
+            {
+                nearestCell = sideCell;
+                nearestDistance = cellDist;
+            }
+
+            // Check the bottom cell
+            sideCell = GetCellFromBorder(targetCell, Border.Bottom);
+            cellDist = GetDistance(targetHeight + 1, targetWidth, playerPos);
+            if (sideCell != null && sideCell.Datas.state == CellState.Walkable && cellDist < nearestDistance)
+            {
+                nearestCell = sideCell;
+                nearestDistance = cellDist;
+            }
+
+            return nearestCell;
+        }
+
+        public static int GetDistance(int heightPos, int widthPos, GridPosition playerPosition)
+        {
+            // Calculate the distance using Manhattan distance formula
+            int playerHeightPos = playerPosition.latitude;
+            int playerWidthPos = playerPosition.longitude;
+            return Mathf.Abs(heightPos - playerHeightPos) + Mathf.Abs(widthPos - playerWidthPos);
+        }
+
+
+        public static Cell GetCellFromBorder(Cell origin, Border border)
+        {
+            int heightPos = origin.Datas.heightPos;
+            int widthPos = origin.Datas.widthPos;
+
+            switch (border)
+            {
+                case Border.Left:
+                    if (widthPos - 1 >= 0)
+                        return origin.RefGrid.Cells[heightPos, widthPos - 1];
+                    else
+                        return null;
+                case Border.Right:
+                    if (widthPos + 1 < origin.RefGrid.GridWidth)
+                        return origin.RefGrid.Cells[heightPos, widthPos + 1];
+                    else
+                        return null;
+                case Border.Top:
+                    if (heightPos - 1 >= 0)
+                        return origin.RefGrid.Cells[heightPos - 1, widthPos];
+                    else
+                        return null;
+                case Border.Bottom:
+                    if (heightPos + 1 < origin.RefGrid.GridHeight)
+                        return origin.RefGrid.Cells[heightPos + 1, widthPos];
+                    else
+                        return null;
+                default:
+                    return null;
             }
         }
 
@@ -287,6 +377,29 @@ namespace DownBelow.GridSystem
                     return 180;
             }
 
+        }
+
+        public static Border GetFacingBorder(GridPosition origin, GridPosition target)
+        {
+            int xDiff = target.longitude - origin.longitude;
+            int yDiff = origin.latitude - target.latitude;
+
+            if (Mathf.Abs(xDiff) > Mathf.Abs(yDiff))
+            {
+                // Horizontal movement
+                if (xDiff > 0)
+                    return Border.Right;
+                else
+                    return Border.Left;
+            }
+            else
+            {
+                // Vertical movement
+                if (yDiff > 0)
+                    return Border.Top;
+                else
+                    return Border.Bottom;
+            }
         }
 
         public static bool IsCellWithinPlayerRange(ref bool[,] playerRange, GridPosition playerPos, GridPosition targetCell, Vector2 pRelativePos)

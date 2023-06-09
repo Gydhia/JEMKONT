@@ -7,13 +7,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Events;
 using Sirenix.Serialization;
 using System;
-using TMPro;
 using DG.Tweening;
-using System.CodeDom;
-using UnityEditor.Animations;
+
 
 namespace DownBelow.Entity
 {
@@ -125,6 +122,8 @@ namespace DownBelow.Entity
 
         // Movements
         public bool IsMoving = false;
+        public bool CanMove = true;
+
 
         private Cell _entityCell;
         public Cell EntityCell

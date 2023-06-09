@@ -11,9 +11,13 @@ using System;
 [Serializable]
 public class InnerGridData
 {
+    // Inspector only, to toggle when we wanna build its entrance
+    public bool TargetForEntrance = false;
+
     [HideInInspector]
     public CellData[,] CellDatas;
 
+    public List<GridPosition> Entrances;
     public OrderedDictionary<GridPosition, BaseSpawnablePreset> Spawnables;
 
     public int GridHeight;
@@ -30,6 +34,7 @@ public class InnerGridData
         this.Latitude = latitude;
 
         this.CellDatas = new CellData[height, width];
+        this.Entrances = new List<GridPosition>();
 
         // Generate the grid with new cells
         for (int i = 0; i < this.CellDatas.GetLength(0); i++)

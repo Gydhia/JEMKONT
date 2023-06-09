@@ -21,7 +21,7 @@ namespace DownBelow.Mechanics
         ProjectileBackAndForth,
         InPlaceProjectile
     }
-    [CreateAssetMenu(menuName = "SpellSFX")]
+    [CreateAssetMenu(menuName = "DownBelow/Cards/SpellSFX")]
     public class ScriptableSFX : ScriptableObject
     {
         public GameObject Prefab;

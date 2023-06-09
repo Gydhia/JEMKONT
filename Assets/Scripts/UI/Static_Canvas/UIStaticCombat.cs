@@ -48,7 +48,7 @@ namespace DownBelow.UI
             if (Data.Entity != GameManager.RealSelfPlayer)
                 return;
 
-            bool inCombatGrid = Data.Entity.CurrentGrid is CombatGrid;
+            bool inCombatGrid = Data.Entity.CurrentGrid.IsCombatGrid;
             this.gameObject.SetActive(inCombatGrid);
             this.StartCombat.gameObject.SetActive(inCombatGrid); 
             this.LeaveCombat.gameObject.SetActive(inCombatGrid);

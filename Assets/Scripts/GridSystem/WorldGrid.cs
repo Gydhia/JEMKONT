@@ -14,6 +14,8 @@ namespace DownBelow.GridSystem
     {
         public string UName;
 
+        public WorldLevel Level;
+
         private float widthOffset => SettingsManager.Instance.GridsPreset.CellsSize / 2f;
         private float cellsWidth => SettingsManager.Instance.GridsPreset.CellsSize;
 
@@ -31,11 +33,28 @@ namespace DownBelow.GridSystem
 
         public Dictionary<string, CombatGrid> InnerCombatGrids = new Dictionary<string, CombatGrid>();
 
-        public virtual void Init(GridData data)
+        public virtual void Init(GridData data, WorldGrid ParentGrid = null)
         {
             this.GridHeight = data.GridHeight;
             this.GridWidth = data.GridWidth;
             this.IsCombatGrid = data.IsCombatGrid;
+
+            if (!data.IsCombatGrid)
+            {
+                var prefabToLoad = Resources.Load<GameObject>(data.GridLevelPath);
+                var loaded = Instantiate(prefabToLoad, this.transform);
+
+                if (!loaded.TryGetComponent(out Level))
+                {
+                    Debug.LogError("LEVEL ERROR : YOU FORGOT TO PUT THE SCRIPT 'World Level' AT THE ROOT OF YOUR LEVEL'S PREFAB");
+                }
+                else
+                {
+                    this.Level.transform.position = -data.TopLeftOffset;
+                }
+
+                this.name = "WG_" + loaded.name;
+            }
 
             this.SelfData = data;
 
@@ -115,10 +134,7 @@ namespace DownBelow.GridSystem
             {
                 CombatGrid newInnerGrid = Instantiate(GridManager.Instance.CombatGridPrefab, Vector3.zero, Quaternion.identity, this.transform) as CombatGrid;
 
-                newInnerGrid.Init(innerGrid);
-                newInnerGrid.ParentGrid = this;
-                newInnerGrid.Longitude = innerGrid.Longitude;
-                newInnerGrid.Latitude = innerGrid.Latitude;
+                newInnerGrid.Init(innerGrid, this);
                 newInnerGrid.UName = this.UName + count; 
 
                 this.InnerCombatGrids.Add(newInnerGrid.UName, newInnerGrid);
@@ -144,7 +160,7 @@ namespace DownBelow.GridSystem
             {
                 for (int j = 0; j < this.Cells.GetLength(1); j++)
                 {
-                    this.CreateAddCell(i, j, new Vector3((j + longitude) * cellsWidth + widthOffset, this.TopLeftOffset.y + 0.1f, -(i + latitude) * cellsWidth - widthOffset));
+                    this.CreateAddCell(i, j, new Vector3((j + longitude) * cellsWidth + widthOffset, 0f, -(i + latitude) * cellsWidth - widthOffset));
                 }
             }
         }
@@ -192,7 +208,7 @@ namespace DownBelow.GridSystem
                     this.Cells = newCells;
                     for (int i = oldHeight; i < newHeight; i++)
                         for (int j = 0; j < oldWidth; j++)
-                            this.CreateAddCell(i, j, new Vector3(j * cellsWidth + widthOffset, 0.1f, -i * cellsWidth));
+                            this.CreateAddCell(i, j, new Vector3(j * cellsWidth + widthOffset, 0f, -i * cellsWidth));
                 }
             }
             // Resize the width
@@ -211,7 +227,7 @@ namespace DownBelow.GridSystem
                     this.Cells = newCells;
                     for (int j = oldWidth; j < newWidth; j++)
                         for (int i = 0; i < oldHeight; i++)
-                            this.CreateAddCell(i, j, new Vector3(j * cellsWidth + widthOffset, 0.1f, -i * cellsWidth));
+                            this.CreateAddCell(i, j, new Vector3(j * cellsWidth + widthOffset, 0f, -i * cellsWidth));
                 }
             }
         }
@@ -254,7 +270,7 @@ namespace DownBelow.GridSystem
         /// <summary>
         /// /!\ Constructor made for the InnerGrids (aka CombatGrids), don't use it for WorldGrids
         /// </summary>
-        public GridData(string GridName, bool IsCombatGrid, int GridHeight, int GridWidth, int Longitude, int Latitude, List<CellData> CellDatas, Dictionary<GridPosition, Guid> EntitiesSpawns)
+        public GridData(string GridName, bool IsCombatGrid, int GridHeight, int GridWidth, int Longitude, int Latitude, List<GridPosition> Entrances, List<CellData> CellDatas, Dictionary<GridPosition, Guid> EntitiesSpawns)
         {
             this.GridName = GridName;
             this.IsCombatGrid = IsCombatGrid;
@@ -262,6 +278,7 @@ namespace DownBelow.GridSystem
             this.GridWidth = GridWidth;
             this.Longitude = Longitude;
             this.Latitude = Latitude;
+            this.Entrances = Entrances;
             this.CellDatas = CellDatas;
             this.SpawnablePresets = EntitiesSpawns;
         }
@@ -269,9 +286,10 @@ namespace DownBelow.GridSystem
         /// <summary>
         /// /!\ Constructor made for the WorldGrids
         /// </summary>
-        public GridData(string GridName, bool IsCombatGrid, int GridHeight, int GridWidth, Vector3 TopLeftOffset, List<CellData> CellDatas, List<GridData> InnerGridsData, Dictionary<GridPosition, Guid> Spawnables)
+        public GridData(string GridName, string GridLevelPath, bool IsCombatGrid, int GridHeight, int GridWidth, Vector3 TopLeftOffset, List<CellData> CellDatas, List<GridData> InnerGridsData, Dictionary<GridPosition, Guid> Spawnables)
         {
             this.GridName = GridName;
+            this.GridLevelPath = GridLevelPath;
             this.IsCombatGrid = IsCombatGrid;
             this.GridHeight = GridHeight;
             this.GridWidth = GridWidth;
@@ -282,6 +300,8 @@ namespace DownBelow.GridSystem
         }
         [DataMember]
         public string GridName { get; set; }
+        [DataMember]
+        public string GridLevelPath { get; set; }
 
         [DataMember]
         public bool IsCombatGrid { get; set; }
@@ -298,6 +318,10 @@ namespace DownBelow.GridSystem
 
         [DataMember]
         public List<GridData> InnerGrids;
+
+        [DataMember]
+        public List<GridPosition> Entrances;
+
         [DataMember]
         public List<CellData> CellDatas { get; set; }
 

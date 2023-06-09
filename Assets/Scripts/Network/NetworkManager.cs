@@ -424,7 +424,7 @@ namespace DownBelow.Managers
                     index++;
                 }
             }
-            this.EntityAskToBuffAction(actionArray, false);
+            this.EntityAskToBuffAction(actionArray, !InputManager.Instance.IsPressingShift);
         }
 
        
@@ -479,7 +479,10 @@ namespace DownBelow.Managers
             }
 
             foreach (var action in generatedActions)
+            {
                 GameManager.Instance.BuffAction(action, abortOthers);
+                abortOthers = false;
+            }
         }
 
 
