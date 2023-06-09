@@ -57,36 +57,6 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: CostsRange
-      Entry: 7
-      Data: 2|System.Collections.Generic.List`1[[System.Int32[], mscorlib]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 3|System.Int32[], mscorlib
-    - Name: 
-      Entry: 14
-      Data: 2
-    - Name: 
-      Entry: 3
-      Data: 2
-    - Name: 
-      Entry: 3
-      Data: 4
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
   UName: Cards
   AffectingState: 8
   ObjectPrefab: {fileID: 2958236804319997038, guid: 45d057279f0a91f459697d8ff1b749c5, type: 3}
@@ -94,3 +64,4 @@ MonoBehaviour:
   InteractAnimation: {fileID: 0}
   RandomizeItem: 1
   RandomizeCost: 1
+  CostsRange: {x: 2, y: 4}

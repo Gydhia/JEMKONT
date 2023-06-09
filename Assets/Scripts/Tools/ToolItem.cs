@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-    [CreateAssetMenu(fileName = "Tool", menuName = "DownBelow/ScriptableObject/ToolItem", order = 1)]
+    [CreateAssetMenu(fileName = "Tool", menuName = "DownBelow/Interactables/ToolItem", order = 1)]
 public class ToolItem : ItemPreset
 {
     public DeckPreset DeckPreset;
@@ -14,6 +14,9 @@ public class ToolItem : ItemPreset
     public PlayerBehavior ActualPlayer;
     public Color ToolRefColor;
     public Sprite FightIcon;
+
+    public Texture2D CharacterTexture;
+
     public virtual void WorldAction() 
     {
         switch (Class) {

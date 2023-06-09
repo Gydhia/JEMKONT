@@ -56,7 +56,7 @@ public class SowAndReapRune : TempObject
         DestroyEntity();
     }
 
-    public override void DestroyEntity()
+    public override void DestroyEntity(float timer = 0f)
     {
         foreach (var item in GameManager.Instance.Players)
         {

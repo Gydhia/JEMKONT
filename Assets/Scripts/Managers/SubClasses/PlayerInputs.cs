@@ -17,8 +17,10 @@ public static class PlayerInputs
     public static InputAction player_select_4;
     public static InputAction player_reselect;
 
-
     public static InputAction player_scroll;
+
+    public static InputAction player_alt;
+    public static InputAction player_F4;
 
     public static void Init(InputActionAsset asset)
     {
@@ -35,5 +37,8 @@ public static class PlayerInputs
         player_select_4 = asset["Select4"];
 
         player_reselect = asset["Reselect"];
+
+        player_alt = asset["Alt"];
+        player_F4 = asset["F4"];
     }
 }

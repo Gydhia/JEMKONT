@@ -1,6 +1,4 @@
-using DownBelow;
 using DownBelow.GridSystem;
-using DownBelow.Inventory;
 namespace DownBelow.Entity
 {
     public class PickupItemAction : EntityAction
@@ -23,14 +21,9 @@ namespace DownBelow.Entity
         public override object[] GetDatas()
         {
             return new object[0];
-            //Confused²
         }
 
-        public override void SetDatas(object[] Datas)
-        {
-            //throw new System.NotImplementedException();
-            //Confused
-        }
+        public override void SetDatas(object[] Datas) { }
     }
 
 }

@@ -1,9 +1,12 @@
+using System;
 using DownBelow.Managers;
 using DownBelow.Mechanics;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace DownBelow.UI
@@ -17,29 +20,35 @@ namespace DownBelow.UI
         public TextMeshProUGUI TitleText;
         public TextMeshProUGUI DescText;
 
+        [HideInInspector] public ScriptableCard CardReference;
+
+        private void OnEnable()
+        {
+            this.CostText.color = GameManager.SelfPlayer.Mana < this.CardReference.Cost ? Color.red : Color.white;
+        }
+
         public void Init(ScriptableCard CardReference)
         {
+            this.CardReference = CardReference;
             this.ShineImage.enabled = false;
-            this.CostText.text = CardReference.Cost.ToString();
-            this.TitleText.text = CardReference.Title;
-            this.DescText.text = CardReference.Description;
-            this.IllustrationImage.sprite = CardReference.IllustrationImage;
+            this.CostText.text = this.CardReference.Cost.ToString();
+            this.TitleText.text = this.CardReference.Title;
+            this.DescText.text = this.CardReference.Description;
+            this.IllustrationImage.sprite = this.CardReference.IllustrationImage;
 
-            switch (CardReference.CardType)
+            this.CardReference = CardReference;
+
+            ShineImage.color = CardReference.CardType switch
             {
-                case CardType.Attack:
-                    ShineImage.color = SettingsManager.Instance.GameUIPreset.AttackColor;
-                    break;
-                case CardType.Power:
-                    ShineImage.color = SettingsManager.Instance.GameUIPreset.PowerColor;
-                    break;
-                case CardType.Skill:
-                    ShineImage.color = SettingsManager.Instance.GameUIPreset.SkillColor;
-                    break;
-                default:
-                    break;
-            }
+                CardType.Attack => SettingsManager.Instance.GameUIPreset.AttackColor,
+                CardType.Power => SettingsManager.Instance.GameUIPreset.PowerColor,
+                CardType.Skill => SettingsManager.Instance.GameUIPreset.SkillColor,
+                CardType.None => SettingsManager.Instance.GameUIPreset.SkillColor,
+                _ => SettingsManager.Instance.GameUIPreset.SkillColor,
+            };
+
         }
+
         public void Hover()
         {
             this.ShineImage.enabled = true;

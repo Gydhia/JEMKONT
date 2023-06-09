@@ -42,6 +42,8 @@ namespace DownBelow.GridSystem
                 this._entityIn = value;
             }
         }
+
+        public CombatGrid RedirectedGrid = null;
         public Interactable AttachedInteract;
         public bool IsPlacementCell = false;
 

@@ -3,6 +3,7 @@ using DownBelow.GridSystem;
 using ExternalPropertyAttributes;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace DownBelow.Spells
@@ -14,14 +15,12 @@ namespace DownBelow.Spells
         {
         }
 
-        public override void ExecuteAction()
+        public override async Task DoSpellBehavior()
         {
-            base.ExecuteAction();
+            await base.DoSpellBehavior();
 
             GetTargets(TargetCell)
                 .ForEach(x=>x.AddAlterations(RefEntity.Alterations.FindAll(x=>x.GetType() == LocalData.GetType())));
-
-            EndAction();
         }
     }
 }

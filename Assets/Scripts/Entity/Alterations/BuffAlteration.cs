@@ -7,8 +7,10 @@ using UnityEngine;
 
 public class BuffAlteration : Alteration
 {
-    public BuffAlteration(int Cooldown, int value) : base(Cooldown) {
+    public BuffAlteration(int Cooldown, int value, EntityStatistics statToBuff) : base(Cooldown)
+    {
         this.value = value;
+        this.StatToBuff = statToBuff;
     }
     /// <summary>
     /// </summary>
@@ -18,12 +20,14 @@ public class BuffAlteration : Alteration
     /// </summary>
     /// <returns>The amount to buff. Can be positive or negative, readonly.</returns>
     public int value;
-    public override void Setup(CharacterEntity entity) {
+    public override void Setup(CharacterEntity entity)
+    {
         base.Setup(entity);
-        entity.ApplyStat(StatToBuff,value);
+        entity.ApplyStat(StatToBuff, value);
     }
-    public override void WearsOff(CharacterEntity entity) {
+    public override void WearsOff(CharacterEntity entity)
+    {
         base.WearsOff(entity);
-        entity.ApplyStat(StatToBuff,-value);
+        entity.ApplyStat(StatToBuff, -value);
     }
 }

@@ -3,6 +3,7 @@ using DownBelow.GridSystem;
 using DownBelow.Spells.Alterations;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace DownBelow.Spells
@@ -13,14 +14,12 @@ namespace DownBelow.Spells
         {
         }
 
-        public override void ExecuteAction()
+        public override async Task DoSpellBehavior()
         {
-            base.ExecuteAction();
-
-            Result.TargetedCells[0].EntityIn.AddAlteration(new SomberStitch(-1, TargetedCells[1].EntityIn));
-            Result.TargetedCells[1].EntityIn.AddAlteration(new SomberStitch(-1, TargetedCells[0].EntityIn));
-
-            EndAction();
+            await base.DoSpellBehavior();
+            GetTargets(TargetCell);
+            TargetedCells[0].EntityIn.AddAlteration(new SomberStitch(-1, TargetedCells[1].EntityIn));
+            TargetedCells[1].EntityIn.AddAlteration(new SomberStitch(-1, TargetedCells[0].EntityIn));
         }
     }
 

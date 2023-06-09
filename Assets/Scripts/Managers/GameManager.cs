@@ -16,6 +16,8 @@ using Sirenix.Utilities;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using DownBelow.Loading;
+using static UnityEngine.EventSystems.EventTrigger;
+using Photon.Pun.Demo.PunBasics;
 
 namespace DownBelow.Managers
 {
@@ -40,23 +42,28 @@ namespace DownBelow.Managers
             this.OnGameStarted?.Invoke(new());
         }
 
-        public void FireEntityEnteredGrid(string entityID)
+
+        public void FireEntitySwitchingGrid(string playerID, WorldGrid newGrid)
         {
-            this.FireEntityEnteredGrid(this.Players[entityID]);
-        }
-        public void FireEntityEnteredGrid(CharacterEntity entity)
-        {
-            this.OnEnteredGrid?.Invoke(new EntityEventData(entity));
+            FireEntitySwitchingGrid(this.Players[playerID], newGrid);
         }
 
-        public void FireEntityExitingGrid(string entityID)
+        public void FireEntitySwitchingGrid(PlayerBehavior player, WorldGrid newGrid)
         {
-            this.FireEntityExitingGrid(this.Players[entityID]);
+            this.OnExitingGrid?.Invoke(new EntityEventData(player));
+
+            // Means that we're coming from a world grid to another worldgrid
+            if(player == RealSelfPlayer && (!player.CurrentGrid.IsCombatGrid && !newGrid.IsCombatGrid))
+            {
+                player.CurrentGrid.gameObject.SetActive(false);
+                newGrid.gameObject.SetActive(true);
+            }
+
+            player.EnterNewGrid(newGrid);
+            this.OnEnteredGrid?.Invoke(new EntityEventData(player));
         }
-        public void FireEntityExitingGrid(CharacterEntity entity)
-        {
-            OnExitingGrid?.Invoke(new EntityEventData(entity));
-        }
+
+
         public void FireSelfPlayerSwitched(PlayerBehavior player, int oldIndex, int newIndex)
         {
             SelfPlayer.SelectedIndicator.gameObject.SetActive(false);
@@ -67,8 +74,11 @@ namespace DownBelow.Managers
         }
         #endregion
 
+
         public string SaveName;
         public PlayerBehavior PlayerPrefab;
+
+        public static PlayerBehavior MasterPlayer => Instance.Players[PhotonNetwork.MasterClient.UserId];
 
         public Dictionary<string, PlayerBehavior> Players;
         /// <summary>
@@ -79,8 +89,6 @@ namespace DownBelow.Managers
         /// The local player
         /// </summary>
         public static PlayerBehavior RealSelfPlayer { get { return SelfPlayer.IsFake ? SelfPlayer.Owner : SelfPlayer; } }
-
-        public static Cell NullCell = new Cell();
 
         public ItemPreset[] GameItems;
 
@@ -95,8 +103,7 @@ namespace DownBelow.Managers
 
         public static List<EntityAction> CombatActionsBuffer = new List<EntityAction>();
         public static bool IsUsingCombatBuffer = false;
-        
-
+       
         #endregion
 
         private void Start()
@@ -246,11 +253,7 @@ namespace DownBelow.Managers
             foreach (var player in this.Players.Values)
             {
                 player.FireExitedCell();
-                this.FireEntityExitingGrid(player.UID);
-
-                player.EnterNewGrid(worldGrid);
-
-                this.FireEntityEnteredGrid(player.UID);
+                GameManager.Instance.FireEntitySwitchingGrid(player, worldGrid);
                 var newCell = worldGrid.Cells[spawnLocations.ElementAt(counter).latitude, spawnLocations.ElementAt(counter).longitude];
                 player.FireEnteredCell(newCell);
                 
@@ -312,8 +315,9 @@ namespace DownBelow.Managers
                 {
                     CombatActionsBuffer[0].SetCallback(_executeNextFromCombatBufferDelayed);
                     CombatActionsBuffer[0].ExecuteAction();
-                } catch
+                } catch (Exception ex)
                 {
+                    Debug.LogError(ex);
                     CombatActionsBuffer[0].EndAction();
                 }
 
@@ -363,7 +367,8 @@ namespace DownBelow.Managers
                 // So don't call it twice to avoid double buffering which should NEVER happens
                 if (!IsUsingCombatBuffer)
                     this.ExecuteNextFromCombatBuffer();
-            } else
+            } 
+            else
             {
                 //if we're not in combat and that the buffer didn't have any actions for this entity; create the key with a new list (to be able to add actions inside)
                 if (!NormalActionsBuffer.ContainsKey(action.RefEntity))
@@ -403,7 +408,7 @@ namespace DownBelow.Managers
 
         public EntityAction FindActionByID(CharacterEntity entity, Guid ID)
         {
-            if (entity.CurrentGrid is CombatGrid)
+            if (entity.CurrentGrid.IsCombatGrid)
             {
                 return CombatActionsBuffer.SingleOrDefault(a => a.ID == ID);
             }

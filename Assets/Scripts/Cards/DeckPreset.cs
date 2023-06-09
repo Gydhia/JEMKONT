@@ -13,7 +13,7 @@ using UnityEditor;
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName ="NewDeckPreset.asset",menuName ="Presets/DeckPreset")]
+[CreateAssetMenu(fileName ="NewDeckPreset.asset",menuName ="DownBelow/Cards/DeckPreset")]
 public class DeckPreset : SerializedScriptableObject
 {
     [ReadOnly]
@@ -122,7 +122,7 @@ public class DeckPreset : SerializedScriptableObject
     }
     public DraggableCard CreateCard(ScriptableCard fromCard) 
     {
-        var card = Instantiate(CardsManager.Instance.CardPrefab, this.RefCardsHolder.Piles[PileType.Draw].transform);
+        var card = Instantiate(CardsManager.Instance.CardPrefab, this.RefCardsHolder.Piles[PileType.Draw].CardsHolder);
         card.name += fromCard.Title;
         card.Init(fromCard, this.RefCardsHolder.Piles[PileType.Draw]);
 

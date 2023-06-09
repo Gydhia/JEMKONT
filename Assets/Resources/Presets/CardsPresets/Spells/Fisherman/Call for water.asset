@@ -15,7 +15,9 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: 672309b67e637ff4ca3549e1a384b411, type: 2}
+    - {fileID: 11400000, guid: bc413fd47f0d3c94a93195dd2a067a46, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -37,6 +39,9 @@ MonoBehaviour:
       Entry: 2
       Data: 00000000000000000000000000000000
     - Name: RefBuffer
+      Entry: 6
+      Data: 
+    - Name: RefGrid
       Entry: 6
       Data: 
     - Name: RefEntity
@@ -430,11 +435,11 @@ MonoBehaviour:
       Entry: 3
       Data: 19
     - Name: ProjectileSFX
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 0
     - Name: CellSFX
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 1
     - Name: PushType
       Entry: 3
       Data: 4

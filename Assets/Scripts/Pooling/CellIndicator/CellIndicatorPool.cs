@@ -44,6 +44,8 @@ namespace DownBelow.Pools
         #region ACTIONS
         public void DisplayActionIndicators(EntityAction action, Color? color = null)
         {
+            if(action.TargetCell == null) { return; }
+
             color ??= this._getColorFromAction(action);
 
             CellIndicator indicator = GetPooled();
@@ -124,8 +126,21 @@ namespace DownBelow.Pools
         #region SPELLS
         private void _displaySpellIndicators(ref bool[,] matrix, Cell origin, bool isShape)
         {
-            var cells = GridUtility.TransposeShapeToCells(ref matrix, origin, isShape ? _currentSpell.Data.RotatedShapePosition : _currentSpell.Data.CasterPosition);
-
+            List<Cell> cells = new();
+            if(matrix == null || !matrix.Contains(true))
+            {
+                for (int col = 0;col < origin.RefGrid.Cells.GetLength(0);col++)
+                {
+                    for (int row = 0;row < origin.RefGrid.Cells.GetLength(1);row++)
+                    {
+                        cells.Add(origin.RefGrid.Cells[col, row]);
+                    }
+                }
+            } else
+            {
+                cells = GridUtility.TransposeShapeToCells(ref matrix, origin, isShape ? _currentSpell.Data.RotatedShapePosition : _currentSpell.Data.CasterPosition);
+            }
+            
             foreach (var cell in cells)
             {
                 if (!this._spellsRef.ContainsKey(cell))
@@ -185,6 +200,7 @@ namespace DownBelow.Pools
                 Debug.LogError("NULL SPELL");
                 return;
             }
+
             this._currentSpell = Data.TargetSpell;
             this._displaySpellIndicators(ref this._currentSpell.Data.CastingMatrix, CombatManager.CurrentPlayingEntity.EntityCell, false);
 

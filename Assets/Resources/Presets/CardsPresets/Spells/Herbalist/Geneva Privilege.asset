@@ -16,7 +16,9 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 11400000, guid: 38d905773eff14546b34bb9fb4f91e87, type: 2}
+    - {fileID: 11400000, guid: 74a348f95b6488746b5d56d7a7c60f83, type: 2}
+    - {fileID: 11400000, guid: 9d0f6268ebf7985479145d8a3660f730, type: 2}
+    - {fileID: 11400000, guid: a79d868eabbf8844fb033d8bf1547208, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -38,6 +40,9 @@ MonoBehaviour:
       Entry: 2
       Data: 00000000000000000000000000000000
     - Name: RefBuffer
+      Entry: 6
+      Data: 
+    - Name: RefGrid
       Entry: 6
       Data: 
     - Name: RefEntity
@@ -395,8 +400,8 @@ MonoBehaviour:
       Entry: 10
       Data: 0
     - Name: CellSFX
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 1
     - Name: IsNegativeEffect
       Entry: 5
       Data: false
@@ -406,6 +411,12 @@ MonoBehaviour:
     - Name: StatAmount
       Entry: 3
       Data: 3
+    - Name: GivesAlteration
+      Entry: 5
+      Data: false
+    - Name: duration
+      Entry: 3
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -435,11 +446,14 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 5|DownBelow.Spells.Spell_StatsOnResult, Assembly-CSharp
+      Data: 5|DownBelow.Spells.Spell_Stats, Assembly-CSharp
     - Name: ID
       Entry: 2
       Data: 00000000000000000000000000000000
     - Name: RefBuffer
+      Entry: 6
+      Data: 
+    - Name: RefGrid
       Entry: 6
       Data: 
     - Name: RefEntity
@@ -459,7 +473,7 @@ MonoBehaviour:
       Data: false
     - Name: SpellResultTargeting
       Entry: 5
-      Data: false
+      Data: true
     - Name: SpellResultIndex
       Entry: 3
       Data: 0
@@ -720,13 +734,13 @@ MonoBehaviour:
       Data: false
     - Name: TargetType
       Entry: 3
-      Data: 0
+      Data: 2
     - Name: ProjectileSFX
       Entry: 6
       Data: 
     - Name: CellSFX
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 2
     - Name: IsNegativeEffect
       Entry: 5
       Data: false
@@ -735,7 +749,13 @@ MonoBehaviour:
       Data: 20
     - Name: StatAmount
       Entry: 3
-      Data: 3
+      Data: 10
+    - Name: GivesAlteration
+      Entry: 5
+      Data: false
+    - Name: duration
+      Entry: 3
+      Data: 0
     - Name: 
       Entry: 8
       Data: 

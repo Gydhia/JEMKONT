@@ -15,7 +15,8 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: bff804acda5c2194bbfe5025cef1d7d7, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -51,6 +52,9 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 8
+      Data: 
+    - Name: RefGrid
+      Entry: 6
       Data: 
     - Name: RefEntity
       Entry: 6
@@ -176,17 +180,17 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: RotatedShapeMatrix
-      Entry: 6
-      Data: 
+      Entry: 9
+      Data: 4
     - Name: RotatedShapePosition
       Entry: 7
       Data: UnityEngine.Vector2, UnityEngine.CoreModule
     - Name: 
       Entry: 4
-      Data: 0
+      Data: 2
     - Name: 
       Entry: 4
-      Data: 0
+      Data: 2
     - Name: 
       Entry: 8
       Data: 
@@ -195,157 +199,85 @@ MonoBehaviour:
       Data: 5|System.Boolean[,], mscorlib
     - Name: 
       Entry: 12
-      Data: 49
+      Data: 25
     - Name: ranks
       Entry: 1
-      Data: 7|7
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
+      Data: 5|5
     - Name: 
       Entry: 5
       Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 13
       Data: 
@@ -357,10 +289,10 @@ MonoBehaviour:
       Data: UnityEngine.Vector2, UnityEngine.CoreModule
     - Name: 
       Entry: 4
-      Data: 3
+      Data: 2
     - Name: 
       Entry: 4
-      Data: 3
+      Data: 2
     - Name: 
       Entry: 8
       Data: 
@@ -371,8 +303,8 @@ MonoBehaviour:
       Entry: 3
       Data: 1
     - Name: ProjectileSFX
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 0
     - Name: CellSFX
       Entry: 6
       Data: 
@@ -385,6 +317,12 @@ MonoBehaviour:
     - Name: StatAmount
       Entry: 3
       Data: 3
+    - Name: GivesAlteration
+      Entry: 5
+      Data: false
+    - Name: duration
+      Entry: 3
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -453,11 +391,14 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 8|DownBelow.Spells.Spell_AlterationOnResult, Assembly-CSharp
+      Data: 8|DownBelow.Spells.Spell_Alteration, Assembly-CSharp
     - Name: ID
       Entry: 2
       Data: 00000000000000000000000000000000
     - Name: RefBuffer
+      Entry: 6
+      Data: 
+    - Name: RefGrid
       Entry: 6
       Data: 
     - Name: RefEntity
@@ -474,10 +415,10 @@ MonoBehaviour:
       Data: 9|DownBelow.Spells.SpellData_Alteration, Assembly-CSharp
     - Name: RequiresTargetting
       Entry: 5
-      Data: true
+      Data: false
     - Name: SpellResultTargeting
       Entry: 5
-      Data: false
+      Data: true
     - Name: SpellResultIndex
       Entry: 3
       Data: 0
@@ -528,7 +469,7 @@ MonoBehaviour:
       Data: false
     - Name: 
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 5
       Data: false
@@ -645,7 +586,7 @@ MonoBehaviour:
       Data: false
     - Name: 
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 5
       Data: false
@@ -705,7 +646,7 @@ MonoBehaviour:
       Data: false
     - Name: TargetType
       Entry: 3
-      Data: 0
+      Data: 1
     - Name: ProjectileSFX
       Entry: 6
       Data: 
@@ -726,7 +667,7 @@ MonoBehaviour:
       Data: 
     - Name: Damage
       Entry: 3
-      Data: 1
+      Data: 2
     - Name: 
       Entry: 8
       Data: 

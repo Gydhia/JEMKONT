@@ -36,6 +36,7 @@ namespace DownBelow.Managers
             PlayerInputs.player_select_3.canceled += this._switchToThirdPlayer;
             PlayerInputs.player_select_4.canceled += this._switchToFourthPlayer;
             PlayerInputs.player_reselect.canceled += this._switchToSelfPlayer;
+            
 
             this.OnCombatStarted?.Invoke(new GridEventData(Grid));
         }
@@ -49,7 +50,8 @@ namespace DownBelow.Managers
             PlayerInputs.player_select_3.canceled -= this._switchToThirdPlayer;
             PlayerInputs.player_select_4.canceled -= this._switchToFourthPlayer;
             PlayerInputs.player_reselect.canceled -= this._switchToSelfPlayer;
-
+            
+            
             GameManager.Instance.FireSelfPlayerSwitched(null, this._playerIndex, 0);
 
             this.OnCombatEnded?.Invoke(new GridEventData(Grid, AllyVictory));
@@ -130,7 +132,7 @@ namespace DownBelow.Managers
         /// <param name="Data"></param>
         public void WelcomePlayerInCombat(EntityEventData Data)
         {
-            if (!(Data.Entity.CurrentGrid is CombatGrid))
+            if (!Data.Entity.CurrentGrid.IsCombatGrid)
                 return;
 
             CombatGrid currentGrid = Data.Entity.CurrentGrid as CombatGrid;
@@ -252,6 +254,8 @@ namespace DownBelow.Managers
             this.FireCombatStarted(CurrentPlayingGrid);
 
             StartCoroutine(this._startCombatDelay(2f));
+            
+          //  UIManager.Instance.CardSection.OnCharacterSwitch += _abortUsedSpell;
         }
 
         private IEnumerator _startCombatDelay(float time)
@@ -363,6 +367,9 @@ namespace DownBelow.Managers
             // Create the spell header, used to store only usefull datas (=avoid duplications)
             this._currentSpellHeader = new SpellHeader(data.Card.UID, data.Card.Spells.Length, CurrentPlayingEntity.UID);
             this._currentSpell = data.Card.Spells.FirstOrDefault(s => s.Data.RequiresTargetting);
+            // If no targeting required
+            bool targeting = this._currentSpell != null;
+            this._currentSpell ??= data.Card.Spells[0];
 
             foreach (var spell in data.Card.Spells)
             {
@@ -371,15 +378,26 @@ namespace DownBelow.Managers
 
             DraggableCard.SelectedCard.CardReference.CurrentSpellTargetting = 0;
 
-            this.FireSpellBeginTargetting(this._currentSpell, data.Cell);
+            if (targeting)
+            {
+                this.FireSpellBeginTargetting(this._currentSpell, data.Cell);
 
-            InputManager.Instance.OnCellRightClickDown += _abortUsedSpell;
-            InputManager.Instance.OnCellClickedUp += _processSpellClick;
+                InputManager.Instance.OnCellClickedUp += _processSpellClick;
+
+                UIManager.Instance.CardSection.OnCharacterSwitch += AbortUsedSpell;
+            }
+            else
+            {
+                _currentSpellHeader.TargetedCells[0] = CurrentPlayingEntity.EntityCell.PositionInGrid;
+                this.FireCardEndUse(data.Card, DraggableCard.SelectedCard, this._currentSpellHeader, CurrentPlayingEntity.EntityCell, true);
+            }
         }
 
-        private void _abortUsedSpell(CellEventData Data)
+        public void AbortUsedSpell(CellEventData Data)
         {
-            this.FireCardEndUse(
+            if(DraggableCard.SelectedCard != null)
+            {
+                this.FireCardEndUse(
                 DraggableCard.SelectedCard.CardReference,
                 DraggableCard.SelectedCard,
                 this._currentSpellHeader,
@@ -387,17 +405,24 @@ namespace DownBelow.Managers
                 false
             );
 
-            this.FireSpellEndTargetting(
-                this._currentSpell,
-                Data.Cell
-            );
+            }
+            if (this._currentSpell != null && Data.Cell != null)
+            {
+                this.FireSpellEndTargetting(
+                                this._currentSpell,
+                                Data.Cell
+                            );
+            }
 
             this._currentSpell = null;
+            if (DraggableCard.SelectedCard != null)
+            {
+                DraggableCard.SelectedCard.DiscardToHand();
+            }
 
-            DraggableCard.SelectedCard.DiscardToHand();
-
-            InputManager.Instance.OnCellRightClickDown -= _abortUsedSpell;
             InputManager.Instance.OnCellClickedUp -= _processSpellClick;
+            UIManager.Instance.CardSection.OnCharacterSwitch -= AbortUsedSpell;
+            
         }
 
         public static bool IsCellCastable(Cell cell, Spell spell)
@@ -428,6 +453,7 @@ namespace DownBelow.Managers
                 return;
 
             this._currentSpellHeader.TargetedCells[currentCard.CurrentSpellTargetting] = Data.Cell.PositionInGrid;
+
             this.FireSpellEndTargetting(this._currentSpell, Data.Cell);
 
             // Means that there are no more targetting spells in the array, so we finished
@@ -435,7 +461,6 @@ namespace DownBelow.Managers
             {
                 this.FireCardEndUse(currentCard, DraggableCard.SelectedCard, this._currentSpellHeader, Data.Cell, true);
 
-                InputManager.Instance.OnCellRightClickDown -= _abortUsedSpell;
                 InputManager.Instance.OnCellClickedUp -= _processSpellClick;
             }
             else
@@ -558,5 +583,6 @@ namespace DownBelow.Managers
                 this.FireCombatEnded(CurrentPlayingGrid, true);
             }
         }
+        
     }
 }

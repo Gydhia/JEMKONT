@@ -39,7 +39,7 @@ public class RegaliaRune : TempObject
             player.Statistics[EntityStatistics.Defense] -= ArmorBoost;
         }
     }
-    public override void DestroyEntity()
+    public override void DestroyEntity(float timer = 0f)
     {
         foreach (var player in playersInRange)
         {

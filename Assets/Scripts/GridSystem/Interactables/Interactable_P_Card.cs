@@ -13,22 +13,35 @@ namespace DownBelow.GridSystem
     public class Interactable_P_Card : InteractablePurchase<ScriptableCard>
     {
         public UIExtensibleCard UICard;
+        public Transform OrbHolder;
+        public ParticleSystem BuyParticle;
 
         public override List<ScriptableCard> GetItemsPool()
         {
-            return SettingsManager.Instance.ScriptableCards.Values.ToList().Except(SettingsManager.Instance.OwnedCards).ToList();
+            return SettingsManager.Instance.ScriptableCards.Values.Where(c => c.Class == this.Preset.SpecificClass).Except(SettingsManager.Instance.OwnedCards).ToList();
         }
 
         public override void Init(InteractablePreset InteractableRef, Cell RefCell)
         {
             base.Init(InteractableRef, RefCell);
+
+            var particle = Instantiate(this.Preset.OrbParticlePrefab, this.OrbHolder);
+            particle.gameObject.transform.localScale = new Vector3(4f, 4f, 4f);
+
+            GameManager.Instance.OnGameStarted += Instance_OnGameStarted;
+        }
+
+        private void Instance_OnGameStarted(Events.GameEventData Data)
+        {
             this.RefreshPurchase();
         }
 
         public override void GiveItemToPlayer(ScriptableCard Item)
         {
             if (SettingsManager.Instance.OwnedCards.Contains(Item))
+            {
                 Debug.LogError(Item.name + " IS ALREADY IN THE OWNED CARDS");
+            }
 
             SettingsManager.Instance.OwnedCards.Add(Item);
         }
@@ -37,14 +50,15 @@ namespace DownBelow.GridSystem
         {
             var pooledCards = this.GetItemsPool();
 
-            if(pooledCards == null || pooledCards.Count <= 0)
+            if (pooledCards == null || pooledCards.Count <= 0)
             {
                 this.RefCell.ChangeCellState(CellState.Walkable);
                 this.gameObject.SetActive(false);
                 return;
             }
+            string UID = GameManager.MasterPlayer.UID;
 
-            var choosenCard = pooledCards[UnityEngine.Random.Range(0, pooledCards.Count)];
+            var choosenCard = pooledCards[RandomHelper.RandInt(0, pooledCards.Count, UID)];
 
             this.Preset.ActualizeCosts();
             this.CurrentItemPurchase = choosenCard;
@@ -56,6 +70,9 @@ namespace DownBelow.GridSystem
             if (this.CanBuy())
             {
                 Debug.Log("Just bought : " + this.CurrentItemPurchase);
+
+                this.BuyParticle.Play();
+
                 this.GiveItemToPlayer(this.CurrentItemPurchase);
 
                 foreach (var item in this.Preset.Costs)
@@ -64,7 +81,9 @@ namespace DownBelow.GridSystem
                 this.RefreshPurchase();
             }
             else
-                Debug.Log("Can't buy this item, missing resources");
+            {
+                UIManager.Instance.DatasSection.ShowWarningText("You're missing ressources to buy");
+            }
         }
     }
 }
