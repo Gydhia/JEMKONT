@@ -92,7 +92,26 @@ namespace DownBelow.Spells
         {
             if (Data.ProjectileSFX != null)
             {
-                await SFXManager.Instance.DOSFX(new RuntimeSFXData(Data.ProjectileSFX, RefEntity, TargetCell, this));
+                if (Data.RequiresTargetting)
+                {
+                    await SFXManager.Instance.DOSFX(new RuntimeSFXData(Data.ProjectileSFX, RefEntity, TargetCell, this));
+                }
+                else if(Data.SpellResultTargeting){
+                    await SFXManager.Instance.DOSFX(new RuntimeSFXData(Data.ProjectileSFX, RefEntity, GetSpellFromIndex(Data.SpellResultIndex).TargetCell, this));
+                } else
+                {
+                    for (int i = 0;i < TargetEntities.Count;i++)
+                    {
+                        CharacterEntity item = TargetEntities[i];
+                        if(i == TargetEntities.Count - 1)
+                        {
+                            await SFXManager.Instance.DOSFX(new RuntimeSFXData(Data.ProjectileSFX, RefEntity, item.EntityCell, this));
+                        } else
+                        {
+                            SFXManager.Instance.DOSFX(new RuntimeSFXData(Data.ProjectileSFX, RefEntity, item.EntityCell, this));
+                        }
+                    }
+                }
             }
             if (Data.CellSFX != null && TargetedCells != null && TargetedCells.Count != 0)
             {
