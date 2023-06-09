@@ -39,6 +39,8 @@ public class SerializedBigDataScriptableObject<T> : ScriptableObject
     [SerializeField, HideInInspector]
     private List<UnityEngine.Object> unityObjectReferences;
 
+    protected virtual bool shouldLoadData => true;
+
     [HideLabel]
     [ShowInInspector, HideReferenceObjectPicker, OnInspectorGUI(Prepend = "DrawBox")]
     private T Data
@@ -58,9 +60,10 @@ public class SerializedBigDataScriptableObject<T> : ScriptableObject
                 if (this.data == null) this.data = new T();
                 return this.data;
             }
-
+           
             this.data = this.LoadData();
             this.isLoadAttepted = true;
+            
             return this.data;
         }
         set { }
@@ -142,12 +145,21 @@ public class SerializedBigDataScriptableObject<T> : ScriptableObject
             return null;
         }
 
-        var s = new MemoryStream(binary.bytes);
-        using (var reader = new BinaryReader(s))
+        try
         {
-            var obj = Sirenix.Serialization.SerializationUtility.DeserializeValue<T>(reader.BaseStream, DataFormat.Binary, this.unityObjectReferences);
-            return obj;
+            var s = new MemoryStream(binary.bytes);
+            using (var reader = new BinaryReader(s))
+            {
+                var obj = Sirenix.Serialization.SerializationUtility.DeserializeValue<T>(reader.BaseStream, DataFormat.Binary, this.unityObjectReferences);
+                return obj;
+            }
         }
+        catch (Exception e)
+        {
+            Debug.LogWarning("Grids datas couldn't be loaded. This in only an inspector problem");
+        }
+
+        return null;
     }
 
 }

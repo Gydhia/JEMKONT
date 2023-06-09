@@ -44,6 +44,8 @@ namespace DownBelow.Pools
         #region ACTIONS
         public void DisplayActionIndicators(EntityAction action, Color? color = null)
         {
+            if(action.TargetCell == null) { return; }
+
             color ??= this._getColorFromAction(action);
 
             CellIndicator indicator = GetPooled();
@@ -198,6 +200,7 @@ namespace DownBelow.Pools
                 Debug.LogError("NULL SPELL");
                 return;
             }
+
             this._currentSpell = Data.TargetSpell;
             this._displaySpellIndicators(ref this._currentSpell.Data.CastingMatrix, CombatManager.CurrentPlayingEntity.EntityCell, false);
 

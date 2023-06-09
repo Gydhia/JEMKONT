@@ -29,24 +29,11 @@ namespace DownBelow.Spells.Alterations
             { EAlterationType.SpeedUpDown, new EAlterationType[0] },
             { EAlterationType.Sleep, new EAlterationType[0] },
         };
-        public static EAlterationType TypeToEnum<T>() {
-            T type = default;
-            return type switch {
-                StunAlteration => EAlterationType.Stun,
-                SnareAlteration => EAlterationType.Snare,
-                ShatteredAlteration => EAlterationType.Shattered,
-                DoTAlteration => EAlterationType.DoT,
-                BubbledAlteration => EAlterationType.Bubbled,
-                DmgUpDownAlteration => EAlterationType.DmgUpDown,
-                SpeedUpDownAlteration => EAlterationType.SpeedUpDown,
-
-                _ => throw new System.NotImplementedException($"NEED TO IMPLEMENT ALTERATION CALLED {type}"),
-            };
-        }
-        public abstract EAlterationType ToEnum();
         //*/
 
         public int Duration;
+
+        private bool Infinite = false;
 
         [HideInInspector] public CharacterEntity Target;
 
@@ -78,7 +65,6 @@ namespace DownBelow.Spells.Alterations
         public virtual void Apply(CharacterEntity entity)
         {
             SFXManager.Instance.RefreshAlterationSFX(entity);
-
         }
 
         /// <summary>
@@ -99,6 +85,7 @@ namespace DownBelow.Spells.Alterations
         /// <param name="data"></param>
         public virtual void DecrementAlterationCountdown(Events.EventData data)
         {
+            if (Infinite) return;
             Duration--;
             if (Duration <= 0 && ClassicCountdown)
             {
@@ -109,6 +96,10 @@ namespace DownBelow.Spells.Alterations
         public Alteration(int Duration)
         {
             this.Duration = Duration;
+            if(Duration == -1)
+            {
+                Infinite= true;
+            }
         }
 
         public override string ToString()

@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebfd46f83b4aa044a8d3b542efad383b, type: 3}
+  m_Name: Portal_Abyss01
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: UID
+      Entry: 2
+      Data: 41ba0b9d6bd67bb25a75ba25eda10ff5
+  UName: PortalAbyss01
+  AffectingState: 8
+  ObjectPrefab: {fileID: 2023544193209507618, guid: ad46d9d023c0ef64c9789561ce2ac1ef, type: 3}
+  OutlineColor: {r: 0.62352943, g: 0.28385296, b: 0.23137252, a: 0.6}
+  InteractAnimation: {fileID: 0}
+  TargetGrid: Abyss_01

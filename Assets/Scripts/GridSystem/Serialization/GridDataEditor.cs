@@ -19,6 +19,8 @@ public class EditorGridData
     [FoldoutGroup("Transform")]
     public int GridWidth = 5;
 
+    [FoldoutGroup("Datas"), ReadOnly]
+    public string LevelPrefabPath;
     [FoldoutGroup("Datas")]
     public bool IsCombatGrid = false;
     [FoldoutGroup("Datas")]

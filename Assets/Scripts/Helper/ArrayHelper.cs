@@ -1,4 +1,5 @@
 using DownBelow.GridSystem;
+using EODE.Wonderland;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,6 +11,15 @@ public static class ArrayHelper
     {
         Array.Resize(ref array, array.Length + 1);
         array[array.Length - 1] = item;
+    }
+
+
+    public static T Random<T>(this T[,] array)
+    {
+        int x = UnityEngine.Random.Range(0, array.GetLength(0));
+        int y = UnityEngine.Random.Range(0, array.GetLength(1));
+
+        return array[x, y];
     }
 
     public static bool Contains<T>(this T[,] array, T value)

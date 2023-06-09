@@ -18,7 +18,6 @@ public class SmallCardDeckbuilding : MonoBehaviour {
                 RightClick();
             }
         }
-
     }
     public void Init(ScriptableCard card, int number, UnityEngine.Events.UnityAction call) {
         texts[0].text = number.ToString();

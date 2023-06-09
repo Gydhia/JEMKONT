@@ -3,6 +3,7 @@ using DownBelow.GridSystem;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 namespace DownBelow.Spells
 {
@@ -20,16 +21,16 @@ namespace DownBelow.Spells
         {
         }
 
-        public override void ExecuteAction()
+        public override async Task DoSpellBehavior()
         {
-            base.ExecuteAction();
+            await base.DoSpellBehavior();
             GetTargets(TargetCell);
             var targets = Result.TargetedCells.FindAll(x => x.EntityIn != null);
             if (targets != null)
             {
                 foreach (var target in targets)
                 {
-                    Managers.CombatManager.Instance.StartCoroutine(SummonNCE(target, LocalData, RefEntity));
+                    Managers.CombatManager.Instance.StartCoroutine(Spell_SummonNCE.SummonNCE(target, LocalData, RefEntity));
                 }
                 for (int i = 0;i < targets.Count;i++)
                 {
@@ -41,13 +42,7 @@ namespace DownBelow.Spells
                     }
                 }
             }
-            EndAction();
         }
 
-        public static IEnumerator SummonNCE(Cell cell, SpellData_Summon summondata, CharacterEntity RefEntity)
-        {
-            summondata.NCEPreset.InitNCE(cell, RefEntity);
-            yield return null;
-        }
     }
 }

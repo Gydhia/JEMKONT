@@ -1,7 +1,3 @@
-using DownBelow.Managers;
-using DownBelow.Spells;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace DownBelow.GridSystem
@@ -19,7 +15,7 @@ namespace DownBelow.GridSystem
         public Cell RefCell;
 
         public MeshRenderer Mesh;
-        public Outline Outline;
+        public DownBelow.Outlining.Outline Outline;
 
         public virtual void Init(InteractablePreset InteractableRef, Cell RefCell) 
         {

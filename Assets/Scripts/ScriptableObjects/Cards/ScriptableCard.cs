@@ -5,6 +5,7 @@ using Sirenix.Serialization;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -12,7 +13,7 @@ namespace DownBelow.Mechanics
 {
     public enum ECardType { Melee, Ranged, Special }
 
-    [CreateAssetMenu(menuName = "Cards/SO_Card")]
+    [CreateAssetMenu(menuName = "DownBelow/Cards/SO_Card")]
     public class ScriptableCard : SerializedScriptableObject
     {
         #region SERIALIZATION
@@ -46,7 +47,7 @@ namespace DownBelow.Mechanics
             Title = name;
         }
 
-        public bool IsTrackable() => true; //this.Spells.Length > 0 && this.Spells[0].ApplyToCell;
+        public bool IsTrackable() => Spells.Any(x=>x.Data.RequiresTargetting); //this.Spells.Length > 0 && this.Spells[0].ApplyToCell;
 
         [HideInInspector]
         public int CurrentSpellTargetting = 0;
@@ -82,6 +83,17 @@ namespace DownBelow.Mechanics
                         } else if (item.Data.SpellResultIndex >= i)
                         {
                             item.Data.SpellResultIndex = i - 1;
+                        }
+                        if(item.Data is SpellData_CombineWithSpellResult comb)
+                        {
+                            if (i == 0)
+                            {
+                                comb.DoCombine = false;
+                                return false;
+                            } else if (comb.SpellResultIndexToCombine >= i)
+                            {
+                                comb.SpellResultIndexToCombine = i - 1;
+                            }
                         }
                     }
                 }

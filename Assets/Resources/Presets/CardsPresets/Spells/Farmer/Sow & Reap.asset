@@ -15,7 +15,8 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: a5962ac6caff7ea4c9d65d8c071672c9, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -32,7 +33,7 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 7
-      Data: 1|DownBelow.Spells.Spell_DrawCard, Assembly-CSharp
+      Data: 1|DownBelow.Spells.Spell_SummonNCE, Assembly-CSharp
     - Name: ID
       Entry: 2
       Data: 00000000000000000000000000000000
@@ -50,7 +51,7 @@ MonoBehaviour:
       Data: 00000000000000000000000000000000
     - Name: Data
       Entry: 7
-      Data: 2|DownBelow.Spells.SpellData_Card, Assembly-CSharp
+      Data: 2|DownBelow.Spells.SpellData_Summon, Assembly-CSharp
     - Name: RequiresTargetting
       Entry: 5
       Data: true
@@ -65,25 +66,10 @@ MonoBehaviour:
       Data: 3|System.Boolean[,], mscorlib
     - Name: 
       Entry: 12
-      Data: 25
+      Data: 36
     - Name: ranks
       Entry: 1
-      Data: 5|5
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
+      Data: 6|6
     - Name: 
       Entry: 5
       Data: false
@@ -108,6 +94,54 @@ MonoBehaviour:
     - Name: 
       Entry: 5
       Data: true
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
     - Name: 
       Entry: 5
       Data: false
@@ -155,10 +189,10 @@ MonoBehaviour:
       Data: UnityEngine.Vector2, UnityEngine.CoreModule
     - Name: 
       Entry: 4
-      Data: 2
+      Data: 1
     - Name: 
       Entry: 4
-      Data: 2
+      Data: 1
     - Name: 
       Entry: 8
       Data: 
@@ -182,46 +216,79 @@ MonoBehaviour:
       Data: 4|System.Boolean[,], mscorlib
     - Name: 
       Entry: 12
-      Data: 25
+      Data: 49
     - Name: ranks
       Entry: 1
-      Data: 5|5
+      Data: 7|7
     - Name: 
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 5
-      Data: false
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: true
     - Name: 
       Entry: 5
       Data: true
@@ -230,37 +297,76 @@ MonoBehaviour:
       Data: false
     - Name: 
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 5
-      Data: false
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 5
+      Data: true
     - Name: 
       Entry: 13
       Data: 
@@ -272,10 +378,10 @@ MonoBehaviour:
       Data: UnityEngine.Vector2, UnityEngine.CoreModule
     - Name: 
       Entry: 4
-      Data: 2
+      Data: 3
     - Name: 
       Entry: 4
-      Data: 2
+      Data: 3
     - Name: 
       Entry: 8
       Data: 
@@ -284,19 +390,16 @@ MonoBehaviour:
       Data: false
     - Name: TargetType
       Entry: 3
-      Data: 2
+      Data: 4
     - Name: ProjectileSFX
       Entry: 6
       Data: 
     - Name: CellSFX
       Entry: 6
       Data: 
-    - Name: SpecificCard
-      Entry: 6
-      Data: 
-    - Name: DrawNumber
-      Entry: 3
-      Data: 1
+    - Name: NCEPreset
+      Entry: 10
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -333,7 +436,8 @@ MonoBehaviour:
   Title: Sow & Reap
   Cost: 2
   CardType: 1
-  Description: Draw a card, reduce the cost of all your cards by 1
+  Description: Create a Rune, after 3 turns, all allies in a radius have their damage
+    increased.
   IllustrationImage: {fileID: 21300000, guid: 1809c49a81359f34abbc86649794389e, type: 3}
   Class: 2
   CurrentSpellTargetting: 0

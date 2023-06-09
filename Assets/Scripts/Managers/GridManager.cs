@@ -13,21 +13,41 @@ using DownBelow.Events;
 using UnityEngine.Rendering;
 using EODE.Wonderland;
 using DownBelow.UI;
+using System.Data.SqlTypes;
+using UnityEditor;
 
 namespace DownBelow.Managers
 {
+    public enum Border
+    {
+        None = 0,
+
+        Left = 1,
+        Right = 2,
+        Top = 3,
+        Bottom = 4
+    }
+
     public class GridManager : _baseManager<GridManager>
     {
         public static readonly string SavesPath = "/Resources/Saves/Grids/";
 
         #region Assets_reference
+        [ValueDropdown("GetSavedGrids")]
+        public string MainGrid;
+        private IEnumerable<string> GetSavedGrids()
+        {
+            LoadGridsFromJSON();
+            return SavedGrids.Keys;
+        }
+
         public Cell CellPrefab;
 
-        [SerializeField]
-        public WorldGrid CombatGridPrefab;
+        public CombatGrid CombatGridPrefab;
+        public WorldGrid WorldGridPrefab;
 
         [SerializeField]
-        private Transform _objectsHandler;
+        private Transform _gridsHandler;
 
         [SerializeField]
         public Transform _gridsDataHandler;
@@ -123,23 +143,28 @@ namespace DownBelow.Managers
                 this.CreateGrid(grid, grid.GridName);
             }
 
-            this.MainWorldGrid = this.WorldGrids["FarmLand"];
-            this.GenerateShaderBitmap(this.MainWorldGrid.SelfData);
+            this.MainWorldGrid = this.WorldGrids[this.MainGrid];
+            this.MainWorldGrid.gameObject.SetActive(true);
+
+            UniversalRenderPipelineHelper.SetRendererFeatureActive("GridRender", false);
+            //this.GenerateShaderBitmap(this.MainWorldGrid.SelfData);
         }
 
         public void CreateGrid(GridData gridData, string gridId)
         {
+            var prefab = gridData.IsCombatGrid ? this.CombatGridPrefab : this.WorldGridPrefab;
+
             WorldGrid newGrid = Instantiate(
-                this.CombatGridPrefab,
-                gridData.TopLeftOffset,
-                Quaternion.identity,
-                this._objectsHandler
+                prefab,
+                this._gridsHandler
             );
 
             newGrid.UName = gridId;
             newGrid.Init(gridData);
 
             this.WorldGrids.Add(newGrid.UName, newGrid);
+
+            newGrid.gameObject.SetActive(false);
         }
 
         public void ProcessCellClickUp(CellEventData data)
@@ -160,48 +185,50 @@ namespace DownBelow.Managers
             if (this.LastHoveredCell.Datas.state != CellState.Blocked)
             {
                 Cell closestCell = this.LastHoveredCell;
-                string otherGrid = string.Empty;
 
                 if (InputManager.Instance.LastInteractable != null)
                 {
                     Cell cell = InputManager.Instance.LastInteractable.RefCell;
-                    closestCell = GridUtility.GetClosestCellToShape(
-                        selfPlayer.CurrentGrid,
-                        cell.Datas.heightPos,
-                        cell.Datas.widthPos,
-                        1,
-                        1,
-                        selfPlayer.EntityCell.PositionInGrid
-                    );
-                    selfPlayer.NextInteract = InputManager.Instance.LastInteractable;
 
-                    EntityAction[] actions = new EntityAction[2];
+                    closestCell = GridUtility.GetNearestWalkableCell(cell, selfPlayer.EntityCell.PositionInGrid);
 
-                    // Buff the movement action if we're too far away
-                    if (!GetCombatNeighbours(selfPlayer.EntityCell, selfPlayer.EntityCell.RefGrid).Contains(cell))
-                        actions[0] = new MovementAction(selfPlayer, closestCell);
-
-                    // Then buff the interact/gather action to process after the movement
-                    if(cell.AttachedInteract is InteractableResource iResource)
+                    if(closestCell != null)
                     {
-                        if(selfPlayer.CanGatherThisResource(iResource.LocalPreset.GatherableBy))
+                        selfPlayer.NextInteract = InputManager.Instance.LastInteractable;
+
+                        EntityAction[] actions = new EntityAction[2];
+
+                        // Buff the movement action if we're too far away
+                        if (!GetCombatNeighbours(selfPlayer.EntityCell, selfPlayer.EntityCell.RefGrid).Contains(cell))
+                            actions[0] = new MovementAction(selfPlayer, closestCell);
+
+                        // Then buff the interact/gather action to process after the movement
+                        if (cell.AttachedInteract is InteractableResource iResource)
                         {
-                            actions[1] = new GatheringAction(selfPlayer, cell);
+                            if (selfPlayer.CanGatherThisResource(iResource.LocalPreset.GatherableBy))
+                            {
+                                actions[1] = new GatheringAction(selfPlayer, cell);
+                            }
+                            else
+                            {
+                                UIManager.Instance.DatasSection.ShowWarningText("[REQUIRES " + iResource.LocalPreset.GatherableBy.ToString() + "]\nYou haven't the right tool to gather this");
+                            }
                         }
                         else
                         {
-                            UIManager.Instance.DatasSection.ShowWarningText("[REQUIRES " + iResource.LocalPreset.GatherableBy.ToString() + "]\nYou haven't the right tool to gather this");
+                            actions[1] = new InteractAction(selfPlayer, cell);
                         }
+
+                        NetworkManager.Instance.EntityAskToBuffActions(actions);
                     }
                     else
                     {
-                        actions[1] = new InteractAction(selfPlayer, cell);
+                        UIManager.Instance.DatasSection.ShowWarningText("You can't interact with an unreachable cell");
                     }
 
-                    NetworkManager.Instance.EntityAskToBuffActions(actions);
-
                     return;
-                } else if (this.LastHoveredCell.HasItem(out var item))
+                } 
+                else if (this.LastHoveredCell.HasItem(out var item))
                 {
                     //If we have a dropped item on the cell.
                     EntityAction[] actions = new EntityAction[2];
@@ -209,33 +236,28 @@ namespace DownBelow.Managers
                     actions[1] = new PickupItemAction(selfPlayer, this.LastHoveredCell);
                     NetworkManager.Instance.EntityAskToBuffActions(actions);
                     return;
-                } else
-                {
-                    if (selfPlayer.CurrentGrid != this.LastHoveredCell.RefGrid)
-                    {
-                        closestCell = GridUtility.GetClosestCellToShape(
-                            selfPlayer.CurrentGrid,
-                            this.LastHoveredCell.RefGrid as CombatGrid,
-                            selfPlayer.EntityCell.PositionInGrid
-                        );
-                        otherGrid = this.LastHoveredCell.RefGrid.UName;
-                    }
                 }
+
 
                 if (closestCell != null)
                 {
-                    if (string.IsNullOrEmpty(otherGrid))
+                    if (closestCell.RedirectedGrid == null)
+                    {
                         NetworkManager.Instance.EntityAskToBuffAction(
                             new MovementAction(selfPlayer, closestCell)
                         );
+                    }
                     else
+                    {
+                        var enterAction = new EnterGridAction(selfPlayer, closestCell);
+                        enterAction.Init(closestCell.RedirectedGrid.UName);
+                        
                         NetworkManager.Instance.EntityAskToBuffActions(
-                            new EntityAction[2]
-                            {
+                            new EntityAction[2] {
                                 new MovementAction(selfPlayer, closestCell),
-                                new EnterGridAction(selfPlayer, closestCell, otherGrid)
-                            }
-                        );
+                                enterAction
+                            });
+                    }
                 }
             }
         }
@@ -391,12 +413,18 @@ namespace DownBelow.Managers
             if (Data.Entity == GameManager.SelfPlayer)
             {
                 if (Data.Entity.CurrentGrid.IsCombatGrid)
+                {
                     this.GenerateShaderBitmap(
                         ((CombatGrid)Data.Entity.CurrentGrid).ParentGrid.SelfData,
                         Data.Entity.CurrentGrid.SelfData
                     );
+                }
                 else
-                    this.GenerateShaderBitmap(Data.Entity.CurrentGrid.SelfData);
+                {
+                    // We decided to not have grid when out of combat
+                    this._disableGridTexture();
+                    //this.GenerateShaderBitmap(Data.Entity.CurrentGrid.SelfData);
+                }
 
                 foreach (PlayerBehavior player in GameManager.Instance.Players.Values)
                 {
@@ -727,13 +755,15 @@ namespace DownBelow.Managers
                         innerGrid.Value.GridWidth,
                         innerGrid.Value.Latitude,
                         innerGrid.Value.Longitude,
+                        innerGrid.Value.SelfData.Entrances,
                         this._getCellsData(innerGrid.Value),
                         innerGrid.Value.SelfData.SpawnablePresets
                 ));
             }
-
+            
             return new GridData(
                 grid.UName,
+                grid.SelfData.GridLevelPath,
                 false,
                 grid.GridHeight,
                 grid.GridWidth,
@@ -896,6 +926,9 @@ namespace DownBelow.Managers
                 this._generateShaderBitmap(world, innerGrid);
 
             this.BitmapTexture.Apply();
+
+            UniversalRenderPipelineHelper.SetRendererFeatureActive("GridRender", true);
+
             if (editor)
             {
                 this.BitmapShaderEditor.SetVector(
@@ -903,7 +936,8 @@ namespace DownBelow.Managers
                     new Vector2(-world.TopLeftOffset.x, -(world.TopLeftOffset.z - 1))
                 );
                 this.BitmapShaderEditor.SetTexture("_Texture2D", this.BitmapTexture);
-            } else
+            } 
+            else
             {
                 this.BitmapShader.SetVector(
                     "_Offset",
@@ -911,6 +945,11 @@ namespace DownBelow.Managers
                 );
                 this.BitmapShader.SetTexture("_Texture2D", this.BitmapTexture);
             }
+        }
+
+        private void _disableGridTexture()
+        {
+            UniversalRenderPipelineHelper.SetRendererFeatureActive("GridRender", false);
         }
 
         private void _generateShaderBitmap(GridData world, GridData innerGrid)
@@ -1095,11 +1134,7 @@ namespace DownBelow.Managers
             this.latitude = latitude;
         }
 
-        public GridPosition(int[] positions)
-        {
-            this.longitude = positions[1];
-            this.latitude = positions[0];
-        }
+        public int[] GetData() { return new int[2] { latitude, longitude }; }
 
         public static readonly GridPosition zero = new GridPosition(0, 0);
 

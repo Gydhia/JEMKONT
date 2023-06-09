@@ -6,7 +6,7 @@ using DownBelow.Entity;
 
 namespace DownBelow.GameData
 {
-    [CreateAssetMenu(fileName = "GridsPreset", menuName = "Jemkont/Grids Preset", order = 1)]
+    [CreateAssetMenu(fileName = "GridsPreset", menuName = "DownBelow/BasePresets/Grids Preset", order = 1)]
     public class GridsPreset : SerializedScriptableObject
     {
         [Range(1f, 50f)]
@@ -21,6 +21,8 @@ namespace DownBelow.GameData
         public GameObject GridShader;
 
         public ArrowRenderer SpellArrowPrefab;
+
+        public ParticleSystem CombatEntracePrefab;
     }
 
 }

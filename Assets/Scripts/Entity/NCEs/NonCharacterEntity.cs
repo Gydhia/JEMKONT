@@ -20,6 +20,8 @@ namespace DownBelow.Entity
         /// </summary>
         protected bool Destroyable => true;
 
+        public CellEventData.Event OnNCEInited;
+
         /// <summary>
         /// 
         /// </summary>
@@ -37,6 +39,8 @@ namespace DownBelow.Entity
             this.RefEntity = RefEntity;
             this.PresetRef = preset;
             this.RefEntity.OnTurnBegun += Decrement;
+
+            OnNCEInited?.Invoke(new CellEventData(AttachedCell));
         }
 
         /// <summary>
@@ -59,13 +63,13 @@ namespace DownBelow.Entity
         /// <summary>
         /// Calling Destroy(this.gameObject) is the base. Consider calling it after whatever you're adding just in case.
         /// </summary>
-        public virtual void DestroyEntity()
+        public virtual void DestroyEntity(float timer = 0f)
         {
             CombatManager.Instance.NCEs.Remove(this);
             AttachedCell.AttachedNCE = null;
             AttachedCell.ChangeCellState(CellState.Walkable);
             RefEntity.OnTurnBegun -= Decrement;
-            Destroy(this.gameObject);
+            Destroy(this.gameObject,timer);
             //Animation one day :pray:
         }
     }

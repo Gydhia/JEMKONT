@@ -15,7 +15,8 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: bc413fd47f0d3c94a93195dd2a067a46, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -39,6 +40,9 @@ MonoBehaviour:
     - Name: RefBuffer
       Entry: 6
       Data: 
+    - Name: RefGrid
+      Entry: 6
+      Data: 
     - Name: RefEntity
       Entry: 6
       Data: 
@@ -53,7 +57,7 @@ MonoBehaviour:
       Data: 2|DownBelow.Spells.SpellData, Assembly-CSharp
     - Name: RequiresTargetting
       Entry: 5
-      Data: true
+      Data: false
     - Name: SpellResultTargeting
       Entry: 5
       Data: false
@@ -289,8 +293,8 @@ MonoBehaviour:
       Entry: 6
       Data: 
     - Name: CellSFX
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 0
     - Name: 
       Entry: 8
       Data: 

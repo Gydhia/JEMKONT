@@ -15,7 +15,8 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: 9d0f6268ebf7985479145d8a3660f730, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -37,6 +38,19 @@ MonoBehaviour:
       Entry: 2
       Data: 00000000000000000000000000000000
     - Name: RefBuffer
+      Entry: 7
+      Data: 2|System.Collections.Generic.List`1[[DownBelow.Entity.EntityAction, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: RefGrid
       Entry: 6
       Data: 
     - Name: RefEntity
@@ -50,7 +64,7 @@ MonoBehaviour:
       Data: 00000000000000000000000000000000
     - Name: Data
       Entry: 7
-      Data: 2|DownBelow.Spells.SpellData_BIAB, Assembly-CSharp
+      Data: 3|DownBelow.Spells.SpellData_BIAB, Assembly-CSharp
     - Name: RequiresTargetting
       Entry: 5
       Data: false
@@ -62,7 +76,7 @@ MonoBehaviour:
       Data: 0
     - Name: SpellShapeMatrix
       Entry: 7
-      Data: 3|System.Boolean[,], mscorlib
+      Data: 4|System.Boolean[,], mscorlib
     - Name: 
       Entry: 12
       Data: 25
@@ -163,23 +177,23 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: RotatedShapeMatrix
-      Entry: 6
-      Data: 
+      Entry: 9
+      Data: 4
     - Name: RotatedShapePosition
       Entry: 7
       Data: UnityEngine.Vector2, UnityEngine.CoreModule
     - Name: 
       Entry: 4
-      Data: 0
+      Data: 2
     - Name: 
       Entry: 4
-      Data: 0
+      Data: 2
     - Name: 
       Entry: 8
       Data: 
     - Name: CastingMatrix
       Entry: 7
-      Data: 4|System.Boolean[,], mscorlib
+      Data: 5|System.Boolean[,], mscorlib
     - Name: 
       Entry: 12
       Data: 25
@@ -289,8 +303,8 @@ MonoBehaviour:
       Entry: 6
       Data: 
     - Name: CellSFX
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 0
     - Name: HealingPerCard
       Entry: 3
       Data: 1
@@ -298,24 +312,213 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: SpellHeader
-      Entry: 6
+      Entry: 7
+      Data: 6|DownBelow.Spells.SpellHeader, Assembly-CSharp
+    - Name: RefCard
+      Entry: 2
+      Data: b8cf94c7ddb061ca875e08cbcad94771
+    - Name: TargetedCells
+      Entry: 7
+      Data: 7|DownBelow.Managers.GridPosition[], Assembly-CSharp
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: DownBelow.Managers.GridPosition, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: CasterID
+      Entry: 1
+      Data: 134d75ff-fa54-4f82-a3d3-f1fc935d9c17Herbalist
+    - Name: 
+      Entry: 8
       Data: 
     - Name: NCEHits
       Entry: 6
       Data: 
     - Name: TargetedCells
-      Entry: 6
+      Entry: 7
+      Data: 8|System.Collections.Generic.List`1[[DownBelow.GridSystem.Cell, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
       Data: 
     - Name: TargetEntities
-      Entry: 6
+      Entry: 7
+      Data: 9|System.Collections.Generic.List`1[[DownBelow.Entity.CharacterEntity,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
       Data: 
     - Name: ParentSpell
       Entry: 6
       Data: 
     - Name: Result
+      Entry: 7
+      Data: 10|DownBelow.Spells.SpellResult, Assembly-CSharp
+    - Name: TargetedCells
+      Entry: 7
+      Data: 11|System.Collections.Generic.List`1[[DownBelow.GridSystem.Cell, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: SpellRef
+      Entry: 9
+      Data: 1
+    - Name: Caster
       Entry: 6
       Data: 
+    - Name: DamagesDealt
+      Entry: 7
+      Data: 12|System.Collections.Generic.Dictionary`2[[DownBelow.Entity.CharacterEntity,
+        Assembly-CSharp],[System.Int32, mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 13|System.Collections.Generic.ObjectEqualityComparer`1[[DownBelow.Entity.CharacterEntity,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: SelfDamagesReceived
+      Entry: 3
+      Data: 0
+    - Name: HealingDone
+      Entry: 7
+      Data: 14|System.Collections.Generic.Dictionary`2[[DownBelow.Entity.CharacterEntity,
+        Assembly-CSharp],[System.Int32, mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 9
+      Data: 13
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: SelfHealingReceived
+      Entry: 3
+      Data: -4
+    - Name: StatModified
+      Entry: 7
+      Data: 15|System.Collections.Generic.Dictionary`2[[DownBelow.Entity.CharacterEntity,
+        Assembly-CSharp],[DownBelow.Spells.StatModification, Assembly-CSharp]], mscorlib
+    - Name: comparer
+      Entry: 9
+      Data: 13
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: SelfStatModified
+      Entry: 7
+      Data: 16|System.Collections.Generic.Dictionary`2[[EntityStatistics, Assembly-CSharp],[System.Int32,
+        mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 17|System.Collections.Generic.EnumEqualityComparer`1[[EntityStatistics,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: AlterationGiven
+      Entry: 7
+      Data: 18|System.Collections.Generic.Dictionary`2[[DownBelow.Entity.CharacterEntity,
+        Assembly-CSharp],[System.Collections.Generic.List`1[[DownBelow.Spells.Alterations.Alteration,
+        Assembly-CSharp]], mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 9
+      Data: 13
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Teleported
+      Entry: 5
+      Data: false
+    - Name: TeleportedTo
+      Entry: 7
+      Data: 19|System.Collections.Generic.List`1[[DownBelow.Entity.CharacterEntity,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: ConditionData
+      Entry: 6
+      Data: 
+    - Name: TargettingCondition
       Entry: 6
       Data: 
     - Name: 
@@ -332,6 +535,6 @@ MonoBehaviour:
   CardType: 2
   Description: All allies draw 1 card. They are then healed by X for each card in
     their hand.
-  IllustrationImage: {fileID: 21300000, guid: 44b62bdd66dc688408c07e86a957f139, type: 3}
+  IllustrationImage: {fileID: 21300000, guid: 369aa4cce7bfe774c91f7caf686efc4a, type: 3}
   Class: 1
   CurrentSpellTargetting: 0

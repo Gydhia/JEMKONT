@@ -39,6 +39,9 @@ MonoBehaviour:
     - Name: RefBuffer
       Entry: 6
       Data: 
+    - Name: RefGrid
+      Entry: 6
+      Data: 
     - Name: RefEntity
       Entry: 6
       Data: 
@@ -53,7 +56,7 @@ MonoBehaviour:
       Data: 2|DownBelow.Spells.SpellData_Push, Assembly-CSharp
     - Name: RequiresTargetting
       Entry: 5
-      Data: true
+      Data: false
     - Name: SpellResultTargeting
       Entry: 5
       Data: false
@@ -215,82 +218,28 @@ MonoBehaviour:
       Data: 4|System.Boolean[,], mscorlib
     - Name: 
       Entry: 12
-      Data: 49
+      Data: 36
     - Name: ranks
       Entry: 1
-      Data: 7|7
+      Data: 6|6
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
       Data: false
@@ -299,73 +248,88 @@ MonoBehaviour:
       Data: true
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
     - Name: 
       Entry: 13
       Data: 
@@ -377,10 +341,10 @@ MonoBehaviour:
       Data: UnityEngine.Vector2, UnityEngine.CoreModule
     - Name: 
       Entry: 4
-      Data: 3
+      Data: 1
     - Name: 
       Entry: 4
-      Data: 3
+      Data: 1
     - Name: 
       Entry: 8
       Data: 
@@ -389,7 +353,7 @@ MonoBehaviour:
       Data: false
     - Name: TargetType
       Entry: 3
-      Data: 1
+      Data: 65536
     - Name: ProjectileSFX
       Entry: 6
       Data: 
@@ -407,7 +371,7 @@ MonoBehaviour:
       Data: 1
     - Name: PushDamages
       Entry: 3
-      Data: 2
+      Data: 0
     - Name: PushDamagesMultiplier
       Entry: 4
       Data: 1
@@ -447,7 +411,7 @@ MonoBehaviour:
   Title: Angler's Eye
   Cost: 1
   CardType: 3
-  Description: Gives a enemy "I cannot counterattack" for 1 turn.
+  Description: All opponents are repelled 1 tile to the right
   IllustrationImage: {fileID: 21300000, guid: b96e652cc6497b74daa00f8e0147499e, type: 3}
   Class: 3
   CurrentSpellTargetting: 0
