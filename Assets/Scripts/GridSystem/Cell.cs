@@ -116,7 +116,8 @@ namespace DownBelow.GridSystem
                 {
                     qtyRemainingInItem -= player.PlayerSpecialSlots.TryAddItem(ItemContained.ItemPreset, ItemContained.Quantity);
                     player.SetActiveTool(toolItem);
-                } else
+                } 
+                else
                 {
                     qtyRemainingInItem -= player.PlayerInventory.TryAddItem(ItemContained.ItemPreset, ItemContained.Quantity);
                 }
@@ -125,6 +126,8 @@ namespace DownBelow.GridSystem
                 {
                     Destroy(ItemContainedObject);
                     ItemContained = null; ItemContainedObject = null;
+
+                    this.Datas.state = CellState.Walkable;
                 }
 #if UNITY_EDITOR
                 /*/ Debug.Log($"Actual Quantity : {ItemContained.Quantity}, Quantity returned: {qtyRemainingInItem}");

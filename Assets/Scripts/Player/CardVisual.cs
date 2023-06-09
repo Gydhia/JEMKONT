@@ -8,6 +8,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using DownBelow.Events;
+using DownBelow.GridSystem;
+using DownBelow.Entity;
+using System.Linq;
 
 namespace DownBelow.UI
 {
@@ -50,6 +54,19 @@ namespace DownBelow.UI
                 _ => SettingsManager.Instance.GameUIPreset.SkillColor,
             };
 
+
+            if (GameManager.RealSelfPlayer.CurrentGrid.IsCombatGrid)
+            {
+                var refDeck = CardsManager.Instance.AvailableDecks.First(d => d.Class == this.CardReference.Class);
+
+                refDeck.LinkedPlayer.OnManaAdded += _refreshManaColor;
+                refDeck.LinkedPlayer.OnManaRemoved += _refreshManaColor;
+            }
+        }
+
+        private void _refreshManaColor(SpellEventData Data)
+        {
+            this.CostText.color = GameManager.SelfPlayer.Mana < this.CardReference.Cost ? Color.red : Color.white;
         }
 
         public void Hover()

@@ -186,6 +186,8 @@ namespace DownBelow.Managers
             {
                 Cell closestCell = this.LastHoveredCell;
 
+                UIManager.Instance.HideStorage();
+
                 if (InputManager.Instance.LastInteractable != null)
                 {
                     Cell cell = InputManager.Instance.LastInteractable.RefCell;

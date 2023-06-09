@@ -47,8 +47,11 @@ public class UICardsHolder : SerializedMonoBehaviour
         {
             if (ToCards.Count > this.Piles[ToPile].MaxStackedCards)
             {
-                ToCards[^1].DiscardToPile(this.Piles[ToPile]);
+                this.Piles[PileType.Discard].Cards.Add(ToCards[^1]);
                 ToCards.Remove(ToCards[^1]);
+
+                this.Piles[PileType.Discard].Cards[^1]
+                    .DiscardToPile(this.Piles[PileType.Discard]);
             }
         }
     }
