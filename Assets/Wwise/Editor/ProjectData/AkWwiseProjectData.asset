@@ -100,7 +100,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: 192de397071d114d9f1f966b80edd569
     GuidInternal: 
-    m_lastTime: -8585152918910124378
+    m_lastTime: -8585152841752191258
     List:
     - name: SB_GLOBAL
       guid: afb1eebf811a1e4399ccef5e516cdff2
@@ -128,7 +128,7 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: 949bd9bfeea3b740b316a7f992c54fb1
     GuidInternal: 
-    m_lastTime: -8585152918924914874
+    m_lastTime: -8585152841767091386
     List:
     - name: CombatState
       guid: 6356ba787c934a4da0e4a41fe6079af1
@@ -783,7 +783,7 @@ MonoBehaviour:
     ParentPath: States\Default Work Unit
     guid: 4357da42963e2141a2fff533c2aaa80c
     GuidInternal: 
-    m_lastTime: -8585152918910114412
+    m_lastTime: -8585152841752181291
     List:
     - name: GameState
       guid: 5df3a3c523000043aa95f9f98f66b10d
@@ -1044,7 +1044,7 @@ MonoBehaviour:
     m_lastTime: -8585158876463963618
     List: []
   ExpandedFileSystemItemIds: 
-  ExpandedWaapiItemIds: 
+  ExpandedWaapiItemIds: 1100000012000000
   AutoSyncSelection: 0
   autoPopulateEnabled: 1
   currentDataSource: 0

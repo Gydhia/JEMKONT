@@ -7,15 +7,15 @@
 					<RTPCValueList ShowAll="true">
 						<RTPCValue>
 							<GameParameterRef Name="RTPC_Volume_Music" ID="{C82E00F3-58B5-4305-B9EF-21C5B4C54E14}"/>
-							<Value>100</Value>
+							<Value>0</Value>
 						</RTPCValue>
 						<RTPCValue>
 							<GameParameterRef Name="RTPC_Volume_SFX" ID="{05B8C602-F27C-4C84-911A-433F6ED11594}"/>
-							<Value>100</Value>
+							<Value>0</Value>
 						</RTPCValue>
 						<RTPCValue>
 							<GameParameterRef Name="RTPC_Volume_Master" ID="{A00989C5-EDB5-4DA1-BF0C-B18D520CB7D3}"/>
-							<Value>100</Value>
+							<Value>0</Value>
 						</RTPCValue>
 					</RTPCValueList>
 					<CurrentStateList ShowAll="true">

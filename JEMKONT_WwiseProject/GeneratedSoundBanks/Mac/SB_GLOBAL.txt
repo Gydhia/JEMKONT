@@ -1,9 +1,17 @@
 Event	ID	Name			Wwise Object Path	Notes
 	71458555	Play_SSFX__Walk			\Default Work Unit\SSFX\Play_SSFX__Walk	
+	241397386	Play_SSFX__CombatWin			\Default Work Unit\CombatState\Play_SSFX__CombatWin	
+	284401701	Play_SSFX__CardPick			\Default Work Unit\SSFX\Play_SSFX__CardPick	
+	529950874	Play_SSFX__MyTurnEnd			\Default Work Unit\CombatState\Play_SSFX__MyTurnEnd	
+	611645331	Play_SSFX__CombatLose			\Default Work Unit\CombatState\Play_SSFX__CombatLose	
+	803863510	Play_SSFX__DeckShuffle			\Default Work Unit\SSFX\Play_SSFX__DeckShuffle	
+	1884104528	Play_SSFX__CardSlap			\Default Work Unit\SSFX\Play_SSFX__CardSlap	
 	1917263390	StopMusic			\Default Work Unit\Music\StopMusic	
 	2149827808	Play_SSFX__ClickBlocked			\Default Work Unit\SSFX\Play_SSFX__ClickBlocked	
+	2280958161	Play_SSFX__EnemyTurn			\Default Work Unit\CombatState\Play_SSFX__EnemyTurn	
+	2351453751	Play_SSFX__AllyTurn			\Default Work Unit\CombatState\Play_SSFX__AllyTurn	
+	3168485769	Play_SSFX__MyTurnStart			\Default Work Unit\CombatState\Play_SSFX__MyTurnStart	
 	3568964008	Play_SSFX__Click			\Default Work Unit\SSFX\Play_SSFX__Click	
-	3590565784	Play_SSFX__FightWin			\Default Work Unit\SSFX\Play_SSFX__FightWin	
 	3827058668	StartMusic			\Default Work Unit\Music\StartMusic	
 
 Switch Group	ID	Name			Wwise Object Path	Notes

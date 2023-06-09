@@ -56,7 +56,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="2711878180" Type="User" Language="SFX" Hash="{CEBB3F99-69F8-0F3E-6B8D-F2C059C57DED}">
+		<SoundBank Id="2711878180" Type="User" Language="SFX" Hash="{EE5DD30B-9017-11A0-76FC-9D51593911DC}">
 			<ShortName>SB_GLOBAL</ShortName>
 			<Path>SB_GLOBAL.bnk</Path>
 			<Media>
@@ -242,6 +242,22 @@
 				</File>
 			</Media>
 			<Events>
+				<Event Id="2351453751" Name="Play_SSFX__AllyTurn" DurationType="OneShot" DurationMin="0.5476417" DurationMax="0.5476417">
+					<MediaRefs>
+						<MediaRef Id="567087666"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="284401701" Name="Play_SSFX__CardPick" DurationType="OneShot" DurationMin="0.45156464" DurationMax="0.561819">
+					<MediaRefs>
+						<MediaRef Id="216173308"/>
+						<MediaRef Id="669417131"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1884104528" Name="Play_SSFX__CardSlap" DurationType="OneShot" DurationMin="0.18333589" DurationMax="0.18333589">
+					<MediaRefs>
+						<MediaRef Id="406068002"/>
+					</MediaRefs>
+				</Event>
 				<Event Id="3568964008" Name="Play_SSFX__Click" DurationType="OneShot" DurationMin="0.038318895" DurationMax="0.06845805">
 					<MediaRefs>
 						<MediaRef Id="36056990"/>
@@ -254,9 +270,35 @@
 						<MediaRef Id="822974898"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="3590565784" Name="Play_SSFX__FightWin" DurationType="OneShot" DurationMin="3" DurationMax="3">
+				<Event Id="611645331" Name="Play_SSFX__CombatLose" DurationType="OneShot" DurationMin="3" DurationMax="3">
+					<MediaRefs>
+						<MediaRef Id="112672015"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="241397386" Name="Play_SSFX__CombatWin" DurationType="OneShot" DurationMin="3" DurationMax="3">
 					<MediaRefs>
 						<MediaRef Id="47948954"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="803863510" Name="Play_SSFX__DeckShuffle" DurationType="OneShot" DurationMin="0.5669822" DurationMax="0.77582765">
+					<MediaRefs>
+						<MediaRef Id="430019804"/>
+						<MediaRef Id="881018081"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2280958161" Name="Play_SSFX__EnemyTurn" DurationType="OneShot" DurationMin="0.9703175" DurationMax="0.9703175">
+					<MediaRefs>
+						<MediaRef Id="404741341"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="529950874" Name="Play_SSFX__MyTurnEnd" DurationType="OneShot" DurationMin="1.9512292" DurationMax="1.9512292">
+					<MediaRefs>
+						<MediaRef Id="14506943"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3168485769" Name="Play_SSFX__MyTurnStart" DurationType="OneShot" DurationMin="1.9512292" DurationMax="1.9512292">
+					<MediaRefs>
+						<MediaRef Id="71803895"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="71458555" Name="Play_SSFX__Walk" DurationType="OneShot" DurationMin="0.5357083" DurationMax="0.7410625">
@@ -364,5 +406,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{5436B24E-A581-A5CF-7DF1-0B9CA492D760}</FileHash>
+	<FileHash>{E042339D-8B24-C258-A356-50C4EA9B9BF6}</FileHash>
 </SoundBanksInfo>
