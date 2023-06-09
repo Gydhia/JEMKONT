@@ -3,28 +3,8 @@
 	<Events>
 		<WorkUnit Name="Default Work Unit" ID="{BFD99B94-A3EE-40B7-B316-A7F992C54FB1}" PersistMode="Standalone">
 			<ChildrenList>
-				<Folder Name="MUS" ID="{1A18C8EF-8D17-4FCD-AD97-47286720CD97}" ShortID="601505754">
-					<ChildrenList>
-						<Folder Name="Fight" ID="{0D9F202E-7A8C-4B13-90DA-309D3A160E2F}" ShortID="1062470314">
-							<ChildrenList>
-								<Event Name="Play_MUS_Combat" ID="{D82259F8-02F5-4283-87BB-55BD31E81E06}">
-									<ChildrenList>
-										<Action Name="" ID="{04F6A78D-0082-4116-8F1D-0EEC9641185C}" ShortID="610876745">
-											<ReferenceList>
-												<Reference Name="Target">
-													<ObjectRef Name="ST_Fight" ID="{36A3C285-DD3C-4651-A61C-407A34C1BDD7}" WorkUnitID="{A7B6054A-C5DE-4175-A27F-8806369B3987}"/>
-												</Reference>
-											</ReferenceList>
-										</Action>
-									</ChildrenList>
-								</Event>
-							</ChildrenList>
-						</Folder>
-					</ChildrenList>
-				</Folder>
 				<Folder Name="SSFX" ID="{40D125A9-D6D7-46BE-A3EC-23E2D212020A}" ShortID="199483849">
 					<ChildrenList>
-						<Event Name="Play_SSFX_" ID="{001B3B77-A472-43CA-B871-20733DFB780F}"/>
 						<Event Name="Play_SSFX__Click" ID="{66C723BE-5CFE-4055-8D5F-66C2DA128B91}">
 							<ChildrenList>
 								<Action Name="" ID="{C8A533F8-F610-480B-A527-2D4507A8751C}" ShortID="1060026412">
@@ -72,12 +52,34 @@
 								</Action>
 							</ChildrenList>
 						</Event>
-						<Event Name="Play_SSFX__FightWin" ID="{A6C1C678-8948-455F-9E5A-9267B2234F2E}">
+						<Event Name="Play_SSFX__CardPick" ID="{09331DF9-A0EE-4B14-B5FD-FF8AB95460CE}">
 							<ChildrenList>
-								<Action Name="" ID="{BF3D1687-E591-4627-AED1-447632E3F61C}" ShortID="960905219">
+								<Action Name="" ID="{95E26C83-205F-48D7-87DF-357FF95DAFDE}" ShortID="113897948">
 									<ReferenceList>
 										<Reference Name="Target">
-											<ObjectRef Name="win" ID="{EFD69081-9638-4B7D-9B3A-33E52057B126}" WorkUnitID="{277D41B8-7D18-41D8-BFBF-88A00100C0C8}"/>
+											<ObjectRef Name="CardPick" ID="{8257380A-2569-4D03-9D77-976BFAF65671}" WorkUnitID="{277D41B8-7D18-41D8-BFBF-88A00100C0C8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Play_SSFX__DeckShuffle" ID="{094BB573-6A82-497D-91A7-8FBA4C3E419C}">
+							<ChildrenList>
+								<Action Name="" ID="{05BE2590-C0FD-40A9-A29E-7510228A08C9}" ShortID="380126614">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="DeckShuffle" ID="{8718D28E-38C5-4F25-A6BC-F292630F74A6}" WorkUnitID="{277D41B8-7D18-41D8-BFBF-88A00100C0C8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Play_SSFX__CardSlap" ID="{AEDC5476-2F24-4F6B-88F0-C6DE41E1AB9C}">
+							<ChildrenList>
+								<Action Name="" ID="{E3A0D662-CFB6-4647-8C65-F4EB7C9291F6}" ShortID="59005125">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="cardSlap" ID="{5EE23F5F-1868-4012-99D6-6720884A5271}" WorkUnitID="{277D41B8-7D18-41D8-BFBF-88A00100C0C8}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>
@@ -145,7 +147,7 @@
 						</Event>
 					</ChildrenList>
 				</Folder>
-				<Folder Name="GROUND" ID="{729BD2AC-6D15-4055-9206-F701F6C798C1}" ShortID="227139236">
+				<Folder Name="Ground" ID="{729BD2AC-6D15-4055-9206-F701F6C798C1}" ShortID="227139236">
 					<ChildrenList>
 						<Event Name="Set_Grass" ID="{169AB82C-0784-41AD-A4AA-75251D55B88E}">
 							<ChildrenList>
@@ -177,10 +179,149 @@
 						</Event>
 					</ChildrenList>
 				</Folder>
-				<Folder Name="FILTERS" ID="{717317E6-2BFD-4A2C-B7D3-94131E936398}" ShortID="452631864">
+				<Folder Name="GameState" ID="{97C6B294-CEC1-4838-9831-CC50BAE82218}" ShortID="497586527">
 					<ChildrenList>
-						<Event Name="Pause" ID="{6FD1F8C8-CA3B-4563-B9D4-5B278E87B507}"/>
-						<Event Name="Resume" ID="{F1691854-030C-40A7-B17F-2A86A04C8559}"/>
+						<Event Name="SetCombat" ID="{DE50867A-7D1A-4FC8-8FB6-A8A45073439C}">
+							<ChildrenList>
+								<Action Name="" ID="{B99F6CAC-B330-43DC-B0A7-A6018DA8518A}" ShortID="865380654">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="22"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Combat" ID="{9094E21E-84D6-4C7F-8238-B2C8E9813C5A}" WorkUnitID="{42DA5743-3E96-4121-A2FF-F533C2AAA80C}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="SetMainMenu" ID="{2D5279D8-23EE-414F-B4E3-DBACB876D4E6}">
+							<ChildrenList>
+								<Action Name="" ID="{BDB67F39-0424-4C39-8386-134D160B7563}" ShortID="328091438">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="22"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="MainMenu" ID="{F9583AC6-2633-4BA7-834E-06E621D7CDE5}" WorkUnitID="{42DA5743-3E96-4121-A2FF-F533C2AAA80C}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="SetExplore" ID="{6A82958E-3942-4F60-8D5B-1B5E4D1B484E}">
+							<ChildrenList>
+								<Action Name="" ID="{16426DF4-B0BA-41FA-8363-853CD23A2109}" ShortID="324582515">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="22"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Explore" ID="{59E5FECC-8882-46DC-8EFF-CE7971FBB99E}" WorkUnitID="{42DA5743-3E96-4121-A2FF-F533C2AAA80C}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="Music" ID="{0D75FF34-084A-44DC-A85C-DA7AE79F91B2}" ShortID="112728049">
+					<ChildrenList>
+						<Event Name="StartMusic" ID="{D9036496-46C2-43DC-A781-FCD70C63547F}">
+							<ChildrenList>
+								<Action Name="" ID="{CBE0A7FD-BC60-4C51-916F-126B592B10BC}" ShortID="762521675">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="GameState" ID="{44116159-1776-4E93-8EA2-AA3ABBB4C221}" WorkUnitID="{A7B6054A-C5DE-4175-A27F-8806369B3987}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="StopMusic" ID="{2B38F320-EA80-4E0E-8968-217C7C650051}">
+							<ChildrenList>
+								<Action Name="" ID="{0285CB5A-C9A7-4ADD-A581-2B0738D0CEFD}" ShortID="722267206">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="2"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="GameState" ID="{44116159-1776-4E93-8EA2-AA3ABBB4C221}" WorkUnitID="{A7B6054A-C5DE-4175-A27F-8806369B3987}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="CombatState" ID="{78BA5663-937C-4D4A-A0E4-A41FE6079AF1}" ShortID="399552004">
+					<ChildrenList>
+						<Event Name="Play_SSFX__CombatWin" ID="{A6C1C678-8948-455F-9E5A-9267B2234F2E}">
+							<ChildrenList>
+								<Action Name="" ID="{BF3D1687-E591-4627-AED1-447632E3F61C}" ShortID="960905219">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="combatWin" ID="{EFD69081-9638-4B7D-9B3A-33E52057B126}" WorkUnitID="{277D41B8-7D18-41D8-BFBF-88A00100C0C8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Play_SSFX__AllyTurn" ID="{6F429A4C-9EDC-4A40-B787-3CE0696598F5}">
+							<ChildrenList>
+								<Action Name="" ID="{B3A65379-EFDD-4691-8FE0-88F38C8B914E}" ShortID="229548359">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="allyTurn" ID="{FBC44989-B9AA-4480-AA53-B6595A39F9B3}" WorkUnitID="{277D41B8-7D18-41D8-BFBF-88A00100C0C8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Play_SSFX__EnemyTurn" ID="{83DC096C-A936-4505-9D3B-57E4019E7C48}">
+							<ChildrenList>
+								<Action Name="" ID="{B7AB30AA-A6FA-4CA7-89E7-AA209F3D4A9E}" ShortID="599591124">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="enemyTurn" ID="{11B237E6-B617-4970-A639-1BF67674A87B}" WorkUnitID="{277D41B8-7D18-41D8-BFBF-88A00100C0C8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Play_SSFX__MyTurnStart" ID="{AA75C0AA-2BCC-4287-A425-C5D1C6640592}">
+							<ChildrenList>
+								<Action Name="" ID="{13644084-1D13-4F8E-8EEE-58A387392D42}" ShortID="586165873">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="turnStart" ID="{5E56195D-5729-42BC-9883-86EA70C9BF59}" WorkUnitID="{277D41B8-7D18-41D8-BFBF-88A00100C0C8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Play_SSFX__MyTurnEnd" ID="{C6C943EC-09BD-42B0-8212-F74A5CDC3216}">
+							<ChildrenList>
+								<Action Name="" ID="{2FB525B0-CB6D-4AF8-B2DE-75F00A5C6ED9}" ShortID="1065454165">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="turnEnd" ID="{781DEA6D-D368-4849-A391-BBE75B64189B}" WorkUnitID="{277D41B8-7D18-41D8-BFBF-88A00100C0C8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Play_SSFX__CombatLose" ID="{FD039B75-D1B5-4A2A-AFED-6A4A3E2ED893}">
+							<ChildrenList>
+								<Action Name="" ID="{C4A3D677-9CFB-4503-AA02-528476431032}" ShortID="480256065">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="combatLose" ID="{8080E9EE-897B-402F-9F47-9B658163E850}" WorkUnitID="{277D41B8-7D18-41D8-BFBF-88A00100C0C8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
 					</ChildrenList>
 				</Folder>
 			</ChildrenList>
