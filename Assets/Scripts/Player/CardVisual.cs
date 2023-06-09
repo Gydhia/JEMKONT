@@ -24,7 +24,10 @@ namespace DownBelow.UI
 
         private void OnEnable()
         {
-            this.CostText.color = GameManager.SelfPlayer.Mana < this.CardReference.Cost ? Color.red : Color.white;
+            if(this.CardReference != null)
+            {
+                this.CostText.color = GameManager.SelfPlayer.Mana < this.CardReference.Cost ? Color.red : Color.white;
+            }
         }
 
         public void Init(ScriptableCard CardReference)

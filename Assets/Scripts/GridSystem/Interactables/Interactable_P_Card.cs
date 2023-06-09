@@ -23,7 +23,7 @@ namespace DownBelow.GridSystem
 
         public void Init(ScriptableCard card)
         {
-            base.Init();
+            this.card = card;
         }
 
         public override void ExecuteAction()
@@ -35,6 +35,7 @@ namespace DownBelow.GridSystem
             }
 
             SettingsManager.Instance.OwnedCards.Add(card);
+            EndAction();
         }
 
         public override object[] GetDatas()
