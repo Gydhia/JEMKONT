@@ -37,6 +37,8 @@ namespace DownBelow.Spells
             this.ConditionData = ConditionData;
         }
 
+        public ScriptableCard RefCard => SettingsManager.Instance.ScriptableCards[SpellHeader.RefCard];
+
         public SpellData Data;
         [HideInInspector]
         public SpellHeader SpellHeader;
@@ -66,11 +68,11 @@ namespace DownBelow.Spells
 
         public override async void ExecuteAction()
         {
-            Debug.LogWarning($"Executing spell {SettingsManager.Instance.ScriptableCards[this.SpellHeader.RefCard].Title}");
-            int cost = SettingsManager.Instance.ScriptableCards[SpellHeader.RefCard].Cost;
-            if (this.ParentSpell == null && this.RefEntity.Mana - cost > 0)
+            Debug.LogWarning($"Executing spell {RefCard.Title}");
+            int cost = RefCard.Cost;
+            if (this.ParentSpell == null)
             {
-                this.RefEntity.ApplyStat(EntityStatistics.Mana, -SettingsManager.Instance.ScriptableCards[SpellHeader.RefCard].Cost);
+                this.RefEntity.ApplyStat(EntityStatistics.Mana, -cost);
             }
 
             if (!this.ValidateConditions())
@@ -92,7 +94,26 @@ namespace DownBelow.Spells
         {
             if (Data.ProjectileSFX != null)
             {
-                await SFXManager.Instance.DOSFX(new RuntimeSFXData(Data.ProjectileSFX, RefEntity, TargetCell, this));
+                if (Data.RequiresTargetting)
+                {
+                    await SFXManager.Instance.DOSFX(new RuntimeSFXData(Data.ProjectileSFX, RefEntity, TargetCell, this));
+                }
+                else if(Data.SpellResultTargeting){
+                    await SFXManager.Instance.DOSFX(new RuntimeSFXData(Data.ProjectileSFX, RefEntity, GetSpellFromIndex(Data.SpellResultIndex).TargetCell, this));
+                } else
+                {
+                    for (int i = 0;i < TargetEntities.Count;i++)
+                    {
+                        CharacterEntity item = TargetEntities[i];
+                        if(i == TargetEntities.Count - 1)
+                        {
+                            await SFXManager.Instance.DOSFX(new RuntimeSFXData(Data.ProjectileSFX, RefEntity, item.EntityCell, this));
+                        } else
+                        {
+                            SFXManager.Instance.DOSFX(new RuntimeSFXData(Data.ProjectileSFX, RefEntity, item.EntityCell, this));
+                        }
+                    }
+                }
             }
             if (Data.CellSFX != null && TargetedCells != null && TargetedCells.Count != 0)
             {
@@ -173,7 +194,7 @@ namespace DownBelow.Spells
                 if (this.Data.TargetType.HasFlag(ETargetType.Empty))
                 {
                     //(en vrai jpense jfais tout péter dans le doute c'est bien)
-                    throw new Exception($"The spell {this.GetType()} of the card {SettingsManager.Instance.ScriptableCards[this.SpellHeader.RefCard].name} is set to a targetting type of 'Empty' but has no targetting. This is not allowed.");
+                    throw new Exception($"The spell {this.GetType()} of the card {RefCard.name} is set to a targetting type of 'Empty' but has no targetting. This is not allowed.");
                     //Lisez et comprenez cette ligne avant de me pinger, pégus.
                 }
                 //Removing duplicates
@@ -203,12 +224,12 @@ namespace DownBelow.Spells
 
         protected int Index()
         {
-            return Array.IndexOf(SettingsManager.Instance.ScriptableCards[this.SpellHeader.RefCard].Spells, this);
+            return Array.IndexOf(RefCard.Spells, this);
         }
 
         protected Spell GetSpellFromIndex(int index)
         {
-            return SettingsManager.Instance.ScriptableCards[this.SpellHeader.RefCard].Spells[index];
+            return RefCard.Spells[index];
         }
 
         public override object[] GetDatas()

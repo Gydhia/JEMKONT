@@ -246,7 +246,7 @@ namespace DownBelow.Entity
             this.PlayingIndicator.transform.DOMoveY(this.PlayingIndicator.transform.position.y - 0.5f, 1.5f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
             if (this.SelectedIndicator != null)
             {
-                this.SelectedIndicator.transform.DOScale(0.13f, 1.5f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
+                this.SelectedIndicator.transform.DOScale(0.05f, 1.5f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
             }
             this.OnHealthRemoved += AreYouAlive;
         }

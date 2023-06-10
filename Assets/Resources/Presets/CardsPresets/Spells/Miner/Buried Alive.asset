@@ -17,6 +17,7 @@ MonoBehaviour:
     SerializedBytes: 
     ReferencedUnityObjects:
     - {fileID: 11400000, guid: 9d8389d995e19c2449ce5ae0eef2a825, type: 2}
+    - {fileID: 11400000, guid: 7062211488d3a93449a6c93bf2913231, type: 2}
     - {fileID: 11400000, guid: 65bf73130377c1f4893530798ca5c91c, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
@@ -516,8 +517,8 @@ MonoBehaviour:
       Entry: 6
       Data: 
     - Name: CellSFX
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 1
     - Name: Alteration
       Entry: 7
       Data: 10|DownBelow.Spells.Alterations.ShatteredAlteration, Assembly-CSharp
@@ -559,7 +560,7 @@ MonoBehaviour:
       Data: 
     - Name: TargettingCondition
       Entry: 10
-      Data: 1
+      Data: 2
     - Name: 
       Entry: 8
       Data: 
