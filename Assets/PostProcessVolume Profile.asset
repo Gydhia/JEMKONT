@@ -15,7 +15,7 @@ MonoBehaviour:
   active: 1
   intensity:
     m_OverrideState: 1
-    m_Value: 0.054
+    m_Value: 0.131
   blueShadows:
     m_OverrideState: 1
     m_Value: 0.148
