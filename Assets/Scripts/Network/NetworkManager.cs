@@ -674,7 +674,7 @@ namespace DownBelow.Managers
         public override void OnPlayerEnteredRoom(Player newPlayer)
         {
             MenuManager.Instance?.UIRoom?.UpdatePlayersList();
-            MenuManager.Instance?.UIRoom?.UpdatePlayersState();
+          //  MenuManager.Instance?.UIRoom?.UpdatePlayersState();
         }
 
         public override void OnLeftRoom()

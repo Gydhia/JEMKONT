@@ -923,6 +923,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: ---- DECK BUILDING ----
       objectReference: {fileID: 0}
+    - target: {fileID: 6198179161952745015, guid: d55e772574884154ba970af43b4bbe70, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7916416179576231947, guid: d55e772574884154ba970af43b4bbe70, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d55e772574884154ba970af43b4bbe70, type: 3}
 --- !u!1 &94252212
@@ -6108,6 +6116,10 @@ PrefabInstance:
     - target: {fileID: 687280243006081899, guid: a2d9f22c64330d14fabf36b2855021f2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2900830126343095146, guid: a2d9f22c64330d14fabf36b2855021f2, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.39837646
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a2d9f22c64330d14fabf36b2855021f2, type: 3}

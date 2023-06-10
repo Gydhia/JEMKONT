@@ -191,7 +191,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerName: {fileID: 6293248344161590361}
   UserID: 
-  IsReady: 1
+  IsReady: 0
   ReadyToggle: {fileID: 5929364056372532726}
 --- !u!1 &6293248344161590359
 GameObject:
@@ -471,7 +471,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: fc8a79fa197ac497b9eb57971ec95618, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 60df72c46139441f68c8b3a74f5f294c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

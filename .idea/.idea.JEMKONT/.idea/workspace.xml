@@ -6,31 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="aca4d1f6-1684-4e09-8416-8dbba01ed650" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.JEMKONT/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.JEMKONT/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/AssetsImported/SpecialSkillsEffectsPack/Patch/Decals/HDRPdecalMatrixFix(Upper2020HDRP).unitypackage.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/AssetsImported/SpecialSkillsEffectsPack/Patch/Decals/URPdecal.unitypackage.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/AssetsImported/SpecialSkillsEffectsPack/Patch/Materials/GammaSpaceMaterials(WithoutNormal).unitypackage.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/AssetsImported/SpecialSkillsEffectsPack/Patch/Materials/GammaSpaceMaterials.unitypackage.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/AssetsImported/SpecialSkillsEffectsPack/Patch/Materials/LinearSpaceMaterials(WithoutNormal).unitypackage.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/AssetsImported/SpecialSkillsEffectsPack/Patch/Materials/LinearSpaceMaterials.unitypackage.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/AssetsImported/SpecialSkillsEffectsPack/Patch/Prefebs/OptimizedEffectsPrefebs.unitypackage.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/AssetsImported/SpecialSkillsEffectsPack/Patch/Prefebs/OriginalEffectsPrefebs(WithoutDistort).unitypackage.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/AssetsImported/SpecialSkillsEffectsPack/Patch/Prefebs/OriginalEffectsPrefebs.unitypackage.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/AssetsImported/SpecialSkillsEffectsPack/Patch/Toon/ToonTypeMaterial(GammaSpace).unitypackage.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/AssetsImported/SpecialSkillsEffectsPack/Patch/Toon/ToonTypeMaterial(LinearSpace).unitypackage.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/AssetsImported/SpecialSkillsEffectsPack/Patch/Toon/ToonTypeTextures_Part1.unitypackage.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/AssetsImported/SpecialSkillsEffectsPack/Patch/Toon/ToonTypeTextures_Part2.unitypackage.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/PostProcessVolume Profile.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PostProcessVolume Profile.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/SpellCardCombat.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/SpellCardCombat.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/SpellCardUI.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/SpellCardUI.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/UI/DeckbuildingUI.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/UI/DeckbuildingUI.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/UI/EntityItem.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/UI/EntityItem.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/UI/MainMenu/PlayerItem.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/UI/MainMenu/PlayerItem.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/UI/MainMenu/Popups/Popup_Room.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/UI/MainMenu/Popups/Popup_Room.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GridSystem/Interactables/Interactable_P_Card.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GridSystem/Interactables/Interactable_P_Card.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/0_FarmLand.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/0_FarmLand.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Network/NetworkManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Network/NetworkManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/MainMenu/Lobby/UIPlayerItem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/MainMenu/Lobby/UIPlayerItem.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/MainMenu/Popup/MenuPopup_Room.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/MainMenu/Popup/MenuPopup_Room.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Wwise/API/Runtime/Plugins/Windows/x86/Profile/AkSoundEngine.dll.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Wwise/API/Runtime/Plugins/Windows/x86/Profile/AkSoundEngine.dll.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Wwise/API/Runtime/Plugins/Windows/x86_64/Profile/AkSoundEngine.dll.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Wwise/API/Runtime/Plugins/Windows/x86_64/Profile/AkSoundEngine.dll.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -139,7 +119,7 @@
       <workItem from="1685780984904" duration="2205000" />
       <workItem from="1685867891800" duration="290000" />
       <workItem from="1686314433829" duration="1618000" />
-      <workItem from="1686391059649" duration="4494000" />
+      <workItem from="1686391059649" duration="7977000" />
     </task>
     <servers />
   </component>

@@ -44,7 +44,8 @@ namespace DownBelow.UI.Menu
 
             NetworkManager.Instance.ClickOnLeave();
         }
-
+        
+        
         public void OnPlayerLeftRoom()
         {
             this.UpdatePlayersList();
@@ -87,6 +88,7 @@ namespace DownBelow.UI.Menu
                     readyPlayers++;
 
             }
+            
             PlayerCount.text = "Ready Players : " + readyPlayers.ToString() +"/" + this._playerList.Count.ToString();
             this.StartBtn.interactable = (PhotonNetwork.IsMasterClient && allReady);
         }
@@ -95,7 +97,7 @@ namespace DownBelow.UI.Menu
         {
             this.UpdatePlayersList();
             this.LeaveRoomBtn.interactable = true;
-            this.LobbyName.text = PhotonNetwork.CurrentRoom.Name + " - "+ GameData.Game.RefGameDataContainer.SaveName;
+            this.LobbyName.text = PhotonNetwork.MasterClient.NickName + " - "+ GameData.Game.RefGameDataContainer.SaveName;
             this.UpdatePlayersState();
             this.StartBtn.interactable = false;
 
@@ -128,5 +130,6 @@ namespace DownBelow.UI.Menu
 
             this.UpdatePlayersState();
         }
+        
     }
 }
