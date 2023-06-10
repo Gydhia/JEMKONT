@@ -9,6 +9,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Utility.SLayout;
 
 namespace DownBelow.Managers
 {
@@ -33,6 +34,8 @@ namespace DownBelow.Managers
         public Transform BigCardsParent;
         [BoxGroup("UI")]
         public GameObject BG;
+        [BoxGroup("UI")] 
+        public SVerticalLayoutGroup CurrentDeckLayoutGroup;
 
         private EDeckBuildState state;
 

@@ -6,8 +6,18 @@
   <component name="ChangeListManager">
     <list default="true" id="aca4d1f6-1684-4e09-8416-8dbba01ed650" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.JEMKONT/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.JEMKONT/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Managers/CombatManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Managers/CombatManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/UICardSection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/UICardSection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AssetsImported/FlatKit/[Render Pipeline] Built-In.unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AssetsImported/FlatKit/[Render Pipeline] Universal (URP).unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AssetsImported/Polygon Arsenal/Upgrades/Polygon Arsenal 2019.4 URP.unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Features/Inventory/Prefabs/UIStorage.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Features/Inventory/Prefabs/UIStorage.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/GUI Kit The Stone/ResourceData/Sprites/Component/Frame/Inventory_Background.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/GUI Kit The Stone/ResourceData/Sprites/Component/Frame/Inventory_Background.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/dotmore/dotmore.csproj.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/SmallCardDeck.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/SmallCardDeck.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/SpellCardUI.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/SpellCardUI.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/UI/DeckbuildingUI.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/UI/DeckbuildingUI.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/0_FarmLand.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/0_FarmLand.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/SmallCardDeckbuilding.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/SmallCardDeckbuilding.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Wwise/Editor/ProjectData/AkWwiseProjectData.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Wwise/Editor/ProjectData/AkWwiseProjectData.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -115,6 +125,7 @@
       <workItem from="1685645317661" duration="792000" />
       <workItem from="1685780984904" duration="2205000" />
       <workItem from="1685867891800" duration="290000" />
+      <workItem from="1686314433829" duration="1618000" />
     </task>
     <servers />
   </component>
