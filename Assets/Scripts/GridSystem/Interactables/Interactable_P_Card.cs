@@ -15,15 +15,16 @@ namespace DownBelow.GridSystem
     public class PurchaseCardsAction : EntityAction
     {
         public ScriptableCard card;
+        public Interactable_P_Card cardStand;
 
         public PurchaseCardsAction(CharacterEntity RefEntity, Cell TargetCell) : base(RefEntity, TargetCell)
         {
-            Init();
         }
 
-        public void Init(ScriptableCard card)
+        public void Init(ScriptableCard card, Interactable_P_Card cardStand)
         {
             this.card = card;
+            this.cardStand = cardStand;
         }
 
         public override void ExecuteAction()
@@ -35,6 +36,7 @@ namespace DownBelow.GridSystem
             }
 
             SettingsManager.Instance.OwnedCards.Add(card);
+            cardStand.RefreshPurchase();
             EndAction();
         }
 
@@ -78,11 +80,11 @@ namespace DownBelow.GridSystem
         public override void GiveItemToPlayer(ScriptableCard Item)
         {
             var act = new PurchaseCardsAction(GameManager.SelfPlayer, GameManager.SelfPlayer.EntityCell);
-            act.Init(Item);
+            act.Init(Item,this);
             NetworkManager.Instance.EntityAskToBuffAction(act);
         }
 
-        protected override void RefreshPurchase()
+        public override void RefreshPurchase()
         {
             var pooledCards = this.GetItemsPool();
 
