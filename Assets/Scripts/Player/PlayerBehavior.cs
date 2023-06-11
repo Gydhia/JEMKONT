@@ -296,7 +296,9 @@ namespace DownBelow.Entity
 
             if(toolRef != null)
             {
-                Instantiate(toolRef.DroppedItemPrefab, this.ToolHolder);
+             ToolOnGround tool =  Instantiate(toolRef.DroppedItemPrefab, this.ToolHolder).GetComponent<ToolOnGround>();
+             tool.Init(false);
+                
             }
 
             // Skin

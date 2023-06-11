@@ -89,7 +89,14 @@ namespace DownBelow.GridSystem
         {
             ItemContained = new();
             ItemContained.Init(item.ItemPreset, item.Slot, item.Quantity);
-            ItemContainedObject = Instantiate(ItemContained.ItemPreset.DroppedItemPrefab, this.transform.position, quaternion.identity);
+            ItemContainedObject = Instantiate(ItemContained.ItemPreset.DroppedItemPrefab, this.transform.position, ItemContained.ItemPreset.DroppedItemPrefab.transform.rotation);
+
+            if (ItemContained.ItemPreset.Type == ItemTypes.EQUIPEMENT)
+            {
+                ItemContainedObject.gameObject.GetComponent<ToolOnGround>().Init(true);
+            }
+            
+            
             //Mettre un animator sur le prefab pour le faire tourner ou jsp
 //#if UNITY_EDITOR
 //            EditorGUIUtility.PingObject(this);
