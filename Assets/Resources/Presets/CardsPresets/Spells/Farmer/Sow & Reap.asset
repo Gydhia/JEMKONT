@@ -16,6 +16,7 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
+    - {fileID: 11400000, guid: b025b03493713bc4e9a9f32834240c64, type: 2}
     - {fileID: 11400000, guid: a5962ac6caff7ea4c9d65d8c071672c9, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
@@ -38,6 +39,9 @@ MonoBehaviour:
       Entry: 2
       Data: 00000000000000000000000000000000
     - Name: RefBuffer
+      Entry: 6
+      Data: 
+    - Name: RefGrid
       Entry: 6
       Data: 
     - Name: RefEntity
@@ -392,14 +396,14 @@ MonoBehaviour:
       Entry: 3
       Data: 4
     - Name: ProjectileSFX
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 0
     - Name: CellSFX
       Entry: 6
       Data: 
     - Name: NCEPreset
       Entry: 10
-      Data: 0
+      Data: 1
     - Name: 
       Entry: 8
       Data: 
@@ -422,6 +426,9 @@ MonoBehaviour:
       Entry: 6
       Data: 
     - Name: ConditionData
+      Entry: 6
+      Data: 
+    - Name: TargettingCondition
       Entry: 6
       Data: 
     - Name: 
