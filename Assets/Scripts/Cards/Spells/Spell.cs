@@ -10,6 +10,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 
@@ -36,6 +37,8 @@ namespace DownBelow.Spells
             this.ConditionData = ConditionData;
         }
 
+        public ScriptableCard RefCard => SettingsManager.Instance.ScriptableCards[SpellHeader.RefCard];
+
         public SpellData Data;
         [HideInInspector]
         public SpellHeader SpellHeader;
@@ -53,6 +56,7 @@ namespace DownBelow.Spells
         public SpellResult Result;
 
         public SpellCondition ConditionData;
+        public ConditionBase TargettingCondition;
 
         public bool ValidateConditions()
         {
@@ -64,46 +68,73 @@ namespace DownBelow.Spells
 
         public override async void ExecuteAction()
         {
-            Debug.LogWarning($"Executing spell {SettingsManager.Instance.ScriptableCards[this.SpellHeader.RefCard].Title}");
-            int cost = SettingsManager.Instance.ScriptableCards[SpellHeader.RefCard].Cost;
-            if (this.ParentSpell == null && this.RefEntity.Mana - cost > 0)
+            Debug.LogWarning($"Executing spell {RefCard.Title}");
+            int cost = RefCard.Cost;
+            if (this.ParentSpell == null)
             {
-                this.RefEntity.ApplyStat(EntityStatistics.Mana, -SettingsManager.Instance.ScriptableCards[SpellHeader.RefCard].Cost);
+                this.RefEntity.ApplyStat(EntityStatistics.Mana, -cost);
             }
 
             if (!this.ValidateConditions())
             {
                 EndAction();
                 return;
-            } 
-            else
+            } else
             {
                 this.TargetEntities = this.GetTargets(this.TargetCell);
 
                 this.Result = new SpellResult();
                 this.Result.Setup(this.TargetEntities, this);
-                if (Data.ProjectileSFX != null)
+                await DoSpellBehavior();
+                EndAction();
+            }
+        }
+
+        public virtual async Task DoSpellBehavior()
+        {
+            if (Data.ProjectileSFX != null)
+            {
+                if (Data.RequiresTargetting)
                 {
                     await SFXManager.Instance.DOSFX(new RuntimeSFXData(Data.ProjectileSFX, RefEntity, TargetCell, this));
                 }
-                if (Data.CellSFX != null && TargetedCells != null && TargetedCells.Count != 0)
+                else if(Data.SpellResultTargeting){
+                    await SFXManager.Instance.DOSFX(new RuntimeSFXData(Data.ProjectileSFX, RefEntity, GetSpellFromIndex(Data.SpellResultIndex).TargetCell, this));
+                } else
                 {
-                    for (int i = 0;i < TargetedCells.Count;i++)
+                    for (int i = 0;i < TargetEntities.Count;i++)
                     {
-                        var targetedCell = this.TargetedCells[i];
-                        if (i != TargetedCells.Count)
-                            //Not awaiting since we want to do it all. Suggestion could be to wait 0.05s to have some kind of wave effect.
-                            SFXManager.Instance.DOSFX(new(Data.CellSFX, RefEntity, targetedCell, this));
-                        else
-                            await SFXManager.Instance.DOSFX(new(Data.CellSFX, RefEntity, targetedCell, this));
+                        CharacterEntity item = TargetEntities[i];
+                        if(i == TargetEntities.Count - 1)
+                        {
+                            await SFXManager.Instance.DOSFX(new RuntimeSFXData(Data.ProjectileSFX, RefEntity, item.EntityCell, this));
+                        } else
+                        {
+                            SFXManager.Instance.DOSFX(new RuntimeSFXData(Data.ProjectileSFX, RefEntity, item.EntityCell, this));
+                        }
                     }
+                }
+            }
+            if (Data.CellSFX != null && TargetedCells != null && TargetedCells.Count != 0)
+            {
+                for (int i = 0;i < TargetedCells.Count;i++)
+                {
+                    var targetedCell = this.TargetedCells[i];
+                    if (i != TargetedCells.Count)
+                        //Not awaiting since we want to do it all. Suggestion could be to wait 0.05s to have some kind of wave effect.
+                        SFXManager.Instance.DOSFX(new(Data.CellSFX, RefEntity, targetedCell, this));
+                    else
+                        await SFXManager.Instance.DOSFX(new(Data.CellSFX, RefEntity, targetedCell, this));
                 }
             }
         }
 
         public override void EndAction()
         {
-            Result?.Unsubscribe();
+            if (Result != null && Result.SetUp)
+            {
+                Result?.Unsubscribe();
+            }
             base.EndAction();
         }
 
@@ -112,82 +143,93 @@ namespace DownBelow.Spells
             if (Data.SpellResultTargeting)
             {
                 var spell = GetSpellFromIndex(Data.SpellResultIndex);
-                TargetEntities = spell.TargetEntities;
                 TargetedCells = spell.TargetedCells;
-                return TargetEntities;
             } else if (this.Data.RequiresTargetting)
             {
                 TargetedCells = GridUtility.TransposeShapeToCells(ref Data.RotatedShapeMatrix, cellTarget, Data.RotatedShapePosition);
                 NCEHits = TargetedCells
-                    .Where(cell => cell.AttachedNCE != null)
+                    .FindAll(cell => cell.AttachedNCE != null)
                     .Select(cell => cell.AttachedNCE)
                     .ToList();
-                return TargetedCells
-                    .Where(cell => cell.EntityIn != null)
-                    .Select(cell => cell.EntityIn)
-                    .ToList();
-            } else if (this.ConditionData != null)
-            {
-                return this.ConditionData.GetValidatedTargets();
             } else
             {
                 TargetedCells = new();
-                TargetEntities = new();
                 List<Cell> TargetCellsToTranspose = new List<Cell>();
-                switch (this.Data.TargetType)
+                if (this.Data.TargetType.HasFlag(ETargetType.Ally) || this.Data.TargetType.HasFlag(ETargetType.AllAllies))
                 {
-                    case ETargetType.Ally:
-                    case ETargetType.AllAllies:
-                        TargetCellsToTranspose.AddRange(CombatManager.Instance.PlayingEntities.FindAll(x => x.IsAlly).Select(x => x.EntityCell).ToList());
-                        break;
-                    case ETargetType.Self:
-                        TargetCellsToTranspose.Add(this.ParentSpell == null ? this.RefEntity.EntityCell : this.ParentSpell.RefEntity.EntityCell);
-                        break;
-                    case ETargetType.Enemy:
-                    case ETargetType.AllEnemies:
-                        TargetCellsToTranspose.AddRange(CombatManager.Instance.PlayingEntities.FindAll(x => !x.IsAlly).Select(x => x.EntityCell).ToList());
-                        break;
-                    case ETargetType.Empty:
-                        //(en vrai jpense jfais tout péter dans le doute c'est bien)
-                        throw new Exception($"The spell {this.GetType()} of the card {SettingsManager.Instance.ScriptableCards[this.SpellHeader.RefCard].name} is set to a targetting type of 'Empty' but has no targetting. This is not allowed.");
-                        //Lisez et comprenez cette ligne avant de me pinger, pégus.
-                    case ETargetType.NCEs:
-                        TargetCellsToTranspose.AddRange(CombatManager.Instance.NCEs.Select(x => x.AttachedCell));
-                        break;
-                    case ETargetType.CharacterEntities:
-                        TargetCellsToTranspose.AddRange(CombatManager.Instance.PlayingEntities.Select(x=>x.EntityCell));
-                        break; 
-
-                    case ETargetType.Entities:
-                        TargetCellsToTranspose.AddRange(CombatManager.Instance.NCEs.Select(x => x.AttachedCell).ToList());
-                        TargetCellsToTranspose.AddRange(CombatManager.Instance.PlayingEntities.Select(x => x.EntityCell).ToList());
-                        break;
-                    case ETargetType.All:
-                        var cells = CombatManager.Instance.PlayingEntities[0].CurrentGrid.Cells;
-                        for (int col = 0;col < cells.GetLength(0);col++)
-                        {
-                            for (int row = 0;row < cells.GetLength(1);row++)
-                            {
-                                TargetCellsToTranspose.Add(cells[col, row]);
-                            }
-                        }
-                        break;
-                    default:
-                        TargetCellsToTranspose.Add(this.ParentSpell == null ? this.RefEntity.EntityCell : this.ParentSpell.RefEntity.EntityCell);
-                        break;
+                    TargetCellsToTranspose.AddRange(CombatManager.Instance.PlayingEntities.FindAll(x => x.IsAlly).Select(x => x.EntityCell).ToList());
                 }
+                if (this.Data.TargetType.HasFlag(ETargetType.Self))
+                {
+                    TargetCellsToTranspose.Add(this.ParentSpell == null ? this.RefEntity.EntityCell : this.ParentSpell.RefEntity.EntityCell);
+                }
+                if (this.Data.TargetType.HasFlag(ETargetType.Enemy) || this.Data.TargetType.HasFlag(ETargetType.AllEnemies))
+                {
+                    TargetCellsToTranspose.AddRange(CombatManager.Instance.PlayingEntities.FindAll(x => !x.IsAlly).Select(x => x.EntityCell).ToList());
+                }
+                if (this.Data.TargetType.HasFlag(ETargetType.NCEs))
+                {
+                    TargetCellsToTranspose.AddRange(CombatManager.Instance.NCEs.Select(x => x.AttachedCell));
+                }
+                if (this.Data.TargetType.HasFlag(ETargetType.Entities))
+                {
+                    TargetCellsToTranspose.AddRange(CombatManager.Instance.NCEs.Select(x => x.AttachedCell).ToList());
+                    TargetCellsToTranspose.AddRange(CombatManager.Instance.PlayingEntities.Select(x => x.EntityCell).ToList());
+                }
+                if (this.Data.TargetType.HasFlag(ETargetType.CharacterEntities))
+                {
+                    TargetCellsToTranspose.AddRange(CombatManager.Instance.PlayingEntities.Select(x => x.EntityCell));
+                }
+                if (this.Data.TargetType.HasFlag(ETargetType.All))
+                {
+                    var cells = CombatManager.Instance.PlayingEntities[0].CurrentGrid.Cells;
+                    for (int col = 0;col < cells.GetLength(0);col++)
+                    {
+                        for (int row = 0;row < cells.GetLength(1);row++)
+                        {
+                            TargetCellsToTranspose.Add(cells[col, row]);
+                        }
+                    }
+                }
+                if (this.Data.TargetType.HasFlag(ETargetType.Empty))
+                {
+                    //(en vrai jpense jfais tout péter dans le doute c'est bien)
+                    throw new Exception($"The spell {this.GetType()} of the card {RefCard.name} is set to a targetting type of 'Empty' but has no targetting. This is not allowed.");
+                    //Lisez et comprenez cette ligne avant de me pinger, pégus.
+                }
+                //Removing duplicates
+                TargetCellsToTranspose = TargetCellsToTranspose.GroupBy(x => x.PositionInGrid).Select(y => y.First()).ToList();
                 foreach (Cell item in TargetCellsToTranspose)
                 {
                     TargetedCells.AddRange(GridUtility.TransposeShapeToCells(ref Data.RotatedShapeMatrix, item, Data.RotatedShapePosition));
                 }
-                TargetEntities.AddRange(TargetedCells.FindAll(x => x.EntityIn != null).Select(x => x.EntityIn));
-                return TargetEntities;
             }
+            if (this.TargettingCondition != null)
+            {
+                var realTargeted = new List<Cell>();
+                realTargeted.AddRange(TargetedCells);
+                TargetedCells.Clear();
+                foreach (Cell cell in realTargeted)
+                {
+                    if (TargettingCondition.Validated(ParentSpell.Result, cell))
+                    {
+                        TargetedCells.Add(cell);
+                    }
+                }
+            }
+            TargetEntities = new();
+            TargetEntities.AddRange(TargetedCells.FindAll(x => x.EntityIn != null).Select(x => x.EntityIn));
+            return TargetEntities;
         }
 
-        Spell GetSpellFromIndex(int index)
+        protected int Index()
         {
-            return SettingsManager.Instance.ScriptableCards[this.SpellHeader.RefCard].Spells[index];
+            return Array.IndexOf(RefCard.Spells, this);
+        }
+
+        protected Spell GetSpellFromIndex(int index)
+        {
+            return RefCard.Spells[index];
         }
 
         public override object[] GetDatas()

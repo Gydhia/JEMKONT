@@ -7,12 +7,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Events;
 using Sirenix.Serialization;
 using System;
-using TMPro;
 using DG.Tweening;
-using System.CodeDom;
+
 
 namespace DownBelow.Entity
 {
@@ -61,6 +59,15 @@ namespace DownBelow.Entity
         public event CellEventData.Event OnEnteredCell;
         public event CellEventData.Event OnExitedCell;
 
+        public event TeleportationEventData.Event OnTeleportation;
+
+        public event SpellEventData.Event OnPushed;
+        #endregion
+        #region firingEvents
+        public void FireOnTeleportation(TeleportationEventData data)
+        {
+            OnTeleportation?.Invoke(data);
+        }
         public void FireMissingMana()
         {
             OnManaMissing?.Invoke();
@@ -71,9 +78,6 @@ namespace DownBelow.Entity
             this.OnInited?.Invoke(null);
         }
 
-        public event SpellEventData.Event OnPushed;
-        #endregion
-        #region firingEvents
         public void FireExitedCell()
         {
             this.EntityCell.Datas.state = CellState.Walkable;
@@ -118,6 +122,8 @@ namespace DownBelow.Entity
 
         // Movements
         public bool IsMoving = false;
+        public bool CanMove = true;
+
 
         private Cell _entityCell;
         public Cell EntityCell
@@ -132,6 +138,10 @@ namespace DownBelow.Entity
                 this._entityCell.EntityIn = this;
             }
         }
+
+        public Transform EntityHolder;
+        public SkinnedMeshRenderer Renderer;
+        public Animator Animator;
 
         public Cell NextCell = null;
         protected Coroutine moveCor = null;
@@ -181,7 +191,7 @@ namespace DownBelow.Entity
         /// </summary>
         /// <param name="stat">The given stat.</param>
         /// <returns></returns>
-        int Buff(EntityStatistics stat)
+        protected int Buff(EntityStatistics stat)
         {
             int res = 0;
             var alt = Alterations.Find(x => x is BuffAlteration buffAlt && buffAlt.StatToBuff == stat);
@@ -190,6 +200,11 @@ namespace DownBelow.Entity
                 res = buff.value;
             }
             return res;
+        }
+
+        Alteration GetAlteration<T>() where T : Alteration
+        {
+            return Alterations.Find(x => x.GetType() == typeof(T));
         }
         #endregion
 
@@ -229,13 +244,13 @@ namespace DownBelow.Entity
         {
             // TODO : Move it from here later, and same for other indicators, but not a priority
             this.PlayingIndicator.transform.DOMoveY(this.PlayingIndicator.transform.position.y - 0.5f, 1.5f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
-            if(this.SelectedIndicator != null)
+            if (this.SelectedIndicator != null)
             {
-                this.SelectedIndicator.transform.DOScale(0.13f, 1.5f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
+                this.SelectedIndicator.transform.DOScale(0.05f, 1.5f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
             }
             this.OnHealthRemoved += AreYouAlive;
         }
-        
+
 
         public void UpdateUIShield(SpellEventData data)
         {
@@ -294,10 +309,11 @@ namespace DownBelow.Entity
 
         #region TURNS
 
-        public virtual void StartTurn()
+        public virtual async void StartTurn()
         {
             this.IsPlayingEntity = true;
             this.PlayingIndicator.SetActive(true);
+
 
             OnTurnBegun?.Invoke(new());
 
@@ -305,6 +321,9 @@ namespace DownBelow.Entity
             this.ReinitializeStat(EntityStatistics.Mana);
 
             UIManager.Instance.PlayerInfos.UpdateAllTexts();
+
+            await SFXManager.Instance.RefreshAlterationSFX(this);
+
 
             if (this.Stunned || this.Sleeping)
             {
@@ -386,7 +405,7 @@ namespace DownBelow.Entity
         ///<param name="triggerEvents">true by default. Used to </param>
         public void ApplyStat(EntityStatistics stat, int value, bool triggerEvents = true)
         {
-            Debug.Log($"Applied stat {stat}, {value}, {Environment.StackTrace} ");
+            Debug.Log($"Applied stat {stat}, {value} to {ToString()} {Environment.StackTrace} ");
             Statistics[stat] += value;
 
             switch (stat)
@@ -494,9 +513,15 @@ namespace DownBelow.Entity
         {
             OnAlterationReceived?.Invoke(new SpellEventDataAlteration(this, alteration));
             Debug.Log($"Alteration: {alteration} to {this.name}");
-            var alreadyFound = Alterations.Find(x => x.GetType() == alteration.GetType());
+            Alteration alreadyFound = null;
+            if (alteration is not BuffAlteration)
+            {
+                alreadyFound = Alterations.Find(x => x.GetType() == alteration.GetType());
+            }
             if (alreadyFound != null)
             {
+                alreadyFound.Duration = alteration.Duration;
+                return;
                 //TODO : GD? Add Duration? Set duration?
             } else
             {
@@ -630,7 +655,8 @@ namespace DownBelow.Entity
         /// </summary>
         /// <param name="TargetCell"> the targeted cell.</param>
         /// <param name="Result">If the teleportation is due to a spell, the spell result of the spell.</param>
-        public void SmartTeleport(Cell TargetCell, SpellResult Result = null)
+        /// <returns>The modified cell to tp on.</returns>
+        public Cell SmartTeleport(Cell TargetCell, SpellResult Result = null)
         {
             var cellToTP = TargetCell;
 
@@ -641,14 +667,9 @@ namespace DownBelow.Entity
                     .FindAll(x => x.Datas.state == CellState.Walkable)
                     .OrderByDescending(x => Math.Abs(x.PositionInGrid.latitude - this.EntityCell.PositionInGrid.latitude) + Math.Abs(x.PositionInGrid.longitude - this.EntityCell.PositionInGrid.longitude))
                     .ToList();
-                //Someday will need a Foreach, but i just don't know what we need to check on the cells before tp'ing, so just tp on the farther one.
+                //Someday will need a Foreach, but i just don't know what other things we need to check on the cells before tp'ing,
+                //so just tp on the farther one.
                 cellToTP = freeNeighbours[0];
-            }
-
-            //If the teleportation is due to a spell, add it in the result.
-            if (cellToTP.EntityIn != null && Result != null)
-            {
-                Result.TeleportedTo.Add(cellToTP.EntityIn);
             }
 
             if (cellToTP.Datas.state == CellState.Walkable)
@@ -661,6 +682,7 @@ namespace DownBelow.Entity
 
                 FireEnteredCell(cellToTP);
             }
+            return cellToTP;
         }
 
         /// <summary>
@@ -672,12 +694,6 @@ namespace DownBelow.Entity
         public void Teleport(Cell TargetCell, SpellResult Result = null)
         {
             var cellToTP = TargetCell;
-
-            //If the teleportation is due to a spell, add it in the result.
-            if (cellToTP.EntityIn != null && Result != null)
-            {
-                Result.TeleportedTo.Add(cellToTP.EntityIn);
-            }
 
             if (cellToTP.Datas.state == CellState.Walkable)
             {

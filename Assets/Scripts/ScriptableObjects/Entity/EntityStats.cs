@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Entity/Statistics")]
+[CreateAssetMenu(menuName = "DownBelow/Entity/Statistics")]
 public class EntityStats : SerializedScriptableObject
 {
     public int Health;

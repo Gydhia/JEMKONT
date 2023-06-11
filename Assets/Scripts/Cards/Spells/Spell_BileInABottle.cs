@@ -4,6 +4,7 @@ using DownBelow.Managers;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace DownBelow.Spells
@@ -19,9 +20,9 @@ namespace DownBelow.Spells
         {
         }
 
-        public override void ExecuteAction()
+        public override async Task DoSpellBehavior()
         {
-            base.ExecuteAction();
+            await base.DoSpellBehavior();
 
             foreach (PlayerBehavior item in CombatManager.Instance.PlayingEntities.FindAll(x => x.IsAlly).Cast<PlayerBehavior>())
             {
@@ -29,8 +30,6 @@ namespace DownBelow.Spells
 
                 item.ApplyStat(EntityStatistics.Health, LocalData.HealingPerCard * item.Deck.RefCardsHolder.PileSize(PileType.Hand));
             }
-
-            EndAction();
         }
 
     }

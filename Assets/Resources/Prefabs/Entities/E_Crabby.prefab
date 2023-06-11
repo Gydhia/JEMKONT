@@ -73,6 +73,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dbcc8d6ff0d6aa1439146455fea9d413, type: 3}
+--- !u!4 &5399806964577841904 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7817129395020021028, guid: dbcc8d6ff0d6aa1439146455fea9d413, type: 3}
+  m_PrefabInstance: {fileID: 2779831578740199380}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &5399806964580525008 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 7817129395024931844, guid: dbcc8d6ff0d6aa1439146455fea9d413, type: 3}
+  m_PrefabInstance: {fileID: 2779831578740199380}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &5399806964584766736 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 7817129395029037764, guid: dbcc8d6ff0d6aa1439146455fea9d413, type: 3}
+  m_PrefabInstance: {fileID: 2779831578740199380}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3093919413563208349
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -81,6 +96,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1431573493514449160, guid: cb1bb2b81a4acd043865938c346ae768, type: 3}
+      propertyPath: Animator
+      value: 
+      objectReference: {fileID: 5399806964584766736}
+    - target: {fileID: 1431573493514449160, guid: cb1bb2b81a4acd043865938c346ae768, type: 3}
+      propertyPath: Renderer
+      value: 
+      objectReference: {fileID: 5399806964580525008}
+    - target: {fileID: 1431573493514449160, guid: cb1bb2b81a4acd043865938c346ae768, type: 3}
       propertyPath: EnemyStyle
       value: 
       objectReference: {fileID: 11400000, guid: ed8c7df3d95b8e64bb72a70fd2fcd8b6, type: 2}
@@ -88,6 +111,10 @@ PrefabInstance:
       propertyPath: attackType
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1431573493514449160, guid: cb1bb2b81a4acd043865938c346ae768, type: 3}
+      propertyPath: EntityHolder
+      value: 
+      objectReference: {fileID: 5399806964577841904}
     - target: {fileID: 3151041345836561540, guid: cb1bb2b81a4acd043865938c346ae768, type: 3}
       propertyPath: _healthFeedback
       value: 

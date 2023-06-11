@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "GameUIPreset", menuName = "DownBelow/Presets/GameUIPreset", order = 4)]
+[CreateAssetMenu(fileName = "GameUIPreset", menuName = "DownBelow/BasePresets/GameUIPreset", order = 4)]
 
 public class GameUIPreset : SerializedScriptableObject
 {

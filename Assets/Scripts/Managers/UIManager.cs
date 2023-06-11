@@ -89,14 +89,6 @@ namespace DownBelow.Managers
             EscapeSection.gameObject.SetActive(!isActive);
         }
 
-        /// <summary>
-        /// To process the UI when a player moved
-        /// </summary>
-        public void PlayerMoved()
-        {
-            this.CurrentStorage.HideStorage();
-        }
-
         public void StartGather(GatheringEventData Data)
         {
             ResourcePreset resource = Data.ResourceRef.InteractablePreset as ResourcePreset;
@@ -193,6 +185,11 @@ namespace DownBelow.Managers
         private void _endCardDrag(CardEventData Data)
         {
             InputManager.Instance.ChangeCursorAppearance(CursorAppearance.Idle);
+        }
+
+        public void HideStorage()
+        {
+            this.CurrentStorage.HideStorage();
         }
     }
 }

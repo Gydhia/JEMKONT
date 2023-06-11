@@ -23,29 +23,75 @@ namespace DownBelow.Entity
 
         public override void ExecuteAction()
         {
-            // For now we assume that only player can switch from grids
+            var gridToReach = GridManager.Instance.GetGridFromName(this.TargetGrid);
+
+            if(gridToReach == null)
+            {
+                Debug.LogError("Couldn't load the passed grid. Aborted action");
+                this.EndAction();
+                return;
+            }
+
+            if(gridToReach.IsCombatGrid)
+            {
+                this._enterCombatGrid(gridToReach as CombatGrid);
+            }
+            else
+            {
+                this._enterWorldGrid(gridToReach);
+            }
+
+            EndAction();
+        }
+
+        private void _enterCombatGrid(CombatGrid combatGrid)
+        {
             PlayerBehavior player = (PlayerBehavior)this.RefEntity;
-            CombatGrid newGrid = GridManager.Instance.GetGridFromName(this.TargetGrid) as CombatGrid;
 
             // If the player has a special item
-            if (player.PlayerSpecialSlots.StorageItems.All(s => s.ItemPreset != null) && !newGrid.HasStarted)
+            if (player.PlayerSpecialSlots.StorageItems.All(s => s.ItemPreset != null) && !combatGrid.HasStarted)
             {
-                GameManager.Instance.FireEntityExitingGrid(player);
-
-                player.EnterNewGrid(newGrid);
-
-                GameManager.Instance.FireEntityEnteredGrid(player);
+                GameManager.Instance.FireEntitySwitchingGrid(player, combatGrid);
             }
             // Only notifies if it's the local player
             else if (player == GameManager.RealSelfPlayer)
             {
-                UIManager.Instance.DatasSection.ShowWarningText(newGrid.HasStarted ?
+                UIManager.Instance.DatasSection.ShowWarningText(combatGrid.HasStarted ?
                     "You cannot enter a combat grid that has started combat" :
                     "You cannot enter a combat grid without all items equiped");
             }
+        }
 
-            //TODO: Abort all actions?
-            EndAction();
+        private void _enterWorldGrid(WorldGrid worldGrid)
+        {
+            PlayerBehavior player = (PlayerBehavior)this.RefEntity;
+
+            System.Guid spawnId = SettingsManager.Instance.SpawnablesPresets.First(k => k.Value is SpawnPreset).Key;
+            // It SHOULDNT be null, it's dev job to put these
+            var spawnLocations = worldGrid.SelfData.SpawnablePresets.Where(k => k.Value == spawnId).Select(kv => kv.Key);
+
+            Cell spawnCell = null;
+            foreach (var loc in spawnLocations)
+            {
+                if (worldGrid.Cells[loc.latitude, loc.longitude].Datas.state == CellState.Walkable)
+                {
+                    spawnCell = worldGrid.Cells[loc.latitude, loc.longitude];
+                    break;
+                }
+            }
+
+            if (spawnCell != null)
+            {
+                player.FireExitedCell();
+                GameManager.Instance.FireEntitySwitchingGrid(player, worldGrid);
+                player.FireEnteredCell(spawnCell);
+                player.transform.position = spawnCell.WorldPosition;
+            }
+            // No free spawn found. Not set or someone put object over them
+            else
+            {
+                UIManager.Instance.DatasSection.ShowWarningText("Seems like your friends blocked the link between the two worlds...");
+            }   
         }
 
         public override object[] GetDatas()

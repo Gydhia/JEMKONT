@@ -132,7 +132,7 @@ namespace DownBelow.Managers
         /// <param name="Data"></param>
         public void WelcomePlayerInCombat(EntityEventData Data)
         {
-            if (!(Data.Entity.CurrentGrid is CombatGrid))
+            if (!Data.Entity.CurrentGrid.IsCombatGrid)
                 return;
 
             CombatGrid currentGrid = Data.Entity.CurrentGrid as CombatGrid;

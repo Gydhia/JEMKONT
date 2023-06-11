@@ -4,6 +4,7 @@ using DownBelow.Spells.Alterations;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace DownBelow.Spells
@@ -58,9 +59,9 @@ namespace DownBelow.Spells
     {
         public Spell_Stats(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, SpellCondition ConditionData) : base(CopyData, RefEntity, TargetCell, ParentSpell, ConditionData) { }
 
-        public override void ExecuteAction()
+        public override async Task DoSpellBehavior()
         {
-            base.ExecuteAction();
+            await base.DoSpellBehavior();
 
             var targets = this.GetTargets(this.TargetCell);
             if (LocalData.Statistic == EntityStatistics.Health && NCEHits != null)
@@ -101,7 +102,6 @@ namespace DownBelow.Spells
                     }
                 }
             }
-            this.EndAction();
         }
     }
 }

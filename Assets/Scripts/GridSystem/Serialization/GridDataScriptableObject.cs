@@ -3,7 +3,6 @@ using DownBelow.Managers;
 using mattmc3.dotmore.Collections.Generic;
 using Sirenix.OdinInspector;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -14,6 +13,8 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
 {
 #if UNITY_EDITOR
     public static bool IsSubscribed = false;
+
+    protected override bool shouldLoadData => IsSubscribed;
 
     #region Comparator_values
     private int _oldHeight = -1;
@@ -32,12 +33,31 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
     [DetailedInfoBox("READ-ME", "Click on \"DRAW\", then use the numpad to paint cells\n" +
         "   0 - Walkable\n" +
         "   1 - Blocked\n" +
-        "   2 - Preset In -> Cross in inspector to delete")]
+        "   2 - Preset In -> Cross in inspector to delete\n" +
+        "   C - Inner grid entrance if [Target For Entrance] is on"
+        )]
     public string HowToUse = "";
 
 
     [ValueDropdown("GetSavedGrids"), OnValueChanged("LoadSelectedGrid")]
     public string SelectedGrid;
+
+    [OnValueChanged("_generateLevelPath"), InfoBox("Level has to be set", InfoMessageType.Warning, "@LevelPrefab == null")]
+    public GameObject LevelPrefab;
+
+    private void _generateLevelPath()
+    {
+        if(this.LevelPrefab == null)
+        {
+            this.LazyLoadedData.LevelPrefabPath = string.Empty;
+        }
+        else
+        {
+            string path = AssetDatabase.GetAssetPath(LevelPrefab).Split('.')[0];
+            // To remove the Assets/Resources
+            this.LazyLoadedData.LevelPrefabPath = path.Remove(0, 17);
+        }
+    }
 
     [Button(ButtonSizes.Large), HorizontalGroup("De_Serialization", 0.5f), BoxGroup("De_Serialization/Modifications"), GUIColor(1f, 0.9f, 0.75f)]
     public void Apply()
@@ -131,21 +151,21 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
 
     public void LoadSelectedGrid()
     {
-        if (GridManager.Instance.SavedGrids.TryGetValue(this.SelectedGrid, out GridData newGrid))
+        if (GridManager.Instance.SavedGrids.TryGetValue(this.SelectedGrid, out GridData loadedGrid))
         {
-            this.LazyLoadedData.TopLeftOffset = newGrid.TopLeftOffset;
+            this.LazyLoadedData.TopLeftOffset = loadedGrid.TopLeftOffset;
 
             SettingsManager.Instance.LoadGridsRelative();
 
-            this.GenerateGrid(newGrid.GridHeight, newGrid.GridWidth);
+            this.GenerateGrid(loadedGrid.GridHeight, loadedGrid.GridWidth);
 
-            foreach (CellData cellData in newGrid.CellDatas)
+            foreach (CellData cellData in loadedGrid.CellDatas)
                 this.LazyLoadedData.CellDatas[cellData.heightPos, cellData.widthPos].state = cellData.state;
 
             this.LazyLoadedData.InnerGrids = new List<InnerGridData>();
-            if (newGrid.InnerGrids != null)
+            if (loadedGrid.InnerGrids != null)
             {
-                foreach (var innerGrid in newGrid.InnerGrids)
+                foreach (var innerGrid in loadedGrid.InnerGrids)
                 {
                     this.LazyLoadedData.InnerGrids.Add(new InnerGridData());
                     this.LazyLoadedData.InnerGrids[^1].GenerateGrid(innerGrid.GridHeight, innerGrid.GridWidth, innerGrid.Longitude, innerGrid.Latitude);
@@ -154,20 +174,27 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
                         this.LazyLoadedData.InnerGrids[^1].CellDatas[cellData.heightPos, cellData.widthPos].state = cellData.state;
 
                     this.LazyLoadedData.InnerGrids[^1].Spawnables = this._setSpawnablePresets(this.LazyLoadedData.InnerGrids[^1].CellDatas, innerGrid.SpawnablePresets);
+
+                    this.LazyLoadedData.InnerGrids[^1].Entrances = innerGrid.Entrances;
                 }
             }
 
-            if (newGrid.SpawnablePresets != null)
-                this.LazyLoadedData.Spawnables = this._setSpawnablePresets(this.LazyLoadedData.CellDatas, newGrid.SpawnablePresets);
+            if (loadedGrid.SpawnablePresets != null)
+                this.LazyLoadedData.Spawnables = this._setSpawnablePresets(this.LazyLoadedData.CellDatas, loadedGrid.SpawnablePresets);
             else
                 this.LazyLoadedData.Spawnables.Clear();
 
-            GridManager.Instance.GenerateShaderBitmap(newGrid, null, true);
+            GridManager.Instance.GenerateShaderBitmap(loadedGrid, null, true);
             this.ResizePlane();
 
             this._oldHeight = this.LazyLoadedData.GridHeight;
             this._oldWidth = this.LazyLoadedData.GridWidth;
             this._oldPosition = this.LazyLoadedData.TopLeftOffset;
+            this.LevelPrefab = string.IsNullOrEmpty(loadedGrid.GridLevelPath) ?
+                null :
+                Resources.Load<GameObject>(loadedGrid.GridLevelPath);
+
+            this.LazyLoadedData.LevelPrefabPath = loadedGrid.GridLevelPath;
         }
     }
 
@@ -231,6 +258,7 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
 
         this._plane.transform.localScale = new Vector3(this.LazyLoadedData.GridWidth * (cellsWidth / 10f), 0f, this.LazyLoadedData.GridHeight * (cellsWidth / 10f));
         this._plane.transform.localPosition = new Vector3((this.LazyLoadedData.GridWidth * cellsWidth) / 2, 0f, -(this.LazyLoadedData.GridHeight * cellsWidth) / 2);
+        this._plane.transform.localPosition += new Vector3(this.LazyLoadedData.TopLeftOffset.x, this.LazyLoadedData.TopLeftOffset.y, this.LazyLoadedData.TopLeftOffset.z);
     }
 
     public GridPosition GetGridIndexFromWorld(Vector3 worldPos)
@@ -285,6 +313,7 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
                 this.LazyLoadedData.InnerGrids[i].GridWidth,
                 this.LazyLoadedData.InnerGrids[i].Longitude,
                 this.LazyLoadedData.InnerGrids[i].Latitude,
+                this.LazyLoadedData.InnerGrids[i].Entrances,
                 innerCellData,
                 innerSpawnables
                 );
@@ -301,6 +330,7 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
         // /!\ By default, the grid containing InnerGrids is not a combatgrid
         return new GridData(
             this.SelectedGrid,
+            this.LazyLoadedData.LevelPrefabPath,
             false,
             this.LazyLoadedData.GridHeight,
             this.LazyLoadedData.GridWidth,
@@ -343,18 +373,21 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
         {
             case KeyCode.Keypad0:
                 PenType = CellState.Walkable;
-                this.MakeWalkable(hit.point);
+                this.MakeWalkable(hit.point - this.LazyLoadedData.TopLeftOffset);
                 break;
             case KeyCode.Keypad1:
                 PenType = CellState.Blocked;
-                this.MakeBlock(hit.point);
+                this.MakeBlock(hit.point - this.LazyLoadedData.TopLeftOffset);
                 break;
             case KeyCode.Keypad2:
                 PenType = CellState.EntityIn;
-                this.MakeEntity(hit.point); ;
+                this.MakeEntity(hit.point - this.LazyLoadedData.TopLeftOffset);
                 break;
             case KeyCode.F:
-                this.FindDictionaryKey(hit.point);
+                this.FindDictionaryKey(hit.point - this.LazyLoadedData.TopLeftOffset);
+                break;
+            case KeyCode.C:
+                this.MakeCombatEntrance(hit.point - this.LazyLoadedData.TopLeftOffset);
                 break;
         }
     }
@@ -367,12 +400,90 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
         {
             refPos = new GridPosition(refPos.longitude - includingGrid.Longitude, refPos.latitude - includingGrid.Latitude);
             if (includingGrid.Spawnables.ContainsKey(refPos))
+            {
                 Debug.Log(this.LazyLoadedData.Spawnables[refPos]);
+                EditorGUIUtility.PingObject(this.LazyLoadedData.Spawnables[refPos]);
+            }
         }
         else
         {
             if (this.LazyLoadedData.Spawnables.ContainsKey(refPos))
+            {
                 Debug.Log(this.LazyLoadedData.Spawnables[refPos]);
+                EditorGUIUtility.PingObject(this.LazyLoadedData.Spawnables[refPos]);
+            }
+        }
+    }
+
+    public void MakeBlock(Vector3 WorldPosition)
+    {
+
+        GridPosition refPos = this.GetGridIndexFromWorld(WorldPosition);
+        // Longitude = x, latitude = y. Array is [height, width]
+
+        CellData[,] refDatas = this.GetRefDatasOfGRid(refPos, out GridPosition positionInCurrentGrid);
+        GridPosition processPose = positionInCurrentGrid;
+        CellState currState = refDatas[processPose.latitude, processPose.longitude].state;
+        if (PenType == currState || currState == CellState.EntityIn)
+        {
+            return;
+        }
+        refDatas[processPose.latitude, processPose.longitude].state = CellState.Blocked;
+        GridManager.Instance.ChangeBitmapCell(refPos, this.LazyLoadedData.GridHeight, CellState.Blocked, true);
+    }
+
+    public void MakeWalkable(Vector3 WorldPosition)
+    {
+        GridPosition pos = this.GetGridIndexFromWorld(WorldPosition);
+        // Longitude = x, latitude = y. Array is [height, width]
+
+        CellData[,] refDatas = this.GetRefDatasOfGRid(pos, out GridPosition positionInCurrentGrid);
+        GridPosition processPose = positionInCurrentGrid;
+        CellState currState = refDatas[processPose.latitude, processPose.longitude].state;
+        if (currState == CellState.EntityIn)
+        {
+            MakeEntity(WorldPosition);
+        }
+        if (PenType == currState)
+        {
+            return;
+        }
+        refDatas[processPose.latitude, processPose.longitude].state = CellState.Walkable;
+        GridManager.Instance.ChangeBitmapCell(pos, this.LazyLoadedData.GridHeight, CellState.Walkable, true);
+    }
+
+
+    public void MakeCombatEntrance(Vector3 WorldPosition)
+    {
+        GridPosition pos = this.GetGridIndexFromWorld(WorldPosition);
+
+        InnerGridData targetedGrid = null;
+        foreach (var innerGrid in this.LazyLoadedData.InnerGrids)
+        {
+            if (innerGrid.TargetForEntrance)
+            {
+                targetedGrid = innerGrid;
+            }
+        }
+
+        if(targetedGrid == null) { return; }
+
+        CellData[,] refDatas = this.GetRefDatasOfGRid(pos, out GridPosition positionInCurrentGrid);
+        GridPosition processPose = positionInCurrentGrid;
+        CellState currState = refDatas[processPose.latitude, processPose.longitude].state;
+
+        if (currState == CellState.Walkable)
+        {
+            if (targetedGrid.Entrances.Contains(processPose))
+            {
+                targetedGrid.Entrances.Remove(processPose);
+                GridManager.Instance.ChangeBitmapCell(pos, this.LazyLoadedData.GridHeight, CellState.Walkable, true);
+            }
+            else
+            {
+                targetedGrid.Entrances.Add(processPose);
+                GridManager.Instance.ChangeBitmapCell(pos, this.LazyLoadedData.GridHeight, CellState.EntityIn, true);
+            }
         }
     }
 
@@ -383,6 +494,8 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
 
         float cellsWidth = SettingsManager.Instance.GridsPreset.CellsSize;
         Vector3 cellBounds = new Vector3(cellsWidth - cellsWidth / 15f, cellsWidth / 6f, cellsWidth - cellsWidth / 15f);
+
+        float height = this.LazyLoadedData.TopLeftOffset.y + (cellBounds.y / 2f + 0.15f);
 
         for (int i = 0; i < this.LazyLoadedData.InnerGrids.Count; i++)
         {
@@ -403,12 +516,23 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
             Handles.DrawWireCube(bot, new Vector3(this.LazyLoadedData.InnerGrids[i].GridWidth, 0.05f, 0.05f));
             Handles.DrawWireCube(left, new Vector3(0.05f, 0.05f, this.LazyLoadedData.InnerGrids[i].GridHeight));
             Handles.DrawWireCube(right, new Vector3(0.05f, 0.05f, this.LazyLoadedData.InnerGrids[i].GridHeight));
+
+            int counter = 0;
+            if(this.LazyLoadedData.InnerGrids[i].Entrances != null)
+            {
+                foreach (var entrances in this.LazyLoadedData.InnerGrids[i].Entrances)
+                {
+                    drawString(
+                        counter.ToString() + " - Combat Entrance",
+                        new Vector3(entrances.longitude * cellsWidth + this.LazyLoadedData.TopLeftOffset.x + (cellsWidth / 2), height, -entrances.latitude * cellsWidth + this.LazyLoadedData.TopLeftOffset.z - (cellsWidth / 2))
+                        );
+                    counter++;
+                }
+            }
         }
 
         if (this.LazyLoadedData.Spawnables != null)
         {
-            float height = this.LazyLoadedData.TopLeftOffset.y + (cellBounds.y / 2f + 0.15f);
-
             int counter = 0;
             foreach (var entity in this.LazyLoadedData.Spawnables)
             {
@@ -478,44 +602,6 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
     }
     #endregion
 
-    public void MakeBlock(Vector3 WorldPosition)
-    {
-
-        GridPosition refPos = this.GetGridIndexFromWorld(WorldPosition);
-        // Longitude = x, latitude = y. Array is [height, width]
-
-        CellData[,] refDatas = this.GetRefDatasOfGRid(refPos, out GridPosition positionInCurrentGrid);
-        GridPosition processPose = positionInCurrentGrid;
-        CellState currState = refDatas[processPose.latitude, processPose.longitude].state;
-        if (PenType == currState || currState == CellState.EntityIn)
-        {
-            return;
-        }
-        refDatas[processPose.latitude, processPose.longitude].state = CellState.Blocked;
-        GridManager.Instance.ChangeBitmapCell(refPos, this.LazyLoadedData.GridHeight, CellState.Blocked, true);
-    }
-
-    public void MakeWalkable(Vector3 WorldPosition)
-    {
-        GridPosition pos = this.GetGridIndexFromWorld(WorldPosition);
-        // Longitude = x, latitude = y. Array is [height, width]
-
-        CellData[,] refDatas = this.GetRefDatasOfGRid(pos, out GridPosition positionInCurrentGrid);
-        GridPosition processPose = positionInCurrentGrid;
-        CellState currState = refDatas[processPose.latitude, processPose.longitude].state;
-        if (currState == CellState.EntityIn)
-        {
-            MakeEntity(WorldPosition);
-        }
-        if (PenType == currState)
-        {
-            return;
-        }
-        refDatas[processPose.latitude, processPose.longitude].state = CellState.Walkable;
-        GridManager.Instance.ChangeBitmapCell(pos, this.LazyLoadedData.GridHeight, CellState.Walkable, true);
-
-    }
-
     public CellData[,] GetRefDatasOfGRid(GridPosition pos, out GridPosition positionInCurrentGrid)
     {
         CellData[,] refDatas;
@@ -565,12 +651,16 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
         // Then we remove it
         if (cellsRef[pos.latitude, pos.longitude].state == PenType)
         {
-            return;
+            spawnablesRef.Remove(pos);
         }
         if (!spawnablesRef.ContainsKey(pos))
         {
             cellsRef[pos.latitude, pos.longitude].state = CellState.EntityIn;
             spawnablesRef.Add(pos, null);
+        }
+        else
+        {
+            spawnablesRef.Remove(pos);
         }
     }
 

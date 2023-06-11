@@ -2,6 +2,7 @@ using DownBelow.Entity;
 using DownBelow.GridSystem;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using static Cinemachine.CinemachineOrbitalTransposer;
 
@@ -15,9 +16,9 @@ namespace DownBelow.Spells
         {
         }
 
-        public override void ExecuteAction()
+        public override async Task DoSpellBehavior()
         {
-            base.ExecuteAction();
+            await base.DoSpellBehavior();
 
             var targets = GetTargets(TargetCell);
 
@@ -44,8 +45,6 @@ namespace DownBelow.Spells
                 }
 
             }
-
-            EndAction();
         }
     }
 }

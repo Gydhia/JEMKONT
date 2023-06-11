@@ -15,7 +15,9 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: c020f9a26219b4346964f5a188e48a48, type: 2}
+    - {fileID: 11400000, guid: bc413fd47f0d3c94a93195dd2a067a46, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -52,6 +54,9 @@ MonoBehaviour:
     - Name: RefBuffer
       Entry: 9
       Data: 2
+    - Name: RefGrid
+      Entry: 6
+      Data: 
     - Name: RefEntity
       Entry: 6
       Data: 
@@ -286,6 +291,12 @@ MonoBehaviour:
     - Name: StatAmount
       Entry: 3
       Data: 3
+    - Name: GivesAlteration
+      Entry: 5
+      Data: false
+    - Name: duration
+      Entry: 3
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -349,6 +360,9 @@ MonoBehaviour:
     - Name: RefBuffer
       Entry: 9
       Data: 2
+    - Name: RefGrid
+      Entry: 6
+      Data: 
     - Name: RefEntity
       Entry: 6
       Data: 
@@ -366,6 +380,9 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 8
+      Data: 
+    - Name: RefGrid
+      Entry: 6
       Data: 
     - Name: RefEntity
       Entry: 6
@@ -686,11 +703,11 @@ MonoBehaviour:
       Entry: 3
       Data: 1
     - Name: ProjectileSFX
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 0
     - Name: CellSFX
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 1
     - Name: Alteration
       Entry: 7
       Data: 13|DownBelow.Spells.Alterations.InverseFlow, Assembly-CSharp

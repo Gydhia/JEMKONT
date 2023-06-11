@@ -15,9 +15,15 @@ namespace DownBelow.GridSystem
 
         public List<Cell> PlacementCells;
 
-        public override void Init(GridData data)
+        public List<Cell> EntranceCells;
+
+        public override void Init(GridData data, WorldGrid ParentGrid = null)
         {
             base.Init(data);
+            this.ParentGrid = ParentGrid;
+
+            this.Longitude = data.Longitude;
+            this.Latitude = data.Latitude;
 
             this.PlacementCells = new List<Cell>();
 
@@ -30,6 +36,23 @@ namespace DownBelow.GridSystem
 
                     this.PlacementCells.Add(cell);
                 }
+            }
+
+            if(data.Entrances != null)
+            {
+                foreach (var entrance in data.Entrances)
+                {
+                    var cell = this.ParentGrid.Cells[entrance.latitude, entrance.longitude];
+                    cell.RedirectedGrid = this;
+                    var particle = Instantiate(SettingsManager.Instance.GridsPreset.CombatEntracePrefab, cell.transform.position, Quaternion.identity, cell.transform);
+                    particle.transform.Rotate(new Vector3(90f, 0f, 0f));
+
+                    this.EntranceCells.Add(cell);
+                }
+            }
+            else
+            {
+                Debug.LogError("A Combat Grid has no Entrance !");
             }
         }
     }

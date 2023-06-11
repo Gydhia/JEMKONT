@@ -19,9 +19,9 @@ namespace DownBelow.Mechanics
         //We can imagine others:
         ProjectileFromEnemy,
         ProjectileBackAndForth,
-
+        InPlaceProjectile
     }
-    [CreateAssetMenu(menuName = "SpellSFX")]
+    [CreateAssetMenu(menuName = "DownBelow/Cards/SpellSFX")]
     public class ScriptableSFX : ScriptableObject
     {
         public GameObject Prefab;
@@ -30,7 +30,8 @@ namespace DownBelow.Mechanics
         //Sounds too, one day,maybe...
         [EnableIf("@TravelType != ESFXTravelType.Instantaneous")]
         public float TravelDuration = 0.35f;
-
+        [ShowIf("@TravelType == ESFXTravelType.InPlaceProjectile")]
+        public float TravelUnit = 1.2f;
 
     }
     #region runtimeData
@@ -39,6 +40,7 @@ namespace DownBelow.Mechanics
         public GameObject Prefab;
         public ESFXTravelType TravelType;
         public float TravelDuration = 0.35f;
+        public float TravelUnit = 1.2f;
         public CharacterEntity caster;
         public Cell target;
         public Spell spell;
@@ -52,6 +54,7 @@ namespace DownBelow.Mechanics
             Prefab = sfx.Prefab;
             TravelType = sfx.TravelType;
             TravelDuration = sfx.TravelDuration;
+            TravelUnit = sfx.TravelUnit;
             this.caster = caster;
             this.target = target;
             this.spell = spell;

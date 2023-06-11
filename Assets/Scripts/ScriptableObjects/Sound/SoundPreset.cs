@@ -5,7 +5,7 @@ using Sirenix.OdinInspector;
 
 namespace DownBelow.GameData
 {
-    [CreateAssetMenu(fileName = "SoundPreset", menuName = "Jemkont/Sound Preset", order = 5)]
+    [CreateAssetMenu(fileName = "SoundPreset", menuName = "DownBelow/BasePresets/Sound Preset", order = 5)]
     public class SoundPreset : SerializedScriptableObject
     {
         public AK.Wwise.Event audio_popup;

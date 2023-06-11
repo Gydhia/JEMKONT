@@ -16,59 +16,7 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
+    - {fileID: 11400000, guid: bc413fd47f0d3c94a93195dd2a067a46, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -106,11 +54,11 @@ MonoBehaviour:
       Entry: 6
       Data: 
     - Name: RefEntity
-      Entry: 10
-      Data: 0
+      Entry: 6
+      Data: 
     - Name: TargetCell
-      Entry: 10
-      Data: 1
+      Entry: 6
+      Data: 
     - Name: ContextActionId
       Entry: 2
       Data: 00000000000000000000000000000000
@@ -475,8 +423,8 @@ MonoBehaviour:
       Entry: 6
       Data: 
     - Name: CellSFX
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 0
     - Name: PushType
       Entry: 3
       Data: 5
@@ -536,149 +484,149 @@ MonoBehaviour:
       Entry: 12
       Data: 48
     - Name: 
-      Entry: 10
-      Data: 2
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 3
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 4
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 5
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 6
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 7
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 8
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 9
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 10
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 11
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 12
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 13
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 14
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 15
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 16
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 17
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 18
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 19
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 20
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 21
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 22
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 23
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 24
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 25
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 26
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 27
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 28
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 29
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 30
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 31
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 32
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 33
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 34
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 35
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 36
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 37
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 38
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 39
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 40
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 41
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 42
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 43
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 44
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 45
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 46
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 47
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 48
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 49
+      Entry: 6
+      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -693,14 +641,14 @@ MonoBehaviour:
       Entry: 12
       Data: 3
     - Name: 
-      Entry: 10
-      Data: 50
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 51
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 52
+      Entry: 6
+      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -730,8 +678,8 @@ MonoBehaviour:
       Entry: 9
       Data: 1
     - Name: Caster
-      Entry: 10
-      Data: 0
+      Entry: 6
+      Data: 
     - Name: DamagesDealt
       Entry: 7
       Data: 12|System.Collections.Generic.Dictionary`2[[DownBelow.Entity.CharacterEntity,
@@ -745,31 +693,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 2
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 10
-      Data: 51
-    - Name: $v
-      Entry: 3
-      Data: 4
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 10
-      Data: 52
-    - Name: $v
-      Entry: 3
-      Data: 4
-    - Name: 
-      Entry: 8
-      Data: 
+      Data: 0
     - Name: 
       Entry: 13
       Data: 

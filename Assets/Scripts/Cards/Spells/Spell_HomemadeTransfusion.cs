@@ -2,6 +2,7 @@ using DownBelow.Entity;
 using DownBelow.GridSystem;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace DownBelow.Spells
@@ -18,16 +19,15 @@ namespace DownBelow.Spells
         {
         }
 
-        public override void ExecuteAction()
+        public override async Task DoSpellBehavior()
         {
-            base.ExecuteAction();
+            await base.DoSpellBehavior();
             var target = GetTargets(TargetCell)[0];
             target.ApplyStat(EntityStatistics.Health, LocalData.HealingValue);
             if (target.Health < target.MaxHealth)
             {
                 target.ApplyStat(EntityStatistics.Health, -(LocalData.HealingValue*2));
             }
-            EndAction();
         }
     }
 

@@ -131,5 +131,5 @@ MonoBehaviour:
   AffectingState: 1
   AttachedCell: {fileID: 0}
   StatAffected: 0
-  Value: 3
+  Value: -3
   NumberOfDuplicates: 0

@@ -74,7 +74,6 @@ namespace DownBelow.Managers
                         this.ScriptableCards.Add(card.UID, card);
                 }
             }
-
             this.ToolPresets = new Dictionary<Guid, ToolItem>();
             foreach (var tool in CardsManager.Instance.AvailableTools)
             {

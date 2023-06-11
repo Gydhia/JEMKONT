@@ -5,11 +5,14 @@ using UnityEngine;
 
 namespace DownBelow.GameData
 {
-    [CreateAssetMenu(fileName = "CombatPreset", menuName = "Jemkont/Combat Preset", order = 1)]
+    [CreateAssetMenu(fileName = "CombatPreset", menuName = "DownBelow/BasePresets/Combat Preset", order = 1)]
     public class CombatPreset : SerializedScriptableObject
     {
         [Tooltip("The base preset applied to players to have a minimum of datas")]
         public EntityStats EmptyStatistics;
+
+        public Texture2D WhiteCharacter;
+        public Color WhiteColor;
 
         [Tooltip("Time in seconds for a turn"), Range(0f, 360f)]
         public float TurnTime = 60f;
