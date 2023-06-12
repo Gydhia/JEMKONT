@@ -831,8 +831,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a33b28ba78e2dd7428a0ad51510ce4d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ResourceGauge: {fileID: 2139308217405708273}
-  Resources: {fileID: 2972719405831960323}
+  ContentGauge: {fileID: 2139308217405708273}
+  GaugeResources: {fileID: 7804999197903595658}
+  NumberResources: {fileID: 2972719405831960323}
   ContentQTE: {fileID: 2715586299209877494}
   Result: {fileID: 4043584465899686987}
   CursorQTE: {fileID: 618016068352314266}
