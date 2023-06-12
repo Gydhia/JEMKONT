@@ -29,6 +29,7 @@ namespace DownBelow.GridSystem
             if (SettingsManager.Instance.OwnedCards.Contains(card))
             {
                 Debug.LogError(card.name + " IS ALREADY IN THE OWNED CARDS");
+                EndAction();
                 return;
             }
 
