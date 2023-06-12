@@ -14,6 +14,7 @@ public class ToolItem : ItemPreset
     public PlayerBehavior ActualPlayer;
     public Color ToolRefColor;
     public Sprite FightIcon;
+    public string GatherAnim;
 
     public Texture2D CharacterTexture;
 

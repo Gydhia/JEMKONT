@@ -1,8 +1,6 @@
 using DownBelow.Events;
 using DownBelow.GridSystem;
-using DownBelow.Inventory;
 using DownBelow.Managers;
-using DownBelow.Spells;
 using DownBelow.UI.Inventory;
 using Photon.Pun;
 using System;
@@ -296,7 +294,9 @@ namespace DownBelow.Entity
 
             if(toolRef != null)
             {
-                Instantiate(toolRef.DroppedItemPrefab, this.ToolHolder);
+             ToolOnGround tool =  Instantiate(toolRef.DroppedItemPrefab, this.ToolHolder).GetComponent<ToolOnGround>();
+             tool.Init(false);
+                
             }
 
             // Skin
