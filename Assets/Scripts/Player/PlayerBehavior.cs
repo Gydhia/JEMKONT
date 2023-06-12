@@ -1,8 +1,6 @@
 using DownBelow.Events;
 using DownBelow.GridSystem;
-using DownBelow.Inventory;
 using DownBelow.Managers;
-using DownBelow.Spells;
 using DownBelow.UI.Inventory;
 using Photon.Pun;
 using System;

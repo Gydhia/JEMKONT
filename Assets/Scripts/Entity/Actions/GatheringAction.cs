@@ -1,8 +1,5 @@
 using DownBelow.GridSystem;
 using DownBelow.Managers;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace DownBelow.Entity
 {
@@ -18,36 +15,29 @@ namespace DownBelow.Entity
 
         public override void ExecuteAction()
         {
-            if (CurrentRessource != null && CurrentRessource.isMature)
-                GameManager.Instance.StartCoroutine(this._gatherResource());
-            else EndAction();
+            // Only the local player should execute the UI action
+            if (CurrentRessource != null && CurrentRessource.isMature && this.RefEntity == GameManager.RealSelfPlayer)
+            {
+                UIManager.Instance.GatherSection.StartInteract(this, 3);
+            }
+            else
+            {
+                EndAction();
+            }
         }
 
-        public IEnumerator _gatherResource()
+        // This should normally only be called locally
+        public void OnGatherEnded()
         {
-            ResourcePreset preset = CurrentRessource.InteractablePreset as ResourcePreset;
-            ((PlayerBehavior)this.RefEntity).FireGatheringStarted(CurrentRessource);
+            var resAction = new GatherResourceAction(this.RefEntity, this.TargetCell);
 
-            float timer = 0f;
-            while (timer < preset.TimeToGather)
-            {
-                timer += Time.deltaTime;
-                yield return null;
+            ResourcePreset rPreset = this.CurrentRessource.LocalPreset;
+            System.Random generator = new System.Random(this.RefEntity.UID.GetHashCode());
+            resAction.Init(generator.Next(rPreset.MinGathering, rPreset.MaxGathering));
 
-                if (this.abortAction)
-                {
-                    ((PlayerBehavior)this.RefEntity).FireGatheringCanceled(CurrentRessource);
-                    this.abortAction = false;
-                    EndAction();
-                    yield break;
-                }
-            }
-            CurrentRessource.Interact(this.RefEntity as PlayerBehavior);
+            NetworkManager.Instance.EntityAskToBuffAction(resAction);
 
-            ((PlayerBehavior)this.RefEntity).FireGatheringEnded(CurrentRessource);
-
-            if (!this.abortAction)
-                EndAction();
+            this.EndAction();
         }
 
         public override object[] GetDatas()

@@ -16,6 +16,7 @@ namespace DownBelow.Managers
         public CombatPreset CombatPreset;
         public GameUIPreset GameUIPreset;
         public SoundPreset SoundPreset;
+        public ResourcesPreset ResourcesPreset;
 
         public Deck PlayerDeck;
         public EClass PlayerClass;

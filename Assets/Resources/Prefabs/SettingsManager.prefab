@@ -48,10 +48,8 @@ MonoBehaviour:
   InputPreset: {fileID: 11400000, guid: 86ac5624b923f774094430ad4ab04493, type: 2}
   CombatPreset: {fileID: 11400000, guid: a26fd800d9da29548a4b431ecf6ed845, type: 2}
   GameUIPreset: {fileID: 11400000, guid: b4f43fb59e111b349865a00b17dd32dc, type: 2}
-  FishermanStats: {fileID: 11400000, guid: 4d576a35a0dcc0e4cb45e35dc060d9d9, type: 2}
-  MinerStats: {fileID: 11400000, guid: 378e4726dcac3c94390835d65888d60c, type: 2}
-  FarmerStats: {fileID: 11400000, guid: acc2fcfe067f4a548a44a691816601e8, type: 2}
-  HerbalistStats: {fileID: 11400000, guid: 431193b9be546b642821e7c04419e789, type: 2}
+  SoundPreset: {fileID: 0}
+  ResourcesPreset: {fileID: 11400000, guid: 835fa370c83e33d4f85c47c56043de1d, type: 2}
   PlayerDeck:
     Cards:
     - {fileID: 11400000, guid: 17cca61da856a0a4abc846a9ec5ce6a4, type: 2}
@@ -75,3 +73,4 @@ MonoBehaviour:
     - {fileID: 11400000, guid: a4bd6d4842e41b347a6c5e845162e976, type: 2}
     - {fileID: 11400000, guid: a4bd6d4842e41b347a6c5e845162e976, type: 2}
   PlayerClass: 3
+  OwnedCards: []
