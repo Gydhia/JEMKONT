@@ -1,4 +1,5 @@
 using DownBelow.GridSystem;
+using DownBelow.Managers;
 
 namespace DownBelow.Entity
 {
@@ -23,6 +24,7 @@ namespace DownBelow.Entity
             var player = this.RefEntity as PlayerBehavior;
 
             CurrentRessource.Interact(player);
+            GameManager.Instance.FireResourceGathered(this.CurrentRessource);
             player.TakeResources(CurrentRessource.LocalPreset.ResourceItem, this.GivenResources);
 
             this.EndAction();

@@ -1,23 +1,16 @@
 using DownBelow.Entity;
 using DownBelow.Events;
 using DownBelow.GridSystem;
-using DownBelow.Spells;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Photon.Pun;
-using Photon.Realtime;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Sirenix.Utilities;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using DownBelow.Loading;
-using static UnityEngine.EventSystems.EventTrigger;
-using Photon.Pun.Demo.PunBasics;
 
 namespace DownBelow.Managers
 {
@@ -93,6 +86,20 @@ namespace DownBelow.Managers
         public ItemPreset[] GameItems;
 
         public static bool GameStarted = false;
+
+        public static int MaxAbyssReached;
+
+        public static int MaxGatherableResources => 
+            SettingsManager.Instance.ResourcesPreset.MaxGatherableResources + (MaxAbyssReached * SettingsManager.Instance.ResourcesPreset.GatherableResourcesPerAbyss);
+        public static int CurrentAvailableResources;
+
+        public event GatheringEventData.Event OnResourceGathered;
+
+        public void FireResourceGathered(InteractableResource gatheredResource)
+        {
+            CurrentAvailableResources--;
+            OnResourceGathered?.Invoke(new GatheringEventData(gatheredResource));
+        }
 
         #region Players_Actions_Buffer
 
@@ -180,6 +187,10 @@ namespace DownBelow.Managers
         {
             if (PhotonNetwork.PlayerList.Length >= 1)
             {
+                // TODO : move it with saves
+                CurrentAvailableResources = MaxGatherableResources + 1;
+                this.FireResourceGathered(null);
+                
                 System.Guid spawnId = SettingsManager.Instance.SpawnablesPresets.First(k => k.Value is SpawnPreset).Key;
                 var spawnLocations = GridManager.Instance.MainWorldGrid.SelfData.SpawnablePresets.Where(k => k.Value == spawnId).Select(kv => kv.Key);
 

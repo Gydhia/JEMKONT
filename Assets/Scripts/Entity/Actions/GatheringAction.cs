@@ -18,7 +18,16 @@ namespace DownBelow.Entity
             // Only the local player should execute the UI action
             if (CurrentRessource != null && CurrentRessource.isMature && this.RefEntity == GameManager.RealSelfPlayer)
             {
-                UIManager.Instance.GatherSection.StartInteract(this, 3);
+                // Out of resources. The 
+                if (GameManager.CurrentAvailableResources <= 0)
+                {
+                    UIManager.Instance.DatasSection.ShowWarningText("It seems that this land is exhausted...");
+                    EndAction();
+                }
+                else
+                {
+                    UIManager.Instance.GatherSection.StartInteract(this, 3);
+                }
             }
             else
             {

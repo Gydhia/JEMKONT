@@ -14,26 +14,8 @@ namespace DownBelow.Entity
     {
         #region EVENTS
 
-        public event GatheringEventData.Event OnGatheringStarted;
-        public event GatheringEventData.Event OnGatheringCanceled;
-        public event GatheringEventData.Event OnGatheringEnded;
 
         public event CardEventData.Event OnCardPlayed;
-
-        public void FireGatheringStarted(InteractableResource resource)
-        {
-            this.OnGatheringStarted?.Invoke(new(resource));
-        }
-
-        public void FireGatheringCanceled(InteractableResource resource = null)
-        {
-            this.OnGatheringCanceled?.Invoke(new(resource));
-        }
-
-        public void FireGatheringEnded(InteractableResource resource = null)
-        {
-            this.OnGatheringEnded?.Invoke(new(resource));
-        }
 
         #endregion
         /// <summary>
