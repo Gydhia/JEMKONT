@@ -22,8 +22,9 @@ namespace DownBelow.UI
         [ReadOnly]
         public string TargetGrid;
 
-        public void Init(AbyssPreset preset)
+        public void Init(AbyssPreset preset, int level)
         {
+            this.Level.text = level.ToString();
             this.TargetGrid = preset.TargetGrid;
 
             if(preset.GiftedCards != null)

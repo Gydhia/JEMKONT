@@ -160,7 +160,7 @@ namespace DownBelow.GridSystem
             {
                 for (int j = 0; j < this.Cells.GetLength(1); j++)
                 {
-                    this.CreateAddCell(i, j, new Vector3((j + longitude) * cellsWidth + widthOffset, 0f, -(i + latitude) * cellsWidth - widthOffset));
+                    this.CreateAddCell(i, j, new Vector3((j + longitude) * cellsWidth + widthOffset, 0.075f, -(i + latitude) * cellsWidth - widthOffset));
                 }
             }
         }
@@ -208,7 +208,7 @@ namespace DownBelow.GridSystem
                     this.Cells = newCells;
                     for (int i = oldHeight; i < newHeight; i++)
                         for (int j = 0; j < oldWidth; j++)
-                            this.CreateAddCell(i, j, new Vector3(j * cellsWidth + widthOffset, 0f, -i * cellsWidth));
+                            this.CreateAddCell(i, j, new Vector3(j * cellsWidth + widthOffset, 0.075f, -i * cellsWidth));
                 }
             }
             // Resize the width
@@ -227,7 +227,7 @@ namespace DownBelow.GridSystem
                     this.Cells = newCells;
                     for (int j = oldWidth; j < newWidth; j++)
                         for (int i = 0; i < oldHeight; i++)
-                            this.CreateAddCell(i, j, new Vector3(j * cellsWidth + widthOffset, 0f, -i * cellsWidth));
+                            this.CreateAddCell(i, j, new Vector3(j * cellsWidth + widthOffset, 0.075f, -i * cellsWidth));
                 }
             }
         }
