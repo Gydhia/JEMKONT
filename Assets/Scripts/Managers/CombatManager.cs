@@ -58,6 +58,8 @@ namespace DownBelow.Managers
             }
             this.FakePlayers.Clear();
 
+            GameManager.SelfPlayer = GameManager.RealSelfPlayer;
+
             this.OnCombatEnded?.Invoke(new GridEventData(Grid, AllyVictory));
         }   
 

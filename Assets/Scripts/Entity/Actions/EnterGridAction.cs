@@ -47,6 +47,7 @@ namespace DownBelow.Entity
         private void _enterCombatGrid(CombatGrid combatGrid)
         {
             PlayerBehavior player = (PlayerBehavior)this.RefEntity;
+            player.gameObject.SetActive(true);
 
             // If the player has a special item
             if (player.PlayerSpecialSlots.StorageItems.All(s => s.ItemPreset != null) && !combatGrid.HasStarted)
@@ -65,6 +66,7 @@ namespace DownBelow.Entity
         private void _enterWorldGrid(WorldGrid worldGrid)
         {
             PlayerBehavior player = (PlayerBehavior)this.RefEntity;
+            player.gameObject.SetActive(true);
 
             System.Guid spawnId = SettingsManager.Instance.SpawnablesPresets.First(k => k.Value is SpawnPreset).Key;
             // It SHOULDNT be null, it's dev job to put these

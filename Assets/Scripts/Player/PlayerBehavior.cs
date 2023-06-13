@@ -2,8 +2,11 @@ using DownBelow.Events;
 using DownBelow.GridSystem;
 using DownBelow.Managers;
 using DownBelow.UI.Inventory;
+using EasyTransition;
 using Photon.Pun;
+using Photon.Realtime;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -326,6 +329,37 @@ namespace DownBelow.Entity
         public void TakeResources(ItemPreset resource, int quantity)
         {
             this.PlayerInventory.TryAddItem(resource, quantity);
+        }
+
+
+        public void TeleportToGrid(string gridName)
+        {
+            this.StartCoroutine(this._playTeleport(gridName));
+        }
+
+        private IEnumerator _playTeleport(string gridName)
+        {
+            this.CanMove = false;
+
+            var tSett = SettingsManager.Instance.BaseTransitionSettings;
+
+            TransitionManager.Instance().Transition(tSett, 0f);
+            yield return new WaitForSeconds(tSett.transitionTime / 2f);
+
+            this._teleportToGrid(gridName);
+        }
+
+        private void _teleportToGrid(string gridName)
+        {
+            if (GridManager.Instance.WorldGrids.TryGetValue(gridName, out WorldGrid grid))
+            {
+                var gridAction = new EnterGridAction(GameManager.RealSelfPlayer, grid.Cells[0, 0]);
+                gridAction.Init(gridName);
+
+                NetworkManager.Instance.EntityAskToBuffAction(gridAction);
+            }
+
+            GameManager.RealSelfPlayer.CanMove = true;
         }
 
         #endregion

@@ -243,34 +243,8 @@ namespace DownBelow.Managers
                 CombatManager.Instance.OnCombatStarted += this._subscribeForCombatBuffer;
                 CombatManager.Instance.OnCombatEnded -= _unsubscribeForCombatBuffer;
             }
-        }
 
-        public void AskExitAllFromCombat()
-        {
             NetworkManager.Instance.PlayerAskToLeaveCombat();
-        }
-
-
-        public void ExitAllFromCombat()
-        {
-            System.Guid spawnId = SettingsManager.Instance.SpawnablesPresets.First(k => k.Value is SpawnPreset).Key;
-
-            var worldGrid = CombatManager.CurrentPlayingGrid.ParentGrid;
-            var spawnLocations = worldGrid.SelfData.SpawnablePresets.Where(k => k.Value == spawnId).Select(kv => kv.Key);
-
-            int counter = 0;
-            foreach (var player in this.Players.Values)
-            {
-                player.gameObject.SetActive(true);
-
-                player.FireExitedCell();
-                GameManager.Instance.FireEntitySwitchingGrid(player, worldGrid);
-                var newCell = worldGrid.Cells[spawnLocations.ElementAt(counter).latitude, spawnLocations.ElementAt(counter).longitude];
-                player.FireEnteredCell(newCell);
-                player.transform.position = newCell.WorldPosition;
-
-                counter++;
-            }
         }
 
         #region DEBUG
@@ -368,7 +342,7 @@ namespace DownBelow.Managers
         {
             Debug.Log("ENTITY : " + action.RefEntity + " | Buffing : " + action.GetAssemblyName());
 
-            if (action.RefEntity.CurrentGrid.IsCombatGrid)
+            if (action.RefEntity.CurrentGrid.IsCombatGrid && CombatManager.Instance.BattleGoing)
             {
                 //If the entity is on a combat grid,simply queue the action and do it whenever it's your turn.
               

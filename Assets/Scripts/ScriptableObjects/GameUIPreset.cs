@@ -27,4 +27,9 @@ public class GameUIPreset : SerializedScriptableObject
     public Sprite SelectedBackground;
     [FoldoutGroup("Combat turns")]
     public Sprite NormalBackground;
+
+    [FoldoutGroup("Abysses")]
+    public Sprite CardSmall;
+    [FoldoutGroup("Abysses")]
+    public Sprite ResourcesEnergy;
 }

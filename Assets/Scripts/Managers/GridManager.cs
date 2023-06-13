@@ -309,7 +309,7 @@ namespace DownBelow.Managers
             if (this.LastHoveredCell == null)
                 return;
 
-            PlayerBehavior selfPlayer = GameManager.SelfPlayer;
+            PlayerBehavior selfPlayer = GameManager.RealSelfPlayer;
 
             if (selfPlayer.CurrentGrid.IsCombatGrid)
                 this.ProcessCellClickDown_Combat(selfPlayer);

@@ -50,6 +50,7 @@ MonoBehaviour:
   GameUIPreset: {fileID: 11400000, guid: b4f43fb59e111b349865a00b17dd32dc, type: 2}
   SoundPreset: {fileID: 0}
   ResourcesPreset: {fileID: 11400000, guid: 835fa370c83e33d4f85c47c56043de1d, type: 2}
+  BaseTransitionSettings: {fileID: 11400000, guid: 2eec88d4ca6df24419aab2fd6b04c543, type: 2}
   PlayerDeck:
     Cards:
     - {fileID: 11400000, guid: 17cca61da856a0a4abc846a9ec5ce6a4, type: 2}
@@ -74,3 +75,5 @@ MonoBehaviour:
     - {fileID: 11400000, guid: a4bd6d4842e41b347a6c5e845162e976, type: 2}
   PlayerClass: 3
   OwnedCards: []
+  AbyssesPresets:
+  - {fileID: 11400000, guid: bf363e618afe021498b25a837367d1dc, type: 2}

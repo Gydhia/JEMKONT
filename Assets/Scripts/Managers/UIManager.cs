@@ -16,6 +16,8 @@ namespace DownBelow.Managers
         public UIPlayerInfos PlayerInfos;
         public UICardSection CardSection;
         public UIRewardSection RewardSection;
+        public UIAbyssesSection AbyssesSection;
+
         public EntityTooltipUI EntityTooltipUI;
 
         public UIPlayerInventory PlayerInventory;
@@ -32,6 +34,7 @@ namespace DownBelow.Managers
             this.CombatSection.Init();
             this.CardSection.Init();
             this.RewardSection.Init();
+            this.AbyssesSection.Init();
             
             this.TurnSection.gameObject.SetActive(false);
             this.PlayerInfos.gameObject.SetActive(false);

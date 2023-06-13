@@ -1,6 +1,9 @@
 using DG.Tweening;
+using DownBelow.Entity;
 using DownBelow.Events;
+using DownBelow.GridSystem;
 using DownBelow.Managers;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -19,6 +22,8 @@ namespace DownBelow.UI
         public CanvasGroup DefeatCanvas;
         public Button Continue;
 
+        private bool _alliesVictory;
+
         public void Init()
         {
             this.Vignette.color = new Color(Vignette.color.r, Vignette.color.g, Vignette.color.b, 0f);
@@ -29,6 +34,17 @@ namespace DownBelow.UI
             this.Continue.gameObject.SetActive(false);
 
             CombatManager.Instance.OnCombatEnded += this.ShowRewards;
+            CombatManager.Instance.OnCombatStarted += _disableContinue;
+        }
+
+        private void _disableContinue(GridEventData Data)
+        {
+            this.Continue.interactable = false;
+        }
+
+        public void EnableContinue()
+        {
+            this.Continue.interactable = true;
         }
 
 
@@ -43,9 +59,10 @@ namespace DownBelow.UI
             this.VictoryCanvas.blocksRaycasts = true;
             this.Continue.gameObject.SetActive(true);
 
-            Vignette.DOFade(1f, 1f);
+            Vignette.DOFade(0.7f, 1f);
 
-            if (Data.AlliesVictory)
+            this._alliesVictory = Data.AlliesVictory;
+            if (this._alliesVictory)
             {
                 this.VictoryCanvas.DOFade(1f, 2.5f);
             }
@@ -57,7 +74,24 @@ namespace DownBelow.UI
 
         public void OnClickContinue()
         {
-            GameManager.Instance.AskExitAllFromCombat();
+            GameManager.RealSelfPlayer.gameObject.SetActive(true);
+
+            Vignette.DOFade(0f, 0.5f);
+            if (this._alliesVictory)
+            {
+                this.VictoryCanvas.DOFade(0f, 0.5f).OnComplete(() => { this.gameObject.SetActive(false); });
+            }
+            else
+            {
+                this.DefeatCanvas.DOFade(0f, 0.5f).OnComplete(() => { this.gameObject.SetActive(false); });
+            }
+
+            // We obviously are now in a combat grid
+            var grid = ((CombatGrid)GameManager.RealSelfPlayer.CurrentGrid).ParentGrid;
+            var exitAction = new EnterGridAction(GameManager.RealSelfPlayer, grid.Cells[0, 0]);
+            exitAction.Init(grid.UName);
+
+            NetworkManager.Instance.EntityAskToBuffAction(exitAction);
         }
     }
 }

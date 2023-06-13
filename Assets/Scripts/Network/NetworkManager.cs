@@ -532,9 +532,7 @@ namespace DownBelow.Managers
         [PunRPC]
         public void RPC_RespondPlayersToLeaveCombat(string PlayerID)
         {
-            this._playersNetState.Clear();
-
-            GameManager.Instance.ExitAllFromCombat();
+            UIManager.Instance.RewardSection.EnableContinue();
         }
 
 
