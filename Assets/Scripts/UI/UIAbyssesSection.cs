@@ -14,12 +14,14 @@ namespace DownBelow.UI
 
         public void Init()
         {
+            int counter = 1;
             foreach (var aPreset in SettingsManager.Instance.AbyssesPresets)
             {
                 this.AbyssItems.Add(Instantiate(this.AbyssItemPrefab, this.AbyssItemsHolder));
-                this.AbyssItems[^1].Init(aPreset);
+                this.AbyssItems[^1].Init(aPreset, counter);
 
                 Instantiate(this.SeparatorPrefab, this.AbyssItemsHolder);
+                counter++;
             }
         }
 
