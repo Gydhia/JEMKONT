@@ -18,5 +18,12 @@ namespace DownBelow.GameData
         public float MinX = 0.6f;
         [FoldoutGroup("Resource QTE"), Range(0f, 1f), Tooltip("The max X position that the cursor's center will be at")]
         public float MaxX = 0.3f;
+
+        [FoldoutGroup("World Resources")]
+        public int MaxGatherableResources = 20;
+        [FoldoutGroup("World Resources"), Tooltip("When winning over an abyss, how much max resources will be added ?")]
+        public int GatherableResourcesPerAbyss = 5;
+        
+
     }
 }

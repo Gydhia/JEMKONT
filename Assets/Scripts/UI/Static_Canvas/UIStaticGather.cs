@@ -1,5 +1,6 @@
 using DG.Tweening;
 using DownBelow.Entity;
+using DownBelow.Events;
 using DownBelow.Managers;
 using System.Collections;
 using System.Linq;
@@ -12,8 +13,9 @@ namespace DownBelow.UI
 {
     public class UIStaticGather : MonoBehaviour
     {
-        public GameObject ResourceGauge;
-        public TextMeshProUGUI Resources;
+        public GameObject ContentGauge;
+        public Slider GaugeResources;
+        public TextMeshProUGUI NumberResources;
 
         public GameObject ContentQTE;
 
@@ -36,7 +38,30 @@ namespace DownBelow.UI
         private void Start()
         {
             this.ContentQTE.SetActive(false);
-            this.ResourceGauge.SetActive(false);
+            this.ContentGauge.SetActive(true);
+
+            GameManager.Instance.OnResourceGathered += UpdateGatherBar;
+            GameManager.Instance.OnEnteredGrid += _updateGatherUI;
+
+            this.UpdateGatherBar(null);
+        }
+
+        public void UpdateGatherBar(GatheringEventData Data)
+        {
+            int maxResources = GameManager.MaxGatherableResources;
+
+            this.GaugeResources.maxValue = maxResources;
+            this.GaugeResources.value = GameManager.CurrentAvailableResources;
+
+            this.NumberResources.text = "Total resources : " + GameManager.CurrentAvailableResources + "/" + maxResources;
+        }
+
+        private void _updateGatherUI(EntityEventData Data)
+        {
+            if (Data.Entity != GameManager.RealSelfPlayer)
+                return;
+
+            this.gameObject.SetActive(!Data.Entity.CurrentGrid.IsCombatGrid);
         }
 
         public void StartInteract(GatheringAction action, int numberOfInteracts = 3)
@@ -86,9 +111,6 @@ namespace DownBelow.UI
         {
             this._currInteract++;
 
-            var resTool = GameManager.RealSelfPlayer.ActiveTools.First(t => t.Class == this._gatherAction.CurrentRessource.LocalPreset.GatherableBy);
-            GameManager.RealSelfPlayer.Animator.SetTrigger(resTool.GatherAnim);
-
             PlayerInputs.player_interact.performed -= _playerInteract;
 
             this._cursor.Kill();
@@ -108,6 +130,8 @@ namespace DownBelow.UI
                 .Join(this.Result.DOFade(0f, 0.5f))
                 .OnComplete(() => { this.Result.transform.position = basePos; });
 
+            this._gatherAction.NotifyTick(succeeded);
+
             if (this._currInteract == this._maxInteract)
             {
                 this._onEndQTE();
@@ -120,9 +144,7 @@ namespace DownBelow.UI
 
         private void _onEndQTE()
         {
-            StartCoroutine(_hideOnEnd());
-            this._gatherAction.OnGatherEnded();
-            
+            StartCoroutine(_hideOnEnd());            
         }
 
         private IEnumerator _hideOnEnd()

@@ -31,3 +31,5 @@ MonoBehaviour:
   Dead: {fileID: 21300000, guid: 945c94fa95e16461b814ba86437b2f71, type: 3}
   SelectedBackground: {fileID: 21300000, guid: f139613dc3ca24233a05524c5162cdd8, type: 3}
   NormalBackground: {fileID: 21300000, guid: 9183ace9b96bd426c9d11a11130473e4, type: 3}
+  CardSmall: {fileID: 21300000, guid: cb99320d73a3f764a86ffd9ff7d7eef3, type: 3}
+  ResourcesEnergy: {fileID: 21300000, guid: 30a4687c302804bcc8a530c5f7467a3c, type: 3}

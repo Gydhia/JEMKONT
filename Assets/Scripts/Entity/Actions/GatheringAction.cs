@@ -1,9 +1,11 @@
 using DownBelow.GridSystem;
 using DownBelow.Managers;
+using Photon.Realtime;
+using System.Linq;
 
 namespace DownBelow.Entity
 {
-    public class GatheringAction : ProgressiveAction
+    public class GatheringAction : PendularAction
     {
         public InteractableResource CurrentRessource = null;
 
@@ -15,36 +17,48 @@ namespace DownBelow.Entity
 
         public override void ExecuteAction()
         {
-            // Only the local player should execute the UI action
-            if (CurrentRessource != null && CurrentRessource.isMature && this.RefEntity == GameManager.RealSelfPlayer)
+            if (GameManager.CurrentAvailableResources <= 0)
             {
-                UIManager.Instance.GatherSection.StartInteract(this, 3);
-            }
-            else
-            {
+                UIManager.Instance.DatasSection.ShowWarningText("It seems that this land is exhausted...");
                 EndAction();
+            }
+            // Only the local player should execute the UI action
+            else if (CurrentRessource != null && CurrentRessource.isMature && this.RefEntity == GameManager.RealSelfPlayer)
+            {
+                UIManager.Instance.GatherSection.StartInteract(this, this.requiredTicks);
             }
         }
 
-        // This should normally only be called locally
-        public void OnGatherEnded()
+        public override void LocalTick(bool result)
         {
-            var resAction = new GatherResourceAction(this.RefEntity, this.TargetCell);
+            base.LocalTick(result);
 
-            ResourcePreset rPreset = this.CurrentRessource.LocalPreset;
-            System.Random generator = new System.Random(this.RefEntity.UID.GetHashCode());
-            resAction.Init(generator.Next(rPreset.MinGathering, rPreset.MaxGathering));
+            if (result)
+            {
+                var resTool = GameManager.RealSelfPlayer.ActiveTools.First(t => t.Class == this.CurrentRessource.LocalPreset.GatherableBy);
+                GameManager.RealSelfPlayer.Animator.SetTrigger(resTool.GatherAnim);
+            }
+        }
 
-            NetworkManager.Instance.EntityAskToBuffAction(resAction);
+        protected override void OnFinalTick()
+        {
+            if(this.succeededTicks > 0)
+            {
+                var player = this.RefEntity as PlayerBehavior;
+
+                ResourcePreset rPreset = this.CurrentRessource.LocalPreset;
+
+                // IMPORTANT : Use a seed for local random
+                System.Random generator = new System.Random(this.RefEntity.UID.GetHashCode());
+                int nbResourcers = generator.Next(rPreset.MinGathering, rPreset.MaxGathering);
+                nbResourcers *= this.succeededTicks;
+
+                this.CurrentRessource.Interact(player);
+                GameManager.Instance.FireResourceGathered(this.CurrentRessource);
+                player.TakeResources(this.CurrentRessource.LocalPreset.ResourceItem, nbResourcers);
+            }
 
             this.EndAction();
         }
-
-        public override object[] GetDatas()
-        {
-            return new object[0];
-        }
-
-        public override void SetDatas(object[] Datas) { }
     }
 }
