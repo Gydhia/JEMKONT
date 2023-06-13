@@ -10,8 +10,6 @@ using DownBelow.Events;
 using System;
 using Newtonsoft.Json;
 using DownBelow.Loading;
-using EODE.Wonderland;
-using DownBelow.Spells;
 
 namespace DownBelow.Managers
 {
@@ -378,6 +376,30 @@ namespace DownBelow.Managers
                 buffedSpells[i].RefEntity = caster;
                 if (i > 0) buffedSpells[i].ParentSpell = buffedSpells[i - 1];
                 GameManager.Instance.BuffAction(buffedSpells[i], false);
+            }
+        }
+
+
+        /// <summary>
+        /// Used to tick a pendular action. This is for actions that requires multiple actions from inputs before ending
+        /// </summary>
+        /// <remarks> By design, the pendular action must be the current effective one to be ticked </remarks>
+        /// <param name="action"></param>
+        public void EntityAskToTickAction(EntityAction action, bool result)
+        {
+            this.photonView.RPC("RPC_EntityRespondToTickAction", RpcTarget.All, action.RefEntity.UID, result);
+        }
+
+        [PunRPC]
+        public void RPC_EntityRespondToTickAction(string playerID, bool result)
+        {
+            // For now, pendular actions must be out of combat ones
+            var player = GameManager.Instance.Players[playerID];
+            var onGoingAction = GameManager.NormalActionsBuffer[player][0];
+
+            if(onGoingAction is PendularAction pendularAction)
+            {
+                pendularAction.LocalTick(result);
             }
         }
 

@@ -111,9 +111,6 @@ namespace DownBelow.UI
         {
             this._currInteract++;
 
-            var resTool = GameManager.RealSelfPlayer.ActiveTools.First(t => t.Class == this._gatherAction.CurrentRessource.LocalPreset.GatherableBy);
-            GameManager.RealSelfPlayer.Animator.SetTrigger(resTool.GatherAnim);
-
             PlayerInputs.player_interact.performed -= _playerInteract;
 
             this._cursor.Kill();
@@ -133,6 +130,8 @@ namespace DownBelow.UI
                 .Join(this.Result.DOFade(0f, 0.5f))
                 .OnComplete(() => { this.Result.transform.position = basePos; });
 
+            this._gatherAction.NotifyTick(succeeded);
+
             if (this._currInteract == this._maxInteract)
             {
                 this._onEndQTE();
@@ -145,9 +144,7 @@ namespace DownBelow.UI
 
         private void _onEndQTE()
         {
-            StartCoroutine(_hideOnEnd());
-            this._gatherAction.OnGatherEnded();
-            
+            StartCoroutine(_hideOnEnd());            
         }
 
         private IEnumerator _hideOnEnd()
