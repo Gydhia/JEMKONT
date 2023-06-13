@@ -61,7 +61,7 @@ namespace DownBelow.UI
             if (Data.Entity != GameManager.RealSelfPlayer)
                 return;
 
-            this.gameObject.SetActive(Data.Entity.CurrentGrid.IsCombatGrid);
+            this.gameObject.SetActive(!Data.Entity.CurrentGrid.IsCombatGrid);
         }
 
         public void StartInteract(GatheringAction action, int numberOfInteracts = 3)

@@ -15,6 +15,7 @@ namespace DownBelow.Managers
         public UIStaticGather GatherSection;
         public UIPlayerInfos PlayerInfos;
         public UICardSection CardSection;
+        public UIRewardSection RewardSection;
         public EntityTooltipUI EntityTooltipUI;
 
         public UIPlayerInventory PlayerInventory;
@@ -30,7 +31,8 @@ namespace DownBelow.Managers
             this.DatasSection.Init();
             this.CombatSection.Init();
             this.CardSection.Init();
-
+            this.RewardSection.Init();
+            
             this.TurnSection.gameObject.SetActive(false);
             this.PlayerInfos.gameObject.SetActive(false);
             this.CardSection.gameObject.SetActive(false);

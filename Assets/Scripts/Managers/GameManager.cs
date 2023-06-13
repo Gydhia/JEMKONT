@@ -233,6 +233,8 @@ namespace DownBelow.Managers
 
         private void _unsubscribeForCombatBuffer(GridEventData Data)
         {
+            this.ClearCombatActionsBuffer();
+
             // Editor only utility
             if (Data != null)
             {
@@ -240,34 +242,33 @@ namespace DownBelow.Managers
 
                 CombatManager.Instance.OnCombatStarted += this._subscribeForCombatBuffer;
                 CombatManager.Instance.OnCombatEnded -= _unsubscribeForCombatBuffer;
-
-            
-                this._tryExitAllFromCombat();
             }
         }
 
-        private void _tryExitAllFromCombat()
+        public void AskExitAllFromCombat()
         {
-            CombatActionsBuffer.Clear();
-
             NetworkManager.Instance.PlayerAskToLeaveCombat();
         }
+
 
         public void ExitAllFromCombat()
         {
             System.Guid spawnId = SettingsManager.Instance.SpawnablesPresets.First(k => k.Value is SpawnPreset).Key;
 
-            var spawnLocations = CombatManager.CurrentPlayingGrid.SelfData.SpawnablePresets.Where(k => k.Value == spawnId).Select(kv => kv.Key);
             var worldGrid = CombatManager.CurrentPlayingGrid.ParentGrid;
+            var spawnLocations = worldGrid.SelfData.SpawnablePresets.Where(k => k.Value == spawnId).Select(kv => kv.Key);
 
             int counter = 0;
             foreach (var player in this.Players.Values)
             {
+                player.gameObject.SetActive(true);
+
                 player.FireExitedCell();
                 GameManager.Instance.FireEntitySwitchingGrid(player, worldGrid);
                 var newCell = worldGrid.Cells[spawnLocations.ElementAt(counter).latitude, spawnLocations.ElementAt(counter).longitude];
                 player.FireEnteredCell(newCell);
-                
+                player.transform.position = newCell.WorldPosition;
+
                 counter++;
             }
         }
@@ -525,13 +526,21 @@ namespace DownBelow.Managers
 
         #endregion
 
+        public void ClearCombatActionsBuffer()
+        {
+            for (int i = 0; i < CombatActionsBuffer.Count; i++)
+            {
+                CombatActionsBuffer[i].CancelAction();
+                i--;
+            }
+        }
+
         private void OnDestroy()
         {
             this._unsubscribeForCombatBuffer(null);
 
             CombatActionsBuffer.Clear();
             NormalActionsBuffer.Clear();
-
         }
     }
 }

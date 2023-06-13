@@ -1,6 +1,7 @@
 using Cinemachine;
 using DownBelow.Entity;
 using DownBelow.Events;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -34,12 +35,10 @@ namespace DownBelow.Managers
                 }
                 else
                 {
-                    this.VirtualCamera.Follow = Data.Entity.transform;
+                    this.VirtualCamera.Follow = GameManager.RealSelfPlayer.transform;
+                    this.VirtualCamera.transform.eulerAngles = new Vector3(45f, 0, 0f);
                 }
-
-                
             }
-   
         }
     }
 
