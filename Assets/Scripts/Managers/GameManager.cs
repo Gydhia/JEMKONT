@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 using DownBelow.Loading;
+using EODE.Wonderland;
 
 namespace DownBelow.Managers
 {
@@ -41,12 +42,18 @@ namespace DownBelow.Managers
             FireEntitySwitchingGrid(this.Players[playerID], newGrid);
         }
 
-        public void FireEntitySwitchingGrid(PlayerBehavior player, WorldGrid newGrid)
+        public void FireEntitySwitchingGrid(PlayerBehavior player, WorldGrid newGrid, bool particles = true)
         {
             this.OnExitingGrid?.Invoke(new EntityEventData(player));
 
+            if (particles)
+            {
+                var particle = Instantiate(SettingsManager.Instance.GridsPreset.PlayerSwitchPrefab, player.transform.position, Quaternion.identity);
+                Destroy(particle.gameObject, 6f);
+            }
+
             // Means that we're coming from a world grid to another worldgrid
-            if(player == RealSelfPlayer && (!player.CurrentGrid.IsCombatGrid && !newGrid.IsCombatGrid))
+            if (player == RealSelfPlayer && (!player.CurrentGrid.IsCombatGrid && !newGrid.IsCombatGrid))
             {
                 player.CurrentGrid.gameObject.SetActive(false);
                 newGrid.gameObject.SetActive(true);

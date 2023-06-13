@@ -23,6 +23,8 @@ namespace DownBelow.GameData
         public ArrowRenderer SpellArrowPrefab;
 
         public ParticleSystem CombatEntracePrefab;
+
+        public ParticleSystem PlayerSwitchPrefab;
     }
 
 }
