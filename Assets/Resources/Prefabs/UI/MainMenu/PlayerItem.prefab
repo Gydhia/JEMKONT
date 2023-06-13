@@ -189,10 +189,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cbb3223fb3d51549884df98f79f9037, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LobbyNetworkParent: {fileID: 0}
   PlayerName: {fileID: 6293248344161590361}
   UserID: 
-  IsReady: 1
+  IsReady: 0
   ReadyToggle: {fileID: 5929364056372532726}
 --- !u!1 &6293248344161590359
 GameObject:
@@ -395,7 +394,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: fc8a79fa197ac497b9eb57971ec95618, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f9ac8d656993046c2bae8b1627b0d145, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

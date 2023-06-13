@@ -2,13 +2,10 @@ using DownBelow.Entity;
 using DownBelow.Managers;
 using DownBelow.Mechanics;
 using DownBelow.UI;
-using Sirenix.OdinInspector;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 namespace DownBelow.GridSystem
 {
@@ -32,6 +29,7 @@ namespace DownBelow.GridSystem
             if (SettingsManager.Instance.OwnedCards.Contains(card))
             {
                 Debug.LogError(card.name + " IS ALREADY IN THE OWNED CARDS");
+                EndAction();
                 return;
             }
 

@@ -58,6 +58,8 @@ namespace DownBelow.UI
 
         public void ChangeSelectedEntity(int index)
         {
+            if(CombatEntities.Count <= 0) { return; }
+
             int last = index == 0 ? CombatEntities.Count - 1 : index - 1;
 
             if (last < this.CombatEntities.Count)

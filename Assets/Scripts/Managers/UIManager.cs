@@ -1,13 +1,7 @@
 using DownBelow.Events;
-using DownBelow.GridSystem;
-using DownBelow.Inventory;
 using DownBelow.UI;
 using DownBelow.UI.Inventory;
-using System.Collections;
-using System.Collections.Generic;
-using System.Security.Cryptography;
 using TMPro;
-using UnityEngine;
 using UnityEngine.UI;
 
 namespace DownBelow.Managers
@@ -18,15 +12,17 @@ namespace DownBelow.Managers
         public UIStaticTurnSection TurnSection;
         public UIStaticEscape EscapeSection;
         public UIStaticDatas DatasSection;
+        public UIStaticGather GatherSection;
         public UIPlayerInfos PlayerInfos;
         public UICardSection CardSection;
+        public UIRewardSection RewardSection;
+        public UIAbyssesSection AbyssesSection;
+
         public EntityTooltipUI EntityTooltipUI;
 
         public UIPlayerInventory PlayerInventory;
         public UIStorage CurrentStorage;
 
-        private Coroutine _gatheringCor;
-        public Image GatheringSlider;
         public Image Outline;
         public Image CollectedItem;
         public TextMeshProUGUI GatheringName;
@@ -37,7 +33,9 @@ namespace DownBelow.Managers
             this.DatasSection.Init();
             this.CombatSection.Init();
             this.CardSection.Init();
-
+            this.RewardSection.Init();
+            this.AbyssesSection.Init();
+            
             this.TurnSection.gameObject.SetActive(false);
             this.PlayerInfos.gameObject.SetActive(false);
             this.CardSection.gameObject.SetActive(false);
@@ -70,10 +68,6 @@ namespace DownBelow.Managers
         {
             CombatManager.Instance.OnCombatStarted += this.SetupCombatInterface;
 
-            GameManager.SelfPlayer.OnGatheringStarted += StartGather;
-            GameManager.SelfPlayer.OnGatheringEnded += EndGather;
-            GameManager.SelfPlayer.OnGatheringCanceled += EndGather;
-
             CombatManager.Instance.OnCardBeginUse += this._beginCardDrag;
             CombatManager.Instance.OnCardEndUse += this._endCardDrag;
 
@@ -89,20 +83,6 @@ namespace DownBelow.Managers
             EscapeSection.gameObject.SetActive(!isActive);
         }
 
-        public void StartGather(GatheringEventData Data)
-        {
-            ResourcePreset resource = Data.ResourceRef.InteractablePreset as ResourcePreset;
-            this.GatheringName.text = "Gathering " + resource.UName + "... (" + resource.MinGathering + ", " + resource.MaxGathering + ")";
-            this.GatheringSlider.fillAmount= 0f;
-            this.Outline.fillAmount = 0f;
-
-            this.GatheringSlider.gameObject.SetActive(true);
-            this.Outline.gameObject.SetActive(true);
-            this.GatheringName.gameObject.SetActive(true);
-
-            this._gatheringCor = StartCoroutine(this._gather(resource));
-        }
-
         public void UpdateEntityToolTip(CellEventData Data)
         {
             return;
@@ -115,35 +95,6 @@ namespace DownBelow.Managers
             this.EntityTooltipUI.Init(Data.Cell.EntityIn);
             this.EntityTooltipUI.gameObject.SetActive(!this.EntityTooltipUI.isActiveAndEnabled);
             //UPDATES TOOLTIP UI
-        }
-
-        public void EndGather(GatheringEventData Data)
-        {
-            this.GatheringSlider.gameObject.SetActive(false);
-            this.GatheringName.gameObject.SetActive(false);
-
-            if (this._gatheringCor != null)
-            {
-                StopCoroutine(this._gatheringCor);
-                this._gatheringCor = null;
-            }
-        }
-
-        private IEnumerator _gather(ResourcePreset resource)
-        {
-            CollectedItem.gameObject.SetActive(true);
-            CollectedItem.sprite = resource.ResourceItem.InventoryIcon;
-            float timer = 0f;
-            while (timer <= resource.TimeToGather)
-            {
-                timer += Time.deltaTime;
-                this.GatheringSlider.fillAmount = timer / resource.TimeToGather;
-                this.Outline.fillAmount = timer / resource.TimeToGather;
-                yield return null;
-            }
-            CollectedItem.gameObject.SetActive(false);
-            Outline.gameObject.SetActive(false);
-            this._gatheringCor = null;
         }
 
         public void SetupCombatInterface(GridEventData Data)

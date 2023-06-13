@@ -1,6 +1,7 @@
 using Cinemachine;
 using DownBelow.Entity;
 using DownBelow.Events;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,9 +24,9 @@ namespace DownBelow.Managers
 
         private void _setupCamera(EntityEventData Data)
         {
-            if (GameManager.SelfPlayer == Data.Entity)
+            if (GameManager.RealSelfPlayer == Data.Entity)
             {
-                if (GameManager.SelfPlayer.CurrentGrid.IsCombatGrid) 
+                if (GameManager.RealSelfPlayer.CurrentGrid.IsCombatGrid) 
                 {
                     this.VirtualCamera.Follow = null;
 
@@ -34,12 +35,10 @@ namespace DownBelow.Managers
                 }
                 else
                 {
-                    this.VirtualCamera.Follow = Data.Entity.transform;
+                    this.VirtualCamera.Follow = GameManager.RealSelfPlayer.transform;
+                    this.VirtualCamera.transform.eulerAngles = new Vector3(45f, 0, 0f);
                 }
-
-                
             }
-   
         }
     }
 

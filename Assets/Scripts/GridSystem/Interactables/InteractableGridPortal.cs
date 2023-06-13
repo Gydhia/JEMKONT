@@ -10,8 +10,6 @@ namespace DownBelow
 {
     public class InteractableGridPortal : Interactable<PortalInteractablePreset>
     {
-        public TransitionSettings TransitionSettings;
-
         public Transform Portal;
         public GameObject InnerCrackParticles;
         public GameObject MainCrack;
@@ -47,8 +45,15 @@ namespace DownBelow
             // Only the local player with process animations, ...
             else if (GameManager.RealSelfPlayer == player)
             {
-                player.CanMove = false;
-                StartCoroutine(PlayTeleport());
+                // We chose the abyss
+                if (this.LocalPreset.ToCombat)
+                {
+                    UIManager.Instance.AbyssesSection.OpenPanel();
+                }
+                else
+                {
+                    player.TeleportToGrid("FarmLand");
+                }                
             }
             
         }
@@ -86,26 +91,6 @@ namespace DownBelow
 
             this._isPlaying = false;
             this._playedOnce = true;
-        }
-
-        private IEnumerator PlayTeleport()
-        {
-            TransitionManager.Instance().Transition(this.TransitionSettings, 0f);
-            yield return new WaitForSeconds(this.TransitionSettings.transitionTime / 2f);
-            this._teleportToGrid();
-        }
-
-        private void _teleportToGrid()
-        {
-            if(GridManager.Instance.WorldGrids.TryGetValue(this.LocalPreset.TargetGrid, out WorldGrid grid))
-            {
-                var gridAction = new EnterGridAction(GameManager.RealSelfPlayer, grid.Cells[0, 0]);
-                gridAction.Init(this.LocalPreset.TargetGrid);
-
-                NetworkManager.Instance.EntityAskToBuffAction(gridAction);
-            }
-
-            GameManager.RealSelfPlayer.CanMove = true;
         }
 
         private void OnDisable()

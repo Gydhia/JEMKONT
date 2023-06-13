@@ -22,8 +22,11 @@ namespace DownBelow.Entity
                 default: target = this.TargetFarthestRandom(); break;
             }
 
-            this.TargetCell = target.EntityCell;
-            target.FireEntityTargetted(this.RefEntity);
+            if(target != null)
+            {
+                this.TargetCell = target.EntityCell;
+                target.FireEntityTargetted(this.RefEntity);
+            }
 
             base.EndAction();
         }
@@ -35,7 +38,7 @@ namespace DownBelow.Entity
         {
             CharacterEntity[] PlayersByDistance = ((EnemyEntity)this.RefEntity).PlayersOrderedByDistance("Min", out int sameDist);
 
-            return PlayersByDistance[UnityEngine.Random.Range(0, sameDist)];
+            return PlayersByDistance.Length > 0 ? PlayersByDistance[UnityEngine.Random.Range(0, sameDist)] : null;
         }
 
         /// <summary>
@@ -45,7 +48,7 @@ namespace DownBelow.Entity
         {
             CharacterEntity[] PlayersByDistance = ((EnemyEntity)this.RefEntity).PlayersOrderedByDistance("Max", out int sameDist);
 
-            return PlayersByDistance[UnityEngine.Random.Range(0, sameDist)];
+            return PlayersByDistance.Length > 0 ? PlayersByDistance[UnityEngine.Random.Range(0, sameDist)] : null;
         }
 
 
