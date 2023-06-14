@@ -18,6 +18,7 @@ namespace DownBelow.Managers
         public UIRewardSection RewardSection;
         public UIAbyssesSection AbyssesSection;
         public UICraftingSection CraftingSection;
+        public UIEnchantSection EnchantSection;
 
         public EntityTooltipUI EntityTooltipUI;
 
@@ -37,6 +38,7 @@ namespace DownBelow.Managers
             this.RewardSection.Init();
             this.AbyssesSection.Init();
             this.CraftingSection.Init();
+            this.EnchantSection.Init();
 
             this.TurnSection.gameObject.SetActive(false);
             this.PlayerInfos.gameObject.SetActive(false);

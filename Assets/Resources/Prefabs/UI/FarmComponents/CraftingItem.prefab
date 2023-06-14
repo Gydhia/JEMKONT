@@ -909,9 +909,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: DownBelow.UI.UIAbyssItem, Assembly-CSharp
-        m_MethodName: OnClickLevel
+      - m_Target: {fileID: 5640302925999006212}
+        m_TargetAssemblyTypeName: DownBelow.UI.UICraftingItem, Assembly-CSharp
+        m_MethodName: OnClickCraft
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

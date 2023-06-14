@@ -50,5 +50,10 @@ namespace DownBelow.UI
 
             this.CraftButton.interactable = hasAllResources;
         }
+
+        public void OnClickCraft()
+        {
+
+        }
     }
 }
