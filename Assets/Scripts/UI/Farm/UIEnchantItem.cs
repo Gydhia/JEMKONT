@@ -1,14 +1,16 @@
 using DownBelow.Managers;
-using DownBelow.Mechanics;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static Cinemachine.DocumentationSortingAttribute;
 
 namespace DownBelow.UI
 {
     public class UIEnchantItem : MonoBehaviour
     {
+        private ToolItem _refTool;
+
         public UIEnchantRaw EnchantRawPrefab;
         public Transform EnchantRawsHolder;
 
@@ -22,6 +24,8 @@ namespace DownBelow.UI
 
         public void Init(ToolItem refTool)
         {
+            this._refTool = refTool;
+
             this.ToolName.text = refTool.ItemName;
             this.ToolImage.sprite = refTool.InventoryIcon;
 
@@ -34,34 +38,25 @@ namespace DownBelow.UI
                 this.EnchantRaws.Add(Instantiate(this.EnchantRawPrefab, this.EnchantRawsHolder));
                 this.EnchantRaws[^1].Refresh(buff, refTool.GetStatsSum(buff, level), refTool.GetStatAtUpperLevel(buff));
             }
-            bool hasResources = GameManager.RealSelfPlayer.PlayerInventory.HasResources(refTool.ToolEnchants[level].CostItem, refTool.ToolEnchants[level].Cost);
 
-            Level.text = level.ToString() + " / " + refTool.ToolEnchants.Count.ToString();
-            Cost.text = refTool.ToolEnchants[level].Cost.ToString() + " Herbs";
-            Cost.color = hasResources ? Color.green : Color.red;
-
-            this.UpgradeButton.interactable = hasResources;
-
-
+            this.RefreshCanCraft();
         }
 
         public void RefreshCanCraft()
         {
-            //bool hasAllResources = true;
-            //foreach (var item in this.EnchantItems)
-            //{
-            //    bool hasResource = GameManager.RealSelfPlayer.PlayerInventory.HasResources(item.Preset, item.Quantity);
-            //    item.AmountText.color = hasResource ? Color.white : Color.red;
+            int level = this._refTool.CurrentLevel;
 
-            //    hasAllResources &= hasResource;
-            //}
+            bool hasResources = GameManager.RealSelfPlayer.PlayerInventory.HasResources(this._refTool.ToolEnchants[level].CostItem, this._refTool.ToolEnchants[level].Cost);
 
-            //this.UpgradeButton.interactable = hasAllResources;
+            Level.text = level.ToString() + " / " + this._refTool.ToolEnchants.Count.ToString();
+            Cost.text = this._refTool.ToolEnchants[level].Cost.ToString() + " Herbs";
+            Cost.color = hasResources ? Color.green : Color.red;
+
+            this.UpgradeButton.interactable = hasResources;
         }
 
         public void OnClickUpgrade()
         {
-
         }
     }
 }

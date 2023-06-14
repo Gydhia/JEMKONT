@@ -22,7 +22,6 @@ namespace DownBelow.UI
                 this.EnchantItems[^1].Init(tPreset);
             }
 
-
             GameManager.RealSelfPlayer.PlayerInventory.OnStorageItemChanged += RefreshRecipesCraft;
 
             this.gameObject.SetActive(false);
@@ -41,10 +40,9 @@ namespace DownBelow.UI
             this.gameObject.SetActive(false);
         }
 
-        private void _togglePanel(InputAction.CallbackContext context)
+        public void OpenPanel()
         {
-            this.gameObject.SetActive(!this.gameObject.activeSelf);
+            this.gameObject.SetActive(true);
         }
     }
-
 }

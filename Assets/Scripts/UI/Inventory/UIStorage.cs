@@ -15,7 +15,7 @@ namespace DownBelow.UI.Inventory
 
         public List<UIInventoryItem> Items = new List<UIInventoryItem>();
 
-        public void SetStorageAndShow(BaseStorage storageRef)
+        public void SetStorageAndShow(BaseStorage storageRef, bool show = true)
         {
             if (this.Storage != null)
                 this.Storage.OnStorageItemChanged -= _refreshStorage;
@@ -28,7 +28,11 @@ namespace DownBelow.UI.Inventory
 
             this.Storage.OnStorageItemChanged += _refreshStorage;
 
-            this.gameObject.SetActive(true);
+            if (show)
+            {
+                this.gameObject.SetActive(true);
+            }
+
             this._init();
         }
 

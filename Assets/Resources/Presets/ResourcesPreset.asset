@@ -23,6 +23,8 @@ MonoBehaviour:
     SerializationNodes: []
   InteractWidth: 0.24
   DecreaseSpeed: 3.98
-  CursorCrossTime: 4.01
+  CursorCrossTime: 1.07
   MinX: 0.6
   MaxX: 0.3
+  MaxGatherableResources: 20
+  GatherableResourcesPerAbyss: 5

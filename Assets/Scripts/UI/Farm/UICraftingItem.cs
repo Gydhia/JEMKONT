@@ -10,6 +10,7 @@ namespace DownBelow.UI
 {
     public class UICraftingItem : MonoBehaviour
     {
+        private CraftPreset _craftPreset;
         public UIResourceItem ResourceItemPrefab;
 
         public List<UIResourceItem> ResourceItems = new List<UIResourceItem>();
@@ -20,6 +21,8 @@ namespace DownBelow.UI
 
         public void Init(CraftPreset preset)
         {
+            this._craftPreset = preset;
+
             this.ItemName.text = preset.ItemName;
             this.ItemImage.sprite = preset.ItemIcon;
 
@@ -53,6 +56,12 @@ namespace DownBelow.UI
 
         public void OnClickCraft()
         {
+            foreach (var itemKVP in this._craftPreset.CraftRecipe)
+            {
+                NetworkManager.Instance.GiftOrRemovePlayerItem(GameManager.RealSelfPlayer.UID, itemKVP.Key, -itemKVP.Value);
+            }
+
+            NetworkManager.Instance.GiftOrRemovePlayerItem(GameManager.RealSelfPlayer.UID, this._craftPreset.ToPlaceItem, 1);
 
         }
     }

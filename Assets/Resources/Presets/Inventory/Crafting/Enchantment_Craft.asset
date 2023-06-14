@@ -69,4 +69,4 @@ MonoBehaviour:
       Data: 
   ItemName: Enchantment Table
   ItemIcon: {fileID: 21300000, guid: 403e947800f0e4fd49a1a59b45e4d371, type: 3}
-  ToPlaceItem: {fileID: 0}
+  ToPlaceItem: {fileID: 11400000, guid: b2378260a1f88da4a807898b3821ed8b, type: 2}

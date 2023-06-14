@@ -11,7 +11,7 @@ namespace DownBelow.Mechanics
         public string ItemName;
         public Sprite ItemIcon;
 
-        public PlaceableItemPreset ToPlaceItem;
+        public PlaceableInteractablePreset ToPlaceItem;
 
 
         public Dictionary<ItemPreset, int> CraftRecipe;

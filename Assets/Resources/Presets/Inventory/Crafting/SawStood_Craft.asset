@@ -69,4 +69,4 @@ MonoBehaviour:
       Data: 
   ItemName: Saw Stood
   ItemIcon: {fileID: 21300000, guid: bfe727811a64244218601711880b79eb, type: 3}
-  ToPlaceItem: {fileID: 0}
+  ToPlaceItem: {fileID: 11400000, guid: 072a449d227f4184cb3bf4b96b3330c8, type: 2}

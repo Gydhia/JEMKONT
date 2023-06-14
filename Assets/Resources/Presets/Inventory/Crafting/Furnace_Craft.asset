@@ -69,4 +69,4 @@ MonoBehaviour:
       Data: 
   ItemName: Furnace
   ItemIcon: {fileID: 21300000, guid: 30519252e18e748fbb0670effaf9372f, type: 3}
-  ToPlaceItem: {fileID: 0}
+  ToPlaceItem: {fileID: 11400000, guid: 05e74ef90adbef442957f3c10e522d9b, type: 2}

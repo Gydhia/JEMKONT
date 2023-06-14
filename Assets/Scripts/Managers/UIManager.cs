@@ -19,6 +19,7 @@ namespace DownBelow.Managers
         public UIAbyssesSection AbyssesSection;
         public UICraftingSection CraftingSection;
         public UIEnchantSection EnchantSection;
+        public UIWorkshopSection WorkshopSection;
 
         public EntityTooltipUI EntityTooltipUI;
 
@@ -39,6 +40,7 @@ namespace DownBelow.Managers
             this.AbyssesSection.Init();
             this.CraftingSection.Init();
             this.EnchantSection.Init();
+            this.WorkshopSection.Init();
 
             this.TurnSection.gameObject.SetActive(false);
             this.PlayerInfos.gameObject.SetActive(false);
@@ -142,9 +144,12 @@ namespace DownBelow.Managers
             InputManager.Instance.ChangeCursorAppearance(CursorAppearance.Idle);
         }
 
-        public void HideStorage()
+        public void HideInteractables()
         {
             this.CurrentStorage.HideStorage();
+            this.EnchantSection.ClosePanel();
+            this.AbyssesSection.OnClickClose();
+            this.WorkshopSection.ClosePanel();
         }
     }
 }

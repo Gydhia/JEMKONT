@@ -210,6 +210,14 @@ namespace DownBelow.Entity
 
         void processEndScroll()
         {
+            if(lastPlaceable != null)
+            {
+                InputManager.Instance.OnNewCellHovered -= lastPlaceable.Previsualize;
+                InputManager.Instance.OnCellRightClickDown -= lastPlaceable.Place;
+                lastPlaceable.StopPrevisualize();
+                lastPlaceable = null;
+            }
+
             if(CurrentSelectedItem != null)
             {
                 if (CurrentSelectedItem is PlaceableItem placeable)
