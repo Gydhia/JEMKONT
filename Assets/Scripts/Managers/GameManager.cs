@@ -242,16 +242,19 @@ namespace DownBelow.Managers
         {
             this.ClearCombatActionsBuffer();
 
-            // Editor only utility
+            // Editor only utility - If from onDestroy, data will be null
             if (Data != null)
             {
                 CombatManager.Instance.OnCardEndUse -= this.BuffSpell;
 
                 CombatManager.Instance.OnCombatStarted += this._subscribeForCombatBuffer;
                 CombatManager.Instance.OnCombatEnded -= _unsubscribeForCombatBuffer;
-            }
 
-            NetworkManager.Instance.PlayerAskToLeaveCombat();
+                if (RealSelfPlayer.CurrentGrid != null && RealSelfPlayer.CurrentGrid.IsCombatGrid)
+                {
+                    NetworkManager.Instance.PlayerAskToLeaveCombat();
+                }
+            }
         }
 
         #region DEBUG

@@ -33,7 +33,9 @@ namespace DownBelow.UI.Menu
         {
             if(GameData.Game.RefGameDataContainer != null && PhotonNetwork.CurrentRoom == null)
             {
-                NetworkManager.Instance.CreateRoom(GameData.Game.RefGameDataContainer.SaveName);
+                string roomName = PhotonNetwork.LocalPlayer.NickName + " - " + GameData.Game.RefGameDataContainer.SaveName;
+                this.LobbyName.text = roomName;
+                NetworkManager.Instance.CreateRoom(roomName);
                 this.UpdatePlayersState();
             }
         }
@@ -97,7 +99,7 @@ namespace DownBelow.UI.Menu
         {
             this.UpdatePlayersList();
             this.LeaveRoomBtn.interactable = true;
-            this.LobbyName.text = PhotonNetwork.MasterClient.NickName + " - "+ GameData.Game.RefGameDataContainer.SaveName;
+            this.LobbyName.text = PhotonNetwork.CurrentRoom.Name;
             this.UpdatePlayersState();
             this.StartBtn.interactable = false;
 

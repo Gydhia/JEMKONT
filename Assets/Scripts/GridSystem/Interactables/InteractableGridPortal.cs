@@ -79,13 +79,25 @@ namespace DownBelow
         {
             this.Portal.gameObject.SetActive(true);
             CrackBorders.transform.DOScale(1.65f, 0.5f);
-            StartCoroutine(ActivationRoutine());
+            if (this.gameObject.activeInHierarchy)
+            {
+                StartCoroutine(ActivationRoutine());
+            }
+            else
+            {
+                _activeParticles();
+            }
         }
 
         private IEnumerator ActivationRoutine()
         {
             yield return new WaitForSeconds(Delay);
 
+            this._activeParticles();
+        }
+
+        private void _activeParticles()
+        {
             InnerCrackParticles.SetActive(true);
             MainCrack.SetActive(true);
 
