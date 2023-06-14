@@ -35,8 +35,10 @@ namespace DownBelow.Entity
 
             if (result)
             {
-                var resTool = GameManager.RealSelfPlayer.ActiveTools.First(t => t.Class == this.CurrentRessource.LocalPreset.GatherableBy);
-                GameManager.RealSelfPlayer.Animator.SetTrigger(resTool.GatherAnim);
+                var player = this.RefEntity as PlayerBehavior;
+
+                var resTool = player.ActiveTools.First(t => t.Class == this.CurrentRessource.LocalPreset.GatherableBy);
+                player.Animator.SetTrigger(resTool.GatherAnim);
             }
         }
 

@@ -8,7 +8,7 @@ namespace ExternalPropertyAttributes.Editor
 {
 	[CanEditMultipleObjects]
 	[CustomEditor(typeof(UnityEngine.Object), true)]
-	public sealed class ExternalCustomInspector : UnityEditor.Editor
+	public class ExternalCustomInspector : UnityEditor.Editor
 	{
 		private List<SerializedProperty> _serializedProperties = new List<SerializedProperty>();
 		private IEnumerable<FieldInfo> _nonSerializedFields;

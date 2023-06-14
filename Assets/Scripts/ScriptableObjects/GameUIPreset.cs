@@ -32,4 +32,6 @@ public class GameUIPreset : SerializedScriptableObject
     public Sprite CardSmall;
     [FoldoutGroup("Abysses")]
     public Sprite ResourcesEnergy;
+
+    public Dictionary<EntityStatistics, Sprite> StatisticSprites;
 }

@@ -122,6 +122,20 @@ namespace DownBelow.UI.Inventory
                 this.StorageItems[slot].RemoveQuantity(quantity);
             }
         }
+
+        public bool HasResources(ItemPreset preset, int quantity)
+        {
+            int foundQuantity = 0;
+            for (int i = 0; i < this.StorageItems.Length; i++)
+            {
+                if (this.StorageItems[i] != null && this.StorageItems[i].ItemPreset == preset)
+                {
+                    foundQuantity += this.StorageItems[i].Quantity;
+                }
+            }
+
+            return foundQuantity >= quantity;
+        }
     }
 
     public struct StorageData

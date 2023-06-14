@@ -24,6 +24,32 @@ MonoBehaviour:
     - Name: UID
       Entry: 2
       Data: 72c07eb2c3dbdde22a782c1aacfe1bed
+    - Name: CurrentEnchantBuffs
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[EntityStatistics, Assembly-CSharp],[System.Int32,
+        mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[EntityStatistics,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   Type: 0
   ItemName: Fishing Rod
   InventoryIcon: {fileID: 21300000, guid: 55fa76305df17454bb7aa27b9dd1bf9d, type: 3}
@@ -36,4 +62,16 @@ MonoBehaviour:
   ToolRefColor: {r: 0.30588236, g: 0.5882353, b: 0.54509807, a: 1}
   FightIcon: {fileID: 21300000, guid: 716ccb6a2ebb2ac4fbaace087fb184fd, type: 3}
   GatherAnim: Gather_Fish
+  ToolEnchants:
+  - {fileID: 11400000, guid: af78c1b8cf1a7e44b9918798cb93bcc2, type: 2}
+  - {fileID: 11400000, guid: a35cf196b0e0a43488b3e631f3728d59, type: 2}
+  - {fileID: 11400000, guid: 443f3a21d1d3b944785f21cf7c61a4b3, type: 2}
+  - {fileID: 11400000, guid: a16c0cd1d58a5684c8bf7242c48bc712, type: 2}
+  - {fileID: 11400000, guid: f3f80b2ede4ea6045b44b2197f0d90f1, type: 2}
+  - {fileID: 11400000, guid: b4ef42f63c2c43f4aa330f1095059415, type: 2}
+  - {fileID: 11400000, guid: 194aed94b1b9c2e448d980c76cffff9a, type: 2}
+  - {fileID: 11400000, guid: 86e025d3e25a22849aab28661b71fc25, type: 2}
+  - {fileID: 11400000, guid: bb7e86b3f65114346b1138eef96c1019, type: 2}
+  - {fileID: 11400000, guid: 607832195c7922143b94e3a619ce33a9, type: 2}
+  CurrentLevel: 0
   CharacterTexture: {fileID: 2800000, guid: 4c3e7beffed214e49b879812b8d8e1cf, type: 3}

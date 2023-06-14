@@ -139,9 +139,6 @@ namespace DownBelow.Managers
             if (CombatManager.Instance != null)
                 CombatManager.Instance.Init();
 
-            if (UIManager.Instance != null)
-                UIManager.Instance.Init();
-
             if (CardsManager.Instance != null)
                 CardsManager.Instance.Init();
 
@@ -228,6 +225,9 @@ namespace DownBelow.Managers
                 this.FireGameStarted();
                 NetworkManager.Instance.SelfLoadedGame();
             }
+
+            if (UIManager.Instance != null)
+                UIManager.Instance.Init();
         }
 
         private void _subscribeForCombatBuffer(GridEventData Data)
@@ -242,16 +242,19 @@ namespace DownBelow.Managers
         {
             this.ClearCombatActionsBuffer();
 
-            // Editor only utility
+            // Editor only utility - If from onDestroy, data will be null
             if (Data != null)
             {
                 CombatManager.Instance.OnCardEndUse -= this.BuffSpell;
 
                 CombatManager.Instance.OnCombatStarted += this._subscribeForCombatBuffer;
                 CombatManager.Instance.OnCombatEnded -= _unsubscribeForCombatBuffer;
-            }
 
-            NetworkManager.Instance.PlayerAskToLeaveCombat();
+                if (RealSelfPlayer.CurrentGrid != null && RealSelfPlayer.CurrentGrid.IsCombatGrid)
+                {
+                    NetworkManager.Instance.PlayerAskToLeaveCombat();
+                }
+            }
         }
 
         #region DEBUG

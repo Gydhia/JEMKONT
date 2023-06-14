@@ -524,7 +524,7 @@ namespace DownBelow.Managers
         {
             this._playersNetState.Add(PlayerID);
 
-            if(this._playersNetState.Count >= GameManager.Instance.Players.Count)
+            if(this._playersNetState.Count >= GameManager.Instance.Players.Values.Count(p => p.CurrentGrid.IsCombatGrid))
             {
                 this.photonView.RPC("RPC_RespondPlayersToLeaveCombat", RpcTarget.All, GameManager.SelfPlayer.UID);
             }
