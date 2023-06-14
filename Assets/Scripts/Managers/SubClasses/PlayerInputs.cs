@@ -10,6 +10,7 @@ public static class PlayerInputs
 
     public static InputAction player_interact;
     public static InputAction player_escape;
+    public static InputAction player_tab;
 
     public static InputAction player_select_1;
     public static InputAction player_select_2;
@@ -40,5 +41,6 @@ public static class PlayerInputs
 
         player_alt = asset["Alt"];
         player_F4 = asset["F4"];
+        player_tab = asset["Tab"];
     }
 }

@@ -37,6 +37,7 @@ namespace DownBelow.Managers
 
 
         public List<AbyssPreset> AbyssesPresets;
+        public List<CraftPreset> CraftRepices;
 
         public void Init()
         {

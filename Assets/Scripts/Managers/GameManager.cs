@@ -139,9 +139,6 @@ namespace DownBelow.Managers
             if (CombatManager.Instance != null)
                 CombatManager.Instance.Init();
 
-            if (UIManager.Instance != null)
-                UIManager.Instance.Init();
-
             if (CardsManager.Instance != null)
                 CardsManager.Instance.Init();
 
@@ -228,6 +225,9 @@ namespace DownBelow.Managers
                 this.FireGameStarted();
                 NetworkManager.Instance.SelfLoadedGame();
             }
+
+            if (UIManager.Instance != null)
+                UIManager.Instance.Init();
         }
 
         private void _subscribeForCombatBuffer(GridEventData Data)
