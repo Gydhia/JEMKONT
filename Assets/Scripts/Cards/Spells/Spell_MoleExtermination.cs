@@ -25,7 +25,7 @@ namespace DownBelow.Spells
         {
             await base.DoSpellBehavior();
             GetTargets(TargetCell);
-            var targets = Result.TargetedCells.FindAll(x => x.EntityIn != null);
+            var targets = TargetedCells;
             if (targets != null)
             {
                 foreach (var target in targets)

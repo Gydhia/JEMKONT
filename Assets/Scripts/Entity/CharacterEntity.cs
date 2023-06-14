@@ -680,6 +680,8 @@ namespace DownBelow.Entity
                 EntityCell = cellToTP;
 
                 FireEnteredCell(cellToTP);
+                GridManager.Instance.CalculatePossibleCombatMovements(this);
+
             }
             return cellToTP;
         }
@@ -703,6 +705,8 @@ namespace DownBelow.Entity
                 EntityCell = cellToTP;
 
                 FireEnteredCell(cellToTP);
+                GridManager.Instance.CalculatePossibleCombatMovements(this);
+
             }
         }
 
