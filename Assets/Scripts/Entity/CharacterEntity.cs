@@ -291,7 +291,8 @@ namespace DownBelow.Entity
                         //CastAutoAttack(notwalkable);
                         break;
                 }
-            } else
+            }
+            else
             {
                 //There isn't any obstacle in the path, so the attack should go for it.
                 //if(cellToAttack.Datas.state == CellState.EntityIn)
@@ -445,7 +446,8 @@ namespace DownBelow.Entity
                 {
                     this.OnHealthAdded?.Invoke(new(this, value));
                 }
-            } else
+            }
+            else
             {
                 value = Mathf.Max(0, Defense - value);
                 if (this.Bubbled)
@@ -503,9 +505,19 @@ namespace DownBelow.Entity
 
         public override string ToString()
         {
-            return @$"Name : {name}
+            string res = @$"Name : {name}
             IsAlly : {IsAlly}
-            GridPos : {EntityCell}";
+            GridPos : {EntityCell}\n";
+            if (Alterations != null && Alterations.Count > 0)
+            {
+                res += "Alterations :";
+                foreach (var item in Alterations)
+                {
+                    res += $"\n{item}";
+                }
+            }
+
+            return res;
         }
         public void AddAlterations(List<Alteration> alterations)
         {
@@ -525,7 +537,8 @@ namespace DownBelow.Entity
                 alreadyFound.Duration = alteration.Duration;
                 return;
                 //TODO : GD? Add Duration? Set duration?
-            } else
+            }
+            else
             {
                 Alterations.Add(alteration);
             }
@@ -534,7 +547,8 @@ namespace DownBelow.Entity
             if (alteration.ClassicCountdown)
             {
                 this.OnTurnEnded += alteration.DecrementAlterationCountdown;
-            } else
+            }
+            else
             {
                 switch (alteration)
                 {
@@ -561,7 +575,8 @@ namespace DownBelow.Entity
             if (alteration.ClassicCountdown)
             {
                 this.OnTurnEnded += alteration.DecrementAlterationCountdown;
-            } else
+            }
+            else
             {
                 switch (alteration)
                 {
@@ -680,7 +695,10 @@ namespace DownBelow.Entity
                 EntityCell = cellToTP;
 
                 FireEnteredCell(cellToTP);
-                GridManager.Instance.CalculatePossibleCombatMovements(this);
+                if (Result != null && Result.Caster != null && Result.Caster == this)
+                {
+                    GridManager.Instance.CalculatePossibleCombatMovements(this);
+                }
 
             }
             return cellToTP;
@@ -705,7 +723,10 @@ namespace DownBelow.Entity
                 EntityCell = cellToTP;
 
                 FireEnteredCell(cellToTP);
-                GridManager.Instance.CalculatePossibleCombatMovements(this);
+                if (Result != null && Result.Caster != null && Result.Caster == this)
+                {
+                    GridManager.Instance.CalculatePossibleCombatMovements(this);
+                }
 
             }
         }

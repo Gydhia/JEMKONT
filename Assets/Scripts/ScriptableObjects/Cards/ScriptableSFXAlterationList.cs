@@ -13,13 +13,15 @@ public class ScriptableSFXAlterationList : SerializedScriptableObject
 
     public GameObject GetValue(Alteration alt)
     {
+        AlterationSFX altsfx;
         if (alt is BuffAlteration buff)
         {
-            return AlterationsSFX.Find(x => x.Alteration is BuffAlteration buffFound && buff.StatToBuff == buffFound.StatToBuff).AlterationSFXPrefab;
+            altsfx = AlterationsSFX.Find(x => x.Alteration is BuffAlteration buffFound && buff.StatToBuff == buffFound.StatToBuff);
         } else
         {
-            return AlterationsSFX.Find(x => x.GetType() == alt.GetType()).AlterationSFXPrefab;
+            altsfx = AlterationsSFX.Find(x => x.GetType() == alt.GetType());
         }
+        return altsfx?.AlterationSFXPrefab;
     }
 
     public bool TryGetValue(Alteration alt, out GameObject prefab)

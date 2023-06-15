@@ -16,26 +16,8 @@ namespace DownBelow.Managers
         [SerializeField]
         private Camera MainCamera;
 
-        private PlayerBehavior CachedPlayer;
-
-        private void Update()
-        {
-            if(CachedPlayer != null)
-            {
-                if (InputManager.Instance.IsPressingShift && this.VirtualCamera.Follow != null)
-                {
-                    this.VirtualCamera.Follow = null;
-                }
-                else if (!InputManager.Instance.IsPressingShift && this.VirtualCamera.Follow == null)
-                {
-                    this.VirtualCamera.Follow = CachedPlayer.transform;
-                }
-            }
-        }
-
         public void AttachPlayerToCamera(PlayerBehavior player)
         {
-            CachedPlayer = player;
             this.VirtualCamera.Follow = player.gameObject.transform;
 
             GameManager.Instance.OnEnteredGrid += this._setupCamera;
