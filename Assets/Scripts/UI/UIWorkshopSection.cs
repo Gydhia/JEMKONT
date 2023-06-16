@@ -65,7 +65,7 @@ namespace DownBelow.UI
             {
                 for (int i = 0; i < this.InItem.TotalQuantity / 3; i++)
                 {
-                    NetworkManager.Instance.GiftOrRemovePlayerItem(GameManager.RealSelfPlayer.UID, this.CurrentWorkshop.OutputItem, 1);
+                    NetworkManager.Instance.GiftOrRemoveStorageItem(this.CurrentWorkshop, this.CurrentWorkshop.OutputItem, 1, this.OutItem.Slot);
                     this.InItem.SelfItem.RemoveQuantity(3);
                 }
             }
