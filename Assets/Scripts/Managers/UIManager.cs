@@ -47,7 +47,7 @@ namespace DownBelow.Managers
             this.CardSection.gameObject.SetActive(false);
             this.EntityTooltipUI.gameObject.SetActive(false);
 
-            GameManager.Instance.OnGameStarted += _subscribe;
+            this._subscribe();
         }
         public void SwitchSelectedSlot(int oldSlot, int newSlot)
         {
@@ -70,7 +70,7 @@ namespace DownBelow.Managers
                 //Inventory
             }
         }
-        private void _subscribe(GameEventData Data)
+        private void _subscribe()
         {
             CombatManager.Instance.OnCombatStarted += this.SetupCombatInterface;
 
