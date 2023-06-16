@@ -34,22 +34,43 @@ namespace DownBelow.UI
 
         public void ShowWorkshop(InteractableWorkshop workshop, bool isRealPlayer)
         {
-            workshop.Storage.OnStorageItemChanged -= _refreshWorkshop;
+            if(this.CurrentWorkshop != null)
+            {
+                this.CurrentWorkshop.Storage.OnStorageItemChanged -= _refreshWorkshop;
+            }
 
             this.CurrentWorkshop = workshop;
 
+            this.CurrentWorkshop.Storage.OnStorageItemChanged += _refreshWorkshop;
+
+
             this.WorkshopName.text = workshop.WorkshopName();
             this.UIStorage.SetStorageAndShow(workshop.Storage, isRealPlayer);
+
+            this.InItem.OnlyAcceptedItem = workshop.InputItem;
+            this.FuelItem.OnlyAcceptedItem = workshop.FuelItem;
+            this.OutItem.CanOnlyTake = true;
+
+            this._refreshWorkshop(null);
         }
 
         private void _refreshWorkshop(ItemEventData Data)
         {
-            Debug.Log("Item : " + Data.ItemData.ItemPreset.ItemName + " added into furnace");
+            this.CraftButton.interactable = this.InItem.SelfItem.ItemPreset != null && this.FuelItem.SelfItem.ItemPreset != null;
         }
 
         public void OnClickCraft()
         {
+            if(this.InItem.SelfItem.ItemPreset != null)
+            {
+                for (int i = 0; i < this.InItem.TotalQuantity / 3; i++)
+                {
+                    NetworkManager.Instance.GiftOrRemovePlayerItem(GameManager.RealSelfPlayer.UID, this.CurrentWorkshop.OutputItem, 1);
+                    this.InItem.SelfItem.RemoveQuantity(3);
+                }
+            }
 
+            this._refreshWorkshop(null);
         }
 
         public void OpenPanel()

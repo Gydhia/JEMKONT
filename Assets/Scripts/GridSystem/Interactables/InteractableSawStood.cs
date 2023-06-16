@@ -8,6 +8,6 @@ namespace DownBelow.GridSystem
 {
     public class InteractableSawStood : InteractableWorkshop
     {
-        public override string WorkshopName() => "Furnace";
+        public override string WorkshopName() => "Saw Stood";
     }
 }

@@ -151,17 +151,23 @@ namespace DownBelow.UI.Inventory
         {
             if (LastHoveredItem && LastHoveredItem != this)
             {
-                var action = new DropItemAction(GameManager.RealSelfPlayer, LastHoveredItem.SelfStorage.Storage.RefCell);
-                action.Init(
-                    this.SelfStorage.Storage.RefCell,
-                    this.SelfItem.ItemPreset,
-                    this.TotalQuantity,
-                    true,
-                    LastHoveredItem.Slot,
-                    this.Slot
-                 );
+                if (LastHoveredItem.OnlyAcceptedItem != null && LastHoveredItem.OnlyAcceptedItem != this.SelfItem.ItemPreset)
+                    return;
 
-                NetworkManager.Instance.EntityAskToBuffAction(action);
+                if (!LastHoveredItem.CanOnlyTake)
+                {
+                    var action = new DropItemAction(GameManager.RealSelfPlayer, LastHoveredItem.SelfStorage.Storage.RefCell);
+                    action.Init(
+                        this.SelfStorage.Storage.RefCell,
+                        this.SelfItem.ItemPreset,
+                        this.TotalQuantity,
+                        true,
+                        LastHoveredItem.Slot,
+                        this.Slot
+                     );
+
+                    NetworkManager.Instance.EntityAskToBuffAction(action);
+                }
             }
         }
         protected virtual void dropOverWorld(PointerEventData eventData)

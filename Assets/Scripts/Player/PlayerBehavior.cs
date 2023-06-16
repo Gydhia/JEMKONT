@@ -157,7 +157,7 @@ namespace DownBelow.Entity
             if (scrollBusy) return;
             scrollBusy = true;
             int newSlot = inventorySlotSelected;
-            if (value >= 110)
+            if (value <= -110)
             {
                 //If we're scrolling up,
                 if (inventorySlotSelected + 1 >= PlayerInventory.MaxSlots)
@@ -170,7 +170,7 @@ namespace DownBelow.Entity
                     newSlot++;
                 }
                 switchSlots(inventorySlotSelected, newSlot);
-            } else if (value <= -110)
+            } else if (value >= 110)
             {
 
                 if (inventorySlotSelected - 1 < 0)

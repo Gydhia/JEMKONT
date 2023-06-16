@@ -209,10 +209,17 @@ namespace DownBelow.Managers
                         {
                             if (selfPlayer.CanGatherThisResource(iResource.LocalPreset.GatherableBy))
                             {
-                                var gatherAction = new GatheringAction(selfPlayer, cell);
-                                gatherAction.Init(3);
+                                if (iResource.isMature)
+                                {
+                                    var gatherAction = new GatheringAction(selfPlayer, cell);
+                                    gatherAction.Init(3);
 
-                                actions[1] = gatherAction;
+                                    actions[1] = gatherAction;
+                                }
+                                else
+                                {
+                                    UIManager.Instance.DatasSection.ShowWarningText(iResource.LocalPreset.UName + " is not available");
+                                }
                             }
                             else
                             {
