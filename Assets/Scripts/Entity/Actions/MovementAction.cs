@@ -108,9 +108,17 @@ namespace DownBelow.Entity
             if (!this.abortAction)
                 this.EndAction();
 
+            // At this moment, this action should have been removed from buffer
             if (this._shouldEndAnim())
             {
                 this.RefEntity.Animator.SetFloat("Speed", 0f);
+
+                // Rotate to the next action
+                if(RefBuffer.Count > 0)
+                {
+                    var targetRotation = Quaternion.LookRotation(RefBuffer[0].TargetCell.transform.position - this.RefEntity.transform.position);
+                    this.RefEntity.EntityHolder.rotation = targetRotation;
+                }
             }
         }
 

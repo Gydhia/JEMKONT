@@ -5,6 +5,7 @@
 			<ChildrenList>
 				<MusicSwitchContainer Name="GameState" ID="{44116159-1776-4E93-8EA2-AA3ABBB4C221}" ShortID="222855546">
 					<PropertyList>
+						<Property Name="Color" Type="int16" Value="2"/>
 						<Property Name="ContinuePlay" Type="bool" Value="False"/>
 						<Property Name="MakeUpGain" Type="Real64">
 							<ModifierList>
@@ -13,6 +14,7 @@
 								</ModifierInfo>
 							</ModifierList>
 						</Property>
+						<Property Name="OverrideColor" Type="bool" Value="True"/>
 						<Property Name="Tempo" Type="Real64" Value="102"/>
 					</PropertyList>
 					<ReferenceList>
@@ -20,7 +22,7 @@
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{86B68257-100F-4BF5-A2A8-7B8994EA0037}"/>
 						</Reference>
 						<Reference Name="OutputBus">
-							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{5FC12D48-6ADB-4B43-883D-07304F613018}"/>
+							<ObjectRef Name="Music" ID="{327E344A-9D8B-46C8-813E-9F300F18B017}" WorkUnitID="{5FC12D48-6ADB-4B43-883D-07304F613018}"/>
 						</Reference>
 					</ReferenceList>
 					<ChildrenList>
@@ -1359,7 +1361,7 @@
 							<ChildrenList>
 								<MusicSegment Name="MainMenu" ID="{7BFD6AD3-A1C1-4D68-B7A0-6D927F39AE12}" ShortID="839198420">
 									<PropertyList>
-										<Property Name="EndPosition" Type="Real64" Value="148695.645833333"/>
+										<Property Name="EndPosition" Type="Real64" Value="148715.912183402"/>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -1433,7 +1435,7 @@
 													<MusicCue Name="Exit Cue" ID="{C44AD55E-7104-401D-B017-8E9844566BA2}">
 														<PropertyList>
 															<Property Name="CueType" Type="int16" Value="1"/>
-															<Property Name="TimeMs" Type="Real64" Value="1000"/>
+															<Property Name="TimeMs" Type="Real64" Value="148695.645833333"/>
 														</PropertyList>
 													</MusicCue>
 												</Local>
@@ -1476,7 +1478,32 @@
 							</PropertyList>
 							<ChildrenList>
 								<MusicTransition Name="Transition" ID="{E6570D73-3F84-4E45-B840-74BA4D09730C}">
-									<TransitionInfo/>
+									<PropertyList>
+										<Property Name="EnableDestinationFadeIn" Type="bool" Value="True"/>
+										<Property Name="EnableSourceFadeOut" Type="bool" Value="True"/>
+										<Property Name="ExitSourceAt" Type="int16" Value="3"/>
+										<Property Name="PlayDestinationPreEntry" Type="bool" Value="False"/>
+									</PropertyList>
+									<TransitionInfo>
+										<SourceFadeOut>
+											<MusicFade Name="Source Fade-out" ID="{FC04F113-AA31-4D33-9ABF-81E9B7D50E3B}">
+												<PropertyList>
+													<Property Name="FadeCurve" Type="int16" Value="0"/>
+													<Property Name="FadeOffset" Type="Real64" Value="0.95"/>
+													<Property Name="FadeTime" Type="Real64" Value="1.25"/>
+													<Property Name="FadeType" Type="int16" Value="1"/>
+												</PropertyList>
+											</MusicFade>
+										</SourceFadeOut>
+										<DestinationFadeIn>
+											<MusicFade Name="Destination Fade-in" ID="{8168DF07-26CD-476F-AF97-649C9B167312}">
+												<PropertyList>
+													<Property Name="FadeCurve" Type="int16" Value="8"/>
+													<Property Name="FadeTime" Type="Real64" Value="1.2"/>
+												</PropertyList>
+											</MusicFade>
+										</DestinationFadeIn>
+									</TransitionInfo>
 								</MusicTransition>
 							</ChildrenList>
 							<TransitionInfo/>

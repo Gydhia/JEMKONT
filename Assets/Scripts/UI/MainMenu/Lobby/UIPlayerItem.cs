@@ -20,7 +20,7 @@ public class UIPlayerItem : MonoBehaviour
     {
         this.PlayerName.text = playerName;
         this.UserID = playerID;
-        this.ReadyToggle.SetIsOnWithoutNotify(false);
+        ChangeReadyState(this.IsReady);
     }
 
     public void OnClickReady(bool value)

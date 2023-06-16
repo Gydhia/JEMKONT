@@ -226,6 +226,7 @@ MonoBehaviour:
   MinSpacing: -500
   MaxSpacing: -400
   CardPivot: {x: 0.5, y: 0.5}
+  AuthorizeHover: 1
   CardsNumber: {fileID: 0}
   VisualMoveTarget: {fileID: 6478722474700500118}
   CardsHolder: {fileID: 6478722474700500118}

@@ -2,14 +2,53 @@ using DownBelow.Entity;
 using DownBelow.Managers;
 using DownBelow.Mechanics;
 using DownBelow.UI;
-using Sirenix.OdinInspector;
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 namespace DownBelow.GridSystem
 {
+    public class PurchaseCardsAction : EntityAction
+    {
+        public ScriptableCard card;
+        public Interactable_P_Card cardStand;
+
+        public PurchaseCardsAction(CharacterEntity RefEntity, Cell TargetCell) : base(RefEntity, TargetCell)
+        {
+        }
+
+        public void Init(ScriptableCard card, Interactable_P_Card cardStand)
+        {
+            this.card = card;
+            this.cardStand = cardStand;
+        }
+
+        public override void ExecuteAction()
+        {
+            if (SettingsManager.Instance.OwnedCards.Contains(card))
+            {
+                Debug.LogError(card.name + " IS ALREADY IN THE OWNED CARDS");
+                EndAction();
+                return;
+            }
+
+            SettingsManager.Instance.OwnedCards.Add(card);
+            cardStand.RefreshPurchase();
+            EndAction();
+        }
+
+        public override object[] GetDatas()
+        {
+            return new object[1] { card.UID };
+        }
+
+        public override void SetDatas(object[] Datas)
+        {
+            this.card = SettingsManager.Instance.ScriptableCards[Guid.Parse(Datas[0] as string)];
+        }
+    }
+
     public class Interactable_P_Card : InteractablePurchase<ScriptableCard>
     {
         public UIExtensibleCard UICard;
@@ -38,15 +77,12 @@ namespace DownBelow.GridSystem
 
         public override void GiveItemToPlayer(ScriptableCard Item)
         {
-            if (SettingsManager.Instance.OwnedCards.Contains(Item))
-            {
-                Debug.LogError(Item.name + " IS ALREADY IN THE OWNED CARDS");
-            }
-
-            SettingsManager.Instance.OwnedCards.Add(Item);
+            var act = new PurchaseCardsAction(GameManager.SelfPlayer, GameManager.SelfPlayer.EntityCell);
+            act.Init(Item,this);
+            NetworkManager.Instance.EntityAskToBuffAction(act);
         }
 
-        protected override void RefreshPurchase()
+        public override void RefreshPurchase()
         {
             var pooledCards = this.GetItemsPool();
 
@@ -79,8 +115,7 @@ namespace DownBelow.GridSystem
                     player.PlayerInventory.RemoveItem(item.Key, item.Value);
 
                 this.RefreshPurchase();
-            }
-            else
+            } else
             {
                 UIManager.Instance.DatasSection.ShowWarningText("You're missing ressources to buy");
             }

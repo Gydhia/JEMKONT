@@ -7,6 +7,8 @@
 					<ObjectInclusionList>
 						<ObjectRef Name="Default Work Unit" ID="{A7B6054A-C5DE-4175-A27F-8806369B3987}" WorkUnitID="{A7B6054A-C5DE-4175-A27F-8806369B3987}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Default Work Unit" ID="{277D41B8-7D18-41D8-BFBF-88A00100C0C8}" WorkUnitID="{277D41B8-7D18-41D8-BFBF-88A00100C0C8}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Events" ID="{A69BF0FC-D84A-487C-ABDD-56F71CB2A126}" WorkUnitID="{A69BF0FC-D84A-487C-ABDD-56F71CB2A126}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Default Work Unit" ID="{5FC12D48-6ADB-4B43-883D-07304F613018}" WorkUnitID="{5FC12D48-6ADB-4B43-883D-07304F613018}" Origin="Manual" Filter="7"/>
 					</ObjectInclusionList>
 					<ObjectExclusionList/>
 					<GameSyncExclusionList/>

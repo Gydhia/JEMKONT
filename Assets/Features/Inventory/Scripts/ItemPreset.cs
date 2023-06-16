@@ -20,7 +20,6 @@ namespace DownBelow
         [OnValueChanged("_updateUID")]
         public string ItemName; 
         public Sprite InventoryIcon;
-        public Outlining.Outline ItemPrefab;
 
         public int MaxStack = 1;
         public GameObject DroppedItemPrefab;

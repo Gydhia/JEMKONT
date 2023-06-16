@@ -10,6 +10,8 @@ using UnityEngine;
 using Sirenix.Serialization;
 using System;
 using DG.Tweening;
+using Photon.Realtime;
+using static UnityEngine.ParticleSystem;
 
 
 namespace DownBelow.Entity
@@ -246,7 +248,7 @@ namespace DownBelow.Entity
             this.PlayingIndicator.transform.DOMoveY(this.PlayingIndicator.transform.position.y - 0.5f, 1.5f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
             if (this.SelectedIndicator != null)
             {
-                this.SelectedIndicator.transform.DOScale(0.13f, 1.5f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
+                this.SelectedIndicator.transform.DOScale(0.05f, 1.5f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
             }
             this.OnHealthRemoved += AreYouAlive;
         }
@@ -604,16 +606,13 @@ namespace DownBelow.Entity
             }
 
             this.FireExitedCell();
-            StartCoroutine(_deathTime());
-        }
 
-        // TODO : temporary to wait for the player to die
-        private IEnumerator _deathTime(float delay = 2f)
-        {
-            yield return new WaitForSeconds(delay);
+            var particle = Instantiate(SettingsManager.Instance.GridsPreset.PlayerSwitchPrefab, this.transform.position + (Vector3.up * 0.75f), Quaternion.identity);
+            Destroy(particle.gameObject, 6f);
 
             this.gameObject.SetActive(false);
         }
+
 
         #endregion
 

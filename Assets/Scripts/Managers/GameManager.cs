@@ -1,23 +1,17 @@
 using DownBelow.Entity;
 using DownBelow.Events;
 using DownBelow.GridSystem;
-using DownBelow.Spells;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Photon.Pun;
-using Photon.Realtime;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Sirenix.Utilities;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using DownBelow.Loading;
-using static UnityEngine.EventSystems.EventTrigger;
-using Photon.Pun.Demo.PunBasics;
+using EODE.Wonderland;
 
 namespace DownBelow.Managers
 {
@@ -48,12 +42,18 @@ namespace DownBelow.Managers
             FireEntitySwitchingGrid(this.Players[playerID], newGrid);
         }
 
-        public void FireEntitySwitchingGrid(PlayerBehavior player, WorldGrid newGrid)
+        public void FireEntitySwitchingGrid(PlayerBehavior player, WorldGrid newGrid, bool particles = true)
         {
             this.OnExitingGrid?.Invoke(new EntityEventData(player));
 
+            if (particles)
+            {
+                var particle = Instantiate(SettingsManager.Instance.GridsPreset.PlayerSwitchPrefab, player.transform.position, Quaternion.identity);
+                Destroy(particle.gameObject, 6f);
+            }
+
             // Means that we're coming from a world grid to another worldgrid
-            if(player == RealSelfPlayer && (!player.CurrentGrid.IsCombatGrid && !newGrid.IsCombatGrid))
+            if (player == RealSelfPlayer && (!player.CurrentGrid.IsCombatGrid && !newGrid.IsCombatGrid))
             {
                 player.CurrentGrid.gameObject.SetActive(false);
                 newGrid.gameObject.SetActive(true);
@@ -94,6 +94,20 @@ namespace DownBelow.Managers
 
         public static bool GameStarted = false;
 
+        public static int MaxAbyssReached;
+
+        public static int MaxGatherableResources => 
+            SettingsManager.Instance.ResourcesPreset.MaxGatherableResources + (MaxAbyssReached * SettingsManager.Instance.ResourcesPreset.GatherableResourcesPerAbyss);
+        public static int CurrentAvailableResources;
+
+        public event GatheringEventData.Event OnResourceGathered;
+
+        public void FireResourceGathered(InteractableResource gatheredResource)
+        {
+            CurrentAvailableResources--;
+            OnResourceGathered?.Invoke(new GatheringEventData(gatheredResource));
+        }
+
         #region Players_Actions_Buffer
 
         public static Dictionary<CharacterEntity, List<EntityAction>> NormalActionsBuffer =
@@ -125,16 +139,16 @@ namespace DownBelow.Managers
             if (CombatManager.Instance != null)
                 CombatManager.Instance.Init();
 
-            if (UIManager.Instance != null)
-                UIManager.Instance.Init();
-
             if (CardsManager.Instance != null)
                 CardsManager.Instance.Init();
 
             if (GridManager.Instance != null)
                 GridManager.Instance.Init();
-            
-            if(AnalyticsManager.Instance != null)
+
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.Init();
+
+            if (AnalyticsManager.Instance != null)
                 AnalyticsManager.Instance.Init();
 
 
@@ -180,6 +194,10 @@ namespace DownBelow.Managers
         {
             if (PhotonNetwork.PlayerList.Length >= 1)
             {
+                // TODO : move it with saves
+                CurrentAvailableResources = MaxGatherableResources + 1;
+                this.FireResourceGathered(null);
+                
                 System.Guid spawnId = SettingsManager.Instance.SpawnablesPresets.First(k => k.Value is SpawnPreset).Key;
                 var spawnLocations = GridManager.Instance.MainWorldGrid.SelfData.SpawnablePresets.Where(k => k.Value == spawnId).Select(kv => kv.Key);
 
@@ -210,6 +228,9 @@ namespace DownBelow.Managers
                 this.FireGameStarted();
                 NetworkManager.Instance.SelfLoadedGame();
             }
+
+            if (UIManager.Instance != null)
+                UIManager.Instance.Init();
         }
 
         private void _subscribeForCombatBuffer(GridEventData Data)
@@ -222,7 +243,9 @@ namespace DownBelow.Managers
 
         private void _unsubscribeForCombatBuffer(GridEventData Data)
         {
-            // Editor only utility
+            this.ClearCombatActionsBuffer();
+
+            // Editor only utility - If from onDestroy, data will be null
             if (Data != null)
             {
                 CombatManager.Instance.OnCardEndUse -= this.BuffSpell;
@@ -230,34 +253,10 @@ namespace DownBelow.Managers
                 CombatManager.Instance.OnCombatStarted += this._subscribeForCombatBuffer;
                 CombatManager.Instance.OnCombatEnded -= _unsubscribeForCombatBuffer;
 
-            
-                this._tryExitAllFromCombat();
-            }
-        }
-
-        private void _tryExitAllFromCombat()
-        {
-            CombatActionsBuffer.Clear();
-
-            NetworkManager.Instance.PlayerAskToLeaveCombat();
-        }
-
-        public void ExitAllFromCombat()
-        {
-            System.Guid spawnId = SettingsManager.Instance.SpawnablesPresets.First(k => k.Value is SpawnPreset).Key;
-
-            var spawnLocations = CombatManager.CurrentPlayingGrid.SelfData.SpawnablePresets.Where(k => k.Value == spawnId).Select(kv => kv.Key);
-            var worldGrid = CombatManager.CurrentPlayingGrid.ParentGrid;
-
-            int counter = 0;
-            foreach (var player in this.Players.Values)
-            {
-                player.FireExitedCell();
-                GameManager.Instance.FireEntitySwitchingGrid(player, worldGrid);
-                var newCell = worldGrid.Cells[spawnLocations.ElementAt(counter).latitude, spawnLocations.ElementAt(counter).longitude];
-                player.FireEnteredCell(newCell);
-                
-                counter++;
+                if (RealSelfPlayer.CurrentGrid != null && RealSelfPlayer.CurrentGrid.IsCombatGrid)
+                {
+                    NetworkManager.Instance.PlayerAskToLeaveCombat();
+                }
             }
         }
 
@@ -356,7 +355,7 @@ namespace DownBelow.Managers
         {
             Debug.Log("ENTITY : " + action.RefEntity + " | Buffing : " + action.GetAssemblyName());
 
-            if (action.RefEntity.CurrentGrid.IsCombatGrid)
+            if (action.RefEntity.CurrentGrid.IsCombatGrid && CombatManager.Instance.BattleGoing)
             {
                 //If the entity is on a combat grid,simply queue the action and do it whenever it's your turn.
               
@@ -514,13 +513,21 @@ namespace DownBelow.Managers
 
         #endregion
 
+        public void ClearCombatActionsBuffer()
+        {
+            for (int i = 0; i < CombatActionsBuffer.Count; i++)
+            {
+                CombatActionsBuffer[i].CancelAction();
+                i--;
+            }
+        }
+
         private void OnDestroy()
         {
             this._unsubscribeForCombatBuffer(null);
 
             CombatActionsBuffer.Clear();
             NormalActionsBuffer.Clear();
-
         }
     }
 }

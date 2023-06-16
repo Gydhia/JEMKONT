@@ -15,31 +15,28 @@ public class GridTerrainApplier : MonoBehaviour
     public int BoxCastStartHeight = -5;
 
 
-    // Start is called before the first frame update
-    void Start()
+
+    public void ApplyTerrainToGrid(EditorGridData Datas)
     {
-    }
-    public void ApplyTerrainToGrid(CellData[,] cellDatas, List<InnerGridData> InnerGrids)
-    {
-        foreach (CellData cell in cellDatas)
+        foreach (CellData cell in Datas.CellDatas)
         {
-            RaycastHit TerrainHit = RayCastFromCell(cell, 1 << LayerMask.NameToLayer("Terrain"));
-            ApplyCellDataFromTerrainTag(cell, TerrainHit, InnerGrids);
-            RaycastHit PropsHit = BoxCastFromCell(cell, 1 << LayerMask.NameToLayer("Props"));
-            ApplyCellDataFromPropsTag(cell, PropsHit, InnerGrids);
+            RaycastHit TerrainHit = RayCastFromCell(cell, 1 << LayerMask.NameToLayer("Terrain"), Datas.TopLeftOffset);
+            ApplyCellDataFromTerrainTag(cell, TerrainHit, Datas.InnerGrids);
+            RaycastHit PropsHit = BoxCastFromCell(cell, 1 << LayerMask.NameToLayer("Props"), Datas.TopLeftOffset);
+            ApplyCellDataFromPropsTag(cell, PropsHit, Datas.InnerGrids);
         }
     }
 
-    private RaycastHit RayCastFromCell(CellData Cell, LayerMask layer)
+    private RaycastHit RayCastFromCell(CellData Cell, LayerMask layer, Vector3 offset)
     {
-        Vector3 position = transform.position + new Vector3(Cell.widthPos * CellsSize + CellsSize/2, RayStartHeight, -Cell.heightPos-1 * CellsSize + CellsSize / 2);
+        Vector3 position = (transform.position + offset) + new Vector3(Cell.widthPos * CellsSize + CellsSize/2, RayStartHeight, -Cell.heightPos-1 * CellsSize + CellsSize / 2);
         Vector3 Direction = Vector3.up * RayDistance;
         Physics.Raycast(position, Direction, out RaycastHit hit, RayDistance, layer);
         return hit;
     }
-    private RaycastHit BoxCastFromCell(CellData Cell, LayerMask layer)
+    private RaycastHit BoxCastFromCell(CellData Cell, LayerMask layer, Vector3 offset)
     {
-        Vector3 position = transform.position + new Vector3(Cell.widthPos * CellsSize + CellsSize / 2, BoxCastStartHeight, -Cell.heightPos - 1 * CellsSize + CellsSize / 2);
+        Vector3 position = (transform.position + offset) + new Vector3(Cell.widthPos * CellsSize + CellsSize / 2, BoxCastStartHeight, -Cell.heightPos - 1 * CellsSize + CellsSize / 2);
         Vector3 Direction = Vector3.up * (BoxCastDistance);
         this.DrawBox(position, Quaternion.identity, new Vector3(CellsSize, BoxCastDistance,CellsSize), Color.blue);
         Physics.BoxCast(position, new Vector3(CellsSize, CellsSize, CellsSize), Direction, out RaycastHit hit, new Quaternion(), BoxCastDistance, layer);

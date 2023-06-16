@@ -1,5 +1,6 @@
 using DownBelow.GameData;
 using DownBelow.Mechanics;
+using EasyTransition;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,6 +17,9 @@ namespace DownBelow.Managers
         public CombatPreset CombatPreset;
         public GameUIPreset GameUIPreset;
         public SoundPreset SoundPreset;
+        public ResourcesPreset ResourcesPreset;
+
+        public TransitionSettings BaseTransitionSettings;
 
         public Deck PlayerDeck;
         public EClass PlayerClass;
@@ -30,6 +34,10 @@ namespace DownBelow.Managers
         public Dictionary<Guid, ToolItem> ToolPresets;
 
         public List<ScriptableCard> OwnedCards;
+
+
+        public List<AbyssPreset> AbyssesPresets;
+        public List<CraftPreset> CraftRepices;
 
         public void Init()
         {

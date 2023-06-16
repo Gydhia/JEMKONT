@@ -7,20 +7,20 @@
 					<RTPCValueList ShowAll="true">
 						<RTPCValue>
 							<GameParameterRef Name="RTPC_Volume_Music" ID="{C82E00F3-58B5-4305-B9EF-21C5B4C54E14}"/>
-							<Value>0</Value>
+							<Value>1</Value>
 						</RTPCValue>
 						<RTPCValue>
 							<GameParameterRef Name="RTPC_Volume_SFX" ID="{05B8C602-F27C-4C84-911A-433F6ED11594}"/>
-							<Value>0</Value>
+							<Value>1.25240714532917E-311</Value>
 						</RTPCValue>
 						<RTPCValue>
 							<GameParameterRef Name="RTPC_Volume_Master" ID="{A00989C5-EDB5-4DA1-BF0C-B18D520CB7D3}"/>
-							<Value>0</Value>
+							<Value>1.25239736268709E-311</Value>
 						</RTPCValue>
 					</RTPCValueList>
 					<CurrentStateList ShowAll="true">
-						<CurrentStateRef Name="Combat" ID="{9094E21E-84D6-4C7F-8238-B2C8E9813C5A}"/>
-						<CurrentStateRef Name="Layers0" ID="{E9622987-65EA-4CB8-96CA-E8C70608AF3B}"/>
+						<CurrentStateRef Name="None" ID="{D643308B-1DE3-4315-9B57-C2A34992DA21}"/>
+						<CurrentStateRef Name="None" ID="{61FFC9D6-2F88-4B5E-B7B5-EEABABD4C73B}"/>
 					</CurrentStateList>
 					<CurrentSwitchList ShowAll="true">
 						<CurrentSwitchRef Name="Grass" ID="{B9AA152C-9DCA-45D1-BCB9-B3A75EB6874C}"/>

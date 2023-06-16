@@ -167,9 +167,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44d26ebafca7f944f8be0cb5daa95a73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MainGrid: 
   CellPrefab: {fileID: 0}
   CombatGridPrefab: {fileID: 0}
-  _objectsHandler: {fileID: 0}
+  WorldGridPrefab: {fileID: 0}
+  _gridsHandler: {fileID: 0}
   _gridsDataHandler: {fileID: 0}
   InCombat: 0
   MainWorldGrid: {fileID: 0}

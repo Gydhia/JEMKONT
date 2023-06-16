@@ -25,6 +25,15 @@ namespace AK
         static const AkUniqueID PLAY_SSFX__MYTURNEND = 529950874U;
         static const AkUniqueID PLAY_SSFX__MYTURNSTART = 3168485769U;
         static const AkUniqueID PLAY_SSFX__WALK = 71458555U;
+        static const AkUniqueID SET_GRASS = 4038830388U;
+        static const AkUniqueID SET_LAYER_0 = 217388420U;
+        static const AkUniqueID SET_LAYER_1 = 217388421U;
+        static const AkUniqueID SET_LAYER_2 = 217388422U;
+        static const AkUniqueID SET_LAYER_3 = 217388423U;
+        static const AkUniqueID SET_SAND = 4022000560U;
+        static const AkUniqueID SETCOMBAT = 1592321915U;
+        static const AkUniqueID SETEXPLORE = 2316203732U;
+        static const AkUniqueID SETMAINMENU = 3628674037U;
         static const AkUniqueID STARTMUSIC = 3827058668U;
         static const AkUniqueID STOPMUSIC = 1917263390U;
     } // namespace EVENTS

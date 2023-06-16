@@ -89,7 +89,14 @@ namespace DownBelow.GridSystem
         {
             ItemContained = new();
             ItemContained.Init(item.ItemPreset, item.Slot, item.Quantity);
-            ItemContainedObject = Instantiate(ItemContained.ItemPreset.DroppedItemPrefab, this.transform.position, quaternion.identity);
+            ItemContainedObject = Instantiate(ItemContained.ItemPreset.DroppedItemPrefab, this.transform.position, ItemContained.ItemPreset.DroppedItemPrefab.transform.rotation);
+
+            if (ItemContained.ItemPreset.Type == ItemTypes.EQUIPEMENT)
+            {
+                ItemContainedObject.gameObject.GetComponent<ToolOnGround>().Init(true);
+            }
+            
+            
             //Mettre un animator sur le prefab pour le faire tourner ou jsp
 //#if UNITY_EDITOR
 //            EditorGUIUtility.PingObject(this);
@@ -116,7 +123,8 @@ namespace DownBelow.GridSystem
                 {
                     qtyRemainingInItem -= player.PlayerSpecialSlots.TryAddItem(ItemContained.ItemPreset, ItemContained.Quantity);
                     player.SetActiveTool(toolItem);
-                } else
+                } 
+                else
                 {
                     qtyRemainingInItem -= player.PlayerInventory.TryAddItem(ItemContained.ItemPreset, ItemContained.Quantity);
                 }
@@ -125,6 +133,8 @@ namespace DownBelow.GridSystem
                 {
                     Destroy(ItemContainedObject);
                     ItemContained = null; ItemContainedObject = null;
+
+                    this.Datas.state = CellState.Walkable;
                 }
 #if UNITY_EDITOR
                 /*/ Debug.Log($"Actual Quantity : {ItemContained.Quantity}, Quantity returned: {qtyRemainingInItem}");
