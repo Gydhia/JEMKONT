@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
+using static EODE.Wonderland.AnimatorRuntimeInfos;
 
 namespace DownBelow.Spells
 {
@@ -22,26 +23,28 @@ namespace DownBelow.Spells
             var targets = GetTargets(TargetCell);
             if (targets == null || targets.Count > 2)
             {
-                
+
                 return;
             }
             List<Cell> EntityCells = new List<Cell>() {
                 targets[0].EntityCell,
                 targets[1].EntityCell
             };
+            //ArgumentNullException: Value cannot be null.
+            //Parameter name: first
             var path = GridManager.Instance.FindPath(targets[0], targets[1].EntityCell.PositionInGrid, true).Except(EntityCells);
             foreach (var cell in path)
             {
                 if (cell.EntityIn != null)
                 {
-                   cell.EntityIn.ApplyStat(LocalData.Statistic,LocalData.IsNegativeEffect? -LocalData.StatAmount:LocalData.StatAmount);
+                    cell.EntityIn.ApplyStat(LocalData.Statistic, LocalData.IsNegativeEffect ? -LocalData.StatAmount : LocalData.StatAmount);
                 }
-                if(cell.AttachedNCE != null && LocalData.Statistic == EntityStatistics.Health)
+                if (cell.AttachedNCE != null && LocalData.Statistic == EntityStatistics.Health)
                 {
                     cell.AttachedNCE.Hit();
                 }
             }
-            
+
         }
     }
 }

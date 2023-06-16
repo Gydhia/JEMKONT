@@ -15,7 +15,9 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: 8b7fb7d4f0926b84d856c384de333869, type: 2}
+    - {fileID: 11400000, guid: b025b03493713bc4e9a9f32834240c64, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -370,6 +372,9 @@ MonoBehaviour:
     - Name: Caster
       Entry: 6
       Data: 
+    - Name: SetUp
+      Entry: 5
+      Data: false
     - Name: DamagesDealt
       Entry: 7
       Data: 12|System.Collections.Generic.Dictionary`2[[DownBelow.Entity.CharacterEntity,
@@ -471,6 +476,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: Teleported
+      Entry: 5
+      Data: false
     - Name: TeleportedTo
       Entry: 7
       Data: 19|System.Collections.Generic.List`1[[DownBelow.Entity.CharacterEntity,
@@ -488,6 +496,9 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: ConditionData
+      Entry: 6
+      Data: 
+    - Name: TargettingCondition
       Entry: 6
       Data: 
     - Name: 
@@ -803,8 +814,8 @@ MonoBehaviour:
       Entry: 6
       Data: 
     - Name: CellSFX
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 0
     - Name: IsNegativeEffect
       Entry: 5
       Data: false
@@ -886,6 +897,9 @@ MonoBehaviour:
     - Name: Caster
       Entry: 6
       Data: 
+    - Name: SetUp
+      Entry: 5
+      Data: false
     - Name: DamagesDealt
       Entry: 7
       Data: 29|System.Collections.Generic.Dictionary`2[[DownBelow.Entity.CharacterEntity,
@@ -985,6 +999,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: Teleported
+      Entry: 5
+      Data: false
     - Name: TeleportedTo
       Entry: 7
       Data: 34|System.Collections.Generic.List`1[[DownBelow.Entity.CharacterEntity,
@@ -1002,6 +1019,9 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: ConditionData
+      Entry: 6
+      Data: 
+    - Name: TargettingCondition
       Entry: 6
       Data: 
     - Name: 
@@ -1299,11 +1319,11 @@ MonoBehaviour:
       Entry: 3
       Data: 256
     - Name: ProjectileSFX
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 1
     - Name: CellSFX
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 0
     - Name: IsNegativeEffect
       Entry: 5
       Data: false
@@ -1349,6 +1369,9 @@ MonoBehaviour:
     - Name: Caster
       Entry: 6
       Data: 
+    - Name: SetUp
+      Entry: 5
+      Data: false
     - Name: DamagesDealt
       Entry: 7
       Data: 40|System.Collections.Generic.Dictionary`2[[DownBelow.Entity.CharacterEntity,
@@ -1436,6 +1459,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: Teleported
+      Entry: 5
+      Data: false
     - Name: TeleportedTo
       Entry: 7
       Data: 45|System.Collections.Generic.List`1[[DownBelow.Entity.CharacterEntity,
@@ -1453,6 +1479,9 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: ConditionData
+      Entry: 6
+      Data: 
+    - Name: TargettingCondition
       Entry: 6
       Data: 
     - Name: 

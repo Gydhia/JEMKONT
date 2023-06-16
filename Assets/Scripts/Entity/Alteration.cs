@@ -45,11 +45,11 @@ namespace DownBelow.Spells.Alterations
         /// Called when an alteration is put on the entity passed.
         /// </summary>
         /// <param name="entity">The affected entity.</param>
-        public virtual void Setup(CharacterEntity entity)
+        public virtual async void Setup(CharacterEntity entity)
         {
             Target = entity;
             //SetupFx?
-            SFXManager.Instance.RefreshAlterationSFX(entity);
+            await SFXManager.Instance.RefreshAlterationSFX(entity);
             entity.OnDeath += Unsubbing;
         }
 

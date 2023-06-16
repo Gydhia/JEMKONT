@@ -15,7 +15,8 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: a79d868eabbf8844fb033d8bf1547208, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -37,6 +38,9 @@ MonoBehaviour:
       Entry: 2
       Data: 00000000000000000000000000000000
     - Name: RefBuffer
+      Entry: 6
+      Data: 
+    - Name: RefGrid
       Entry: 6
       Data: 
     - Name: RefEntity
@@ -289,8 +293,8 @@ MonoBehaviour:
       Entry: 6
       Data: 
     - Name: CellSFX
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 0
     - Name: IsNegativeEffect
       Entry: 5
       Data: true
@@ -302,7 +306,7 @@ MonoBehaviour:
       Data: 0
     - Name: GivesAlteration
       Entry: 5
-      Data: true
+      Data: false
     - Name: duration
       Entry: 3
       Data: -1
@@ -314,7 +318,7 @@ MonoBehaviour:
       Data: 1
     - Name: ConvertsIntoAlteration
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 8
       Data: 
@@ -337,6 +341,9 @@ MonoBehaviour:
       Entry: 6
       Data: 
     - Name: ConditionData
+      Entry: 6
+      Data: 
+    - Name: TargettingCondition
       Entry: 6
       Data: 
     - Name: 

@@ -54,6 +54,7 @@ namespace DownBelow.Spells
                             min = newMin;
                         }
                         TargetEntities.Clear();
+                        TargetedCells.Clear();
                         TargetEntities.Add(minEntity);
                         TargetedCells.AddRange(TargetEntities.Select(x => x.EntityCell));
                         break;
