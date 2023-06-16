@@ -66,7 +66,8 @@ namespace DownBelow.UI
                 for (int i = 0; i < this.InItem.TotalQuantity / 3; i++)
                 {
                     NetworkManager.Instance.GiftOrRemoveStorageItem(this.CurrentWorkshop, this.CurrentWorkshop.OutputItem, 1, this.OutItem.Slot);
-                    this.InItem.SelfItem.RemoveQuantity(3);
+                    NetworkManager.Instance.GiftOrRemoveStorageItem(this.CurrentWorkshop, this.InItem.SelfItem.ItemPreset, -3, this.InItem.Slot);
+                    NetworkManager.Instance.GiftOrRemoveStorageItem(this.CurrentWorkshop, this.FuelItem.SelfItem.ItemPreset, -1, this.FuelItem.Slot);
                 }
             }
 
