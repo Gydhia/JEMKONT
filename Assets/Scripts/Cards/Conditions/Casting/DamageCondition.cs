@@ -1,22 +1,18 @@
-using DownBelow.GridSystem;
 using DownBelow.Spells;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public enum EConditionComparator { MoreThan, LessThan, Equal }
-[CreateAssetMenu(menuName = "TargetConditions/DamageCondition")]
-public class DamageCondition : ConditionBase
+[CreateAssetMenu(menuName = "CastingConditions/DamageCondition")]
+public class DamageCondition : CastingCondition
 {
-    
     [InfoBox("@ToString()")]
-    [Tooltip("If Ticked, will check if you have done this")]
+    [Tooltip("If Ticked, will check if you have done this damage on a unique target instead of in total.")]
     public bool UniqueTarget;
     public EConditionComparator Compared;
     public int Value;
 
-    public override bool Validated(SpellResult Result, Cell cell)
+    public override bool Validated(SpellResult Result)
     {
         int sum = 0;
         foreach (var item in Result.DamagesDealt)
@@ -27,12 +23,13 @@ public class DamageCondition : ConditionBase
                 {
                     return true;
                 }
-            } else
+            }
+            else
             {
                 sum += item.Value;
                 if (Compared.Compare(sum, Value))
                 {
-                    return true; 
+                    return true;
                 }
             }
         }
@@ -48,5 +45,4 @@ public class DamageCondition : ConditionBase
         }
         return res;
     }
-
 }

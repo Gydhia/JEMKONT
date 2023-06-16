@@ -20,6 +20,7 @@ public class KoiPond : TempObject
     void CheckIfOnCell(CellEventData data)
     {
         CharacterEntity target = data.Cell.EntityIn;
+        if(target == null) { return; }
         if (this.AttachedCell == target.EntityCell)
         {
             //We are on cell

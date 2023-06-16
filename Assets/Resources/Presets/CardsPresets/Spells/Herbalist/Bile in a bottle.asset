@@ -121,7 +121,7 @@ MonoBehaviour:
       Data: false
     - Name: 
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 5
       Data: false
@@ -337,7 +337,7 @@ MonoBehaviour:
       Data: 
     - Name: CasterID
       Entry: 1
-      Data: 134d75ff-fa54-4f82-a3d3-f1fc935d9c17Herbalist
+      Data: 3ba27d21-b8c7-4119-9f90-04f447ec9f90Herbalist
     - Name: 
       Entry: 8
       Data: 
@@ -395,6 +395,9 @@ MonoBehaviour:
     - Name: Caster
       Entry: 6
       Data: 
+    - Name: SetUp
+      Entry: 5
+      Data: true
     - Name: DamagesDealt
       Entry: 7
       Data: 12|System.Collections.Generic.Dictionary`2[[DownBelow.Entity.CharacterEntity,

@@ -15,7 +15,8 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: 991858a65f321284386f3f537cd9b7ce, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -345,7 +346,7 @@ MonoBehaviour:
       Data: 
     - Name: CasterID
       Entry: 1
-      Data: 3ef11951-cc1f-4dba-a23b-1a0dd9099430Miner
+      Data: 3ba27d21-b8c7-4119-9f90-04f447ec9f90Miner
     - Name: 
       Entry: 8
       Data: 
@@ -1325,8 +1326,8 @@ MonoBehaviour:
       Entry: 6
       Data: 
     - Name: CellSFX
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 0
     - Name: IsNegativeEffect
       Entry: 5
       Data: true
@@ -1438,7 +1439,7 @@ MonoBehaviour:
       Data: 
     - Name: SelfHealingReceived
       Entry: 3
-      Data: -12
+      Data: 0
     - Name: StatModified
       Entry: 7
       Data: 45|System.Collections.Generic.Dictionary`2[[DownBelow.Entity.CharacterEntity,

@@ -1,15 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+public enum EConditionComparator { MoreThan, LessThan, Equal }
 
 public static class EnumHelper
 {
-    /// <summary>
-    /// Désolé kiki j'ai eu la flemme de créer une classe juste pour ça....................
-    /// En échange je t'ai fait une méthode qui return un random d'un tableau 2D..........
-    /// </summary>
-    /// <param name="entityStat"></param>
-    /// <returns>The minimum value of the statistic.</returns>
+    
     public static int MinValue(this EntityStatistics entityStat) => entityStat switch
     {
         EntityStatistics.None => 0,
@@ -22,6 +18,8 @@ public static class EnumHelper
         EntityStatistics.Range => 0,
         _ => 0,
     };
+
+
     /// <summary>
     /// Does the shit.
     /// </summary>

@@ -1,21 +1,18 @@
-using DownBelow.GridSystem;
-using DownBelow.Spells;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "TargetConditions/ORCondition")]
-public class ORCondition : ConditionBase
+public abstract class OrConditionBase<T> : ConditionBase<T>
 {
     [InfoBox("@ToString()")]
-    public ConditionBase[] conditions;
+    public ConditionBase<T>[] conditions;
 
-    public override bool Validated(SpellResult Result, Cell cell)
+    public override bool Validated(T obj)
     {
         foreach (var item in conditions)
         {
-            if (item.Validated(Result, cell))
+            if (item.Validated(obj))
             {
                 return true;
             }
@@ -30,9 +27,9 @@ public class ORCondition : ConditionBase
         if (conditions != null && conditions.Length != 0)
         {
             res = "either :";
-            for (int i = 0;i < conditions.Length;i++)
+            for (int i = 0; i < conditions.Length; i++)
             {
-                ConditionBase cond = conditions[i];
+                ConditionBase<T> cond = conditions[i];
                 res += "\n\t- ";
                 res += cond.SimpleToString();
                 if (i != conditions.Length - 1)

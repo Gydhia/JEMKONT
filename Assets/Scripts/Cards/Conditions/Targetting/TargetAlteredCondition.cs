@@ -8,12 +8,12 @@ using System.Linq;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "TargetConditions/TargetAlteredCondition")]
-public class TargetAlteredCondition : ConditionBase
+public class TargetAlteredCondition : TargettingCondition
 {
     [InfoBox("@ToString()")]
     public Alteration Alteration;
 
-    public override bool Validated(SpellResult Result, Cell cell)
+    public override bool Validated(Cell cell)
     {
         if (cell != null && cell.EntityIn != null)
         {
