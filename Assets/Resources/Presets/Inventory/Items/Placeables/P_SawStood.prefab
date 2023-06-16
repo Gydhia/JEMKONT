@@ -50,6 +50,13 @@ MonoBehaviour:
   RefCell: {fileID: 0}
   Mesh: {fileID: 8896680541936964082}
   Outline: {fileID: 6019212616772107606}
+  Storage:
+    RefCell: {fileID: 0}
+    StorageItems: []
+    MaxSlots: 0
+  FuelItem: {fileID: 11400000, guid: db90c336454dd6d44be1bfcde89c090b, type: 2}
+  InputItem: {fileID: 11400000, guid: 1e5a5998004f5224ea7527f9e1fcd1c6, type: 2}
+  OutputItem: {fileID: 11400000, guid: c42a748c3c03ce14ba6aa5fb7e65e8ea, type: 2}
 --- !u!65 &3257815682923747617
 BoxCollider:
   m_ObjectHideFlags: 0

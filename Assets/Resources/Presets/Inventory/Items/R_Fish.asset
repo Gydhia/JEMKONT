@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 98b46f0a73178aa44bac469f936f261a, type: 3}
-  m_Name: R_Wood
+  m_Name: R_Fish
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -23,9 +23,9 @@ MonoBehaviour:
     SerializationNodes:
     - Name: UID
       Entry: 2
-      Data: ced74d6ea34ed4c1a90edb289e22da98
+      Data: fa421607ba720e78e90ed36350d82745
   Type: 2
-  ItemName: Wood
-  InventoryIcon: {fileID: 21300000, guid: 0a4bb0e4f4086e840a8d3d22b43bd688, type: 3}
+  ItemName: Fish
+  InventoryIcon: {fileID: 21300000, guid: 47aeed07cbb593048a4c164a30530627, type: 3}
   MaxStack: 32
   DroppedItemPrefab: {fileID: 0}

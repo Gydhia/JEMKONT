@@ -2,6 +2,7 @@ using DownBelow.Entity;
 using DownBelow.Events;
 using DownBelow.Inventory;
 using DownBelow.Managers;
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -15,6 +16,12 @@ namespace DownBelow.UI.Inventory
     public class UIInventoryItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
     {
         public static UIInventoryItem LastHoveredItem;
+
+        [FoldoutGroup("Facultative parameters")]
+        public ItemPreset OnlyAcceptedItem = null;
+        [FoldoutGroup("Facultative parameters")]
+        public bool CanOnlyTake = false;
+
 
         [SerializeField] private Image icon;
         [SerializeField] private TextMeshProUGUI quantity;

@@ -1,6 +1,7 @@
 using DownBelow.GridSystem;
 using DownBelow.Inventory;
 using DownBelow.Managers;
+using DownBelow.UI.Inventory;
 using System;
 using System.Linq;
 using UnityEditor;

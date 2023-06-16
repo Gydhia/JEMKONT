@@ -11,13 +11,8 @@ namespace DownBelow.GridSystem
 
         public ItemPreset ResourceItem;
 
-        public GameObject DroppedObject;
-        public MeshRenderer OnceGatheredObject;
-
         public int MinGathering = 1;
         public int MaxGathering = 4;
-
-        public float TimeToGather = 3.2f;
 
         public override void Init(Cell attachedCell)
         {

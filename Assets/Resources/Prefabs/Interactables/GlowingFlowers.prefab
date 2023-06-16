@@ -4915,7 +4915,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 680554298722955038}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.236, z: 0}
+  m_LocalPosition: {x: -0.003, y: 0.805, z: 0.11}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -14779,8 +14779,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2653984935330003131}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.694, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: -0.59, z: 0}
+  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7697699267740705912}
@@ -14881,7 +14881,7 @@ Transform:
   m_GameObject: {fileID: 7697699267741202520}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 682958661405631884}
@@ -14904,9 +14904,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InteractablePreset: {fileID: 0}
   RefCell: {fileID: 0}
-  Mesh: {fileID: 7831279376810486909}
+  Mesh: {fileID: 2653984935330003131}
   Outline: {fileID: 5714311039448903134}
-  GatheredMesh: {fileID: 7274036820840814908}
+  GatheredMesh: {fileID: 8569463497674763749}
   isMature: 1
   TimeToGrowUp: 80
 --- !u!65 &717044911678835273

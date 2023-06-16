@@ -1,5 +1,6 @@
 using DownBelow.Events;
 using DownBelow.GridSystem;
+using DownBelow.Managers;
 using DownBelow.UI.Inventory;
 using System;
 using System.Collections;
@@ -13,7 +14,7 @@ namespace DownBelow.UI
     public class UIWorkshopSection : MonoBehaviour
     {
         public UIStorage UIStorage;
-        public BaseStorage SelfStorage;
+        public InteractableWorkshop CurrentWorkshop;
 
         public TextMeshProUGUI WorkshopName;
 
@@ -28,13 +29,17 @@ namespace DownBelow.UI
 
         public void Init()
         {
-            this.SelfStorage = new BaseStorage();
-            this.SelfStorage.Init(3);
-            this.UIStorage.SetStorageAndShow(this.SelfStorage, false);
-
             this.gameObject.SetActive(false);
+        }
 
-            this.SelfStorage.OnStorageItemChanged += _refreshWorkshop;
+        public void ShowWorkshop(InteractableWorkshop workshop, bool isRealPlayer)
+        {
+            workshop.Storage.OnStorageItemChanged -= _refreshWorkshop;
+
+            this.CurrentWorkshop = workshop;
+
+            this.WorkshopName.text = workshop.WorkshopName();
+            this.UIStorage.SetStorageAndShow(workshop.Storage, isRealPlayer);
         }
 
         private void _refreshWorkshop(ItemEventData Data)
@@ -54,7 +59,15 @@ namespace DownBelow.UI
 
         public void ClosePanel()
         {
+            if(this.CurrentWorkshop != null)
+            {
+                this.CurrentWorkshop.Storage.OnStorageItemChanged -= _refreshWorkshop;
+                this.CurrentWorkshop = null;
+            }
+
             this.gameObject.SetActive(false);
+
+
         }
     }
 }

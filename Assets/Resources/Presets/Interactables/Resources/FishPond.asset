@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 81753c3e1e672524bbd137688005d727, type: 3}
-  m_Name: WheatEar
+  m_Name: FishPond
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -23,16 +23,13 @@ MonoBehaviour:
     SerializationNodes:
     - Name: UID
       Entry: 2
-      Data: bb3baaaa65c11a72292e412279d29210
-  UName: Wheat ear
+      Data: 29ac0571f32d4b9174d73eb3dad58a21
+  UName: FishPond
   AffectingState: 8
-  ObjectPrefab: {fileID: 8025783147948518094, guid: 40674c61b805e4b4098a9473a23e5954, type: 3}
+  ObjectPrefab: {fileID: 8025783147948518094, guid: e76b887acf0102c49bb1607a62c036d9, type: 3}
   OutlineColor: {r: 0.21725611, g: 0.5471698, b: 0.1264685, a: 1}
   InteractAnimation: {fileID: 0}
-  GatherableBy: 2
+  GatherableBy: 3
   ResourceItem: {fileID: 11400000, guid: db90c336454dd6d44be1bfcde89c090b, type: 2}
-  DroppedObject: {fileID: 0}
-  OnceGatheredObject: {fileID: 2664790825941896147, guid: 58338db5afb0ea146a18b2585cddd0bd, type: 3}
   MinGathering: 1
   MaxGathering: 4
-  TimeToGather: 3.2

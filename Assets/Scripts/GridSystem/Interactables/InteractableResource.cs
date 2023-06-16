@@ -9,7 +9,7 @@ namespace DownBelow.GridSystem
 {
     public class InteractableResource : Interactable<ResourcePreset>
     {
-        public MeshRenderer GatheredMesh;
+        public GameObject GatheredMesh;
         [ReadOnly] public bool isMature = true;
         [Tooltip("In Seconds.")] public int TimeToGrowUp = 80;
 
