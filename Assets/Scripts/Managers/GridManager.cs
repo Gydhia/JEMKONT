@@ -186,9 +186,9 @@ namespace DownBelow.Managers
             {
                 Cell closestCell = this.LastHoveredCell;
 
-                UIManager.Instance.HideStorage();
+                UIManager.Instance.HideInteractables();
 
-                if (InputManager.Instance.LastInteractable != null)
+                if (InputManager.Instance.LastInteractable != null && InputManager.Instance.LastInteractable.RefCell != null)
                 {
                     Cell cell = InputManager.Instance.LastInteractable.RefCell;
 
@@ -209,7 +209,10 @@ namespace DownBelow.Managers
                         {
                             if (selfPlayer.CanGatherThisResource(iResource.LocalPreset.GatherableBy))
                             {
-                                actions[1] = new GatheringAction(selfPlayer, cell);
+                                var gatherAction = new GatheringAction(selfPlayer, cell);
+                                gatherAction.Init(3);
+
+                                actions[1] = gatherAction;
                             }
                             else
                             {
@@ -306,7 +309,7 @@ namespace DownBelow.Managers
             if (this.LastHoveredCell == null)
                 return;
 
-            PlayerBehavior selfPlayer = GameManager.SelfPlayer;
+            PlayerBehavior selfPlayer = GameManager.RealSelfPlayer;
 
             if (selfPlayer.CurrentGrid.IsCombatGrid)
                 this.ProcessCellClickDown_Combat(selfPlayer);

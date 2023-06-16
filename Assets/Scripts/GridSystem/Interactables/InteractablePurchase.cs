@@ -44,7 +44,7 @@ namespace DownBelow.GridSystem
         }
 
         protected abstract void TryBuy(PlayerBehavior player);
-        protected abstract void RefreshPurchase();
+        public abstract void RefreshPurchase();
 
         public abstract void GiveItemToPlayer(T Item);
         public abstract List<T> GetItemsPool();

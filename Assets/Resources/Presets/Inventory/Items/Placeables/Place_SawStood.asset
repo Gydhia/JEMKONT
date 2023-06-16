@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa2dfc0d5045bba4786dbbe42fef742e, type: 3}
+  m_Name: Place_SawStood
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: UID
+      Entry: 2
+      Data: ef8a69e359048d31225225d5ef111f5d
+  Type: 0
+  ItemName: PlaceSawStood
+  InventoryIcon: {fileID: 21300000, guid: 6a048d84ca37858468c603c89915a8e5, type: 3}
+  MaxStack: 1
+  DroppedItemPrefab: {fileID: 2769568623919297241, guid: 949e1f70895f81b42a3b9a45158cc06c, type: 3}
+  PrevisualizationInstance: {fileID: 0}
+  Interactable: {fileID: 11400000, guid: 2eefdfce21d76a94aaacf18e28e53fc0, type: 2}

@@ -6,11 +6,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Interactable", menuName = "DownBelow/Interactables/Portal Preset", order = 2)]
 public class PortalInteractablePreset : InteractablePreset
 {
-    [ValueDropdown("GetSavedGrids")]
-    public string TargetGrid;
-    private IEnumerable<string> GetSavedGrids()
-    {
-        GridManager.Instance.LoadGridsFromJSON();
-        return GridManager.Instance.SavedGrids.Keys;
-    }
+    [Tooltip("If true, will open panel to chose an abyss. If false, returns to farm land")]
+    public bool ToCombat;
 }

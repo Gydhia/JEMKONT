@@ -19,6 +19,7 @@ namespace DownBelow.UI.Menu
         public Transform PlayersHolder;
 
         public TextMeshProUGUI LobbyName;
+        public TextMeshProUGUI PlayerCount;
 
         private List<UIPlayerItem> _playerList = new List<UIPlayerItem>();
         public Action OnRoomJoined;
@@ -32,7 +33,9 @@ namespace DownBelow.UI.Menu
         {
             if(GameData.Game.RefGameDataContainer != null && PhotonNetwork.CurrentRoom == null)
             {
-                NetworkManager.Instance.CreateRoom(GameData.Game.RefGameDataContainer.SaveName);
+                string roomName = PhotonNetwork.LocalPlayer.NickName + " - " + GameData.Game.RefGameDataContainer.SaveName;
+                this.LobbyName.text = roomName;
+                NetworkManager.Instance.CreateRoom(roomName);
                 this.UpdatePlayersState();
             }
         }
@@ -43,7 +46,8 @@ namespace DownBelow.UI.Menu
 
             NetworkManager.Instance.ClickOnLeave();
         }
-
+        
+        
         public void OnPlayerLeftRoom()
         {
             this.UpdatePlayersList();
@@ -70,26 +74,33 @@ namespace DownBelow.UI.Menu
 
                 count++;
             }
+            
+            
         }
 
         public void UpdatePlayersState()
         {
             bool allReady = true;
+            int readyPlayers = 0;
             for (int i = 0; i < _playerList.Count; i++)
+            {
                 if (!this._playerList[i].IsReady)
                     allReady = false;
+                else
+                    readyPlayers++;
 
+            }
+            
+            PlayerCount.text = "Ready Players : " + readyPlayers.ToString() +"/" + this._playerList.Count.ToString();
             this.StartBtn.interactable = (PhotonNetwork.IsMasterClient && allReady);
         }
 
         public void OnJoinedRoom()
         {
             this.UpdatePlayersList();
-            this.UpdatePlayersState();
-
             this.LeaveRoomBtn.interactable = true;
             this.LobbyName.text = PhotonNetwork.CurrentRoom.Name;
-
+            this.UpdatePlayersState();
             this.StartBtn.interactable = false;
 
             OnRoomJoined?.Invoke();
@@ -121,5 +132,6 @@ namespace DownBelow.UI.Menu
 
             this.UpdatePlayersState();
         }
+        
     }
 }

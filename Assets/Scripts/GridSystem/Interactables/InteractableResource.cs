@@ -26,11 +26,7 @@ namespace DownBelow.GridSystem
         {
             this.Mesh.gameObject.SetActive(false);
             this.GatheredMesh.gameObject.SetActive(true);
-            ResourcePreset rPreset = this.InteractablePreset as ResourcePreset;
-
-            int gathered = UnityEngine.Random.Range(rPreset.MinGathering, rPreset.MaxGathering);
-            Debug.Log("Gathered " + gathered + " of " + rPreset.UName);
-            NetworkManager.Instance.GiftOrRemovePlayerItem(player.UID, rPreset.ResourceItem, gathered);
+            
             StartCoroutine(GrowingRoutine());
         }
         IEnumerator GrowingRoutine()

@@ -93,6 +93,14 @@ public abstract class PlaceableItem : ItemPreset
         }
     }
 
+    public void StopPrevisualize()
+    {
+        if(PrevisualizationInstance != null)
+        {
+            Destroy(PrevisualizationInstance);
+        }
+    }
+
     public static bool Placeable(Cell cell)
     {
         return cell.Datas.state == CellState.Walkable;

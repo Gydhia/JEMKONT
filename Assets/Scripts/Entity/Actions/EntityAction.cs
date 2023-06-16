@@ -84,6 +84,15 @@ namespace DownBelow.Entity
             }
         }
 
+        public virtual void CancelAction()
+        {
+            if(this.EndCallbacks != null)
+            {
+                this.EndCallbacks.Clear();
+            }
+            this.EndAction();
+        }
+
         public abstract object[] GetDatas();
         public abstract void SetDatas(object[] Datas);
 

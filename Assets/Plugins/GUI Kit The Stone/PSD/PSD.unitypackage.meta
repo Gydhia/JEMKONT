@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Plugins/GUI Kit The Stone/PSD/PSD.unitypackage.meta
 guid: acd6d43282680994b85cffef11d31955
+========
+guid: 2e5d7f68a31c2394781c2f31dc484dae
+>>>>>>>> main:Assets/Plugins/GUI Kit The Stone/ResourceData/Sprites/Component/Icon_PictoIcons_(x2)/PictoIcon_512/PictoIcon_512.unitypackage.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

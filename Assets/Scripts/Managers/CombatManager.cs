@@ -43,6 +43,7 @@ namespace DownBelow.Managers
 
         public void FireCombatEnded(WorldGrid Grid, bool AllyVictory)
         {
+            BattleGoing = false;
             CurrentPlayingGrid.HasStarted = false;
 
             PlayerInputs.player_select_1.canceled -= this._switchToFirstPlayer;
@@ -50,12 +51,17 @@ namespace DownBelow.Managers
             PlayerInputs.player_select_3.canceled -= this._switchToThirdPlayer;
             PlayerInputs.player_select_4.canceled -= this._switchToFourthPlayer;
             PlayerInputs.player_reselect.canceled -= this._switchToSelfPlayer;
-            
-            
-            GameManager.Instance.FireSelfPlayerSwitched(null, this._playerIndex, 0);
+
+            foreach (var fake in this.FakePlayers)
+            {
+                Destroy(fake.gameObject);
+            }
+            this.FakePlayers.Clear();
+
+            GameManager.SelfPlayer = GameManager.RealSelfPlayer;
 
             this.OnCombatEnded?.Invoke(new GridEventData(Grid, AllyVictory));
-        }
+        }   
 
         public void FireCardBeginUse(
             ScriptableCard Card,
@@ -304,6 +310,11 @@ namespace DownBelow.Managers
 
         public void ProcessStartTurn()
         {
+            if (!BattleGoing)
+            {
+                return;
+            }
+
             this.TurnNumber++;
             CurrentPlayingEntity = this.PlayingEntities[
                 this.TurnNumber % this.PlayingEntities.Count

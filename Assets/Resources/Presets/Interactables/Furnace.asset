@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebfd46f83b4aa044a8d3b542efad383b, type: 3}
-  m_Name: Portal_Abyss01
+  m_Script: {fileID: 11500000, guid: d635c5c15d1099d47909698e1ce4952a, type: 3}
+  m_Name: Furnace
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -23,10 +23,9 @@ MonoBehaviour:
     SerializationNodes:
     - Name: UID
       Entry: 2
-      Data: 41ba0b9d6bd67bb25a75ba25eda10ff5
-  UName: PortalAbyss01
+      Data: 8f8e8bf4a73267c2af976d0befd73c43
+  UName: FurnacePreset
   AffectingState: 8
-  ObjectPrefab: {fileID: 2023544193209507618, guid: ad46d9d023c0ef64c9789561ce2ac1ef, type: 3}
-  OutlineColor: {r: 0.62352943, g: 0.28385296, b: 0.23137252, a: 0.6}
+  ObjectPrefab: {fileID: 322490926610022776, guid: 5c69f16680356534fa1fa6966bfd70ed, type: 3}
+  OutlineColor: {r: 0.85882354, g: 0.5647059, b: 0.26666668, a: 1}
   InteractAnimation: {fileID: 0}
-  TargetGrid: Abyss_01

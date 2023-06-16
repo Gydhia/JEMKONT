@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/GameAnalytics/Plugins/Playmaker/Examples/GameAnalyticsPlayMakerDemo.unitypackage.meta
+guid: 407ffca6c655a443ba2a0b82d2a43bdc
+========
 guid: fc553d8daac7b78419cb5402985d8305
+>>>>>>>> JT-77-Import-players-3D-model-and-polish-scene:Assets/AssetsImported/Polygon Arsenal/Demo/Scenes/- Misc/xPolyColorVariations.unity.meta
 DefaultImporter:
   externalObjects: {}
   userData: 
