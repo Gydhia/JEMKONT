@@ -100,7 +100,7 @@ namespace DownBelow.UI
 
             this._anchorMin.Append(this.ZoneQTE.DOAnchorMin(new Vector2(averageCenter, this.ZoneQTE.anchorMin.y), preset.DecreaseSpeed).SetEase(Ease.Linear));
             this._anchorMax.Append(this.ZoneQTE.DOAnchorMax(new Vector2(averageCenter, this.ZoneQTE.anchorMax.y), preset.DecreaseSpeed).SetEase(Ease.Linear));
-            this._cursor.Append(this.CursorQTE.DOValue(1f, preset.CursorCrossTime).SetEase(Ease.Linear)).OnComplete(() =>
+            this._cursor.Append(this.CursorQTE.DOValue(1f, preset.CursorCrossTime).SetEase(Ease.InOutCubic)).OnComplete(() =>
             {
                 this.PlayerInteract(false);
             });
