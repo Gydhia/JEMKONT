@@ -3,6 +3,7 @@ using DownBelow.GridSystem;
 using DownBelow.Managers;
 using DownBelow.UI.Inventory;
 using EasyTransition;
+using EODE.Wonderland;
 using Photon.Pun;
 using Photon.Realtime;
 using System;
@@ -10,6 +11,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 namespace DownBelow.Entity
 {
@@ -213,7 +215,7 @@ namespace DownBelow.Entity
             if(lastPlaceable != null)
             {
                 InputManager.Instance.OnNewCellHovered -= lastPlaceable.Previsualize;
-                InputManager.Instance.OnCellRightClickDown -= lastPlaceable.Place;
+                InputManager.Instance.OnCellRightClickDown -= lastPlaceable.AskToPlace;
                 lastPlaceable.StopPrevisualize();
                 lastPlaceable = null;
             }
@@ -224,14 +226,14 @@ namespace DownBelow.Entity
                 {
                     lastPlaceable = placeable;
                     InputManager.Instance.OnNewCellHovered += lastPlaceable.Previsualize;
-                    InputManager.Instance.OnCellRightClickDown += lastPlaceable.Place;
+                    InputManager.Instance.OnCellRightClickDown += lastPlaceable.AskToPlace;
                 }
                 else
                 {
                     if(lastPlaceable!= null)
                     {
                         InputManager.Instance.OnNewCellHovered -= lastPlaceable.Previsualize;
-                        InputManager.Instance.OnCellRightClickDown -= lastPlaceable.Place;
+                        InputManager.Instance.OnCellRightClickDown -= lastPlaceable.AskToPlace;
                         lastPlaceable = null;
                     }
                 }
@@ -241,7 +243,7 @@ namespace DownBelow.Entity
                 if(lastPlaceable!= null)
                 {
                     InputManager.Instance.OnNewCellHovered -= lastPlaceable.Previsualize;
-                    InputManager.Instance.OnCellRightClickDown -= lastPlaceable.Place;
+                    InputManager.Instance.OnCellRightClickDown -= lastPlaceable.AskToPlace;
                     lastPlaceable = null;
                 }
             }
@@ -333,12 +335,6 @@ namespace DownBelow.Entity
         #endregion
 
         #region INTERACTIONS
-
-        public void TakeResources(ItemPreset resource, int quantity)
-        {
-            this.PlayerInventory.TryAddItem(resource, quantity);
-        }
-
 
         public void TeleportToGrid(string gridName)
         {

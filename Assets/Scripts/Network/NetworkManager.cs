@@ -10,6 +10,8 @@ using DownBelow.Events;
 using System;
 using Newtonsoft.Json;
 using DownBelow.Loading;
+using EODE.Wonderland;
+using static UnityEditor.Progress;
 
 namespace DownBelow.Managers
 {
@@ -548,15 +550,25 @@ namespace DownBelow.Managers
             CombatManager.Instance.StartCombat(GameManager.Instance.Players[playerID].CurrentGrid as CombatGrid);
         }
 
-        public void GiftOrRemovePlayerItem(string playerID, ItemPreset item, int quantity)
+        public void GiftOrRemovePlayerItem(string playerID, ItemPreset item, int quantity, int preferedSlot = -1)
         {
-            this.photonView.RPC("RPC_RespondGiftOrRemovePlayerItem", RpcTarget.All, GameManager.SelfPlayer.UID, item.UID.ToString(), quantity);
+            this.photonView.RPC("RPC_RespondGiftOrRemovePlayerItem", RpcTarget.All, GameManager.SelfPlayer.UID, item.UID.ToString(), quantity, preferedSlot);
         }
 
         [PunRPC]
-        public void RPC_RespondGiftOrRemovePlayerItem(string playerID, string itemID, int quantity)
+        public void RPC_RespondGiftOrRemovePlayerItem(string playerID, string itemID, int quantity, int preferedSlot = -1)
         {
-            GameManager.Instance.Players[playerID].TakeResources(SettingsManager.Instance.ItemsPresets[System.Guid.Parse(itemID)], quantity);
+            var storage = GameManager.RealSelfPlayer.PlayerInventory;
+            var item = SettingsManager.Instance.ItemsPresets[System.Guid.Parse(itemID)];
+
+            if (quantity > 0)
+            {
+                storage.TryAddItem(item, quantity, preferedSlot);
+            }
+            else
+            {
+                storage.RemoveItem(item, -quantity, preferedSlot);
+            }
         }
 
         public void GiftOrRemoveStorageItem(InteractableStorage storage, ItemPreset item, int quantity, int slot)
@@ -572,7 +584,14 @@ namespace DownBelow.Managers
             var storage = (grid.Cells[latitude, longitude].AttachedInteract as InteractableStorage).Storage;
             var item = SettingsManager.Instance.ItemsPresets[System.Guid.Parse(itemID)];
 
-            storage.TryAddItem(item, quantity, slot);
+            if(quantity > 0)
+            {
+                storage.TryAddItem(item, quantity, slot);
+            }
+            else
+            {
+                storage.RemoveItem(item, -quantity, slot);
+            }
         }
         #region TURNS
 

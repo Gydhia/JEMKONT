@@ -16,9 +16,9 @@ public class PlaceableInteractablePreset : PlaceableItem
 
     protected override CellState AffectingState => CellState.Interactable;
 
-    public override void PlaceObject(CellEventData data)
+    public override void PlaceObject(Cell cell)
     {
-        Interactable.Init(data.Cell);
+        Interactable.Init(cell);
     }
 
     protected override void InstanciatePrevisualization(CellEventData data)
