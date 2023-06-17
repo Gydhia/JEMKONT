@@ -19,7 +19,7 @@ public class ScriptableSFXAlterationList : SerializedScriptableObject
             altsfx = AlterationsSFX.Find(x => x.Alteration is BuffAlteration buffFound && buff.StatToBuff == buffFound.StatToBuff);
         } else
         {
-            altsfx = AlterationsSFX.Find(x => x.GetType() == alt.GetType());
+            altsfx = AlterationsSFX.Find(x => x.GetType().Name == alt.GetType().Name);
         }
         return altsfx?.AlterationSFXPrefab;
     }

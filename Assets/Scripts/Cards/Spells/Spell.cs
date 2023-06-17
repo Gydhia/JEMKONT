@@ -56,8 +56,8 @@ namespace DownBelow.Spells
         [HideInInspector, JsonIgnore]
         public SpellResult Result;
 
-        public TargettingCondition TargettingCondition;
-        public CastingCondition CastingCondition;
+        public ConditionBase<Cell> TargettingCondition;
+        public ConditionBase<SpellResult> CastingCondition;
 
         public bool ValidateConditions()
         {

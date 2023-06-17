@@ -8,8 +8,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
-using static EODE.Wonderland.AnimatorRuntimeInfos;
-using static UnityEditor.Progress;
 
 namespace DownBelow.Spells
 {
