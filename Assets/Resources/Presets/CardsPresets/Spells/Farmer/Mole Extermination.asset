@@ -16,6 +16,7 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
+    - {fileID: 11400000, guid: 991858a65f321284386f3f537cd9b7ce, type: 2}
     - {fileID: 11400000, guid: 9a7cb1334214f744193a0b9901c81d0a, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
@@ -375,8 +376,8 @@ MonoBehaviour:
       Entry: 6
       Data: 
     - Name: CellSFX
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -418,7 +419,7 @@ MonoBehaviour:
       Data: 
     - Name: CasterID
       Entry: 1
-      Data: ceec20d0-6de9-4008-aafb-ca4b8ed8e05dFarmer
+      Data: 3ba27d21-b8c7-4119-9f90-04f447ec9f90
     - Name: 
       Entry: 8
       Data: 
@@ -958,8 +959,8 @@ MonoBehaviour:
       Entry: 6
       Data: 
     - Name: CellSFX
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 0
     - Name: SpellResultIndexToCombine
       Entry: 3
       Data: 0
@@ -1354,13 +1355,37 @@ MonoBehaviour:
       Data: 39|System.Boolean[,], mscorlib
     - Name: 
       Entry: 12
-      Data: 1
+      Data: 9
     - Name: ranks
       Entry: 1
-      Data: 1|1
+      Data: 3|3
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
     - Name: 
       Entry: 13
       Data: 
@@ -1372,10 +1397,10 @@ MonoBehaviour:
       Data: UnityEngine.Vector2, UnityEngine.CoreModule
     - Name: 
       Entry: 4
-      Data: 0
+      Data: 1
     - Name: 
       Entry: 4
-      Data: 0
+      Data: 1
     - Name: 
       Entry: 8
       Data: 
@@ -1384,7 +1409,7 @@ MonoBehaviour:
       Data: false
     - Name: TargetType
       Entry: 3
-      Data: 0
+      Data: 4
     - Name: ProjectileSFX
       Entry: 6
       Data: 
@@ -1393,7 +1418,7 @@ MonoBehaviour:
       Data: 
     - Name: NCEPreset
       Entry: 10
-      Data: 0
+      Data: 1
     - Name: 
       Entry: 8
       Data: 

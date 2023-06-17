@@ -2,18 +2,20 @@ using DownBelow.Entity;
 using DownBelow.Events;
 using DownBelow.GridSystem;
 using DownBelow.Managers;
+using DownBelow.Mechanics;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 using static EODE.Wonderland.AnimatorRuntimeInfos;
+using static UnityEditor.Progress;
 
 namespace DownBelow.Spells
 {
     public class Spell_StatsBetweenTwo : Spell<SpellData_Stats>
     {
-        public Spell_StatsBetweenTwo(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, SpellCondition ConditionData) : base(CopyData, RefEntity, TargetCell, ParentSpell, ConditionData)
+        public Spell_StatsBetweenTwo(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, TargettingCondition targCond, CastingCondition castCond) : base(CopyData, RefEntity, TargetCell, ParentSpell, targCond,castCond)
         {
         }
 
@@ -33,7 +35,7 @@ namespace DownBelow.Spells
             //ArgumentNullException: Value cannot be null.
             //Parameter name: first
             var path = GridManager.Instance.FindPath(targets[0], targets[1].EntityCell.PositionInGrid, true).Except(EntityCells);
-            foreach (var cell in path)
+            foreach (Cell cell in path)
             {
                 if (cell.EntityIn != null)
                 {
@@ -43,6 +45,7 @@ namespace DownBelow.Spells
                 {
                     cell.AttachedNCE.Hit();
                 }
+                SFXManager.Instance.DOSFX(new RuntimeSFXData(Data.ProjectileSFX, RefEntity, cell, this));
             }
 
         }

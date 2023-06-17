@@ -323,7 +323,7 @@ MonoBehaviour:
       Data: false
     - Name: SpellResultTargeting
       Entry: 5
-      Data: true
+      Data: false
     - Name: SpellResultIndex
       Entry: 3
       Data: 0

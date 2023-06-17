@@ -1,12 +1,11 @@
-using DownBelow.GridSystem;
 using DownBelow.Spells;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "TargetConditions/TeleportedToCondition")]
-public class TeleportedToCondition : ConditionBase
+[CreateAssetMenu(menuName = "CastingConditions/TeleportedToCondition")]
+public class TeleportedToCondition : CastingCondition
 {
     public ETargetType TypeOfTargetOnTeleported;
 
@@ -15,7 +14,7 @@ public class TeleportedToCondition : ConditionBase
         return $"we teleported on an \"{TypeOfTargetOnTeleported}\"";
     }
 
-    public override bool Validated(SpellResult Result, Cell cell)
+    public override bool Validated(SpellResult Result)
     {
         if (!Result.Teleported)
         {
@@ -29,12 +28,11 @@ public class TeleportedToCondition : ConditionBase
             ETargetType.Enemy => Result.TeleportedTo.Any(x => !x.IsAlly),
             ETargetType.Ally => Result.TeleportedTo.Any(x => x.IsAlly),
             ETargetType.Empty => true,
-            ETargetType.NCEs => false,//We can't for now.............
+            ETargetType.NCEs => false,//We can't for now. hasta luego.
             ETargetType.CharacterEntities => Result.TeleportedTo.Count > 0,
             ETargetType.Entities => Result.TeleportedTo.Count > 0,
             ETargetType.All => true,
             _ => false,
         };
     }
-
 }

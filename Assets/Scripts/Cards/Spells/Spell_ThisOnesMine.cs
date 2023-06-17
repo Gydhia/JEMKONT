@@ -11,7 +11,7 @@ namespace DownBelow.Spells
 {
     public class Spell_ThisOnesMine : Spell<SpellData_Summon>
     {
-        public Spell_ThisOnesMine(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, SpellCondition ConditionData) : base(CopyData, RefEntity, TargetCell, ParentSpell, ConditionData)
+        public Spell_ThisOnesMine(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, TargettingCondition targCond, CastingCondition castCond) : base(CopyData, RefEntity, TargetCell, ParentSpell, targCond,castCond)
         {
         }
         public override async Task DoSpellBehavior()

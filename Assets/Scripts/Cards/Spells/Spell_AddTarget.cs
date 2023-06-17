@@ -28,7 +28,7 @@ namespace DownBelow.Spells
     /// </summary>
     public class Spell_AddTarget : Spell<SpellData>
     {
-        public Spell_AddTarget(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, SpellCondition ConditionData) : base(CopyData, RefEntity, TargetCell, ParentSpell, ConditionData)
+        public Spell_AddTarget(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, TargettingCondition targCond, CastingCondition castCond) : base(CopyData, RefEntity, TargetCell, ParentSpell, targCond,castCond)
         {
         }
 
@@ -46,7 +46,7 @@ namespace DownBelow.Spells
                         var targets = TargetEntities.FindAll(x => x != RefEntity);
                         foreach (var item in targets)
                         {
-                            int newMin = Mathf.Min(GridManager.Instance.FindPath(RefEntity, item.EntityCell.PositionInGrid, true).Count, min);
+                            int newMin = Mathf.Min(item.EntityCell.DistanceWith(RefEntity.EntityCell), min);
                             if (newMin != min)
                             {
                                 minEntity = item;

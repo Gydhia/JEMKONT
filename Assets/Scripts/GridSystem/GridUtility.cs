@@ -13,48 +13,14 @@ namespace DownBelow.GridSystem
 {
     public static class GridUtility
     {
-        public static int Distance(Cell cell, Cell cell2)
+        public static int Distance(Cell cell1, Cell cell2)
         {
-            GridPosition start = cell.PositionInGrid;
-            GridPosition end = cell2.PositionInGrid;
-            GridPosition Iterator = start;
-            int res = 0;
-            while (Iterator.longitude != end.longitude && Iterator.latitude != end.latitude)
-            {
-                int NewLong;
-                int NewLat;
-                if (Iterator.latitude > end.latitude)
-                {
-                    NewLat = Iterator.latitude - 1;
-                }
-                else if (Iterator.latitude < end.latitude)
-                {
-                    NewLat = Iterator.latitude + 1;
-                }
-                else
-                {
-                    NewLat = Iterator.latitude;
-                }
-
-                if (Iterator.longitude > end.longitude)
-                {
-                    NewLong = Iterator.longitude - 1;
-                }
-                else if (Iterator.longitude < end.longitude)
-                {
-                    NewLong = Iterator.longitude + 1;
-                }
-                else
-                {
-                    NewLong = Iterator.longitude;
-                }
-                Iterator = new(NewLong, NewLat);
-                res++;
-            }
-            return res;
+            int dx = Math.Abs(cell1.PositionInGrid.longitude - cell2.PositionInGrid.longitude);
+            int dy = Math.Abs(cell1.PositionInGrid.latitude - cell2.PositionInGrid.latitude);
+            return dx + dy;
         }
 
-        public static int DistanceWith(this Cell ourcell,Cell CellToMesureDistance)
+        public static int DistanceWith(this Cell ourcell, Cell CellToMesureDistance)
         {
             return Distance(ourcell, CellToMesureDistance);
         }
