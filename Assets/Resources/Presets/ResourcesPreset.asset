@@ -22,8 +22,8 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   InteractWidth: 0.24
-  DecreaseSpeed: 3.98
-  CursorCrossTime: 1.07
+  DecreaseSpeed: 3.8
+  CursorCrossTime: 2
   MinX: 0.6
   MaxX: 0.3
   MaxGatherableResources: 20
