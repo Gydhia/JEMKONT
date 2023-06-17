@@ -20,7 +20,8 @@ public class MenuPopup_Credits : BaseMenuPopup
     public override void ShowPopup()
     {
         base.ShowPopup();
-        
+        _namesText.gameObject.SetActive(true);
+        _jobText.gameObject.SetActive(true);
         _namesText.DOAnchorMin(new Vector2(_namesText.anchorMin.x, -1), 0);
         _namesText.DOAnchorMax(new Vector2(_namesText.anchorMax.x, 0), 0);
         _jobText.DOAnchorMin(new Vector2(_jobText.anchorMin.x, -1), 0);
@@ -52,5 +53,18 @@ public class MenuPopup_Credits : BaseMenuPopup
         
         _namesSequence.Restart();
         _jobsSequence.Restart();
+    }
+
+    public override void HidePopup()
+    {
+        base.HidePopup();
+        _namesSequence.Pause();
+        _jobsSequence.Pause();
+        _namesText.DOAnchorMin(new Vector2(_namesText.anchorMin.x, -1), 0);
+        _namesText.DOAnchorMax(new Vector2(_namesText.anchorMax.x, 0), 0);
+        _jobText.DOAnchorMin(new Vector2(_jobText.anchorMin.x, -1), 0);
+        _jobText.DOAnchorMax(new Vector2(_jobText.anchorMax.x, 0), 0);
+        _namesText.gameObject.SetActive(false);
+        _jobText.gameObject.SetActive(false);
     }
 }
