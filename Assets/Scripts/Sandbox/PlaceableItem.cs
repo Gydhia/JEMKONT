@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using UnityEngine;
 
 public abstract class PlaceableItem : ItemPreset
@@ -25,8 +26,11 @@ public abstract class PlaceableItem : ItemPreset
 
             try
             {
-                var stack = GameManager.SelfPlayer.PlayerInventory.StorageItems.ToList().First(x => x.ItemPreset == this);
-                stack.RemoveQuantity();
+
+                var stack = GameManager.RealSelfPlayer.PlayerInventory.StorageItems.ToList().First(x => x.ItemPreset == this);
+
+                NetworkManager.Instance.GiftOrRemovePlayerItem(GameManager.RealSelfPlayer.UID, stack.ItemPreset, -1);
+
                 PrevisualizationInstance = null;
                 data.Cell.Datas.state = AffectingState;
                 if (stack.Quantity <= 0)
