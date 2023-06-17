@@ -2,6 +2,7 @@ using DownBelow.Managers;
 using DownBelow.UI.Inventory;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace DownBelow.GridSystem
@@ -14,9 +15,13 @@ namespace DownBelow.GridSystem
         {
             base.Init(InteractableRef, RefCell);
 
-            this.Storage = new BaseStorage();
-            this.Storage.Init(this.InteractablePreset as StoragePreset, RefCell);
+            if(this.InteractablePreset is StoragePreset sPreset)
+            {
+                this.Storage = new BaseStorage();
+                this.Storage.Init(sPreset, RefCell);
+            }   
         }
+
         public override void Interact(Entity.PlayerBehavior player)
         {
             // Only show the ui if we're the one who asked

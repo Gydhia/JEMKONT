@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 98b46f0a73178aa44bac469f936f261a, type: 3}
-  m_Name: R_Wheat
+  m_Name: R_Plank
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -23,9 +23,9 @@ MonoBehaviour:
     SerializationNodes:
     - Name: UID
       Entry: 2
-      Data: 38956d969817040d5a3538d3b8bbb468
+      Data: 09f24af0844aae89780571ce8c46759b
   Type: 2
-  ItemName: Wheat
-  InventoryIcon: {fileID: 21300000, guid: f23a07949572fc549baf1c3af407a0e3, type: 3}
-  ItemPrefab: {fileID: 0}
-  MaxStack: 99
+  ItemName: Plank
+  InventoryIcon: {fileID: 21300000, guid: 5e5627d371929e042ba4183aafde2ea2, type: 3}
+  MaxStack: 10
+  DroppedItemPrefab: {fileID: 0}

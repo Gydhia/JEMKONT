@@ -11,10 +11,12 @@ using UnityEngine;
 
 namespace DownBelow.Spells
 {
-    public class StatModification {
+    public class StatModification
+    {
         public EntityStatistics stat;
         public int value;
-        public StatModification(EntityStatistics stat,int value) {
+        public StatModification(EntityStatistics stat, int value)
+        {
             this.stat = stat;
             this.value = value;
         }
@@ -34,10 +36,10 @@ namespace DownBelow.Spells
         private List<CharacterEntity> _targets;
         public Spell SpellRef;
         public CharacterEntity Caster;
-        public bool SetUp;
+        public bool SetUp = false;
         public virtual void Setup(List<CharacterEntity> targets, Spell spellRef)
         {
-            SetUp = true; 
+            SetUp = true;
             Caster = spellRef.RefEntity;
             this.SpellRef = spellRef;
             this._targets = targets;
@@ -88,7 +90,7 @@ namespace DownBelow.Spells
 
         public Dictionary<CharacterEntity, StatModification> StatModified;
         public Dictionary<EntityStatistics, int> SelfStatModified;
-        public Dictionary<CharacterEntity,List<Alteration>> AlterationGiven;
+        public Dictionary<CharacterEntity, List<Alteration>> AlterationGiven;
 
         public bool Teleported;
         public List<CharacterEntity> TeleportedTo;
@@ -143,7 +145,8 @@ namespace DownBelow.Spells
         /// </summary>
         public void Unsubscribe()
         {
-            if(_targets != null)
+            if (!SetUp) return;
+            if (_targets != null)
             {
                 foreach (CharacterEntity entity in _targets)
                 {
@@ -162,30 +165,31 @@ namespace DownBelow.Spells
                     entity.OnAlterationGiven -= Caster.FireOnAlterationGiven;
                 }
             }
+            if (Caster != null)
+            {
+                Caster.OnHealthRemoved -= this._updateSelfDamages;
+                Caster.OnHealthAdded -= this._updateSelfHealings;
 
-            Caster.OnHealthRemoved -= this._updateSelfDamages;
-            Caster.OnHealthAdded -= this._updateSelfHealings;
+                Caster.OnStrengthAdded -= this._updateSelfStat;
+                Caster.OnStrengthRemoved -= this._updateSelfStat;
+                Caster.OnTeleportation -= TeleportedEntity;
 
-            Caster.OnStrengthAdded -= this._updateSelfStat;
-            Caster.OnStrengthRemoved -= this._updateSelfStat;
-            Caster.OnTeleportation -= TeleportedEntity;
-
-            Caster.OnSpeedAdded -= this._updateSelfStat;
-
+                Caster.OnSpeedAdded -= this._updateSelfStat;
+            }
         }
 
         private void _updateStat(SpellEventData data)
         {
             if (!this.StatModified.ContainsKey(data.Entity))
-                this.StatModified.Add(data.Entity,new(data.Stat,0));
+                this.StatModified.Add(data.Entity, new(data.Stat, 0));
 
             this.FireOnStatModified(data);
             this.StatModified[data.Entity].value += data.Value;
         }
-        private void _updateSelfStat(SpellEventData data) 
+        private void _updateSelfStat(SpellEventData data)
         {
             if (!this.SelfStatModified.ContainsKey(data.Stat))
-                this.SelfStatModified.Add(data.Stat,data.Value);
+                this.SelfStatModified.Add(data.Stat, data.Value);
 
             this.FireOnStatModified(data);
             this.SelfStatModified[data.Stat] += data.Value;

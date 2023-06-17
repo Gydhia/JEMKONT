@@ -6,12 +6,9 @@ using UnityEngine;
 
 namespace DownBelow.GridSystem
 {
-    public class InteractableFurnace : Interactable
+    public class InteractableFurnace : InteractableWorkshop
     {
-        public override void Interact(PlayerBehavior p)
-        {
-            UIManager.Instance.WorkshopSection.WorkshopName.text = "Furnace";
-            UIManager.Instance.WorkshopSection.OpenPanel();
-        }
+        public override string WorkshopName() => "Furnace";
+
     }
 }

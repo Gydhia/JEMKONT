@@ -5035,9 +5035,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InteractablePreset: {fileID: 0}
   RefCell: {fileID: 0}
-  Mesh: {fileID: 6929934130561614042}
+  Mesh: {fileID: 8875730718904590607}
   Outline: {fileID: 1974102354225883303}
-  TransitionSettings: {fileID: 11400000, guid: 2eec88d4ca6df24419aab2fd6b04c543, type: 2}
   Portal: {fileID: 7224192957786302094}
   InnerCrackParticles: {fileID: 8135690118470374158}
   MainCrack: {fileID: 7229782536982557620}
@@ -6286,11 +6285,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bfa9599172bdcc4488130824ce950857, type: 3}
---- !u!23 &6929934130561614042 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: bfa9599172bdcc4488130824ce950857, type: 3}
-  m_PrefabInstance: {fileID: 8641712526387158110}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8099511435058805685 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: bfa9599172bdcc4488130824ce950857, type: 3}

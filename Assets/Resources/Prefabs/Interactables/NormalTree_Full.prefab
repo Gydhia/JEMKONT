@@ -234,9 +234,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InteractablePreset: {fileID: 0}
   RefCell: {fileID: 0}
-  Mesh: {fileID: 9107493635244427062}
+  Mesh: {fileID: 5225595416022973248}
   Outline: {fileID: 7405713865225625881}
-  GatheredMesh: {fileID: 3428844111760161390}
+  GatheredMesh: {fileID: 5993740690868852227}
   isMature: 0
   TimeToGrowUp: 5
 --- !u!65 &717044911678835273

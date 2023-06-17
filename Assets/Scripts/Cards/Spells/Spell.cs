@@ -219,6 +219,8 @@ namespace DownBelow.Spells
             }
             TargetEntities = new();
             TargetEntities.AddRange(TargetedCells.FindAll(x => x.EntityIn != null).Select(x => x.EntityIn));
+
+            Debug.Log($"{this.GetType()} spell targets : {TargetEntities.ArrayToString()}");
             return TargetEntities;
         }
 

@@ -2,6 +2,7 @@ using DownBelow.Entity;
 using DownBelow.Events;
 using DownBelow.Inventory;
 using DownBelow.Managers;
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -15,6 +16,12 @@ namespace DownBelow.UI.Inventory
     public class UIInventoryItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
     {
         public static UIInventoryItem LastHoveredItem;
+
+        [FoldoutGroup("Facultative parameters")]
+        public ItemPreset OnlyAcceptedItem = null;
+        [FoldoutGroup("Facultative parameters")]
+        public bool CanOnlyTake = false;
+
 
         [SerializeField] private Image icon;
         [SerializeField] private TextMeshProUGUI quantity;
@@ -144,17 +151,23 @@ namespace DownBelow.UI.Inventory
         {
             if (LastHoveredItem && LastHoveredItem != this)
             {
-                var action = new DropItemAction(GameManager.RealSelfPlayer, LastHoveredItem.SelfStorage.Storage.RefCell);
-                action.Init(
-                    this.SelfStorage.Storage.RefCell,
-                    this.SelfItem.ItemPreset,
-                    this.TotalQuantity,
-                    true,
-                    LastHoveredItem.Slot,
-                    this.Slot
-                 );
+                if (LastHoveredItem.OnlyAcceptedItem != null && LastHoveredItem.OnlyAcceptedItem != this.SelfItem.ItemPreset)
+                    return;
 
-                NetworkManager.Instance.EntityAskToBuffAction(action);
+                if (!LastHoveredItem.CanOnlyTake)
+                {
+                    var action = new DropItemAction(GameManager.RealSelfPlayer, LastHoveredItem.SelfStorage.Storage.RefCell);
+                    action.Init(
+                        this.SelfStorage.Storage.RefCell,
+                        this.SelfItem.ItemPreset,
+                        this.TotalQuantity,
+                        true,
+                        LastHoveredItem.Slot,
+                        this.Slot
+                     );
+
+                    NetworkManager.Instance.EntityAskToBuffAction(action);
+                }
             }
         }
         protected virtual void dropOverWorld(PointerEventData eventData)

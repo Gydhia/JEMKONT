@@ -6,12 +6,8 @@ using UnityEngine;
 
 namespace DownBelow.GridSystem
 {
-    public class InteractableSawStood : Interactable
+    public class InteractableSawStood : InteractableWorkshop
     {
-        public override void Interact(PlayerBehavior p)
-        {
-            UIManager.Instance.WorkshopSection.WorkshopName.text = "Mechanical Saw";
-            UIManager.Instance.WorkshopSection.OpenPanel();
-        }
+        public override string WorkshopName() => "Saw Stood";
     }
 }

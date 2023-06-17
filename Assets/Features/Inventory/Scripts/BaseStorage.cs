@@ -32,6 +32,12 @@ namespace DownBelow.UI.Inventory
             this.Init(preset.MaxSlots);
         }
 
+        public void Init(int slots, Cell RefCell)
+        {
+            this.RefCell = RefCell;
+            this.Init(slots);
+        }
+
         public void Init(int slots)
         {
             this.MaxSlots = slots;

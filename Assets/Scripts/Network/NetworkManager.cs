@@ -559,6 +559,21 @@ namespace DownBelow.Managers
             GameManager.Instance.Players[playerID].TakeResources(SettingsManager.Instance.ItemsPresets[System.Guid.Parse(itemID)], quantity);
         }
 
+        public void GiftOrRemoveStorageItem(InteractableStorage storage, ItemPreset item, int quantity, int slot)
+        {
+            this.photonView.RPC("RPC_RespondGiftOrRemoveStorageItem", RpcTarget.All,
+                storage.RefCell.RefGrid.UName, storage.RefCell.Datas.heightPos, storage.RefCell.Datas.widthPos, item.UID.ToString(), quantity, slot);
+        }
+
+        [PunRPC]
+        public void RPC_RespondGiftOrRemoveStorageItem(string gridname, int latitude, int longitude, string itemID, int quantity, int slot)
+        {
+            var grid = GridManager.Instance.WorldGrids[gridname];
+            var storage = (grid.Cells[latitude, longitude].AttachedInteract as InteractableStorage).Storage;
+            var item = SettingsManager.Instance.ItemsPresets[System.Guid.Parse(itemID)];
+
+            storage.TryAddItem(item, quantity, slot);
+        }
         #region TURNS
 
 

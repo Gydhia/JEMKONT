@@ -3,6 +3,7 @@ using EODE.Wonderland;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using static UnityEngine.UI.Image;
 
 public static class ArrayHelper
@@ -13,6 +14,16 @@ public static class ArrayHelper
         array[array.Length - 1] = item;
     }
 
+    public static string ArrayToString<T>(this ICollection<T> array)
+    {
+        var res = "";
+        foreach (var item in array)
+        {
+            res+= item.ToString();
+            res += "\n";
+        }
+        return res;
+    }
 
     public static T Random<T>(this T[,] array)
     {
