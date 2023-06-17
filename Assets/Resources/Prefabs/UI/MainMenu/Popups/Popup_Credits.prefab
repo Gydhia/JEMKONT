@@ -81,7 +81,16 @@ MonoBehaviour:
 
     John Bite
 
-    John Bite'
+    John Bite
+
+    John Bite
+
+    John Bite
+
+    John Bite
+
+    John
+    Bite'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fa08fff1716a04db18700207b6c202e5, type: 2}
   m_sharedMaterial: {fileID: 7908499825950019370, guid: fa08fff1716a04db18700207b6c202e5, type: 2}
@@ -216,8 +225,31 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Prox\xE9n\xE8te \nProx\xE9n\xE8te \nProx\xE9n\xE8te \nProx\xE9n\xE8te
-    \nProx\xE9n\xE8te \nProx\xE9n\xE8te \nProx\xE9n\xE8te \nProx\xE9n\xE8te "
+  m_text: 'Pipe
+
+    Pipe
+
+    Pipe
+
+    Pipe
+
+    Pipe
+
+    Pipe
+
+    Pipe
+
+    Pipe
+
+    Pipe
+
+    Pipe
+
+    Pipe
+
+    Pipe
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fa08fff1716a04db18700207b6c202e5, type: 2}
   m_sharedMaterial: {fileID: 7908499825950019370, guid: fa08fff1716a04db18700207b6c202e5, type: 2}
@@ -473,9 +505,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59cd362db1ebadd49a930bf0bf3da0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PopupType: 0
+  PopupType: 6
   IsHidden: 1
-  _creditsText: {fileID: 0}
+  _namesText: {fileID: 7620903270075990026}
+  _jobText: {fileID: 5015024925099032070}
+  _defilementTime: 15
+  _creditsEase: 1
 --- !u!1 &9063016609023402368
 GameObject:
   m_ObjectHideFlags: 0
