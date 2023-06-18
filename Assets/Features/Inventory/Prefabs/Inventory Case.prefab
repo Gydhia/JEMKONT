@@ -257,6 +257,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3515ff29f8cee17499528c0b969bc7c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnlyAcceptedItem: {fileID: 0}
+  CanOnlyTake: 0
   icon: {fileID: 2109158896789064523}
   quantity: {fileID: 6184598405518796228}
   selfButton: {fileID: 8348190850639214509}
@@ -291,6 +293,46 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4893917238773455876}
     m_Modifications:
+    - target: {fileID: 763178909860876690, guid: 49ffe6efce06abb4cb2eb08086477d81, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 781413138944471911, guid: 49ffe6efce06abb4cb2eb08086477d81, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 781413138944471911, guid: 49ffe6efce06abb4cb2eb08086477d81, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 781413138944471911, guid: 49ffe6efce06abb4cb2eb08086477d81, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 781413138944471911, guid: 49ffe6efce06abb4cb2eb08086477d81, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 781413138944471911, guid: 49ffe6efce06abb4cb2eb08086477d81, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 781413138944471911, guid: 49ffe6efce06abb4cb2eb08086477d81, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 781413138944471911, guid: 49ffe6efce06abb4cb2eb08086477d81, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 781413138944471911, guid: 49ffe6efce06abb4cb2eb08086477d81, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2793321066695531832, guid: 49ffe6efce06abb4cb2eb08086477d81, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3197206842888910110, guid: 49ffe6efce06abb4cb2eb08086477d81, type: 3}
       propertyPath: m_Name
       value: Inventory Element
@@ -302,7 +344,7 @@ PrefabInstance:
     - target: {fileID: 4600703390245701722, guid: 49ffe6efce06abb4cb2eb08086477d81, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 9183ace9b96bd426c9d11a11130473e4, type: 3}
+      objectReference: {fileID: 21300000, guid: 8834cbac06de956409fb4033f0d3bb97, type: 3}
     - target: {fileID: 4600703390245701722, guid: 49ffe6efce06abb4cb2eb08086477d81, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -313,7 +355,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4757626946379153181, guid: 49ffe6efce06abb4cb2eb08086477d81, type: 3}
       propertyPath: m_fontSize
-      value: 13.1
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4757626946379153181, guid: 49ffe6efce06abb4cb2eb08086477d81, type: 3}
       propertyPath: m_fontAsset
@@ -332,9 +374,17 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4757626946379153181, guid: 49ffe6efce06abb4cb2eb08086477d81, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4757626946379153181, guid: 49ffe6efce06abb4cb2eb08086477d81, type: 3}
       propertyPath: m_sharedMaterial
       value: 
       objectReference: {fileID: 6447333859754382329, guid: aa2f3c655b3634b2b852b64fd197fd58, type: 2}
+    - target: {fileID: 4757626946379153181, guid: 49ffe6efce06abb4cb2eb08086477d81, type: 3}
+      propertyPath: m_enableAutoSizing
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4757626946379153181, guid: 49ffe6efce06abb4cb2eb08086477d81, type: 3}
       propertyPath: m_fontColor32.rgba
       value: 4294967295

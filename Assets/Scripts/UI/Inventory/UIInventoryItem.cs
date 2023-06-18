@@ -72,11 +72,14 @@ namespace DownBelow.UI.Inventory
         {
             if (Data.ItemData.Quantity > 0)
             {
+                this.icon.gameObject.SetActive(true);
                 this.icon.sprite = Data.ItemData.ItemPreset.InventoryIcon;
+                this.icon.gameObject.SetActive(true);
                 this.TotalQuantity = Data.ItemData.Quantity;
                 this.quantity.text = this.TotalQuantity.ToString();
             } else
             {
+                this.icon.gameObject.SetActive(false);
                 this.icon.sprite = Managers.SettingsManager.Instance.GameUIPreset.ItemCase;
                 this.quantity.text = string.Empty;
                 this.TotalQuantity = 0;
