@@ -55,12 +55,7 @@ namespace DownBelow.Entity
                 CombatManager.Instance.OnCombatEnded -= SetupForFarm;
             }
         }
-
-        private void LateUpdate()
-        {
-            //  this.HealthFill.transform.LookAt(Camera.main.transform.position);
-            //this.ShieldFill.transform.LookAt(Camera.main.transform.position);
-        }
+        
 
         private void _refresh(GameEventData data)
         {
@@ -70,6 +65,7 @@ namespace DownBelow.Entity
 
         private void OnHealthRemoved(SpellEventData Data)
         {
+
             if (Data.Value > 0)
             {
                 _healthFeedback.text = "-" + Data.Value.ToString();
@@ -96,9 +92,12 @@ namespace DownBelow.Entity
 
         private void OnHealthAdded(SpellEventData Data)
         {
+            
+
             if (Data.Value < 0)
             {
                 _healthFeedback.text = "+" + Mathf.Abs(Data.Value).ToString();
+                Debug.Log("Test : " + Data.Value);
                 _healthFeedback.color = _healthAddedColor;
                 _healthFeedback.transform.LookAt(_mainCam.transform.position);
                 _healthFeedback.transform.Rotate(new Vector3(0f, 180f, 0));
