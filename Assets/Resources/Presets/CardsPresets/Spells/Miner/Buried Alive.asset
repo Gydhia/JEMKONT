@@ -252,7 +252,7 @@ MonoBehaviour:
       Data: false
     - Name: TargetType
       Entry: 3
-      Data: 65536
+      Data: 2
     - Name: ProjectileSFX
       Entry: 6
       Data: 
@@ -717,7 +717,7 @@ MonoBehaviour:
       Data: false
     - Name: TargetType
       Entry: 3
-      Data: 65536
+      Data: 2
     - Name: ProjectileSFX
       Entry: 6
       Data: 

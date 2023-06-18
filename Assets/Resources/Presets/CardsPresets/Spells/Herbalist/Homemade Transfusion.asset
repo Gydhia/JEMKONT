@@ -40,6 +40,9 @@ MonoBehaviour:
     - Name: RefBuffer
       Entry: 6
       Data: 
+    - Name: RefGrid
+      Entry: 6
+      Data: 
     - Name: RefEntity
       Entry: 6
       Data: 
@@ -49,15 +52,18 @@ MonoBehaviour:
     - Name: ContextActionId
       Entry: 2
       Data: 00000000000000000000000000000000
-    - Name: Cost
-      Entry: 3
-      Data: 0
     - Name: Data
       Entry: 7
       Data: 2|DownBelow.Spells.SpellData_HomemadeTransfusion, Assembly-CSharp
     - Name: RequiresTargetting
       Entry: 5
       Data: true
+    - Name: SpellResultTargeting
+      Entry: 5
+      Data: false
+    - Name: SpellResultIndex
+      Entry: 3
+      Data: 0
     - Name: SpellShapeMatrix
       Entry: 7
       Data: 3|System.Boolean[,], mscorlib
@@ -450,7 +456,7 @@ MonoBehaviour:
       Data: false
     - Name: TargetType
       Entry: 3
-      Data: 1
+      Data: 2
     - Name: ProjectileSFX
       Entry: 10
       Data: 0
@@ -462,6 +468,9 @@ MonoBehaviour:
       Data: 10
     - Name: 
       Entry: 8
+      Data: 
+    - Name: SpellHeader
+      Entry: 6
       Data: 
     - Name: NCEHits
       Entry: 6
@@ -478,7 +487,10 @@ MonoBehaviour:
     - Name: Result
       Entry: 6
       Data: 
-    - Name: ConditionData
+    - Name: TargettingCondition
+      Entry: 6
+      Data: 
+    - Name: CastingCondition
       Entry: 6
       Data: 
     - Name: 

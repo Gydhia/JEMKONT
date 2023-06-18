@@ -345,7 +345,10 @@ MonoBehaviour:
     - Name: Result
       Entry: 6
       Data: 
-    - Name: ConditionData
+    - Name: TargettingCondition
+      Entry: 6
+      Data: 
+    - Name: CastingCondition
       Entry: 6
       Data: 
     - Name: 
@@ -701,7 +704,7 @@ MonoBehaviour:
       Data: false
     - Name: TargetType
       Entry: 3
-      Data: 1
+      Data: 2
     - Name: ProjectileSFX
       Entry: 10
       Data: 0
@@ -814,6 +817,9 @@ MonoBehaviour:
     - Name: Caster
       Entry: 6
       Data: 
+    - Name: SetUp
+      Entry: 5
+      Data: false
     - Name: DamagesDealt
       Entry: 7
       Data: 21|System.Collections.Generic.Dictionary`2[[DownBelow.Entity.CharacterEntity,
@@ -915,6 +921,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: Teleported
+      Entry: 5
+      Data: false
     - Name: TeleportedTo
       Entry: 7
       Data: 28|System.Collections.Generic.List`1[[DownBelow.Entity.CharacterEntity,
@@ -931,7 +940,10 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: ConditionData
+    - Name: TargettingCondition
+      Entry: 6
+      Data: 
+    - Name: CastingCondition
       Entry: 6
       Data: 
     - Name: 

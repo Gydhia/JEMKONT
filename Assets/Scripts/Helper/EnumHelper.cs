@@ -1,3 +1,4 @@
+using DownBelow.Spells;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,7 @@ public enum EConditionComparator { MoreThan, LessThan, Equal }
 
 public static class EnumHelper
 {
-    
+
     public static int MinValue(this EntityStatistics entityStat) => entityStat switch
     {
         EntityStatistics.None => 0,
@@ -19,6 +20,22 @@ public static class EnumHelper
         _ => 0,
     };
 
+    public static ETargetType Next(this ETargetType type)
+    {
+        int inttype = (int)type *2;
+        if (inttype <= 8)
+        {
+            if(inttype == 0)
+            {
+                inttype = 1;
+            }
+            if(inttype == 4) {
+                return ETargetType.Empty;
+            }
+            type = (ETargetType)inttype;
+        }
+        return type;
+    }
 
     /// <summary>
     /// Does the shit.

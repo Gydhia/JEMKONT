@@ -16,8 +16,6 @@ public class TargetTypeCondition : TargettingCondition
         return TargetType switch
         {
             ETargetType.Self => cell.EntityIn == CombatManager.CurrentPlayingEntity,
-            ETargetType.AllAllies => cell.EntityIn.IsAlly,
-            ETargetType.AllEnemies => !cell.EntityIn.IsAlly,
             ETargetType.Enemy => !cell.EntityIn.IsAlly,
             ETargetType.Ally => cell.EntityIn.IsAlly,
             ETargetType.Empty => cell.Datas.state.HasFlag(CellState.Walkable),

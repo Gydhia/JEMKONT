@@ -156,7 +156,7 @@ namespace DownBelow.Spells
             {
                 TargetedCells = new();
                 List<Cell> TargetCellsToTranspose = new List<Cell>();
-                if (this.Data.TargetType.HasFlag(ETargetType.Ally) || this.Data.TargetType.HasFlag(ETargetType.AllAllies))
+                if (this.Data.TargetType.HasFlag(ETargetType.Ally))
                 {
                     TargetCellsToTranspose.AddRange(CombatManager.Instance.PlayingEntities.FindAll(x => x.IsAlly).Select(x => x.EntityCell).ToList());
                 }
@@ -164,7 +164,7 @@ namespace DownBelow.Spells
                 {
                     TargetCellsToTranspose.Add(this.ParentSpell == null ? this.RefEntity.EntityCell : this.ParentSpell.RefEntity.EntityCell);
                 }
-                if (this.Data.TargetType.HasFlag(ETargetType.Enemy) || this.Data.TargetType.HasFlag(ETargetType.AllEnemies))
+                if (this.Data.TargetType.HasFlag(ETargetType.Enemy))
                 {
                     TargetCellsToTranspose.AddRange(CombatManager.Instance.PlayingEntities.FindAll(x => !x.IsAlly).Select(x => x.EntityCell).ToList());
                 }

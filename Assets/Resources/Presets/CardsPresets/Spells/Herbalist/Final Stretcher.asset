@@ -299,7 +299,7 @@ MonoBehaviour:
       Data: false
     - Name: TargetType
       Entry: 3
-      Data: 2
+      Data: 4
     - Name: ProjectileSFX
       Entry: 10
       Data: 0
@@ -544,10 +544,10 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: ConditionData
+    - Name: TargettingCondition
       Entry: 6
       Data: 
-    - Name: TargettingCondition
+    - Name: CastingCondition
       Entry: 6
       Data: 
     - Name: 
@@ -792,7 +792,7 @@ MonoBehaviour:
       Data: UnityEngine.Vector2, UnityEngine.CoreModule
     - Name: 
       Entry: 4
-      Data: 1
+      Data: 2
     - Name: 
       Entry: 4
       Data: 2
@@ -804,7 +804,7 @@ MonoBehaviour:
       Data: false
     - Name: TargetType
       Entry: 3
-      Data: 2
+      Data: 4
     - Name: ProjectileSFX
       Entry: 6
       Data: 
@@ -988,10 +988,10 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: ConditionData
+    - Name: TargettingCondition
       Entry: 6
       Data: 
-    - Name: TargettingCondition
+    - Name: CastingCondition
       Entry: 6
       Data: 
     - Name: 

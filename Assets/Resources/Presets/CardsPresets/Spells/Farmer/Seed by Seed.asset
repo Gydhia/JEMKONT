@@ -16,11 +16,6 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
     - {fileID: 11400000, guid: 8b7fb7d4f0926b84d856c384de333869, type: 2}
     - {fileID: 11400000, guid: 25908b71dba0f9b45b8ab07283eb6f6a, type: 2}
     SerializedBytesString: 
@@ -60,14 +55,14 @@ MonoBehaviour:
       Entry: 9
       Data: 2
     - Name: RefGrid
-      Entry: 10
-      Data: 0
+      Entry: 6
+      Data: 
     - Name: RefEntity
-      Entry: 10
-      Data: 1
+      Entry: 6
+      Data: 
     - Name: TargetCell
-      Entry: 10
-      Data: 2
+      Entry: 6
+      Data: 
     - Name: ContextActionId
       Entry: 2
       Data: 00000000000000000000000000000000
@@ -84,11 +79,11 @@ MonoBehaviour:
       Entry: 6
       Data: 
     - Name: RefEntity
-      Entry: 10
-      Data: 3
+      Entry: 6
+      Data: 
     - Name: TargetCell
-      Entry: 10
-      Data: 4
+      Entry: 6
+      Data: 
     - Name: ContextActionId
       Entry: 2
       Data: 00000000000000000000000000000000
@@ -256,16 +251,16 @@ MonoBehaviour:
       Data: false
     - Name: TargetType
       Entry: 3
-      Data: 0
+      Data: 1
     - Name: ProjectileSFX
       Entry: 10
-      Data: 5
+      Data: 0
     - Name: CellSFX
       Entry: 6
       Data: 
     - Name: SpecificCard
       Entry: 10
-      Data: 6
+      Data: 1
     - Name: DrawNumber
       Entry: 3
       Data: 3
@@ -323,8 +318,8 @@ MonoBehaviour:
       Entry: 12
       Data: 1
     - Name: 
-      Entry: 10
-      Data: 4
+      Entry: 6
+      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -339,8 +334,8 @@ MonoBehaviour:
       Entry: 12
       Data: 1
     - Name: 
-      Entry: 10
-      Data: 3
+      Entry: 6
+      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -370,8 +365,8 @@ MonoBehaviour:
       Entry: 9
       Data: 1
     - Name: Caster
-      Entry: 10
-      Data: 3
+      Entry: 6
+      Data: 
     - Name: SetUp
       Entry: 5
       Data: true
@@ -495,10 +490,10 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: ConditionData
+    - Name: TargettingCondition
       Entry: 6
       Data: 
-    - Name: TargettingCondition
+    - Name: CastingCondition
       Entry: 6
       Data: 
     - Name: 

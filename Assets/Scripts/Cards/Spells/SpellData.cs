@@ -8,6 +8,7 @@ using Sirenix.Serialization;
 using Sirenix.Utilities;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using UnityEditor;
 using UnityEngine;
 
@@ -16,17 +17,15 @@ namespace DownBelow.Spells
     [System.Flags]
     public enum ETargetType
     {
-        Self = 0,
+        None = 0,
+        Self = 1 << 0,
 
-        AllAllies = 1 << 8,
-        AllEnemies = 1 << 16,
+        Enemy = 1 << 1,
+        Ally = 1 << 2,
 
-        Enemy = 1 << 0,
-        Ally = 1 << 1,
+        Empty = 1 << 4,
 
-        Empty = 1 << 2,
-
-        NCEs = 1 << 4,
+        NCEs = 1 << 8,
 
         CharacterEntities = Enemy | Ally,
 
@@ -41,14 +40,12 @@ namespace DownBelow.Spells
             return value switch
             {
                 ETargetType.Self => cell.EntityIn == GameManager.SelfPlayer,
-                ETargetType.AllAllies => cell.EntityIn != null && cell.EntityIn.IsAlly,
                 ETargetType.Enemy => cell.EntityIn != null && cell.EntityIn is EnemyEntity,
                 ETargetType.Ally => cell.EntityIn != null && cell.EntityIn is PlayerBehavior,
                 ETargetType.Empty => cell.Datas.state == CellState.Walkable,
                 ETargetType.CharacterEntities => cell.Datas.state == CellState.EntityIn && cell.EntityIn is CharacterEntity,
                 ETargetType.Entities => cell.Datas.state == CellState.EntityIn,
                 ETargetType.NCEs => cell.hasNCE,
-                ETargetType.AllEnemies => cell.EntityIn != null && !cell.EntityIn.IsAlly,
                 ETargetType.All => cell.Datas.state != CellState.Blocked,
                 _ => true,
             };
@@ -74,29 +71,47 @@ namespace DownBelow.Spells
         }
 
         // TODO : define it  according to casting matrix and target type later ?
+        [DisableIf(nameof(SpellResultTargeting)), InfoBox("@TargetTypeInfo()")]
         public bool RequiresTargetting = true;
 
         [Button("Rotate Shape 90°"), FoldoutGroup("Spell Targeting"), HorizontalGroup("Spell Targeting/Rotation", Width = 0.5f, Order = -1, MaxWidth = 200)]
         public void RotateSpellShape() { this.SpellShapeMatrix = GridUtility.RotateSpellMatrix(this.SpellShapeMatrix, 90); }
 
+        [HideIf("@TargetType == ETargetType.Self || !RequiresTargetting")]
         [Button("Generate Classic Casting"), FoldoutGroup("Spell Targeting"), HorizontalGroup("Spell Targeting/Rotation", Width = 0.5f, Order = 0, MaxWidth = 200)]
         public void GenerateClassicCasting()
         {
             this.CastingMatrix = new bool[7, 7];
-            for (int i = 0;i < 7 * 7;i++)
+            for (int i = 0; i < 7 * 7; i++)
             {
                 CastingMatrix[i % 7, i / 7] = true;
             }
             CastingMatrix[3, 3] = false;
             CasterPosition = new Vector2(3, 3);
         }
-
         [Button, FoldoutGroup("Spell Targeting"), HorizontalGroup("Spell Targeting/Buttons", Width = 0.5f, Order = 0, MaxWidth = 200)]
         public void RegenerateShape() { SpellShapeMatrix = new bool[5, 5]; ShapePosition = new Vector2(2, 2); }
 
+        [HideIf("@TargetType == ETargetType.Self || !RequiresTargetting")]
         [Button, FoldoutGroup("Spell Targeting"), HorizontalGroup("Spell Targeting/Buttons", Width = 0.5f, Order = 0, MaxWidth = 200)]
         public void RegenerateCasting() { CastingMatrix = new bool[5, 5]; CasterPosition = new Vector2(2, 2); }
 
+        private string TargetTypeInfo()
+        {
+            if (SpellResultTargeting)
+            {
+                return $"This spell will take the same target that the spell n°{SpellResultIndex.ToString()} on this card.";
+            }
+            else if (RequiresTargetting)
+            {
+                return $"This spell will be castable on {TargetType.ToString()} cells.";
+            }
+            else
+            {
+                return $"This spell will target ALL OF THE {TargetType.ToString()} on the grid.";
+            }
+        }
+        [DisableIf("@this.RequiresTargetting")]
         [HorizontalGroup("SpellResult", Width = 0.5f, Order = 0)]
         public bool SpellResultTargeting;
         [InfoBox("If this is on, the targets of the result of the spell you want can be added to the targets of this spell, i.e: Damage, then break the defense of the same ones.\\/")]
@@ -119,15 +134,16 @@ namespace DownBelow.Spells
         [TableMatrix(DrawElementMethod = "_processDrawSpellCasting", SquareCells = true, ResizableColumns = false, HorizontalTitle = nameof(CastingMatrix)), OdinSerialize]
         [FoldoutGroup("Spell Targeting"), HorizontalGroup("Spell Targeting/Grids", Width = 0.5f, Order = 1, MaxWidth = 200)]
         [OnValueChanged("_updateCastingShape")]
-        [HideIf("@TargetType == ETargetType.Self || TargetType == ETargetType.AllAllies")]
+        [HideIf("@TargetType == ETargetType.Self || !RequiresTargetting")]
         public bool[,] CastingMatrix;
-        [SerializeField]
+        [SerializeField, HideIf("@TargetType == ETargetType.Self || !RequiresTargetting")]
         public Vector2 CasterPosition = new Vector2(2, 2);
 
         [ShowIf("@this.SpellShapeMatrix != null")]
         [FoldoutGroup("Spell Targeting"), HorizontalGroup("Spell Targeting/RotationValue", Width = 0.5f, Order = 2, MaxWidth = 100)]
         public bool RotateShapeWithCast = false;
 
+        [HideIf("@this.SpellResultTargeting")]
         [FoldoutGroup("Spell Targeting"), HorizontalGroup("Spell Targeting/TargetType", Order = 3)]
         public ETargetType TargetType;
 
@@ -144,7 +160,7 @@ namespace DownBelow.Spells
             int rows = array.GetLength(1);
 
             bool addedEdge = false;
-            for (int i = 0;i < rows;i++)
+            for (int i = 0; i < rows; i++)
             {
                 // Top edge
                 if (array[0, i])
@@ -167,7 +183,7 @@ namespace DownBelow.Spells
             {
                 bool anyTop = false;
                 bool anyBot = false;
-                for (int i = 0;i < cols;i++)
+                for (int i = 0; i < cols; i++)
                 {
                     if (array[i, 1]) anyTop = true;
                     if (array[i, rows - 2]) anyBot = true;
@@ -177,7 +193,7 @@ namespace DownBelow.Spells
             }
 
             addedEdge = false;
-            for (int i = 1;i < cols - 1;i++)
+            for (int i = 1; i < cols - 1; i++)
             {
                 // Left edge
                 if (array[i, 0])
@@ -200,7 +216,7 @@ namespace DownBelow.Spells
             {
                 bool anyLeft = false;
                 bool anyRight = false;
-                for (int i = 0;i < rows;i++)
+                for (int i = 0; i < rows; i++)
                 {
                     if (array[1, i]) anyLeft = true;
                     if (array[cols - 2, i]) anyRight = true;
@@ -247,7 +263,8 @@ namespace DownBelow.Spells
                         y = rect.y + (rect.size.y / 4)
                     }, color);
                 //Achor cell
-            } else
+            }
+            else
             {
                 EditorGUI.DrawRect(
                     rect.Padding(1),
