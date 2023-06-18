@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -58,11 +59,12 @@ namespace DownBelow.UI.Inventory
             if (this.SelfItem.ItemPreset != null)
             {
                 this.icon.sprite = Item.ItemPreset.InventoryIcon;
+                this.icon.gameObject.SetActive(true);
                 this.TotalQuantity = Item.Quantity;
                 this.quantity.text = this.TotalQuantity.ToString();
             } else
             {
-                this.icon.sprite = Managers.SettingsManager.Instance.GameUIPreset.ItemCase;
+                this.icon.gameObject.SetActive(false);
                 this.quantity.text = string.Empty;
                 this.TotalQuantity = 0;
             }
@@ -72,15 +74,16 @@ namespace DownBelow.UI.Inventory
         {
             if (Data.ItemData.Quantity > 0)
             {
-                this.icon.gameObject.SetActive(true);
                 this.icon.sprite = Data.ItemData.ItemPreset.InventoryIcon;
-                this.icon.gameObject.SetActive(true);
+                if(!this.icon.gameObject.activeInHierarchy)
+                    this.icon.gameObject.SetActive(true);
                 this.TotalQuantity = Data.ItemData.Quantity;
                 this.quantity.text = this.TotalQuantity.ToString();
             } else
             {
-                this.icon.gameObject.SetActive(false);
-                this.icon.sprite = Managers.SettingsManager.Instance.GameUIPreset.ItemCase;
+                if(this.icon.gameObject.activeInHierarchy)
+                    this.icon.gameObject.SetActive(false);
+
                 this.quantity.text = string.Empty;
                 this.TotalQuantity = 0;
             }
