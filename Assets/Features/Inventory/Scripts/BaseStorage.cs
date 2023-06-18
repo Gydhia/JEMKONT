@@ -1,6 +1,7 @@
 using DownBelow.Events;
 using DownBelow.GridSystem;
 using DownBelow.Inventory;
+using DownBelow.Managers;
 using DownBelow.UI.Inventory;
 using System;
 using System.Collections;
@@ -19,6 +20,18 @@ namespace DownBelow.UI.Inventory
 
         #region EVENTS
         public event ItemEventData.Event OnStorageItemChanged;
+
+        public BaseStorage() { }
+        public BaseStorage(StorageData Data, Cell cell)
+        {
+            this.Init(Data.MaxSlots, cell);
+
+            foreach (var item in Data.StoredItems)
+            {
+                var presetItem = SettingsManager.Instance.ItemsPresets[item.ID];
+                this.TryAddItem(presetItem, item.Quantity, item.Slot);
+            }
+        }
 
         public void FireStorageItemChanged(InventoryItem Item)
         {
@@ -143,15 +156,33 @@ namespace DownBelow.UI.Inventory
 
             return foundQuantity >= quantity;
         }
+
+        public StorageData GetData()
+        {
+            return new StorageData(this);
+        }
     }
 
+    [Serializable]
     public struct StorageData
     {
-        public Dictionary<Guid, int> StoredItems { get; set; }
+        public int MaxSlots { get; set; }
+        public GridPosition PositionInGrid { get; set; }
+        public List<ItemData> StoredItems { get; set; }
 
-        public StorageData(Dictionary<Guid, int> StoredItems)
+        public StorageData(BaseStorage Storage)
         {
-            this.StoredItems = StoredItems;
+            this.MaxSlots = Storage.MaxSlots;
+
+            this.PositionInGrid = Storage.RefCell.PositionInGrid;
+
+            this.StoredItems = new List<ItemData>();
+            
+            for (int i = 0; i < Storage.StorageItems.Length; i++)
+            {
+                if(Storage.StorageItems[i].ItemPreset != null)
+                    this.StoredItems.Add(Storage.StorageItems[i].GetData());
+            }
         }
     }
 }

@@ -21,6 +21,12 @@ namespace DownBelow.GridSystem
                 this.Storage.Init(sPreset, RefCell);
             }   
         }
+        
+        public void LoadStorage(StorageData storageData, WorldGrid grid) 
+        {
+            this.Storage = new BaseStorage(storageData, grid.Cells[storageData.PositionInGrid.latitude, storageData.PositionInGrid.longitude]);    
+        }
+
 
         public override void Interact(Entity.PlayerBehavior player)
         {

@@ -7,6 +7,7 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 using System;
 using DownBelow.Entity;
+using DownBelow.UI.Inventory;
 
 namespace DownBelow.GridSystem
 {
@@ -123,6 +124,14 @@ namespace DownBelow.GridSystem
                         if (SettingsManager.Instance.SpawnablesPresets.TryGetValue(spawnable.Value, out BaseSpawnablePreset spawnSO))
                             // TODO: Differentiate enemies and NPC. For now they'll be enemies
                             spawnSO.Init(this.Cells[spawnable.Key.latitude, spawnable.Key.longitude]);
+            }
+
+            if(gridData.Storages != null)
+            {
+                foreach (var storage in gridData.Storages)
+                {
+                    ((InteractableStorage)this.Cells[storage.PositionInGrid.latitude, storage.PositionInGrid.longitude].AttachedInteract).LoadStorage(storage, this);
+                }
             }
         }
 
@@ -298,6 +307,13 @@ namespace DownBelow.GridSystem
             this.InnerGrids = InnerGridsData;
             this.SpawnablePresets = Spawnables;
         }
+
+        public GridData(string GridName, string GridLevelPath, bool IsCombatGrid, int GridHeight, int GridWidth, Vector3 TopLeftOffset, List<CellData> CellDatas, List<GridData> InnerGridsData, Dictionary<GridPosition, Guid> Spawnables, List<StorageData> Storages)
+            : this(GridName, GridLevelPath, IsCombatGrid, GridHeight, GridWidth, TopLeftOffset, CellDatas, InnerGridsData, Spawnables)
+        {
+            this.Storages = Storages;
+        }
+
         [DataMember]
         public string GridName { get; set; }
         [DataMember]
@@ -328,5 +344,8 @@ namespace DownBelow.GridSystem
         [DataMember]
         [Newtonsoft.Json.JsonConverter(typeof(JSONGridConverter))]
         public Dictionary<GridPosition, Guid> SpawnablePresets { get; set; }
+
+        [DataMember]
+        public List<StorageData> Storages { get; set; }
     }
 }

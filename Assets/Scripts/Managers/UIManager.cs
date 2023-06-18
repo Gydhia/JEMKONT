@@ -80,6 +80,16 @@ namespace DownBelow.Managers
             InputManager.Instance.OnCellRightClickDown += this.UpdateEntityToolTip;
             PlayerInputs.player_escape.canceled += this._switchEscapeState;
         }
+        private void _unsubscribe()
+        {
+            CombatManager.Instance.OnCombatStarted -= this.SetupCombatInterface;
+
+            CombatManager.Instance.OnCardBeginUse -= this._beginCardDrag;
+            CombatManager.Instance.OnCardEndUse -= this._endCardDrag;
+
+            InputManager.Instance.OnCellRightClickDown -= this.UpdateEntityToolTip;
+            PlayerInputs.player_escape.canceled -= this._switchEscapeState;
+        }
 
         private void _switchEscapeState(UnityEngine.InputSystem.InputAction.CallbackContext ctx) => this.SwitchEscapeState();
         public void SwitchEscapeState()
@@ -150,6 +160,11 @@ namespace DownBelow.Managers
             this.EnchantSection.ClosePanel();
             this.AbyssesSection.OnClickClose();
             this.WorkshopSection.ClosePanel();
+        }
+
+        private void OnDestroy()
+        {
+            this._unsubscribe();
         }
     }
 }
