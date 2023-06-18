@@ -1,8 +1,10 @@
+using DownBelow.GridSystem;
 using DownBelow.Managers;
 using DownBelow.Mechanics;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 namespace DownBelow.Mechanics
 {
@@ -24,5 +26,14 @@ namespace DownBelow.Mechanics
         public int MaxResourcesUpgrade = 5;
 
         public List<ScriptableCard> GiftedCards = new List<ScriptableCard>();
+
+        public void GiftCards()
+        {
+            foreach (var card in GiftedCards) {
+                var act = new PurchaseCardsAction(GameManager.SelfPlayer, GameManager.SelfPlayer.EntityCell);
+                act.Init(card);
+                NetworkManager.Instance.EntityAskToBuffAction(act);
+            }
+        }
     }
 }

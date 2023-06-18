@@ -59,6 +59,17 @@ namespace DownBelow.Managers
             }
             this.FakePlayers.Clear();
 
+            if (AllyVictory)
+            {
+                string abyssName = (Grid as CombatGrid).ParentGrid.UName;
+                var abyss = SettingsManager.Instance.AbyssesPresets.Find(x=> x.name == abyssName);
+                if(abyss != null && !abyss.IsCleared)
+                {
+                    abyss.IsCleared = true;
+                    abyss.GiftCards();
+                }
+            }
+
             GameManager.SelfPlayer = GameManager.RealSelfPlayer;
 
             this.OnCombatEnded?.Invoke(new GridEventData(Grid, AllyVictory));
