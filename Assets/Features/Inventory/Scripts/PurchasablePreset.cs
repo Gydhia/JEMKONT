@@ -25,11 +25,6 @@ public class PurchasablePreset : InteractablePreset
     [ShowIf("@RandomizeCost"),MinMaxSlider(0, 30, true)]
     public Vector2Int CostsRange = new(2,4);
 
-    private void OnValidate()
-    {
-
-    }
-
     public void ActualizeCosts()
     {
         if (!this.RandomizeCost)

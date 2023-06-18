@@ -23,8 +23,6 @@ public class TeleportedToCondition : CastingCondition
         return TypeOfTargetOnTeleported switch
         {
             ETargetType.Self => Result.TeleportedTo.Any(x => x == Result.Caster),
-            ETargetType.AllAllies => Result.TeleportedTo.Any(x => x.IsAlly),
-            ETargetType.AllEnemies => Result.TeleportedTo.Any(x => !x.IsAlly),
             ETargetType.Enemy => Result.TeleportedTo.Any(x => !x.IsAlly),
             ETargetType.Ally => Result.TeleportedTo.Any(x => x.IsAlly),
             ETargetType.Empty => true,

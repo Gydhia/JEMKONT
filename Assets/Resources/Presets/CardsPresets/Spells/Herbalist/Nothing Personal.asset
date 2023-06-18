@@ -16,16 +16,8 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 0}
-    - {fileID: 0}
     - {fileID: 11400000, guid: 1a809be3311568c45a307232300fa5f6, type: 2}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 11400000, guid: 89f7b60713973524f8ba57c308df4d6d, type: 2}
-    - {fileID: 11400000, guid: fa30452e029a1d94db4b8edb62466406, type: 2}
     - {fileID: 11400000, guid: 9d0f6268ebf7985479145d8a3660f730, type: 2}
-    - {fileID: 11400000, guid: 0fe9eb2c236044e4b8fd40e70facbb39, type: 2}
-    - {fileID: 11400000, guid: 8a7ebf8ab85a42247a7d25fd8ef24b7b, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -63,11 +55,11 @@ MonoBehaviour:
       Entry: 6
       Data: 
     - Name: RefEntity
-      Entry: 10
-      Data: 0
+      Entry: 6
+      Data: 
     - Name: TargetCell
-      Entry: 10
-      Data: 1
+      Entry: 6
+      Data: 
     - Name: ContextActionId
       Entry: 2
       Data: 00000000000000000000000000000000
@@ -307,10 +299,10 @@ MonoBehaviour:
       Data: false
     - Name: TargetType
       Entry: 3
-      Data: 3
+      Data: 6
     - Name: ProjectileSFX
       Entry: 10
-      Data: 2
+      Data: 0
     - Name: CellSFX
       Entry: 6
       Data: 
@@ -396,8 +388,8 @@ MonoBehaviour:
       Entry: 12
       Data: 1
     - Name: 
-      Entry: 10
-      Data: 3
+      Entry: 6
+      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -427,8 +419,11 @@ MonoBehaviour:
       Entry: 9
       Data: 1
     - Name: Caster
-      Entry: 10
-      Data: 0
+      Entry: 6
+      Data: 
+    - Name: SetUp
+      Entry: 5
+      Data: false
     - Name: DamagesDealt
       Entry: 7
       Data: 13|System.Collections.Generic.Dictionary`2[[DownBelow.Entity.CharacterEntity,
@@ -549,10 +544,10 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: ConditionData
+    - Name: TargettingCondition
       Entry: 6
       Data: 
-    - Name: TargettingCondition
+    - Name: CastingCondition
       Entry: 6
       Data: 
     - Name: 
@@ -571,11 +566,11 @@ MonoBehaviour:
       Entry: 6
       Data: 
     - Name: RefEntity
-      Entry: 10
-      Data: 0
+      Entry: 6
+      Data: 
     - Name: TargetCell
-      Entry: 10
-      Data: 4
+      Entry: 6
+      Data: 
     - Name: ContextActionId
       Entry: 2
       Data: 00000000000000000000000000000000
@@ -713,118 +708,13 @@ MonoBehaviour:
       Data: 24|System.Boolean[,], mscorlib
     - Name: 
       Entry: 12
-      Data: 36
+      Data: 1
     - Name: ranks
       Entry: 1
-      Data: 6|6
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
+      Data: 1|1
     - Name: 
       Entry: 5
       Data: true
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
     - Name: 
       Entry: 13
       Data: 
@@ -836,10 +726,10 @@ MonoBehaviour:
       Data: UnityEngine.Vector2, UnityEngine.CoreModule
     - Name: 
       Entry: 4
-      Data: 1
+      Data: 0
     - Name: 
       Entry: 4
-      Data: 1
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -918,8 +808,11 @@ MonoBehaviour:
       Entry: 9
       Data: 21
     - Name: Caster
-      Entry: 10
-      Data: 0
+      Entry: 6
+      Data: 
+    - Name: SetUp
+      Entry: 5
+      Data: false
     - Name: DamagesDealt
       Entry: 7
       Data: 28|System.Collections.Generic.Dictionary`2[[DownBelow.Entity.CharacterEntity,
@@ -1026,12 +919,12 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: ConditionData
-      Entry: 10
-      Data: 5
     - Name: TargettingCondition
-      Entry: 10
-      Data: 6
+      Entry: 6
+      Data: 
+    - Name: CastingCondition
+      Entry: 6
+      Data: 
     - Name: 
       Entry: 8
       Data: 
@@ -1048,11 +941,11 @@ MonoBehaviour:
       Entry: 6
       Data: 
     - Name: RefEntity
-      Entry: 10
-      Data: 0
+      Entry: 6
+      Data: 
     - Name: TargetCell
-      Entry: 10
-      Data: 4
+      Entry: 6
+      Data: 
     - Name: ContextActionId
       Entry: 2
       Data: 00000000000000000000000000000000
@@ -1328,7 +1221,7 @@ MonoBehaviour:
       Data: 2
     - Name: ProjectileSFX
       Entry: 10
-      Data: 7
+      Data: 1
     - Name: CellSFX
       Entry: 6
       Data: 
@@ -1395,8 +1288,11 @@ MonoBehaviour:
       Entry: 9
       Data: 34
     - Name: Caster
-      Entry: 10
-      Data: 0
+      Entry: 6
+      Data: 
+    - Name: SetUp
+      Entry: 5
+      Data: false
     - Name: DamagesDealt
       Entry: 7
       Data: 41|System.Collections.Generic.Dictionary`2[[DownBelow.Entity.CharacterEntity,
@@ -1503,12 +1399,12 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: ConditionData
-      Entry: 10
-      Data: 8
     - Name: TargettingCondition
-      Entry: 10
-      Data: 9
+      Entry: 6
+      Data: 
+    - Name: CastingCondition
+      Entry: 6
+      Data: 
     - Name: 
       Entry: 8
       Data: 

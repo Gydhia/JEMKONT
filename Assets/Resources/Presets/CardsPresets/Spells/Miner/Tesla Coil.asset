@@ -298,7 +298,7 @@ MonoBehaviour:
       Data: false
     - Name: TargetType
       Entry: 3
-      Data: 19
+      Data: 262
     - Name: ProjectileSFX
       Entry: 6
       Data: 
@@ -546,10 +546,10 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: ConditionData
+    - Name: TargettingCondition
       Entry: 6
       Data: 
-    - Name: TargettingCondition
+    - Name: CastingCondition
       Entry: 6
       Data: 
     - Name: 
@@ -812,7 +812,7 @@ MonoBehaviour:
       Data: false
     - Name: TargetType
       Entry: 3
-      Data: 19
+      Data: 262
     - Name: ProjectileSFX
       Entry: 6
       Data: 
@@ -1022,10 +1022,10 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: ConditionData
+    - Name: TargettingCondition
       Entry: 6
       Data: 
-    - Name: TargettingCondition
+    - Name: CastingCondition
       Entry: 6
       Data: 
     - Name: 
@@ -1508,10 +1508,10 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: ConditionData
+    - Name: TargettingCondition
       Entry: 6
       Data: 
-    - Name: TargettingCondition
+    - Name: CastingCondition
       Entry: 6
       Data: 
     - Name: 

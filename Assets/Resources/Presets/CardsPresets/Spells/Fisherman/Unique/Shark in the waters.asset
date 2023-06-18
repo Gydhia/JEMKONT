@@ -288,7 +288,7 @@ MonoBehaviour:
       Data: false
     - Name: TargetType
       Entry: 3
-      Data: 65536
+      Data: 65538
     - Name: ProjectileSFX
       Entry: 6
       Data: 
@@ -316,7 +316,10 @@ MonoBehaviour:
     - Name: Result
       Entry: 6
       Data: 
-    - Name: ConditionData
+    - Name: TargettingCondition
+      Entry: 6
+      Data: 
+    - Name: CastingCondition
       Entry: 6
       Data: 
     - Name: 

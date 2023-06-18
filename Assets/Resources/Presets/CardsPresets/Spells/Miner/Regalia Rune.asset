@@ -54,6 +54,9 @@ MonoBehaviour:
     - Name: RefBuffer
       Entry: 9
       Data: 2
+    - Name: RefGrid
+      Entry: 6
+      Data: 
     - Name: RefEntity
       Entry: 6
       Data: 
@@ -329,6 +332,9 @@ MonoBehaviour:
     - Name: Caster
       Entry: 6
       Data: 
+    - Name: SetUp
+      Entry: 5
+      Data: false
     - Name: DamagesDealt
       Entry: 7
       Data: 12|System.Collections.Generic.Dictionary`2[[DownBelow.Entity.CharacterEntity,
@@ -430,6 +436,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: Teleported
+      Entry: 5
+      Data: false
     - Name: TeleportedTo
       Entry: 7
       Data: 19|System.Collections.Generic.List`1[[DownBelow.Entity.CharacterEntity,
@@ -446,7 +455,10 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: ConditionData
+    - Name: TargettingCondition
+      Entry: 6
+      Data: 
+    - Name: CastingCondition
       Entry: 6
       Data: 
     - Name: 
@@ -461,6 +473,9 @@ MonoBehaviour:
     - Name: RefBuffer
       Entry: 9
       Data: 2
+    - Name: RefGrid
+      Entry: 6
+      Data: 
     - Name: RefEntity
       Entry: 6
       Data: 
@@ -482,6 +497,9 @@ MonoBehaviour:
     - Name: RefBuffer
       Entry: 9
       Data: 2
+    - Name: RefGrid
+      Entry: 6
+      Data: 
     - Name: RefEntity
       Entry: 6
       Data: 
@@ -499,6 +517,9 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 8
+      Data: 
+    - Name: RefGrid
+      Entry: 6
       Data: 
     - Name: RefEntity
       Entry: 6
@@ -817,7 +838,7 @@ MonoBehaviour:
       Data: false
     - Name: TargetType
       Entry: 3
-      Data: 4
+      Data: 16
     - Name: ProjectileSFX
       Entry: 6
       Data: 
@@ -927,6 +948,9 @@ MonoBehaviour:
     - Name: Caster
       Entry: 6
       Data: 
+    - Name: SetUp
+      Entry: 5
+      Data: false
     - Name: DamagesDealt
       Entry: 7
       Data: 32|System.Collections.Generic.Dictionary`2[[DownBelow.Entity.CharacterEntity,
@@ -1014,6 +1038,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: Teleported
+      Entry: 5
+      Data: false
     - Name: TeleportedTo
       Entry: 7
       Data: 37|System.Collections.Generic.List`1[[DownBelow.Entity.CharacterEntity,
@@ -1030,7 +1057,10 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: ConditionData
+    - Name: TargettingCondition
+      Entry: 6
+      Data: 
+    - Name: CastingCondition
       Entry: 6
       Data: 
     - Name: 
