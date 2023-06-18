@@ -46,10 +46,11 @@ namespace DownBelow.UI.Inventory
             this.RemoveItem();
         }
 
-        public void Init(InventoryItem Item, UIStorage refStorage, int slot)
+        public void Init(InventoryItem Item, UIStorage refStorage, int slot, bool OnlyTake)
         {
             this.gameObject.SetActive(true);
 
+            this.CanOnlyTake = OnlyTake;
             this.SelfStorage = refStorage;
             this.Slot = slot;
 

@@ -2,8 +2,11 @@ using DownBelow;
 using DownBelow.Entity;
 using DownBelow.Mechanics;
 using Photon.Pun.UtilityScripts;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Serialization;
 using UnityEditor;
 using UnityEngine;
 
@@ -86,7 +89,42 @@ public class ToolItem : ItemPreset
 
         return this.ToolEnchants[this.CurrentLevel].Buffs[stat];
     }
+
+    public void SetData(ToolData data)
+    {
+        this.CurrentLevel = data.EnchantLevel;
+
+        this.DeckPreset.Deck.Cards.Clear();
+        foreach (var cardID in data.DeckCards)
+        {
+            this.DeckPreset.Deck.Cards.Add(DownBelow.Managers.SettingsManager.Instance.ScriptableCards[cardID]);
+        }
+    }
+
+    public ToolData GetData()
+    {
+        return new ToolData(this);
+    }
 }
 public enum EClass {
     Miner, Herbalist, Farmer, Fisherman
+}
+
+[Serializable]
+public struct ToolData
+{
+    [DataMember]
+    public Guid UID { get; set; }
+    [DataMember]
+    public int EnchantLevel { get; set; }
+    [DataMember]
+    public Guid[] DeckCards { get; set; }
+
+
+    public ToolData(ToolItem item)
+    {
+        this.UID = item.UID;
+        this.EnchantLevel = item.CurrentLevel;
+        this.DeckCards = item.DeckPreset.Deck.Cards.Select(c => c.UID).ToArray();
+    }
 }

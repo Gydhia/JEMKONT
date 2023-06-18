@@ -152,12 +152,42 @@ namespace DownBelow.Managers
             if(GameData.Game.RefGameDataContainer != null)
             {
                 GridManager.Instance.CreateWholeWorld(GameData.Game.RefGameDataContainer);
+
+                this.LoadDatas(GameData.Game.RefGameDataContainer.Data);
+
                 this.ProcessPlayerWelcoming();
             }
             else if (MenuManager.Instance == null)
             {
                 // We're directly loading the FarmLand
                 LoadingScreen.Instance.Show();
+            }
+        }
+
+        public void LoadDatas(GameData.GameData datas)
+        {
+            for (int i = 0; i < datas.last_unlocked_abyss; i++)
+            {
+                SettingsManager.Instance.AbyssesPresets[i].IsCleared = true;
+            }
+
+            foreach (var inventory in datas.players_inventories)
+            {
+                foreach (var item in inventory.StoredItems)
+                {
+                    GridManager.SavePurposeStorage.TryAddItem(SettingsManager.Instance.ItemsPresets[item.ID], item.Quantity);
+                }
+            }
+
+            foreach (var toolData in datas.tools_data)
+            {
+                CardsManager.Instance.AvailableTools.First(t => t.UID == toolData.UID).SetData(toolData);
+            }
+
+            SettingsManager.Instance.OwnedCards.Clear();
+            for (int i = 0; i < datas.owned_cards.Length; i++)
+            {
+                SettingsManager.Instance.OwnedCards.Add(SettingsManager.Instance.ScriptableCards[datas.owned_cards[i]]);
             }
         }
 
@@ -476,6 +506,21 @@ namespace DownBelow.Managers
             gameData.game_version = GameData.GameVersion.Current.ToString();
             gameData.save_name = this.SaveName;
             gameData.save_time = DateTime.Now;
+            gameData.players_inventories = this.Players.Values.Select(p => p.PlayerInventory.GetData()).ToArray();
+            gameData.tools_data = CardsManager.Instance.AvailableTools.Select(t => t.GetData()).ToArray();
+            gameData.current_ressources = CurrentAvailableResources;
+            gameData.owned_cards = SettingsManager.Instance.OwnedCards.Select(c => c.UID).ToArray();
+
+            // Get the last uncleared abyss
+            for (int i = 0; i < SettingsManager.Instance.AbyssesPresets.Count; i++)
+            {
+                if(!SettingsManager.Instance.AbyssesPresets[i].IsCleared)
+                {
+                    gameData.last_unlocked_abyss = i;
+                    break;
+                }
+            }
+
 
             return gameData;
         }

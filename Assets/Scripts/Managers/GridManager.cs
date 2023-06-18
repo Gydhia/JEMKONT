@@ -59,7 +59,9 @@ namespace DownBelow.Managers
 
 #region Datas
         public Dictionary<string, GridData> SavedGrids;
-#endregion
+        #endregion
+
+        public static BaseStorage SavePurposeStorage;
 
         private List<Cell> _possiblePath = new List<Cell>();
 
@@ -131,7 +133,6 @@ namespace DownBelow.Managers
             this._spellArrow.gameObject.SetActive(false);
 
             this.WorldGrids = new Dictionary<string, WorldGrid>();
-            // Load the Grids and Entities SO
             
             if(this._gridsDataHandler != null)
             {
@@ -1188,6 +1189,7 @@ namespace DownBelow.Managers
         public int[] GetData() { return new int[2] { latitude, longitude }; }
 
         public static readonly GridPosition zero = new GridPosition(0, 0);
+        public static readonly GridPosition Null = new GridPosition(-1, -1);
 
         public int longitude { get; private set; }
         public int latitude { get; private set; }

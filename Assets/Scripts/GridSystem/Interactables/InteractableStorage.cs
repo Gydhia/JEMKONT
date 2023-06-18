@@ -10,6 +10,8 @@ namespace DownBelow.GridSystem
     public class InteractableStorage : Interactable
     {
         public BaseStorage Storage;
+        // Can player put resources in this chest ?
+        public bool OnlyTake = false;
 
         public override void Init(InteractablePreset InteractableRef, Cell RefCell)
         {
@@ -18,13 +20,19 @@ namespace DownBelow.GridSystem
             if(this.InteractablePreset is StoragePreset sPreset)
             {
                 this.Storage = new BaseStorage();
-                this.Storage.Init(sPreset, RefCell);
-            }   
+                this.Storage.Init(sPreset, RefCell, this.OnlyTake);
+            }
+
+            // TODO : ok, that sucks
+            if (this.OnlyTake)
+            {
+                GridManager.SavePurposeStorage = Storage;
+            }
         }
         
         public void LoadStorage(StorageData storageData, WorldGrid grid) 
         {
-            this.Storage = new BaseStorage(storageData, grid.Cells[storageData.PositionInGrid.latitude, storageData.PositionInGrid.longitude]);    
+            this.Storage = new BaseStorage(storageData, grid.Cells[storageData.PositionInGrid.latitude, storageData.PositionInGrid.longitude], this.OnlyTake);    
         }
 
 

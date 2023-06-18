@@ -7,6 +7,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using UnityEngine;
 
 namespace DownBelow.UI.Inventory
@@ -17,12 +18,13 @@ namespace DownBelow.UI.Inventory
         public Cell RefCell;
         public InventoryItem[] StorageItems;
         public int MaxSlots;
+        public bool OnlyTake;
 
         #region EVENTS
         public event ItemEventData.Event OnStorageItemChanged;
 
         public BaseStorage() { }
-        public BaseStorage(StorageData Data, Cell cell)
+        public BaseStorage(StorageData Data, Cell cell, bool OnlyTake = false)
         {
             this.Init(Data.MaxSlots, cell);
 
@@ -39,20 +41,21 @@ namespace DownBelow.UI.Inventory
         }
         #endregion
 
-        public void Init(StoragePreset preset, Cell RefCell)
+        public void Init(StoragePreset preset, Cell RefCell, bool OnlyTake = false)
         {
             this.RefCell = RefCell;
             this.Init(preset.MaxSlots);
         }
 
-        public void Init(int slots, Cell RefCell)
+        public void Init(int slots, Cell RefCell, bool OnlyTake = false)
         {
             this.RefCell = RefCell;
             this.Init(slots);
         }
 
-        public void Init(int slots)
+        public void Init(int slots, bool OnlyTake = false)
         {
+            this.OnlyTake = OnlyTake;
             this.MaxSlots = slots;
             this.StorageItems = new InventoryItem[slots];
 
@@ -166,15 +169,19 @@ namespace DownBelow.UI.Inventory
     [Serializable]
     public struct StorageData
     {
+        [DataMember]
         public int MaxSlots { get; set; }
+        [DataMember]
         public GridPosition PositionInGrid { get; set; }
+        [DataMember]
         public List<ItemData> StoredItems { get; set; }
 
         public StorageData(BaseStorage Storage)
         {
             this.MaxSlots = Storage.MaxSlots;
 
-            this.PositionInGrid = Storage.RefCell.PositionInGrid;
+            // Players haven't any refcell in their storage
+            this.PositionInGrid = Storage.RefCell == null ? GridPosition.Null : Storage.RefCell.PositionInGrid;            
 
             this.StoredItems = new List<ItemData>();
             
