@@ -790,7 +790,7 @@ namespace DownBelow.Managers
                 false,
                 grid.GridHeight,
                 grid.GridWidth,
-                grid.TopLeftOffset,
+                grid.SelfData.TopLeftOffset,
                 cellsData,
                 innerGrids,
                 savedSpawnables,

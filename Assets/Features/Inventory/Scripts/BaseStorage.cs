@@ -26,7 +26,7 @@ namespace DownBelow.UI.Inventory
         public BaseStorage() { }
         public BaseStorage(StorageData Data, Cell cell, bool OnlyTake = false)
         {
-            this.Init(Data.MaxSlots, cell);
+            this.Init(Data.MaxSlots, cell, OnlyTake);
 
             foreach (var item in Data.StoredItems)
             {
