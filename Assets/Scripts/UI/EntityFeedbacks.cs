@@ -31,8 +31,8 @@ namespace DownBelow.Entity
 
         public virtual void Init(GameEventData Data)
         {
-            this._entity.OnHealthRemoved += OnHealthRemoved;
-            this._entity.OnHealthAdded += OnHealthAdded;
+            this._entity.OnHealthRemovedRealValue += OnHealthRemoved;
+            this._entity.OnHealthAddedRealValue += OnHealthAdded;
             this._entity.OnEntityTargetted += OnEntityTargetted;
             this._entity.OnStatisticsChanged += _refresh;
             CombatManager.Instance.OnCombatStarted += SetupForCombat;
@@ -65,8 +65,7 @@ namespace DownBelow.Entity
 
         private void OnHealthRemoved(SpellEventData Data)
         {
-
-            if (Data.Value > 0)
+            if (Data.Value < 0)
             {
                 _healthFeedback.text = "-" + Data.Value.ToString();
                 _healthFeedback.color = _healthRemovedColor;
@@ -97,7 +96,6 @@ namespace DownBelow.Entity
             if (Data.Value < 0)
             {
                 _healthFeedback.text = "+" + Mathf.Abs(Data.Value).ToString();
-                Debug.Log("Test : " + Data.Value);
                 _healthFeedback.color = _healthAddedColor;
                 _healthFeedback.transform.LookAt(_mainCam.transform.position);
                 _healthFeedback.transform.Rotate(new Vector3(0f, 180f, 0));
