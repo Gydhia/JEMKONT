@@ -95,13 +95,6 @@ namespace DownBelow.GridSystem
             {
                 ItemContainedObject.gameObject.GetComponent<ToolOnGround>().Init(true);
             }
-            
-            
-            //Mettre un animator sur le prefab pour le faire tourner ou jsp
-//#if UNITY_EDITOR
-//            EditorGUIUtility.PingObject(this);
-//            Selection.activeObject = this;
-//#endif
         }
         public bool HasItem(out InventoryItem item)
         {

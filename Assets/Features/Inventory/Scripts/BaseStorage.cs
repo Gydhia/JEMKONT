@@ -1,11 +1,13 @@
 using DownBelow.Events;
 using DownBelow.GridSystem;
 using DownBelow.Inventory;
+using DownBelow.Managers;
 using DownBelow.UI.Inventory;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using UnityEngine;
 
 namespace DownBelow.UI.Inventory
@@ -16,9 +18,22 @@ namespace DownBelow.UI.Inventory
         public Cell RefCell;
         public InventoryItem[] StorageItems;
         public int MaxSlots;
+        public bool OnlyTake;
 
         #region EVENTS
         public event ItemEventData.Event OnStorageItemChanged;
+
+        public BaseStorage() { }
+        public BaseStorage(StorageData Data, Cell cell, bool OnlyTake = false)
+        {
+            this.Init(Data.MaxSlots, cell, OnlyTake);
+
+            foreach (var item in Data.StoredItems)
+            {
+                var presetItem = SettingsManager.Instance.ItemsPresets[item.ID];
+                this.TryAddItem(presetItem, item.Quantity, item.Slot);
+            }
+        }
 
         public void FireStorageItemChanged(InventoryItem Item)
         {
@@ -26,14 +41,21 @@ namespace DownBelow.UI.Inventory
         }
         #endregion
 
-        public void Init(StoragePreset preset, Cell RefCell)
+        public void Init(StoragePreset preset, Cell RefCell, bool OnlyTake = false)
         {
             this.RefCell = RefCell;
             this.Init(preset.MaxSlots);
         }
 
-        public void Init(int slots)
+        public void Init(int slots, Cell RefCell, bool OnlyTake = false)
         {
+            this.RefCell = RefCell;
+            this.Init(slots);
+        }
+
+        public void Init(int slots, bool OnlyTake = false)
+        {
+            this.OnlyTake = OnlyTake;
             this.MaxSlots = slots;
             this.StorageItems = new InventoryItem[slots];
 
@@ -52,7 +74,7 @@ namespace DownBelow.UI.Inventory
         {
 
             int remaining = quantity;
-            int slot = preferredSlot != -1 ? preferredSlot : _getAvailableSlot(preset);
+            int slot = preferredSlot != -1 ? preferredSlot : _getAvailableSlot(preset, true);
 
             // NO slot of THIS item
             if (slot == -1 || this.StorageItems[slot].ItemPreset == null)
@@ -91,13 +113,14 @@ namespace DownBelow.UI.Inventory
         }
 
 
-        private int _getAvailableSlot(ItemPreset preset)
+        private int _getAvailableSlot(ItemPreset preset, bool toAdd)
         {
             for (int i = 0; i < this.StorageItems.Length; i++)
-                if (this.StorageItems[i] != null && this.StorageItems[i].ItemPreset == preset)
+                if (this.StorageItems[i] != null && this.StorageItems[i].ItemPreset == preset && (!toAdd || this.StorageItems[i].Quantity < preset.MaxStack))
                     return i;
             return -1;
         }
+
 
         private int _getAvailableSlot()
         {
@@ -115,7 +138,7 @@ namespace DownBelow.UI.Inventory
         /// <param name="quantity">The number to remove, -1 if everything</param>
         public void RemoveItem(ItemPreset preset, int quantity, int preferredSlot = -1)
         {
-            int slot = preferredSlot != -1 ? preferredSlot : this._getAvailableSlot(preset);
+            int slot = preferredSlot != -1 ? preferredSlot : this._getAvailableSlot(preset, false);
 
             if (slot != -1)
             {
@@ -136,15 +159,37 @@ namespace DownBelow.UI.Inventory
 
             return foundQuantity >= quantity;
         }
+
+        public StorageData GetData()
+        {
+            return new StorageData(this);
+        }
     }
 
+    [Serializable]
     public struct StorageData
     {
-        public Dictionary<Guid, int> StoredItems { get; set; }
+        [DataMember]
+        public int MaxSlots { get; set; }
+        [DataMember]
+        public GridPosition PositionInGrid { get; set; }
+        [DataMember]
+        public List<ItemData> StoredItems { get; set; }
 
-        public StorageData(Dictionary<Guid, int> StoredItems)
+        public StorageData(BaseStorage Storage)
         {
-            this.StoredItems = StoredItems;
+            this.MaxSlots = Storage.MaxSlots;
+
+            // Players haven't any refcell in their storage
+            this.PositionInGrid = Storage.RefCell == null ? GridPosition.Null : Storage.RefCell.PositionInGrid;            
+
+            this.StoredItems = new List<ItemData>();
+            
+            for (int i = 0; i < Storage.StorageItems.Length; i++)
+            {
+                if(Storage.StorageItems[i].ItemPreset != null)
+                    this.StoredItems.Add(Storage.StorageItems[i].GetData());
+            }
         }
     }
 }

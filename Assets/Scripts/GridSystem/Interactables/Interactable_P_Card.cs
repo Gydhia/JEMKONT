@@ -18,7 +18,7 @@ namespace DownBelow.GridSystem
         {
         }
 
-        public void Init(ScriptableCard card, Interactable_P_Card cardStand)
+        public void Init(ScriptableCard card, Interactable_P_Card cardStand = null)
         {
             this.card = card;
             this.cardStand = cardStand;
@@ -32,9 +32,12 @@ namespace DownBelow.GridSystem
                 EndAction();
                 return;
             }
-
+            Debug.LogWarning($"GiftedCard: {card}");
             SettingsManager.Instance.OwnedCards.Add(card);
-            cardStand.RefreshPurchase();
+            if (cardStand != null)
+            {
+                cardStand.RefreshPurchase();
+            }
             EndAction();
         }
 

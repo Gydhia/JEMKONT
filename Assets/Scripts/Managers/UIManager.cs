@@ -47,7 +47,7 @@ namespace DownBelow.Managers
             this.CardSection.gameObject.SetActive(false);
             this.EntityTooltipUI.gameObject.SetActive(false);
 
-            GameManager.Instance.OnGameStarted += _subscribe;
+            this._subscribe();
         }
         public void SwitchSelectedSlot(int oldSlot, int newSlot)
         {
@@ -70,7 +70,7 @@ namespace DownBelow.Managers
                 //Inventory
             }
         }
-        private void _subscribe(GameEventData Data)
+        private void _subscribe()
         {
             CombatManager.Instance.OnCombatStarted += this.SetupCombatInterface;
 
@@ -79,6 +79,16 @@ namespace DownBelow.Managers
 
             InputManager.Instance.OnCellRightClickDown += this.UpdateEntityToolTip;
             PlayerInputs.player_escape.canceled += this._switchEscapeState;
+        }
+        private void _unsubscribe()
+        {
+            CombatManager.Instance.OnCombatStarted -= this.SetupCombatInterface;
+
+            CombatManager.Instance.OnCardBeginUse -= this._beginCardDrag;
+            CombatManager.Instance.OnCardEndUse -= this._endCardDrag;
+
+            InputManager.Instance.OnCellRightClickDown -= this.UpdateEntityToolTip;
+            PlayerInputs.player_escape.canceled -= this._switchEscapeState;
         }
 
         private void _switchEscapeState(UnityEngine.InputSystem.InputAction.CallbackContext ctx) => this.SwitchEscapeState();
@@ -150,6 +160,11 @@ namespace DownBelow.Managers
             this.EnchantSection.ClosePanel();
             this.AbyssesSection.OnClickClose();
             this.WorkshopSection.ClosePanel();
+        }
+
+        private void OnDestroy()
+        {
+            this._unsubscribe();
         }
     }
 }

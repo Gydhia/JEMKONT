@@ -14,7 +14,7 @@ namespace DownBelow.GridSystem
         public InteractablePreset InteractablePreset;
         public Cell RefCell;
 
-        public MeshRenderer Mesh;
+        public GameObject Mesh;
         public DownBelow.Outlining.Outline Outline;
 
         public virtual void Init(InteractablePreset InteractableRef, Cell RefCell) 

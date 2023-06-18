@@ -26,5 +26,6 @@ MonoBehaviour:
       Data: 6ad7279f825d2a96fbbc6c4b14a5abce
   UName: DroppedPickaxe
   AffectingState: 1
+  OverrideSave: 1
   Item: {fileID: 11400000, guid: 34b1f29d12145524f84fb53e274345fe, type: 2}
   quantity: 1

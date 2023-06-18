@@ -16,7 +16,7 @@ namespace DownBelow.Spells
 
     public class Spell_BileInABottle : Spell<SpellData_BIAB>
     {
-        public Spell_BileInABottle(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, SpellCondition ConditionData) : base(CopyData, RefEntity, TargetCell, ParentSpell, ConditionData)
+        public Spell_BileInABottle(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, TargettingCondition targCond, CastingCondition castCond) : base(CopyData, RefEntity, TargetCell, ParentSpell, targCond,castCond)
         {
         }
 

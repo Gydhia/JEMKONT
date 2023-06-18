@@ -11,6 +11,7 @@ using DownBelow.UI;
 using UnityEngine.InputSystem;
 using Sirenix.Utilities;
 using Photon.Realtime;
+using EODE.Wonderland;
 
 namespace DownBelow.Managers
 {
@@ -36,7 +37,7 @@ namespace DownBelow.Managers
             PlayerInputs.player_select_3.canceled += this._switchToThirdPlayer;
             PlayerInputs.player_select_4.canceled += this._switchToFourthPlayer;
             PlayerInputs.player_reselect.canceled += this._switchToSelfPlayer;
-            
+
 
             this.OnCombatStarted?.Invoke(new GridEventData(Grid));
         }
@@ -58,10 +59,22 @@ namespace DownBelow.Managers
             }
             this.FakePlayers.Clear();
 
+            if (AllyVictory)
+            {
+                string abyssName = (Grid as CombatGrid).ParentGrid.UName;
+                var abyss = SettingsManager.Instance.AbyssesPresets.Find(x=> x.name == abyssName);
+
+                abyss.IsCleared = true;
+                if (!abyss.IsCleared)
+                {
+                    abyss.GiftCards();
+                }
+            }
+
             GameManager.SelfPlayer = GameManager.RealSelfPlayer;
 
             this.OnCombatEnded?.Invoke(new GridEventData(Grid, AllyVictory));
-        }   
+        }
 
         public void FireCardBeginUse(
             ScriptableCard Card,
@@ -153,16 +166,19 @@ namespace DownBelow.Managers
             List<ToolItem> allTools = CardsManager.Instance.AvailableTools.ToList();
             List<ToolItem> freeTools = new List<ToolItem>();
 
+            List<PlayerBehavior> playersToLog = new();
+
             int usedTools = 0;
             foreach (var netPlayer in GameManager.Instance.Players.Values)
             {
                 netPlayer.CombatTools.Clear();
 
-                if(netPlayer.CurrentGrid.IsCombatGrid)
+                if (netPlayer.CurrentGrid.IsCombatGrid)
                 {
                     netPlayer.CombatTools.AddRange(netPlayer.ActiveTools);
                     allyTools.Add(netPlayer, new List<ToolItem>(netPlayer.ActiveTools));
                     usedTools += netPlayer.ActiveTools.Count;
+                    playersToLog.Add(netPlayer);
                 }
                 else
                 {
@@ -192,7 +208,7 @@ namespace DownBelow.Managers
                 }
             }
 
-            if(FakePlayers != null && this.FakePlayers.Count > 0)
+            if (FakePlayers != null && this.FakePlayers.Count > 0)
             {
                 foreach (var fake in FakePlayers)
                 {
@@ -208,12 +224,12 @@ namespace DownBelow.Managers
                 // Each client has one deck or more. Create fake players for each deck excepting the first one
                 foreach (var tool in playerDecks.Value.Skip(1))
                 {
-                    this.FakePlayers.Add(
-                        this._createFakePlayer(currentGrid, tool, playerDecks.Key)
-                    );
+                    var fakePlayer = this._createFakePlayer(currentGrid, tool, playerDecks.Key);
+                    this.FakePlayers.Add(fakePlayer);
+                    playersToLog.Add(fakePlayer);
                 }
             }
-            
+
             Cell playerCell = currentGrid.PlacementCells.First(c => c.Datas.state != CellState.EntityIn);
             player.FireExitedCell();
             player.FireEnteredCell(playerCell);
@@ -221,10 +237,15 @@ namespace DownBelow.Managers
 
             player.ReinitializeAllStats();
 
-            if(GameManager.SelfPlayer == Data.Entity)
+            if (GameManager.SelfPlayer == Data.Entity)
             {
                 PoolManager.Instance.CellIndicatorPool.DisplayPathIndicators(currentGrid.PlacementCells);
             }
+            foreach (var item in playersToLog)
+            {
+                Logpad.Log($"Print current {item.ActiveTool.Class} status", () => Debug.Log(item.ToString()));
+            }
+
         }
 
         private PlayerBehavior _createFakePlayer(CombatGrid currentGrid, ToolItem toolToAssign, PlayerBehavior owner)
@@ -260,8 +281,8 @@ namespace DownBelow.Managers
             this.FireCombatStarted(CurrentPlayingGrid);
 
             StartCoroutine(this._startCombatDelay(2f));
-            
-          //  UIManager.Instance.CardSection.OnCharacterSwitch += _abortUsedSpell;
+
+            //  UIManager.Instance.CardSection.OnCharacterSwitch += _abortUsedSpell;
         }
 
         private IEnumerator _startCombatDelay(float time)
@@ -276,9 +297,9 @@ namespace DownBelow.Managers
         private void _switchToSecondPlayer(InputAction.CallbackContext ctx) => this._switchSelectedPlayer(1);
         private void _switchToThirdPlayer(InputAction.CallbackContext ctx) => this._switchSelectedPlayer(2);
         private void _switchToFourthPlayer(InputAction.CallbackContext ctx) => this._switchSelectedPlayer(3);
-        private void _switchToSelfPlayer(InputAction.CallbackContext ctx) 
-        { 
-            if(CurrentPlayingEntity is PlayerBehavior player && IsPlayerOrOwned(player))
+        private void _switchToSelfPlayer(InputAction.CallbackContext ctx)
+        {
+            if (CurrentPlayingEntity is PlayerBehavior player && IsPlayerOrOwned(player))
             {
                 this._switchSelectedPlayer(player);
             }
@@ -370,7 +391,7 @@ namespace DownBelow.Managers
         #region CARDS
         private void _beginUseSpell(CardEventData data)
         {
-            if(data.Card.Spells == null)
+            if (data.Card.Spells == null)
             {
                 Debug.LogError("Trying to use a card without Spell. Fix it in editor.");
             }
@@ -406,7 +427,7 @@ namespace DownBelow.Managers
 
         public void AbortUsedSpell(CellEventData Data)
         {
-            if(DraggableCard.SelectedCard != null)
+            if (DraggableCard.SelectedCard != null)
             {
                 this.FireCardEndUse(
                 DraggableCard.SelectedCard.CardReference,
@@ -433,7 +454,7 @@ namespace DownBelow.Managers
 
             InputManager.Instance.OnCellClickedUp -= _processSpellClick;
             UIManager.Instance.CardSection.OnCharacterSwitch -= AbortUsedSpell;
-            
+
         }
 
         public static bool IsCellCastable(Cell cell, Spell spell)
@@ -485,7 +506,7 @@ namespace DownBelow.Managers
             }
         }
 
-       
+
         #endregion
 
         private IEnumerator _startTurnTimer()
@@ -506,12 +527,12 @@ namespace DownBelow.Managers
                 timePassed += Time.deltaTime;
 
                 float timeToShowOnSlider = timePassed / time;
-                
+
                 UIManager.Instance.TurnSection.TimeSlider.fillAmount = timeToShowOnSlider;
             }
-            
+
             // End of allowed time, only by the master client to avoid multiple buffing
-            if(Photon.Pun.PhotonNetwork.IsMasterClient && this.IsPlayerOrOwned(CurrentPlayingEntity))
+            if (Photon.Pun.PhotonNetwork.IsMasterClient && this.IsPlayerOrOwned(CurrentPlayingEntity))
             {
                 NetworkManager.Instance.EntityAskToBuffAction(
                     new EndTurnAction(CurrentPlayingEntity, CurrentPlayingEntity.EntityCell)
@@ -589,11 +610,11 @@ namespace DownBelow.Managers
                 this.FireCombatEnded(CurrentPlayingGrid, false);
             }
             // all Enemies dead
-            else if(PlayingEntities.Count(p => !p.IsAlly) == 0)
+            else if (PlayingEntities.Count(p => !p.IsAlly) == 0)
             {
                 this.FireCombatEnded(CurrentPlayingGrid, true);
             }
         }
-        
+
     }
 }

@@ -44,18 +44,31 @@ namespace DownBelow.Inventory
             this.Slot = Slot;
             this.Quantity = Quantity;
         }
+
+        public ItemData GetData()
+        {
+            return new ItemData(this);  
+        }
     }
 
     [Serializable]
     public struct ItemData
     {
-        public Guid Name { get; set; }
+        public Guid ID { get; set; }
         public int Quantity { get; set; }
+        public int Slot { get; set; }
 
-        public ItemData(Guid Name, int Quantity)
+        public ItemData(InventoryItem Item)
         {
-            this.Name = Name;
+            this.ID = Item.ItemPreset.UID;
+            this.Quantity = Item.Quantity;
+            this.Slot = Item.Slot;
+        }
+        public ItemData(Guid Name, int Quantity, int Slot)
+        {
+            this.ID = Name;
             this.Quantity = Quantity;
+            this.Slot = Slot;
         }
     }
 }

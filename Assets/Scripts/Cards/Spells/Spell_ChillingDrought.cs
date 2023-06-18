@@ -14,7 +14,7 @@ namespace DownBelow.Spells
 
     public class Spell_ChillingDrought : Spell<SpellData_ChillingDrought>
     {
-        public Spell_ChillingDrought(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, SpellCondition ConditionData) : base(CopyData, RefEntity, TargetCell, ParentSpell, ConditionData)
+        public Spell_ChillingDrought(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, TargettingCondition targCond, CastingCondition castCond) : base(CopyData, RefEntity, TargetCell, ParentSpell, targCond,castCond)
         {
         }
 
@@ -23,8 +23,9 @@ namespace DownBelow.Spells
             await base.DoSpellBehavior();
 
             GetTargets(TargetCell)[0].ApplyStat(EntityStatistics.Health,
-                LocalData.BaseDamage -
-                (((PlayerBehavior)RefEntity).Deck.RefCardsHolder.PileSize(Managers.PileType.Hand) * LocalData.DamagePenaltyPerCard));
+                - LocalData.BaseDamage +
+                (((PlayerBehavior)RefEntity).Deck.RefCardsHolder.PileSize(Managers.PileType.Hand) * LocalData.DamagePenaltyPerCard)
+                );
         }
     }
 }

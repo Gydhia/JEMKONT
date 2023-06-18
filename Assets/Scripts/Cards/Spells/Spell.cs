@@ -20,21 +20,22 @@ namespace DownBelow.Spells
     {
         protected T LocalData => this.Data as T;
 
-        protected Spell(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, SpellCondition ConditionData)
-            : base(CopyData, RefEntity, TargetCell, ParentSpell, ConditionData)
+        protected Spell(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, TargettingCondition targCond, CastingCondition castCond)
+            : base(CopyData, RefEntity, TargetCell, ParentSpell, targCond,castCond)
         {
         }
     }
 
     public abstract class Spell : EntityAction
     {
-        public Spell(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, SpellCondition ConditionData)
+        public Spell(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, TargettingCondition targCond, CastingCondition castCond)
            : base(RefEntity, TargetCell)
         {
             this.Data = CopyData;
             this.Data.Refresh();
             this.ParentSpell = ParentSpell;
-            this.ConditionData = ConditionData;
+            this.TargettingCondition = targCond;
+            this.CastingCondition = castCond;
         }
 
         public ScriptableCard RefCard => SettingsManager.Instance.ScriptableCards[SpellHeader.RefCard];
@@ -55,15 +56,15 @@ namespace DownBelow.Spells
         [HideInInspector, JsonIgnore]
         public SpellResult Result;
 
-        public SpellCondition ConditionData;
-        public ConditionBase TargettingCondition;
+        public ConditionBase<Cell> TargettingCondition;
+        public ConditionBase<SpellResult> CastingCondition;
 
         public bool ValidateConditions()
         {
-            if (ParentSpell == null || ConditionData == null)
+            if (ParentSpell == null || CastingCondition == null)
                 return true;
 
-            return this.ConditionData.Check(ParentSpell.Result);
+            return this.CastingCondition.Validated(ParentSpell.Result);
         }
 
         public override async void ExecuteAction()
@@ -155,7 +156,7 @@ namespace DownBelow.Spells
             {
                 TargetedCells = new();
                 List<Cell> TargetCellsToTranspose = new List<Cell>();
-                if (this.Data.TargetType.HasFlag(ETargetType.Ally) || this.Data.TargetType.HasFlag(ETargetType.AllAllies))
+                if (this.Data.TargetType.HasFlag(ETargetType.Ally))
                 {
                     TargetCellsToTranspose.AddRange(CombatManager.Instance.PlayingEntities.FindAll(x => x.IsAlly).Select(x => x.EntityCell).ToList());
                 }
@@ -163,7 +164,7 @@ namespace DownBelow.Spells
                 {
                     TargetCellsToTranspose.Add(this.ParentSpell == null ? this.RefEntity.EntityCell : this.ParentSpell.RefEntity.EntityCell);
                 }
-                if (this.Data.TargetType.HasFlag(ETargetType.Enemy) || this.Data.TargetType.HasFlag(ETargetType.AllEnemies))
+                if (this.Data.TargetType.HasFlag(ETargetType.Enemy))
                 {
                     TargetCellsToTranspose.AddRange(CombatManager.Instance.PlayingEntities.FindAll(x => !x.IsAlly).Select(x => x.EntityCell).ToList());
                 }
@@ -211,7 +212,7 @@ namespace DownBelow.Spells
                 TargetedCells.Clear();
                 foreach (Cell cell in realTargeted)
                 {
-                    if (TargettingCondition.Validated(ParentSpell.Result, cell))
+                    if (TargettingCondition.Validated(cell))
                     {
                         TargetedCells.Add(cell);
                     }
@@ -219,6 +220,8 @@ namespace DownBelow.Spells
             }
             TargetEntities = new();
             TargetEntities.AddRange(TargetedCells.FindAll(x => x.EntityIn != null).Select(x => x.EntityIn));
+
+            Debug.Log($"{this.GetType()} spell targets : {TargetEntities.ArrayToString()}");
             return TargetEntities;
         }
 

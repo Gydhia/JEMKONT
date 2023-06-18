@@ -68,6 +68,8 @@ MonoBehaviour:
   - RPC_RespondMasterToLeaveCombat
   - RPC_RespondPlayersToLeaveCombat
   - RPC_SelfLoadedGame
+  - RPC_EntityRespondToTickAction
+  - RPC_RespondGiftOrRemoveStorageItem
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

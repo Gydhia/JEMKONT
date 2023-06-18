@@ -1,4 +1,5 @@
 using DownBelow.GridSystem;
+using DownBelow.UI.Inventory;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,6 +19,21 @@ namespace DownBelow.GameData
 
         [DataMember]
         public GridData[] grids_data;
+
+        [DataMember]
+        public StorageData[] players_inventories;
+
+        [DataMember]
+        public int last_unlocked_abyss;
+
+        [DataMember]
+        public int current_ressources;
+
+        [DataMember]
+        public ToolData[] tools_data;
+
+        [DataMember]
+        public Guid[] owned_cards;
 
         [DataMember]
         public DateTime save_time;

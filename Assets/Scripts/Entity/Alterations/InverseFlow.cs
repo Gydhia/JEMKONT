@@ -20,7 +20,7 @@ namespace DownBelow.Spells.Alterations
 
         private void FlowDamage(Events.SpellEventData Data)
         {
-            Target.ApplyStat(EntityStatistics.Health, DamageFromFlow);
+            Target.ApplyStat(EntityStatistics.Health, -DamageFromFlow);
         }
         public override void WearsOff(CharacterEntity entity)
         {

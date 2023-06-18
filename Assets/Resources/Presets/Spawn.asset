@@ -26,3 +26,4 @@ MonoBehaviour:
       Data: dbddd14f8fd77c7fdcd62e926266611e
   UName: Spawn
   AffectingState: 1
+  OverrideSave: 1

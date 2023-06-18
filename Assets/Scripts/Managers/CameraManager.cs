@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace DownBelow.Managers
 {
@@ -29,8 +30,7 @@ namespace DownBelow.Managers
                 if (GameManager.RealSelfPlayer.CurrentGrid.IsCombatGrid) 
                 {
                     this.VirtualCamera.Follow = null;
-
-                    this.VirtualCamera.transform.position = new Vector3(61.28f, 25f, -52.17f);
+                    this.VirtualCamera.transform.position = new Vector3(61.28f, 20f, -52.17f);
                     this.VirtualCamera.transform.eulerAngles = new Vector3(45f, -30f, 0f);
                 }
                 else

@@ -17,6 +17,7 @@ namespace DownBelow.Managers
         RoomCreation = 3,
         Lobby = 4,
         Room = 5,
+        Credits = 6,
 
         Option = 20,
 

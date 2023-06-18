@@ -2,10 +2,12 @@ using DownBelow.Entity;
 using DownBelow.Events;
 using DownBelow.Inventory;
 using DownBelow.Managers;
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -15,6 +17,12 @@ namespace DownBelow.UI.Inventory
     public class UIInventoryItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
     {
         public static UIInventoryItem LastHoveredItem;
+
+        [FoldoutGroup("Facultative parameters")]
+        public ItemPreset OnlyAcceptedItem = null;
+        [FoldoutGroup("Facultative parameters")]
+        public bool CanOnlyTake = false;
+
 
         [SerializeField] private Image icon;
         [SerializeField] private TextMeshProUGUI quantity;
@@ -39,10 +47,11 @@ namespace DownBelow.UI.Inventory
             this.RemoveItem();
         }
 
-        public void Init(InventoryItem Item, UIStorage refStorage, int slot)
+        public void Init(InventoryItem Item, UIStorage refStorage, int slot, bool OnlyTake)
         {
             this.gameObject.SetActive(true);
 
+            this.CanOnlyTake = OnlyTake;
             this.SelfStorage = refStorage;
             this.Slot = slot;
 
@@ -51,11 +60,12 @@ namespace DownBelow.UI.Inventory
             if (this.SelfItem.ItemPreset != null)
             {
                 this.icon.sprite = Item.ItemPreset.InventoryIcon;
+                this.icon.gameObject.SetActive(true);
                 this.TotalQuantity = Item.Quantity;
                 this.quantity.text = this.TotalQuantity.ToString();
             } else
             {
-                this.icon.sprite = Managers.SettingsManager.Instance.GameUIPreset.ItemCase;
+                this.icon.gameObject.SetActive(false);
                 this.quantity.text = string.Empty;
                 this.TotalQuantity = 0;
             }
@@ -66,11 +76,15 @@ namespace DownBelow.UI.Inventory
             if (Data.ItemData.Quantity > 0)
             {
                 this.icon.sprite = Data.ItemData.ItemPreset.InventoryIcon;
+                if(!this.icon.gameObject.activeInHierarchy)
+                    this.icon.gameObject.SetActive(true);
                 this.TotalQuantity = Data.ItemData.Quantity;
                 this.quantity.text = this.TotalQuantity.ToString();
             } else
             {
-                this.icon.sprite = Managers.SettingsManager.Instance.GameUIPreset.ItemCase;
+                if(this.icon.gameObject.activeInHierarchy)
+                    this.icon.gameObject.SetActive(false);
+
                 this.quantity.text = string.Empty;
                 this.TotalQuantity = 0;
             }
@@ -144,17 +158,23 @@ namespace DownBelow.UI.Inventory
         {
             if (LastHoveredItem && LastHoveredItem != this)
             {
-                var action = new DropItemAction(GameManager.RealSelfPlayer, LastHoveredItem.SelfStorage.Storage.RefCell);
-                action.Init(
-                    this.SelfStorage.Storage.RefCell,
-                    this.SelfItem.ItemPreset,
-                    this.TotalQuantity,
-                    true,
-                    LastHoveredItem.Slot,
-                    this.Slot
-                 );
+                if (LastHoveredItem.OnlyAcceptedItem != null && LastHoveredItem.OnlyAcceptedItem != this.SelfItem.ItemPreset)
+                    return;
 
-                NetworkManager.Instance.EntityAskToBuffAction(action);
+                if (!LastHoveredItem.CanOnlyTake)
+                {
+                    var action = new DropItemAction(GameManager.RealSelfPlayer, LastHoveredItem.SelfStorage.Storage.RefCell);
+                    action.Init(
+                        this.SelfStorage.Storage.RefCell,
+                        this.SelfItem.ItemPreset,
+                        this.TotalQuantity,
+                        true,
+                        LastHoveredItem.Slot,
+                        this.Slot
+                     );
+
+                    NetworkManager.Instance.EntityAskToBuffAction(action);
+                }
             }
         }
         protected virtual void dropOverWorld(PointerEventData eventData)

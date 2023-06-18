@@ -16,9 +16,9 @@ public class PlaceableItemPreset : PlaceableItem
     public CellState AffectingCellState;
     protected override CellState AffectingState => AffectingCellState;
 
-    public override void PlaceObject(CellEventData data)
+    public override void PlaceObject(Cell cell)
     {
-        PrevisualizationInstance.transform.SetParent(data.Cell.transform);
+        PrevisualizationInstance.transform.SetParent(cell.transform);
     }
 
     protected override void InstanciatePrevisualization(CellEventData data)

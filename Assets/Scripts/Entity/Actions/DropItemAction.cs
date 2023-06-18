@@ -1,6 +1,7 @@
 using DownBelow.GridSystem;
 using DownBelow.Inventory;
 using DownBelow.Managers;
+using DownBelow.UI.Inventory;
 using System;
 using System.Linq;
 using UnityEditor;
@@ -48,6 +49,9 @@ namespace DownBelow.Entity
             // Dropping over grid
             else if(!OverUI && TargetCell.Datas.state == CellState.Walkable)
             {
+                if (Item.DroppedItemPrefab == null)
+                    return;
+
                 InventoryItem InvInt = new();
                 InvInt.Init(Item, 0, (int)Quantity);
                 TargetCell.DropDownItem(InvInt);

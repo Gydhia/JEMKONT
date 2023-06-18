@@ -1,5 +1,6 @@
 using DownBelow.Entity;
 using DownBelow.Managers;
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,6 +13,17 @@ namespace DownBelow.GridSystem
 {
     public static class GridUtility
     {
+        public static int Distance(Cell cell1, Cell cell2)
+        {
+            int dx = Math.Abs(cell1.PositionInGrid.longitude - cell2.PositionInGrid.longitude);
+            int dy = Math.Abs(cell1.PositionInGrid.latitude - cell2.PositionInGrid.latitude);
+            return dx + dy;
+        }
+
+        public static int DistanceWith(this Cell ourcell, Cell CellToMesureDistance)
+        {
+            return Distance(ourcell, CellToMesureDistance);
+        }
         public static void ResizeGrid(ref CellData[,] oldCells, CellData[,] newCells)
         {
             int oldHeight = oldCells.GetLength(0);
@@ -26,8 +38,8 @@ namespace DownBelow.GridSystem
             {
                 oldCells = newCells;
 
-                for (int i = 0;i < newHeight;i++)
-                    for (int j = 0;j < newWidth;j++)
+                for (int i = 0; i < newHeight; i++)
+                    for (int j = 0; j < newWidth; j++)
                         if (oldCells[i, j] == null)
                             oldCells[i, j] = new CellData(i, j, CellState.Walkable);
             }
@@ -168,7 +180,8 @@ namespace DownBelow.GridSystem
                     left = true;
                     return innerGrid.Cells[entityPos.latitude - innerGrid.Latitude, 0];
                 }
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 Debug.LogError("Couldn't find closest Cell because Entity[" + entityPos.latitude + ", " + entityPos.longitude +
                     "] failed innerGrid[" + innerGrid.Latitude + ", " + innerGrid.Longitude + "] for size of [" + innerGrid.GridHeight + ", " + innerGrid.GridWidth + "]\n" +
@@ -301,22 +314,22 @@ namespace DownBelow.GridSystem
             switch (angle)
             {
                 case 90:
-                    for (int i = 0;i < numRows;i++)
-                        for (int j = 0;j < numCols;j++)
+                    for (int i = 0; i < numRows; i++)
+                        for (int j = 0; j < numCols; j++)
                             outputMatrix[j, numRows - i - 1] = baseMatrix[i, j];
 
                     break;
 
                 case 180:
-                    for (int i = 0;i < numRows;i++)
-                        for (int j = 0;j < numCols;j++)
+                    for (int i = 0; i < numRows; i++)
+                        for (int j = 0; j < numCols; j++)
                             outputMatrix[numRows - i - 1, numCols - j - 1] = baseMatrix[i, j];
 
                     break;
 
                 case 270:
-                    for (int i = 0;i < numRows;i++)
-                        for (int j = 0;j < numCols;j++)
+                    for (int i = 0; i < numRows; i++)
+                        for (int j = 0; j < numCols; j++)
                             outputMatrix[numCols - j - 1, i] = baseMatrix[i, j];
 
                     break;
@@ -368,7 +381,8 @@ namespace DownBelow.GridSystem
                     return 270;
                 else
                     return 90;
-            } else
+            }
+            else
             {
                 // Vertical movement
                 if (yDiff > 0)
@@ -430,9 +444,9 @@ namespace DownBelow.GridSystem
             int shapeWidth = shape.GetLength(1);
 
             // Iterate over the cells in the pattern and add the corresponding cells in the grid to the list
-            for (int x = 0;x < shapeHeight;x++)
+            for (int x = 0; x < shapeHeight; x++)
             {
-                for (int y = 0;y < shapeWidth;y++)
+                for (int y = 0; y < shapeWidth; y++)
                 {
                     if (shape[x, y])
                     {
@@ -472,7 +486,7 @@ namespace DownBelow.GridSystem
             var res = "";
             var temp2 = temp.Split(",");
 
-            for (int i = 0;i < 2;i++)
+            for (int i = 0; i < 2; i++)
             {
                 res += temp2[i];
                 if (i == 0)

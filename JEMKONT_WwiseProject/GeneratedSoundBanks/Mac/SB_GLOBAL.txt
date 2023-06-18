@@ -1,9 +1,38 @@
 Event	ID	Name			Wwise Object Path	Notes
+	71458555	Play_SSFX__Walk			\Default Work Unit\SSFX\Play_SSFX__Walk	
+	217388420	Set_Layer_0			\Default Work Unit\MUS_LAYER\Set_Layer_0	
+	217388421	Set_Layer_1			\Default Work Unit\MUS_LAYER\Set_Layer_1	
+	217388422	Set_Layer_2			\Default Work Unit\MUS_LAYER\Set_Layer_2	
+	217388423	Set_Layer_3			\Default Work Unit\MUS_LAYER\Set_Layer_3	
+	241397386	Play_SSFX__CombatWin			\Default Work Unit\CombatState\Play_SSFX__CombatWin	
+	284401701	Play_SSFX__CardPick			\Default Work Unit\SSFX\Play_SSFX__CardPick	
+	529950874	Play_SSFX__MyTurnEnd			\Default Work Unit\CombatState\Play_SSFX__MyTurnEnd	
+	611645331	Play_SSFX__CombatLose			\Default Work Unit\CombatState\Play_SSFX__CombatLose	
+	803863510	Play_SSFX__DeckShuffle			\Default Work Unit\SSFX\Play_SSFX__DeckShuffle	
+	1592321915	SetCombat			\Default Work Unit\GameState\SetCombat	
+	1884104528	Play_SSFX__CardSlap			\Default Work Unit\SSFX\Play_SSFX__CardSlap	
+	1917263390	StopMusic			\Default Work Unit\Music\StopMusic	
 	2149827808	Play_SSFX__ClickBlocked			\Default Work Unit\SSFX\Play_SSFX__ClickBlocked	
+	2280958161	Play_SSFX__EnemyTurn			\Default Work Unit\CombatState\Play_SSFX__EnemyTurn	
+	2316203732	SetExplore			\Default Work Unit\GameState\SetExplore	
+	2351453751	Play_SSFX__AllyTurn			\Default Work Unit\CombatState\Play_SSFX__AllyTurn	
+	3168485769	Play_SSFX__MyTurnStart			\Default Work Unit\CombatState\Play_SSFX__MyTurnStart	
 	3568964008	Play_SSFX__Click			\Default Work Unit\SSFX\Play_SSFX__Click	
+	3628674037	SetMainMenu			\Default Work Unit\GameState\SetMainMenu	
+	3827058668	StartMusic			\Default Work Unit\Music\StartMusic	
+	4022000560	Set_Sand			\Default Work Unit\Ground\Set_Sand	
+	4038830388	Set_Grass			\Default Work Unit\Ground\Set_Grass	
+
+Switch Group	ID	Name			Wwise Object Path	Notes
+	2578143219	Ground_Switch			\Default Work Unit\Ground_Switch	
+
+Switch	ID	Name	Switch Group			Notes
+	803837735	Sand	Ground_Switch			
+	4248645337	Grass	Ground_Switch			
 
 State Group	ID	Name			Wwise Object Path	Notes
 	3298531235	Layers			\Default Work Unit\Layers	
+	4091656514	GameState			\Default Work Unit\GameState	
 
 State	ID	Name	State Group			Notes
 	602912168	Layers1	Layers			
@@ -11,37 +40,82 @@ State	ID	Name	State Group			Notes
 	602912170	Layers3	Layers			
 	602912171	Layers2	Layers			
 	748895195	None	Layers			
+	579523862	Explore	GameState			
+	748895195	None	GameState			
+	2764240573	Combat	GameState			
+	3604647259	MainMenu	GameState			
 
 Custom State	ID	Name	State Group	Owner		Notes
-	28508136	Layers2	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Fight\Combat0\bass piano loop		
-	216170066	Layers1	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Fight\Combat1\dbFight04		
-	224518876	Layers2	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Fight\Combat1\dbFight03		
-	268472730	Layers0	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Fight\Combat1\dbFight02		
-	272449028	Layers0	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Fight\Combat1\dbFight04		
-	279672907	Layers1	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Fight\Combat1\dbFight02		
-	474278211	Layers0	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Fight\Combat0\hihats loop		
-	503644836	Layers0	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Fight\Combat0\harp loop		
-	521700874	Layers1	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Fight\Combat1\dbFight03		
-	549644087	Layers0	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Fight\Combat1\dbFight01		
-	563894571	Layers1	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Fight\Combat0\harp loop		
-	564387403	Layers0	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Fight\Combat0\bass piano loop		
-	666925041	Layers0	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Fight\Combat1\dbFight03		
-	973650471	Layers2	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Fight\Combat1\dbFight04		
-	975108717	Layers1	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Fight\Combat0\bass piano loop		
+	28508136	Layers2	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Combat\Combat0\bass piano loop		
+	216170066	Layers1	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Combat\Combat1\dbFight04		
+	224518876	Layers2	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Combat\Combat1\dbFight03		
+	268472730	Layers0	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Combat\Combat1\dbFight02		
+	272449028	Layers0	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Combat\Combat1\dbFight04		
+	279672907	Layers1	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Combat\Combat1\dbFight02		
+	474278211	Layers0	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Combat\Combat0\hihats loop		
+	503644836	Layers0	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Combat\Combat0\harp loop		
+	521700874	Layers1	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Combat\Combat1\dbFight03		
+	549644087	Layers0	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Combat\Combat1\dbFight01		
+	563894571	Layers1	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Combat\Combat0\harp loop		
+	564387403	Layers0	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Combat\Combat0\bass piano loop		
+	666925041	Layers0	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Combat\Combat1\dbFight03		
+	973650471	Layers2	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Combat\Combat1\dbFight04		
+	975108717	Layers1	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Combat\Combat0\bass piano loop		
+
+Game Parameter	ID	Name			Wwise Object Path	Notes
+	732857810	RTPC_Volume_Master			\Default Work Unit\MIX\RTPC_Volume_Master	
+	2451151905	RTPC_Volume_Music			\Default Work Unit\MIX\RTPC_Volume_Music	
+	4276639445	RTPC_Volume_SFX			\Default Work Unit\MIX\RTPC_Volume_SFX	
+
+Audio Bus	ID	Name			Wwise Object Path	Notes
+	672574001	SSFX			\Default Work Unit\Master Audio Bus\SSFX	
+	3803692087	Master Audio Bus			\Default Work Unit\Master Audio Bus	
+	3991942870	Music			\Default Work Unit\Master Audio Bus\Music	
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
-	36056990	CLICK2	C:\Users\PolygrosStudio\Documents\SelfUnityProject\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\UI_Click_Subtle_mono_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\UI_SSFX\MENU_SSFX\Click\CLICK2		4370
-	65588681	dbFight03	C:\Users\PolygrosStudio\Documents\SelfUnityProject\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\dbFight03_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Fight\Combat1\dbFight03		6702688
-	78472428	CLICK1	C:\Users\PolygrosStudio\Documents\SelfUnityProject\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\UI_Click_Distinct_mono_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\UI_SSFX\MENU_SSFX\Click\CLICK1		6134
-	488747114	hihats loop	C:\Users\PolygrosStudio\Documents\SelfUnityProject\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\hihats loop_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Fight\Combat0\hihats loop		1660380
-	597632551	dbFight04	C:\Users\PolygrosStudio\Documents\SelfUnityProject\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\dbFight04_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Fight\Combat1\dbFight04		6702688
-	708396059	kalimba loop	C:\Users\PolygrosStudio\Documents\SelfUnityProject\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\kalimba loop_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Fight\Combat0\kalimba loop		3320616
-	801563757	dbFight01	C:\Users\PolygrosStudio\Documents\SelfUnityProject\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\dbFight01_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Fight\Combat1\dbFight01		6702688
-	822974898	BLOCK1	C:\Users\PolygrosStudio\Documents\SelfUnityProject\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\UI_Click_Tap_Subtle_mono_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\UI_SSFX\MENU_SSFX\Impossible\BLOCK1		1620
-	823762247	CLICK3	C:\Users\PolygrosStudio\Documents\SelfUnityProject\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\UI_Click_Cut_mono_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\UI_SSFX\MENU_SSFX\Click\CLICK3		2938
-	920520952	bass piano loop	C:\Users\PolygrosStudio\Documents\SelfUnityProject\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\bass piano loop_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Fight\Combat0\bass piano loop		1660380
-	959241070	dbFight02	C:\Users\PolygrosStudio\Documents\SelfUnityProject\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\dbFight02_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Fight\Combat1\dbFight02		6702688
-	991806595	dbFight00	C:\Users\PolygrosStudio\Documents\SelfUnityProject\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\dbFight00_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Fight\Combat1\dbFight00		6702688
-	1002096085	harp loop	C:\Users\PolygrosStudio\Documents\SelfUnityProject\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\harp loop_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Fight\Combat0\harp loop		6641084
-	1002181933	reverb piano loop	C:\Users\PolygrosStudio\Documents\SelfUnityProject\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\reverb piano loop_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Fight\Combat0\reverb piano loop		3320616
+	14506943	turnEnd	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\turnEnd_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\COMBAT\CombatProgression\turnEnd		374780
+	20578406	farmerHit	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\airHit_04B7DA4A.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\COMBAT\Attacks\farmerHit		220704
+	36056990	CLICK2	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\UI_Click_Subtle_mono_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\MENU_SSFX\Click\CLICK2		4370
+	47948954	combatWin	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\combatwin_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\COMBAT\CombatProgression\combatWin		576144
+	65588681	dbFight03	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\dbFight03_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Combat\Combat1\dbFight03		6702688
+	71803895	turnStart	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\turnStart_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\COMBAT\CombatProgression\turnStart		374780
+	78472428	CLICK1	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\UI_Click_Distinct_mono_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\MENU_SSFX\Click\CLICK1		6134
+	112672015	combatLose	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\combatLose_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\COMBAT\CombatProgression\combatLose		576144
+	143424456	arrowHit	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\arrowHit_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\COMBAT\Abilities\arrowHit		91156
+	193860459	sand4	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\sand4_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\EXPLORE\Walking\Sand\sand4		103000
+	216173308	cardPick0	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\cardPick0_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\COMBAT\Card\CardPick\cardPick0		79816
+	231247951	allyHit	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\allyHit_560BBA82.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\COMBAT\allyHit		44904
+	238341709	menuMusic	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\menuMusic_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Menu\MainMenu\menuMusic		28549708
+	265411443	softHit	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\softHit_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\COMBAT\Abilities\softHit		81512
+	369183912	sand0	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\sand0_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\EXPLORE\Walking\Sand\sand0		103000
+	404741341	enemyTurn	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\PERC(EC0_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\COMBAT\CombatProgression\enemyTurn		85678
+	406068002	cardSlap	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\card0_0F4DB8AF.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\COMBAT\Card\cardSlap		32436
+	430019804	deckShuffle0	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\deckShuffle_AB179818.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\COMBAT\Card\DeckShuffle\deckShuffle0		100112
+	469318380	sand2	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\sand2_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\EXPLORE\Walking\Sand\sand2		103000
+	488747114	hihats loop	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\hihats loop_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Combat\Combat0\hihats loop		1660380
+	505025939	herboHit	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\dustyAirHit_2C381EC7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\COMBAT\Attacks\herboHit		84992
+	541747067	fastHit	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\fastHit_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\COMBAT\Abilities\fastHit		219104
+	567087666	allyTurn	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\CONGA_hi_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\COMBAT\CombatProgression\allyTurn		48398
+	595392903	grass3	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\grass2_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\EXPLORE\Walking\Grass\grass3		142428
+	597632551	dbFight04	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\dbFight04_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Combat\Combat1\dbFight04		6702688
+	669417131	cardPick1	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\cardPick1_9B908C8E.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\COMBAT\Card\CardPick\cardPick1		99200
+	694121276	fisherHit	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\swiftHit_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\COMBAT\Attacks\fisherHit		184104
+	708396059	kalimba loop	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\kalimba loop_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Combat\Combat0\kalimba loop		3320616
+	747140157	sand1	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\sand1_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\EXPLORE\Walking\Sand\sand1		103000
+	747872994	minerHit	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\groundHit_D5D778C1.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\COMBAT\Attacks\minerHit		75328
+	801563757	dbFight01	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\dbFight01_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Combat\Combat1\dbFight01		6702688
+	816289229	violentHit	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\violentHit_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\COMBAT\Abilities\violentHit		211664
+	822974898	BLOCK1	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\UI_Click_Tap_Subtle_mono_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\MENU_SSFX\Impossible\BLOCK1		1620
+	823762247	CLICK3	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\UI_Click_Cut_mono_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\MENU_SSFX\Click\CLICK3		2938
+	847899675	grass1	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\grass0_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\EXPLORE\Walking\Grass\grass1		142428
+	881018081	deckShuffle1	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\deckShuffle1_270B16B8.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\COMBAT\Card\DeckShuffle\deckShuffle1		136952
+	888534994	sand3	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\sand3_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\EXPLORE\Walking\Sand\sand3		103000
+	889702892	enemyHit	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\enemyHit_67462A75.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\COMBAT\enemyHit		31248
+	920520952	bass piano loop	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\bass piano loop_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Combat\Combat0\bass piano loop		1660380
+	938315024	grass2	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\grass1_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\EXPLORE\Walking\Grass\grass2		142428
+	959241070	dbFight02	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\dbFight02_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Combat\Combat1\dbFight02		6702688
+	969935710	ambiance farm	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\ambiance farm_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Explore\ambiance farm\ambiance farm		11059344
+	991806595	dbFight00	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\dbFight00_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Combat\Combat1\dbFight00		6702688
+	1002096085	harp loop	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\harp loop_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Combat\Combat0\harp loop		6641084
+	1002181933	reverb piano loop	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Mac\SFX\reverb piano loop_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\ST_Combat\Combat0\reverb piano loop		3320616
 

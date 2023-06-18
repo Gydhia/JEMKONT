@@ -26,5 +26,6 @@ MonoBehaviour:
       Data: caa993add9aa776cc4ffc83e6a83e550
   UName: DroppedFishingRod
   AffectingState: 1
+  OverrideSave: 1
   Item: {fileID: 11400000, guid: 0ae20222b1f41454d9dd8ecaffbc0c1b, type: 2}
   quantity: 1

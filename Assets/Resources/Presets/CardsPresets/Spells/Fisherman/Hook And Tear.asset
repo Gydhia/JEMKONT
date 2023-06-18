@@ -44,58 +44,7 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 2
-    - Name: 
-      Entry: 7
-      Data: 3|DownBelow.Entity.EnemyMovementAction, Assembly-CSharp
-    - Name: ID
-      Entry: 2
-      Data: b71a301cd24549ebb2321055fbf50e64
-    - Name: RefBuffer
-      Entry: 9
-      Data: 2
-    - Name: RefGrid
-      Entry: 6
-      Data: 
-    - Name: RefEntity
-      Entry: 6
-      Data: 
-    - Name: TargetCell
-      Entry: 6
-      Data: 
-    - Name: ContextActionId
-      Entry: 2
-      Data: 0871c201e9b1434c9d3d5e1001e5fcd7
-    - Name: Type
-      Entry: 3
-      Data: 2
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 4|DownBelow.Entity.EndTurnAction, Assembly-CSharp
-    - Name: ID
-      Entry: 2
-      Data: e7ec5f8c110146419a35be6f8d46af14
-    - Name: RefBuffer
-      Entry: 9
-      Data: 2
-    - Name: RefGrid
-      Entry: 6
-      Data: 
-    - Name: RefEntity
-      Entry: 6
-      Data: 
-    - Name: TargetCell
-      Entry: 6
-      Data: 
-    - Name: ContextActionId
-      Entry: 2
-      Data: 00000000000000000000000000000000
-    - Name: 
-      Entry: 8
-      Data: 
+      Data: 0
     - Name: 
       Entry: 13
       Data: 
@@ -116,7 +65,7 @@ MonoBehaviour:
       Data: 00000000000000000000000000000000
     - Name: Data
       Entry: 7
-      Data: 5|DownBelow.Spells.SpellData_Push, Assembly-CSharp
+      Data: 3|DownBelow.Spells.SpellData_Push, Assembly-CSharp
     - Name: RequiresTargetting
       Entry: 5
       Data: true
@@ -128,7 +77,7 @@ MonoBehaviour:
       Data: 0
     - Name: SpellShapeMatrix
       Entry: 7
-      Data: 6|System.Boolean[,], mscorlib
+      Data: 4|System.Boolean[,], mscorlib
     - Name: 
       Entry: 12
       Data: 30
@@ -245,7 +194,7 @@ MonoBehaviour:
       Data: 
     - Name: RotatedShapeMatrix
       Entry: 7
-      Data: 7|System.Boolean[,], mscorlib
+      Data: 5|System.Boolean[,], mscorlib
     - Name: 
       Entry: 12
       Data: 30
@@ -362,7 +311,7 @@ MonoBehaviour:
       Data: 
     - Name: CastingMatrix
       Entry: 7
-      Data: 8|System.Boolean[,], mscorlib
+      Data: 6|System.Boolean[,], mscorlib
     - Name: 
       Entry: 12
       Data: 121
@@ -755,7 +704,7 @@ MonoBehaviour:
       Data: true
     - Name: TargetType
       Entry: 3
-      Data: 7
+      Data: 279
     - Name: ProjectileSFX
       Entry: 10
       Data: 0
@@ -764,7 +713,7 @@ MonoBehaviour:
       Data: 1
     - Name: PushType
       Entry: 3
-      Data: 4
+      Data: 5
     - Name: PushDelay
       Entry: 4
       Data: 0
@@ -782,13 +731,13 @@ MonoBehaviour:
       Data: 
     - Name: SpellHeader
       Entry: 7
-      Data: 9|DownBelow.Spells.SpellHeader, Assembly-CSharp
+      Data: 7|DownBelow.Spells.SpellHeader, Assembly-CSharp
     - Name: RefCard
       Entry: 2
       Data: 7f7099ff6fd9917c089fc9e433cca500
     - Name: TargetedCells
       Entry: 7
-      Data: 10|DownBelow.Managers.GridPosition[], Assembly-CSharp
+      Data: 8|DownBelow.Managers.GridPosition[], Assembly-CSharp
     - Name: 
       Entry: 12
       Data: 1
@@ -806,13 +755,13 @@ MonoBehaviour:
       Data: 
     - Name: CasterID
       Entry: 1
-      Data: FakePlayer - Farmer
+      Data: 6473320c-ca11-4771-a461-6dca665b35c1Fisherman
     - Name: 
       Entry: 8
       Data: 
     - Name: NCEHits
       Entry: 7
-      Data: 11|System.Collections.Generic.List`1[[DownBelow.Entity.NonCharacterEntity,
+      Data: 9|System.Collections.Generic.List`1[[DownBelow.Entity.NonCharacterEntity,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
@@ -825,7 +774,7 @@ MonoBehaviour:
       Data: 
     - Name: TargetedCells
       Entry: 7
-      Data: 12|System.Collections.Generic.List`1[[DownBelow.GridSystem.Cell, Assembly-CSharp]],
+      Data: 10|System.Collections.Generic.List`1[[DownBelow.GridSystem.Cell, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -850,7 +799,7 @@ MonoBehaviour:
       Data: 
     - Name: TargetEntities
       Entry: 7
-      Data: 13|System.Collections.Generic.List`1[[DownBelow.Entity.CharacterEntity,
+      Data: 11|System.Collections.Generic.List`1[[DownBelow.Entity.CharacterEntity,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
@@ -869,9 +818,19 @@ MonoBehaviour:
       Data: 
     - Name: Result
       Entry: 7
-      Data: 14|DownBelow.Spells.SpellResult, Assembly-CSharp
+      Data: 12|DownBelow.Spells.SpellResult, Assembly-CSharp
     - Name: TargetedCells
-      Entry: 6
+      Entry: 7
+      Data: 13|System.Collections.Generic.List`1[[DownBelow.GridSystem.Cell, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
       Data: 
     - Name: SpellRef
       Entry: 9
@@ -879,13 +838,16 @@ MonoBehaviour:
     - Name: Caster
       Entry: 6
       Data: 
+    - Name: SetUp
+      Entry: 5
+      Data: true
     - Name: DamagesDealt
       Entry: 7
-      Data: 15|System.Collections.Generic.Dictionary`2[[DownBelow.Entity.CharacterEntity,
+      Data: 14|System.Collections.Generic.Dictionary`2[[DownBelow.Entity.CharacterEntity,
         Assembly-CSharp],[System.Int32, mscorlib]], mscorlib
     - Name: comparer
       Entry: 7
-      Data: 16|System.Collections.Generic.ObjectEqualityComparer`1[[DownBelow.Entity.CharacterEntity,
+      Data: 15|System.Collections.Generic.ObjectEqualityComparer`1[[DownBelow.Entity.CharacterEntity,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 8
@@ -904,11 +866,11 @@ MonoBehaviour:
       Data: 0
     - Name: HealingDone
       Entry: 7
-      Data: 17|System.Collections.Generic.Dictionary`2[[DownBelow.Entity.CharacterEntity,
+      Data: 16|System.Collections.Generic.Dictionary`2[[DownBelow.Entity.CharacterEntity,
         Assembly-CSharp],[System.Int32, mscorlib]], mscorlib
     - Name: comparer
       Entry: 9
-      Data: 16
+      Data: 15
     - Name: 
       Entry: 12
       Data: 0
@@ -923,11 +885,11 @@ MonoBehaviour:
       Data: 0
     - Name: StatModified
       Entry: 7
-      Data: 18|System.Collections.Generic.Dictionary`2[[DownBelow.Entity.CharacterEntity,
+      Data: 17|System.Collections.Generic.Dictionary`2[[DownBelow.Entity.CharacterEntity,
         Assembly-CSharp],[DownBelow.Spells.StatModification, Assembly-CSharp]], mscorlib
     - Name: comparer
       Entry: 9
-      Data: 16
+      Data: 15
     - Name: 
       Entry: 12
       Data: 0
@@ -939,11 +901,11 @@ MonoBehaviour:
       Data: 
     - Name: SelfStatModified
       Entry: 7
-      Data: 19|System.Collections.Generic.Dictionary`2[[EntityStatistics, Assembly-CSharp],[System.Int32,
+      Data: 18|System.Collections.Generic.Dictionary`2[[EntityStatistics, Assembly-CSharp],[System.Int32,
         mscorlib]], mscorlib
     - Name: comparer
       Entry: 7
-      Data: 20|System.Collections.Generic.EnumEqualityComparer`1[[EntityStatistics,
+      Data: 19|System.Collections.Generic.EnumEqualityComparer`1[[EntityStatistics,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
@@ -965,12 +927,12 @@ MonoBehaviour:
       Data: 
     - Name: AlterationGiven
       Entry: 7
-      Data: 21|System.Collections.Generic.Dictionary`2[[DownBelow.Entity.CharacterEntity,
+      Data: 20|System.Collections.Generic.Dictionary`2[[DownBelow.Entity.CharacterEntity,
         Assembly-CSharp],[System.Collections.Generic.List`1[[DownBelow.Spells.Alterations.Alteration,
         Assembly-CSharp]], mscorlib]], mscorlib
     - Name: comparer
       Entry: 9
-      Data: 16
+      Data: 15
     - Name: 
       Entry: 12
       Data: 0
@@ -980,9 +942,12 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: Teleported
+      Entry: 5
+      Data: false
     - Name: TeleportedTo
       Entry: 7
-      Data: 22|System.Collections.Generic.List`1[[DownBelow.Entity.CharacterEntity,
+      Data: 21|System.Collections.Generic.List`1[[DownBelow.Entity.CharacterEntity,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
@@ -996,7 +961,10 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: ConditionData
+    - Name: TargettingCondition
+      Entry: 6
+      Data: 
+    - Name: CastingCondition
       Entry: 6
       Data: 
     - Name: 
