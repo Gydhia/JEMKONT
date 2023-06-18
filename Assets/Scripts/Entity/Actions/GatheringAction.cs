@@ -57,7 +57,11 @@ namespace DownBelow.Entity
 
                 this.CurrentRessource.Interact(player);
                 GameManager.Instance.FireResourceGathered(this.CurrentRessource);
-                player.TakeResources(this.CurrentRessource.LocalPreset.ResourceItem, nbResourcers);
+
+                if(this.RefEntity == GameManager.RealSelfPlayer)
+                {
+                    NetworkManager.Instance.GiftOrRemovePlayerItem(player.UID, this.CurrentRessource.LocalPreset.ResourceItem, nbResourcers);
+                }
             }
 
             this.EndAction();

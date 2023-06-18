@@ -58,7 +58,7 @@ namespace DownBelow.UI.Inventory
         {
 
             int remaining = quantity;
-            int slot = preferredSlot != -1 ? preferredSlot : _getAvailableSlot(preset);
+            int slot = preferredSlot != -1 ? preferredSlot : _getAvailableSlot(preset, true);
 
             // NO slot of THIS item
             if (slot == -1 || this.StorageItems[slot].ItemPreset == null)
@@ -97,13 +97,14 @@ namespace DownBelow.UI.Inventory
         }
 
 
-        private int _getAvailableSlot(ItemPreset preset)
+        private int _getAvailableSlot(ItemPreset preset, bool toAdd)
         {
             for (int i = 0; i < this.StorageItems.Length; i++)
-                if (this.StorageItems[i] != null && this.StorageItems[i].ItemPreset == preset)
+                if (this.StorageItems[i] != null && this.StorageItems[i].ItemPreset == preset && (!toAdd || this.StorageItems[i].Quantity < preset.MaxStack))
                     return i;
             return -1;
         }
+
 
         private int _getAvailableSlot()
         {
@@ -121,7 +122,7 @@ namespace DownBelow.UI.Inventory
         /// <param name="quantity">The number to remove, -1 if everything</param>
         public void RemoveItem(ItemPreset preset, int quantity, int preferredSlot = -1)
         {
-            int slot = preferredSlot != -1 ? preferredSlot : this._getAvailableSlot(preset);
+            int slot = preferredSlot != -1 ? preferredSlot : this._getAvailableSlot(preset, false);
 
             if (slot != -1)
             {

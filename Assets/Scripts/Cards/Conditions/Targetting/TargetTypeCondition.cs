@@ -1,4 +1,5 @@
 using DownBelow.GridSystem;
+using DownBelow.Managers;
 using DownBelow.Spells;
 using Sirenix.OdinInspector;
 using System.Collections;
@@ -6,15 +7,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "TargetConditions/TargetTypeCondition")]
-public class TargetTypeCondition : ConditionBase
+public class TargetTypeCondition : TargettingCondition
 {
     [InfoBox("@ToString()")]
     public ETargetType TargetType;
-    public override bool Validated(SpellResult Result, Cell cell)
+    public override bool Validated(Cell cell)
     {
         return TargetType switch
         {
-            ETargetType.Self => cell.EntityIn == Result.Caster,
+            ETargetType.Self => cell.EntityIn == CombatManager.CurrentPlayingEntity,
             ETargetType.AllAllies => cell.EntityIn.IsAlly,
             ETargetType.AllEnemies => !cell.EntityIn.IsAlly,
             ETargetType.Enemy => !cell.EntityIn.IsAlly,

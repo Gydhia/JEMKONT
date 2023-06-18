@@ -7,10 +7,10 @@ using System.Linq;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "TargetConditions/TargetHasFullHPCondition")]
-public class TargetHasFullHPCondition : ConditionBase
+public class TargetHasFullHPCondition : TargettingCondition
 {
     [InfoBox("Returns true if the target has full HP.")]
-    public override bool Validated(SpellResult Result, Cell cell)
+    public override bool Validated(Cell cell)
     {
         if (cell != null && cell.EntityIn != null)
         {
