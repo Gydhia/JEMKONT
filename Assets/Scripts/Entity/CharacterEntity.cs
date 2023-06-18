@@ -22,7 +22,9 @@ namespace DownBelow.Entity
         public delegate void StatModified();
 
         public event SpellEventData.Event OnHealthRemoved;
+        public event SpellEventData.Event OnHealthRemovedRealValue;
         public event SpellEventData.Event OnHealthAdded;
+        public event SpellEventData.Event OnHealthAddedRealValue;
         public event SpellEventData.Event OnStrengthRemoved;
         public event SpellEventData.Event OnStrengthAdded;
         public event SpellEventData.Event OnSpeedRemoved;
@@ -436,6 +438,8 @@ namespace DownBelow.Entity
         {
             if (value > 0)
             {
+                
+                Debug.Log("HEALED : "+ value);
                 // Check overheal
                 if (this.Health + value > this.RefStats.Health)
                     value = this.RefStats.Health - Statistics[EntityStatistics.Health];
@@ -445,10 +449,12 @@ namespace DownBelow.Entity
                 if (triggerEvents)
                 {
                     this.OnHealthAdded?.Invoke(new(this, value));
+                    this.OnHealthAddedRealValue?.Invoke(new(this, value));
                 }
             }
             else
             {
+                this.OnHealthRemovedRealValue?.Invoke(new SpellEventData(this, value));
                 value = Mathf.Max(0, Defense - value);
                 if (this.Bubbled)
                 {
@@ -456,6 +462,7 @@ namespace DownBelow.Entity
                 }
                 if (triggerEvents)
                 {
+                    
                     this.OnHealthRemoved?.Invoke(new SpellEventData(this, value));
                     if (value != 0) this.OnDamageTaken?.Invoke(new());
                 }

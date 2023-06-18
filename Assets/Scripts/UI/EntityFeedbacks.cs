@@ -31,8 +31,8 @@ namespace DownBelow.Entity
 
         public virtual void Init(GameEventData Data)
         {
-            this._entity.OnHealthRemoved += OnHealthRemoved;
-            this._entity.OnHealthAdded += OnHealthAdded;
+            this._entity.OnHealthRemovedRealValue += OnHealthRemoved;
+            this._entity.OnHealthAddedRealValue += OnHealthAdded;
             this._entity.OnEntityTargetted += OnEntityTargetted;
             this._entity.OnStatisticsChanged += _refresh;
             CombatManager.Instance.OnCombatStarted += SetupForCombat;
@@ -55,12 +55,7 @@ namespace DownBelow.Entity
                 CombatManager.Instance.OnCombatEnded -= SetupForFarm;
             }
         }
-
-        private void LateUpdate()
-        {
-            //  this.HealthFill.transform.LookAt(Camera.main.transform.position);
-            //this.ShieldFill.transform.LookAt(Camera.main.transform.position);
-        }
+        
 
         private void _refresh(GameEventData data)
         {
@@ -70,7 +65,7 @@ namespace DownBelow.Entity
 
         private void OnHealthRemoved(SpellEventData Data)
         {
-            if (Data.Value > 0)
+            if (Data.Value < 0)
             {
                 _healthFeedback.text = "-" + Data.Value.ToString();
                 _healthFeedback.color = _healthRemovedColor;
@@ -96,6 +91,8 @@ namespace DownBelow.Entity
 
         private void OnHealthAdded(SpellEventData Data)
         {
+            
+
             if (Data.Value < 0)
             {
                 _healthFeedback.text = "+" + Mathf.Abs(Data.Value).ToString();
