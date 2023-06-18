@@ -4,7 +4,6 @@ using DownBelow.Mechanics;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 namespace DownBelow.Mechanics
 {

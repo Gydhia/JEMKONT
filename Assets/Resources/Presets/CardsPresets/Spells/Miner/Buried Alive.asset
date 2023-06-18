@@ -16,8 +16,19 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
+    - {fileID: 0}
+    - {fileID: 0}
     - {fileID: 11400000, guid: 9d8389d995e19c2449ce5ae0eef2a825, type: 2}
+    - {fileID: 0}
     - {fileID: 11400000, guid: 7062211488d3a93449a6c93bf2913231, type: 2}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
     - {fileID: 11400000, guid: 65bf73130377c1f4893530798ca5c91c, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
@@ -56,11 +67,11 @@ MonoBehaviour:
       Entry: 6
       Data: 
     - Name: RefEntity
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 0
     - Name: TargetCell
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 1
     - Name: ContextActionId
       Entry: 2
       Data: 00000000000000000000000000000000
@@ -309,7 +320,7 @@ MonoBehaviour:
       Data: 
     - Name: CasterID
       Entry: 1
-      Data: ef7f08f4-fea8-420b-a253-af345513a341Miner
+      Data: 8bdbc1b9-5608-4895-ae7d-873dce184b7fMiner
     - Name: 
       Entry: 8
       Data: 
@@ -365,8 +376,8 @@ MonoBehaviour:
       Entry: 9
       Data: 1
     - Name: Caster
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 0
     - Name: SetUp
       Entry: 5
       Data: true
@@ -492,7 +503,7 @@ MonoBehaviour:
       Data: 
     - Name: TargettingCondition
       Entry: 10
-      Data: 0
+      Data: 2
     - Name: CastingCondition
       Entry: 6
       Data: 
@@ -512,11 +523,11 @@ MonoBehaviour:
       Entry: 6
       Data: 
     - Name: RefEntity
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 0
     - Name: TargetCell
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 3
     - Name: ContextActionId
       Entry: 2
       Data: 00000000000000000000000000000000
@@ -723,16 +734,16 @@ MonoBehaviour:
       Data: 
     - Name: CellSFX
       Entry: 10
-      Data: 1
+      Data: 4
     - Name: Alteration
       Entry: 7
       Data: 25|DownBelow.Spells.Alterations.ShatteredAlteration, Assembly-CSharp
     - Name: Duration
       Entry: 3
-      Data: -10
+      Data: 3
     - Name: Target
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 5
     - Name: InstanciatedFXAnimator
       Entry: 6
       Data: 
@@ -754,22 +765,19 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 5
+      Data: 4
     - Name: 
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 6
     - Name: 
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 7
     - Name: 
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 8
     - Name: 
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 9
     - Name: 
       Entry: 13
       Data: 
@@ -782,22 +790,19 @@ MonoBehaviour:
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
+      Data: 4
+    - Name: 
+      Entry: 10
+      Data: 10
+    - Name: 
+      Entry: 10
+      Data: 11
+    - Name: 
+      Entry: 10
+      Data: 12
+    - Name: 
+      Entry: 10
       Data: 5
-    - Name: 
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 6
-      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -827,8 +832,8 @@ MonoBehaviour:
       Entry: 9
       Data: 21
     - Name: Caster
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 0
     - Name: SetUp
       Entry: 5
       Data: true
@@ -912,7 +917,107 @@ MonoBehaviour:
       Data: 14
     - Name: 
       Entry: 12
-      Data: 0
+      Data: 4
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 10
+      Data: 10
+    - Name: $v
+      Entry: 7
+      Data: 35|System.Collections.Generic.List`1[[DownBelow.Spells.Alterations.Alteration,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 9
+      Data: 25
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 10
+      Data: 11
+    - Name: $v
+      Entry: 7
+      Data: 36|System.Collections.Generic.List`1[[DownBelow.Spells.Alterations.Alteration,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 9
+      Data: 25
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 10
+      Data: 12
+    - Name: $v
+      Entry: 7
+      Data: 37|System.Collections.Generic.List`1[[DownBelow.Spells.Alterations.Alteration,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 9
+      Data: 25
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 10
+      Data: 5
+    - Name: $v
+      Entry: 7
+      Data: 38|System.Collections.Generic.List`1[[DownBelow.Spells.Alterations.Alteration,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 9
+      Data: 25
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -924,7 +1029,7 @@ MonoBehaviour:
       Data: false
     - Name: TeleportedTo
       Entry: 7
-      Data: 35|System.Collections.Generic.List`1[[DownBelow.Entity.CharacterEntity,
+      Data: 39|System.Collections.Generic.List`1[[DownBelow.Entity.CharacterEntity,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
@@ -940,7 +1045,7 @@ MonoBehaviour:
       Data: 
     - Name: TargettingCondition
       Entry: 10
-      Data: 2
+      Data: 13
     - Name: CastingCondition
       Entry: 6
       Data: 
