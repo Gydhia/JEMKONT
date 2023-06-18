@@ -4,9 +4,23 @@
 		<WorkUnit Name="Default Work Unit" ID="{E4ED3107-1F7F-444F-B9CA-78113B27914A}" PersistMode="Standalone">
 			<ChildrenList>
 				<SoundcasterSession Name="New Soundcaster Session" ID="{1B29AC6C-45BE-447E-99CA-F83C7C4BF3C4}">
-					<RTPCValueList ShowAll="true"/>
+					<RTPCValueList ShowAll="true">
+						<RTPCValue>
+							<GameParameterRef Name="RTPC_Volume_Music" ID="{C82E00F3-58B5-4305-B9EF-21C5B4C54E14}"/>
+							<Value>1</Value>
+						</RTPCValue>
+						<RTPCValue>
+							<GameParameterRef Name="RTPC_Volume_SFX" ID="{05B8C602-F27C-4C84-911A-433F6ED11594}"/>
+							<Value>1.25240714532917E-311</Value>
+						</RTPCValue>
+						<RTPCValue>
+							<GameParameterRef Name="RTPC_Volume_Master" ID="{A00989C5-EDB5-4DA1-BF0C-B18D520CB7D3}"/>
+							<Value>1.25239736268709E-311</Value>
+						</RTPCValue>
+					</RTPCValueList>
 					<CurrentStateList ShowAll="true">
-						<CurrentStateRef Name="Layers3" ID="{B442D004-8A22-4CDD-B5F3-8BB6505989AC}"/>
+						<CurrentStateRef Name="None" ID="{D643308B-1DE3-4315-9B57-C2A34992DA21}"/>
+						<CurrentStateRef Name="None" ID="{61FFC9D6-2F88-4B5E-B7B5-EEABABD4C73B}"/>
 					</CurrentStateList>
 					<CurrentSwitchList ShowAll="true">
 						<CurrentSwitchRef Name="Grass" ID="{B9AA152C-9DCA-45D1-BCB9-B3A75EB6874C}"/>

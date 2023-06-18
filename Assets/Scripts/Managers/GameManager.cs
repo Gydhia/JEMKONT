@@ -144,8 +144,11 @@ namespace DownBelow.Managers
 
             if (GridManager.Instance != null)
                 GridManager.Instance.Init();
-            
-            if(AnalyticsManager.Instance != null)
+
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.Init();
+
+            if (AnalyticsManager.Instance != null)
                 AnalyticsManager.Instance.Init();
 
 
