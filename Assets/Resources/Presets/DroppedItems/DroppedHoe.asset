@@ -26,5 +26,6 @@ MonoBehaviour:
       Data: fb00a874a5a3afa72d7ed6bce60c37d1
   UName: DroppedHoe
   AffectingState: 1
+  OverrideSave: 1
   Item: {fileID: 11400000, guid: ffdd6310dff45344893994ab9ff94915, type: 2}
   quantity: 1

@@ -9,23 +9,16 @@ using UnityEngine;
 public class BaseSpawnablePreset : SerializedScriptableObject, IEquatable<BaseSpawnablePreset>, IEqualityComparer<BaseSpawnablePreset>, IComparable<BaseSpawnablePreset>
 {
     [ReadOnly]
+    [FoldoutGroup("BASE")]
     public Guid UID;
     [OnValueChanged("_updateUID")]
+    [FoldoutGroup("BASE")]
     public string UName;
 
+    [FoldoutGroup("BASE")]
     public CellState AffectingState;
-
-    //public string prefab;
-
-    //[PropertyOrder(3)]
-    //[ShowInInspector, OdinSerialize]
-    //[PropertyTooltip("Path to the prefab asset")]
-    //[AssetSelector(Paths = "Assets/Resources/Prefabs")]
-    //[AssetsOnly]
-    //[OnValueChanged("_onPrefabinternalChanged")]
-    //[InlineEditor(InlineEditorModes.LargePreview)]
-    //private GameObject _prefab;
-
+    [FoldoutGroup("BASE"), Tooltip("If this spawnable isn't made to be saved, but to remain the same as when it started ; Tools or Spawn")]
+    public bool OverrideSave = false;
     private void _updateUID()
     {
         using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
@@ -34,24 +27,6 @@ public class BaseSpawnablePreset : SerializedScriptableObject, IEquatable<BaseSp
             this.UID = new Guid(hash);
         }
     }
-
-    //private void _onPrefabinternalChanged()
-    //{
-    //    if (this._prefab != null)
-    //    {
-    //        this.prefab = AssetDatabase.GetAssetPath(this._prefab);
-    //        if (this.prefab != null)
-    //        {
-    //            this.prefab = this.prefab.Replace(".prefab", "").ToLower();
-    //            this.prefab = this.prefab.Replace("assets/resources/", "");
-    //        }
-    //    }
-    //    else
-    //    {
-    //        this.prefab = "";
-    //    }
-    //    EditorUtility.SetDirty(this);
-    //}
 
     public virtual void Init(Cell attachedCell)
     {

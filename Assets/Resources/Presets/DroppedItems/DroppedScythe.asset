@@ -26,5 +26,6 @@ MonoBehaviour:
       Data: 62b84d15045633e79d048e23a8a08789
   UName: DroppedScythe
   AffectingState: 1
+  OverrideSave: 1
   Item: {fileID: 11400000, guid: 2d5ba117188a6554a9000d3a93a0b7b5, type: 2}
   quantity: 1
