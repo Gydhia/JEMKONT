@@ -170,6 +170,7 @@ namespace DownBelow.Managers
             {
                 SettingsManager.Instance.AbyssesPresets[i].IsCleared = true;
             }
+            MaxAbyssReached = datas.last_unlocked_abyss;
 
             foreach (var inventory in datas.players_inventories)
             {
@@ -189,6 +190,10 @@ namespace DownBelow.Managers
             {
                 SettingsManager.Instance.OwnedCards.Add(SettingsManager.Instance.ScriptableCards[datas.owned_cards[i]]);
             }
+
+            CurrentAvailableResources = datas.current_ressources;
+            
+            UIManager.Instance.GatherSection.UpdateGatherBar(null);
         }
 
         public void ProcessPlayerWelcoming()

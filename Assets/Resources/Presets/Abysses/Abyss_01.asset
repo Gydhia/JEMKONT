@@ -23,7 +23,7 @@ MonoBehaviour:
     SerializationNodes: []
   IsCleared: 0
   TargetGrid: Abyss_01
-  RefillResources: 0
+  RefillResources: 1
   MaxResourcesUpgrade: 5
   GiftedCards:
   - {fileID: 11400000, guid: 18ebc542087cc634882432a30ea8ec55, type: 2}

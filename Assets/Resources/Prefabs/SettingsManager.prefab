@@ -77,6 +77,15 @@ MonoBehaviour:
   OwnedCards: []
   AbyssesPresets:
   - {fileID: 11400000, guid: bf363e618afe021498b25a837367d1dc, type: 2}
+  - {fileID: 11400000, guid: dd5422f38f8a14f4d920637856301e1f, type: 2}
+  - {fileID: 11400000, guid: d934f4f7afba84c4d9f2733edd7a99be, type: 2}
+  - {fileID: 11400000, guid: 5acf6ed0a1583e646ad28af65c7ed7cc, type: 2}
+  - {fileID: 11400000, guid: bcfc611f89ce4db45a729fbd8f35c54c, type: 2}
+  - {fileID: 11400000, guid: 8f3abed8f26e6cb41877dff0b9f31de5, type: 2}
+  - {fileID: 11400000, guid: 65d0a7b911a9f6547870fab61f8bceb5, type: 2}
+  - {fileID: 11400000, guid: 0b168a8375c26914094ca541af529968, type: 2}
+  - {fileID: 11400000, guid: 3598d706b603eab41a73061e08cabf6b, type: 2}
+  - {fileID: 11400000, guid: c93744344b3aee24883d6630c738150e, type: 2}
   CraftRepices:
   - {fileID: 11400000, guid: 9e64b06050410f94888083ce8b6695a0, type: 2}
   - {fileID: 11400000, guid: 4642605806d6dbe45b673cafc68408a8, type: 2}
