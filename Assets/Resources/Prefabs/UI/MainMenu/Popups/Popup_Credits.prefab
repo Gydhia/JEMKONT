@@ -33,8 +33,8 @@ RectTransform:
   m_Father: {fileID: 6336146697514350836}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchorMin: {x: 0, y: -1}
+  m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -66,31 +66,28 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'John Bite
+  m_text: 'Project Lead
 
-    John Bite
+    Lead Dev
 
-    John Bite
+    Game Designers
 
-    John Bite
 
-    John Bite
 
-    John
-    Bite
+    Developpers
 
-    John Bite
 
-    John Bite
 
-    John Bite
 
-    John Bite
 
-    John Bite
+    Art
+    Director/Graphist
 
-    John
-    Bite'
+    Sound Designer
+
+    UI/UX Designer
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fa08fff1716a04db18700207b6c202e5, type: 2}
   m_sharedMaterial: {fileID: 7908499825950019370, guid: fa08fff1716a04db18700207b6c202e5, type: 2}
@@ -192,8 +189,8 @@ RectTransform:
   m_Father: {fileID: 6336146697514350836}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: -1}
+  m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -225,29 +222,31 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Pipe
+  m_text: 'Enzo Laverny
 
-    Pipe
+    Killian Motel
 
-    Pipe
+    Oscar Duhamel
 
-    Pipe
+    Enzo Laverny
 
-    Pipe
 
-    Pipe
+    Killian
+    Motel
 
-    Pipe
+    Thomas Ciampossin
 
-    Pipe
+    Nino Sciabbarrasi
 
-    Pipe
+    Jules Sarton du Jonchay
 
-    Pipe
 
-    Pipe
+    Alexandra
+    Oget
 
-    Pipe
+    Marco Vanbecelaere
+
+    Nino Sciabbarrasi
 
 '
   m_isRightToLeft: 0
