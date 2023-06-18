@@ -62,6 +62,7 @@ namespace DownBelow.UI.Inventory
 
                 this.Items[i].Init(this.Storage.StorageItems[i], this, i, this.Storage.OnlyTake);
             }
+
         }
 
         public void HideStorage()
