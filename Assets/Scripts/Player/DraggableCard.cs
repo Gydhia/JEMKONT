@@ -124,8 +124,9 @@ namespace DownBelow.UI
                 this.DiscardToHand();
             }
             else
-            {
-                this.PlayNotTargetCard();
+            { 
+                this.m_RectTransform.DOPunchScale(new Vector3(1.001f, 1.001f, 1.001f), 0.8f).SetEase(Ease.OutQuad);  
+              this.m_RectTransform.DOPunchRotation(new Vector3(0,720,0), 0.8f).SetEase(Ease.OutQuad).OnComplete(() => this.PlayNotTargetCard());
             }
         }
 
