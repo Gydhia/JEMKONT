@@ -175,23 +175,31 @@ namespace DownBelow.Managers
             }
             MaxAbyssReached = datas.last_unlocked_abyss;
 
-            foreach (var inventory in datas.players_inventories)
+            if(datas.players_inventories != null)
             {
-                foreach (var item in inventory.StoredItems)
+                foreach (var inventory in datas.players_inventories)
                 {
-                    GridManager.SavePurposeStorage.TryAddItem(SettingsManager.Instance.ItemsPresets[item.ID], item.Quantity);
+                    foreach (var item in inventory.StoredItems)
+                    {
+                        GridManager.SavePurposeStorage.TryAddItem(SettingsManager.Instance.ItemsPresets[item.ID], item.Quantity);
+                    }
                 }
             }
 
-            foreach (var toolData in datas.tools_data)
+            if (datas.tools_data != null)
             {
-                CardsManager.Instance.AvailableTools.First(t => t.UID == toolData.UID).SetData(toolData);
+                foreach (var toolData in datas.tools_data)
+                {
+                    CardsManager.Instance.AvailableTools.First(t => t.UID == toolData.UID).SetData(toolData);
+                }
             }
-
             SettingsManager.Instance.OwnedCards.Clear();
-            for (int i = 0; i < datas.owned_cards.Length; i++)
+            if(datas.owned_cards != null)
             {
-                SettingsManager.Instance.OwnedCards.Add(SettingsManager.Instance.ScriptableCards[datas.owned_cards[i]]);
+                for (int i = 0; i < datas.owned_cards.Length; i++)
+                {
+                    SettingsManager.Instance.OwnedCards.Add(SettingsManager.Instance.ScriptableCards[datas.owned_cards[i]]);
+                }
             }
 
             CurrentAvailableResources = datas.current_ressources;

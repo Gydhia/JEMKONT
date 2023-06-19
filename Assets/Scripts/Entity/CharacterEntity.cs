@@ -272,14 +272,10 @@ namespace DownBelow.Entity
         /// <param name="cellToAttack">The cell to attack.</param>
         public void AutoAttack(Cell cellToAttack)
         {
-            if (!isInAttackRange(cellToAttack))
-            {
-                return;
-            }
-
             //Normally already verified. Just in case
             //Calculate straight path, see if obstacle.
             this.CanAutoAttack = false;
+           
             var path = GridManager.Instance.FindPath(this, cellToAttack.PositionInGrid, true);
 
             var notwalkable = path.Find(x => x.Datas.state != CellState.Walkable);
@@ -287,19 +283,14 @@ namespace DownBelow.Entity
             {
                 switch (notwalkable.Datas.state)
                 {
-                    case CellState.Blocked:
-                        break;
                     case CellState.EntityIn:
-                        //CastAutoAttack(notwalkable);
+                        NetworkManager.Instance.EntityAskToBuffAction(new AttackingAction(this, notwalkable));
                         break;
                 }
             }
             else
             {
-                //There isn't any obstacle in the path, so the attack should go for it.
-                //if(cellToAttack.Datas.state == CellState.EntityIn)
-                //    CastAutoAttack(cellToAttack);
-                //TODO: Shield/overheal? What do i do? Have we got shield in the game??????????????????????
+                NetworkManager.Instance.EntityAskToBuffAction(new AttackingAction(this, cellToAttack));
             }
         }
 
@@ -318,9 +309,10 @@ namespace DownBelow.Entity
         {
             this.IsPlayingEntity = true;
             this.PlayingIndicator.SetActive(true);
+            this.CanAutoAttack = true;
 
 
-            OnTurnBegun?.Invoke(new());
+             OnTurnBegun?.Invoke(new());
 
             this.ReinitializeStat(EntityStatistics.Speed);
             this.ReinitializeStat(EntityStatistics.Mana);
@@ -342,7 +334,7 @@ namespace DownBelow.Entity
         public virtual void EndTurn()
         {
             NumberOfTurnsPlayed++;
-            CanAutoAttack = false;
+            this.CanAutoAttack = false;
             foreach (Alteration Alter in Alterations)
             {
                 Alter.Apply(this);

@@ -119,6 +119,18 @@ public class ArrowRenderer : MonoBehaviour
         CombatManager.Instance.OnCardEndUse += this._stopFollowCard;
     }
 
+    public void FollowAutoAttack(DownBelow.GridSystem.Cell baseTarget)
+    {
+        this.SetPositions(GameManager.SelfPlayer.EntityCell.WorldPosition, baseTarget.WorldPosition);
+        this.gameObject.SetActive(true);
+        InputManager.Instance.OnNewCellHovered += _updateArrowTarget;
+    }
+
+    public void UnfollowAutoAttack()
+    {
+        this._stopFollowCard(null);
+    }
+
     private void _shouldFollowCard(CardEventData Data)
     {
         if (Data.Card.IsTrackable())

@@ -104,6 +104,7 @@ namespace DownBelow.Managers
             {
                 InputManager.Instance.OnCellClickedUp += this.ProcessCellClickUp;
                 InputManager.Instance.OnCellClickedDown += this.ProcessCellClickDown;
+                InputManager.Instance.OnAnyRightClickDown += this.ProcessRightClick;
                 InputManager.Instance.OnNewCellHovered += this.ProcessNewCellHovered;
             }
             
@@ -116,6 +117,7 @@ namespace DownBelow.Managers
             {
                 InputManager.Instance.OnCellClickedUp -= this.ProcessCellClickUp;
                 InputManager.Instance.OnCellClickedDown -= this.ProcessCellClickDown;
+                InputManager.Instance.OnAnyRightClickDown += this.ProcessRightClick;
                 InputManager.Instance.OnNewCellHovered -= this.ProcessNewCellHovered;
             }
 
@@ -174,12 +176,10 @@ namespace DownBelow.Managers
             if (this.LastHoveredCell == null)
                 return;
 
-            PlayerBehavior selfPlayer = GameManager.SelfPlayer;
-
-            if (selfPlayer.CurrentGrid.IsCombatGrid)
-                this.ProcessCellClickUp_Combat(selfPlayer);
+            if (GameManager.RealSelfPlayer.CurrentGrid.IsCombatGrid)
+                this.ProcessCellClickUp_Combat(GameManager.SelfPlayer);
             else
-                this.ProcessCellClickUp_Exploration(selfPlayer);
+                this.ProcessCellClickUp_Exploration(GameManager.RealSelfPlayer);
         }
 
         public void ProcessCellClickUp_Exploration(PlayerBehavior selfPlayer)
@@ -287,12 +287,13 @@ namespace DownBelow.Managers
                     {
                         if (LastHoveredCell.Datas.state == CellState.EntityIn)
                         {
-                            if (!player.isInAttackRange(LastHoveredCell))
-                                player.IsAutoAttacking = false;
-                            else
-                                player.AutoAttack(LastHoveredCell);
+                            player.AutoAttack(LastHoveredCell);
                         }
-                    } else if (
+
+                        player.IsAutoAttacking = false;
+                        this._spellArrow.UnfollowAutoAttack();
+                    }
+                    else if (
                           this.LastHoveredCell.Datas.state == CellState.Walkable
                           && this._possiblePath.Contains(this.LastHoveredCell)
                       )
@@ -318,12 +319,10 @@ namespace DownBelow.Managers
             if (this.LastHoveredCell == null)
                 return;
 
-            PlayerBehavior selfPlayer = GameManager.RealSelfPlayer;
-
-            if (selfPlayer.CurrentGrid.IsCombatGrid)
-                this.ProcessCellClickDown_Combat(selfPlayer);
+            if (GameManager.RealSelfPlayer.CurrentGrid.IsCombatGrid)
+                this.ProcessCellClickDown_Combat(GameManager.SelfPlayer);
             else
-                this.ProcessCellClickDown_Exploration(selfPlayer);
+                this.ProcessCellClickDown_Exploration(GameManager.RealSelfPlayer);
         }
 
         public void ProcessCellClickDown_Exploration(PlayerBehavior selfPlayer) { }
@@ -335,7 +334,19 @@ namespace DownBelow.Managers
                 && selfPlayer.EntityCell == LastHoveredCell
                 && selfPlayer.CanAutoAttack
             )
+            {
                 selfPlayer.IsAutoAttacking = true;
+                this._spellArrow.FollowAutoAttack(LastHoveredCell);
+            }
+        }
+
+        private void ProcessRightClick(GameEventData Data)
+        {
+            if (GameManager.SelfPlayer.IsAutoAttacking)
+            {
+                GameManager.SelfPlayer.IsAutoAttacking = false;
+                this._spellArrow.UnfollowAutoAttack();
+            }
         }
 
         public void ProcessNewCellHovered(CellEventData Data)
@@ -352,7 +363,7 @@ namespace DownBelow.Managers
                 && this.LastHoveredCell.RefGrid == selfPlayer.CurrentGrid
             )
             {
-                if (DraggableCard.SelectedCard == null && selfPlayer.IsPlayingEntity)
+                if (DraggableCard.SelectedCard == null && selfPlayer.IsPlayingEntity && !selfPlayer.IsAutoAttacking)
                 {
                     if (!selfPlayer.IsMoving && this._possiblePath.Contains(LastHoveredCell))
                         PoolManager.Instance.CellIndicatorPool.DisplayPathIndicators(

@@ -16,9 +16,12 @@ namespace DownBelow.Entity
 
         public override void ExecuteAction()
         {
-            // Should be a TargettingAction that return the cell to target, aka the entity
-            this.ProcessContextAction();
-
+            // Should be a TargettingAction that return the cell to target, aka the entity. Only for Enemies 
+            if (this.contextAction != null)
+            {
+                this.ProcessContextAction();
+            }
+            
             if (this._isInRange())
             {
                 TargetCell.EntityIn.ApplyStat(EntityStatistics.Health, -(this.RefEntity.Strength * 3));
