@@ -37,18 +37,44 @@ namespace DownBelow.Spells
     {
         public static bool ValidateTarget(this ETargetType value, Cell cell)
         {
-            return value switch
+            bool validated = true;
+            if (value.HasFlag(ETargetType.None))
             {
-                ETargetType.Self => cell.EntityIn == GameManager.SelfPlayer,
-                ETargetType.Enemy => cell.EntityIn != null && cell.EntityIn is EnemyEntity,
-                ETargetType.Ally => cell.EntityIn != null && cell.EntityIn is PlayerBehavior,
-                ETargetType.Empty => cell.Datas.state == CellState.Walkable,
-                ETargetType.CharacterEntities => cell.Datas.state == CellState.EntityIn && cell.EntityIn is CharacterEntity,
-                ETargetType.Entities => cell.Datas.state == CellState.EntityIn,
-                ETargetType.NCEs => cell.hasNCE,
-                ETargetType.All => cell.Datas.state != CellState.Blocked,
-                _ => true,
-            };
+                validated = false; //en mode MALVEILLANCE MAAAAAAAAAAX
+            }
+            if (value.HasFlag(ETargetType.Ally))
+            {
+                validated = cell.EntityIn != null && cell.EntityIn.IsAlly;
+            }
+            if (value.HasFlag(ETargetType.Self))
+            {
+                validated = cell.EntityIn != null && cell.EntityIn == CombatManager.CurrentPlayingEntity;
+            }
+            if (value.HasFlag(ETargetType.Enemy))
+            {
+                validated = cell.EntityIn != null && !cell.EntityIn.IsAlly;
+            }
+            if (value.HasFlag(ETargetType.NCEs))
+            {
+                validated = cell.AttachedNCE != null;
+            }
+            if (value.HasFlag(ETargetType.Entities))
+            {
+                validated = cell.EntityIn != null || cell.AttachedNCE != null;
+            }
+            if (value.HasFlag(ETargetType.CharacterEntities))
+            {
+                validated = cell.EntityIn != null;
+            }
+            if (value.HasFlag(ETargetType.All))
+            {
+                //Validated doesn't change!
+            }
+            if (value.HasFlag(ETargetType.Empty))
+            {
+                validated = (cell.EntityIn == null && cell.AttachedNCE == null && cell.Datas.state.HasFlag(CellState.Walkable));
+            }
+            return validated;
         }
     }
 

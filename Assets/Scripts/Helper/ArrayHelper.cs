@@ -25,6 +25,22 @@ public static class ArrayHelper
         return res;
     }
 
+    public static T[] FindAll<T>(this T[,] array, Predicate<T> predicate)
+    {
+        var res = new List<T>();
+        for (int col = 0; col < array.GetLength(0); col++)
+        {
+            for (int row = 0; row < array.GetLength(1); row++)
+            {
+                if (predicate.Invoke(array[col, row]))
+                {
+                    res.Add(array[col, row]);
+                }
+            }
+        }
+        return res.ToArray();
+    }
+
     public static T Random<T>(this T[,] array)
     {
         int x = UnityEngine.Random.Range(0, array.GetLength(0));

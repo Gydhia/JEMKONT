@@ -156,6 +156,10 @@ namespace DownBelow.Spells
             {
                 TargetedCells = new();
                 List<Cell> TargetCellsToTranspose = new List<Cell>();
+                if (this.Data.TargetType.HasFlag(ETargetType.None))
+                {
+                    //rien?
+                }
                 if (this.Data.TargetType.HasFlag(ETargetType.Ally))
                 {
                     TargetCellsToTranspose.AddRange(CombatManager.Instance.PlayingEntities.FindAll(x => x.IsAlly).Select(x => x.EntityCell).ToList());
@@ -194,9 +198,7 @@ namespace DownBelow.Spells
                 }
                 if (this.Data.TargetType.HasFlag(ETargetType.Empty))
                 {
-                    //(en vrai jpense jfais tout péter dans le doute c'est bien)
-                    throw new Exception($"The spell {this.GetType()} of the card {RefCard.name} is set to a targetting type of 'Empty' but has no targetting. This is not allowed.");
-                    //Lisez et comprenez cette ligne avant de me pinger, pégus.
+                    TargetCellsToTranspose.AddRange(RefEntity.CurrentGrid.Cells.FindAll(x => x.EntityIn == null && x.AttachedNCE == null && x.Datas.state.HasFlag(CellState.Walkable)));
                 }
                 //Removing duplicates
                 TargetCellsToTranspose = TargetCellsToTranspose.GroupBy(x => x.PositionInGrid).Select(y => y.First()).ToList();

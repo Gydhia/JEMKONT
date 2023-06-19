@@ -16,11 +16,7 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 0}
-    - {fileID: 0}
     - {fileID: 11400000, guid: bff804acda5c2194bbfe5025cef1d7d7, type: 2}
-    - {fileID: 0}
-    - {fileID: 0}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -58,11 +54,11 @@ MonoBehaviour:
       Entry: 6
       Data: 
     - Name: RefEntity
-      Entry: 10
-      Data: 0
+      Entry: 6
+      Data: 
     - Name: TargetCell
-      Entry: 10
-      Data: 1
+      Entry: 6
+      Data: 
     - Name: ContextActionId
       Entry: 2
       Data: 00000000000000000000000000000000
@@ -305,7 +301,7 @@ MonoBehaviour:
       Data: 2
     - Name: ProjectileSFX
       Entry: 10
-      Data: 2
+      Data: 0
     - Name: CellSFX
       Entry: 6
       Data: 
@@ -384,8 +380,8 @@ MonoBehaviour:
       Entry: 12
       Data: 1
     - Name: 
-      Entry: 10
-      Data: 1
+      Entry: 6
+      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -400,8 +396,8 @@ MonoBehaviour:
       Entry: 12
       Data: 1
     - Name: 
-      Entry: 10
-      Data: 3
+      Entry: 6
+      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -431,8 +427,8 @@ MonoBehaviour:
       Entry: 9
       Data: 1
     - Name: Caster
-      Entry: 10
-      Data: 0
+      Entry: 6
+      Data: 
     - Name: SetUp
       Entry: 5
       Data: true
@@ -449,19 +445,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 10
-      Data: 3
-    - Name: $v
-      Entry: 3
-      Data: 33
-    - Name: 
-      Entry: 8
-      Data: 
+      Data: 0
     - Name: 
       Entry: 13
       Data: 
@@ -590,11 +574,11 @@ MonoBehaviour:
       Entry: 6
       Data: 
     - Name: RefEntity
-      Entry: 10
-      Data: 0
+      Entry: 6
+      Data: 
     - Name: TargetCell
-      Entry: 10
-      Data: 4
+      Entry: 6
+      Data: 
     - Name: ContextActionId
       Entry: 2
       Data: 00000000000000000000000000000000
@@ -776,8 +760,8 @@ MonoBehaviour:
       Entry: 3
       Data: 1
     - Name: Target
-      Entry: 10
-      Data: 3
+      Entry: 6
+      Data: 
     - Name: InstanciatedFXAnimator
       Entry: 6
       Data: 
@@ -807,8 +791,8 @@ MonoBehaviour:
       Entry: 12
       Data: 1
     - Name: 
-      Entry: 10
-      Data: 3
+      Entry: 6
+      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -838,8 +822,8 @@ MonoBehaviour:
       Entry: 9
       Data: 21
     - Name: Caster
-      Entry: 10
-      Data: 0
+      Entry: 6
+      Data: 
     - Name: SetUp
       Entry: 5
       Data: true
@@ -923,32 +907,7 @@ MonoBehaviour:
       Data: 14
     - Name: 
       Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 10
-      Data: 3
-    - Name: $v
-      Entry: 7
-      Data: 34|System.Collections.Generic.List`1[[DownBelow.Spells.Alterations.Alteration,
-        Assembly-CSharp]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 9
-      Data: 25
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
+      Data: 0
     - Name: 
       Entry: 13
       Data: 
@@ -960,7 +919,7 @@ MonoBehaviour:
       Data: false
     - Name: TeleportedTo
       Entry: 7
-      Data: 35|System.Collections.Generic.List`1[[DownBelow.Entity.CharacterEntity,
+      Data: 34|System.Collections.Generic.List`1[[DownBelow.Entity.CharacterEntity,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
