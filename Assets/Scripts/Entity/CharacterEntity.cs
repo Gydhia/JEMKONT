@@ -22,7 +22,9 @@ namespace DownBelow.Entity
         public delegate void StatModified();
 
         public event SpellEventData.Event OnHealthRemoved;
+        public event SpellEventData.Event OnHealthRemovedRealValue;
         public event SpellEventData.Event OnHealthAdded;
+        public event SpellEventData.Event OnHealthAddedRealValue;
         public event SpellEventData.Event OnStrengthRemoved;
         public event SpellEventData.Event OnStrengthAdded;
         public event SpellEventData.Event OnSpeedRemoved;
@@ -270,14 +272,10 @@ namespace DownBelow.Entity
         /// <param name="cellToAttack">The cell to attack.</param>
         public void AutoAttack(Cell cellToAttack)
         {
-            if (!isInAttackRange(cellToAttack))
-            {
-                return;
-            }
+            this.CanAutoAttack = false;
 
             //Normally already verified. Just in case
-            //Calculate straight path, see if obstacle.
-            this.CanAutoAttack = false;
+            //Calculate straight path, see if obstacle.  
             var path = GridManager.Instance.FindPath(this, cellToAttack.PositionInGrid, true);
 
             var notwalkable = path.Find(x => x.Datas.state != CellState.Walkable);
@@ -285,19 +283,14 @@ namespace DownBelow.Entity
             {
                 switch (notwalkable.Datas.state)
                 {
-                    case CellState.Blocked:
-                        break;
                     case CellState.EntityIn:
-                        //CastAutoAttack(notwalkable);
+                        NetworkManager.Instance.EntityAskToBuffAction(new AttackingAction(this, notwalkable));
                         break;
                 }
             }
             else
             {
-                //There isn't any obstacle in the path, so the attack should go for it.
-                //if(cellToAttack.Datas.state == CellState.EntityIn)
-                //    CastAutoAttack(cellToAttack);
-                //TODO: Shield/overheal? What do i do? Have we got shield in the game??????????????????????
+                NetworkManager.Instance.EntityAskToBuffAction(new AttackingAction(this, cellToAttack));
             }
         }
 
@@ -316,9 +309,10 @@ namespace DownBelow.Entity
         {
             this.IsPlayingEntity = true;
             this.PlayingIndicator.SetActive(true);
+            this.CanAutoAttack = true;
 
 
-            OnTurnBegun?.Invoke(new());
+             OnTurnBegun?.Invoke(new());
 
             this.ReinitializeStat(EntityStatistics.Speed);
             this.ReinitializeStat(EntityStatistics.Mana);
@@ -340,7 +334,7 @@ namespace DownBelow.Entity
         public virtual void EndTurn()
         {
             NumberOfTurnsPlayed++;
-            CanAutoAttack = false;
+            this.CanAutoAttack = false;
             foreach (Alteration Alter in Alterations)
             {
                 Alter.Apply(this);
@@ -436,6 +430,8 @@ namespace DownBelow.Entity
         {
             if (value > 0)
             {
+                
+                Debug.Log("HEALED : "+ value);
                 // Check overheal
                 if (this.Health + value > this.RefStats.Health)
                     value = this.RefStats.Health - Statistics[EntityStatistics.Health];
@@ -445,10 +441,14 @@ namespace DownBelow.Entity
                 if (triggerEvents)
                 {
                     this.OnHealthAdded?.Invoke(new(this, value));
+                    this.OnHealthAddedRealValue?.Invoke(new(this, value));
                 }
+
+                this.Animator.SetTrigger("OnHit");
             }
             else
             {
+                this.OnHealthRemovedRealValue?.Invoke(new SpellEventData(this, value));
                 value = Mathf.Max(0, Defense - value);
                 if (this.Bubbled)
                 {
@@ -456,6 +456,7 @@ namespace DownBelow.Entity
                 }
                 if (triggerEvents)
                 {
+                    
                     this.OnHealthRemoved?.Invoke(new SpellEventData(this, value));
                     if (value != 0) this.OnDamageTaken?.Invoke(new());
                 }

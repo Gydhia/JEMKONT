@@ -139,22 +139,25 @@ namespace DownBelow.Managers
             if (CombatManager.Instance != null)
                 CombatManager.Instance.Init();
 
-            if (UIManager.Instance != null)
-                UIManager.Instance.Init();
-
             if (CardsManager.Instance != null)
                 CardsManager.Instance.Init();
 
             if (GridManager.Instance != null)
                 GridManager.Instance.Init();
-            
-            if(AnalyticsManager.Instance != null)
+
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.Init();
+
+            if (AnalyticsManager.Instance != null)
                 AnalyticsManager.Instance.Init();
 
 
             if(GameData.Game.RefGameDataContainer != null)
             {
                 GridManager.Instance.CreateWholeWorld(GameData.Game.RefGameDataContainer);
+
+                this.LoadDatas(GameData.Game.RefGameDataContainer.Data);
+
                 this.ProcessPlayerWelcoming();
             }
             else if (MenuManager.Instance == null)
@@ -162,6 +165,46 @@ namespace DownBelow.Managers
                 // We're directly loading the FarmLand
                 LoadingScreen.Instance.Show();
             }
+        }
+
+        public void LoadDatas(GameData.GameData datas)
+        {
+            for (int i = 0; i < datas.last_unlocked_abyss; i++)
+            {
+                SettingsManager.Instance.AbyssesPresets[i].IsCleared = true;
+            }
+            MaxAbyssReached = datas.last_unlocked_abyss;
+
+            if(datas.players_inventories != null)
+            {
+                foreach (var inventory in datas.players_inventories)
+                {
+                    foreach (var item in inventory.StoredItems)
+                    {
+                        GridManager.SavePurposeStorage.TryAddItem(SettingsManager.Instance.ItemsPresets[item.ID], item.Quantity);
+                    }
+                }
+            }
+
+            if (datas.tools_data != null)
+            {
+                foreach (var toolData in datas.tools_data)
+                {
+                    CardsManager.Instance.AvailableTools.First(t => t.UID == toolData.UID).SetData(toolData);
+                }
+            }
+            SettingsManager.Instance.OwnedCards.Clear();
+            if(datas.owned_cards != null)
+            {
+                for (int i = 0; i < datas.owned_cards.Length; i++)
+                {
+                    SettingsManager.Instance.OwnedCards.Add(SettingsManager.Instance.ScriptableCards[datas.owned_cards[i]]);
+                }
+            }
+
+            CurrentAvailableResources = datas.current_ressources;
+            
+            UIManager.Instance.GatherSection.UpdateGatherBar(null);
         }
 
         public void ProcessPlayerWelcoming()
@@ -228,6 +271,9 @@ namespace DownBelow.Managers
                 this.FireGameStarted();
                 NetworkManager.Instance.SelfLoadedGame();
             }
+
+            if (UIManager.Instance != null)
+                UIManager.Instance.Init();
         }
 
         private void _subscribeForCombatBuffer(GridEventData Data)
@@ -242,16 +288,19 @@ namespace DownBelow.Managers
         {
             this.ClearCombatActionsBuffer();
 
-            // Editor only utility
+            // Editor only utility - If from onDestroy, data will be null
             if (Data != null)
             {
                 CombatManager.Instance.OnCardEndUse -= this.BuffSpell;
 
                 CombatManager.Instance.OnCombatStarted += this._subscribeForCombatBuffer;
                 CombatManager.Instance.OnCombatEnded -= _unsubscribeForCombatBuffer;
-            }
 
-            NetworkManager.Instance.PlayerAskToLeaveCombat();
+                if (RealSelfPlayer.CurrentGrid != null && RealSelfPlayer.CurrentGrid.IsCombatGrid)
+                {
+                    NetworkManager.Instance.PlayerAskToLeaveCombat();
+                }
+            }
         }
 
         #region DEBUG
@@ -435,7 +484,7 @@ namespace DownBelow.Managers
             {
                 savename = savename.Replace(c, '_');
             }
-
+            this.SaveName = savename;
             FileInfo fileinfo = new System.IO.FileInfo(Application.persistentDataPath + "/save/" + savename + ".dbw");
             if (!fileinfo.Exists)
                 fileinfo.Create();
@@ -469,10 +518,25 @@ namespace DownBelow.Managers
 
         private GameData.GameData _getCurrentGameDataSideThread(GameData.GameData gameData)
         {
-            // TODO : Make a global class to save EACH possible game's grid states
             gameData.grids_data = GridManager.Instance.GetGridDatas();
             gameData.game_version = GameData.GameVersion.Current.ToString();
             gameData.save_name = this.SaveName;
+            gameData.save_time = DateTime.Now;
+            gameData.players_inventories = this.Players.Values.Select(p => p.PlayerInventory.GetData()).ToArray();
+            gameData.tools_data = CardsManager.Instance.AvailableTools.Select(t => t.GetData()).ToArray();
+            gameData.current_ressources = CurrentAvailableResources;
+            gameData.owned_cards = SettingsManager.Instance.OwnedCards.Select(c => c.UID).ToArray();
+
+            // Get the last uncleared abyss
+            for (int i = 0; i < SettingsManager.Instance.AbyssesPresets.Count; i++)
+            {
+                if(!SettingsManager.Instance.AbyssesPresets[i].IsCleared)
+                {
+                    gameData.last_unlocked_abyss = i;
+                    break;
+                }
+            }
+
 
             return gameData;
         }

@@ -332,7 +332,7 @@ MonoBehaviour:
   _healthRemovedColor: {r: 0.8679245, g: 0.06877886, b: 0.06877886, a: 1}
   _healthAddedColor: {r: 0.19474845, g: 0.8301887, b: 0.09711638, a: 1}
   _targetImage: {fileID: 2275617566633258476}
-  healthText: {fileID: 0}
+  healthText: {fileID: 4668288626745961375}
 --- !u!1 &2587280815461194769
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,8 +1,13 @@
 using DownBelow;
 using DownBelow.Entity;
+using DownBelow.Mechanics;
 using Photon.Pun.UtilityScripts;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Serialization;
+using UnityEditor;
 using UnityEngine;
 
 [System.Serializable]
@@ -15,6 +20,11 @@ public class ToolItem : ItemPreset
     public Color ToolRefColor;
     public Sprite FightIcon;
     public string GatherAnim;
+
+    public List<EnchantPreset> ToolEnchants;
+    public int CurrentLevel = 0;
+
+    public Dictionary<EntityStatistics, int> CurrentEnchantBuffs = new Dictionary<EntityStatistics, int>();
 
     public Texture2D CharacterTexture;
 
@@ -33,7 +43,88 @@ public class ToolItem : ItemPreset
         }
     }
    
+    public List<EntityStatistics> GetEnchantedStats()
+    {
+        var statsList = new List<EntityStatistics>();
+
+        foreach (var enchant in this.ToolEnchants)
+        {
+            foreach (var stat in enchant.Buffs)
+            {
+                // We only consider a stat used if it's above 1
+                if(stat.Value > 0 && !statsList.Contains(stat.Key))
+                {
+                    statsList.Add(stat.Key);
+                }
+            }
+        }
+
+        if (statsList.Contains(EntityStatistics.None))
+        {
+            statsList.Remove(EntityStatistics.None);
+        }
+
+        return statsList;
+    }
+
+    public int GetStatsSum(EntityStatistics statistic, int level)
+    {
+        int statSum = 0;
+        for (int i = 0; i < level; i++)
+        {
+            if (this.ToolEnchants[i].Buffs.ContainsKey(statistic))
+            {
+                statSum += this.ToolEnchants[i].Buffs[statistic];
+            }
+        }
+
+        return statSum;
+    }
+
+    public int GetStatAtUpperLevel(EntityStatistics stat)
+    {
+        // The first enchant level of enchantement is the index [0]
+        if (this.CurrentLevel >= this.ToolEnchants.Count || !this.ToolEnchants[this.CurrentLevel].Buffs.ContainsKey(stat))
+            return 0;
+
+        return this.ToolEnchants[this.CurrentLevel].Buffs[stat];
+    }
+
+    public void SetData(ToolData data)
+    {
+        this.CurrentLevel = data.EnchantLevel;
+
+        this.DeckPreset.Deck.Cards.Clear();
+        foreach (var cardID in data.DeckCards)
+        {
+            this.DeckPreset.Deck.Cards.Add(DownBelow.Managers.SettingsManager.Instance.ScriptableCards[cardID]);
+        }
+    }
+
+    public ToolData GetData()
+    {
+        return new ToolData(this);
+    }
 }
 public enum EClass {
     Miner, Herbalist, Farmer, Fisherman
+}
+
+[Serializable]
+public struct ToolData
+{
+    [DataMember]
+    public Guid UID { get; set; }
+    [DataMember]
+    public int EnchantLevel { get; set; }
+    [DataMember]
+    public Guid[] DeckCards { get; set; }
+
+
+    public ToolData(ToolItem item)
+    {
+        this.UID = item.UID;
+        this.EnchantLevel = item.CurrentLevel;
+        this.DeckCards = item.DeckPreset.Deck.Cards.Select(c => c.UID).ToArray();
+    }
 }

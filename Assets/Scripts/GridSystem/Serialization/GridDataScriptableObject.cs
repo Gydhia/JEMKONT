@@ -29,14 +29,12 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
     private GameObject _plane;
     public GameObject PlanePrefab;
 
-    [FoldoutGroup("README")]
     [DetailedInfoBox("READ-ME", "Click on \"DRAW\", then use the numpad to paint cells\n" +
-        "   0 - Walkable\n" +
-        "   1 - Blocked\n" +
-        "   2 - Preset In -> Cross in inspector to delete\n" +
-        "   C - Inner grid entrance if [Target For Entrance] is on"
+        "   [0] - Walkable\n" +
+        "   [1] - Blocked\n" +
+        "   [2] - Preset In -> Cross in inspector to delete\n" +
+        "   [C] - Inner grid entrance if [Target For Entrance] is on"
         )]
-    public string HowToUse = "";
 
 
     [ValueDropdown("GetSavedGrids"), OnValueChanged("LoadSelectedGrid")]
@@ -139,7 +137,7 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
             return;
         }
         ApplyTerrainButtonName = "Applying terrain to grid..";
-        gridTerrainApplier.ApplyTerrainToGrid(this.LazyLoadedData.CellDatas, this.LazyLoadedData.InnerGrids);
+        gridTerrainApplier.ApplyTerrainToGrid(this.LazyLoadedData);
         ApplyTerrainButtonName = "Apply terrain to grid";
     }
 
@@ -211,7 +209,7 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
             }
             else
             {
-                Debug.LogError("Couldn't find a place spawnable because it's null.");
+                setEntities.Add(spawnable.Key, null);
             }
         }
 
@@ -277,7 +275,12 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
             if(Spawnables != null)
             {
                 foreach (var spawnable in Spawnables)
-                    cellDatas[spawnable.Key.latitude, spawnable.Key.longitude].state = spawnable.Value.AffectingState;
+                {
+                    if(spawnable.Value != null)
+                    {
+                        cellDatas[spawnable.Key.latitude, spawnable.Key.longitude].state = spawnable.Value.AffectingState;
+                    }
+                }
             }
         }
 

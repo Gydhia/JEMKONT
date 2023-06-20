@@ -35,8 +35,10 @@ namespace DownBelow.Entity
 
             if (result)
             {
-                var resTool = GameManager.RealSelfPlayer.ActiveTools.First(t => t.Class == this.CurrentRessource.LocalPreset.GatherableBy);
-                GameManager.RealSelfPlayer.Animator.SetTrigger(resTool.GatherAnim);
+                var player = this.RefEntity as PlayerBehavior;
+
+                var resTool = player.ActiveTools.First(t => t.Class == this.CurrentRessource.LocalPreset.GatherableBy);
+                player.Animator.SetTrigger(resTool.GatherAnim);
             }
         }
 
@@ -55,7 +57,11 @@ namespace DownBelow.Entity
 
                 this.CurrentRessource.Interact(player);
                 GameManager.Instance.FireResourceGathered(this.CurrentRessource);
-                player.TakeResources(this.CurrentRessource.LocalPreset.ResourceItem, nbResourcers);
+
+                if(this.RefEntity == GameManager.RealSelfPlayer)
+                {
+                    NetworkManager.Instance.GiftOrRemovePlayerItem(player.UID, this.CurrentRessource.LocalPreset.ResourceItem, nbResourcers);
+                }
             }
 
             this.EndAction();

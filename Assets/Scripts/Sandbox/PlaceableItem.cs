@@ -1,4 +1,5 @@
 using DownBelow;
+using DownBelow.Entity;
 using DownBelow.Events;
 using DownBelow.GridSystem;
 using DownBelow.Managers;
@@ -6,6 +7,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using UnityEngine;
 
 public abstract class PlaceableItem : ItemPreset
@@ -14,32 +16,40 @@ public abstract class PlaceableItem : ItemPreset
 
     protected abstract CellState AffectingState { get; }
 
-    public void Place(CellEventData data)
+    public void AskToPlace(CellEventData data)
     {
         if (PrevisualizationInstance != null)
         {
             data.Cell.Datas.placeableOnCell = this;
 
             Destroy(PrevisualizationInstance);
-            PlaceObject(data);
 
-            try
-            {
-                var stack = GameManager.SelfPlayer.PlayerInventory.StorageItems.ToList().First(x => x.ItemPreset == this);
-                stack.RemoveQuantity();
-                PrevisualizationInstance = null;
-                data.Cell.Datas.state = AffectingState;
-                if (stack.Quantity <= 0)
-                {
-                    InputManager.Instance.OnNewCellHovered -= Previsualize;
-                    InputManager.Instance.OnCellRightClickDown -= Place;
-                }
-            } catch
+            var item = GameManager.RealSelfPlayer.PlayerInventory.StorageItems.First(i => i.ItemPreset == this);
+
+            if (item.Quantity <= 1)
             {
                 InputManager.Instance.OnNewCellHovered -= Previsualize;
-                InputManager.Instance.OnCellRightClickDown -= Place;
+                InputManager.Instance.OnCellRightClickDown -= AskToPlace;
             }
+
+            NetworkManager.Instance.GiftOrRemovePlayerItem(GameManager.RealSelfPlayer.UID, this, -1);
+
+            var placeAction = new PlaceItemAction(GameManager.RealSelfPlayer, data.Cell);
+            placeAction.Init(this);
+
+            NetworkManager.Instance.EntityAskToBuffAction(placeAction);
         }
+    }
+
+
+    /// <summary>
+    /// Local action called by network to place the objet
+    /// </summary>
+    public void PlaceLocal(Cell cell)
+    {
+        PlaceObject(cell);
+        PrevisualizationInstance = null;
+        cell.Datas.state = AffectingState;
     }
 
     /// <summary>
@@ -52,7 +62,7 @@ public abstract class PlaceableItem : ItemPreset
     /// Places down the object prefab. 
     /// </summary>
     /// <param name="cell">The data from the event that called the placing down.</param>
-    public abstract void PlaceObject(CellEventData data);
+    public abstract void PlaceObject(Cell data);
 
     public void Previsualize(CellEventData data)
     {
@@ -62,13 +72,13 @@ public abstract class PlaceableItem : ItemPreset
             if (stack.Quantity <= 0)
             {
                 InputManager.Instance.OnNewCellHovered -= Previsualize;
-                InputManager.Instance.OnCellRightClickDown -= Place;
+                InputManager.Instance.OnCellRightClickDown -= AskToPlace;
                 return;
             }
         } catch (InvalidOperationException ex)
         {
             InputManager.Instance.OnNewCellHovered -= Previsualize;
-            InputManager.Instance.OnCellRightClickDown -= Place;
+            InputManager.Instance.OnCellRightClickDown -= AskToPlace;
             return;
         }
 
@@ -90,6 +100,14 @@ public abstract class PlaceableItem : ItemPreset
         } else
         {
             PrevisualizationInstance.SetActive(false);
+        }
+    }
+
+    public void StopPrevisualize()
+    {
+        if(PrevisualizationInstance != null)
+        {
+            Destroy(PrevisualizationInstance);
         }
     }
 

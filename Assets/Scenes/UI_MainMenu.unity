@@ -167,9 +167,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44d26ebafca7f944f8be0cb5daa95a73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MainGrid: 
   CellPrefab: {fileID: 0}
   CombatGridPrefab: {fileID: 0}
-  _objectsHandler: {fileID: 0}
+  WorldGridPrefab: {fileID: 0}
+  _gridsHandler: {fileID: 0}
   _gridsDataHandler: {fileID: 0}
   InCombat: 0
   MainWorldGrid: {fileID: 0}
@@ -475,6 +477,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &950747399 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1618867148624053890, guid: e80a0b91cb455214a9fc9f930a709fe9, type: 3}
+  m_PrefabInstance: {fileID: 2880913444350772062}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &950747404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 950747399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1da120c369428c4fbc6ba61bec0f0c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PopupToGo: 6
+  ToHost: 0
 --- !u!1 &1044492784
 GameObject:
   m_ObjectHideFlags: 0
@@ -891,6 +912,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2841469174231428957, guid: e80a0b91cb455214a9fc9f930a709fe9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2880913444570937694, guid: e80a0b91cb455214a9fc9f930a709fe9, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -1114,6 +1139,22 @@ PrefabInstance:
     - target: {fileID: 4725152022477135047, guid: e80a0b91cb455214a9fc9f930a709fe9, type: 3}
       propertyPath: m_SizeDelta.y
       value: -38.571426
+      objectReference: {fileID: 0}
+    - target: {fileID: 4863065915597262934, guid: e80a0b91cb455214a9fc9f930a709fe9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4989338540576003840, guid: e80a0b91cb455214a9fc9f930a709fe9, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4989338540576003840, guid: e80a0b91cb455214a9fc9f930a709fe9, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4989338540576003840, guid: e80a0b91cb455214a9fc9f930a709fe9, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: -2.4000244
       objectReference: {fileID: 0}
     - target: {fileID: 5118173115327223390, guid: e80a0b91cb455214a9fc9f930a709fe9, type: 3}
       propertyPath: m_AnchorMax.y

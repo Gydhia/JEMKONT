@@ -63,9 +63,10 @@ namespace DownBelow.Managers
             {
                 string abyssName = (Grid as CombatGrid).ParentGrid.UName;
                 var abyss = SettingsManager.Instance.AbyssesPresets.Find(x=> x.name == abyssName);
-                if(abyss != null && !abyss.IsCleared)
+
+                abyss.IsCleared = true;
+                if (!abyss.IsCleared)
                 {
-                    abyss.IsCleared = true;
                     abyss.GiftCards();
                 }
             }

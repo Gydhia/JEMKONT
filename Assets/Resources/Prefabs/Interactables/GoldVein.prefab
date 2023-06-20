@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 6172305714292062843}
   - component: {fileID: 4088417691087315101}
   - component: {fileID: 2083702351702672379}
-  - component: {fileID: 7300356675251600840}
   m_Layer: 8
   m_Name: GoldVein_Gathered
   m_TagString: Untagged
@@ -84,24 +83,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &7300356675251600840
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 125539866402002253}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  outlineMode: 0
-  outlineColor: {r: 1, g: 1, b: 1, a: 1}
-  outlineWidth: 2
-  precomputeOutline: 0
-  bakeKeys: []
-  bakeValues: []
 --- !u!1 &5225595416022973248
 GameObject:
   m_ObjectHideFlags: 0
@@ -257,9 +238,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InteractablePreset: {fileID: 0}
   RefCell: {fileID: 0}
-  Mesh: {fileID: 9107493635244427062}
-  GatheredMesh: {fileID: 2083702351702672379}
+  Mesh: {fileID: 5225595416022973248}
   Outline: {fileID: 7405713865225625881}
+  GatheredMesh: {fileID: 125539866402002253}
+  isMature: 1
+  TimeToGrowUp: 80
 --- !u!65 &717044911678835273
 BoxCollider:
   m_ObjectHideFlags: 0

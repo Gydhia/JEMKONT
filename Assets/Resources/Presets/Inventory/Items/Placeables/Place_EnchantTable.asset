@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa2dfc0d5045bba4786dbbe42fef742e, type: 3}
+  m_Name: Place_EnchantTable
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: UID
+      Entry: 2
+      Data: a0e091c7c442ebe48f11aa4ef29187b0
+  Type: 0
+  ItemName: PlaceEnchantTable
+  InventoryIcon: {fileID: 21300000, guid: bff324a71abe4ef42be99759ca453ebe, type: 3}
+  MaxStack: 1
+  DroppedItemPrefab: {fileID: 2769568623919297241, guid: 7ef522682e811844cb16053a406e4d78, type: 3}
+  PrevisualizationInstance: {fileID: 0}
+  Interactable: {fileID: 11400000, guid: 6e1e62b0cbcda444389b9c8edd94936f, type: 2}

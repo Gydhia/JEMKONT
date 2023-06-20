@@ -1,6 +1,5 @@
 using DownBelow.GridSystem;
 using DownBelow.Managers;
-using DownBelow.Mechanics;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,7 +27,8 @@ namespace DownBelow.Mechanics
 
         public void GiftCards()
         {
-            foreach (var card in GiftedCards) {
+            foreach (var card in GiftedCards) 
+            {
                 var act = new PurchaseCardsAction(GameManager.SelfPlayer, GameManager.SelfPlayer.EntityCell);
                 act.Init(card);
                 NetworkManager.Instance.EntityAskToBuffAction(act);

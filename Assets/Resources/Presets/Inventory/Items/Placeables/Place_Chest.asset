@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa2dfc0d5045bba4786dbbe42fef742e, type: 3}
+  m_Name: Place_Chest
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: UID
+      Entry: 2
+      Data: fa83d62d5ca6d4af425f93f1e435f150
+  Type: 0
+  ItemName: PlaceableChest
+  InventoryIcon: {fileID: 21300000, guid: d5583070971864116a83a0f2577fa4da, type: 3}
+  MaxStack: 1
+  DroppedItemPrefab: {fileID: 2769568623919297241, guid: 1ee5710fbb2b073409a4c6843a75c377, type: 3}
+  PrevisualizationInstance: {fileID: 0}
+  Interactable: {fileID: 11400000, guid: 22705731f513aa24ba27cace6926da2c, type: 2}

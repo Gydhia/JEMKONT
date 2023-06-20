@@ -55,6 +55,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RewardsHolder: {fileID: 83878319375683405}
   RewardItemPrefab: {fileID: 5805280679143752342, guid: 1e384d7380a954a479fa168e751f2dec, type: 3}
+  EnterButton: {fileID: 1559104190320423022}
   Lock: {fileID: 7146584875874549559}
   Laurel: {fileID: 1413658509631629934}
   Level: {fileID: 117271264024797126}
@@ -268,7 +269,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 0.46, g: 0.46, b: 0.46, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -282,7 +283,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 2836659589208864226}
   m_OnClick:
     m_PersistentCalls:

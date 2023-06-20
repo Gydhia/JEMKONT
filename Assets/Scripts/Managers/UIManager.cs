@@ -17,6 +17,9 @@ namespace DownBelow.Managers
         public UICardSection CardSection;
         public UIRewardSection RewardSection;
         public UIAbyssesSection AbyssesSection;
+        public UICraftingSection CraftingSection;
+        public UIEnchantSection EnchantSection;
+        public UIWorkshopSection WorkshopSection;
 
         public EntityTooltipUI EntityTooltipUI;
 
@@ -35,13 +38,16 @@ namespace DownBelow.Managers
             this.CardSection.Init();
             this.RewardSection.Init();
             this.AbyssesSection.Init();
-            
+            this.CraftingSection.Init();
+            this.EnchantSection.Init();
+            this.WorkshopSection.Init();
+
             this.TurnSection.gameObject.SetActive(false);
             this.PlayerInfos.gameObject.SetActive(false);
             this.CardSection.gameObject.SetActive(false);
             this.EntityTooltipUI.gameObject.SetActive(false);
 
-            GameManager.Instance.OnGameStarted += _subscribe;
+            this._subscribe();
         }
         public void SwitchSelectedSlot(int oldSlot, int newSlot)
         {
@@ -64,7 +70,7 @@ namespace DownBelow.Managers
                 //Inventory
             }
         }
-        private void _subscribe(GameEventData Data)
+        private void _subscribe()
         {
             CombatManager.Instance.OnCombatStarted += this.SetupCombatInterface;
 
@@ -73,6 +79,16 @@ namespace DownBelow.Managers
 
             InputManager.Instance.OnCellRightClickDown += this.UpdateEntityToolTip;
             PlayerInputs.player_escape.canceled += this._switchEscapeState;
+        }
+        private void _unsubscribe()
+        {
+            CombatManager.Instance.OnCombatStarted -= this.SetupCombatInterface;
+
+            CombatManager.Instance.OnCardBeginUse -= this._beginCardDrag;
+            CombatManager.Instance.OnCardEndUse -= this._endCardDrag;
+
+            InputManager.Instance.OnCellRightClickDown -= this.UpdateEntityToolTip;
+            PlayerInputs.player_escape.canceled -= this._switchEscapeState;
         }
 
         private void _switchEscapeState(UnityEngine.InputSystem.InputAction.CallbackContext ctx) => this.SwitchEscapeState();
@@ -138,9 +154,17 @@ namespace DownBelow.Managers
             InputManager.Instance.ChangeCursorAppearance(CursorAppearance.Idle);
         }
 
-        public void HideStorage()
+        public void HideInteractables()
         {
             this.CurrentStorage.HideStorage();
+            this.EnchantSection.ClosePanel();
+            this.AbyssesSection.OnClickClose();
+            this.WorkshopSection.ClosePanel();
+        }
+
+        private void OnDestroy()
+        {
+            this._unsubscribe();
         }
     }
 }

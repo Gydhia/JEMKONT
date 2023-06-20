@@ -1,8 +1,14 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/OrdosFX.meta
 guid: a67d35fa8daae8140bef8a6c21854a5a
 folderAsset: yes
 DefaultImporter:
+========
+guid: 6fa6281ea0f04004a92d19ea5ffe7755
+NativeFormatImporter:
+>>>>>>>> origin/JT-79-AddedScene:Assets/TerrainData_5f9a2f36-c70f-4ac6-b9ce-6bb3c98dabdb.asset.meta
   externalObjects: {}
+  mainObjectFileID: 15600000
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -10,6 +10,8 @@ using DownBelow.Events;
 using System;
 using Newtonsoft.Json;
 using DownBelow.Loading;
+using EODE.Wonderland;
+using static UnityEditor.Progress;
 
 namespace DownBelow.Managers
 {
@@ -524,7 +526,7 @@ namespace DownBelow.Managers
         {
             this._playersNetState.Add(PlayerID);
 
-            if(this._playersNetState.Count >= GameManager.Instance.Players.Count)
+            if(this._playersNetState.Count >= GameManager.Instance.Players.Values.Count(p => p.CurrentGrid.IsCombatGrid))
             {
                 this.photonView.RPC("RPC_RespondPlayersToLeaveCombat", RpcTarget.All, GameManager.SelfPlayer.UID);
             }
@@ -548,17 +550,49 @@ namespace DownBelow.Managers
             CombatManager.Instance.StartCombat(GameManager.Instance.Players[playerID].CurrentGrid as CombatGrid);
         }
 
-        public void GiftOrRemovePlayerItem(string playerID, ItemPreset item, int quantity)
+        public void GiftOrRemovePlayerItem(string playerID, ItemPreset item, int quantity, int preferedSlot = -1)
         {
-            this.photonView.RPC("RPC_RespondGiftOrRemovePlayerItem", RpcTarget.All, GameManager.SelfPlayer.UID, item.UID.ToString(), quantity);
+            this.photonView.RPC("RPC_RespondGiftOrRemovePlayerItem", RpcTarget.All, GameManager.SelfPlayer.UID, item.UID.ToString(), quantity, preferedSlot);
         }
 
         [PunRPC]
-        public void RPC_RespondGiftOrRemovePlayerItem(string playerID, string itemID, int quantity)
+        public void RPC_RespondGiftOrRemovePlayerItem(string playerID, string itemID, int quantity, int preferedSlot = -1)
         {
-            GameManager.Instance.Players[playerID].TakeResources(SettingsManager.Instance.ItemsPresets[System.Guid.Parse(itemID)], quantity);
+            var storage = GameManager.RealSelfPlayer.PlayerInventory;
+            var item = SettingsManager.Instance.ItemsPresets[System.Guid.Parse(itemID)];
+
+            if (quantity > 0)
+            {
+                storage.TryAddItem(item, quantity, preferedSlot);
+            }
+            else
+            {
+                storage.RemoveItem(item, -quantity, preferedSlot);
+            }
         }
 
+        public void GiftOrRemoveStorageItem(InteractableStorage storage, ItemPreset item, int quantity, int slot)
+        {
+            this.photonView.RPC("RPC_RespondGiftOrRemoveStorageItem", RpcTarget.All,
+                storage.RefCell.RefGrid.UName, storage.RefCell.Datas.heightPos, storage.RefCell.Datas.widthPos, item.UID.ToString(), quantity, slot);
+        }
+
+        [PunRPC]
+        public void RPC_RespondGiftOrRemoveStorageItem(string gridname, int latitude, int longitude, string itemID, int quantity, int slot)
+        {
+            var grid = GridManager.Instance.WorldGrids[gridname];
+            var storage = (grid.Cells[latitude, longitude].AttachedInteract as InteractableStorage).Storage;
+            var item = SettingsManager.Instance.ItemsPresets[System.Guid.Parse(itemID)];
+
+            if(quantity > 0)
+            {
+                storage.TryAddItem(item, quantity, slot);
+            }
+            else
+            {
+                storage.RemoveItem(item, -quantity, slot);
+            }
+        }
         #region TURNS
 
 

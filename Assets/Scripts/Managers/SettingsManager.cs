@@ -37,6 +37,7 @@ namespace DownBelow.Managers
 
 
         public List<AbyssPreset> AbyssesPresets;
+        public List<CraftPreset> CraftRepices;
 
         public void Init()
         {
@@ -60,10 +61,23 @@ namespace DownBelow.Managers
             this.SpawnablesPresets = new Dictionary<Guid, BaseSpawnablePreset>();
             this.ItemsPresets = new Dictionary<Guid, ItemPreset>();
 
-            foreach (var spawnable in spawnablesPresets)
-                this.SpawnablesPresets.Add(spawnable.UID, spawnable);
-            foreach (var item in itemsPresets)
-                this.ItemsPresets.Add(item.UID, item);
+            try
+            {
+                if (spawnablesPresets != null)
+                {
+                    foreach (var spawnable in spawnablesPresets)
+                        this.SpawnablesPresets.Add(spawnable.UID, spawnable);
+                }
+                if (itemsPresets != null)
+                {
+                    foreach (var item in itemsPresets)
+                        this.ItemsPresets.Add(item.UID, item);
+                }
+            }
+            catch
+            {
+                Debug.LogError("COME ON, you have 2 Presets with the same UID. CHANGE THEIR NAME");
+            }
         }
 
         public void LoadToolsRelative()

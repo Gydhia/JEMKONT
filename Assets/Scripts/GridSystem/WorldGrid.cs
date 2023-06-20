@@ -7,6 +7,7 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 using System;
 using DownBelow.Entity;
+using DownBelow.UI.Inventory;
 
 namespace DownBelow.GridSystem
 {
@@ -124,6 +125,14 @@ namespace DownBelow.GridSystem
                             // TODO: Differentiate enemies and NPC. For now they'll be enemies
                             spawnSO.Init(this.Cells[spawnable.Key.latitude, spawnable.Key.longitude]);
             }
+
+            if(gridData.Storages != null)
+            {
+                foreach (var storage in gridData.Storages)
+                {
+                    ((InteractableStorage)this.Cells[storage.PositionInGrid.latitude, storage.PositionInGrid.longitude].AttachedInteract).LoadStorage(storage, this);
+                }
+            }
         }
 
         public void GenerateInnerGrids(List<GridData> innerGrids, Vector3 parentTLOffset)
@@ -160,7 +169,7 @@ namespace DownBelow.GridSystem
             {
                 for (int j = 0; j < this.Cells.GetLength(1); j++)
                 {
-                    this.CreateAddCell(i, j, new Vector3((j + longitude) * cellsWidth + widthOffset, 0f, -(i + latitude) * cellsWidth - widthOffset));
+                    this.CreateAddCell(i, j, new Vector3((j + longitude) * cellsWidth + widthOffset, 0.075f, -(i + latitude) * cellsWidth - widthOffset));
                 }
             }
         }
@@ -208,7 +217,7 @@ namespace DownBelow.GridSystem
                     this.Cells = newCells;
                     for (int i = oldHeight; i < newHeight; i++)
                         for (int j = 0; j < oldWidth; j++)
-                            this.CreateAddCell(i, j, new Vector3(j * cellsWidth + widthOffset, 0f, -i * cellsWidth));
+                            this.CreateAddCell(i, j, new Vector3(j * cellsWidth + widthOffset, 0.075f, -i * cellsWidth));
                 }
             }
             // Resize the width
@@ -227,7 +236,7 @@ namespace DownBelow.GridSystem
                     this.Cells = newCells;
                     for (int j = oldWidth; j < newWidth; j++)
                         for (int i = 0; i < oldHeight; i++)
-                            this.CreateAddCell(i, j, new Vector3(j * cellsWidth + widthOffset, 0f, -i * cellsWidth));
+                            this.CreateAddCell(i, j, new Vector3(j * cellsWidth + widthOffset, 0.075f, -i * cellsWidth));
                 }
             }
         }
@@ -298,6 +307,13 @@ namespace DownBelow.GridSystem
             this.InnerGrids = InnerGridsData;
             this.SpawnablePresets = Spawnables;
         }
+
+        public GridData(string GridName, string GridLevelPath, bool IsCombatGrid, int GridHeight, int GridWidth, Vector3 TopLeftOffset, List<CellData> CellDatas, List<GridData> InnerGridsData, Dictionary<GridPosition, Guid> Spawnables, List<StorageData> Storages)
+            : this(GridName, GridLevelPath, IsCombatGrid, GridHeight, GridWidth, TopLeftOffset, CellDatas, InnerGridsData, Spawnables)
+        {
+            this.Storages = Storages;
+        }
+
         [DataMember]
         public string GridName { get; set; }
         [DataMember]
@@ -328,5 +344,8 @@ namespace DownBelow.GridSystem
         [DataMember]
         [Newtonsoft.Json.JsonConverter(typeof(JSONGridConverter))]
         public Dictionary<GridPosition, Guid> SpawnablePresets { get; set; }
+
+        [DataMember]
+        public List<StorageData> Storages { get; set; }
     }
 }

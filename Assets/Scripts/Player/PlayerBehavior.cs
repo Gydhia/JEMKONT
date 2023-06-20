@@ -3,6 +3,7 @@ using DownBelow.GridSystem;
 using DownBelow.Managers;
 using DownBelow.UI.Inventory;
 using EasyTransition;
+using EODE.Wonderland;
 using Photon.Pun;
 using Photon.Realtime;
 using System;
@@ -10,6 +11,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 namespace DownBelow.Entity
 {
@@ -157,7 +159,7 @@ namespace DownBelow.Entity
             if (scrollBusy) return;
             scrollBusy = true;
             int newSlot = inventorySlotSelected;
-            if (value >= 110)
+            if (value <= -110)
             {
                 //If we're scrolling up,
                 if (inventorySlotSelected + 1 >= PlayerInventory.MaxSlots)
@@ -170,7 +172,7 @@ namespace DownBelow.Entity
                     newSlot++;
                 }
                 switchSlots(inventorySlotSelected, newSlot);
-            } else if (value <= -110)
+            } else if (value >= 110)
             {
 
                 if (inventorySlotSelected - 1 < 0)
@@ -210,20 +212,28 @@ namespace DownBelow.Entity
 
         void processEndScroll()
         {
+            if(lastPlaceable != null)
+            {
+                InputManager.Instance.OnNewCellHovered -= lastPlaceable.Previsualize;
+                InputManager.Instance.OnCellRightClickDown -= lastPlaceable.AskToPlace;
+                lastPlaceable.StopPrevisualize();
+                lastPlaceable = null;
+            }
+
             if(CurrentSelectedItem != null)
             {
                 if (CurrentSelectedItem is PlaceableItem placeable)
                 {
                     lastPlaceable = placeable;
                     InputManager.Instance.OnNewCellHovered += lastPlaceable.Previsualize;
-                    InputManager.Instance.OnCellRightClickDown += lastPlaceable.Place;
+                    InputManager.Instance.OnCellRightClickDown += lastPlaceable.AskToPlace;
                 }
                 else
                 {
                     if(lastPlaceable!= null)
                     {
                         InputManager.Instance.OnNewCellHovered -= lastPlaceable.Previsualize;
-                        InputManager.Instance.OnCellRightClickDown -= lastPlaceable.Place;
+                        InputManager.Instance.OnCellRightClickDown -= lastPlaceable.AskToPlace;
                         lastPlaceable = null;
                     }
                 }
@@ -233,7 +243,7 @@ namespace DownBelow.Entity
                 if(lastPlaceable!= null)
                 {
                     InputManager.Instance.OnNewCellHovered -= lastPlaceable.Previsualize;
-                    InputManager.Instance.OnCellRightClickDown -= lastPlaceable.Place;
+                    InputManager.Instance.OnCellRightClickDown -= lastPlaceable.AskToPlace;
                     lastPlaceable = null;
                 }
             }
@@ -325,12 +335,6 @@ namespace DownBelow.Entity
         #endregion
 
         #region INTERACTIONS
-
-        public void TakeResources(ItemPreset resource, int quantity)
-        {
-            this.PlayerInventory.TryAddItem(resource, quantity);
-        }
-
 
         public void TeleportToGrid(string gridName)
         {
