@@ -36,9 +36,8 @@ namespace DownBelow.Managers
         public float NormalOrthoSize= 8f;
         public float InBattleOrthoSizeByArenaSize = 0.3f;
 
-        public float GatheringZoomDeltaTime = 0.01f;
         public float GatheringZoomingTimeInSec = 1f;
-        public float GatheringZoomPow = 1f;
+        public float GatheringTargetZoom = 1f;
 
 
 
@@ -137,33 +136,38 @@ namespace DownBelow.Managers
         {
             if (IsInCombatGrid)
             {
-                Zoom += delta * ZoomSpeed*0.001f;
-                Zoom = Mathf.Clamp(Zoom, 0.01f, 0.99f);
+                Zoom += delta * ZoomSpeed* Time.deltaTime;
+                Zoom = Mathf.Clamp(Zoom, 0f, 0.99f);
             }
         }
 
         IEnumerator Zooming(bool Positive)
         {
-            for (float i = 0; i <= GatheringZoomingTimeInSec; i+= GatheringZoomDeltaTime)
+            IsGatheringZoom = true;
+            float timeInSec = GatheringZoomingTimeInSec;
+            float ZoomTarget = GatheringTargetZoom*2;
+            float Weight = timeInSec;
+            for (float i = 0; i <= timeInSec; i+= Time.deltaTime)
             {
                 int sign = Positive ? 1 : -1;
-
-                Zoom += sign * i * GatheringZoomPow/ GatheringZoomingTimeInSec * 0.001f;
-                Zoom = Mathf.Clamp(Zoom, 0.01f, 0.99f);
-                yield return new WaitForSeconds(GatheringZoomDeltaTime);
+                float ratio = Weight / timeInSec;
+                Zoom += sign * ((ZoomTarget * ratio) / timeInSec) * Time.deltaTime;
+                Zoom = Mathf.Clamp(Zoom, 0f, 0.99f);
+                Weight -= Time.deltaTime;
+                yield return new WaitForSeconds(Time.deltaTime);
             }
+            Zoom = Positive ? GatheringTargetZoom : 0;
+            IsGatheringZoom = false;
         }
 
         private void GatheringZoomIn(GatheringEventData data)
         {
-            IsGatheringZoom = true;
-            Zoom = 0.01f;
+            Zoom = 0;
             StartCoroutine(Zooming(true));
         }
         private void GatheringZoomOut(GatheringEventData data)
         {
-            IsGatheringZoom = true;
-            Zoom = 0.01f;
+            Zoom = GatheringTargetZoom;
             StartCoroutine(Zooming(false));
         }
     }
