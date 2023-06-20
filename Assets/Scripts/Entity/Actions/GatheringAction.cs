@@ -19,6 +19,9 @@ namespace DownBelow.Entity
             if (CurrentRessource != null && CurrentRessource.isMature && this.RefEntity == GameManager.RealSelfPlayer)
             {
                 UIManager.Instance.GatherSection.StartInteract(this, 3);
+                var player = this.RefEntity as PlayerBehavior;
+
+                player.FireGatheringStarted(CurrentRessource);
             }
             else
             {
@@ -36,6 +39,9 @@ namespace DownBelow.Entity
             resAction.Init(generator.Next(rPreset.MinGathering, rPreset.MaxGathering));
 
             NetworkManager.Instance.EntityAskToBuffAction(resAction);
+            var player = this.RefEntity as PlayerBehavior;
+
+            player.FireGatheringEnded(CurrentRessource);
 
             this.EndAction();
         }

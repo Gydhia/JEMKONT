@@ -14,24 +14,32 @@ namespace DownBelow.Managers
         //player input
         public PlayerInput PlayerInput;
 
+        //Events
+
         [SerializeField]
         private CinemachineVirtualCamera VirtualCamera;
         [SerializeField]
         private Camera MainCamera;
-
         [SerializeField]
         private bool IsInCombatGrid;
+        private bool IsGatheringZoom;
+        private Vector3 ArenaCenterPos = new Vector3(0, 0, 0);
+        private GameObject ArenaCenterObj;
+        private Vector2 CurrentArenaSize = new Vector2(0, 0);
 
+        //Parameters
         public Vector3 InBattleAngle = new Vector3(45,-30,0);
         private float InBattleFOV = 40f;
         public float Zoom = 0f;
         public float ZoomSpeed = 1f;
+        public float ZoomSmooth = 1f;
         public float NormalOrthoSize= 8f;
         public float InBattleOrthoSizeByArenaSize = 0.3f;
 
-        private Vector3 ArenaCenterPos = new Vector3(0,0,0);
-        private GameObject ArenaCenterObj;
-        private Vector2 CurrentArenaSize = new Vector2(0, 0);
+        public float GatheringZoomDeltaTime = 0.01f;
+        public float GatheringZoomingTimeInSec = 1f;
+        public float GatheringZoomPow = 1f;
+
 
 
         private void Start()
@@ -50,6 +58,8 @@ namespace DownBelow.Managers
             this.VirtualCamera.Follow = player.gameObject.transform;
 
             GameManager.Instance.OnEnteredGrid += this._setupCamera;
+            player.OnGatheringStarted += this.GatheringZoomIn;
+            player.OnGatheringEnded += this.GatheringZoomOut;
         }
 
         private void _setupCamera(EntityEventData Data)
@@ -90,7 +100,6 @@ namespace DownBelow.Managers
 
         private void Update()
         {
-            Zoom = Mathf.Clamp(Zoom, 0.1f, 1);
             if (this.VirtualCamera == null)
             {
                 return;
@@ -110,22 +119,53 @@ namespace DownBelow.Managers
                     float rotXRatio = InBattleAngle.x / 90;
                     float rotYRatio = Mathf.Abs(InBattleAngle.y / 45);
                     rotYRatio = Mathf.Abs(Mathf.Sin(rotYRatio * 1.57f));
-                    this.VirtualCamera.m_Lens.OrthographicSize = (CurrentArenaSize.x + CurrentArenaSize.x * rotXRatio + CurrentArenaSize.y + CurrentArenaSize.y * rotYRatio) * InBattleOrthoSizeByArenaSize - Zoom * (CurrentArenaSize.x + CurrentArenaSize.y) * InBattleOrthoSizeByArenaSize;
+                    float orthoWithoutZoom = (CurrentArenaSize.x + CurrentArenaSize.x * rotXRatio + CurrentArenaSize.y + CurrentArenaSize.y * rotYRatio) * InBattleOrthoSizeByArenaSize;
+                    float orthoZoom = Zoom * (CurrentArenaSize.x + CurrentArenaSize.y) * InBattleOrthoSizeByArenaSize;
+                    this.VirtualCamera.m_Lens.OrthographicSize = Mathf.Lerp(this.VirtualCamera.m_Lens.OrthographicSize, orthoWithoutZoom - orthoZoom, 1 / (ZoomSmooth * 10));
                 }
-                else
+                else if (IsGatheringZoom)
                 {
-                    this.VirtualCamera.m_Lens.OrthographicSize = NormalOrthoSize - Zoom * NormalOrthoSize;
+                    this.VirtualCamera.m_Lens.OrthographicSize = Mathf.Lerp(this.VirtualCamera.m_Lens.OrthographicSize, NormalOrthoSize - Zoom * NormalOrthoSize, 1 / (ZoomSmooth * 10));
                 }
             }
+            
         }
 
         private void _manageScroll(InputAction.CallbackContext ctx) => this.manageScroll(ctx.ReadValue<float>());
 
         private void manageScroll(float delta)
         {
-            Zoom += delta * ZoomSpeed*0.001f;
+            if (IsInCombatGrid)
+            {
+                Zoom += delta * ZoomSpeed*0.001f;
+                Zoom = Mathf.Clamp(Zoom, 0.01f, 0.99f);
+            }
         }
 
+        IEnumerator Zooming(bool Positive)
+        {
+            for (float i = 0; i <= GatheringZoomingTimeInSec; i+= GatheringZoomDeltaTime)
+            {
+                int sign = Positive ? 1 : -1;
+
+                Zoom += sign * i * GatheringZoomPow/ GatheringZoomingTimeInSec * 0.001f;
+                Zoom = Mathf.Clamp(Zoom, 0.01f, 0.99f);
+                yield return new WaitForSeconds(GatheringZoomDeltaTime);
+            }
+        }
+
+        private void GatheringZoomIn(GatheringEventData data)
+        {
+            IsGatheringZoom = true;
+            Zoom = 0.01f;
+            StartCoroutine(Zooming(true));
+        }
+        private void GatheringZoomOut(GatheringEventData data)
+        {
+            IsGatheringZoom = true;
+            Zoom = 0.01f;
+            StartCoroutine(Zooming(false));
+        }
     }
 
 }
