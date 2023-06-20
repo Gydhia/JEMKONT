@@ -20,8 +20,6 @@ public abstract class PlaceableItem : ItemPreset
     {
         if (PrevisualizationInstance != null)
         {
-            data.Cell.Datas.placeableOnCell = this;
-
             Destroy(PrevisualizationInstance);
 
             var item = GameManager.RealSelfPlayer.PlayerInventory.StorageItems.First(i => i.ItemPreset == this);

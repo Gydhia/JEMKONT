@@ -55,6 +55,10 @@ namespace DownBelow.UI.Inventory
             this.SelfStorage = refStorage;
             this.Slot = slot;
 
+            if(this.SelfItem != null)
+            {
+                this.SelfItem.OnItemChanged -= RefreshItem;
+            }
             this.SelfItem.OnItemChanged += RefreshItem;
 
             if (this.SelfItem.ItemPreset != null)
@@ -197,6 +201,11 @@ namespace DownBelow.UI.Inventory
         {
             if (LastHoveredItem == this)
                 LastHoveredItem = null;
+        }
+
+        private void OnDestroy()
+        {
+            this.SelfItem.OnItemChanged -= RefreshItem;
         }
     }
 }

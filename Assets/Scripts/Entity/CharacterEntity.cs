@@ -107,7 +107,7 @@ namespace DownBelow.Entity
             this.OnPushed?.Invoke(data);
         }
         #endregion
-        protected EntityStats RefStats;
+        public EntityStats RefStats;
 
         [OdinSerialize] public List<Alteration> Alterations = new();
 
@@ -391,6 +391,20 @@ namespace DownBelow.Entity
                 case EntityStatistics.Strength: this.Statistics[EntityStatistics.Strength] = this.RefStats.Strength; break;
                 case EntityStatistics.Defense: this.Statistics[EntityStatistics.Defense] = this.RefStats.Defense; break;
                 case EntityStatistics.Range: this.Statistics[EntityStatistics.Range] = this.RefStats.Range; break;
+            }
+
+            if (this is PlayerBehavior player)
+            {
+                if (player.ActiveTool != null)
+                {
+                    // May god forgive me 
+                    var realStat = stat == EntityStatistics.Mana ?
+                        EntityStatistics.MaxMana : stat;
+                    if (player.ActiveTool.CurrentEnchantBuffs.ContainsKey(realStat))
+                    {
+                        this.Statistics[stat] += player.ActiveTool.CurrentEnchantBuffs[realStat];
+                    }
+                }
             }
         }
 

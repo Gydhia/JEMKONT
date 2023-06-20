@@ -7222,6 +7222,10 @@ PrefabInstance:
       propertyPath: VirtualCamera
       value: 
       objectReference: {fileID: 127333210}
+    - target: {fileID: 1319291778372884564, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: GatheringZoomTarget
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4056352322092990697, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
       propertyPath: PoolContainer
       value: 

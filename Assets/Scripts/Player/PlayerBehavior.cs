@@ -268,11 +268,14 @@ namespace DownBelow.Entity
             // Only set the player stats from one tool, the first one picked up
             if (this.ActiveTool == null)
             {
+                this.ActiveTools.Add(activeTool);
                 this.SetStatistics(activeTool.DeckPreset.Statistics);
                 this._setCharacterVisuals(activeTool);
             }
-
-            this.ActiveTools.Add(activeTool);
+            else
+            {
+                this.ActiveTools.Add(activeTool);
+            }
         }
 
         public void RemoveActiveTool(ToolItem removedTool)

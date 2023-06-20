@@ -82,11 +82,6 @@ public class ToolItem : ItemPreset
         return statSum;
     }
 
-    private void OnDestroy()
-    {
-        this.CurrentLevel = 0;    
-    }
-
     public int GetStatAtUpperLevel(EntityStatistics stat)
     {
         // The first enchant level of enchantement is the index [0]
@@ -96,31 +91,36 @@ public class ToolItem : ItemPreset
         return this.ToolEnchants[this.CurrentLevel].Buffs[stat];
     }
 
-    public void UpgradeLevel()
+    public void UpgradeLevel(bool fromInit = false)
     {
+        this.CurrentLevel++;
+
         var enchantPreset = this.ToolEnchants[CurrentLevel];
 
-        NetworkManager.Instance.RPC_RespondGiftOrRemovePlayerItem(GameManager.RealSelfPlayer.UID, enchantPreset.CostItem.UID.ToString(), -enchantPreset.Cost);
+        if (!fromInit)
+        {
+            NetworkManager.Instance.RPC_RespondGiftOrRemovePlayerItem(GameManager.RealSelfPlayer.UID, enchantPreset.CostItem.UID.ToString(), -enchantPreset.Cost);
+        }
 
-        this.CurrentLevel++;
         foreach (var stat in enchantPreset.Buffs)
         {
             if (!this.CurrentEnchantBuffs.ContainsKey(stat.Key))
-            {
-                this.CurrentEnchantBuffs.Add(stat.Key, stat.Value);
-            }
+                this.CurrentEnchantBuffs.Add(stat.Key, this.GetStatsSum(stat.Key, this.CurrentLevel));
             else
-            {
-                this.CurrentEnchantBuffs[stat.Key] += stat.Value;
-            }
+                this.CurrentEnchantBuffs[stat.Key] = this.GetStatsSum(stat.Key, this.CurrentLevel);
         }
     }
 
 
+    public void Reset()
+    {
+        this.CurrentLevel = 0;
+        this.ActualPlayer = null;
+        this.CurrentEnchantBuffs.Clear();
+    }
+
     public void SetData(ToolData data)
     {
-        this.CurrentLevel = data.EnchantLevel;
-
         this.DeckPreset.Deck.Cards.Clear();
         foreach (var cardID in data.DeckCards)
         {
@@ -129,7 +129,7 @@ public class ToolItem : ItemPreset
 
         for (int i = 0; i < data.EnchantLevel; i++)
         {
-            this.UpgradeLevel();
+            this.UpgradeLevel(true);
         }
     }
 

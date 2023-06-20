@@ -9,7 +9,7 @@ namespace DownBelow.UI
 {
     public class UIEnchantItem : MonoBehaviour
     {
-        private ToolItem _refTool;
+        public ToolItem RefTool;
 
         public UIEnchantRaw EnchantRawPrefab;
         public Transform EnchantRawsHolder;
@@ -19,12 +19,13 @@ namespace DownBelow.UI
         public Button UpgradeButton;
         public TextMeshProUGUI ToolName;
         public Image ToolImage;
+        public Image LockImage;
         public TextMeshProUGUI Cost;
         public TextMeshProUGUI Level;
 
         public void Init(ToolItem refTool)
         {
-            this._refTool = refTool;
+            this.RefTool = refTool;
 
             this.RefreshStats();
             this.RefreshCanCraft();
@@ -32,12 +33,12 @@ namespace DownBelow.UI
 
         public void RefreshStats()
         {
-            this.ToolName.text = _refTool.ItemName;
-            this.ToolImage.sprite = _refTool.InventoryIcon;
+            this.ToolName.text = RefTool.ItemName;
+            this.ToolImage.sprite = RefTool.InventoryIcon;
 
-            int level = _refTool.CurrentLevel;
+            int level = RefTool.CurrentLevel;
 
-            var upgradableStats = _refTool.GetEnchantedStats();
+            var upgradableStats = RefTool.GetEnchantedStats();
 
             for (int i = 0; i < upgradableStats.Count; i++)
             {
@@ -45,22 +46,24 @@ namespace DownBelow.UI
                 {
                     this.EnchantRaws.Add(Instantiate(this.EnchantRawPrefab, this.EnchantRawsHolder));
                 }
-                this.EnchantRaws[i].Refresh(upgradableStats[i], _refTool.GetStatsSum(upgradableStats[i], level), _refTool.GetStatAtUpperLevel(upgradableStats[i]));
+                this.EnchantRaws[i].Refresh(upgradableStats[i], RefTool.GetStatsSum(upgradableStats[i], level), RefTool.GetStatAtUpperLevel(upgradableStats[i]));
             }
         }
 
         public void RefreshCanCraft()
         {
-            int level = this._refTool.CurrentLevel;
+            int level = this.RefTool.CurrentLevel;
 
-            bool maxLevel = level >= this._refTool.ToolEnchants.Count;
+            bool maxLevel = level >= this.RefTool.ToolEnchants.Count;
 
             bool hasResources = maxLevel ?
                 false :
-                GameManager.RealSelfPlayer.PlayerInventory.HasResources(this._refTool.ToolEnchants[level].CostItem, this._refTool.ToolEnchants[level].Cost);
+                GameManager.RealSelfPlayer.PlayerInventory.HasResources(this.RefTool.ToolEnchants[level].CostItem, this.RefTool.ToolEnchants[level].Cost);
 
-            Level.text = level.ToString() + " / " + this._refTool.ToolEnchants.Count.ToString();
-            Cost.text = maxLevel ? "MAXED" : this._refTool.ToolEnchants[level].Cost.ToString() + " Herbs";
+            LockImage.gameObject.SetActive(this.RefTool.ActualPlayer != GameManager.RealSelfPlayer);
+
+            Level.text = level.ToString() + " / " + this.RefTool.ToolEnchants.Count.ToString();
+            Cost.text = maxLevel ? "MAXED" : this.RefTool.ToolEnchants[level].Cost.ToString() + " Herbs";
             Cost.color = hasResources ? Color.green : Color.red;
 
             this.UpgradeButton.interactable = hasResources;
@@ -68,7 +71,7 @@ namespace DownBelow.UI
 
         public void OnClickUpgrade()
         {
-            this._refTool.UpgradeLevel();
+            this.RefTool.UpgradeLevel();
 
             this.RefreshCanCraft();
             this.RefreshStats();
