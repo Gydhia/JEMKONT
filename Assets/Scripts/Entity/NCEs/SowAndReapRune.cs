@@ -26,7 +26,7 @@ public class SowAndReapRune : TempObject
         var player = (PlayerBehavior)data.Cell.EntityIn;
         //Calculate the path between the cells, path.Count-1 <= range applybuff.
         //TODO: ApplyBuff!
-        if (GridManager.Instance.FindPath(data.Cell.EntityIn, AttachedCell.PositionInGrid, true).Count - 1 <= range)
+        if (data.Cell.DistanceWith(AttachedCell) <= range)
         {
             //We are in range yippeeee
             playersInRange.Add(player);

@@ -17,6 +17,7 @@ MonoBehaviour:
     SerializedBytes: 
     ReferencedUnityObjects:
     - {fileID: 11400000, guid: 7062211488d3a93449a6c93bf2913231, type: 2}
+    - {fileID: 11400000, guid: 629f550a71b2f0843958315d28a7ed33, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -700,8 +701,8 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: TargettingCondition
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 1
     - Name: CastingCondition
       Entry: 6
       Data: 
@@ -1137,8 +1138,8 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: TargettingCondition
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 1
     - Name: CastingCondition
       Entry: 6
       Data: 

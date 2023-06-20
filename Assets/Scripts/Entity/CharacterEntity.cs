@@ -408,7 +408,15 @@ namespace DownBelow.Entity
             switch (stat)
             {
                 case EntityStatistics.Health:
-                    this._applyHealth(value, triggerEvents); break;
+                    if (value > 0)
+                    {
+                        // Check overheal
+                        if (this.Health + value > this.RefStats.Health)
+                        {
+                            value = this.RefStats.Health - Statistics[EntityStatistics.Health];
+                        }
+                    }
+                        this._applyHealth(value, triggerEvents); break;
                 case EntityStatistics.Mana:
                     this._applyMana(value); break;
                 case EntityStatistics.Speed:

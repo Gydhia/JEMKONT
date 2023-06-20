@@ -44,27 +44,27 @@ namespace DownBelow.Spells
             }
             if (value.HasFlag(ETargetType.Ally))
             {
-                validated = cell.EntityIn != null && cell.EntityIn.IsAlly;
+                validated |= cell.EntityIn != null && cell.EntityIn.IsAlly;
             }
             if (value.HasFlag(ETargetType.Self))
             {
-                validated = cell.EntityIn != null && cell.EntityIn == CombatManager.CurrentPlayingEntity;
+                validated |= cell.EntityIn != null && cell.EntityIn == CombatManager.CurrentPlayingEntity;
             }
             if (value.HasFlag(ETargetType.Enemy))
             {
-                validated = cell.EntityIn != null && !cell.EntityIn.IsAlly;
+                validated |= cell.EntityIn != null && !cell.EntityIn.IsAlly;
             }
             if (value.HasFlag(ETargetType.NCEs))
             {
-                validated = cell.AttachedNCE != null;
+                validated |= cell.AttachedNCE != null;
             }
             if (value.HasFlag(ETargetType.Entities))
             {
-                validated = cell.EntityIn != null || cell.AttachedNCE != null;
+                validated |= cell.EntityIn != null || cell.AttachedNCE != null;
             }
             if (value.HasFlag(ETargetType.CharacterEntities))
             {
-                validated = cell.EntityIn != null;
+                validated |= cell.EntityIn != null;
             }
             if (value.HasFlag(ETargetType.All))
             {
@@ -72,7 +72,7 @@ namespace DownBelow.Spells
             }
             if (value.HasFlag(ETargetType.Empty))
             {
-                validated = (cell.EntityIn == null && cell.AttachedNCE == null && cell.Datas.state.HasFlag(CellState.Walkable));
+                validated |= (cell.EntityIn == null && cell.AttachedNCE == null && cell.Datas.state.HasFlag(CellState.Walkable));
             }
             return validated;
         }
