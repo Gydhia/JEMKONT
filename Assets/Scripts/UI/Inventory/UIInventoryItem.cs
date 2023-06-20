@@ -82,9 +82,9 @@ namespace DownBelow.UI.Inventory
                 this.quantity.text = this.TotalQuantity.ToString();
             } else
             {
+                this.icon.sprite = null;
                 if(this.icon.gameObject.activeInHierarchy)
                     this.icon.gameObject.SetActive(false);
-
                 this.quantity.text = string.Empty;
                 this.TotalQuantity = 0;
             }
@@ -107,7 +107,8 @@ namespace DownBelow.UI.Inventory
 
         public void RemoveItem()
         {
-            this.icon.sprite = Managers.SettingsManager.Instance.GameUIPreset.ItemCase;
+          //  this.icon.sprite = Managers.SettingsManager.Instance.GameUIPreset.ItemCase;
+          this.icon.gameObject.SetActive(false);
             this.quantity.text = string.Empty;
             this.TotalQuantity = 0;
         }

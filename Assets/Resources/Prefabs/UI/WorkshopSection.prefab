@@ -1343,6 +1343,7 @@ MonoBehaviour:
     RefCell: {fileID: 0}
     StorageItems: []
     MaxSlots: 3
+    OnlyTake: 0
   ItemsHolder: {fileID: 0}
   Items:
   - {fileID: 5464658139394359757}
@@ -1516,14 +1517,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3725639205649791512, guid: 7d0bf983b12831847a7e00f8be8003d9, type: 3}
-      propertyPath: m_Name
-      value: I_InItem
-      objectReference: {fileID: 0}
-    - target: {fileID: 5980943427259427468, guid: 7d0bf983b12831847a7e00f8be8003d9, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 0a4bb0e4f4086e840a8d3d22b43bd688, type: 3}
     - target: {fileID: 8679627622016851435, guid: 7d0bf983b12831847a7e00f8be8003d9, type: 3}
       propertyPath: m_Name
       value: I_InItem
@@ -1636,10 +1629,6 @@ PrefabInstance:
     - target: {fileID: 3439352075123935220, guid: 7d0bf983b12831847a7e00f8be8003d9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3725639205649791512, guid: 7d0bf983b12831847a7e00f8be8003d9, type: 3}
-      propertyPath: m_Name
-      value: I_OutItem
       objectReference: {fileID: 0}
     - target: {fileID: 8679627622016851435, guid: 7d0bf983b12831847a7e00f8be8003d9, type: 3}
       propertyPath: m_Name
@@ -1892,14 +1881,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3725639205649791512, guid: 7d0bf983b12831847a7e00f8be8003d9, type: 3}
-      propertyPath: m_Name
-      value: I_FuelItem
-      objectReference: {fileID: 0}
-    - target: {fileID: 5980943427259427468, guid: 7d0bf983b12831847a7e00f8be8003d9, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 47aeed07cbb593048a4c164a30530627, type: 3}
     - target: {fileID: 8679627622016851435, guid: 7d0bf983b12831847a7e00f8be8003d9, type: 3}
       propertyPath: m_Name
       value: I_FuelItem
