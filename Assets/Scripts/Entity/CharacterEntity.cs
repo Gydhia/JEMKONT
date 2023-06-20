@@ -272,10 +272,10 @@ namespace DownBelow.Entity
         /// <param name="cellToAttack">The cell to attack.</param>
         public void AutoAttack(Cell cellToAttack)
         {
-            //Normally already verified. Just in case
-            //Calculate straight path, see if obstacle.
             this.CanAutoAttack = false;
-           
+
+            //Normally already verified. Just in case
+            //Calculate straight path, see if obstacle.  
             var path = GridManager.Instance.FindPath(this, cellToAttack.PositionInGrid, true);
 
             var notwalkable = path.Find(x => x.Datas.state != CellState.Walkable);
@@ -443,6 +443,8 @@ namespace DownBelow.Entity
                     this.OnHealthAdded?.Invoke(new(this, value));
                     this.OnHealthAddedRealValue?.Invoke(new(this, value));
                 }
+
+                this.Animator.SetTrigger("OnHit");
             }
             else
             {

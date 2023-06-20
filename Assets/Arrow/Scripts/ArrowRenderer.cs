@@ -123,12 +123,16 @@ public class ArrowRenderer : MonoBehaviour
     {
         this.SetPositions(GameManager.SelfPlayer.EntityCell.WorldPosition, baseTarget.WorldPosition);
         this.gameObject.SetActive(true);
+
+        PoolManager.Instance.CellIndicatorPool.BeginAttackTargeting(GameManager.SelfPlayer);
+
         InputManager.Instance.OnNewCellHovered += _updateArrowTarget;
     }
 
     public void UnfollowAutoAttack()
     {
         this._stopFollowCard(null);
+        PoolManager.Instance.CellIndicatorPool.EndAttackTargeting();
     }
 
     private void _shouldFollowCard(CardEventData Data)

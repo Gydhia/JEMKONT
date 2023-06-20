@@ -74,6 +74,8 @@ namespace DownBelow.Spells
             if (this.ParentSpell == null)
             {
                 this.RefEntity.ApplyStat(EntityStatistics.Mana, -cost);
+                // Only play animation at first spell
+                this.RefEntity.Animator.SetTrigger("Cast");
             }
 
             if (!this.ValidateConditions())

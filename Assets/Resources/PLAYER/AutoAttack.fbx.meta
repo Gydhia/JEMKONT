@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 39759f19873a05b479199bcfc04a4be8
+guid: 96d379caa48f0e3458bff1e601c96473
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
@@ -33,11 +33,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Cast_Spell
+      name: AutoAttack
       takeName: mixamo.com
       internalID: -203655887218126122
       firstFrame: 0
-      lastFrame: 68
+      lastFrame: 30
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
