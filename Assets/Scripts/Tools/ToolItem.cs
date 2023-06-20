@@ -1,5 +1,6 @@
 using DownBelow;
 using DownBelow.Entity;
+using DownBelow.Managers;
 using DownBelow.Mechanics;
 using Photon.Pun.UtilityScripts;
 using System;
@@ -81,6 +82,11 @@ public class ToolItem : ItemPreset
         return statSum;
     }
 
+    private void OnDestroy()
+    {
+        this.CurrentLevel = 0;    
+    }
+
     public int GetStatAtUpperLevel(EntityStatistics stat)
     {
         // The first enchant level of enchantement is the index [0]
@@ -90,6 +96,27 @@ public class ToolItem : ItemPreset
         return this.ToolEnchants[this.CurrentLevel].Buffs[stat];
     }
 
+    public void UpgradeLevel()
+    {
+        var enchantPreset = this.ToolEnchants[CurrentLevel];
+
+        NetworkManager.Instance.RPC_RespondGiftOrRemovePlayerItem(GameManager.RealSelfPlayer.UID, enchantPreset.CostItem.UID.ToString(), -enchantPreset.Cost);
+
+        this.CurrentLevel++;
+        foreach (var stat in enchantPreset.Buffs)
+        {
+            if (!this.CurrentEnchantBuffs.ContainsKey(stat.Key))
+            {
+                this.CurrentEnchantBuffs.Add(stat.Key, stat.Value);
+            }
+            else
+            {
+                this.CurrentEnchantBuffs[stat.Key] += stat.Value;
+            }
+        }
+    }
+
+
     public void SetData(ToolData data)
     {
         this.CurrentLevel = data.EnchantLevel;
@@ -98,6 +125,11 @@ public class ToolItem : ItemPreset
         foreach (var cardID in data.DeckCards)
         {
             this.DeckPreset.Deck.Cards.Add(DownBelow.Managers.SettingsManager.Instance.ScriptableCards[cardID]);
+        }
+
+        for (int i = 0; i < data.EnchantLevel; i++)
+        {
+            this.UpgradeLevel();
         }
     }
 
