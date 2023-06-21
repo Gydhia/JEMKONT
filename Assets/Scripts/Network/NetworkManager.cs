@@ -10,8 +10,6 @@ using DownBelow.Events;
 using System;
 using Newtonsoft.Json;
 using DownBelow.Loading;
-using EODE.Wonderland;
-using static UnityEditor.Progress;
 
 namespace DownBelow.Managers
 {
