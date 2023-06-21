@@ -23,6 +23,11 @@ MonoBehaviour:
     SerializationNodes: []
   TalkerIcon: {fileID: 21300000, guid: 4156a0fcb5a3a49cb9e3639da32288d6, type: 3}
   Dialogs:
-  - Hello Dear adventurer !
-  - 'I hope that this place is enough welcoming to you '
-  - In fact, nothing's going pretty well these times...
+  - Now that you've mastered ressource gathering, you can craft some useful workshops
+    !
+  - Press your Tab key to open up the crafting menu, and try yourself out to one
+    of the recipes.
+  - Then, scroll your inventory to it and drop it off anywhere !
+  - Each of them has a different use, and a number of uses. Try it out !
+  - Don't worry if you don't figure it all out just yet, you'll have time to explore
+    the island !

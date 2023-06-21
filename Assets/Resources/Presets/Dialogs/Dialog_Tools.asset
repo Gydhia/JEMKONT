@@ -23,6 +23,11 @@ MonoBehaviour:
     SerializationNodes: []
   TalkerIcon: {fileID: 21300000, guid: 4156a0fcb5a3a49cb9e3639da32288d6, type: 3}
   Dialogs:
-  - Hello Dear adventurer !
-  - 'I hope that this place is enough welcoming to you '
-  - In fact, nothing's going pretty well these times...
+  - 'First and foremost, Tools !
+
+    In front of you, you''ll find the 4 you''ll
+    be using: a Hoe, a Fishing Rod, a Pickaxe and a Sickle !'
+  - 'Each of these help to collect one type of ressource (don''t worry, we''ll get
+    back to that in a second) '
+  - Try and collect them by walking over them !
+  - 'Fun fact : your appearance changes based on the 1st item you picked up !'
