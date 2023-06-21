@@ -1,5 +1,6 @@
 using DownBelow;
 using DownBelow.Entity;
+using DownBelow.Managers;
 using DownBelow.Mechanics;
 using Photon.Pun.UtilityScripts;
 using System;
@@ -90,14 +91,45 @@ public class ToolItem : ItemPreset
         return this.ToolEnchants[this.CurrentLevel].Buffs[stat];
     }
 
+    public void UpgradeLevel(bool fromInit = false)
+    {
+        this.CurrentLevel++;
+
+        var enchantPreset = this.ToolEnchants[CurrentLevel];
+
+        if (!fromInit)
+        {
+            NetworkManager.Instance.RPC_RespondGiftOrRemovePlayerItem(GameManager.RealSelfPlayer.UID, enchantPreset.CostItem.UID.ToString(), -enchantPreset.Cost);
+        }
+
+        foreach (var stat in enchantPreset.Buffs)
+        {
+            if (!this.CurrentEnchantBuffs.ContainsKey(stat.Key))
+                this.CurrentEnchantBuffs.Add(stat.Key, this.GetStatsSum(stat.Key, this.CurrentLevel));
+            else
+                this.CurrentEnchantBuffs[stat.Key] = this.GetStatsSum(stat.Key, this.CurrentLevel);
+        }
+    }
+
+
+    public void Reset()
+    {
+        this.CurrentLevel = 0;
+        this.ActualPlayer = null;
+        this.CurrentEnchantBuffs.Clear();
+    }
+
     public void SetData(ToolData data)
     {
-        this.CurrentLevel = data.EnchantLevel;
-
         this.DeckPreset.Deck.Cards.Clear();
         foreach (var cardID in data.DeckCards)
         {
             this.DeckPreset.Deck.Cards.Add(DownBelow.Managers.SettingsManager.Instance.ScriptableCards[cardID]);
+        }
+
+        for (int i = 0; i < data.EnchantLevel; i++)
+        {
+            this.UpgradeLevel(true);
         }
     }
 

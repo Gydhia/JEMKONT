@@ -285,7 +285,8 @@ namespace DownBelow.Managers
                 {
                     if (player.IsAutoAttacking)
                     {
-                        if (LastHoveredCell.Datas.state == CellState.EntityIn)
+                        if (LastHoveredCell.Datas.state == CellState.EntityIn && player.isInAttackRange(LastHoveredCell) &&
+                            LastHoveredCell.EntityIn != null && (LastHoveredCell.EntityIn is EnemyEntity))
                         {
                             player.AutoAttack(LastHoveredCell);
                         }

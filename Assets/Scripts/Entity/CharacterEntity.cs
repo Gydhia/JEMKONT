@@ -107,7 +107,7 @@ namespace DownBelow.Entity
             this.OnPushed?.Invoke(data);
         }
         #endregion
-        protected EntityStats RefStats;
+        public EntityStats RefStats;
 
         [OdinSerialize] public List<Alteration> Alterations = new();
 
@@ -272,10 +272,10 @@ namespace DownBelow.Entity
         /// <param name="cellToAttack">The cell to attack.</param>
         public void AutoAttack(Cell cellToAttack)
         {
-            //Normally already verified. Just in case
-            //Calculate straight path, see if obstacle.
             this.CanAutoAttack = false;
-           
+
+            //Normally already verified. Just in case
+            //Calculate straight path, see if obstacle.  
             var path = GridManager.Instance.FindPath(this, cellToAttack.PositionInGrid, true);
 
             var notwalkable = path.Find(x => x.Datas.state != CellState.Walkable);
@@ -392,6 +392,20 @@ namespace DownBelow.Entity
                 case EntityStatistics.Defense: this.Statistics[EntityStatistics.Defense] = this.RefStats.Defense; break;
                 case EntityStatistics.Range: this.Statistics[EntityStatistics.Range] = this.RefStats.Range; break;
             }
+
+            if (this is PlayerBehavior player)
+            {
+                if (player.ActiveTool != null)
+                {
+                    // May god forgive me 
+                    var realStat = stat == EntityStatistics.Mana ?
+                        EntityStatistics.MaxMana : stat;
+                    if (player.ActiveTool.CurrentEnchantBuffs.ContainsKey(realStat))
+                    {
+                        this.Statistics[stat] += player.ActiveTool.CurrentEnchantBuffs[realStat];
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -443,6 +457,8 @@ namespace DownBelow.Entity
                     this.OnHealthAdded?.Invoke(new(this, value));
                     this.OnHealthAddedRealValue?.Invoke(new(this, value));
                 }
+
+                this.Animator.SetTrigger("OnHit");
             }
             else
             {

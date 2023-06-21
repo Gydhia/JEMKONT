@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 10edeb8461b3b674c9d7d072a99e61dd
+guid: 1967085f8aa866c41916082008e5f366
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
@@ -33,11 +33,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Fishing Cast
+      name: CastSpell
       takeName: mixamo.com
       internalID: -203655887218126122
       firstFrame: 0
-      lastFrame: 263
+      lastFrame: 69
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

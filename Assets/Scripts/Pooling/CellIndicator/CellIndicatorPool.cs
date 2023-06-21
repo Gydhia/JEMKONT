@@ -14,6 +14,7 @@ namespace DownBelow.Pools
     {
         private Dictionary<EntityAction, List<CellIndicator>> _actionsRef;
         private List<CellIndicator> _pathRef;
+        private List<CellIndicator> _attackRef;
         private Dictionary<Cell, CellIndicator> _spellsRef;
         private Spell _currentSpell;
         private int _lastSpellAngle = 0;
@@ -255,6 +256,54 @@ namespace DownBelow.Pools
 
             InputManager.Instance.OnNewCellHovered -= this.updateSpellTargetting;
         }
+
+        public void BeginAttackTargeting(PlayerBehavior player)
+        {
+            this._displayAttackIndicators(player);
+        }
+
+        public void EndAttackTargeting()
+        {
+            foreach (var indicator in this._attackRef)
+                indicator.TryReleaseToPool();
+
+            this._attackRef.Clear();
+        }
+
+        private void _displayAttackIndicators(PlayerBehavior player)
+        {
+            int range = player.Range * 2 + 1;
+
+            bool[,] attackRange = new bool[range, range];
+
+            for (int i = 0; i < range; i++)
+            {
+                for (int j = 0; j < range; j++)
+                {
+                    int distance = ManhattanDistance(i, j, player.Range, player.Range);
+                    attackRange[i, j] = distance <= player.Range;
+                }
+            }
+
+            var cells = GridUtility.TransposeShapeToCells(ref attackRange, player.EntityCell, new Vector2(player.Range, player.Range));
+
+            this._attackRef = new List<CellIndicator>();
+            foreach (var cell in cells)
+            {
+                this._attackRef.Add(this.GetPooled());
+                this._attackRef[^1].gameObject.SetActive(true);
+                this._attackRef[^1].transform.position = cell.transform.position;
+
+                this._attackRef[^1].Color = (cell.EntityIn != null && (cell.EntityIn is EnemyEntity)) ?
+                    GreenColor : GreenColorTransparent;
+            }
+        }
+
+        private int ManhattanDistance(int firstBase, int secondBase, int firstTarget, int secondTarget)
+        {
+            return Mathf.Abs(firstBase - firstTarget) + Mathf.Abs(secondBase - secondTarget);
+        }
+
         #endregion
     }
 

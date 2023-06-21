@@ -25,6 +25,7 @@ namespace DownBelow.Entity
             // Only the local player should execute the UI action
             else if (CurrentRessource != null && CurrentRessource.isMature && this.RefEntity == GameManager.RealSelfPlayer)
             {
+                GameManager.RealSelfPlayer.FireGatheringStarted(this.CurrentRessource);
                 UIManager.Instance.GatherSection.StartInteract(this, this.requiredTicks);
             }
         }
@@ -61,6 +62,8 @@ namespace DownBelow.Entity
                 if(this.RefEntity == GameManager.RealSelfPlayer)
                 {
                     NetworkManager.Instance.GiftOrRemovePlayerItem(player.UID, this.CurrentRessource.LocalPreset.ResourceItem, nbResourcers);
+                    GameManager.RealSelfPlayer.FireGatheringEnded(this.CurrentRessource);
+
                 }
             }
 

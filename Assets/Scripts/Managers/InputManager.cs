@@ -181,9 +181,11 @@ namespace DownBelow.Managers
                 return;
 
             if (GridManager.Instance.LastHoveredCell != null)
+            {
                 this.FireCellRightClick(GridManager.Instance.LastHoveredCell);
-            else
-                this.FireRightClick();
+            }
+
+            this.FireRightClick();
         }
 
         private void _onInteract(InputAction.CallbackContext ctx) => this.OnInteract();
