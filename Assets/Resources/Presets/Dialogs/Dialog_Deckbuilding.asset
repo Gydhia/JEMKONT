@@ -23,6 +23,8 @@ MonoBehaviour:
     SerializationNodes: []
   TalkerIcon: {fileID: 21300000, guid: 4156a0fcb5a3a49cb9e3639da32288d6, type: 3}
   Dialogs:
-  - Hello Dear adventurer !
-  - 'I hope that this place is enough welcoming to you '
-  - In fact, nothing's going pretty well these times...
+  - If you've gotten this far, you're definitely ready for battle !
+  - If you click the button on your top right, you'll find a menu to craft your own
+    epic deck with some cards !
+  - Each card has a unique effect and will help you in your upcoming battle, prepare
+    yourself well young one !
