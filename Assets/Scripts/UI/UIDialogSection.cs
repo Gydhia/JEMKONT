@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using DG.Tweening;
 using DownBelow.Mechanics;
+using DownBelow.Managers;
 
 namespace DownBelow.UI
 {
@@ -31,6 +32,8 @@ namespace DownBelow.UI
 
         public void ShowDialog(DialogPreset preset)
         {
+            GameManager.RealSelfPlayer.CanMove = false;
+
             if(this._dialogCoroutine != null)
             {
                 StopCoroutine(this._dialogCoroutine);
@@ -74,6 +77,8 @@ namespace DownBelow.UI
 
         public void EndDialog()
         {
+            GameManager.RealSelfPlayer.CanMove = true;
+
             this._toggleCanvas(false, true);
         }
 

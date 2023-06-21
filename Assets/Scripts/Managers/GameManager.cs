@@ -547,20 +547,29 @@ namespace DownBelow.Managers
             return gameData;
         }
 
-        public static GameData.GameDataContainer MakeBaseGame(string saveName)
+        public static void GoToTutorial()
+        {
+            var gamedatacontainer = MakeBaseGame("DownBelowTutorial", true);
+
+            GameData.Game.RefGameDataContainer = gamedatacontainer;
+
+            NetworkManager.Instance.ClickOnStart();
+        }
+
+        public static GameData.GameDataContainer MakeBaseGame(string saveName, bool tutorial = false)
         {
             var gamedata = new GameData.GameData()
             {
                 game_version = GameData.GameVersion.Current.ToString(),
                 save_name = saveName,
                 save_time = DateTime.Now,
-                grids_data = Instance.CreateBaseGridsDatas()
+                grids_data = Instance.CreateBaseGridsDatas(tutorial)
             };
 
             return gamedata.Save(Instance._getFileToSave(saveName));
         }
 
-        public GridData[] CreateBaseGridsDatas()
+        public GridData[] CreateBaseGridsDatas(bool selectTutorials)
         {
             TextAsset[] jsons = Resources.LoadAll<TextAsset>("Saves/Grids/");
 
@@ -569,7 +578,7 @@ namespace DownBelow.Managers
             for( int i = 0; i < jsons.Length; i++)
             {
                 GridData loadedData = JsonConvert.DeserializeObject<GridData>(jsons[i].text);
-                if (!loadedData.IsForTutorial)
+                if (loadedData.IsForTutorial == selectTutorials)
                 {
                     grids.Add(loadedData);
                 }

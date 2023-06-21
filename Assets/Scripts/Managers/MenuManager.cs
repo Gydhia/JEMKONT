@@ -21,6 +21,7 @@ namespace DownBelow.Managers
 
         Option = 20,
 
+        Tutorial = 97,
         Close = 98,
         Quit = 99
     }
