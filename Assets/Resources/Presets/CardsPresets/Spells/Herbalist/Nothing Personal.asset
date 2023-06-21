@@ -21,6 +21,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 1a809be3311568c45a307232300fa5f6, type: 2}
     - {fileID: 0}
     - {fileID: 0}
+    - {fileID: 11400000, guid: 629f550a71b2f0843958315d28a7ed33, type: 2}
     - {fileID: 11400000, guid: 9d0f6268ebf7985479145d8a3660f730, type: 2}
     - {fileID: 11400000, guid: 3fc342607e5f1764993a617ca652434d, type: 2}
     SerializedBytesString: 
@@ -316,7 +317,7 @@ MonoBehaviour:
       Data: 
     - Name: CasterID
       Entry: 1
-      Data: a5405f55-3888-4489-93bb-167707c4e7fdHerbalist
+      Data: 65f6d835-95f5-49ad-81ca-9dec84b77727Herbalist
     - Name: 
       Entry: 8
       Data: 
@@ -907,8 +908,8 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: TargettingCondition
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 5
     - Name: CastingCondition
       Entry: 6
       Data: 
@@ -1103,7 +1104,7 @@ MonoBehaviour:
       Data: 2
     - Name: ProjectileSFX
       Entry: 10
-      Data: 5
+      Data: 6
     - Name: CellSFX
       Entry: 6
       Data: 
@@ -1298,7 +1299,7 @@ MonoBehaviour:
       Data: 
     - Name: TargettingCondition
       Entry: 10
-      Data: 6
+      Data: 7
     - Name: CastingCondition
       Entry: 6
       Data: 
