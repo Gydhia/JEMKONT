@@ -59,6 +59,7 @@ namespace DownBelow.UI
         private Coroutine _pinUpdateCoroutine = null;
 
         private int _childOrder;
+        private Sequence _flipSequence;
         public void Init(ScriptableCard CardReference, UICardsPile Pile)
         {
             this.Init(CardReference);
@@ -124,9 +125,35 @@ namespace DownBelow.UI
                 this.DiscardToHand();
             }
             else
-            { 
-                this.m_RectTransform.DOPunchScale(new Vector3(1.001f, 1.001f, 1.001f), 0.8f).SetEase(Ease.OutQuad);  
-              this.m_RectTransform.DOPunchRotation(new Vector3(0,720,0), 0.8f).SetEase(Ease.OutQuad).OnComplete(() => this.PlayNotTargetCard());
+            {
+                _flipSequence = DOTween.Sequence();
+                
+                _flipSequence.Append(this.m_RectTransform.DOPunchScale(new Vector3(1.0001f, 1.0001f, 1.0001f), 0.4f)
+                    .SetEase(Ease.OutQuad));
+                
+                _flipSequence.Append(this.m_RectTransform.DOPunchRotation(new Vector3(0, 180, 0), 0.2f)
+                    .SetEase(Ease.OutQuad).OnComplete(
+                        () =>
+                        {
+                            CardVisual.ReverseCard();
+                        }));
+                _flipSequence.Append(this.m_RectTransform.DOPunchRotation(new Vector3(0, 180, 0), 0.2f)
+                    .SetEase(Ease.OutQuad).OnComplete(
+                        () =>
+                        {
+                            CardVisual.ReverseCard();
+                        }));
+                _flipSequence.Append(this.m_RectTransform.DOPunchRotation(new Vector3(0, 180, 0), 0.2f)
+                    .SetEase(Ease.OutQuad).OnComplete(
+                        () =>
+                        {
+                            CardVisual.ReverseCard();
+                            this.PlayNotTargetCard();
+                        }));
+
+                _flipSequence.SetLoops(0);
+                
+                _flipSequence.Restart();
             }
         }
 

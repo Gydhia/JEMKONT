@@ -65,6 +65,7 @@ namespace DownBelow.UI
 
             this._playingBackground.gameObject.SetActive(false);
             this._ownedImage.gameObject.SetActive(false);
+            this._characterIcon.sprite = SettingsManager.Instance.GameUIPreset.Dead;
         }
 
         private void OnDestroy()
