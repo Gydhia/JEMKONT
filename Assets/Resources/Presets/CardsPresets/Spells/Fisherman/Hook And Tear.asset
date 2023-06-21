@@ -16,8 +16,15 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
+    - {fileID: 0}
+    - {fileID: 0}
     - {fileID: 11400000, guid: 672309b67e637ff4ca3549e1a384b411, type: 2}
     - {fileID: 11400000, guid: bc413fd47f0d3c94a93195dd2a067a46, type: 2}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -55,11 +62,11 @@ MonoBehaviour:
       Entry: 6
       Data: 
     - Name: RefEntity
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 0
     - Name: TargetCell
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 1
     - Name: ContextActionId
       Entry: 2
       Data: 00000000000000000000000000000000
@@ -704,16 +711,16 @@ MonoBehaviour:
       Data: true
     - Name: TargetType
       Entry: 3
-      Data: 262
+      Data: 278
     - Name: ProjectileSFX
       Entry: 10
-      Data: 0
+      Data: 2
     - Name: CellSFX
       Entry: 10
-      Data: 1
+      Data: 3
     - Name: PushType
       Entry: 3
-      Data: 4
+      Data: 5
     - Name: PushDelay
       Entry: 4
       Data: 0
@@ -761,7 +768,7 @@ MonoBehaviour:
       Data: 
     - Name: CasterID
       Entry: 1
-      Data: a57c3f5a-4545-477d-a846-f77a19b07429Fisherman
+      Data: 689f4df9-82e0-42d2-9ed6-be6029cfe916Fisherman
     - Name: 
       Entry: 8
       Data: 
@@ -786,17 +793,17 @@ MonoBehaviour:
       Entry: 12
       Data: 4
     - Name: 
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 4
     - Name: 
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 5
     - Name: 
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 6
     - Name: 
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 1
     - Name: 
       Entry: 13
       Data: 
@@ -811,8 +818,8 @@ MonoBehaviour:
       Entry: 12
       Data: 1
     - Name: 
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 7
     - Name: 
       Entry: 13
       Data: 
@@ -842,8 +849,8 @@ MonoBehaviour:
       Entry: 9
       Data: 1
     - Name: Caster
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 0
     - Name: SetUp
       Entry: 5
       Data: true
@@ -989,11 +996,11 @@ MonoBehaviour:
       Entry: 6
       Data: 
     - Name: RefEntity
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 0
     - Name: TargetCell
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 8
     - Name: ContextActionId
       Entry: 2
       Data: 00000000000000000000000000000000
@@ -1308,8 +1315,8 @@ MonoBehaviour:
       Entry: 12
       Data: 1
     - Name: 
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 7
     - Name: 
       Entry: 13
       Data: 
@@ -1339,8 +1346,8 @@ MonoBehaviour:
       Entry: 9
       Data: 22
     - Name: Caster
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 0
     - Name: SetUp
       Entry: 5
       Data: true
@@ -1353,7 +1360,19 @@ MonoBehaviour:
       Data: 15
     - Name: 
       Entry: 12
-      Data: 0
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 10
+      Data: 7
+    - Name: $v
+      Entry: 3
+      Data: 25
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 13
       Data: 

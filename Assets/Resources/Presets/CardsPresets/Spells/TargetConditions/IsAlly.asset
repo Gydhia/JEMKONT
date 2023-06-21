@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8094c5667a5e3154b903fe00054c9077, type: 3}
-  m_Name: Stalagmite
+  m_Script: {fileID: 11500000, guid: f0feafc55fff8a3459162ad89dd1bffa, type: 3}
+  m_Name: IsAlly
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -21,6 +21,4 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  entityToSummon: {fileID: 3267344173932179961, guid: 6577082567e1c134bb81bb52e016f0fb, type: 3}
-  Duration: 3
-  randomRotation: 1
+  TargetType: 4

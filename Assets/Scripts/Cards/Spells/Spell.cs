@@ -21,7 +21,7 @@ namespace DownBelow.Spells
         protected T LocalData => this.Data as T;
 
         protected Spell(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, TargettingCondition targCond, CastingCondition castCond)
-            : base(CopyData, RefEntity, TargetCell, ParentSpell, targCond,castCond)
+            : base(CopyData, RefEntity, TargetCell, ParentSpell, targCond, castCond)
         {
         }
     }
@@ -82,7 +82,8 @@ namespace DownBelow.Spells
             {
                 EndAction();
                 return;
-            } else
+            }
+            else
             {
                 this.TargetEntities = this.GetTargets(this.TargetCell);
 
@@ -101,17 +102,20 @@ namespace DownBelow.Spells
                 {
                     await SFXManager.Instance.DOSFX(new RuntimeSFXData(Data.ProjectileSFX, RefEntity, TargetCell, this));
                 }
-                else if(Data.SpellResultTargeting){
-                    await SFXManager.Instance.DOSFX(new RuntimeSFXData(Data.ProjectileSFX, RefEntity, GetSpellFromIndex(Data.SpellResultIndex).TargetCell, this));
-                } else
+                else if (Data.SpellResultTargeting)
                 {
-                    for (int i = 0;i < TargetEntities.Count;i++)
+                    await SFXManager.Instance.DOSFX(new RuntimeSFXData(Data.ProjectileSFX, RefEntity, GetSpellFromIndex(Data.SpellResultIndex).TargetCell, this));
+                }
+                else
+                {
+                    for (int i = 0; i < TargetEntities.Count; i++)
                     {
                         CharacterEntity item = TargetEntities[i];
-                        if(i == TargetEntities.Count - 1)
+                        if (i == TargetEntities.Count - 1)
                         {
                             await SFXManager.Instance.DOSFX(new RuntimeSFXData(Data.ProjectileSFX, RefEntity, item.EntityCell, this));
-                        } else
+                        }
+                        else
                         {
                             SFXManager.Instance.DOSFX(new RuntimeSFXData(Data.ProjectileSFX, RefEntity, item.EntityCell, this));
                         }
@@ -120,14 +124,19 @@ namespace DownBelow.Spells
             }
             if (Data.CellSFX != null && TargetedCells != null && TargetedCells.Count != 0)
             {
-                for (int i = 0;i < TargetedCells.Count;i++)
+
+                for (int i = 0; i < TargetedCells.Count; i++)
                 {
                     var targetedCell = this.TargetedCells[i];
-                    if (i != TargetedCells.Count)
-                        //Not awaiting since we want to do it all. Suggestion could be to wait 0.05s to have some kind of wave effect.
-                        SFXManager.Instance.DOSFX(new(Data.CellSFX, RefEntity, targetedCell, this));
-                    else
-                        await SFXManager.Instance.DOSFX(new(Data.CellSFX, RefEntity, targetedCell, this));
+                    if (TargettingCondition == null || TargettingCondition.Validated(targetedCell))
+                    {
+                        if (i != TargetedCells.Count)
+                            //Not awaiting since we want to do it all. Suggestion could be to wait 0.05s to have some kind of wave effect.
+                            SFXManager.Instance.DOSFX(new(Data.CellSFX, RefEntity, targetedCell, this));
+                        else
+                            await SFXManager.Instance.DOSFX(new(Data.CellSFX, RefEntity, targetedCell, this));
+                    }
+
                 }
             }
         }
@@ -147,14 +156,16 @@ namespace DownBelow.Spells
             {
                 var spell = GetSpellFromIndex(Data.SpellResultIndex);
                 TargetedCells = spell.TargetedCells;
-            } else if (this.Data.RequiresTargetting)
+            }
+            else if (this.Data.RequiresTargetting)
             {
                 TargetedCells = GridUtility.TransposeShapeToCells(ref Data.RotatedShapeMatrix, cellTarget, Data.RotatedShapePosition);
                 NCEHits = TargetedCells
                     .FindAll(cell => cell.AttachedNCE != null)
                     .Select(cell => cell.AttachedNCE)
                     .ToList();
-            } else
+            }
+            else
             {
                 TargetedCells = new();
                 List<Cell> TargetCellsToTranspose = new List<Cell>();
@@ -190,9 +201,9 @@ namespace DownBelow.Spells
                 if (this.Data.TargetType.HasFlag(ETargetType.All))
                 {
                     var cells = CombatManager.Instance.PlayingEntities[0].CurrentGrid.Cells;
-                    for (int col = 0;col < cells.GetLength(0);col++)
+                    for (int col = 0; col < cells.GetLength(0); col++)
                     {
-                        for (int row = 0;row < cells.GetLength(1);row++)
+                        for (int row = 0; row < cells.GetLength(1); row++)
                         {
                             TargetCellsToTranspose.Add(cells[col, row]);
                         }
