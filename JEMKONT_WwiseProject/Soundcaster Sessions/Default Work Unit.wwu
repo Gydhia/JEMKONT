@@ -15,12 +15,14 @@
 						</RTPCValue>
 						<RTPCValue>
 							<GameParameterRef Name="RTPC_Volume_Master" ID="{A00989C5-EDB5-4DA1-BF0C-B18D520CB7D3}"/>
-							<Value>1.25239736268709E-311</Value>
+							<Value>1</Value>
 						</RTPCValue>
 					</RTPCValueList>
 					<CurrentStateList ShowAll="true">
-						<CurrentStateRef Name="None" ID="{D643308B-1DE3-4315-9B57-C2A34992DA21}"/>
-						<CurrentStateRef Name="None" ID="{61FFC9D6-2F88-4B5E-B7B5-EEABABD4C73B}"/>
+						<CurrentStateRef Name="Chop" ID="{3A08E8AA-8426-4BE2-8BDD-E4C4AAAB4CCF}"/>
+						<CurrentStateRef Name="Explore" ID="{59E5FECC-8882-46DC-8EFF-CE7971FBB99E}"/>
+						<CurrentStateRef Name="Layers0" ID="{E9622987-65EA-4CB8-96CA-E8C70608AF3B}"/>
+						<CurrentStateRef Name="Underworld" ID="{707EA575-B326-49BD-8215-841699842371}"/>
 					</CurrentStateList>
 					<CurrentSwitchList ShowAll="true">
 						<CurrentSwitchRef Name="Grass" ID="{B9AA152C-9DCA-45D1-BCB9-B3A75EB6874C}"/>
