@@ -15,11 +15,11 @@ MonoBehaviour:
   cachedFileName: EGD_EditorGridData
   unityObjectReferences:
   - {fileID: 11400000, guid: 710edac696a8d534f844d188132ab11e, type: 2}
+  - {fileID: 11400000, guid: 43243b76698031a4b81b140c629c985c, type: 2}
   - {fileID: 11400000, guid: 884093700e88f0742b307d440fa708d2, type: 2}
   - {fileID: 11400000, guid: ed8c7df3d95b8e64bb72a70fd2fcd8b6, type: 2}
-  - {fileID: 11400000, guid: 43243b76698031a4b81b140c629c985c, type: 2}
   - {fileID: 11400000, guid: 7fc5dfe5f0e46ca4990e04ffd184d47a, type: 2}
   _plane: {fileID: 0}
   PlanePrefab: {fileID: 913962143815404576, guid: 7141923bd86c41143a35f9d656e8949b, type: 3}
-  SelectedGrid: Abyss_10
-  LevelPrefab: {fileID: 4713142296524728676, guid: a27d9da739063124db882669bf99ef2f, type: 3}
+  SelectedGrid: Abyss_06
+  LevelPrefab: {fileID: 2553832773548304120, guid: 705d0baf2c5dc8c4f9e3c3e08b81586a, type: 3}
