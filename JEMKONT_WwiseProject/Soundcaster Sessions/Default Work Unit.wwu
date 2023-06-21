@@ -19,8 +19,9 @@
 						</RTPCValue>
 					</RTPCValueList>
 					<CurrentStateList ShowAll="true">
-						<CurrentStateRef Name="None" ID="{D643308B-1DE3-4315-9B57-C2A34992DA21}"/>
+						<CurrentStateRef Name="MainMenu" ID="{F9583AC6-2633-4BA7-834E-06E621D7CDE5}"/>
 						<CurrentStateRef Name="None" ID="{61FFC9D6-2F88-4B5E-B7B5-EEABABD4C73B}"/>
+						<CurrentStateRef Name="None" ID="{B5DF1604-965C-48EF-9BE1-F3ED24359A3D}"/>
 					</CurrentStateList>
 					<CurrentSwitchList ShowAll="true">
 						<CurrentSwitchRef Name="Grass" ID="{B9AA152C-9DCA-45D1-BCB9-B3A75EB6874C}"/>

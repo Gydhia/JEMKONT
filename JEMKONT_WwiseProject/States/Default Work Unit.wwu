@@ -20,6 +20,13 @@
 						<State Name="Explore" ID="{59E5FECC-8882-46DC-8EFF-CE7971FBB99E}"/>
 					</ChildrenList>
 				</StateGroup>
+				<StateGroup Name="World" ID="{1EFEABEF-4594-4AF7-BA84-0DEF1DB0FA41}">
+					<ChildrenList>
+						<State Name="None" ID="{B5DF1604-965C-48EF-9BE1-F3ED24359A3D}"/>
+						<State Name="Overworld" ID="{CA395D91-0FD9-43DC-85BD-967F09F09B9B}"/>
+						<State Name="Underworld" ID="{707EA575-B326-49BD-8215-841699842371}"/>
+					</ChildrenList>
+				</StateGroup>
 			</ChildrenList>
 		</WorkUnit>
 	</States>
