@@ -23,6 +23,7 @@ namespace DownBelow.Spells.Alterations
         private void ReplicateDamage(Events.SpellEventData Data)
         {
             EntityStitched.ApplyStat(EntityStatistics.Health, -Data.Value, false);
+            EntityStitched.AreYouAlive(Data);
         }
 
         protected override void Unsubbing(EntityEventData Data)

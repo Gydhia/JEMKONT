@@ -20,7 +20,9 @@ MonoBehaviour:
     - {fileID: 0}
     - {fileID: 11400000, guid: 1a809be3311568c45a307232300fa5f6, type: 2}
     - {fileID: 0}
+    - {fileID: 0}
     - {fileID: 11400000, guid: 9d0f6268ebf7985479145d8a3660f730, type: 2}
+    - {fileID: 11400000, guid: 3fc342607e5f1764993a617ca652434d, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -314,7 +316,7 @@ MonoBehaviour:
       Data: 
     - Name: CasterID
       Entry: 1
-      Data: c88c9665-0f98-4a27-b9d6-05ebee98af55Herbalist
+      Data: a5405f55-3888-4489-93bb-167707c4e7fdHerbalist
     - Name: 
       Entry: 8
       Data: 
@@ -356,7 +358,7 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 10
-      Data: 0
+      Data: 3
     - Name: 
       Entry: 13
       Data: 
@@ -503,8 +505,8 @@ MonoBehaviour:
       Entry: 12
       Data: 1
     - Name: 
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 3
     - Name: 
       Entry: 13
       Data: 
@@ -540,7 +542,7 @@ MonoBehaviour:
       Data: 0
     - Name: TargetCell
       Entry: 10
-      Data: 3
+      Data: 4
     - Name: ContextActionId
       Entry: 2
       Data: 00000000000000000000000000000000
@@ -748,7 +750,10 @@ MonoBehaviour:
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
-      Data: 0
+      Data: 1
+    - Name: 
+      Entry: 10
+      Data: 3
     - Name: 
       Entry: 13
       Data: 
@@ -792,7 +797,19 @@ MonoBehaviour:
       Data: 14
     - Name: 
       Entry: 12
-      Data: 0
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 10
+      Data: 3
+    - Name: $v
+      Entry: 3
+      Data: 23
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -915,7 +932,7 @@ MonoBehaviour:
       Data: 0
     - Name: TargetCell
       Entry: 10
-      Data: 3
+      Data: 4
     - Name: ContextActionId
       Entry: 2
       Data: 00000000000000000000000000000000
@@ -1086,7 +1103,7 @@ MonoBehaviour:
       Data: 2
     - Name: ProjectileSFX
       Entry: 10
-      Data: 4
+      Data: 5
     - Name: CellSFX
       Entry: 6
       Data: 
@@ -1123,7 +1140,10 @@ MonoBehaviour:
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
-      Data: 0
+      Data: 1
+    - Name: 
+      Entry: 10
+      Data: 3
     - Name: 
       Entry: 13
       Data: 
@@ -1167,7 +1187,19 @@ MonoBehaviour:
       Data: 14
     - Name: 
       Entry: 12
-      Data: 0
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 10
+      Data: 3
+    - Name: $v
+      Entry: 3
+      Data: 20
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -1265,8 +1297,8 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: TargettingCondition
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 6
     - Name: CastingCondition
       Entry: 6
       Data: 
