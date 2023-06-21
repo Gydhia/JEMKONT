@@ -163,9 +163,9 @@ namespace DownBelow.Pools
                 {
                     CellIndicator indicator = this._spellsRef[cell];
                     // We're gonna override this color
-                    if (indicator.Color == GreenColor && isShape)
+                    if ((indicator.Color == GreenColor || indicator.Color == GreenColorTransparent) && isShape)
                     {
-                        indicator.IsOveridden = true;
+                        indicator.OveriddenColor = indicator.Color;
                         indicator.Color = RedColor;
                     }
                 }
@@ -179,10 +179,10 @@ namespace DownBelow.Pools
                 var indicator = this._spellsRef.ElementAt(i).Value;
                 if (indicator.Color == RedColor)
                 {
-                    if (indicator.IsOveridden)
+                    if (indicator.OveriddenColor != null)
                     {
-                        indicator.Color = GreenColor;
-                        indicator.IsOveridden = false;
+                        indicator.Color = indicator.OveriddenColor.Value;
+                        indicator.OveriddenColor = null;
                     }
                     else
                     {

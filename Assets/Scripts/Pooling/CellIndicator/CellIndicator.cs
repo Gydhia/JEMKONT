@@ -22,13 +22,13 @@ public class CellIndicator : MonoBehaviour, IPoolable
         }
     }
 
-    public bool IsOveridden = false;
+    public Color? OveriddenColor = null;
 
 
     public void DisableFromPool()
     {
         Pooled = false;
-        IsOveridden = false;
+        OveriddenColor = null;
         gameObject.SetActive(false);
     }
 
