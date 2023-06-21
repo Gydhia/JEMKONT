@@ -204,6 +204,19 @@ namespace DownBelow.Managers
                     SettingsManager.Instance.OwnedCards.Add(SettingsManager.Instance.ScriptableCards[datas.owned_cards[i]]);
                 }
             }
+            else
+            {
+                foreach (var tool in CardsManager.Instance.AvailableTools)
+                {
+                    foreach (var card in tool.DeckPreset.Deck.Cards)
+                    {
+                        if (!SettingsManager.Instance.OwnedCards.Contains(card))
+                        {
+                            SettingsManager.Instance.OwnedCards.Add(card);
+                        }
+                    } 
+                }
+            }
 
             CurrentAvailableResources = datas.current_ressources;
             
@@ -341,8 +354,6 @@ namespace DownBelow.Managers
 
         #endregion
         #region ENTITY_ACTIONS
-
-
 
         private IEnumerator bufferWithDelay()
         {
