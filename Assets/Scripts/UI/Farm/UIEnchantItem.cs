@@ -21,7 +21,7 @@ namespace DownBelow.UI
         public Image ToolImage;
         public TextMeshProUGUI Cost;
         public TextMeshProUGUI Level;
-
+        public GameObject HidingMask;
         public void Init(ToolItem refTool)
         {
             this._refTool = refTool;
@@ -55,8 +55,31 @@ namespace DownBelow.UI
             this.UpgradeButton.interactable = hasResources;
         }
 
+        private void UpdateEnchantItemStat()
+        {
+            int level = this._refTool.CurrentLevel;
+
+            var upgradableStats = this._refTool.GetEnchantedStats();
+
+            foreach (var buff in upgradableStats)
+            {
+                this.EnchantRaws[^1].Refresh(buff, this._refTool.GetStatsSum(buff, level), this._refTool.GetStatAtUpperLevel(buff));
+            }
+
+            this.RefreshCanCraft();
+        }
         public void OnClickUpgrade()
         {
+            int level = this._refTool.CurrentLevel;
+            NetworkManager.Instance.GiftOrRemovePlayerItem(GameManager.RealSelfPlayer.UID, this._refTool.ToolEnchants[level].CostItem, -this._refTool.ToolEnchants[level].Cost);
+            _refTool.CurrentLevel += 1;
+            foreach (KeyValuePair<EntityStatistics, int> stat in _refTool.ToolEnchants[_refTool.CurrentLevel].Buffs)
+            {
+                _refTool.CurrentEnchantBuffs[stat.Key] = stat.Value;
+            }
+            UpdateEnchantItemStat();
+
+
         }
     }
 }
