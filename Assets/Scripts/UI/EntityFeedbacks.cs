@@ -91,8 +91,6 @@ namespace DownBelow.Entity
 
         private void OnHealthAdded(SpellEventData Data)
         {
-            
-
             if (Data.Value < 0)
             {
                 _healthFeedback.text = "+" + Mathf.Abs(Data.Value).ToString();
