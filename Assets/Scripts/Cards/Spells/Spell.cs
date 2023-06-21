@@ -128,7 +128,7 @@ namespace DownBelow.Spells
                 for (int i = 0; i < TargetedCells.Count; i++)
                 {
                     var targetedCell = this.TargetedCells[i];
-                    if (TargettingCondition.Validated(targetedCell))
+                    if (TargettingCondition == null || TargettingCondition.Validated(targetedCell))
                     {
                         if (i != TargetedCells.Count)
                             //Not awaiting since we want to do it all. Suggestion could be to wait 0.05s to have some kind of wave effect.
