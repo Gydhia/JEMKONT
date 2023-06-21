@@ -107,6 +107,17 @@
 								</Action>
 							</ChildrenList>
 						</Event>
+						<Event Name="Play_SSFX__Portal" ID="{335EE017-F665-4FAE-ACDD-84B3658DAEA4}">
+							<ChildrenList>
+								<Action Name="" ID="{A70B7DFB-4362-4D8D-9F15-2FEAA67E8D5D}" ShortID="344831957">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="portal" ID="{65DDE281-1C63-4FCA-96B2-19CD11D22218}" WorkUnitID="{277D41B8-7D18-41D8-BFBF-88A00100C0C8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
 					</ChildrenList>
 				</Folder>
 				<Folder Name="MUS_LAYER" ID="{9E7B6713-3FD5-4E98-8F5E-4316700EF1CF}" ShortID="267737303">

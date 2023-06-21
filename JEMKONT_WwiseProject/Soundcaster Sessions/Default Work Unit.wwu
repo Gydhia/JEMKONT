@@ -19,7 +19,7 @@
 						</RTPCValue>
 					</RTPCValueList>
 					<CurrentStateList ShowAll="true">
-						<CurrentStateRef Name="Fish" ID="{3885B40F-600C-4CB4-A58D-D873D0798BC4}"/>
+						<CurrentStateRef Name="Chop" ID="{3A08E8AA-8426-4BE2-8BDD-E4C4AAAB4CCF}"/>
 						<CurrentStateRef Name="Explore" ID="{59E5FECC-8882-46DC-8EFF-CE7971FBB99E}"/>
 						<CurrentStateRef Name="Layers0" ID="{E9622987-65EA-4CB8-96CA-E8C70608AF3B}"/>
 						<CurrentStateRef Name="Underworld" ID="{707EA575-B326-49BD-8215-841699842371}"/>
