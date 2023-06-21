@@ -13,6 +13,7 @@ namespace AK
 {
     namespace EVENTS
     {
+        static const AkUniqueID PLAY_JOB = 2993927107U;
         static const AkUniqueID PLAY_SSFX__ALLYTURN = 2351453751U;
         static const AkUniqueID PLAY_SSFX__CARDPICK = 284401701U;
         static const AkUniqueID PLAY_SSFX__CARDSLAP = 1884104528U;
@@ -20,6 +21,7 @@ namespace AK
         static const AkUniqueID PLAY_SSFX__CLICKBLOCKED = 2149827808U;
         static const AkUniqueID PLAY_SSFX__COMBATLOSE = 611645331U;
         static const AkUniqueID PLAY_SSFX__COMBATWIN = 241397386U;
+        static const AkUniqueID PLAY_SSFX__CRATE = 2248673065U;
         static const AkUniqueID PLAY_SSFX__DECKSHUFFLE = 803863510U;
         static const AkUniqueID PLAY_SSFX__ENEMYTURN = 2280958161U;
         static const AkUniqueID PLAY_SSFX__MYTURNEND = 529950874U;
@@ -53,6 +55,20 @@ namespace AK
             } // namespace STATE
         } // namespace GAMESTATE
 
+        namespace JOB
+        {
+            static const AkUniqueID GROUP = 545665442U;
+
+            namespace STATE
+            {
+                static const AkUniqueID CHOP = 4240969745U;
+                static const AkUniqueID FISH = 2695658327U;
+                static const AkUniqueID MINE = 2609527548U;
+                static const AkUniqueID MOW = 1082004780U;
+                static const AkUniqueID NONE = 748895195U;
+            } // namespace STATE
+        } // namespace JOB
+
         namespace LAYERS
         {
             static const AkUniqueID GROUP = 3298531235U;
@@ -66,6 +82,18 @@ namespace AK
                 static const AkUniqueID NONE = 748895195U;
             } // namespace STATE
         } // namespace LAYERS
+
+        namespace WORLD
+        {
+            static const AkUniqueID GROUP = 2609808943U;
+
+            namespace STATE
+            {
+                static const AkUniqueID NONE = 748895195U;
+                static const AkUniqueID OVERWORLD = 1562068129U;
+                static const AkUniqueID UNDERWORLD = 442576059U;
+            } // namespace STATE
+        } // namespace WORLD
 
     } // namespace STATES
 

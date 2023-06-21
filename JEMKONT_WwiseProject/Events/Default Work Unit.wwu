@@ -85,6 +85,28 @@
 								</Action>
 							</ChildrenList>
 						</Event>
+						<Event Name="Play_Job" ID="{28EFB894-787C-468D-B0BF-51D270A74309}">
+							<ChildrenList>
+								<Action Name="" ID="{E3D0632F-FEA1-4E1B-A7E5-03A8F92BD1C0}" ShortID="550163402">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Job" ID="{15CBDAC3-6F60-4CF9-8147-220E9D7E86CE}" WorkUnitID="{277D41B8-7D18-41D8-BFBF-88A00100C0C8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Play_SSFX__Crate" ID="{9D47FD46-12D8-4134-8961-0FD42F4E1C94}">
+							<ChildrenList>
+								<Action Name="" ID="{0195049A-5248-4F25-9093-5DEE226120F5}" ShortID="702743458">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="crate" ID="{663065D9-DCEF-46E1-885F-9437C68E43CD}" WorkUnitID="{277D41B8-7D18-41D8-BFBF-88A00100C0C8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
 					</ChildrenList>
 				</Folder>
 				<Folder Name="MUS_LAYER" ID="{9E7B6713-3FD5-4E98-8F5E-4316700EF1CF}" ShortID="267737303">
