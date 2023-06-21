@@ -1,3 +1,4 @@
+using System.Collections;
 using DownBelow.Events;
 using DownBelow.GridSystem;
 using DownBelow.Managers;
@@ -20,12 +21,7 @@ namespace DownBelow.UI
         public UIInventoryItem InItem;
         public UIInventoryItem OutItem;
         public UIInventoryItem FuelItem;
-
-        public Transform ScrollWheel;
-        public Transform InnerScrollWheel;
-
-        public GameObject GearGaeObject;
-        public GameObject FireGameObject;
+        
 
         public UICraftSectionAnim SectionAnim;
         public void Init()
@@ -54,18 +50,37 @@ namespace DownBelow.UI
             this.FuelItem.OnlyAcceptedItem = workshop.FuelItem;
             this.OutItem.CanOnlyTake = true;
             this._refreshWorkshop(null);
-
+            
+            
             SectionAnim.Init();
-            SectionAnim.TempPlayAnims();
-            //CHECKER SI FURNACE OU CRAFT POUR AFFICHER LES ANIMS
+
+            if (CurrentWorkshop is InteractableFurnace)
+            {
+                SectionAnim.ShowFurnace();
+                Debug.Log("ShowFurnace");
+            }
+            else if (CurrentWorkshop is InteractableSawStood)
+            {
+                SectionAnim.ShowWorkshop();
+                Debug.Log("ShowSawStood");
+            }
+            
+            SectionAnim.OnCraftComplete += Craft;
+            
         }
 
+
+        
         private void _refreshWorkshop(ItemEventData Data)
         {
             this.CraftButton.interactable = this.InItem.SelfItem.ItemPreset != null && this.FuelItem.SelfItem.ItemPreset != null;
         }
-
         public void OnClickCraft()
+        {
+            SectionAnim.PlayAnims();
+        }
+
+        private void Craft()
         {
             if(this.InItem.SelfItem.ItemPreset != null)
             {
@@ -83,13 +98,16 @@ namespace DownBelow.UI
         public void OpenPanel()
         {
             this.gameObject.SetActive(true);
+            
         }
 
         public void ClosePanel()
         {
+
             if(this.CurrentWorkshop != null)
             {
                 this.CurrentWorkshop.Storage.OnStorageItemChanged -= _refreshWorkshop;
+                SectionAnim.OnCraftComplete -= Craft;
                 this.CurrentWorkshop = null;
             }
 
