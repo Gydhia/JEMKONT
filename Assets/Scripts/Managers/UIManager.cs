@@ -23,6 +23,8 @@ namespace DownBelow.Managers
         public UIWorkshopSection WorkshopSection;
         public UIDialogSection DialogSection;
 
+        public DeckbuildingSystem DeckbuildingSystem;
+
         public EntityTooltipUI EntityTooltipUI;
 
         public UIPlayerInventory PlayerInventory;
@@ -44,6 +46,7 @@ namespace DownBelow.Managers
             this.EnchantSection.Init();
             this.WorkshopSection.Init();
             this.DialogSection.Init();
+            this.DeckbuildingSystem.Init();
 
             this.TurnSection.gameObject.SetActive(false);
             this.PlayerInfos.gameObject.SetActive(false);

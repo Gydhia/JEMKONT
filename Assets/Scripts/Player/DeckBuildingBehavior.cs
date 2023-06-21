@@ -11,7 +11,7 @@ public class DeckBuildingBehavior : MonoBehaviour,IPointerEnterHandler,IPointerE
 
     void _addCardToDeck()
     {
-        DeckbuildingSystem.Instance.TryAddCopy(GetComponent<CardVisual>().CardReference, true);
+        UIManager.Instance.DeckbuildingSystem.TryAddCopy(GetComponent<CardVisual>().CardReference, true);
     }
 
     public void OnPointerEnter(PointerEventData eventData)

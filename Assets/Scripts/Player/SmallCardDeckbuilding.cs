@@ -25,9 +25,9 @@ public class SmallCardDeckbuilding : MonoBehaviour {
 
     private void SendLeftClickEvent()
     {
-        DeckbuildingSystem.Instance.CurrentDeckLayoutGroup.enabled = false;
+        UIManager.Instance.DeckbuildingSystem.CurrentDeckLayoutGroup.enabled = false;
         LeftClick();
-        DeckbuildingSystem.Instance.CurrentDeckLayoutGroup.enabled = true;
+        UIManager.Instance.DeckbuildingSystem.CurrentDeckLayoutGroup.enabled = true;
     }
     public void Init(ScriptableCard card, int number, UnityEngine.Events.UnityAction call) {
         texts[0].text = number.ToString();
