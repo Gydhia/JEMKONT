@@ -84,7 +84,7 @@ namespace DownBelow.Entity
         public override int Mana
         {
             get => Mathf.Min(Statistics[EntityStatistics.Mana] + NumberOfTurnsPlayed,
-                Statistics[EntityStatistics.MaxMana])+Buff(EntityStatistics.Mana);
+                Statistics[EntityStatistics.Mana]) + Buff(EntityStatistics.Mana);
         }
 
         public bool CanGatherThisResource(EClass resourceClass)

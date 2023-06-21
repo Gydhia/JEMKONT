@@ -12,7 +12,6 @@ public static class EnumHelper
         EntityStatistics.None => 0,
         EntityStatistics.Health => 1,
         EntityStatistics.Mana => 0,
-        EntityStatistics.MaxMana => 1,
         EntityStatistics.Speed => 0,
         EntityStatistics.Strength => 0,
         EntityStatistics.Defense => 0,

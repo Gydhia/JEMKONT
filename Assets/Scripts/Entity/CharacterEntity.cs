@@ -215,7 +215,6 @@ namespace DownBelow.Entity
         public int MaxHealth
         {
             get => RefStats.Health;
-            set => RefStats.Health = value;
         }
 
         public Dictionary<EntityStatistics, int> Statistics;
@@ -360,7 +359,6 @@ namespace DownBelow.Entity
             this.RefStats = stats;
             this.Statistics = new Dictionary<EntityStatistics, int>
             {
-                { EntityStatistics.MaxMana, stats.MaxMana },
                 { EntityStatistics.Health, stats.Health },
                 { EntityStatistics.Strength, stats.Strength },
                 { EntityStatistics.Speed, stats.Speed },
@@ -391,20 +389,6 @@ namespace DownBelow.Entity
                 case EntityStatistics.Strength: this.Statistics[EntityStatistics.Strength] = this.RefStats.Strength; break;
                 case EntityStatistics.Defense: this.Statistics[EntityStatistics.Defense] = this.RefStats.Defense; break;
                 case EntityStatistics.Range: this.Statistics[EntityStatistics.Range] = this.RefStats.Range; break;
-            }
-
-            if (this is PlayerBehavior player)
-            {
-                if (player.ActiveTool != null)
-                {
-                    // May god forgive me 
-                    var realStat = stat == EntityStatistics.Mana ?
-                        EntityStatistics.MaxMana : stat;
-                    if (player.ActiveTool.CurrentEnchantBuffs.ContainsKey(realStat))
-                    {
-                        this.Statistics[stat] += player.ActiveTool.CurrentEnchantBuffs[realStat];
-                    }
-                }
             }
         }
 

@@ -110,10 +110,12 @@ public class ToolItem : ItemPreset
             else
                 this.CurrentEnchantBuffs[stat.Key] = this.GetStatsSum(stat.Key, this.CurrentLevel);
         }
+
+        this.ActualPlayer.RefStats.UpdateBuffed(this);
     }
 
 
-    public void Reset()
+    public void ResetStatus()
     {
         this.CurrentLevel = 0;
         this.ActualPlayer = null;
