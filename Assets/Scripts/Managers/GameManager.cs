@@ -78,7 +78,10 @@ namespace DownBelow.Managers
         public string SaveName;
         public PlayerBehavior PlayerPrefab;
 
-        public static PlayerBehavior MasterPlayer => Instance.Players[PhotonNetwork.MasterClient.UserId];
+        public static PlayerBehavior MasterPlayer => PhotonNetwork.MasterClient.UserId != null ?
+            Instance.Players[PhotonNetwork.MasterClient.UserId] :
+            Instance.Players.First().Value;
+
 
         public Dictionary<string, PlayerBehavior> Players;
         /// <summary>
@@ -250,8 +253,11 @@ namespace DownBelow.Managers
                 {
                     PlayerBehavior newPlayer = Instantiate(this.PlayerPrefab, Vector3.zero, Quaternion.identity, this.transform);
 
+                    string playerID = player.UserId != null ? player.UserId : "offlinefucker";
+
                     newPlayer.EntityName = player.NickName;
-                    newPlayer.UID = player.UserId;
+                    // In offline mode without network, no UserID generated
+                    newPlayer.UID = playerID;
                     newPlayer.Init(GridManager.Instance.MainWorldGrid.Cells[spawnLocations.ElementAt(counter).latitude, spawnLocations.ElementAt(counter).longitude], GridManager.Instance.MainWorldGrid);
                                       
                     if (player.UserId == PhotonNetwork.LocalPlayer.UserId)
@@ -260,7 +266,7 @@ namespace DownBelow.Managers
                         CameraManager.Instance.AttachPlayerToCamera(SelfPlayer);
                     }
 
-                    this.Players.Add(player.UserId, newPlayer);
+                    this.Players.Add(playerID, newPlayer);
 
                     IsUsingNormalBuffer.Add(newPlayer, false);
 
