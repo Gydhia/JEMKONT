@@ -115,8 +115,11 @@ namespace DownBelow.GridSystem
                         }
             }
 
-            this.GridEntities = new List<CharacterEntity>();
-            if(gridData.SpawnablePresets != null)
+            if(this.GridEntities == null)
+            {
+                this.GridEntities = new List<CharacterEntity>();
+            }
+            if (gridData.SpawnablePresets != null)
             {
                 // Used to generate UID
                 foreach (var spawnable in gridData.SpawnablePresets)

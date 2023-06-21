@@ -73,6 +73,8 @@ namespace DownBelow.Managers
 
             GameManager.SelfPlayer = GameManager.RealSelfPlayer;
 
+            CurrentPlayingGrid.ResetGrid();
+
             this.OnCombatEnded?.Invoke(new GridEventData(Grid, AllyVictory));
         }
 

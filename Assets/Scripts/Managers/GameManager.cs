@@ -596,6 +596,7 @@ namespace DownBelow.Managers
                 CombatActionsBuffer[i].CancelAction();
                 i--;
             }
+            IsUsingCombatBuffer = false;
         }
 
         private void OnDestroy()
