@@ -274,6 +274,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CraftingTab
       objectReference: {fileID: 0}
+    - target: {fileID: 3141088815012575252, guid: 4588ac9f7919f7f49b180d72258a67d1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4560701387167020356, guid: 4588ac9f7919f7f49b180d72258a67d1, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
