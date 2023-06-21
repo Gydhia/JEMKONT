@@ -558,15 +558,18 @@ namespace DownBelow.Managers
         {
             TextAsset[] jsons = Resources.LoadAll<TextAsset>("Saves/Grids/");
 
-            GridData[] grids = new GridData[jsons.Length];
+            List<GridData> grids = new List<GridData>();
 
             for( int i = 0; i < jsons.Length; i++)
             {
                 GridData loadedData = JsonConvert.DeserializeObject<GridData>(jsons[i].text);
-                grids[i] = loadedData;
+                if (!loadedData.IsForTutorial)
+                {
+                    grids.Add(loadedData);
+                }
             }
 
-            return grids;
+            return grids.ToArray();
         }
 
         #endregion

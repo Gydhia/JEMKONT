@@ -22,7 +22,7 @@ public class EditorGridData
     [FoldoutGroup("Datas"), ReadOnly]
     public string LevelPrefabPath;
     [FoldoutGroup("Datas")]
-    public bool IsCombatGrid = false;
+    public bool IsForTutorial = false;
     [FoldoutGroup("Datas")]
     public List<InnerGridData> InnerGrids;
     [FoldoutGroup("Datas")]

@@ -806,7 +806,8 @@ namespace DownBelow.Managers
                 cellsData,
                 innerGrids,
                 savedSpawnables,
-                storages
+                storages,
+                grid.SelfData.IsForTutorial
             );
         }
 

@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81753c3e1e672524bbd137688005d727, type: 3}
-  m_Name: GlowingFlower
+  m_Script: {fileID: 11500000, guid: 14dae5fc797537546a285edaed0e2c5a, type: 3}
+  m_Name: CellTrigger_Welcome
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -23,14 +23,9 @@ MonoBehaviour:
     SerializationNodes:
     - Name: UID
       Entry: 2
-      Data: 17688914b99b13238a2a709618cfec8d
-  UName: Glowing Flower
-  AffectingState: 8
+      Data: b55a4970d006e1d60165fe71795a6e93
+  UName: CellTrigger_Welcome
+  AffectingState: 1
   OverrideSave: 0
-  ObjectPrefab: {fileID: 8025783147948518094, guid: 5645a7c38f1bccf458207799134f506f, type: 3}
-  OutlineColor: {r: 0.6313726, g: 0.21960784, b: 0.67058825, a: 1}
-  InteractAnimation: {fileID: 0}
-  GatherableBy: 1
-  ResourceItem: {fileID: 11400000, guid: a89e30dcba5914445901acf7d9c05e96, type: 2}
-  MinGathering: 15
-  MaxGathering: 20
+  DialogPreset: {fileID: 11400000, guid: 62e2eea6d1193934586a5c7a96940bba, type: 2}
+  TriggerCellPrefab: {fileID: 4154857936654040371, guid: fe6fa7670df99a74dbe48bc6cf232e7b, type: 3}

@@ -95,7 +95,8 @@ public class ToolItem : ItemPreset
     {
         this.CurrentLevel++;
 
-        var enchantPreset = this.ToolEnchants[CurrentLevel];
+        // -1 to not be out of range since the level isn't accuracyly linked
+        var enchantPreset = this.ToolEnchants[CurrentLevel - 1];
 
         if (!fromInit)
         {
