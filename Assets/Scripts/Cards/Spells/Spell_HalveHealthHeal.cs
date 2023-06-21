@@ -19,7 +19,7 @@ namespace DownBelow.Spells
 
     public class Spell_HalveHealthHeal : Spell<SpellData_BonusSFX>
     {
-        public Spell_HalveHealthHeal(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, TargettingCondition targCond, CastingCondition castCond) : base(CopyData, RefEntity, TargetCell, ParentSpell, targCond,castCond)
+        public Spell_HalveHealthHeal(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, TargettingCondition targCond, CastingCondition castCond) : base(CopyData, RefEntity, TargetCell, ParentSpell, targCond, castCond)
         {
         }
 
@@ -33,10 +33,10 @@ namespace DownBelow.Spells
             target.ApplyStat(EntityStatistics.Health, -healAmount);
 
             var targets = CombatManager.Instance.PlayingEntities.FindAll(x => x.IsAlly && x != target);
-            for (int i = 0;i < targets.Count;i++)
+            for (int i = 0; i < targets.Count; i++)
             {
                 var targeted = targets[i];
-                if (i != targets.Count)
+                if (i != targets.Count - 1)
                     //Not awaiting since we want to do it all. Suggestion could be to wait 0.05s to have some kind of wave effect.
                     SFXManager.Instance.DOSFX(new(LocalData.BonusSFX, RefEntity, targeted.EntityCell, this));
                 else
