@@ -2,9 +2,6 @@ using DownBelow.Events;
 using DownBelow.GridSystem;
 using DownBelow.Managers;
 using DownBelow.UI.Inventory;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -27,6 +24,10 @@ namespace DownBelow.UI
         public Transform ScrollWheel;
         public Transform InnerScrollWheel;
 
+        public GameObject GearGaeObject;
+        public GameObject FireGameObject;
+
+        public UICraftSectionAnim SectionAnim;
         public void Init()
         {
             this.gameObject.SetActive(false);
@@ -45,13 +46,18 @@ namespace DownBelow.UI
 
 
             this.WorkshopName.text = workshop.WorkshopName();
+            
+            
             this.UIStorage.SetStorageAndShow(workshop.Storage, isRealPlayer);
 
             this.InItem.OnlyAcceptedItem = workshop.InputItem;
             this.FuelItem.OnlyAcceptedItem = workshop.FuelItem;
             this.OutItem.CanOnlyTake = true;
-
             this._refreshWorkshop(null);
+
+            SectionAnim.Init();
+            SectionAnim.TempPlayAnims();
+            //CHECKER SI FURNACE OU CRAFT POUR AFFICHER LES ANIMS
         }
 
         private void _refreshWorkshop(ItemEventData Data)

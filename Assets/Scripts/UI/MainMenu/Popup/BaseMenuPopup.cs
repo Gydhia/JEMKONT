@@ -41,6 +41,8 @@ namespace DownBelow.UI.Menu
 
         private void HideSelfPanel(bool animated = true)
         {
+
+            _selfCanvasGroup.interactable = false;
             if (animated)
             {
                // _selfRectTransform.DOShakeAnchorPos(1.1f, 20f, 20);
@@ -78,6 +80,7 @@ namespace DownBelow.UI.Menu
             this.gameObject.SetActive(true);
 
             _selfCanvasGroup.alpha = 1;
+            _selfCanvasGroup.interactable = true;
             if (animated)
             {
                 _selfRectTransform.DOAnchorMax(new Vector2(_selfPanelAnchors.z, _selfPanelAnchors.w), 0.4f).SetEase(Ease.OutQuad);
