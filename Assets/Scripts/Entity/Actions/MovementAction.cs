@@ -12,7 +12,8 @@ namespace DownBelow.Entity
     public class MovementAction : ProgressiveAction
     {
         protected List<Cell> calculatedPath;
-        private List<CellIndicator> indic;
+        private Coroutine _moveCor;
+
         public MovementAction(CharacterEntity RefEntity, Cell TargetCell)
             : base(RefEntity, TargetCell)
         {
@@ -45,8 +46,7 @@ namespace DownBelow.Entity
                 return;
             }
 
-            // TODO : Ahah. So, it's the only solution and a not that bad idea, but maybe we should have a common MonoBehaviour for this instead of GameManager ?
-            GameManager.Instance.StartCoroutine(this.FollowPath());
+            _moveCor = GameManager.Instance.StartCoroutine(this.FollowPath());
         }
 
 
@@ -131,7 +131,15 @@ namespace DownBelow.Entity
                (this.RefBuffer.Count > 1 && !(this.RefBuffer[1] is MovementAction));
         }
 
+        public override void ForceKillAction()
+        {
+            base.ForceKillAction();
 
+            GameManager.Instance.StopCoroutine(_moveCor);
+            _moveCor = null;
+
+            this.EndAction();
+        }
         public override void EndAction()
         {
             this.RefEntity.IsMoving = false;
