@@ -1,3 +1,4 @@
+using System;
 using DownBelow.Entity;
 using DownBelow.Events;
 using DownBelow.Inventory;
@@ -27,6 +28,8 @@ namespace DownBelow.UI.Inventory
         [SerializeField] private Image icon;
         [SerializeField] private TextMeshProUGUI quantity;
         [SerializeField] private Button selfButton;
+
+        [SerializeField] private GameObject r_Clickinput;
 
         public int TotalQuantity = 0;
         public int Slot;
@@ -84,6 +87,21 @@ namespace DownBelow.UI.Inventory
                     this.icon.gameObject.SetActive(true);
                 this.TotalQuantity = Data.ItemData.Quantity;
                 this.quantity.text = this.TotalQuantity.ToString();
+
+                if (!ReferenceEquals(r_Clickinput, null))
+                {
+                    if (Data.ItemData.ItemPreset is PlaceableItem)
+                    {
+                        r_Clickinput.SetActive(true);
+                    }
+                    else
+                    {
+                        r_Clickinput.SetActive(false);
+                    }
+                }
+                
+                
+                
             } else
             {
                 this.icon.sprite = null;
@@ -91,6 +109,9 @@ namespace DownBelow.UI.Inventory
                     this.icon.gameObject.SetActive(false);
                 this.quantity.text = string.Empty;
                 this.TotalQuantity = 0;
+                
+                if (!ReferenceEquals(r_Clickinput, null))
+                    r_Clickinput.SetActive(false);
             }
         }
 
