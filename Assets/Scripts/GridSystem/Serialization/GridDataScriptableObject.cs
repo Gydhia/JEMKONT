@@ -193,6 +193,7 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
                 Resources.Load<GameObject>(loadedGrid.GridLevelPath);
 
             this.LazyLoadedData.LevelPrefabPath = loadedGrid.GridLevelPath;
+            this.LazyLoadedData.IsForTutorial = loadedGrid.IsForTutorial;
         }
     }
 
@@ -340,7 +341,8 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
             this.LazyLoadedData.TopLeftOffset,
             cellData,
             innerGridsData,
-            interactableSpawns
+            interactableSpawns,
+            this.LazyLoadedData.IsForTutorial
         );
     }
 

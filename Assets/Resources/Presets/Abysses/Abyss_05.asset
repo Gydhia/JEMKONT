@@ -26,7 +26,7 @@ MonoBehaviour:
   RefillResources: 1
   MaxResourcesUpgrade: 5
   GiftedCards:
-  - {fileID: 11400000, guid: 18ebc542087cc634882432a30ea8ec55, type: 2}
-  - {fileID: 11400000, guid: 0a37ffd3e3876f4409448dea3a7f6323, type: 2}
-  - {fileID: 11400000, guid: 3ca87f7114b9f98418f6b7816e7f40a0, type: 2}
-  - {fileID: 11400000, guid: ab349cd419987d3429052a6ab9d3c630, type: 2}
+  - {fileID: 11400000, guid: 9b7f4817f36bd3b4ca3ffb7fa0b23688, type: 2}
+  - {fileID: 11400000, guid: 5d2fe5608dd707a45ae97a9ad3d2a7f4, type: 2}
+  - {fileID: 11400000, guid: 49285e42341c7a243bc588ef3b7799e3, type: 2}
+  - {fileID: 11400000, guid: 12262cae2d4a89c4298f7fb8e6ec2746, type: 2}

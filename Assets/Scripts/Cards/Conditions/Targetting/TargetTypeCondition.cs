@@ -4,6 +4,7 @@ using DownBelow.Spells;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "TargetConditions/TargetTypeCondition")]
@@ -13,18 +14,8 @@ public class TargetTypeCondition : TargettingCondition
     public ETargetType TargetType;
     public override bool Validated(Cell cell)
     {
-        return TargetType switch
-        {
-            ETargetType.Self => cell.EntityIn == CombatManager.CurrentPlayingEntity,
-            ETargetType.Enemy => !cell.EntityIn.IsAlly,
-            ETargetType.Ally => cell.EntityIn.IsAlly,
-            ETargetType.Empty => cell.Datas.state.HasFlag(CellState.Walkable),
-            ETargetType.NCEs => cell.AttachedNCE != null,
-            ETargetType.CharacterEntities => cell.EntityIn != null,
-            ETargetType.Entities => cell.EntityIn != null || cell.AttachedNCE != null,
-            ETargetType.All => true,
-            _ => false,
-        };
+        bool validated = TargetType.ValidateTarget(cell);
+        return validated;
     }
     public override string SimpleToString()
     {

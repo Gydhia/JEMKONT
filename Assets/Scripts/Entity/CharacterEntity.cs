@@ -107,7 +107,7 @@ namespace DownBelow.Entity
             this.OnPushed?.Invoke(data);
         }
         #endregion
-        protected EntityStats RefStats;
+        public EntityStats RefStats;
 
         [OdinSerialize] public List<Alteration> Alterations = new();
 
@@ -272,14 +272,10 @@ namespace DownBelow.Entity
         /// <param name="cellToAttack">The cell to attack.</param>
         public void AutoAttack(Cell cellToAttack)
         {
-            if (!isInAttackRange(cellToAttack))
-            {
-                return;
-            }
+            this.CanAutoAttack = false;
 
             //Normally already verified. Just in case
-            //Calculate straight path, see if obstacle.
-            this.CanAutoAttack = false;
+            //Calculate straight path, see if obstacle.  
             var path = GridManager.Instance.FindPath(this, cellToAttack.PositionInGrid, true);
 
             var notwalkable = path.Find(x => x.Datas.state != CellState.Walkable);
@@ -287,19 +283,14 @@ namespace DownBelow.Entity
             {
                 switch (notwalkable.Datas.state)
                 {
-                    case CellState.Blocked:
-                        break;
                     case CellState.EntityIn:
-                        //CastAutoAttack(notwalkable);
+                        NetworkManager.Instance.EntityAskToBuffAction(new AttackingAction(this, notwalkable));
                         break;
                 }
             }
             else
             {
-                //There isn't any obstacle in the path, so the attack should go for it.
-                //if(cellToAttack.Datas.state == CellState.EntityIn)
-                //    CastAutoAttack(cellToAttack);
-                //TODO: Shield/overheal? What do i do? Have we got shield in the game??????????????????????
+                NetworkManager.Instance.EntityAskToBuffAction(new AttackingAction(this, cellToAttack));
             }
         }
 
@@ -318,9 +309,10 @@ namespace DownBelow.Entity
         {
             this.IsPlayingEntity = true;
             this.PlayingIndicator.SetActive(true);
+            this.CanAutoAttack = true;
 
 
-            OnTurnBegun?.Invoke(new());
+             OnTurnBegun?.Invoke(new());
 
             this.ReinitializeStat(EntityStatistics.Speed);
             this.ReinitializeStat(EntityStatistics.Mana);
@@ -342,7 +334,7 @@ namespace DownBelow.Entity
         public virtual void EndTurn()
         {
             NumberOfTurnsPlayed++;
-            CanAutoAttack = false;
+            this.CanAutoAttack = false;
             foreach (Alteration Alter in Alterations)
             {
                 Alter.Apply(this);
@@ -400,6 +392,20 @@ namespace DownBelow.Entity
                 case EntityStatistics.Defense: this.Statistics[EntityStatistics.Defense] = this.RefStats.Defense; break;
                 case EntityStatistics.Range: this.Statistics[EntityStatistics.Range] = this.RefStats.Range; break;
             }
+
+            if (this is PlayerBehavior player)
+            {
+                if (player.ActiveTool != null)
+                {
+                    // May god forgive me 
+                    var realStat = stat == EntityStatistics.Mana ?
+                        EntityStatistics.MaxMana : stat;
+                    if (player.ActiveTool.CurrentEnchantBuffs.ContainsKey(realStat))
+                    {
+                        this.Statistics[stat] += player.ActiveTool.CurrentEnchantBuffs[realStat];
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -416,7 +422,15 @@ namespace DownBelow.Entity
             switch (stat)
             {
                 case EntityStatistics.Health:
-                    this._applyHealth(value, triggerEvents); break;
+                    if (value > 0)
+                    {
+                        // Check overheal
+                        if (this.Health + value > this.RefStats.Health)
+                        {
+                            value = this.RefStats.Health - Statistics[EntityStatistics.Health];
+                        }
+                    }
+                        this._applyHealth(value, triggerEvents); break;
                 case EntityStatistics.Mana:
                     this._applyMana(value); break;
                 case EntityStatistics.Speed:
@@ -451,6 +465,8 @@ namespace DownBelow.Entity
                     this.OnHealthAdded?.Invoke(new(this, value));
                     this.OnHealthAddedRealValue?.Invoke(new(this, value));
                 }
+
+                this.Animator.SetTrigger("OnHit");
             }
             else
             {

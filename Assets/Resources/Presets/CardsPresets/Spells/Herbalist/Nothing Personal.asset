@@ -16,7 +16,10 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
+    - {fileID: 0}
+    - {fileID: 0}
     - {fileID: 11400000, guid: 1a809be3311568c45a307232300fa5f6, type: 2}
+    - {fileID: 0}
     - {fileID: 11400000, guid: 9d0f6268ebf7985479145d8a3660f730, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
@@ -55,11 +58,11 @@ MonoBehaviour:
       Entry: 6
       Data: 
     - Name: RefEntity
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 0
     - Name: TargetCell
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 1
     - Name: ContextActionId
       Entry: 2
       Data: 00000000000000000000000000000000
@@ -197,49 +200,10 @@ MonoBehaviour:
       Data: 5|System.Boolean[,], mscorlib
     - Name: 
       Entry: 12
-      Data: 25
+      Data: 12
     - Name: ranks
       Entry: 1
-      Data: 5|5
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
+      Data: 4|3
     - Name: 
       Entry: 5
       Data: false
@@ -290,7 +254,7 @@ MonoBehaviour:
       Data: 2
     - Name: 
       Entry: 4
-      Data: 2
+      Data: 1
     - Name: 
       Entry: 8
       Data: 
@@ -302,7 +266,7 @@ MonoBehaviour:
       Data: 6
     - Name: ProjectileSFX
       Entry: 10
-      Data: 0
+      Data: 2
     - Name: CellSFX
       Entry: 6
       Data: 
@@ -350,7 +314,7 @@ MonoBehaviour:
       Data: 
     - Name: CasterID
       Entry: 1
-      Data: 25a5adb0-143d-49c6-93ba-b83b4d212991Herbalist
+      Data: c88c9665-0f98-4a27-b9d6-05ebee98af55Herbalist
     - Name: 
       Entry: 8
       Data: 
@@ -373,7 +337,10 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 0
+      Data: 1
+    - Name: 
+      Entry: 10
+      Data: 1
     - Name: 
       Entry: 13
       Data: 
@@ -388,8 +355,8 @@ MonoBehaviour:
       Entry: 12
       Data: 1
     - Name: 
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 0
     - Name: 
       Entry: 13
       Data: 
@@ -419,11 +386,11 @@ MonoBehaviour:
       Entry: 9
       Data: 1
     - Name: Caster
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 0
     - Name: SetUp
       Entry: 5
-      Data: false
+      Data: true
     - Name: DamagesDealt
       Entry: 7
       Data: 13|System.Collections.Generic.Dictionary`2[[DownBelow.Entity.CharacterEntity,
@@ -534,7 +501,10 @@ MonoBehaviour:
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
-      Data: 0
+      Data: 1
+    - Name: 
+      Entry: 6
+      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -566,11 +536,11 @@ MonoBehaviour:
       Entry: 6
       Data: 
     - Name: RefEntity
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 0
     - Name: TargetCell
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 3
     - Name: ContextActionId
       Entry: 2
       Data: 00000000000000000000000000000000
@@ -786,8 +756,8 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: ParentSpell
-      Entry: 6
-      Data: 
+      Entry: 9
+      Data: 1
     - Name: Result
       Entry: 7
       Data: 26|DownBelow.Spells.SpellResult, Assembly-CSharp
@@ -808,11 +778,11 @@ MonoBehaviour:
       Entry: 9
       Data: 21
     - Name: Caster
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 0
     - Name: SetUp
       Entry: 5
-      Data: false
+      Data: true
     - Name: DamagesDealt
       Entry: 7
       Data: 28|System.Collections.Generic.Dictionary`2[[DownBelow.Entity.CharacterEntity,
@@ -941,11 +911,11 @@ MonoBehaviour:
       Entry: 6
       Data: 
     - Name: RefEntity
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 0
     - Name: TargetCell
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 3
     - Name: ContextActionId
       Entry: 2
       Data: 00000000000000000000000000000000
@@ -1083,118 +1053,13 @@ MonoBehaviour:
       Data: 37|System.Boolean[,], mscorlib
     - Name: 
       Entry: 12
-      Data: 36
+      Data: 1
     - Name: ranks
       Entry: 1
-      Data: 6|6
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
+      Data: 1|1
     - Name: 
       Entry: 5
       Data: true
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 5
-      Data: false
     - Name: 
       Entry: 13
       Data: 
@@ -1206,10 +1071,10 @@ MonoBehaviour:
       Data: UnityEngine.Vector2, UnityEngine.CoreModule
     - Name: 
       Entry: 4
-      Data: 1
+      Data: 0
     - Name: 
       Entry: 4
-      Data: 1
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -1221,7 +1086,7 @@ MonoBehaviour:
       Data: 2
     - Name: ProjectileSFX
       Entry: 10
-      Data: 1
+      Data: 4
     - Name: CellSFX
       Entry: 6
       Data: 
@@ -1266,8 +1131,8 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: ParentSpell
-      Entry: 6
-      Data: 
+      Entry: 9
+      Data: 21
     - Name: Result
       Entry: 7
       Data: 39|DownBelow.Spells.SpellResult, Assembly-CSharp
@@ -1288,11 +1153,11 @@ MonoBehaviour:
       Entry: 9
       Data: 34
     - Name: Caster
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 0
     - Name: SetUp
       Entry: 5
-      Data: false
+      Data: true
     - Name: DamagesDealt
       Entry: 7
       Data: 41|System.Collections.Generic.Dictionary`2[[DownBelow.Entity.CharacterEntity,

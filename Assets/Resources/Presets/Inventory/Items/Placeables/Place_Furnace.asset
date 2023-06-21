@@ -28,6 +28,6 @@ MonoBehaviour:
   ItemName: PlaceFurnace
   InventoryIcon: {fileID: 21300000, guid: 026505c9020631c459c754797387aef0, type: 3}
   MaxStack: 1
-  DroppedItemPrefab: {fileID: 2769568623919297241, guid: 5c69f16680356534fa1fa6966bfd70ed, type: 3}
+  DroppedItemPrefab: {fileID: 3657345382305063722, guid: a7f4e2b6e4917e54592e4ad8b5dd9d69, type: 3}
   PrevisualizationInstance: {fileID: 0}
   Interactable: {fileID: 11400000, guid: 1bfa3f909dcd4d243839fc09ae677157, type: 2}

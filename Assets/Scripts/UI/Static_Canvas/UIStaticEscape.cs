@@ -10,10 +10,13 @@ namespace DownBelow.UI
     {
         public Button SaveButton;
 
+        public MenuPopup_Options OptionsPopup;
+
         private void OnEnable()
         {
             // Only host can save HIS game
             this.SaveButton.interactable = Photon.Pun.PhotonNetwork.IsMasterClient;
+            this.OptionsPopup.Init();
         }
 
         public void OnClickResume()
@@ -28,7 +31,7 @@ namespace DownBelow.UI
 
         public void OnClickOptions()
         {
-
+            this.OptionsPopup.ShowPopup();
         }
 
         public void OnClickBackToMenu()

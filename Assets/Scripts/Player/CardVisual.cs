@@ -1,16 +1,11 @@
-using System;
+
 using DownBelow.Managers;
 using DownBelow.Mechanics;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using DownBelow.Events;
-using DownBelow.GridSystem;
-using DownBelow.Entity;
+
 using System.Linq;
 
 namespace DownBelow.UI
@@ -19,6 +14,7 @@ namespace DownBelow.UI
     {
         public Image IllustrationImage;
         public Image ShineImage;
+        public Image BackImage;
 
         public TextMeshProUGUI CostText;
         public TextMeshProUGUI TitleText;
@@ -76,6 +72,11 @@ namespace DownBelow.UI
         public void Unhover()
         {
             this.ShineImage.enabled = false;
+        }
+
+        public void ReverseCard()
+        {
+            BackImage.gameObject.SetActive(!BackImage.gameObject.activeInHierarchy);
         }
     }
 }

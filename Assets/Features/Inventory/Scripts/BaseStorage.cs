@@ -143,6 +143,7 @@ namespace DownBelow.UI.Inventory
             if (slot != -1)
             {
                 this.StorageItems[slot].RemoveQuantity(quantity);
+                this.FireStorageItemChanged(this.StorageItems[slot]);
             }
         }
 

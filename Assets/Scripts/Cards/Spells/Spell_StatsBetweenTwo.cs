@@ -43,7 +43,7 @@ namespace DownBelow.Spells
                 {
                     cell.AttachedNCE.Hit();
                 }
-                SFXManager.Instance.DOSFX(new RuntimeSFXData(Data.ProjectileSFX, RefEntity, cell, this));
+                SFXManager.Instance.DOSFX(new RuntimeSFXData(Data.CellSFX, RefEntity, cell, this));
             }
 
         }

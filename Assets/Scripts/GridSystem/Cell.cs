@@ -154,8 +154,6 @@ namespace DownBelow.GridSystem
         public int widthPos { get; set; }
         [ShowInInspectorAttribute, DataMember(Name = "s")]
         public CellState state { get; set; }
-        [ShowInInspectorAttribute, DataMember(Name = "poc"), DefaultValue(null)]
-        public PlaceableItem placeableOnCell { get; set; }
     }
 
     [System.Serializable]

@@ -19,12 +19,18 @@ namespace DownBelow.Managers
 
         #region EVENTS
         public event CellEventData.Event OnCellRightClickDown;
+        public event GameEventData.Event OnAnyRightClickDown;
 
         public event CellEventData.Event OnCellClickedUp;
         public event CellEventData.Event OnCellClickedDown;
 
         public event CellEventData.Event OnNewCellHovered;
 
+
+        public void FireRightClick()
+        {
+            this.OnAnyRightClickDown?.Invoke(new GameEventData());
+        }
         public void FireCellRightClick(Cell Cell)
         {
             this.OnCellRightClickDown?.Invoke(new CellEventData(Cell));
@@ -175,7 +181,11 @@ namespace DownBelow.Managers
                 return;
 
             if (GridManager.Instance.LastHoveredCell != null)
+            {
                 this.FireCellRightClick(GridManager.Instance.LastHoveredCell);
+            }
+
+            this.FireRightClick();
         }
 
         private void _onInteract(InputAction.CallbackContext ctx) => this.OnInteract();

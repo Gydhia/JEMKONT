@@ -55,6 +55,10 @@ namespace DownBelow.UI.Inventory
             this.SelfStorage = refStorage;
             this.Slot = slot;
 
+            if(this.SelfItem != null)
+            {
+                this.SelfItem.OnItemChanged -= RefreshItem;
+            }
             this.SelfItem.OnItemChanged += RefreshItem;
 
             if (this.SelfItem.ItemPreset != null)
@@ -82,9 +86,9 @@ namespace DownBelow.UI.Inventory
                 this.quantity.text = this.TotalQuantity.ToString();
             } else
             {
+                this.icon.sprite = null;
                 if(this.icon.gameObject.activeInHierarchy)
                     this.icon.gameObject.SetActive(false);
-
                 this.quantity.text = string.Empty;
                 this.TotalQuantity = 0;
             }
@@ -107,7 +111,8 @@ namespace DownBelow.UI.Inventory
 
         public void RemoveItem()
         {
-            this.icon.sprite = Managers.SettingsManager.Instance.GameUIPreset.ItemCase;
+          //  this.icon.sprite = Managers.SettingsManager.Instance.GameUIPreset.ItemCase;
+          this.icon.gameObject.SetActive(false);
             this.quantity.text = string.Empty;
             this.TotalQuantity = 0;
         }
@@ -197,6 +202,14 @@ namespace DownBelow.UI.Inventory
         {
             if (LastHoveredItem == this)
                 LastHoveredItem = null;
+        }
+
+        private void OnDestroy()
+        {
+            if(this.SelfStorage != null && this.SelfStorage.Storage != null && this.SelfStorage.Storage.StorageItems.Length > 0)
+            {
+                this.SelfItem.OnItemChanged -= RefreshItem;
+            }
         }
     }
 }

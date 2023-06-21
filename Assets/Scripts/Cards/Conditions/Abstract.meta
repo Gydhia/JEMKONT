@@ -1,8 +1,14 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scripts/Cards/Conditions/Abstract.meta
 guid: 5d006f486b0dc094c9d9b1f1e7770f74
 folderAsset: yes
 DefaultImporter:
+========
+guid: 414e04ddbebbe9048b891836e26b5922
+NativeFormatImporter:
+>>>>>>>> origin/JT-79-AddedScene:Assets/TerrainData_62635a60-c595-4b73-aefd-a7d02efd3229.asset.meta
   externalObjects: {}
+  mainObjectFileID: 15600000
   userData: 
   assetBundleName: 
   assetBundleVariant: 

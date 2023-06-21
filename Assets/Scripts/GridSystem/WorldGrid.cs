@@ -295,7 +295,7 @@ namespace DownBelow.GridSystem
         /// <summary>
         /// /!\ Constructor made for the WorldGrids
         /// </summary>
-        public GridData(string GridName, string GridLevelPath, bool IsCombatGrid, int GridHeight, int GridWidth, Vector3 TopLeftOffset, List<CellData> CellDatas, List<GridData> InnerGridsData, Dictionary<GridPosition, Guid> Spawnables)
+        public GridData(string GridName, string GridLevelPath, bool IsCombatGrid, int GridHeight, int GridWidth, Vector3 TopLeftOffset, List<CellData> CellDatas, List<GridData> InnerGridsData, Dictionary<GridPosition, Guid> Spawnables, bool IsForTutorial)
         {
             this.GridName = GridName;
             this.GridLevelPath = GridLevelPath;
@@ -306,10 +306,11 @@ namespace DownBelow.GridSystem
             this.CellDatas = CellDatas;
             this.InnerGrids = InnerGridsData;
             this.SpawnablePresets = Spawnables;
+            this.IsForTutorial = IsForTutorial;
         }
 
-        public GridData(string GridName, string GridLevelPath, bool IsCombatGrid, int GridHeight, int GridWidth, Vector3 TopLeftOffset, List<CellData> CellDatas, List<GridData> InnerGridsData, Dictionary<GridPosition, Guid> Spawnables, List<StorageData> Storages)
-            : this(GridName, GridLevelPath, IsCombatGrid, GridHeight, GridWidth, TopLeftOffset, CellDatas, InnerGridsData, Spawnables)
+        public GridData(string GridName, string GridLevelPath, bool IsCombatGrid, int GridHeight, int GridWidth, Vector3 TopLeftOffset, List<CellData> CellDatas, List<GridData> InnerGridsData, Dictionary<GridPosition, Guid> Spawnables, List<StorageData> Storages, bool IsForTutorial)
+            : this(GridName, GridLevelPath, IsCombatGrid, GridHeight, GridWidth, TopLeftOffset, CellDatas, InnerGridsData, Spawnables, IsForTutorial)
         {
             this.Storages = Storages;
         }
@@ -321,6 +322,8 @@ namespace DownBelow.GridSystem
 
         [DataMember]
         public bool IsCombatGrid { get; set; }
+        [DataMember]
+        public bool IsForTutorial { get; set; }
         [DataMember]
         public int Longitude { get; set; }
         [DataMember]
