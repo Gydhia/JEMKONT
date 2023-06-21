@@ -395,8 +395,8 @@ RectTransform:
   - {fileID: 6484056397831244834}
   - {fileID: 5686835104179405958}
   - {fileID: 3385869037124874010}
-  - {fileID: 5767551936231821719}
   - {fileID: 7849341562887920988}
+  - {fileID: 5767551936231821719}
   m_Father: {fileID: 8156056493747156018}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1903,7 +1903,7 @@ RectTransform:
   m_Children:
   - {fileID: 393338928237087985}
   m_Father: {fileID: 251564134101116347}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.2, y: 0.05}
   m_AnchorMax: {x: 0.8, y: 0.3}
@@ -3331,6 +3331,11 @@ MonoBehaviour:
   VictoryCanvas: {fileID: 1020660130179504179}
   DefeatCanvas: {fileID: 2189449315740897416}
   Continue: {fileID: 3049339816907624289}
+  ResourcesSliderParent: {fileID: 0}
+  RefilledResourcesSlider: {fileID: 0}
+  CardsRewardParent: {fileID: 0}
+  CardReward: {fileID: 0}
+  QuantityText: {fileID: 0}
 --- !u!1 &6755841501184897022
 GameObject:
   m_ObjectHideFlags: 0
@@ -4285,7 +4290,7 @@ RectTransform:
   m_Children:
   - {fileID: 7142246591060703293}
   m_Father: {fileID: 251564134101116347}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.2, y: 0.05}
   m_AnchorMax: {x: 0.8, y: 0.3}
