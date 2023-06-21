@@ -1464,9 +1464,9 @@ MonoBehaviour:
   CurrentWorkshop: {fileID: 0}
   WorkshopName: {fileID: 5861350480026560848}
   CraftButton: {fileID: 2731232713704436762}
-  InItem: {fileID: 4128288461511940838}
-  OutItem: {fileID: 5671288617802512406}
-  FuelItem: {fileID: 5464658139394359757}
+  InItem: {fileID: 22865183432468256}
+  OutItem: {fileID: 8624372721911956944}
+  FuelItem: {fileID: 8272485962420354059}
   SectionAnim: {fileID: 6266463949894566225}
 --- !u!114 &7225448128382605377
 MonoBehaviour:
@@ -1487,9 +1487,9 @@ MonoBehaviour:
     OnlyTake: 0
   ItemsHolder: {fileID: 0}
   Items:
-  - {fileID: 5464658139394359757}
-  - {fileID: 4128288461511940838}
-  - {fileID: 5671288617802512406}
+  - {fileID: 22865183432468256}
+  - {fileID: 8272485962420354059}
+  - {fileID: 8624372721911956944}
 --- !u!1 &7855235345396558605
 GameObject:
   m_ObjectHideFlags: 0
@@ -1734,20 +1734,19 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3489614725226487768, guid: 7d0bf983b12831847a7e00f8be8003d9, type: 3}
+      propertyPath: SelfStorage
+      value: 
+      objectReference: {fileID: 7225448128382605377}
     - target: {fileID: 8679627622016851435, guid: 7d0bf983b12831847a7e00f8be8003d9, type: 3}
       propertyPath: m_Name
       value: I_InItem
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7d0bf983b12831847a7e00f8be8003d9, type: 3}
---- !u!224 &2403304003622584744 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 3439352075123935220, guid: 7d0bf983b12831847a7e00f8be8003d9, type: 3}
-  m_PrefabInstance: {fileID: 1072217623463265884}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &4128288461511940838 stripped
+--- !u!114 &22865183432468256 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4011555275192556730, guid: 7d0bf983b12831847a7e00f8be8003d9, type: 3}
+  m_CorrespondingSourceObject: {fileID: 1058473438739849596, guid: 7d0bf983b12831847a7e00f8be8003d9, type: 3}
   m_PrefabInstance: {fileID: 1072217623463265884}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
@@ -1756,6 +1755,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3515ff29f8cee17499528c0b969bc7c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &2403304003622584744 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3439352075123935220, guid: 7d0bf983b12831847a7e00f8be8003d9, type: 3}
+  m_PrefabInstance: {fileID: 1072217623463265884}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8727869115918181548
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1847,15 +1851,24 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3489614725226487768, guid: 7d0bf983b12831847a7e00f8be8003d9, type: 3}
+      propertyPath: SelfStorage
+      value: 
+      objectReference: {fileID: 7225448128382605377}
     - target: {fileID: 8679627622016851435, guid: 7d0bf983b12831847a7e00f8be8003d9, type: 3}
       propertyPath: m_Name
       value: I_OutItem
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7d0bf983b12831847a7e00f8be8003d9, type: 3}
---- !u!114 &5671288617802512406 stripped
+--- !u!224 &6243280780372747096 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3439352075123935220, guid: 7d0bf983b12831847a7e00f8be8003d9, type: 3}
+  m_PrefabInstance: {fileID: 8727869115918181548}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8624372721911956944 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4011555275192556730, guid: 7d0bf983b12831847a7e00f8be8003d9, type: 3}
+  m_CorrespondingSourceObject: {fileID: 1058473438739849596, guid: 7d0bf983b12831847a7e00f8be8003d9, type: 3}
   m_PrefabInstance: {fileID: 8727869115918181548}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
@@ -1864,11 +1877,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3515ff29f8cee17499528c0b969bc7c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &6243280780372747096 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 3439352075123935220, guid: 7d0bf983b12831847a7e00f8be8003d9, type: 3}
-  m_PrefabInstance: {fileID: 8727869115918181548}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8770867449813225998
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2098,15 +2106,24 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3489614725226487768, guid: 7d0bf983b12831847a7e00f8be8003d9, type: 3}
+      propertyPath: SelfStorage
+      value: 
+      objectReference: {fileID: 7225448128382605377}
     - target: {fileID: 8679627622016851435, guid: 7d0bf983b12831847a7e00f8be8003d9, type: 3}
       propertyPath: m_Name
       value: I_FuelItem
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7d0bf983b12831847a7e00f8be8003d9, type: 3}
---- !u!114 &5464658139394359757 stripped
+--- !u!224 &6036720872549374595 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3439352075123935220, guid: 7d0bf983b12831847a7e00f8be8003d9, type: 3}
+  m_PrefabInstance: {fileID: 8970525985921178999}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8272485962420354059 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4011555275192556730, guid: 7d0bf983b12831847a7e00f8be8003d9, type: 3}
+  m_CorrespondingSourceObject: {fileID: 1058473438739849596, guid: 7d0bf983b12831847a7e00f8be8003d9, type: 3}
   m_PrefabInstance: {fileID: 8970525985921178999}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
@@ -2115,8 +2132,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3515ff29f8cee17499528c0b969bc7c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &6036720872549374595 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 3439352075123935220, guid: 7d0bf983b12831847a7e00f8be8003d9, type: 3}
-  m_PrefabInstance: {fileID: 8970525985921178999}
-  m_PrefabAsset: {fileID: 0}
