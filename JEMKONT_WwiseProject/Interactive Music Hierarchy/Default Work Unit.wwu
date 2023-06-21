@@ -1499,7 +1499,16 @@
 										</MusicTransition>
 									</TransitionList>
 									<Playlist>
-										<MusicPlaylistItem Name="" ID="{B03235C7-436C-4797-8E0A-4009EED46C20}" ShortID="269872278"/>
+										<MusicPlaylistItem Name="" ID="{B03235C7-436C-4797-8E0A-4009EED46C20}" ShortID="269872278">
+											<ChildrenList>
+												<MusicPlaylistItem Name="" ID="{00BFB1BA-273F-4529-9D25-C9FC18C25445}" ShortID="373952929">
+													<PropertyList>
+														<Property Name="PlaylistItemType" Type="int16" Value="1"/>
+													</PropertyList>
+													<SegmentRef Name="Combat0" ID="{8C9EECF1-FF08-4800-9315-D4B53D57B391}"/>
+												</MusicPlaylistItem>
+											</ChildrenList>
+										</MusicPlaylistItem>
 									</Playlist>
 								</MusicPlaylistContainer>
 								<MusicPlaylistContainer Name="ExploreAbyss" ID="{BB965423-BA90-4F4A-BE01-3F0B00CC4CF4}" ShortID="880145964">
@@ -1514,7 +1523,7 @@
 									<ChildrenList>
 										<MusicSegment Name="ambianceAbyss" ID="{22314039-2757-4340-959C-D42D39DE30D0}" ShortID="223884155">
 											<PropertyList>
-												<Property Name="EndPosition" Type="Real64" Value="432000.025323067"/>
+												<Property Name="EndPosition" Type="Real64" Value="432000"/>
 												<Property Name="OverrideClockSettings" Type="bool" Value="True"/>
 												<Property Name="Tempo" Type="Real64" Value="140"/>
 											</PropertyList>
@@ -1582,11 +1591,7 @@
 												<ObjectList Name="Cues">
 													<Reference>
 														<Local>
-															<MusicCue Name="Entry Cue" ID="{BFDCEBA9-1040-4A6C-BB6A-F8B826EA115B}">
-																<PropertyList>
-																	<Property Name="TimeMs" Type="Real64" Value="48000"/>
-																</PropertyList>
-															</MusicCue>
+															<MusicCue Name="Entry Cue" ID="{BFDCEBA9-1040-4A6C-BB6A-F8B826EA115B}"/>
 														</Local>
 													</Reference>
 													<Reference>
@@ -1617,7 +1622,16 @@
 										</MusicTransition>
 									</TransitionList>
 									<Playlist>
-										<MusicPlaylistItem Name="" ID="{59D69667-9A34-4DCB-8A22-73ED34218382}" ShortID="699717635"/>
+										<MusicPlaylistItem Name="" ID="{59D69667-9A34-4DCB-8A22-73ED34218382}" ShortID="699717635">
+											<ChildrenList>
+												<MusicPlaylistItem Name="" ID="{59FC900A-0480-4C3C-A82B-C2713E94693F}" ShortID="624937326">
+													<PropertyList>
+														<Property Name="PlaylistItemType" Type="int16" Value="1"/>
+													</PropertyList>
+													<SegmentRef Name="ambianceAbyss" ID="{22314039-2757-4340-959C-D42D39DE30D0}"/>
+												</MusicPlaylistItem>
+											</ChildrenList>
+										</MusicPlaylistItem>
 									</Playlist>
 								</MusicPlaylistContainer>
 							</ChildrenList>
@@ -1634,7 +1648,6 @@
 										<Property Name="EnableDestinationFadeIn" Type="bool" Value="True"/>
 										<Property Name="EnableSourceFadeOut" Type="bool" Value="True"/>
 										<Property Name="ExitSourceAt" Type="int16" Value="3"/>
-										<Property Name="PlayDestinationPreEntry" Type="bool" Value="False"/>
 									</PropertyList>
 									<TransitionInfo>
 										<SourceFadeOut>
