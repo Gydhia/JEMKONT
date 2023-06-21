@@ -47,7 +47,8 @@ namespace DownBelow.UI
 
         private void _togglePanel(InputAction.CallbackContext context)
         {
-            this.gameObject.SetActive(!this.gameObject.activeSelf);
+            if(!GameManager.RealSelfPlayer.CurrentGrid.IsCombatGrid)
+                this.gameObject.SetActive(!this.gameObject.activeSelf);
         }
     }
 }
