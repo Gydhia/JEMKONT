@@ -139,9 +139,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdb2dde9d44a252468851cec73930ad2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnlyAcceptedItem: {fileID: 0}
+  CanOnlyTake: 0
   icon: {fileID: 6371737917137892949}
   quantity: {fileID: 1224365899964127450}
   selfButton: {fileID: 3959634318063012531}
+  r_Clickinput: {fileID: 8045938007167823752}
   TotalQuantity: 0
   Slot: 0
   SelfStorage: {fileID: 2891969561176373058}
@@ -159,8 +162,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Storage:
+    RefCell: {fileID: 0}
     StorageItems: []
     MaxSlots: 0
+    OnlyTake: 0
   ItemsHolder: {fileID: 0}
   Items:
   - {fileID: 557678934793235308}
@@ -208,3 +213,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &8045938007167823752 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3062765277623014038, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
+  m_PrefabInstance: {fileID: 4983735704767151390}
+  m_PrefabAsset: {fileID: 0}
