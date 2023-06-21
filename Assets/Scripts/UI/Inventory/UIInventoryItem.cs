@@ -29,8 +29,6 @@ namespace DownBelow.UI.Inventory
         [SerializeField] private TextMeshProUGUI quantity;
         [SerializeField] private Button selfButton;
 
-        [SerializeField] private GameObject r_Clickinput;
-
         public int TotalQuantity = 0;
         public int Slot;
         public UIStorage SelfStorage;
@@ -38,6 +36,8 @@ namespace DownBelow.UI.Inventory
         public InventoryItem SelfItem => this.SelfStorage.Storage.StorageItems[this.Slot];
 
         public Image SelectedImage;
+
+        [HideInInspector] public ItemEventData Data;
 
         private Transform _parentAfterDrag;
         private Vector3 _positionAfterDrag;
@@ -82,26 +82,13 @@ namespace DownBelow.UI.Inventory
         {
             if (Data.ItemData.Quantity > 0)
             {
-                this.icon.sprite = Data.ItemData.ItemPreset.InventoryIcon;
+                this.Data = Data;
+                this.icon.sprite = this.Data.ItemData.ItemPreset.InventoryIcon;
                 if(!this.icon.gameObject.activeInHierarchy)
                     this.icon.gameObject.SetActive(true);
-                this.TotalQuantity = Data.ItemData.Quantity;
+                this.TotalQuantity = this.Data.ItemData.Quantity;
                 this.quantity.text = this.TotalQuantity.ToString();
-
-                if (!ReferenceEquals(r_Clickinput, null))
-                {
-                    if (Data.ItemData.ItemPreset is PlaceableItem)
-                    {
-                        r_Clickinput.SetActive(true);
-                    }
-                    else
-                    {
-                        r_Clickinput.SetActive(false);
-                    }
-                }
-                
-                
-                
+   
             } else
             {
                 this.icon.sprite = null;
@@ -109,11 +96,11 @@ namespace DownBelow.UI.Inventory
                     this.icon.gameObject.SetActive(false);
                 this.quantity.text = string.Empty;
                 this.TotalQuantity = 0;
-                
-                if (!ReferenceEquals(r_Clickinput, null))
-                    r_Clickinput.SetActive(false);
+
             }
         }
+
+
 
         /// <summary>
         /// To update the quantity of UI Item. Negative to remove, positive to add

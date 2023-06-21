@@ -64,12 +64,16 @@ namespace DownBelow.Managers
             if (newSlot == 0)
             {
                 PlayerInventory.ClassItem.SelectedSlot(true);
+                
                 //ActiveSlot
             } else
             {
                 PlayerInventory.PlayerStorage.Items[newSlot - 1].SelectedSlot(true);
+                
                 //Inventory
             }
+
+
         }
         private void _subscribe()
         {
