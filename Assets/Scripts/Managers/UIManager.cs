@@ -80,7 +80,7 @@ namespace DownBelow.Managers
 
             InputManager.Instance.OnCellRightClickDown += this.UpdateEntityToolTip;
             PlayerInputs.player_escape.canceled += this._switchEscapeState;
-            PlayerInputs.player_escape.canceled += this._hideInteractables;
+          //  PlayerInputs.player_escape.canceled += this._hideInteractables;
             
         }
         private void _unsubscribe()
@@ -92,7 +92,7 @@ namespace DownBelow.Managers
 
             InputManager.Instance.OnCellRightClickDown -= this.UpdateEntityToolTip;
             PlayerInputs.player_escape.canceled -= this._switchEscapeState;
-            PlayerInputs.player_escape.canceled += this._hideInteractables;
+           // PlayerInputs.player_escape.canceled += this._hideInteractables;
         }
 
         private void _switchEscapeState(UnityEngine.InputSystem.InputAction.CallbackContext ctx) => this.SwitchEscapeState();
@@ -108,7 +108,7 @@ namespace DownBelow.Managers
 
                 EscapeSection.gameObject.SetActive(!isActive);
             }
-
+            
         }
 
         public void UpdateEntityToolTip(CellEventData Data)

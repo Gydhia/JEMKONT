@@ -3331,11 +3331,11 @@ MonoBehaviour:
   VictoryCanvas: {fileID: 1020660130179504179}
   DefeatCanvas: {fileID: 2189449315740897416}
   Continue: {fileID: 3049339816907624289}
-  ResourcesSliderParent: {fileID: 0}
-  RefilledResourcesSlider: {fileID: 0}
-  CardsRewardParent: {fileID: 0}
-  CardReward: {fileID: 0}
-  QuantityText: {fileID: 0}
+  ResourcesSliderParent: {fileID: 8368499713285214408}
+  RefilledResourcesSlider: {fileID: 4303534213352183645}
+  CardsRewardParent: {fileID: 3986441598825631635}
+  CardReward: {fileID: 3098168496021142506}
+  QuantityText: {fileID: 3380734670461018841}
 --- !u!1 &6755841501184897022
 GameObject:
   m_ObjectHideFlags: 0
@@ -4784,3 +4784,25 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7684478358089434151, guid: 2ebb1db3b830dc54eac174c4b988019f, type: 3}
   m_PrefabInstance: {fileID: 8057410262468036822}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3098168496021142506 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4985287032245580604, guid: 2ebb1db3b830dc54eac174c4b988019f, type: 3}
+  m_PrefabInstance: {fileID: 8057410262468036822}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3380734670461018841 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4700460264314874383, guid: 2ebb1db3b830dc54eac174c4b988019f, type: 3}
+  m_PrefabInstance: {fileID: 8057410262468036822}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
