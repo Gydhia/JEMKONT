@@ -22,7 +22,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   IsCleared: 0
-  TargetGrid: Abyss_01
+  TargetGrid: Abyss_04
   RefillResources: 1
   MaxResourcesUpgrade: 5
   GiftedCards:
