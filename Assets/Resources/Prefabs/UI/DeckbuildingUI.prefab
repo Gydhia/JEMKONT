@@ -742,7 +742,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -220, y: -50}
+  m_AnchoredPosition: {x: -35, y: -200}
   m_SizeDelta: {x: 173, y: 105}
   m_Pivot: {x: 1, y: 1}
 --- !u!222 &7298470114671591911
@@ -2151,6 +2151,7 @@ MonoBehaviour:
   - {fileID: 9166906010062550861}
   - {fileID: 1872494669223060764}
   ShowDeckBuildButton: {fileID: 1916584999872759368}
+  InputHelper: {fileID: 0}
   CollectionHeader: {fileID: 1412220622108233604}
   SmallCardsParent: {fileID: 6198179161952745015}
   BigCardsParent: {fileID: 317986368268448264}
@@ -3347,12 +3348,12 @@ MonoBehaviour:
   m_Padding:
     m_Left: 0
     m_Right: 0
-    m_Top: 57
+    m_Top: 93
     m_Bottom: 0
   m_ChildAlignment: 1
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 118.258804, y: 190.74}
+  m_CellSize: {x: 192.11942, y: 309.87003}
   m_Spacing: {x: 0, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 2

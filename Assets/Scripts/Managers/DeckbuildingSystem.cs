@@ -28,6 +28,8 @@ namespace DownBelow.UI
         [BoxGroup("UI")]
         public GameObject ShowDeckBuildButton;
         [BoxGroup("UI")]
+        public GameObject InputHelper;
+        [BoxGroup("UI")]
         public TextMeshProUGUI CollectionHeader;
         [BoxGroup("UI")]
         public Transform SmallCardsParent;
@@ -148,6 +150,7 @@ namespace DownBelow.UI
         void ToggleShowButton(bool on)
         {
             ShowDeckBuildButton.SetActive(on);
+            InputHelper.gameObject.SetActive(on);
         }
 
         void HideDeckBuilding()
