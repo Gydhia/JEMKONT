@@ -1129,6 +1129,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d55e772574884154ba970af43b4bbe70, type: 3}
+--- !u!114 &50243920 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7881817469195481690, guid: d55e772574884154ba970af43b4bbe70, type: 3}
+  m_PrefabInstance: {fileID: 50243919}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fb8c42c3a04bd34fb8bae9241ce6633, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &94252212
 GameObject:
   m_ObjectHideFlags: 0
@@ -2042,7 +2053,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7177104878325752, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 72
       objectReference: {fileID: 0}
     - target: {fileID: 7177104878325752, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -2678,7 +2689,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2678564370340161760, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 72
       objectReference: {fileID: 0}
     - target: {fileID: 2678564370340161760, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -3074,7 +3085,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3808426073630346338, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 72
       objectReference: {fileID: 0}
     - target: {fileID: 3808426073630346338, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -3210,7 +3221,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4044596493284675526, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 72
       objectReference: {fileID: 0}
     - target: {fileID: 4044596493284675526, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -6693,6 +6704,10 @@ PrefabInstance:
       propertyPath: StartCombatButton
       value: 
       objectReference: {fileID: 808257840}
+    - target: {fileID: 942809737677840814, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: DeckbuildingSystem
+      value: 
+      objectReference: {fileID: 50243920}
     - target: {fileID: 1319291778372884564, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
       propertyPath: MainCamera
       value: 
