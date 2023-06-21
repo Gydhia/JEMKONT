@@ -248,6 +248,7 @@ namespace DownBelow.UI
         {
             this._abortCoroutine(ref this._followCoroutine);
             CombatManager.Instance.FireCardBeginUse(this.CardReference);
+            InputManager.Instance.ChangeCursorAppearance(CursorAppearance.Idle);
         }
 
         public void DrawFromPile(UICardsPile fromPile, UICardsPile toPile)
