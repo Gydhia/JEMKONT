@@ -737,7 +737,10 @@ namespace DownBelow.Managers
 
         public override void OnLeftRoom()
         {
-            MenuManager.Instance?.UIRoom?.OnSelfLeftRoom();
+            if(MenuManager.Instance != null && MenuManager.Instance.UIRoom != null)
+            {
+                MenuManager.Instance?.UIRoom?.OnSelfLeftRoom();
+            }
         }
 
         public override void OnPlayerLeftRoom(Player otherPlayer)

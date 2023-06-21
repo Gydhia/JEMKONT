@@ -337,8 +337,11 @@ namespace DownBelow.Managers
                 && selfPlayer.CanAutoAttack
             )
             {
-                selfPlayer.IsAutoAttacking = true;
-                this._spellArrow.FollowAutoAttack(LastHoveredCell);
+                if(DraggableCard.SelectedCard == null)
+                {
+                    selfPlayer.IsAutoAttacking = true;
+                    this._spellArrow.FollowAutoAttack(LastHoveredCell);
+                }
             }
         }
 

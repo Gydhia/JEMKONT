@@ -116,7 +116,12 @@ namespace DownBelow.UI.Menu
         {
             // Destroy existing players
             for (int i = 0; i < this._playerList.Count; i++)
-                Destroy(this._playerList[i].gameObject);
+            {
+                if(this._playerList[i] != null)
+                {
+                    Destroy(this._playerList[i].gameObject);
+                }
+            }
 
             this._playerList.Clear();
         }
