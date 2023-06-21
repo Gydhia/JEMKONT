@@ -40,7 +40,7 @@ namespace DownBelow.UI
             }
         }
 
-        private void _closePanel(EntityEventData Data)
+        public void _closePanel(EntityEventData Data)
         {
             this.gameObject.SetActive(false);   
         }
