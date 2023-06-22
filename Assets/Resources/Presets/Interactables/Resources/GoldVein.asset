@@ -32,5 +32,5 @@ MonoBehaviour:
   InteractAnimation: {fileID: 0}
   GatherableBy: 0
   ResourceItem: {fileID: 11400000, guid: bf7cd4d4a1c92954e8a82da5efb4b9dd, type: 2}
-  MinGathering: 1
+  MinGathering: 2
   MaxGathering: 2

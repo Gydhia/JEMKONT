@@ -23,11 +23,11 @@ MonoBehaviour:
     SerializationNodes: []
   BaseHealth: 50
   BaseShield: 0
-  BaseStrength: 8
+  BaseStrength: 3
   BaseMana: 1
-  BaseSpeed: 3
+  BaseSpeed: 6
   BaseDefense: 20
-  BaseRange: 6
+  BaseRange: 9
   BuffedHealth: 0
   BuffedShield: 0
   BuffedStrength: 0

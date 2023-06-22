@@ -148,6 +148,12 @@ namespace DownBelow.UI
                         () =>
                         {
                             CardVisual.ReverseCard();
+                        }));
+                _flipSequence.Append(this.m_RectTransform.DOPunchRotation(new Vector3(0, 180, 0), 0.2f)
+                    .SetEase(Ease.OutQuad).OnComplete(
+                        () =>
+                        {
+                            CardVisual.ReverseCard();
                             this.PlayNotTargetCard();
                         }));
 

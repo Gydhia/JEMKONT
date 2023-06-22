@@ -33,7 +33,8 @@ namespace DownBelow.Spells
             {
                 Managers.CombatManager.Instance.StartCoroutine(SummonNCE(targetCell, LocalData, RefEntity));
             }
-            
+
+            EndAction();
         }
 
         public static IEnumerator<NonCharacterEntity> SummonNCE(Cell cell, SpellData_Summon summondata, CharacterEntity RefEntity)

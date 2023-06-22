@@ -600,17 +600,28 @@ namespace DownBelow.Managers
         }
         #region TURNS
 
+        private bool _turnOnGoing = false;
 
         public void StartEntityTurn()
         {
-            this._playersNetState.Clear();
+            if (PhotonNetwork.IsMasterClient)
+            {
+                this._playersNetState.Clear();
 
-            this.photonView.RPC("NotifyPlayerStartTurn", RpcTarget.All);
+                this.photonView.RPC("NotifyPlayerStartTurn", RpcTarget.All);
+            }
         }
 
         [PunRPC]
         public void NotifyPlayerStartTurn()
         {
+            if (_turnOnGoing)
+            {
+                return;
+            }
+
+            _turnOnGoing = true;
+
             CombatManager.Instance.ProcessStartTurn();
 
             CombatManager.CurrentPlayingEntity.StartTurn();
@@ -624,7 +635,7 @@ namespace DownBelow.Managers
             this._playersNetState.Add(PlayerID);
 
             // When all players have started the playing entity's turn, create the actions IF it's an enemy
-            if (this._playersNetState.Count >= GameManager.Instance.Players.Count)
+            if (this._playersNetState.Count >= GameManager.Instance.Players.Values.Count(p => p.CurrentGrid.IsCombatGrid))
             {
                 this._playersNetState.Clear();
 
@@ -640,6 +651,7 @@ namespace DownBelow.Managers
         /// </summary>
         public void PlayerAsksEndTurn()
         {
+            _turnOnGoing = false;
             this.photonView.RPC("RespondMasterEndEntityTurn", RpcTarget.MasterClient, GameManager.RealSelfPlayer.UID);
         }
 
@@ -648,8 +660,9 @@ namespace DownBelow.Managers
         {
             this._playersNetState.Add(PlayerID);
 
-            if (this._playersNetState.Count >= GameManager.Instance.Players.Count)
+            if (this._playersNetState.Count >= GameManager.Instance.Players.Values.Count(p => p.CurrentGrid.IsCombatGrid))
             {
+                this._playersNetState.Clear();
                 this.photonView.RPC("RespondPlayerEndEntityTurn", RpcTarget.All, PlayerID);
             }
         }
@@ -657,6 +670,7 @@ namespace DownBelow.Managers
         [PunRPC]
         public void RespondPlayerEndEntityTurn(string PlayerID)
         {
+            this._turnOnGoing = false;
             this._playersNetState.Clear();
 
             // Each player process it 
@@ -670,8 +684,9 @@ namespace DownBelow.Managers
         {
             this._playersNetState.Add(PlayerID);
 
-            if (this._playersNetState.Count >= GameManager.Instance.Players.Count)
+            if (this._playersNetState.Count >= GameManager.Instance.Players.Values.Count(p => p.CurrentGrid.IsCombatGrid))
             {
+                this._playersNetState.Clear();
                 this.StartEntityTurn();
             }
         }
