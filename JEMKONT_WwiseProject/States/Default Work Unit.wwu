@@ -27,15 +27,6 @@
 						<State Name="Abyss" ID="{707EA575-B326-49BD-8215-841699842371}"/>
 					</ChildrenList>
 				</StateGroup>
-				<StateGroup Name="Job" ID="{60894987-A4FF-41FB-888C-5E00BEDC1417}">
-					<ChildrenList>
-						<State Name="None" ID="{4429C8A4-087C-4CC8-BCBE-3C691FD72573}"/>
-						<State Name="Mine" ID="{53367E0D-C9E3-4E9E-8EE5-9DDB943571DC}"/>
-						<State Name="Chop" ID="{3A08E8AA-8426-4BE2-8BDD-E4C4AAAB4CCF}"/>
-						<State Name="Fish" ID="{3885B40F-600C-4CB4-A58D-D873D0798BC4}"/>
-						<State Name="Mow" ID="{CDDB33F3-8042-4223-9F6D-78F22D78E10C}"/>
-					</ChildrenList>
-				</StateGroup>
 			</ChildrenList>
 		</WorkUnit>
 	</States>

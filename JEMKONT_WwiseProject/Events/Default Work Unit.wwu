@@ -85,12 +85,12 @@
 								</Action>
 							</ChildrenList>
 						</Event>
-						<Event Name="Play_Job" ID="{28EFB894-787C-468D-B0BF-51D270A74309}">
+						<Event Name="Play_SSFX_Wood" ID="{28EFB894-787C-468D-B0BF-51D270A74309}">
 							<ChildrenList>
 								<Action Name="" ID="{E3D0632F-FEA1-4E1B-A7E5-03A8F92BD1C0}" ShortID="550163402">
 									<ReferenceList>
 										<Reference Name="Target">
-											<ObjectRef Name="Job" ID="{15CBDAC3-6F60-4CF9-8147-220E9D7E86CE}" WorkUnitID="{277D41B8-7D18-41D8-BFBF-88A00100C0C8}"/>
+											<ObjectRef Name="Chopping" ID="{4D4B4951-F8E1-45FB-A22D-DDCA0B786EFE}" WorkUnitID="{277D41B8-7D18-41D8-BFBF-88A00100C0C8}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>
@@ -113,6 +113,39 @@
 									<ReferenceList>
 										<Reference Name="Target">
 											<ObjectRef Name="portal" ID="{65DDE281-1C63-4FCA-96B2-19CD11D22218}" WorkUnitID="{277D41B8-7D18-41D8-BFBF-88A00100C0C8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Play_SSFX_Ore" ID="{9DB0B240-BABB-46E6-8F74-229ECAA08195}">
+							<ChildrenList>
+								<Action Name="" ID="{828BAF93-37EF-41D8-A28F-CD0CE10BC26B}" ShortID="392012450">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Mining" ID="{1C772272-ACBC-477A-88C9-90F185D46861}" WorkUnitID="{277D41B8-7D18-41D8-BFBF-88A00100C0C8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Play_SSFX_Herb" ID="{1A0007DE-568E-4DA5-8D89-3640789804FD}">
+							<ChildrenList>
+								<Action Name="" ID="{F73618DE-163C-4C2C-8C52-E7E3ECB45303}" ShortID="741527286">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Mowing" ID="{D0429259-918D-4882-AA92-073AB99D9FFB}" WorkUnitID="{277D41B8-7D18-41D8-BFBF-88A00100C0C8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Play_SSFX_Fish" ID="{BF1EDF77-0097-4E47-A017-A7F5DC21CC36}">
+							<ChildrenList>
+								<Action Name="" ID="{349A441D-6314-4028-9E6D-6A739C95F08F}" ShortID="981416149">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Fishing" ID="{8C806287-03DB-4636-893E-04E6D8FF2E13}" WorkUnitID="{277D41B8-7D18-41D8-BFBF-88A00100C0C8}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>

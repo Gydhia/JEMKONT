@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{69A33A15-58AE-C21D-F097-0C048585230D}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{304F2B05-57A2-3B2A-15FF-9150F52B4FBC}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -29,15 +29,6 @@
 				<GameParameter Id="4276639445" Name="RTPC_Volume_SFX"/>
 			</GameParameters>
 			<StateGroups>
-				<StateGroup Id="545665442" Name="Job">
-					<States>
-						<State Id="748895195" Name="None"/>
-						<State Id="1082004780" Name="Mow"/>
-						<State Id="2609527548" Name="Mine"/>
-						<State Id="2695658327" Name="Fish"/>
-						<State Id="4240969745" Name="Chop"/>
-					</States>
-				</StateGroup>
 				<StateGroup Id="2609808943" Name="World">
 					<States>
 						<State Id="748895195" Name="None"/>
@@ -72,7 +63,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="2711878180" Type="User" Language="SFX" Hash="{CEE11800-B610-ABA7-4257-999C5897F335}">
+		<SoundBank Id="2711878180" Type="User" Language="SFX" Hash="{29AFBDF9-8C4E-5C0E-4F0F-2041561172A9}">
 			<ShortName>SB_GLOBAL</ShortName>
 			<Path>SB_GLOBAL.bnk</Path>
 			<Media>
@@ -342,98 +333,6 @@
 				</ShareSets>
 			</Plugins>
 			<Events>
-				<Event Id="2993927107" Name="Play_Job" DurationType="OneShot" DurationMin="0.0535625" DurationMax="1.1830417">
-					<SwitchContainers>
-						<SwitchContainer>
-							<SwitchValue GroupType="State" GroupId="545665442" Id="2609527548"/>
-							<MediaRefs>
-								<MediaRef Id="340277932"/>
-								<MediaRef Id="545005341"/>
-								<MediaRef Id="768555745"/>
-								<MediaRef Id="776546887"/>
-								<MediaRef Id="1019601285"/>
-							</MediaRefs>
-							<PluginRefs>
-								<Custom>
-									<PluginRef Id="128149753"/>
-								</Custom>
-								<ShareSets>
-									<PluginRef Id="48620415"/>
-								</ShareSets>
-							</PluginRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="State" GroupId="545665442" Id="2695658327"/>
-							<MediaRefs>
-								<MediaRef Id="379634705"/>
-							</MediaRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="State" GroupId="545665442" Id="4240969745" Default="true"/>
-							<MediaRefs>
-								<MediaRef Id="84338510"/>
-								<MediaRef Id="90332455"/>
-								<MediaRef Id="178995152"/>
-								<MediaRef Id="203595723"/>
-								<MediaRef Id="388705542"/>
-								<MediaRef Id="813916266"/>
-								<MediaRef Id="846947184"/>
-							</MediaRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="State" GroupId="545665442" Id="1082004780"/>
-							<MediaRefs>
-								<MediaRef Id="498999293"/>
-								<MediaRef Id="575230282"/>
-								<MediaRef Id="881682970"/>
-							</MediaRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="State" GroupId="545665442" Id="2609527548"/>
-							<MediaRefs>
-								<MediaRef Id="340277932"/>
-								<MediaRef Id="545005341"/>
-								<MediaRef Id="768555745"/>
-								<MediaRef Id="776546887"/>
-								<MediaRef Id="1019601285"/>
-							</MediaRefs>
-							<PluginRefs>
-								<Custom>
-									<PluginRef Id="128149753"/>
-								</Custom>
-								<ShareSets>
-									<PluginRef Id="48620415"/>
-								</ShareSets>
-							</PluginRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="State" GroupId="545665442" Id="2695658327"/>
-							<MediaRefs>
-								<MediaRef Id="379634705"/>
-							</MediaRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="State" GroupId="545665442" Id="4240969745" Default="true"/>
-							<MediaRefs>
-								<MediaRef Id="84338510"/>
-								<MediaRef Id="90332455"/>
-								<MediaRef Id="178995152"/>
-								<MediaRef Id="203595723"/>
-								<MediaRef Id="388705542"/>
-								<MediaRef Id="813916266"/>
-								<MediaRef Id="846947184"/>
-							</MediaRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="State" GroupId="545665442" Id="1082004780"/>
-							<MediaRefs>
-								<MediaRef Id="498999293"/>
-								<MediaRef Id="575230282"/>
-								<MediaRef Id="881682970"/>
-							</MediaRefs>
-						</SwitchContainer>
-					</SwitchContainers>
-				</Event>
 				<Event Id="2351453751" Name="Play_SSFX__AllyTurn" DurationType="OneShot" DurationMin="0.5476417" DurationMax="0.5476417">
 					<MediaRefs>
 						<MediaRef Id="567087666"/>
@@ -542,6 +441,46 @@
 							</MediaRefs>
 						</SwitchContainer>
 					</SwitchContainers>
+				</Event>
+				<Event Id="3581818263" Name="Play_SSFX_Fish" DurationType="OneShot" DurationMin="1.1830417" DurationMax="1.1830417">
+					<MediaRefs>
+						<MediaRef Id="379634705"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="4082667236" Name="Play_SSFX_Herb" DurationType="OneShot" DurationMin="0.39285415" DurationMax="0.39285415">
+					<MediaRefs>
+						<MediaRef Id="498999293"/>
+						<MediaRef Id="575230282"/>
+						<MediaRef Id="881682970"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1628470307" Name="Play_SSFX_Ore" DurationType="OneShot" DurationMin="0.0535625" DurationMax="0.0535625">
+					<MediaRefs>
+						<MediaRef Id="340277932"/>
+						<MediaRef Id="545005341"/>
+						<MediaRef Id="768555745"/>
+						<MediaRef Id="776546887"/>
+						<MediaRef Id="1019601285"/>
+					</MediaRefs>
+					<PluginRefs>
+						<Custom>
+							<PluginRef Id="128149753"/>
+						</Custom>
+						<ShareSets>
+							<PluginRef Id="48620415"/>
+						</ShareSets>
+					</PluginRefs>
+				</Event>
+				<Event Id="2902633162" Name="Play_SSFX_Wood" DurationType="OneShot" DurationMin="0.64285415" DurationMax="0.64285415">
+					<MediaRefs>
+						<MediaRef Id="84338510"/>
+						<MediaRef Id="90332455"/>
+						<MediaRef Id="178995152"/>
+						<MediaRef Id="203595723"/>
+						<MediaRef Id="388705542"/>
+						<MediaRef Id="813916266"/>
+						<MediaRef Id="846947184"/>
+					</MediaRefs>
 				</Event>
 				<Event Id="4038830388" Name="Set_Grass" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0">
 					<ActionSetSwitch>
@@ -797,15 +736,6 @@
 				<GameParameter Id="4276639445" Name="RTPC_Volume_SFX"/>
 			</GameParameters>
 			<StateGroups>
-				<StateGroup Id="545665442" Name="Job">
-					<States>
-						<State Id="748895195" Name="None"/>
-						<State Id="1082004780" Name="Mow"/>
-						<State Id="2609527548" Name="Mine"/>
-						<State Id="2695658327" Name="Fish"/>
-						<State Id="4240969745" Name="Chop"/>
-					</States>
-				</StateGroup>
 				<StateGroup Id="2609808943" Name="World">
 					<States>
 						<State Id="748895195" Name="None"/>
@@ -841,5 +771,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{BFE4962A-BC44-8770-C0E7-53BD44BEEDCF}</FileHash>
+	<FileHash>{6A65AE7B-FA26-1539-4D43-3379B2E00DE9}</FileHash>
 </SoundBanksInfo>

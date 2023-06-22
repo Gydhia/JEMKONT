@@ -131,7 +131,10 @@ namespace DownBelow.UI
                 .OnComplete(() => { this.Result.transform.position = basePos; });
 
             this._gatherAction.NotifyTick(succeeded);
-
+            if (succeeded)
+            {
+                _gatherAction.CurrentRessource.Sound.Post(AudioHolder.Instance.gameObject);
+            }
             if (this._currInteract == this._maxInteract)
             {
                 this._onEndQTE();
@@ -140,6 +143,8 @@ namespace DownBelow.UI
             {
                 this.LoneInteract();
             }
+
+
         }
 
         private void _onEndQTE()
