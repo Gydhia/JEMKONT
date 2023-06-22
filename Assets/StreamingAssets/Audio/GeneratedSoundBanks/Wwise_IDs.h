@@ -26,6 +26,7 @@ namespace AK
         static const AkUniqueID PLAY_SSFX__ENEMYTURN = 2280958161U;
         static const AkUniqueID PLAY_SSFX__MYTURNEND = 529950874U;
         static const AkUniqueID PLAY_SSFX__MYTURNSTART = 3168485769U;
+        static const AkUniqueID PLAY_SSFX__PORTAL = 1381713026U;
         static const AkUniqueID PLAY_SSFX__WALK = 71458555U;
         static const AkUniqueID SET_GRASS = 4038830388U;
         static const AkUniqueID SET_LAYER_0 = 217388420U;
@@ -89,9 +90,9 @@ namespace AK
 
             namespace STATE
             {
+                static const AkUniqueID ABYSS = 4215188899U;
                 static const AkUniqueID NONE = 748895195U;
                 static const AkUniqueID OVERWORLD = 1562068129U;
-                static const AkUniqueID UNDERWORLD = 442576059U;
             } // namespace STATE
         } // namespace WORLD
 

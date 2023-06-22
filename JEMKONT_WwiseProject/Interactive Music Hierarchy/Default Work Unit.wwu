@@ -1691,7 +1691,7 @@
 						<Entry>
 							<Path>
 								<PathElementRef Name="Combat" ID="{9094E21E-84D6-4C7F-8238-B2C8E9813C5A}"/>
-								<PathElementRef Name="Underworld" ID="{707EA575-B326-49BD-8215-841699842371}"/>
+								<PathElementRef Name="Abyss" ID="{707EA575-B326-49BD-8215-841699842371}"/>
 							</Path>
 							<AudioNodeInfo>
 								<AudioNodeRef Name="CombatAbyss" ID="{0AE7C4DF-176C-4EE6-BCDE-E10FB02AC6E3}" WorkUnitID="{A7B6054A-C5DE-4175-A27F-8806369B3987}" Platform="Linked"/>
@@ -1709,7 +1709,7 @@
 						<Entry>
 							<Path>
 								<PathElementRef Name="Explore" ID="{59E5FECC-8882-46DC-8EFF-CE7971FBB99E}"/>
-								<PathElementRef Name="Underworld" ID="{707EA575-B326-49BD-8215-841699842371}"/>
+								<PathElementRef Name="Abyss" ID="{707EA575-B326-49BD-8215-841699842371}"/>
 							</Path>
 							<AudioNodeInfo>
 								<AudioNodeRef Name="ExploreAbyss" ID="{BB965423-BA90-4F4A-BE01-3F0B00CC4CF4}" WorkUnitID="{A7B6054A-C5DE-4175-A27F-8806369B3987}" Platform="Linked"/>

@@ -37,6 +37,7 @@ namespace DownBelow.Managers
                 AudioHolder.HasMusicStarted = true;
                 AkSoundEngine.PostEvent("SetMainMenu", AudioHolder.Instance.gameObject);
                 AkSoundEngine.PostEvent("Set_Layer_0", AudioHolder.Instance.gameObject);
+                AkSoundEngine.SetState("World", "Overworld");
             }
             
 
@@ -49,6 +50,10 @@ namespace DownBelow.Managers
 
                 CombatManager.Instance.OnCombatStarted += SetCombatMusic;
                 CombatManager.Instance.OnCombatEnded += SetExploreMusic;
+
+                
+
+                
             }
         }
 
@@ -58,10 +63,21 @@ namespace DownBelow.Managers
         }
         public void SetExploreMusic(EntityEventData a)
         {
-            if(a.Entity == GameManager.RealSelfPlayer && !a.Entity.CurrentGrid.IsCombatGrid)
+            if (a.Entity == GameManager.RealSelfPlayer && a.Entity.CurrentGrid.UName == GridManager.Instance.MainGrid)
+            {
+                // Farmland
+                AkSoundEngine.SetState("World", "Overworld");
+            }
+            else if (a.Entity == GameManager.RealSelfPlayer && a.Entity.CurrentGrid.UName != GridManager.Instance.MainGrid)
+            {
+                // Abyss
+                AkSoundEngine.SetState("World", "Abyss");
+            }
+            if (a.Entity == GameManager.RealSelfPlayer && !a.Entity.CurrentGrid.IsCombatGrid)
             {
                 AkSoundEngine.PostEvent("SetExplore", AudioHolder.Instance.gameObject);
             }
+            
         }
         public void SetExploreMusic(GridEventData a)
         {
@@ -71,7 +87,14 @@ namespace DownBelow.Managers
         {
             AkSoundEngine.PostEvent("SetCombat", AudioHolder.Instance.gameObject); 
         }
-
+        public void SetOverworld(GridEventData a)
+        {
+            AkSoundEngine.SetState("World", "Overworld");
+        }
+        public void SetAbyss(GridEventData a)
+        {
+            AkSoundEngine.SetState("World", "Abyss");
+        }
         protected void Update()
         {
             if (!GameManager.GameStarted)

@@ -9,6 +9,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	529950874	Play_SSFX__MyTurnEnd			\Default Work Unit\CombatState\Play_SSFX__MyTurnEnd	
 	611645331	Play_SSFX__CombatLose			\Default Work Unit\CombatState\Play_SSFX__CombatLose	
 	803863510	Play_SSFX__DeckShuffle			\Default Work Unit\SSFX\Play_SSFX__DeckShuffle	
+	1381713026	Play_SSFX__Portal			\Default Work Unit\SSFX\Play_SSFX__Portal	
 	1592321915	SetCombat			\Default Work Unit\GameState\SetCombat	
 	1884104528	Play_SSFX__CardSlap			\Default Work Unit\SSFX\Play_SSFX__CardSlap	
 	1917263390	StopMusic			\Default Work Unit\Music\StopMusic	
@@ -44,9 +45,9 @@ State	ID	Name	State Group			Notes
 	2609527548	Mine	Job			
 	2695658327	Fish	Job			
 	4240969745	Chop	Job			
-	442576059	Underworld	World			
 	748895195	None	World			
 	1562068129	Overworld	World			
+	4215188899	Abyss	World			
 	602912168	Layers1	Layers			
 	602912169	Layers0	Layers			
 	602912170	Layers3	Layers			
@@ -103,6 +104,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	143424456	arrowHit	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\arrowHit_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\COMBAT\Abilities\arrowHit		91156
 	178995152	wood2	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\wood2_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\EXPLORE\JOBS\Job\Chopping\wood2		123572
 	193860459	sand4	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\sand4_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\EXPLORE\Walking\Sand\sand4		103000
+	199566494	portal	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\portal_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\EXPLORE\portal		1319288
 	203595723	wood4	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\wood4_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\EXPLORE\JOBS\Job\Chopping\wood4		123572
 	216173308	cardPick0	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\cardPick0_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\COMBAT\Card\CardPick\cardPick0		79816
 	231247951	allyHit	F:\Games\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\allyHit_560BBA82.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\COMBAT\allyHit		44904

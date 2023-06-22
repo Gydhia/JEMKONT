@@ -40,9 +40,9 @@
 				</StateGroup>
 				<StateGroup Id="2609808943" Name="World">
 					<States>
-						<State Id="442576059" Name="Underworld"/>
 						<State Id="748895195" Name="None"/>
 						<State Id="1562068129" Name="Overworld"/>
+						<State Id="4215188899" Name="Abyss"/>
 					</States>
 				</StateGroup>
 				<StateGroup Id="3298531235" Name="Layers">
@@ -72,7 +72,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="2711878180" Type="User" Language="SFX" Hash="{F7B49214-12C8-AA2C-5DFB-5220C08AF088}">
+		<SoundBank Id="2711878180" Type="User" Language="SFX" Hash="{CEE11800-B610-ABA7-4257-999C5897F335}">
 			<ShortName>SB_GLOBAL</ShortName>
 			<Path>SB_GLOBAL.bnk</Path>
 			<Media>
@@ -131,6 +131,10 @@
 				<File Id="193860459" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sand4.wav</ShortName>
 					<CachePath>SFX/sand4_10C4C929.wem</CachePath>
+				</File>
+				<File Id="199566494" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>portal.wav</ShortName>
+					<CachePath>SFX/portal_10C4C929.wem</CachePath>
 				</File>
 				<File Id="203595723" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>wood4.wav</ShortName>
@@ -494,6 +498,11 @@
 						<MediaRef Id="71803895"/>
 					</MediaRefs>
 				</Event>
+				<Event Id="1381713026" Name="Play_SSFX__Portal" DurationType="OneShot" DurationMin="6.8705416" DurationMax="6.8705416">
+					<MediaRefs>
+						<MediaRef Id="199566494"/>
+					</MediaRefs>
+				</Event>
 				<Event Id="71458555" Name="Play_SSFX__Walk" DurationType="OneShot" DurationMin="0.5357083" DurationMax="0.7410625">
 					<SwitchContainers>
 						<SwitchContainer>
@@ -600,7 +609,7 @@
 							<SwitchValue GroupType="State" GroupId="4091656514" Id="2764240573"/>
 							<Children>
 								<SwitchContainer>
-									<SwitchValue GroupType="State" GroupId="2609808943" Id="442576059"/>
+									<SwitchValue GroupType="State" GroupId="2609808943" Id="4215188899"/>
 									<MediaRefs>
 										<MediaRef Id="488747114"/>
 										<MediaRef Id="708396059"/>
@@ -626,7 +635,7 @@
 							<SwitchValue GroupType="State" GroupId="4091656514" Id="579523862"/>
 							<Children>
 								<SwitchContainer>
-									<SwitchValue GroupType="State" GroupId="2609808943" Id="442576059"/>
+									<SwitchValue GroupType="State" GroupId="2609808943" Id="4215188899"/>
 									<MediaRefs>
 										<MediaRef Id="421529683"/>
 									</MediaRefs>
@@ -663,7 +672,7 @@
 							<SwitchValue GroupType="State" GroupId="4091656514" Id="2764240573"/>
 							<Children>
 								<SwitchContainer>
-									<SwitchValue GroupType="State" GroupId="2609808943" Id="442576059"/>
+									<SwitchValue GroupType="State" GroupId="2609808943" Id="4215188899"/>
 									<MediaRefs>
 										<MediaRef Id="488747114"/>
 										<MediaRef Id="708396059"/>
@@ -689,7 +698,7 @@
 							<SwitchValue GroupType="State" GroupId="4091656514" Id="579523862"/>
 							<Children>
 								<SwitchContainer>
-									<SwitchValue GroupType="State" GroupId="2609808943" Id="442576059"/>
+									<SwitchValue GroupType="State" GroupId="2609808943" Id="4215188899"/>
 									<MediaRefs>
 										<MediaRef Id="421529683"/>
 									</MediaRefs>
@@ -730,7 +739,7 @@
 							<SwitchValue GroupType="State" GroupId="4091656514" Id="2764240573"/>
 							<Children>
 								<SwitchContainer>
-									<SwitchValue GroupType="State" GroupId="2609808943" Id="442576059"/>
+									<SwitchValue GroupType="State" GroupId="2609808943" Id="4215188899"/>
 									<MediaRefs>
 										<MediaRef Id="488747114"/>
 										<MediaRef Id="708396059"/>
@@ -756,7 +765,7 @@
 							<SwitchValue GroupType="State" GroupId="4091656514" Id="579523862"/>
 							<Children>
 								<SwitchContainer>
-									<SwitchValue GroupType="State" GroupId="2609808943" Id="442576059"/>
+									<SwitchValue GroupType="State" GroupId="2609808943" Id="4215188899"/>
 									<MediaRefs>
 										<MediaRef Id="421529683"/>
 									</MediaRefs>
@@ -799,9 +808,9 @@
 				</StateGroup>
 				<StateGroup Id="2609808943" Name="World">
 					<States>
-						<State Id="442576059" Name="Underworld"/>
 						<State Id="748895195" Name="None"/>
 						<State Id="1562068129" Name="Overworld"/>
+						<State Id="4215188899" Name="Abyss"/>
 					</States>
 				</StateGroup>
 				<StateGroup Id="3298531235" Name="Layers">
@@ -832,5 +841,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{8B6617D7-5FAF-84BD-6494-67E3086CF260}</FileHash>
+	<FileHash>{BFE4962A-BC44-8770-C0E7-53BD44BEEDCF}</FileHash>
 </SoundBanksInfo>
