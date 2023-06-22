@@ -317,7 +317,7 @@ MonoBehaviour:
       Data: 
     - Name: CasterID
       Entry: 1
-      Data: 65f6d835-95f5-49ad-81ca-9dec84b77727Herbalist
+      Data: e5f5d225-1629-4410-8604-13a42e6e24be
     - Name: 
       Entry: 8
       Data: 
@@ -340,10 +340,7 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 10
-      Data: 1
+      Data: 0
     - Name: 
       Entry: 13
       Data: 
@@ -726,7 +723,7 @@ MonoBehaviour:
       Data: 0
     - Name: StatAmount
       Entry: 3
-      Data: 3
+      Data: 9
     - Name: GivesAlteration
       Entry: 5
       Data: false
@@ -807,7 +804,7 @@ MonoBehaviour:
       Data: 3
     - Name: $v
       Entry: 3
-      Data: 23
+      Data: 33
     - Name: 
       Entry: 8
       Data: 
@@ -1116,7 +1113,7 @@ MonoBehaviour:
       Data: 0
     - Name: StatAmount
       Entry: 3
-      Data: 3
+      Data: 8
     - Name: GivesAlteration
       Entry: 5
       Data: false
@@ -1141,10 +1138,7 @@ MonoBehaviour:
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 10
-      Data: 3
+      Data: 0
     - Name: 
       Entry: 13
       Data: 
@@ -1188,19 +1182,7 @@ MonoBehaviour:
       Data: 14
     - Name: 
       Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 10
-      Data: 3
-    - Name: $v
-      Entry: 3
-      Data: 20
-    - Name: 
-      Entry: 8
-      Data: 
+      Data: 0
     - Name: 
       Entry: 13
       Data: 

@@ -16,7 +16,15 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
+    - {fileID: 0}
+    - {fileID: 0}
     - {fileID: 11400000, guid: 9d0f6268ebf7985479145d8a3660f730, type: 2}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -54,11 +62,11 @@ MonoBehaviour:
       Entry: 6
       Data: 
     - Name: RefEntity
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 0
     - Name: TargetCell
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 1
     - Name: ContextActionId
       Entry: 2
       Data: 00000000000000000000000000000000
@@ -304,10 +312,10 @@ MonoBehaviour:
       Data: 
     - Name: CellSFX
       Entry: 10
-      Data: 0
+      Data: 2
     - Name: HealingPerCard
       Entry: 3
-      Data: 1
+      Data: 2
     - Name: 
       Entry: 8
       Data: 
@@ -337,7 +345,7 @@ MonoBehaviour:
       Data: 
     - Name: CasterID
       Entry: 1
-      Data: 3ba27d21-b8c7-4119-9f90-04f447ec9f90Herbalist
+      Data: e5f5d225-1629-4410-8604-13a42e6e24be
     - Name: 
       Entry: 8
       Data: 
@@ -350,7 +358,19 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 0
+      Data: 4
+    - Name: 
+      Entry: 10
+      Data: 1
+    - Name: 
+      Entry: 10
+      Data: 3
+    - Name: 
+      Entry: 10
+      Data: 4
+    - Name: 
+      Entry: 10
+      Data: 5
     - Name: 
       Entry: 13
       Data: 
@@ -363,7 +383,19 @@ MonoBehaviour:
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
+      Data: 4
+    - Name: 
+      Entry: 10
       Data: 0
+    - Name: 
+      Entry: 10
+      Data: 6
+    - Name: 
+      Entry: 10
+      Data: 7
+    - Name: 
+      Entry: 10
+      Data: 8
     - Name: 
       Entry: 13
       Data: 
@@ -393,8 +425,8 @@ MonoBehaviour:
       Entry: 9
       Data: 1
     - Name: Caster
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 0
     - Name: SetUp
       Entry: 5
       Data: true
@@ -411,7 +443,43 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 0
+      Data: 3
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 10
+      Data: 6
+    - Name: $v
+      Entry: 3
+      Data: 45
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 10
+      Data: 7
+    - Name: $v
+      Entry: 3
+      Data: 61
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 10
+      Data: 8
+    - Name: $v
+      Entry: 3
+      Data: 44
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -439,7 +507,7 @@ MonoBehaviour:
       Data: 
     - Name: SelfHealingReceived
       Entry: 3
-      Data: -4
+      Data: 5
     - Name: StatModified
       Entry: 7
       Data: 15|System.Collections.Generic.Dictionary`2[[DownBelow.Entity.CharacterEntity,
@@ -536,8 +604,7 @@ MonoBehaviour:
   Title: Bile in a bottle
   Cost: 2
   CardType: 2
-  Description: All allies draw 1 card. They are then healed by X for each card in
-    their hand.
+  Description: All allies are healed by X*2 for each card in their hand.
   IllustrationImage: {fileID: 21300000, guid: 369aa4cce7bfe774c91f7caf686efc4a, type: 3}
   Class: 1
   CurrentSpellTargetting: 0

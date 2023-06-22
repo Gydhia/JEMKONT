@@ -69,75 +69,92 @@ namespace DownBelow.Spells
 
         public override async void ExecuteAction()
         {
-            Debug.LogWarning($"Executing spell {RefCard.Title}");
-            int cost = RefCard.Cost;
-            if (this.ParentSpell == null)
+            try
             {
-                this.RefEntity.ApplyStat(EntityStatistics.Mana, -cost);
-                // Only play animation at first spell
-                this.RefEntity.Animator.SetTrigger("Cast");
-            }
+                Debug.LogWarning($"Executing spell {RefCard.Title}");
+                int cost = RefCard.Cost;
+                if (this.ParentSpell == null)
+                {
+                    this.RefEntity.ApplyStat(EntityStatistics.Mana, -cost);
+                    // Only play animation at first spell
+                    this.RefEntity.Animator.SetTrigger("Cast");
+                }
 
-            if (!this.ValidateConditions())
-            {
-                EndAction();
-                return;
-            }
-            else
-            {
-                this.TargetEntities = this.GetTargets(this.TargetCell);
+                if (!this.ValidateConditions())
+                {
+                    EndAction();
+                    return;
+                }
+                else
+                {
+                    this.TargetEntities = this.GetTargets(this.TargetCell);
 
-                this.Result = new SpellResult();
-                this.Result.Setup(this.TargetEntities, this);
-                await DoSpellBehavior();
-                EndAction();
+                    this.Result = new SpellResult();
+                    this.Result.Setup(this.TargetEntities, this);
+                    await DoSpellBehavior();
+                    EndAction();
+                }
             }
+            catch (Exception ex)
+            {
+                Debug.LogError("Couldn't execute spell. Ended it here. \n" + ex.Message);
+                this.EndAction();
+            }   
         }
 
         public virtual async Task DoSpellBehavior()
         {
-            if (Data.ProjectileSFX != null)
+            try
             {
-                if (Data.RequiresTargetting)
+                if (Data.ProjectileSFX != null)
                 {
-                    await SFXManager.Instance.DOSFX(new RuntimeSFXData(Data.ProjectileSFX, RefEntity, TargetCell, this));
-                }
-                else if (Data.SpellResultTargeting)
-                {
-                    await SFXManager.Instance.DOSFX(new RuntimeSFXData(Data.ProjectileSFX, RefEntity, GetSpellFromIndex(Data.SpellResultIndex).TargetCell, this));
-                }
-                else
-                {
-                    for (int i = 0; i < TargetEntities.Count; i++)
+                    if (Data.RequiresTargetting)
                     {
-                        CharacterEntity item = TargetEntities[i];
-                        if (i == TargetEntities.Count - 1)
+                        await SFXManager.Instance.DOSFX(new RuntimeSFXData(Data.ProjectileSFX, RefEntity, TargetCell, this));
+                    }
+                    else if (Data.SpellResultTargeting)
+                    {
+                        await SFXManager.Instance.DOSFX(new RuntimeSFXData(Data.ProjectileSFX, RefEntity, GetSpellFromIndex(Data.SpellResultIndex).TargetCell, this));
+                    }
+                    else
+                    {
+                        for (int i = 0; i < TargetEntities.Count; i++)
                         {
-                            await SFXManager.Instance.DOSFX(new RuntimeSFXData(Data.ProjectileSFX, RefEntity, item.EntityCell, this));
+                            CharacterEntity item = TargetEntities[i];
+                            if (i == TargetEntities.Count - 1)
+                            {
+                                await SFXManager.Instance.DOSFX(new RuntimeSFXData(Data.ProjectileSFX, RefEntity, item.EntityCell, this));
+                            }
+                            else
+                            {
+                                SFXManager.Instance.DOSFX(new RuntimeSFXData(Data.ProjectileSFX, RefEntity, item.EntityCell, this));
+                            }
                         }
-                        else
+                    }
+                }
+                if (Data.CellSFX != null && TargetedCells != null && TargetedCells.Count != 0)
+                {
+
+                    for (int i = 0; i < TargetedCells.Count; i++)
+                    {
+                        var targetedCell = this.TargetedCells[i];
+                        if (TargettingCondition == null || TargettingCondition.Validated(targetedCell))
                         {
-                            SFXManager.Instance.DOSFX(new RuntimeSFXData(Data.ProjectileSFX, RefEntity, item.EntityCell, this));
+                            if (i != TargetedCells.Count)
+                                //Not awaiting since we want to do it all. Suggestion could be to wait 0.05s to have some kind of wave effect.
+                                SFXManager.Instance.DOSFX(new(Data.CellSFX, RefEntity, targetedCell, this));
+                            else
+                                await SFXManager.Instance.DOSFX(new(Data.CellSFX, RefEntity, targetedCell, this));
                         }
+
                     }
                 }
             }
-            if (Data.CellSFX != null && TargetedCells != null && TargetedCells.Count != 0)
+            catch (Exception ex)
             {
-
-                for (int i = 0; i < TargetedCells.Count; i++)
-                {
-                    var targetedCell = this.TargetedCells[i];
-                    if (TargettingCondition == null || TargettingCondition.Validated(targetedCell))
-                    {
-                        if (i != TargetedCells.Count)
-                            //Not awaiting since we want to do it all. Suggestion could be to wait 0.05s to have some kind of wave effect.
-                            SFXManager.Instance.DOSFX(new(Data.CellSFX, RefEntity, targetedCell, this));
-                        else
-                            await SFXManager.Instance.DOSFX(new(Data.CellSFX, RefEntity, targetedCell, this));
-                    }
-
-                }
+                Debug.LogError("Doing spell behaviour provoked and error. Safe end\n" + ex.Message);
+                this.EndAction();
+                return;
             }
         }
 
@@ -159,11 +176,20 @@ namespace DownBelow.Spells
             }
             else if (this.Data.RequiresTargetting)
             {
-                TargetedCells = GridUtility.TransposeShapeToCells(ref Data.RotatedShapeMatrix, cellTarget, Data.RotatedShapePosition);
-                NCEHits = TargetedCells
-                    .FindAll(cell => cell.AttachedNCE != null)
-                    .Select(cell => cell.AttachedNCE)
-                    .ToList();
+                try
+                {
+                    TargetedCells = GridUtility.TransposeShapeToCells(ref Data.RotatedShapeMatrix, cellTarget, Data.RotatedShapePosition);
+                    NCEHits = TargetedCells
+                        .FindAll(cell => cell.AttachedNCE != null)
+                        .Select(cell => cell.AttachedNCE)
+                        .ToList();
+                }
+                catch(Exception ex)
+                {
+                    Debug.LogError("SPELL " + this.SpellHeader.RefCard + " COULDNT WORK. Stopped it here\n" + ex.Message);
+                    this.EndAction();
+                    return null;
+                }
             }
             else
             {
