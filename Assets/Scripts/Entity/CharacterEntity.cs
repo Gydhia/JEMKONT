@@ -215,7 +215,6 @@ namespace DownBelow.Entity
         public int MaxHealth
         {
             get => RefStats.Health;
-            set => RefStats.Health = value;
         }
 
         public Dictionary<EntityStatistics, int> Statistics;
@@ -360,7 +359,6 @@ namespace DownBelow.Entity
             this.RefStats = stats;
             this.Statistics = new Dictionary<EntityStatistics, int>
             {
-                { EntityStatistics.MaxMana, stats.MaxMana },
                 { EntityStatistics.Health, stats.Health },
                 { EntityStatistics.Strength, stats.Strength },
                 { EntityStatistics.Speed, stats.Speed },
@@ -392,20 +390,6 @@ namespace DownBelow.Entity
                 case EntityStatistics.Defense: this.Statistics[EntityStatistics.Defense] = this.RefStats.Defense; break;
                 case EntityStatistics.Range: this.Statistics[EntityStatistics.Range] = this.RefStats.Range; break;
             }
-
-            if (this is PlayerBehavior player)
-            {
-                if (player.ActiveTool != null)
-                {
-                    // May god forgive me 
-                    var realStat = stat == EntityStatistics.Mana ?
-                        EntityStatistics.MaxMana : stat;
-                    if (player.ActiveTool.CurrentEnchantBuffs.ContainsKey(realStat))
-                    {
-                        this.Statistics[stat] += player.ActiveTool.CurrentEnchantBuffs[realStat];
-                    }
-                }
-            }
         }
 
         /// <summary>
@@ -422,7 +406,15 @@ namespace DownBelow.Entity
             switch (stat)
             {
                 case EntityStatistics.Health:
-                    this._applyHealth(value, triggerEvents); break;
+                    if (value > 0)
+                    {
+                        // Check overheal
+                        if (this.Health + value > this.RefStats.Health)
+                        {
+                            value = this.RefStats.Health - Statistics[EntityStatistics.Health];
+                        }
+                    }
+                        this._applyHealth(value, triggerEvents); break;
                 case EntityStatistics.Mana:
                     this._applyMana(value); break;
                 case EntityStatistics.Speed:

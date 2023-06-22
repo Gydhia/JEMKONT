@@ -197,10 +197,16 @@ MonoBehaviour:
       Data: 5|System.Boolean[,], mscorlib
     - Name: 
       Entry: 12
-      Data: 1
+      Data: 3
     - Name: ranks
       Entry: 1
-      Data: 1|1
+      Data: 3|1
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
     - Name: 
       Entry: 5
       Data: false
@@ -215,7 +221,7 @@ MonoBehaviour:
       Data: UnityEngine.Vector2, UnityEngine.CoreModule
     - Name: 
       Entry: 4
-      Data: 0
+      Data: 1
     - Name: 
       Entry: 4
       Data: 0
@@ -227,7 +233,7 @@ MonoBehaviour:
       Data: false
     - Name: TargetType
       Entry: 3
-      Data: 0
+      Data: 4
     - Name: ProjectileSFX
       Entry: 10
       Data: 0
@@ -272,7 +278,7 @@ MonoBehaviour:
       Data: 
     - Name: CasterID
       Entry: 1
-      Data: c2fc68fc-51b5-469a-b08c-9950107268f0Herbalist
+      Data: ac602b64-e453-419b-9f17-51ffafe68deeHerbalist
     - Name: 
       Entry: 8
       Data: 

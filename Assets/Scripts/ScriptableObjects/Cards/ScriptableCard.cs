@@ -45,6 +45,7 @@ namespace DownBelow.Mechanics
         private void OnValidate()
         {
             Title = name;
+            _updateUID();
         }
 
         public bool IsTrackable() => Spells.Any(x=>x.Data.RequiresTargetting); //this.Spells.Length > 0 && this.Spells[0].ApplyToCell;

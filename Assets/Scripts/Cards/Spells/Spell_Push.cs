@@ -43,7 +43,7 @@ namespace DownBelow.Spells
     public class Spell_Push : Spell<SpellData_Push>
     {
         public Spell_Push(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, TargettingCondition targCond, CastingCondition castCond)
-            : base(CopyData, RefEntity, TargetCell, ParentSpell, targCond,castCond)
+            : base(CopyData, RefEntity, TargetCell, ParentSpell, targCond, castCond)
         {
         }
 
@@ -115,23 +115,19 @@ namespace DownBelow.Spells
                     Cell newCell = TargetCell.RefGrid.Cells[newY, newX];
 
                     // Means that we're pushing the entity to a free cell, it won't take any damage
-                    if (newCell.Datas.state == CellState.Walkable)
+                    if (newCell.Datas.state.HasFlag(CellState.NonWalkable))
                     {
-                        // Temporary for tests
-                        entity.EntityCell.EntityIn = null;
-                        entity.EntityCell.Datas.state = CellState.Walkable;
-                        entity.EntityCell = newCell;
-                        newCell.EntityIn = entity;
-                        newCell.Datas.state = CellState.EntityIn;
+                        if (!blockedOnce)
+                        {
+                            entity.ApplyStat(EntityStatistics.Health, (int)(-(LocalData.PushDamages * (LocalData.PushAmount * LocalData.PushDamagesMultiplier))));
+                            blockedOnce = true;
 
-                        entity.transform.position = newCell.transform.position;
-
-                        yield return new WaitForSeconds(LocalData.PushDelay);
+                            yield return new WaitForSeconds(LocalData.PushDelay);
+                        }
                     }
-                    else if(!blockedOnce)
+                    else 
                     {
-                        entity.ApplyStat(EntityStatistics.Health, (int)(-(LocalData.PushDamages * (LocalData.PushAmount * LocalData.PushDamagesMultiplier))));
-                        blockedOnce = true;
+                        entity.Teleport(newCell);
 
                         yield return new WaitForSeconds(LocalData.PushDelay);
                     }

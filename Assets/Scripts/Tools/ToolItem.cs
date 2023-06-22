@@ -95,7 +95,8 @@ public class ToolItem : ItemPreset
     {
         this.CurrentLevel++;
 
-        var enchantPreset = this.ToolEnchants[CurrentLevel];
+        // -1 to not be out of range since the level isn't accuracyly linked
+        var enchantPreset = this.ToolEnchants[CurrentLevel - 1];
 
         if (!fromInit)
         {
@@ -109,10 +110,12 @@ public class ToolItem : ItemPreset
             else
                 this.CurrentEnchantBuffs[stat.Key] = this.GetStatsSum(stat.Key, this.CurrentLevel);
         }
+
+        this.ActualPlayer.RefStats.UpdateBuffed(this);
     }
 
 
-    public void Reset()
+    public void ResetStatus()
     {
         this.CurrentLevel = 0;
         this.ActualPlayer = null;

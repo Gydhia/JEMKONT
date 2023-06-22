@@ -26,13 +26,11 @@ MonoBehaviour:
       Data: 6f6f9c9152a8e865c6b0b6deacfc6d87
   UName: Gold Vein
   AffectingState: 8
+  OverrideSave: 0
   ObjectPrefab: {fileID: 8025783147948518094, guid: 738118ed5a071db4d95b7ce47e639a4e, type: 3}
   OutlineColor: {r: 0.21725611, g: 0.5471698, b: 0.1264685, a: 1}
   InteractAnimation: {fileID: 0}
   GatherableBy: 0
   ResourceItem: {fileID: 11400000, guid: bf7cd4d4a1c92954e8a82da5efb4b9dd, type: 2}
-  DroppedObject: {fileID: 0}
-  OnceGatheredObject: {fileID: 2664790825941896147, guid: 58338db5afb0ea146a18b2585cddd0bd, type: 3}
-  MinGathering: 8
-  MaxGathering: 12
-  TimeToGather: 4
+  MinGathering: 1
+  MaxGathering: 2

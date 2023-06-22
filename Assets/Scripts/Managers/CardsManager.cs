@@ -42,7 +42,7 @@ namespace DownBelow.Managers
             // To reinitialize scriptable objects
             foreach (var tool in this.AvailableTools)
             {
-                tool.Reset();
+                tool.ResetStatus();
             }
 
             CombatManager.Instance.OnCombatStarted += _setupForCombat;

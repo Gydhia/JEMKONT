@@ -21,6 +21,9 @@ namespace DownBelow.Managers
         public UICraftingSection CraftingSection;
         public UIEnchantSection EnchantSection;
         public UIWorkshopSection WorkshopSection;
+        public UIDialogSection DialogSection;
+
+        public DeckbuildingSystem DeckbuildingSystem;
 
         public EntityTooltipUI EntityTooltipUI;
 
@@ -42,6 +45,8 @@ namespace DownBelow.Managers
             this.CraftingSection.Init();
             this.EnchantSection.Init();
             this.WorkshopSection.Init();
+            this.DialogSection.Init();
+            this.DeckbuildingSystem.Init();
 
             this.TurnSection.gameObject.SetActive(false);
             this.PlayerInfos.gameObject.SetActive(false);

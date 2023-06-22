@@ -78,7 +78,10 @@ namespace DownBelow.Managers
         public string SaveName;
         public PlayerBehavior PlayerPrefab;
 
-        public static PlayerBehavior MasterPlayer => Instance.Players[PhotonNetwork.MasterClient.UserId];
+        public static PlayerBehavior MasterPlayer => PhotonNetwork.MasterClient.UserId != null ?
+            Instance.Players[PhotonNetwork.MasterClient.UserId] :
+            Instance.Players.First().Value;
+
 
         public Dictionary<string, PlayerBehavior> Players;
         /// <summary>
@@ -201,6 +204,19 @@ namespace DownBelow.Managers
                     SettingsManager.Instance.OwnedCards.Add(SettingsManager.Instance.ScriptableCards[datas.owned_cards[i]]);
                 }
             }
+            else
+            {
+                foreach (var tool in CardsManager.Instance.AvailableTools)
+                {
+                    foreach (var card in tool.DeckPreset.Deck.Cards)
+                    {
+                        if (!SettingsManager.Instance.OwnedCards.Contains(card))
+                        {
+                            SettingsManager.Instance.OwnedCards.Add(card);
+                        }
+                    } 
+                }
+            }
 
             CurrentAvailableResources = datas.current_ressources;
             
@@ -250,8 +266,11 @@ namespace DownBelow.Managers
                 {
                     PlayerBehavior newPlayer = Instantiate(this.PlayerPrefab, Vector3.zero, Quaternion.identity, this.transform);
 
+                    string playerID = player.UserId != null ? player.UserId : "offlinefucker";
+
                     newPlayer.EntityName = player.NickName;
-                    newPlayer.UID = player.UserId;
+                    // In offline mode without network, no UserID generated
+                    newPlayer.UID = playerID;
                     newPlayer.Init(GridManager.Instance.MainWorldGrid.Cells[spawnLocations.ElementAt(counter).latitude, spawnLocations.ElementAt(counter).longitude], GridManager.Instance.MainWorldGrid);
                                       
                     if (player.UserId == PhotonNetwork.LocalPlayer.UserId)
@@ -260,7 +279,7 @@ namespace DownBelow.Managers
                         CameraManager.Instance.AttachPlayerToCamera(SelfPlayer);
                     }
 
-                    this.Players.Add(player.UserId, newPlayer);
+                    this.Players.Add(playerID, newPlayer);
 
                     IsUsingNormalBuffer.Add(newPlayer, false);
 
@@ -335,8 +354,6 @@ namespace DownBelow.Managers
 
         #endregion
         #region ENTITY_ACTIONS
-
-
 
         private IEnumerator bufferWithDelay()
         {
@@ -541,32 +558,44 @@ namespace DownBelow.Managers
             return gameData;
         }
 
-        public static GameData.GameDataContainer MakeBaseGame(string saveName)
+        public static void GoToTutorial()
+        {
+            var gamedatacontainer = MakeBaseGame("DownBelowTutorial", true);
+
+            GameData.Game.RefGameDataContainer = gamedatacontainer;
+
+            NetworkManager.Instance.ClickOnStart();
+        }
+
+        public static GameData.GameDataContainer MakeBaseGame(string saveName, bool tutorial = false)
         {
             var gamedata = new GameData.GameData()
             {
                 game_version = GameData.GameVersion.Current.ToString(),
                 save_name = saveName,
                 save_time = DateTime.Now,
-                grids_data = Instance.CreateBaseGridsDatas()
+                grids_data = Instance.CreateBaseGridsDatas(tutorial)
             };
 
             return gamedata.Save(Instance._getFileToSave(saveName));
         }
 
-        public GridData[] CreateBaseGridsDatas()
+        public GridData[] CreateBaseGridsDatas(bool selectTutorials)
         {
             TextAsset[] jsons = Resources.LoadAll<TextAsset>("Saves/Grids/");
 
-            GridData[] grids = new GridData[jsons.Length];
+            List<GridData> grids = new List<GridData>();
 
             for( int i = 0; i < jsons.Length; i++)
             {
                 GridData loadedData = JsonConvert.DeserializeObject<GridData>(jsons[i].text);
-                grids[i] = loadedData;
+                if (loadedData.IsForTutorial == selectTutorials)
+                {
+                    grids.Add(loadedData);
+                }
             }
 
-            return grids;
+            return grids.ToArray();
         }
 
         #endregion
@@ -578,6 +607,7 @@ namespace DownBelow.Managers
                 CombatActionsBuffer[i].CancelAction();
                 i--;
             }
+            IsUsingCombatBuffer = false;
         }
 
         private void OnDestroy()

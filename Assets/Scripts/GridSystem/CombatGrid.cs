@@ -1,3 +1,4 @@
+using DownBelow.Entity;
 using DownBelow.Managers;
 using System.Collections;
 using System.Collections.Generic;
@@ -38,7 +39,7 @@ namespace DownBelow.GridSystem
                 }
             }
 
-            if(data.Entrances != null)
+            if(data.Entrances != null && (this.EntranceCells == null || this.EntranceCells.Count == 0))
             {
                 foreach (var entrance in data.Entrances)
                 {
@@ -54,6 +55,33 @@ namespace DownBelow.GridSystem
             {
                 Debug.LogError("A Combat Grid has no Entrance !");
             }
+        }
+
+        public void ResetGrid()
+        {
+            for (int i = 0; i < this.Cells.GetLength(0); i++)
+            {
+                for (int j = 0; j < this.Cells.GetLength(1); j++)
+                {
+                    Destroy(this.Cells[i, j].gameObject);
+                }
+            }
+
+            for (int i = 0; i < this.GridEntities.Count; i++)
+            {
+                if (!(this.GridEntities[i] is PlayerBehavior))
+                {
+                    Destroy(this.GridEntities[i].gameObject);
+                    this.GridEntities.RemoveAt(i);
+                    i--;
+                }
+            }
+            this.Cells = null;
+
+            GameManager.Instance.OnEnteredGrid -= _entityEnteredGrid;
+            GameManager.Instance.OnExitingGrid -= _entityExitingGrid;
+
+            this.Init(this.SelfData, ParentGrid);
         }
     }
 }

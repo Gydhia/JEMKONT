@@ -26,10 +26,11 @@ MonoBehaviour:
       Data: 29ac0571f32d4b9174d73eb3dad58a21
   UName: FishPond
   AffectingState: 8
+  OverrideSave: 0
   ObjectPrefab: {fileID: 8025783147948518094, guid: e76b887acf0102c49bb1607a62c036d9, type: 3}
   OutlineColor: {r: 0.21725611, g: 0.5471698, b: 0.1264685, a: 1}
   InteractAnimation: {fileID: 0}
   GatherableBy: 3
   ResourceItem: {fileID: 11400000, guid: db90c336454dd6d44be1bfcde89c090b, type: 2}
   MinGathering: 1
-  MaxGathering: 4
+  MaxGathering: 2

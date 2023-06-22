@@ -214,7 +214,10 @@ namespace DownBelow.UI.Inventory
 
         private void OnDestroy()
         {
-            this.SelfItem.OnItemChanged -= RefreshItem;
+            if(this.SelfStorage != null && this.SelfStorage.Storage != null && this.SelfStorage.Storage.StorageItems.Length > 0)
+            {
+                this.SelfItem.OnItemChanged -= RefreshItem;
+            }
         }
     }
 }

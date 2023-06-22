@@ -10,8 +10,6 @@ using DownBelow.Events;
 using System;
 using Newtonsoft.Json;
 using DownBelow.Loading;
-using EODE.Wonderland;
-using static UnityEditor.Progress;
 
 namespace DownBelow.Managers
 {
@@ -206,6 +204,13 @@ namespace DownBelow.Managers
         public override void OnDisconnected(DisconnectCause cause)
         {
             Debug.Log("Disconnected");
+                
+            // Means that we have no internet connection, and we're launching directly
+            if (cause == DisconnectCause.DnsExceptionOnConnect && MenuManager.Instance == null)
+            {
+                this.DisconnectCallback = DisconnectTarget.ToPlaySolo;
+            }
+
             this.onSwitchedConnectionState();
 
             if(MenuManager.Instance != null)
@@ -707,22 +712,21 @@ namespace DownBelow.Managers
         public override void OnJoinedRoom()
         {
             Debug.Log("JOINED ROOM");
-            if (!PhotonNetwork.CurrentRoom.IsOffline)
+           
+            if (MenuManager.Instance && MenuManager.Instance.UIRoom != null)
             {
-                if (MenuManager.Instance && MenuManager.Instance.UIRoom != null)
-                {
-                    MenuManager.Instance.SelectPopup(MenuPopup.Room);
-                    MenuManager.Instance.UIRoom.OnJoinedRoom();
-                }
-                else
-                {
-                    // We go here only if starting from game scene
-                    GameData.Game.RefGameDataContainer = GameManager.MakeBaseGame("DownBelowBase");
-
-                    GridManager.Instance.CreateWholeWorld(GameData.Game.RefGameDataContainer);
-                    GameManager.Instance.ProcessPlayerWelcoming();
-                }
+                MenuManager.Instance.SelectPopup(MenuPopup.Room);
+                MenuManager.Instance.UIRoom.OnJoinedRoom();
             }
+            else
+            {
+                // We go here only if starting from game scene
+                GameData.Game.RefGameDataContainer = GameManager.MakeBaseGame("DownBelowBase");
+
+                GridManager.Instance.CreateWholeWorld(GameData.Game.RefGameDataContainer);
+                GameManager.Instance.ProcessPlayerWelcoming();
+            }
+            
         }
 
         public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -733,7 +737,10 @@ namespace DownBelow.Managers
 
         public override void OnLeftRoom()
         {
-            MenuManager.Instance?.UIRoom?.OnSelfLeftRoom();
+            if(MenuManager.Instance != null && MenuManager.Instance.UIRoom != null)
+            {
+                MenuManager.Instance?.UIRoom?.OnSelfLeftRoom();
+            }
         }
 
         public override void OnPlayerLeftRoom(Player otherPlayer)

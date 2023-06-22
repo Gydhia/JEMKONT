@@ -23,3 +23,4 @@ MonoBehaviour:
     SerializationNodes: []
   entityToSummon: {fileID: 3267344173932179961, guid: 6577082567e1c134bb81bb52e016f0fb, type: 3}
   Duration: 3
+  randomRotation: 1

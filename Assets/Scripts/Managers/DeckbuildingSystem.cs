@@ -1,3 +1,4 @@
+using DownBelow.Managers;
 using DownBelow.Mechanics;
 using DownBelow.UI;
 using EODE.Wonderland;
@@ -11,9 +12,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using Utility.SLayout;
 
-namespace DownBelow.Managers
+namespace DownBelow.UI
 {
-    public class DeckbuildingSystem : _baseManager<DeckbuildingSystem>
+    public class DeckbuildingSystem : MonoBehaviour
     {
         private enum EDeckBuildState { Shown, CanShow, Hidden }//Shown => we're dblding, CanShow => the "Show Deckbuilding" button is shown, Hidden => even this button is hidden
 
@@ -26,6 +27,8 @@ namespace DownBelow.Managers
         public Button[] DeckSelectingButtons;
         [BoxGroup("UI")]
         public GameObject ShowDeckBuildButton;
+        [BoxGroup("UI")]
+        public GameObject InputHelper;
         [BoxGroup("UI")]
         public TextMeshProUGUI CollectionHeader;
         [BoxGroup("UI")]
@@ -116,19 +119,15 @@ namespace DownBelow.Managers
             HideDeckBuilding();
         }
         #endregion
-        private void Start()
-        {
-            GameManager.Instance.OnGameStarted += DBuild_OnGameStart;
-            CombatManager.Instance.OnCombatStarted += CannotDeckbuild;
-            CombatManager.Instance.OnCombatEnded += CanDeckbuild;
-        }
 
-        private void DBuild_OnGameStart(Events.GameEventData Data) => Init();
         private void CannotDeckbuild(Events.GridEventData Data) => HideAllUI();
         private void CanDeckbuild(Events.GridEventData Data) => HideDeckBuilding();
 
-        void Init()
+        public void Init()
         {
+            CombatManager.Instance.OnCombatStarted += CannotDeckbuild;
+            CombatManager.Instance.OnCombatEnded += CanDeckbuild;
+
             state = EDeckBuildState.CanShow;
             //Instanciating card pool
             for (int i = 0;i < maxCardsDisplayed;i++)
@@ -151,6 +150,7 @@ namespace DownBelow.Managers
         void ToggleShowButton(bool on)
         {
             ShowDeckBuildButton.SetActive(on);
+            InputHelper.gameObject.SetActive(on);
         }
 
         void HideDeckBuilding()

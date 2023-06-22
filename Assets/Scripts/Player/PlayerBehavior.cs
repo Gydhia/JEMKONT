@@ -3,15 +3,12 @@ using DownBelow.GridSystem;
 using DownBelow.Managers;
 using DownBelow.UI.Inventory;
 using EasyTransition;
-using EODE.Wonderland;
 using Photon.Pun;
-using Photon.Realtime;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 namespace DownBelow.Entity
 {
@@ -84,7 +81,7 @@ namespace DownBelow.Entity
         public override int Mana
         {
             get => Mathf.Min(Statistics[EntityStatistics.Mana] + NumberOfTurnsPlayed,
-                Statistics[EntityStatistics.MaxMana])+Buff(EntityStatistics.Mana);
+                Statistics[EntityStatistics.Mana]) + Buff(EntityStatistics.Mana);
         }
 
         public bool CanGatherThisResource(EClass resourceClass)

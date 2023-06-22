@@ -25,11 +25,17 @@ public class KoiPond : TempObject
         {
             //We are on cell
             //TP
-            Cell cellToTp = data.Cell.RefGrid.Cells.Random();
+            Cell cellToTp = data.Cell.RefGrid.Cells.RandomWalkable(this.RefEntity.UID);
             while (cellToTp.Datas.state.HasFlag(CellState.NonWalkable))
             {
-                cellToTp = data.Cell.RefGrid.Cells.Random();
+                cellToTp = data.Cell.RefGrid.Cells.RandomWalkable(this.RefEntity.UID);
             }
+
+            if(GameManager.CombatActionsBuffer.Count > 0 && GameManager.CombatActionsBuffer[0].RefEntity == target && GameManager.CombatActionsBuffer[0] is MovementAction move)
+            {
+                move.ForceKillAction();
+            }
+
             target.Teleport(cellToTp);
         }
     }

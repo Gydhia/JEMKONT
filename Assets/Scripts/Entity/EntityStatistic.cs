@@ -7,7 +7,6 @@ public enum EntityStatistics
    None = -99,
    Health = 0,
    Mana = 10,
-   MaxMana = 13,
    Speed = 11,
    Strength = 20,
    Defense = 30,

@@ -420,7 +420,7 @@ MonoBehaviour:
       Data: false
     - Name: TargetType
       Entry: 3
-      Data: 3
+      Data: 4
     - Name: ProjectileSFX
       Entry: 10
       Data: 0
