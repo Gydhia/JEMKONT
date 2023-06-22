@@ -355,7 +355,7 @@ MonoBehaviour:
   m_HorizontalScrollbar: {fileID: 98090315474390549}
   m_VerticalScrollbar: {fileID: 2406571500697825061}
   m_HorizontalScrollbarVisibility: 0
-  m_VerticalScrollbarVisibility: 0
+  m_VerticalScrollbarVisibility: 1
   m_HorizontalScrollbarSpacing: -3
   m_VerticalScrollbarSpacing: -3
   m_OnValueChanged:
@@ -823,6 +823,7 @@ MonoBehaviour:
   AbyssItemPrefab: {fileID: 1295761175982399379, guid: ee9337775c5ef4e4285c8134e2d50e67, type: 3}
   SeparatorPrefab: {fileID: 2522512087804023667, guid: 583574725d28a5c409f3cb7168bfdfeb, type: 3}
   AbyssItems: []
+  Separators: []
 --- !u!1 &8587765510975700603
 GameObject:
   m_ObjectHideFlags: 0
