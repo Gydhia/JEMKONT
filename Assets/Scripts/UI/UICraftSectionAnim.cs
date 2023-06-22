@@ -29,12 +29,12 @@ public class UICraftSectionAnim : MonoBehaviour
         fireSequence = DOTween.Sequence();
 
         gearsSequence.Append(_outerGear.rectTransform.DOLocalRotate(new Vector3(0, 0, 360), 4f).SetEase(Ease.Linear)); 
-        gearsSequence.Join(_innerGear.rectTransform.DOLocalRotate(new Vector3(0, 0, 360), 4f).SetEase(Ease.Linear).OnComplete((() => OnCraftComplete?.Invoke())));
+        gearsSequence.Join(_innerGear.rectTransform.DOLocalRotate(new Vector3(0, 0, 360), 4f).SetEase(Ease.Linear));
        
         gearsSequence.SetLoops(-1, LoopType.Restart);
         gearsSequence.Pause();
 
-        fireSequence.Append(_fire.DOFillAmount(1, 3f).SetEase(Ease.OutQuad)).OnComplete((() => OnCraftComplete?.Invoke()));;
+        fireSequence.Append(_fire.DOFillAmount(1, 3f).SetEase(Ease.OutQuad));
         
         fireSequence.SetLoops(-1, LoopType.Restart);
         fireSequence.Pause();
