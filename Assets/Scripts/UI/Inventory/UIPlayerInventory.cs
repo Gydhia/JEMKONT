@@ -22,6 +22,10 @@ namespace DownBelow.UI.Inventory
 
         private InteractableStorage _nearestInteractable;
         public Button ToNearestStorageBtn;
+        
+        
+        [SerializeField] private GameObject r_Clickinput;
+
 
         private void Awake()
         {
@@ -79,6 +83,11 @@ namespace DownBelow.UI.Inventory
                     this.Holder.PlayerInventory.RemoveItem(item.ItemPreset, item.Quantity - remainings);
                 }
             }            
+        }
+        
+        public void SetInputUI(bool showInput)
+        {
+            r_Clickinput.SetActive(showInput);
         }
     }
 }
