@@ -43,6 +43,12 @@ namespace DownBelow.UI
         public void OpenPanel()
         {
             this.gameObject.SetActive(true);
+
+            foreach (var enchantItem in this.EnchantItems)
+            {
+                // Only enable it if it's owned by the local player
+                enchantItem.LockImage.gameObject.SetActive(enchantItem.RefTool.ActualPlayer != GameManager.RealSelfPlayer); 
+            }
         }
     }
 }

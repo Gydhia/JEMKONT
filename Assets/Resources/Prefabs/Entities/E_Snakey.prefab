@@ -21,11 +21,11 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 884093700e88f0742b307d440fa708d2, type: 2}
     - target: {fileID: 1431573493514449160, guid: cb1bb2b81a4acd043865938c346ae768, type: 3}
       propertyPath: TargetType
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1431573493514449160, guid: cb1bb2b81a4acd043865938c346ae768, type: 3}
       propertyPath: attackType
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1431573493514449160, guid: cb1bb2b81a4acd043865938c346ae768, type: 3}
       propertyPath: EntityHolder
@@ -33,7 +33,7 @@ PrefabInstance:
       objectReference: {fileID: 4027809865307436057}
     - target: {fileID: 1431573493514449160, guid: cb1bb2b81a4acd043865938c346ae768, type: 3}
       propertyPath: movementType
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3151041345836561540, guid: cb1bb2b81a4acd043865938c346ae768, type: 3}
       propertyPath: _healthFeedback

@@ -1,3 +1,4 @@
+using System;
 using DownBelow.Entity;
 using DownBelow.Events;
 using DownBelow.Inventory;
@@ -36,6 +37,8 @@ namespace DownBelow.UI.Inventory
 
         public Image SelectedImage;
 
+        [HideInInspector] public ItemEventData Data;
+
         private Transform _parentAfterDrag;
         private Vector3 _positionAfterDrag;
 
@@ -55,6 +58,10 @@ namespace DownBelow.UI.Inventory
             this.SelfStorage = refStorage;
             this.Slot = slot;
 
+            if(this.SelfItem != null)
+            {
+                this.SelfItem.OnItemChanged -= RefreshItem;
+            }
             this.SelfItem.OnItemChanged += RefreshItem;
 
             if (this.SelfItem.ItemPreset != null)
@@ -75,20 +82,25 @@ namespace DownBelow.UI.Inventory
         {
             if (Data.ItemData.Quantity > 0)
             {
-                this.icon.sprite = Data.ItemData.ItemPreset.InventoryIcon;
+                this.Data = Data;
+                this.icon.sprite = this.Data.ItemData.ItemPreset.InventoryIcon;
                 if(!this.icon.gameObject.activeInHierarchy)
                     this.icon.gameObject.SetActive(true);
-                this.TotalQuantity = Data.ItemData.Quantity;
+                this.TotalQuantity = this.Data.ItemData.Quantity;
                 this.quantity.text = this.TotalQuantity.ToString();
+   
             } else
             {
+                this.icon.sprite = null;
                 if(this.icon.gameObject.activeInHierarchy)
                     this.icon.gameObject.SetActive(false);
-
                 this.quantity.text = string.Empty;
                 this.TotalQuantity = 0;
+
             }
         }
+
+
 
         /// <summary>
         /// To update the quantity of UI Item. Negative to remove, positive to add
@@ -107,7 +119,8 @@ namespace DownBelow.UI.Inventory
 
         public void RemoveItem()
         {
-            this.icon.sprite = Managers.SettingsManager.Instance.GameUIPreset.ItemCase;
+          //  this.icon.sprite = Managers.SettingsManager.Instance.GameUIPreset.ItemCase;
+          this.icon.gameObject.SetActive(false);
             this.quantity.text = string.Empty;
             this.TotalQuantity = 0;
         }
@@ -197,6 +210,14 @@ namespace DownBelow.UI.Inventory
         {
             if (LastHoveredItem == this)
                 LastHoveredItem = null;
+        }
+
+        private void OnDestroy()
+        {
+            if(this.SelfStorage != null && this.SelfStorage.Storage != null && this.SelfStorage.Storage.StorageItems.Length > 0)
+            {
+                this.SelfItem.OnItemChanged -= RefreshItem;
+            }
         }
     }
 }

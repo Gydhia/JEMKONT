@@ -3,25 +3,33 @@ using DownBelow.GridSystem;
 using DownBelow.Managers;
 using DownBelow.UI.Inventory;
 using EasyTransition;
-using EODE.Wonderland;
 using Photon.Pun;
-using Photon.Realtime;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 namespace DownBelow.Entity
 {
     public class PlayerBehavior : CharacterEntity
     {
         #region EVENTS
-
+        public event GatheringEventData.Event OnGatheringStarted;
+        public event GatheringEventData.Event OnGatheringEnded;
 
         public event CardEventData.Event OnCardPlayed;
 
+
+        public void FireGatheringStarted(InteractableResource resource)
+        {
+            this.OnGatheringStarted?.Invoke(new GatheringEventData(resource));
+        }
+
+        public void FireGatheringEnded(InteractableResource resource)
+        {
+            this.OnGatheringEnded?.Invoke(new GatheringEventData(resource));
+        }
         #endregion
         /// <summary>
         /// The owner of this potential FakePlayer. Used in combat
@@ -73,7 +81,7 @@ namespace DownBelow.Entity
         public override int Mana
         {
             get => Mathf.Min(Statistics[EntityStatistics.Mana] + NumberOfTurnsPlayed,
-                Statistics[EntityStatistics.MaxMana])+Buff(EntityStatistics.Mana);
+                Statistics[EntityStatistics.Mana]) + Buff(EntityStatistics.Mana);
         }
 
         public bool CanGatherThisResource(EClass resourceClass)
@@ -257,11 +265,14 @@ namespace DownBelow.Entity
             // Only set the player stats from one tool, the first one picked up
             if (this.ActiveTool == null)
             {
+                this.ActiveTools.Add(activeTool);
                 this.SetStatistics(activeTool.DeckPreset.Statistics);
                 this._setCharacterVisuals(activeTool);
             }
-
-            this.ActiveTools.Add(activeTool);
+            else
+            {
+                this.ActiveTools.Add(activeTool);
+            }
         }
 
         public void RemoveActiveTool(ToolItem removedTool)

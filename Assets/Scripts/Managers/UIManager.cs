@@ -1,3 +1,4 @@
+using DownBelow.Entity;
 using DownBelow.Events;
 using DownBelow.UI;
 using DownBelow.UI.Inventory;
@@ -20,6 +21,9 @@ namespace DownBelow.Managers
         public UICraftingSection CraftingSection;
         public UIEnchantSection EnchantSection;
         public UIWorkshopSection WorkshopSection;
+        public UIDialogSection DialogSection;
+
+        public DeckbuildingSystem DeckbuildingSystem;
 
         public EntityTooltipUI EntityTooltipUI;
 
@@ -41,6 +45,8 @@ namespace DownBelow.Managers
             this.CraftingSection.Init();
             this.EnchantSection.Init();
             this.WorkshopSection.Init();
+            this.DialogSection.Init();
+            this.DeckbuildingSystem.Init();
 
             this.TurnSection.gameObject.SetActive(false);
             this.PlayerInfos.gameObject.SetActive(false);
@@ -63,12 +69,16 @@ namespace DownBelow.Managers
             if (newSlot == 0)
             {
                 PlayerInventory.ClassItem.SelectedSlot(true);
+                
                 //ActiveSlot
             } else
             {
                 PlayerInventory.PlayerStorage.Items[newSlot - 1].SelectedSlot(true);
+                
                 //Inventory
             }
+
+
         }
         private void _subscribe()
         {
@@ -79,6 +89,8 @@ namespace DownBelow.Managers
 
             InputManager.Instance.OnCellRightClickDown += this.UpdateEntityToolTip;
             PlayerInputs.player_escape.canceled += this._switchEscapeState;
+            PlayerInputs.player_escape.canceled += this._hideInteractables;
+            
         }
         private void _unsubscribe()
         {
@@ -89,14 +101,23 @@ namespace DownBelow.Managers
 
             InputManager.Instance.OnCellRightClickDown -= this.UpdateEntityToolTip;
             PlayerInputs.player_escape.canceled -= this._switchEscapeState;
+            PlayerInputs.player_escape.canceled += this._hideInteractables;
         }
 
         private void _switchEscapeState(UnityEngine.InputSystem.InputAction.CallbackContext ctx) => this.SwitchEscapeState();
         public void SwitchEscapeState()
         {
-            bool isActive = EscapeSection.gameObject.activeSelf;
+            if (!this.CurrentStorage.gameObject.activeInHierarchy &&
+                !this.EnchantSection.gameObject.activeInHierarchy &&
+                !this.AbyssesSection.gameObject.activeInHierarchy &&
+                !this.WorkshopSection.gameObject.activeInHierarchy &&
+                !this.CraftingSection.gameObject.activeInHierarchy)
+            {
+                bool isActive = EscapeSection.gameObject.activeSelf;
 
-            EscapeSection.gameObject.SetActive(!isActive);
+                EscapeSection.gameObject.SetActive(!isActive);
+            }
+            
         }
 
         public void UpdateEntityToolTip(CellEventData Data)
@@ -154,12 +175,14 @@ namespace DownBelow.Managers
             InputManager.Instance.ChangeCursorAppearance(CursorAppearance.Idle);
         }
 
+        private void _hideInteractables(UnityEngine.InputSystem.InputAction.CallbackContext ctx) => this.HideInteractables();
         public void HideInteractables()
         {
             this.CurrentStorage.HideStorage();
             this.EnchantSection.ClosePanel();
             this.AbyssesSection.OnClickClose();
             this.WorkshopSection.ClosePanel();
+            this.CraftingSection._closePanel(new EntityEventData(new EnemyEntity()));
         }
 
         private void OnDestroy()

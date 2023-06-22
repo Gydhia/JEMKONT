@@ -283,7 +283,7 @@ namespace DownBelow.GameData
             }
             catch (Exception ex)
             {
-                UnityEngine.Debug.LogError("Impossible to save the game to " + ((SavegameFile == null) ? "null" : SavegameFile.FullName));
+                UnityEngine.Debug.LogError("Impossible to save the game to " + ((SavegameFile == null) ? "null" : SavegameFile.FullName) + "\n" + ex.Message);
                 throw ex;
             }
         }

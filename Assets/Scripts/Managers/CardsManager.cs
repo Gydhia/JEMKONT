@@ -38,7 +38,13 @@ namespace DownBelow.Managers
         public List<DeckPreset> AvailableDecks;
 
         public void Init()
-        {          
+        {
+            // To reinitialize scriptable objects
+            foreach (var tool in this.AvailableTools)
+            {
+                tool.ResetStatus();
+            }
+
             CombatManager.Instance.OnCombatStarted += _setupForCombat;
             CombatManager.Instance.OnCombatEnded += _endForCombat;
         }

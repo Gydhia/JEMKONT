@@ -73,6 +73,8 @@ namespace DownBelow.Managers
 
             GameManager.SelfPlayer = GameManager.RealSelfPlayer;
 
+            CurrentPlayingGrid.ResetGrid();
+
             this.OnCombatEnded?.Invoke(new GridEventData(Grid, AllyVictory));
         }
 
@@ -565,12 +567,12 @@ namespace DownBelow.Managers
             {
                 for (int i = 0; i < enemies.Count; i++)
                 {
-                    this.PlayingEntities.Add(enemies[i]);
+                    if (this.IsPlayerOrOwned(players[i]))
+                        players[i].Index = indexIncr++;
+                    this.PlayingEntities.Add(players[i]);
                     if (i < players.Count)
                     {
-                        this.PlayingEntities.Add(players[i]);
-                        if (this.IsPlayerOrOwned(players[i]))
-                            players[i].Index = indexIncr++;
+                        this.PlayingEntities.Add(enemies[i]);
                     }
                 }
             }
@@ -578,11 +580,13 @@ namespace DownBelow.Managers
             {
                 for (int i = 0; i < players.Count; i++)
                 {
-                    this.PlayingEntities.Add(players[i]);
-                    if (this.IsPlayerOrOwned(players[i]))
-                        players[i].Index = indexIncr++;
+                    this.PlayingEntities.Add(enemies[i]);
                     if (i < enemies.Count)
-                        this.PlayingEntities.Add(enemies[i]);
+                    {   
+                        this.PlayingEntities.Add(players[i]);
+                        if (this.IsPlayerOrOwned(players[i]))
+                            players[i].Index = indexIncr++;
+                    }
                 }
             }
         }

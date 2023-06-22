@@ -59,6 +59,7 @@ namespace DownBelow.UI
         private Coroutine _pinUpdateCoroutine = null;
 
         private int _childOrder;
+        private Sequence _flipSequence;
         public void Init(ScriptableCard CardReference, UICardsPile Pile)
         {
             this.Init(CardReference);
@@ -99,7 +100,11 @@ namespace DownBelow.UI
             {
                 return;
             }
-
+            if(SelectedCard == this && SelectedCard._pinUpdateCoroutine == null)
+            {
+                SelectedCard.PinnedToScreen = false;
+                SelectedCard = null;
+            }
             // Forbid the card drag if currently using another one
             if (HoveredCard == this && SelectedCard == null && !this._isDestroying)
             {
@@ -124,9 +129,41 @@ namespace DownBelow.UI
                 this.DiscardToHand();
             }
             else
-            { 
-                this.m_RectTransform.DOPunchScale(new Vector3(1.001f, 1.001f, 1.001f), 0.8f).SetEase(Ease.OutQuad);  
-              this.m_RectTransform.DOPunchRotation(new Vector3(0,720,0), 0.8f).SetEase(Ease.OutQuad).OnComplete(() => this.PlayNotTargetCard());
+            {
+                _flipSequence = DOTween.Sequence();
+                
+                _flipSequence.Append(this.m_RectTransform.DOPunchScale(new Vector3(1.0001f, 1.0001f, 1.0001f), 0.4f)
+                    .SetEase(Ease.OutQuad));
+                
+                _flipSequence.Append(this.m_RectTransform.DOPunchRotation(new Vector3(0, 180, 0), 0.2f)
+                    .SetEase(Ease.OutQuad).OnComplete(
+                        () =>
+                        {
+                            CardVisual.ReverseCard();
+                        }));
+                _flipSequence.Append(this.m_RectTransform.DOPunchRotation(new Vector3(0, 180, 0), 0.2f)
+                    .SetEase(Ease.OutQuad).OnComplete(
+                        () =>
+                        {
+                            CardVisual.ReverseCard();
+                        }));
+                _flipSequence.Append(this.m_RectTransform.DOPunchRotation(new Vector3(0, 180, 0), 0.2f)
+                    .SetEase(Ease.OutQuad).OnComplete(
+                        () =>
+                        {
+                            CardVisual.ReverseCard();
+                        }));
+                _flipSequence.Append(this.m_RectTransform.DOPunchRotation(new Vector3(0, 180, 0), 0.2f)
+                    .SetEase(Ease.OutQuad).OnComplete(
+                        () =>
+                        {
+                            CardVisual.ReverseCard();
+                            this.PlayNotTargetCard();
+                        }));
+
+                _flipSequence.SetLoops(0);
+                
+                _flipSequence.Restart();
             }
         }
 
@@ -221,6 +258,7 @@ namespace DownBelow.UI
         {
             this._abortCoroutine(ref this._followCoroutine);
             CombatManager.Instance.FireCardBeginUse(this.CardReference);
+            InputManager.Instance.ChangeCursorAppearance(CursorAppearance.Idle);
         }
 
         public void DrawFromPile(UICardsPile fromPile, UICardsPile toPile)
@@ -276,7 +314,10 @@ namespace DownBelow.UI
             this.m_RectTransform.DOPunchScale(Vector3.one * 0.8f, .4f, 3);
             this.m_RectTransform.DOScale(0.2f, .4f);
             this.m_RectTransform.DOMove(toPile.VisualMoveTarget.position, 0.4f)
-                .OnComplete(() => this.Burn());
+                .OnComplete(() => {
+                    this.Burn();
+                    this._isDestroying = false;
+                });
         }
 
         public void Burn()

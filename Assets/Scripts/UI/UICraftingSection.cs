@@ -40,14 +40,15 @@ namespace DownBelow.UI
             }
         }
 
-        private void _closePanel(EntityEventData Data)
+        public void _closePanel(EntityEventData Data)
         {
             this.gameObject.SetActive(false);   
         }
 
         private void _togglePanel(InputAction.CallbackContext context)
         {
-            this.gameObject.SetActive(!this.gameObject.activeSelf);
+            if(!GameManager.RealSelfPlayer.CurrentGrid.IsCombatGrid)
+                this.gameObject.SetActive(!this.gameObject.activeSelf);
         }
     }
 }

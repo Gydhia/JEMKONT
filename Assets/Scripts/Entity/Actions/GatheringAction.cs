@@ -1,7 +1,9 @@
 using DownBelow.GridSystem;
 using DownBelow.Managers;
 using Photon.Realtime;
+using System.Collections;
 using System.Linq;
+using UnityEngine;
 
 namespace DownBelow.Entity
 {
@@ -25,6 +27,7 @@ namespace DownBelow.Entity
             // Only the local player should execute the UI action
             else if (CurrentRessource != null && CurrentRessource.isMature && this.RefEntity == GameManager.RealSelfPlayer)
             {
+                GameManager.RealSelfPlayer.FireGatheringStarted(this.CurrentRessource);
                 UIManager.Instance.GatherSection.StartInteract(this, this.requiredTicks);
             }
         }
@@ -61,8 +64,16 @@ namespace DownBelow.Entity
                 if(this.RefEntity == GameManager.RealSelfPlayer)
                 {
                     NetworkManager.Instance.GiftOrRemovePlayerItem(player.UID, this.CurrentRessource.LocalPreset.ResourceItem, nbResourcers);
+                    GameManager.RealSelfPlayer.FireGatheringEnded(this.CurrentRessource);
                 }
             }
+
+            GameManager.Instance.StartCoroutine(this._waitForEndAnim());
+        }
+
+        private IEnumerator _waitForEndAnim()
+        {
+            yield return new WaitForSeconds(1.5f);
 
             this.EndAction();
         }

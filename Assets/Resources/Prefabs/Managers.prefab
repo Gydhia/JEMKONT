@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6139324568617497933}
-  - component: {fileID: 8062410808394827329}
+  - component: {fileID: 3433750765327152215}
   m_Layer: 0
   m_Name: Analytics
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Father: {fileID: 6008253201538663047}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8062410808394827329
+--- !u!114 &3433750765327152215
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -138,8 +138,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9da146dd3fdc8014eb17acac615d01aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerInput: {fileID: 0}
   VirtualCamera: {fileID: 0}
   MainCamera: {fileID: 0}
+  IsInCombatGrid: 0
+  InBattleAngle: {x: 45, y: -30, z: 0}
+  Zoom: 0
+  ZoomSpeed: 0.13
+  ZoomSmooth: 1
+  NormalOrthoSize: 8
+  InBattleOrthoSizeByArenaSize: 0.3
+  GatheringZoomingTimeInSec: 0.5
+  GatheringTargetZoom: 0.5
 --- !u!1 &2925001646214969611
 GameObject:
   m_ObjectHideFlags: 0
@@ -622,12 +632,18 @@ MonoBehaviour:
   TurnSection: {fileID: 0}
   EscapeSection: {fileID: 0}
   DatasSection: {fileID: 0}
+  GatherSection: {fileID: 0}
   PlayerInfos: {fileID: 0}
   CardSection: {fileID: 0}
+  RewardSection: {fileID: 0}
+  AbyssesSection: {fileID: 0}
+  CraftingSection: {fileID: 0}
+  EnchantSection: {fileID: 0}
+  WorkshopSection: {fileID: 0}
+  DialogSection: {fileID: 0}
   EntityTooltipUI: {fileID: 0}
   PlayerInventory: {fileID: 0}
   CurrentStorage: {fileID: 0}
-  GatheringSlider: {fileID: 0}
   Outline: {fileID: 0}
   CollectedItem: {fileID: 0}
   GatheringName: {fileID: 0}

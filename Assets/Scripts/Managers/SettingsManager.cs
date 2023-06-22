@@ -39,6 +39,8 @@ namespace DownBelow.Managers
         public List<AbyssPreset> AbyssesPresets;
         public List<CraftPreset> CraftRepices;
 
+        public List<ScriptableCard> IndependentCards;
+
         public void Init()
         {
             this.LoadResources();
@@ -95,6 +97,13 @@ namespace DownBelow.Managers
                         this.ScriptableCards.Add(card.UID, card);
                 }
             }
+            foreach (var indCard in this.IndependentCards)
+            {
+                if (!this.ScriptableCards.ContainsKey(indCard.UID))
+                    this.ScriptableCards.Add(indCard.UID, indCard);
+            }
+
+
             this.ToolPresets = new Dictionary<Guid, ToolItem>();
             foreach (var tool in CardsManager.Instance.AvailableTools)
             {

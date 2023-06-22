@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14dae5fc797537546a285edaed0e2c5a, type: 3}
+  m_Name: CellTrigger_Tools
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: UID
+      Entry: 2
+      Data: 933d71a02a896d10e66bc93fb55927f2
+  UName: CellTrigger_Tools
+  AffectingState: 1
+  OverrideSave: 0
+  DialogPreset: {fileID: 11400000, guid: adcb2fe92a8775c4fae959e77eb1de07, type: 2}
+  TriggerCellPrefab: {fileID: 4154857936654040371, guid: fe6fa7670df99a74dbe48bc6cf232e7b, type: 3}

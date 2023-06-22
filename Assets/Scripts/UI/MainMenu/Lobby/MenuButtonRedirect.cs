@@ -24,14 +24,17 @@ namespace DownBelow.UI.Menu
                 switch (this.PopupToGo)
                 {
                     case MenuPopup.Close:
-                        this._selfButton.onClick.AddListener(() => 
+                        this._selfButton.onClick.AddListener(() =>
                         {
                             MenuManager.Instance.HideCurrentPopup();
                             MenuManager.Instance.GoingToHost = false;
                         });
                         break;
                     case MenuPopup.Quit:
-                        this._selfButton.onClick.AddListener(() => MenuManager.Instance.OnClickQuit()); 
+                        this._selfButton.onClick.AddListener(() => MenuManager.Instance.OnClickQuit());
+                        break;
+                    case MenuPopup.Tutorial:
+                        this._selfButton.onClick.AddListener(() => { GameManager.GoToTutorial(); });     
                         break;
                     default:
                         this._selfButton.onClick.AddListener(() => 

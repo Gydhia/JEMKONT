@@ -262,6 +262,7 @@ MonoBehaviour:
   icon: {fileID: 2109158896789064523}
   quantity: {fileID: 6184598405518796228}
   selfButton: {fileID: 8348190850639214509}
+  r_Clickinput: {fileID: 0}
   TotalQuantity: 0
   Slot: 0
   SelfStorage: {fileID: 0}

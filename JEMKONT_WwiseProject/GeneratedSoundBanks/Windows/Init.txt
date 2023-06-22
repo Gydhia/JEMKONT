@@ -1,8 +1,18 @@
 State Group	ID	Name			Wwise Object Path	Notes
+	545665442	Job			\Default Work Unit\Job	
+	2609808943	World			\Default Work Unit\World	
 	3298531235	Layers			\Default Work Unit\Layers	
 	4091656514	GameState			\Default Work Unit\GameState	
 
 State	ID	Name	State Group			Notes
+	748895195	None	Job			
+	1082004780	Mow	Job			
+	2609527548	Mine	Job			
+	2695658327	Fish	Job			
+	4240969745	Chop	Job			
+	442576059	Underworld	World			
+	748895195	None	World			
+	1562068129	Overworld	World			
 	602912168	Layers1	Layers			
 	602912169	Layers0	Layers			
 	602912170	Layers3	Layers			

@@ -22,6 +22,13 @@ namespace DownBelow.UI
         public CanvasGroup DefeatCanvas;
         public Button Continue;
 
+        [Header("Rewards")] 
+        public GameObject ResourcesSliderParent;
+        public Slider RefilledResourcesSlider;
+        public GameObject CardsRewardParent;
+        public Button CardReward;
+        public TextMeshProUGUI QuantityText;
+        
         private bool _alliesVictory;
 
         public void Init()
@@ -35,6 +42,8 @@ namespace DownBelow.UI
 
             CombatManager.Instance.OnCombatEnded += this.ShowRewards;
             CombatManager.Instance.OnCombatStarted += _disableContinue;
+            
+            CardReward.onClick.AddListener(OnRewardClicked);
         }
 
         private void _disableContinue(GridEventData Data)
@@ -65,6 +74,13 @@ namespace DownBelow.UI
             if (this._alliesVictory)
             {
                 this.VictoryCanvas.DOFade(1f, 2.5f);
+                
+                string abyssName = (Data.Grid as CombatGrid).ParentGrid.UName;
+                var abyss = SettingsManager.Instance.AbyssesPresets.Find(x=> x.name == abyssName);
+                
+                ResourcesSliderParent.SetActive(false);
+                CardsRewardParent.SetActive(true);
+                QuantityText.text = "x" + abyss.GiftedCards.Count.ToString();
             }
             else
             {
@@ -92,6 +108,22 @@ namespace DownBelow.UI
             exitAction.Init(grid.UName);
 
             NetworkManager.Instance.EntityAskToBuffAction(exitAction);
+        }
+
+        private void OnRewardClicked()
+        {
+            CardReward.transform.DOPunchScale(new Vector3(0.01f, 0.01f, 0.01f), 0.6f).SetEase((Ease.OutQuad))
+                .OnComplete((
+                    () =>
+                    {
+                        CardsRewardParent.gameObject.SetActive(false);
+                        RefilledResourcesSlider.DOValue(0, 0f);
+                        ResourcesSliderParent.gameObject.SetActive(true);
+                        RefilledResourcesSlider.DOValue(1, 0.7f).SetEase(Ease.OutQuint).OnComplete((() =>
+                        {
+                            ResourcesSliderParent.gameObject.SetActive(false);
+                        }));
+                    }));
         }
     }
 }

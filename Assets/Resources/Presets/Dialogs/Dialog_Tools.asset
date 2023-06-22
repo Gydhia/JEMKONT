@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ea722d231bc5804686f275d55f53bc0, type: 3}
+  m_Name: Dialog_Tools
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  TalkerIcon: {fileID: 21300000, guid: 4156a0fcb5a3a49cb9e3639da32288d6, type: 3}
+  Dialogs:
+  - 'First and foremost, Tools !
+
+    In front of you, you''ll find the 4 you''ll
+    be using: a Hoe, a Fishing Rod, a Pickaxe and a Sickle !'
+  - 'Each of these help to collect one type of ressource (don''t worry, we''ll get
+    back to that in a second) '
+  - Try and collect them by walking over them !
+  - 'Fun fact : your appearance changes based on the 1st item you picked up !'

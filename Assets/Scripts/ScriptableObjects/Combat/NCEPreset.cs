@@ -24,6 +24,9 @@ public class NCEPreset : SerializedScriptableObject
         }
         NonCharacterEntity NCEInstance = GameObject.Instantiate(entityToSummon, Vector3.zero, rot, cell.transform);
         NCEInstance.Init(cell, Duration, RefEntity, this);
+
+        NCEInstance.transform.localPosition = Vector3.zero;
+
         return NCEInstance;
     }
 

@@ -107,7 +107,7 @@ namespace DownBelow.Entity
             this.OnPushed?.Invoke(data);
         }
         #endregion
-        protected EntityStats RefStats;
+        public EntityStats RefStats;
 
         [OdinSerialize] public List<Alteration> Alterations = new();
 
@@ -215,7 +215,6 @@ namespace DownBelow.Entity
         public int MaxHealth
         {
             get => RefStats.Health;
-            set => RefStats.Health = value;
         }
 
         public Dictionary<EntityStatistics, int> Statistics;
@@ -311,7 +310,7 @@ namespace DownBelow.Entity
             this.PlayingIndicator.SetActive(true);
             this.CanAutoAttack = true;
 
-
+            Debug.LogWarning("START TURN : " + this);
              OnTurnBegun?.Invoke(new());
 
             this.ReinitializeStat(EntityStatistics.Speed);
@@ -360,7 +359,6 @@ namespace DownBelow.Entity
             this.RefStats = stats;
             this.Statistics = new Dictionary<EntityStatistics, int>
             {
-                { EntityStatistics.MaxMana, stats.MaxMana },
                 { EntityStatistics.Health, stats.Health },
                 { EntityStatistics.Strength, stats.Strength },
                 { EntityStatistics.Speed, stats.Speed },

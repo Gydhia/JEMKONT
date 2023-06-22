@@ -10,8 +10,6 @@ using DownBelow.Events;
 using System;
 using Newtonsoft.Json;
 using DownBelow.Loading;
-using EODE.Wonderland;
-using static UnityEditor.Progress;
 
 namespace DownBelow.Managers
 {
@@ -206,6 +204,13 @@ namespace DownBelow.Managers
         public override void OnDisconnected(DisconnectCause cause)
         {
             Debug.Log("Disconnected");
+                
+            // Means that we have no internet connection, and we're launching directly
+            if (cause == DisconnectCause.DnsExceptionOnConnect && MenuManager.Instance == null)
+            {
+                this.DisconnectCallback = DisconnectTarget.ToPlaySolo;
+            }
+
             this.onSwitchedConnectionState();
 
             if(MenuManager.Instance != null)
@@ -595,17 +600,28 @@ namespace DownBelow.Managers
         }
         #region TURNS
 
+        private bool _turnOnGoing = false;
 
         public void StartEntityTurn()
         {
-            this._playersNetState.Clear();
+            if (PhotonNetwork.IsMasterClient)
+            {
+                this._playersNetState.Clear();
 
-            this.photonView.RPC("NotifyPlayerStartTurn", RpcTarget.All);
+                this.photonView.RPC("NotifyPlayerStartTurn", RpcTarget.All);
+            }
         }
 
         [PunRPC]
         public void NotifyPlayerStartTurn()
         {
+            if (_turnOnGoing)
+            {
+                return;
+            }
+
+            _turnOnGoing = true;
+
             CombatManager.Instance.ProcessStartTurn();
 
             CombatManager.CurrentPlayingEntity.StartTurn();
@@ -619,7 +635,7 @@ namespace DownBelow.Managers
             this._playersNetState.Add(PlayerID);
 
             // When all players have started the playing entity's turn, create the actions IF it's an enemy
-            if (this._playersNetState.Count >= GameManager.Instance.Players.Count)
+            if (this._playersNetState.Count >= GameManager.Instance.Players.Values.Count(p => p.CurrentGrid.IsCombatGrid))
             {
                 this._playersNetState.Clear();
 
@@ -635,6 +651,7 @@ namespace DownBelow.Managers
         /// </summary>
         public void PlayerAsksEndTurn()
         {
+            _turnOnGoing = false;
             this.photonView.RPC("RespondMasterEndEntityTurn", RpcTarget.MasterClient, GameManager.RealSelfPlayer.UID);
         }
 
@@ -643,8 +660,9 @@ namespace DownBelow.Managers
         {
             this._playersNetState.Add(PlayerID);
 
-            if (this._playersNetState.Count >= GameManager.Instance.Players.Count)
+            if (this._playersNetState.Count >= GameManager.Instance.Players.Values.Count(p => p.CurrentGrid.IsCombatGrid))
             {
+                this._playersNetState.Clear();
                 this.photonView.RPC("RespondPlayerEndEntityTurn", RpcTarget.All, PlayerID);
             }
         }
@@ -652,6 +670,7 @@ namespace DownBelow.Managers
         [PunRPC]
         public void RespondPlayerEndEntityTurn(string PlayerID)
         {
+            this._turnOnGoing = false;
             this._playersNetState.Clear();
 
             // Each player process it 
@@ -665,8 +684,9 @@ namespace DownBelow.Managers
         {
             this._playersNetState.Add(PlayerID);
 
-            if (this._playersNetState.Count >= GameManager.Instance.Players.Count)
+            if (this._playersNetState.Count >= GameManager.Instance.Players.Values.Count(p => p.CurrentGrid.IsCombatGrid))
             {
+                this._playersNetState.Clear();
                 this.StartEntityTurn();
             }
         }
@@ -707,22 +727,21 @@ namespace DownBelow.Managers
         public override void OnJoinedRoom()
         {
             Debug.Log("JOINED ROOM");
-            if (!PhotonNetwork.CurrentRoom.IsOffline)
+           
+            if (MenuManager.Instance && MenuManager.Instance.UIRoom != null)
             {
-                if (MenuManager.Instance && MenuManager.Instance.UIRoom != null)
-                {
-                    MenuManager.Instance.SelectPopup(MenuPopup.Room);
-                    MenuManager.Instance.UIRoom.OnJoinedRoom();
-                }
-                else
-                {
-                    // We go here only if starting from game scene
-                    GameData.Game.RefGameDataContainer = GameManager.MakeBaseGame("DownBelowBase");
-
-                    GridManager.Instance.CreateWholeWorld(GameData.Game.RefGameDataContainer);
-                    GameManager.Instance.ProcessPlayerWelcoming();
-                }
+                MenuManager.Instance.SelectPopup(MenuPopup.Room);
+                MenuManager.Instance.UIRoom.OnJoinedRoom();
             }
+            else
+            {
+                // We go here only if starting from game scene
+                GameData.Game.RefGameDataContainer = GameManager.MakeBaseGame("DownBelowBase");
+
+                GridManager.Instance.CreateWholeWorld(GameData.Game.RefGameDataContainer);
+                GameManager.Instance.ProcessPlayerWelcoming();
+            }
+            
         }
 
         public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -733,7 +752,10 @@ namespace DownBelow.Managers
 
         public override void OnLeftRoom()
         {
-            MenuManager.Instance?.UIRoom?.OnSelfLeftRoom();
+            if(MenuManager.Instance != null && MenuManager.Instance.UIRoom != null)
+            {
+                MenuManager.Instance?.UIRoom?.OnSelfLeftRoom();
+            }
         }
 
         public override void OnPlayerLeftRoom(Player otherPlayer)

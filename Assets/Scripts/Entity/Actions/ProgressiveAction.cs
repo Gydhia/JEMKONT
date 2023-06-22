@@ -16,5 +16,10 @@ namespace DownBelow.Entity
         {
             abortAction = true;
         }
+
+        public virtual void ForceKillAction()
+        {
+
+        }
     }
 }

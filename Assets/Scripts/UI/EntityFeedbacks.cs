@@ -67,7 +67,7 @@ namespace DownBelow.Entity
         {
             if (Data.Value < 0)
             {
-                _healthFeedback.text = "-" + Data.Value.ToString();
+                _healthFeedback.text =  Data.Value.ToString();
                 _healthFeedback.color = _healthRemovedColor;
                 _healthFeedback.transform.LookAt(_mainCam.transform.position);
                 _healthFeedback.transform.Rotate(new Vector3(0, 180f, 0));
@@ -91,8 +91,6 @@ namespace DownBelow.Entity
 
         private void OnHealthAdded(SpellEventData Data)
         {
-            
-
             if (Data.Value < 0)
             {
                 _healthFeedback.text = "+" + Mathf.Abs(Data.Value).ToString();

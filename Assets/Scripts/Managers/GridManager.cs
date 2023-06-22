@@ -141,13 +141,14 @@ namespace DownBelow.Managers
                 Destroy(this._gridsDataHandler.gameObject);
             }
 
-            // TODO : Plug it in a scriptable instead of hardcoding it like that
+            bool isTutorial = false;
             foreach (var grid in refGameDataContainer.Data.grids_data)
             {
                 this.CreateGrid(grid, grid.GridName);
+                isTutorial = grid.IsForTutorial;
             }
 
-            this.MainWorldGrid = this.WorldGrids[this.MainGrid];
+            this.MainWorldGrid = this.WorldGrids[isTutorial ? "Tutorial" : this.MainGrid];
             this.MainWorldGrid.gameObject.SetActive(true);
 
             UniversalRenderPipelineHelper.SetRendererFeatureActive("GridRender", false);
@@ -336,8 +337,11 @@ namespace DownBelow.Managers
                 && selfPlayer.CanAutoAttack
             )
             {
-                selfPlayer.IsAutoAttacking = true;
-                this._spellArrow.FollowAutoAttack(LastHoveredCell);
+                if(DraggableCard.SelectedCard == null)
+                {
+                    selfPlayer.IsAutoAttacking = true;
+                    this._spellArrow.FollowAutoAttack(LastHoveredCell);
+                }
             }
         }
 
@@ -806,7 +810,8 @@ namespace DownBelow.Managers
                 cellsData,
                 innerGrids,
                 savedSpawnables,
-                storages
+                storages,
+                grid.SelfData.IsForTutorial
             );
         }
 
