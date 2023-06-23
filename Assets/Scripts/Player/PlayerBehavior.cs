@@ -65,7 +65,6 @@ namespace DownBelow.Entity
 
         public void ShowOutline(bool show)
         {
-            Outline.enabled = show;
             if (show)
             {
                 InputManager.Instance.OnNewCellHovered += OutlineChange;
@@ -78,16 +77,20 @@ namespace DownBelow.Entity
 
         private void OutlineChange(CellEventData Data)
         {
+            Outline.enabled = false;
             if (IsAutoAttacking)
             {
+                Outline.enabled = true;
                 Outline.OutlineColor = Color.red;
             }
             else if (Data.Cell == EntityCell)
             {
+                Outline.enabled = true;
                 Outline.OutlineColor = Color.cyan;
             }
             else
             {
+                Outline.enabled = true;
                 Outline.OutlineColor = Color.yellow;
             }
 
