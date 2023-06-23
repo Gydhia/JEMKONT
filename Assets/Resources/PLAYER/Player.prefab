@@ -1215,6 +1215,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfe970a6b3853e9438f6751890782215, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RefStats: {fileID: 0}
   TurnOrder: 0
   IsAlly: 1
   IsPlayingEntity: 0
@@ -1240,6 +1241,7 @@ MonoBehaviour:
     RefCell: {fileID: 0}
     StorageItems: []
     MaxSlots: 0
+    OnlyTake: 0
   NextInteract: {fileID: 0}
   ToolHolder: {fileID: 2445502742508925622}
   PlayerView: {fileID: 0}
@@ -1249,6 +1251,7 @@ MonoBehaviour:
     RefCell: {fileID: 0}
     StorageItems: []
     MaxSlots: 0
+    OnlyTake: 0
   CurrentSelectedItem: {fileID: 0}
   IsAutoAttacking: 0
   inventorySlotSelected: 0
@@ -1643,7 +1646,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6827766241666734997, guid: 58f029317940c444fb9bd1b31850c1f8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6827766241666734997, guid: 58f029317940c444fb9bd1b31850c1f8, type: 3}
       propertyPath: m_LocalPosition.z

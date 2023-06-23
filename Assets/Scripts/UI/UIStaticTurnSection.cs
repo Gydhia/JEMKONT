@@ -18,7 +18,7 @@ namespace DownBelow.UI
         public Transform EntitiesHolder;
 
         public Image TimeSlider;
-        public Button NextTurnButton;
+        public Button[] NextTurnButtons;
 
         public List<EntitySprite> CombatEntities;
 
@@ -36,8 +36,13 @@ namespace DownBelow.UI
                 this.CombatEntities[i].Init(CombatManager.Instance.PlayingEntities[i], i <= 0);
             }
 
-            this.NextTurnButton.onClick.RemoveAllListeners();
-            this.NextTurnButton.onClick.AddListener(AskEndOfTurn);
+            foreach (Button button in this.NextTurnButtons)
+            {
+                button.onClick.RemoveAllListeners();
+                button.onClick.AddListener(AskEndOfTurn);
+            }
+            /*his.NextTurnButton
+            this.NextTurnButton.*/
 
             CombatManager.Instance.OnTurnStarted += this._updateTurn;
             CombatManager.Instance.OnEntityDeath += this._updateEntityDeath;
@@ -75,14 +80,22 @@ namespace DownBelow.UI
                 NetworkManager.Instance.EntityAskToBuffAction(
                     new EndTurnAction(CombatManager.CurrentPlayingEntity, CombatManager.CurrentPlayingEntity.EntityCell)
                 );
-
-                NextTurnButton.interactable = false;
+                foreach (Button button in this.NextTurnButtons)
+                {
+                    button.interactable = false;
+                }
+               // NextTurnButton.interactable = false;
             }
         }
 
         private void _updateTurn(EntityEventData Data)
         {
-            NextTurnButton.interactable = CombatManager.Instance.IsPlayerOrOwned(Data.Entity);
+            foreach (Button button in this.NextTurnButtons)
+            {
+                button.interactable = CombatManager.Instance.IsPlayerOrOwned(Data.Entity);
+            }
+            
+           // NextTurnButton.interactable = CombatManager.Instance.IsPlayerOrOwned(Data.Entity);
         }
 
         private void _updateEntityDeath(EntityEventData Data)
