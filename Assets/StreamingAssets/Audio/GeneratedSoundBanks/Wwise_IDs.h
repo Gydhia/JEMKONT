@@ -13,7 +13,6 @@ namespace AK
 {
     namespace EVENTS
     {
-        static const AkUniqueID PLAY_JOB = 2993927107U;
         static const AkUniqueID PLAY_SSFX__ALLYTURN = 2351453751U;
         static const AkUniqueID PLAY_SSFX__CARDPICK = 284401701U;
         static const AkUniqueID PLAY_SSFX__CARDSLAP = 1884104528U;
@@ -26,7 +25,12 @@ namespace AK
         static const AkUniqueID PLAY_SSFX__ENEMYTURN = 2280958161U;
         static const AkUniqueID PLAY_SSFX__MYTURNEND = 529950874U;
         static const AkUniqueID PLAY_SSFX__MYTURNSTART = 3168485769U;
+        static const AkUniqueID PLAY_SSFX__PORTAL = 1381713026U;
         static const AkUniqueID PLAY_SSFX__WALK = 71458555U;
+        static const AkUniqueID PLAY_SSFX_FISH = 3581818263U;
+        static const AkUniqueID PLAY_SSFX_HERB = 4082667236U;
+        static const AkUniqueID PLAY_SSFX_ORE = 1628470307U;
+        static const AkUniqueID PLAY_SSFX_WOOD = 2902633162U;
         static const AkUniqueID SET_GRASS = 4038830388U;
         static const AkUniqueID SET_LAYER_0 = 217388420U;
         static const AkUniqueID SET_LAYER_1 = 217388421U;
@@ -55,20 +59,6 @@ namespace AK
             } // namespace STATE
         } // namespace GAMESTATE
 
-        namespace JOB
-        {
-            static const AkUniqueID GROUP = 545665442U;
-
-            namespace STATE
-            {
-                static const AkUniqueID CHOP = 4240969745U;
-                static const AkUniqueID FISH = 2695658327U;
-                static const AkUniqueID MINE = 2609527548U;
-                static const AkUniqueID MOW = 1082004780U;
-                static const AkUniqueID NONE = 748895195U;
-            } // namespace STATE
-        } // namespace JOB
-
         namespace LAYERS
         {
             static const AkUniqueID GROUP = 3298531235U;
@@ -89,9 +79,9 @@ namespace AK
 
             namespace STATE
             {
+                static const AkUniqueID ABYSS = 4215188899U;
                 static const AkUniqueID NONE = 748895195U;
                 static const AkUniqueID OVERWORLD = 1562068129U;
-                static const AkUniqueID UNDERWORLD = 442576059U;
             } // namespace STATE
         } // namespace WORLD
 

@@ -96,8 +96,7 @@ namespace DownBelow.UI
         {
             if(DraggableCard.SelectedCard != null)
             {
-                DraggableCard.SelectedCard.PinnedToScreen = false;
-                DraggableCard.SelectedCard = null;
+                DraggableCard.SelectedCard.RefreshCardValues();
             }
         }
     }

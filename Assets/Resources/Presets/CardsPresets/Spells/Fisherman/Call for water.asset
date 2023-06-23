@@ -380,7 +380,7 @@ MonoBehaviour:
       Data: 2
     - Name: PushDamages
       Entry: 3
-      Data: 2
+      Data: 20
     - Name: PushDamagesMultiplier
       Entry: 4
       Data: 1

@@ -1,14 +1,10 @@
-using System;
 using DownBelow.Managers;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using DownBelow.Mechanics;
 using System.Linq;
-using System.Security.AccessControl;
 using DG.Tweening;
 using Random = UnityEngine.Random;
 using DownBelow.Events;
@@ -102,8 +98,7 @@ namespace DownBelow.UI
             }
             if(SelectedCard == this && SelectedCard._pinUpdateCoroutine == null)
             {
-                SelectedCard.PinnedToScreen = false;
-                SelectedCard = null;
+                this.RefreshCardValues();
             }
             // Forbid the card drag if currently using another one
             if (HoveredCard == this && SelectedCard == null && !this._isDestroying)
@@ -113,6 +108,13 @@ namespace DownBelow.UI
 
                 this._compareCoroutine = StartCoroutine(this._compareDistanceToStartFollow());
             }
+        }
+
+        public void RefreshCardValues()
+        {
+            SelectedCard.PinnedToScreen = false;
+            SelectedCard.IsDragged = false;
+            SelectedCard = null;
         }
 
         // Player released the card.
@@ -303,6 +305,7 @@ namespace DownBelow.UI
 
         public void DiscardToPile(UICardsPile toPile)
         {
+            this.RefPile = toPile;
             this._isDestroying = true;
             SelectedCard = null;
 
@@ -315,15 +318,12 @@ namespace DownBelow.UI
             this.m_RectTransform.DOScale(0.2f, .4f);
             this.m_RectTransform.DOMove(toPile.VisualMoveTarget.position, 0.4f)
                 .OnComplete(() => {
-                    this.Burn();
+                    this.m_RectTransform.SetParent(this.RefPile.CardsHolder);
+                    this.m_RectTransform.DOScale(1f, 0f);
                     this._isDestroying = false;
                 });
         }
-
-        public void Burn()
-        {
-            this.gameObject.SetActive(false);
-        }
+        
 
         private IEnumerator _compareDistanceToStartFollow()
         {

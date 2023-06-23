@@ -16,15 +16,8 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 0}
-    - {fileID: 0}
     - {fileID: 11400000, guid: 672309b67e637ff4ca3549e1a384b411, type: 2}
     - {fileID: 11400000, guid: bc413fd47f0d3c94a93195dd2a067a46, type: 2}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -62,11 +55,11 @@ MonoBehaviour:
       Entry: 6
       Data: 
     - Name: RefEntity
-      Entry: 10
-      Data: 0
+      Entry: 6
+      Data: 
     - Name: TargetCell
-      Entry: 10
-      Data: 1
+      Entry: 6
+      Data: 
     - Name: ContextActionId
       Entry: 2
       Data: 00000000000000000000000000000000
@@ -714,10 +707,10 @@ MonoBehaviour:
       Data: 278
     - Name: ProjectileSFX
       Entry: 10
-      Data: 2
+      Data: 0
     - Name: CellSFX
       Entry: 10
-      Data: 3
+      Data: 1
     - Name: PushType
       Entry: 3
       Data: 5
@@ -729,7 +722,7 @@ MonoBehaviour:
       Data: 1
     - Name: PushDamages
       Entry: 3
-      Data: 3
+      Data: 30
     - Name: PushDamagesMultiplier
       Entry: 4
       Data: 1
@@ -793,17 +786,17 @@ MonoBehaviour:
       Entry: 12
       Data: 4
     - Name: 
-      Entry: 10
-      Data: 4
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 5
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 6
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 1
+      Entry: 6
+      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -818,8 +811,8 @@ MonoBehaviour:
       Entry: 12
       Data: 1
     - Name: 
-      Entry: 10
-      Data: 7
+      Entry: 6
+      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -849,8 +842,8 @@ MonoBehaviour:
       Entry: 9
       Data: 1
     - Name: Caster
-      Entry: 10
-      Data: 0
+      Entry: 6
+      Data: 
     - Name: SetUp
       Entry: 5
       Data: true
@@ -996,11 +989,11 @@ MonoBehaviour:
       Entry: 6
       Data: 
     - Name: RefEntity
-      Entry: 10
-      Data: 0
+      Entry: 6
+      Data: 
     - Name: TargetCell
-      Entry: 10
-      Data: 8
+      Entry: 6
+      Data: 
     - Name: ContextActionId
       Entry: 2
       Data: 00000000000000000000000000000000
@@ -1315,8 +1308,8 @@ MonoBehaviour:
       Entry: 12
       Data: 1
     - Name: 
-      Entry: 10
-      Data: 7
+      Entry: 6
+      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -1346,8 +1339,8 @@ MonoBehaviour:
       Entry: 9
       Data: 22
     - Name: Caster
-      Entry: 10
-      Data: 0
+      Entry: 6
+      Data: 
     - Name: SetUp
       Entry: 5
       Data: true
@@ -1360,19 +1353,7 @@ MonoBehaviour:
       Data: 15
     - Name: 
       Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 10
-      Data: 7
-    - Name: $v
-      Entry: 3
-      Data: 25
-    - Name: 
-      Entry: 8
-      Data: 
+      Data: 0
     - Name: 
       Entry: 13
       Data: 
@@ -1488,7 +1469,7 @@ MonoBehaviour:
   Cost: 2
   CardType: 2
   Description: Choose a direction, attract everything in a straight line in that
-    direction by 1 tiles and deal X damage.
+    direction by 1 tiles and deal 30 damage.
   IllustrationImage: {fileID: 21300000, guid: 3e70afd6c42a6c1449f3f632d62f8059, type: 3}
   Class: 3
   CurrentSpellTargetting: 0

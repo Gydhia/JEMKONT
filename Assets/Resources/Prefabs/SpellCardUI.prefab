@@ -89,6 +89,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IllustrationImage: {fileID: 4018063093210214812}
   ShineImage: {fileID: 4513986071798882097}
+  BackImage: {fileID: 0}
   CostText: {fileID: 7927228825428892186}
   TitleText: {fileID: 2351040913335357563}
   DescText: {fileID: 4271989896824886011}
@@ -167,7 +168,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 0.7411765, b: 0.56078434, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 0
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []

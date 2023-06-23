@@ -48,7 +48,7 @@ MonoBehaviour:
   AffectingState: 1
   AttachedCell: {fileID: 0}
   StatAffected: 0
-  Value: -3
+  Value: -20
   NumberOfDuplicates: 0
 --- !u!1001 &1984748312855307504
 PrefabInstance:

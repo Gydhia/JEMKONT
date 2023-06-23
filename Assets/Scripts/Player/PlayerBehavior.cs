@@ -60,12 +60,8 @@ namespace DownBelow.Entity
         public List<ToolItem> CombatTools = new List<ToolItem>();
 
         public BaseStorage PlayerSpecialSlots;
-        public ItemPreset CurrentSelectedItem;
         public bool IsAutoAttacking = false;
-        public int inventorySlotSelected = 0;
-
-        private bool scrollBusy;
-        private PlaceableItem lastPlaceable;
+        
         [HideInInspector] public int theList= 0;
         public DeckPreset Deck
         {
@@ -137,7 +133,7 @@ namespace DownBelow.Entity
 
             int playersNb = PhotonNetwork.PlayerList.Length;
 
-            this._setCharacterVisuals(null);
+            this.SetCharacterVisuals(null);
 
             this.PlayerInventory = new BaseStorage();
             this.PlayerInventory.Init(
@@ -151,8 +147,6 @@ namespace DownBelow.Entity
             this.PlayerSpecialSlots = new BaseStorage();
             this.PlayerSpecialSlots.Init(toolSlots);
 
-            PlayerInputs.player_scroll.performed += this._scroll;
-
             this.FireEntityInited();
         }
 
@@ -161,101 +155,7 @@ namespace DownBelow.Entity
             base.FireEnteredCell(cell);
         }
 
-        private void _scroll(UnityEngine.InputSystem.InputAction.CallbackContext ctx) => this.Scroll(ctx.ReadValue<float>());
-        void Scroll(float value)
-        {
-            if (scrollBusy) return;
-            scrollBusy = true;
-            int newSlot = inventorySlotSelected;
-            if (value <= -110)
-            {
-                //If we're scrolling up,
-                if (inventorySlotSelected + 1 >= PlayerInventory.MaxSlots)
-                {
-                    //If by incrementing our selectedslot we would go over the limit; do a loop
-                    newSlot = 0;
-                } else
-                {
-                    //Increment simply
-                    newSlot++;
-                }
-                switchSlots(inventorySlotSelected, newSlot);
-            } else if (value >= 110)
-            {
-
-                if (inventorySlotSelected - 1 < 0)
-                {
-                    //if by decrementing we would go below 0;
-                    newSlot = PlayerInventory.MaxSlots;
-                } else
-                {
-                    //decrement
-                    newSlot--;
-                }
-
-                switchSlots(inventorySlotSelected, newSlot);
-            } else
-            {
-                //NoScrollin
-            }
-            scrollBusy = false;
-            processEndScroll();
-        }
-
-        void switchSlots(int old, int newSlot)
-        {
-            UIManager.Instance.SwitchSelectedSlot(old, newSlot);
-            if (newSlot == 0)
-            {
-                CurrentSelectedItem = ActiveTool;
-
-                //ActiveSlot
-            } else
-            {
-                CurrentSelectedItem = PlayerInventory.StorageItems[newSlot - 1].ItemPreset;
-                //Inventory
-            }
-            inventorySlotSelected = newSlot;
-        }
-
-        void processEndScroll()
-        {
-            if(lastPlaceable != null)
-            {
-                InputManager.Instance.OnNewCellHovered -= lastPlaceable.Previsualize;
-                InputManager.Instance.OnCellRightClickDown -= lastPlaceable.AskToPlace;
-                lastPlaceable.StopPrevisualize();
-                lastPlaceable = null;
-            }
-
-            if(CurrentSelectedItem != null)
-            {
-                if (CurrentSelectedItem is PlaceableItem placeable)
-                {
-                    lastPlaceable = placeable;
-                    InputManager.Instance.OnNewCellHovered += lastPlaceable.Previsualize;
-                    InputManager.Instance.OnCellRightClickDown += lastPlaceable.AskToPlace;
-                }
-                else
-                {
-                    if(lastPlaceable!= null)
-                    {
-                        InputManager.Instance.OnNewCellHovered -= lastPlaceable.Previsualize;
-                        InputManager.Instance.OnCellRightClickDown -= lastPlaceable.AskToPlace;
-                        lastPlaceable = null;
-                    }
-                }
-            }
-            else
-            {
-                if(lastPlaceable!= null)
-                {
-                    InputManager.Instance.OnNewCellHovered -= lastPlaceable.Previsualize;
-                    InputManager.Instance.OnCellRightClickDown -= lastPlaceable.AskToPlace;
-                    lastPlaceable = null;
-                }
-            }
-        }
+       
 
         public void SetActiveTool(ToolItem activeTool)
         {
@@ -267,7 +167,7 @@ namespace DownBelow.Entity
             {
                 this.ActiveTools.Add(activeTool);
                 this.SetStatistics(activeTool.DeckPreset.Statistics);
-                this._setCharacterVisuals(activeTool);
+                this.SetCharacterVisuals(activeTool);
             }
             else
             {
@@ -287,11 +187,11 @@ namespace DownBelow.Entity
             if(isCurrentTool || this.ActiveTool == null)
             {
                 this.SetStatistics(this.ActiveTool ? this.ActiveTool.DeckPreset.Statistics : SettingsManager.Instance.CombatPreset.EmptyStatistics);
-                this._setCharacterVisuals(this.ActiveTool);
+                this.SetCharacterVisuals(this.ActiveTool);
             }  
         }
 
-        private void _setCharacterVisuals(ToolItem toolRef)
+        public void SetCharacterVisuals(ToolItem toolRef)
         {
             foreach (Transform child in this.ToolHolder)
             {

@@ -16,8 +16,6 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 0}
-    - {fileID: 0}
     - {fileID: 11400000, guid: 74a348f95b6488746b5d56d7a7c60f83, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
@@ -56,11 +54,11 @@ MonoBehaviour:
       Entry: 6
       Data: 
     - Name: RefEntity
-      Entry: 10
-      Data: 0
+      Entry: 6
+      Data: 
     - Name: TargetCell
-      Entry: 10
-      Data: 1
+      Entry: 6
+      Data: 
     - Name: ContextActionId
       Entry: 2
       Data: 00000000000000000000000000000000
@@ -471,7 +469,7 @@ MonoBehaviour:
       Data: 4
     - Name: ProjectileSFX
       Entry: 10
-      Data: 2
+      Data: 0
     - Name: CellSFX
       Entry: 6
       Data: 
@@ -482,8 +480,8 @@ MonoBehaviour:
       Entry: 3
       Data: 0
     - Name: Target
-      Entry: 10
-      Data: 0
+      Entry: 6
+      Data: 
     - Name: InstanciatedFXAnimator
       Entry: 6
       Data: 
@@ -544,8 +542,8 @@ MonoBehaviour:
       Entry: 12
       Data: 1
     - Name: 
-      Entry: 10
-      Data: 1
+      Entry: 6
+      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -560,8 +558,8 @@ MonoBehaviour:
       Entry: 12
       Data: 1
     - Name: 
-      Entry: 10
-      Data: 0
+      Entry: 6
+      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -591,8 +589,8 @@ MonoBehaviour:
       Entry: 9
       Data: 1
     - Name: Caster
-      Entry: 10
-      Data: 0
+      Entry: 6
+      Data: 
     - Name: SetUp
       Entry: 5
       Data: true
@@ -732,7 +730,7 @@ MonoBehaviour:
       Entry: 8
       Data: 
   Title: ITS ALIVE
-  Cost: 2
+  Cost: 3
   CardType: 2
   Description: Choose an ally, if he should die within 3 turns, he is fully healed
     and snared for 3 turns.

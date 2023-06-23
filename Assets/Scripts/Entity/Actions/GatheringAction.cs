@@ -25,10 +25,18 @@ namespace DownBelow.Entity
                 EndAction();
             }
             // Only the local player should execute the UI action
-            else if (CurrentRessource != null && CurrentRessource.isMature && this.RefEntity == GameManager.RealSelfPlayer)
+            else if (CurrentRessource != null && CurrentRessource.isMature)
             {
-                GameManager.RealSelfPlayer.FireGatheringStarted(this.CurrentRessource);
-                UIManager.Instance.GatherSection.StartInteract(this, this.requiredTicks);
+                var player = this.RefEntity as PlayerBehavior;
+
+                var usedTool = player.ActiveTools.First(t => t.Class == this.CurrentRessource.LocalPreset.GatherableBy);
+                player.SetCharacterVisuals(usedTool);
+
+                if(player == GameManager.RealSelfPlayer)
+                {
+                    GameManager.RealSelfPlayer.FireGatheringStarted(this.CurrentRessource);
+                    UIManager.Instance.GatherSection.StartInteract(this, this.requiredTicks);
+                }
             }
         }
 
@@ -74,6 +82,10 @@ namespace DownBelow.Entity
         private IEnumerator _waitForEndAnim()
         {
             yield return new WaitForSeconds(1.5f);
+
+            var player = this.RefEntity as PlayerBehavior;
+
+            player.SetCharacterVisuals(player.ActiveTool);
 
             this.EndAction();
         }

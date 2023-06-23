@@ -459,6 +459,22 @@ namespace DownBelow.Managers
 
         }
 
+        public static bool IsCellInSpell(Cell cell)
+        {
+            var spell = Instance._currentSpell;
+
+            return cell != null
+                && (
+                    spell.Data.CastingMatrix == null
+                    || GridUtility.IsCellWithinPlayerRange(
+                        ref spell.Data.CastingMatrix,
+                        CurrentPlayingEntity.EntityCell.PositionInGrid,
+                        cell.PositionInGrid,
+                        spell.Data.CasterPosition
+                    )
+                );
+        }
+
         public static bool IsCellCastable(Cell cell, Spell spell)
         {
             return cell != null
@@ -567,10 +583,15 @@ namespace DownBelow.Managers
             {
                 for (int i = 0; i < enemies.Count; i++)
                 {
-                    if (this.IsPlayerOrOwned(players[i]))
-                        players[i].Index = indexIncr++;
-                    this.PlayingEntities.Add(players[i]);
-                    if (i < players.Count)
+                    if(i < players.Count)
+                    {
+                        if (this.IsPlayerOrOwned(players[i]))
+                            players[i].Index = indexIncr++;
+
+                        this.PlayingEntities.Add(players[i]);
+                    }
+                   
+                    if (i < enemies.Count)
                     {
                         this.PlayingEntities.Add(enemies[i]);
                     }
@@ -580,12 +601,17 @@ namespace DownBelow.Managers
             {
                 for (int i = 0; i < players.Count; i++)
                 {
-                    this.PlayingEntities.Add(enemies[i]);
-                    if (i < enemies.Count)
+                    if(i < enemies.Count)
+                    {
+                        this.PlayingEntities.Add(enemies[i]);
+                    }
+
+                    if (i < players.Count)
                     {   
-                        this.PlayingEntities.Add(players[i]);
                         if (this.IsPlayerOrOwned(players[i]))
                             players[i].Index = indexIncr++;
+
+                        this.PlayingEntities.Add(players[i]);
                     }
                 }
             }

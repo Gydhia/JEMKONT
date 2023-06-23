@@ -304,7 +304,7 @@ MonoBehaviour:
       Data: 0
     - Name: StatAmount
       Entry: 3
-      Data: 5
+      Data: 10
     - Name: GivesAlteration
       Entry: 5
       Data: false
@@ -659,8 +659,8 @@ MonoBehaviour:
   Title: End Of Fuse
   Cost: 2
   CardType: 2
-  Description: All the non character entities deal X damage to opponents around them.
-    Affected opponents are shattered.
+  Description: All the non character entities deal 10 damage to opponents around
+    them. Affected opponents are shattered.
   IllustrationImage: {fileID: 21300000, guid: befdcfac9108033469daf594a3987b84, type: 3}
   Class: 0
   CurrentSpellTargetting: 0

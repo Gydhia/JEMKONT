@@ -13,16 +13,21 @@ namespace DownBelow.GridSystem
 {
     public static class GridUtility
     {
-        public static int Distance(Cell cell1, Cell cell2)
+        public static int ManhattanDistance(Cell cell1, Cell cell2)
         {
             int dx = Math.Abs(cell1.PositionInGrid.longitude - cell2.PositionInGrid.longitude);
             int dy = Math.Abs(cell1.PositionInGrid.latitude - cell2.PositionInGrid.latitude);
             return dx + dy;
         }
 
+        public static int ManhattanDistance(int firstBase, int secondBase, int firstTarget, int secondTarget)
+        {
+            return Mathf.Abs(firstBase - firstTarget) + Mathf.Abs(secondBase - secondTarget);
+        }
+
         public static int DistanceWith(this Cell ourcell, Cell CellToMesureDistance)
         {
-            return Distance(ourcell, CellToMesureDistance);
+            return ManhattanDistance(ourcell, CellToMesureDistance);
         }
         public static void ResizeGrid(ref CellData[,] oldCells, CellData[,] newCells)
         {

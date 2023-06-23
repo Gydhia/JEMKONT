@@ -57,6 +57,7 @@ namespace DownBelow.UI
 
                 refDeck.LinkedPlayer.OnManaAdded += _refreshManaColor;
                 refDeck.LinkedPlayer.OnManaRemoved += _refreshManaColor;
+                refDeck.LinkedPlayer.OnStatisticsReinitialized += _refreshManaColor;
             }
         }
 

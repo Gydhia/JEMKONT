@@ -132,7 +132,7 @@ namespace DownBelow.UI.Inventory
 
             this._positionAfterDrag = selfButton.transform.position;
             this._parentAfterDrag = selfButton.transform.parent;
-            selfButton.transform.SetParent(transform.root);
+            selfButton.transform.SetParent(UIManager.Instance.DragItemParent);
             selfButton.transform.SetAsLastSibling();
         }
 
@@ -192,14 +192,17 @@ namespace DownBelow.UI.Inventory
         }
         protected virtual void dropOverWorld(PointerEventData eventData)
         {
-            var action = new DropItemAction(GameManager.RealSelfPlayer, GridManager.Instance.LastHoveredCell);
-            action.Init(
-                null,
-                SelfItem.ItemPreset,
-                SelfItem.Quantity,
-                false);
+            if(this.SelfItem.ItemPreset is ToolItem)
+            {
+                var action = new DropItemAction(GameManager.RealSelfPlayer, GridManager.Instance.LastHoveredCell);
+                action.Init(
+                    null,
+                    SelfItem.ItemPreset,
+                    SelfItem.Quantity,
+                    false);
 
-            NetworkManager.Instance.EntityAskToBuffAction(action);
+                NetworkManager.Instance.EntityAskToBuffAction(action);
+            }
         }
         public void OnPointerEnter(PointerEventData eventData)
         {

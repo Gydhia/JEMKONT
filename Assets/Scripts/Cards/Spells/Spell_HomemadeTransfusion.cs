@@ -9,7 +9,7 @@ namespace DownBelow.Spells
 {
     public class SpellData_HomemadeTransfusion : SpellData
     {
-        [Tooltip("Reminder: target is healed by this. If he is still hurt, he is dealt this*2 damage.")]
+        [Tooltip("Reminder: target is healed by X. If he is still hurt, he is dealt X*2 damage.")]
         public int HealingValue;
     }
 
