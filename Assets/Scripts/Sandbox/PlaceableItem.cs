@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public abstract class PlaceableItem : ItemPreset
 {
@@ -16,8 +17,11 @@ public abstract class PlaceableItem : ItemPreset
 
     protected abstract CellState AffectingState { get; }
 
-    public void AskToPlace(CellEventData data)
+    public void AskToPlace(InputAction.CallbackContext ctx)
     {
+        if (GridManager.Instance.LastHoveredCell == null)
+            return;
+
         if (PrevisualizationInstance != null)
         {
             Destroy(PrevisualizationInstance);
@@ -27,12 +31,12 @@ public abstract class PlaceableItem : ItemPreset
             if (item.Quantity <= 1)
             {
                 InputManager.Instance.OnNewCellHovered -= Previsualize;
-                InputManager.Instance.OnCellRightClickDown -= AskToPlace;
+                PlayerInputs.player_interact.performed -= AskToPlace;
             }
 
             NetworkManager.Instance.GiftOrRemovePlayerItem(GameManager.RealSelfPlayer.UID, this, -1);
 
-            var placeAction = new PlaceItemAction(GameManager.RealSelfPlayer, data.Cell);
+            var placeAction = new PlaceItemAction(GameManager.RealSelfPlayer, GridManager.Instance.LastHoveredCell);
             placeAction.Init(this);
 
             NetworkManager.Instance.EntityAskToBuffAction(placeAction);
@@ -70,13 +74,15 @@ public abstract class PlaceableItem : ItemPreset
             if (stack.Quantity <= 0)
             {
                 InputManager.Instance.OnNewCellHovered -= Previsualize;
-                InputManager.Instance.OnCellRightClickDown -= AskToPlace;
+                PlayerInputs.player_interact.performed -= AskToPlace;
                 return;
             }
         } catch (InvalidOperationException ex)
         {
+            Debug.LogError(ex.Message);
+
             InputManager.Instance.OnNewCellHovered -= Previsualize;
-            InputManager.Instance.OnCellRightClickDown -= AskToPlace;
+            PlayerInputs.player_interact.performed -= AskToPlace;
             return;
         }
 

@@ -1,14 +1,10 @@
-using System;
 using DownBelow.Managers;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using DownBelow.Mechanics;
 using System.Linq;
-using System.Security.AccessControl;
 using DG.Tweening;
 using Random = UnityEngine.Random;
 using DownBelow.Events;
@@ -102,8 +98,7 @@ namespace DownBelow.UI
             }
             if(SelectedCard == this && SelectedCard._pinUpdateCoroutine == null)
             {
-                SelectedCard.PinnedToScreen = false;
-                SelectedCard = null;
+                this.RefreshCardValues();
             }
             // Forbid the card drag if currently using another one
             if (HoveredCard == this && SelectedCard == null && !this._isDestroying)
@@ -113,6 +108,13 @@ namespace DownBelow.UI
 
                 this._compareCoroutine = StartCoroutine(this._compareDistanceToStartFollow());
             }
+        }
+
+        public void RefreshCardValues()
+        {
+            SelectedCard.PinnedToScreen = false;
+            SelectedCard.IsDragged = false;
+            SelectedCard = null;
         }
 
         // Player released the card.

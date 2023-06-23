@@ -55,6 +55,12 @@ namespace DownBelow.Managers
         public bool IsPressingShift = false;
         public bool IsPointingOverUI = false;
 
+        private UI.Inventory.BaseStorage _playerInventory => GameManager.RealSelfPlayer.PlayerInventory;
+        private ItemPreset _currentSelectedItem;
+        private int _inventorySlotSelected = 0;
+        private bool _scrollBusy;
+        private PlaceableItem _lastPlaceable;
+
         public override void Awake()
         {
             base.Awake();
@@ -76,6 +82,8 @@ namespace DownBelow.Managers
             PlayerInputs.player_escape.canceled += this._onEscape;
 
             PlayerInputs.player_F4.performed += this._onF4Down;
+
+            PlayerInputs.player_scroll.performed += this._scroll;
         }
 
         private void Update()
@@ -200,6 +208,109 @@ namespace DownBelow.Managers
 
         }
 
+
+        private void _scroll(UnityEngine.InputSystem.InputAction.CallbackContext ctx) => this.Scroll(ctx.ReadValue<float>());
+        void Scroll(float value)
+        {
+            if (_scrollBusy) return;
+            _scrollBusy = true;
+            int newSlot = _inventorySlotSelected;
+            if (value <= -110)
+            {
+                //If we're scrolling up,
+                if (_inventorySlotSelected + 1 >= this._playerInventory.MaxSlots)
+                {
+                    //If by incrementing our selectedslot we would go over the limit; do a loop
+                    newSlot = 0;
+                }
+                else
+                {
+                    //Increment simply
+                    newSlot++;
+                }
+                switchSlots(_inventorySlotSelected, newSlot);
+            }
+            else if (value >= 110)
+            {
+
+                if (_inventorySlotSelected - 1 < 0)
+                {
+                    //if by decrementing we would go below 0;
+                    newSlot = this._playerInventory.MaxSlots;
+                }
+                else
+                {
+                    //decrement
+                    newSlot--;
+                }
+
+                switchSlots(_inventorySlotSelected, newSlot);
+            }
+            else
+            {
+                //NoScrollin
+            }
+            _scrollBusy = false;
+            processEndScroll();
+        }
+
+        void switchSlots(int old, int newSlot)
+        {
+            UIManager.Instance.SwitchSelectedSlot(old, newSlot);
+
+            _currentSelectedItem = this._playerInventory.StorageItems[newSlot - 1].ItemPreset;
+            _inventorySlotSelected = newSlot;
+        }
+
+        void processEndScroll()
+        {
+            if (_lastPlaceable != null)
+            {
+                OnNewCellHovered -= _lastPlaceable.Previsualize;
+                PlayerInputs.player_interact.performed -= _lastPlaceable.AskToPlace;
+                _lastPlaceable.StopPrevisualize();
+                _lastPlaceable = null;
+            }
+
+            if (_currentSelectedItem != null)
+            {
+                if (_currentSelectedItem is PlaceableItem placeable)
+                {
+                    _lastPlaceable = placeable;
+                    OnNewCellHovered += _lastPlaceable.Previsualize;
+                    PlayerInputs.player_interact.performed += _lastPlaceable.AskToPlace;
+
+                    UIManager.Instance.PlayerInventory.PressEIndicator.gameObject.SetActive(true);
+                }
+                else
+                {
+                    UIManager.Instance.PlayerInventory.PressEIndicator.gameObject.SetActive(false);
+
+                    if (_lastPlaceable != null)
+                    {
+                        OnNewCellHovered -= _lastPlaceable.Previsualize;
+                        PlayerInputs.player_interact.performed -= _lastPlaceable.AskToPlace;
+                        _lastPlaceable = null;
+                    }
+                }
+            }
+            else
+            {
+                UIManager.Instance.PlayerInventory.PressEIndicator.gameObject.SetActive(false);
+
+                if (_lastPlaceable != null)
+                {
+                    OnNewCellHovered -= _lastPlaceable.Previsualize;
+                    PlayerInputs.player_interact.performed -= _lastPlaceable.AskToPlace;
+                    _lastPlaceable = null;
+                }
+            }
+        }
+
+        private void OnDestroy()
+        {
+            PlayerInputs.player_scroll.performed -= this._scroll;
+        }
 
         public void ChangeCursorAppearance(CursorAppearance newAppearance)
         {

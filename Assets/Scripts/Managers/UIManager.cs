@@ -57,28 +57,9 @@ namespace DownBelow.Managers
         }
         public void SwitchSelectedSlot(int oldSlot, int newSlot)
         {
-            if (oldSlot == 0)
-            {
-                //ActiveSlot
-                PlayerInventory.ClassItem.SelectedSlot(false);
-            } else
-            {
-                //Inventory
-                PlayerInventory.PlayerStorage.Items[oldSlot - 1].SelectedSlot(false);
-            }
-            if (newSlot == 0)
-            {
-                PlayerInventory.ClassItem.SelectedSlot(true);
-                
-                //ActiveSlot
-            } else
-            {
-                PlayerInventory.PlayerStorage.Items[newSlot - 1].SelectedSlot(true);
-                
-                //Inventory
-            }
-
-
+            PlayerInventory.PlayerStorage.Items[oldSlot - 1].SelectedSlot(false);
+         
+            PlayerInventory.PlayerStorage.Items[newSlot - 1].SelectedSlot(true);
         }
         private void _subscribe()
         {

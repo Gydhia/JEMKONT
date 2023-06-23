@@ -36,6 +36,8 @@ namespace DownBelow.Entity
         public event SpellEventData.Event OnRangeRemoved;
         public event SpellEventData.Event OnRangeAdded;
 
+        public event SpellEventData.Event OnStatisticsReinitialized;
+
         public event GameEventData.Event OnStatisticsChanged;
 
         public Action OnManaMissing;
@@ -390,6 +392,8 @@ namespace DownBelow.Entity
                 case EntityStatistics.Defense: this.Statistics[EntityStatistics.Defense] = this.RefStats.Defense; break;
                 case EntityStatistics.Range: this.Statistics[EntityStatistics.Range] = this.RefStats.Range; break;
             }
+
+            this.OnStatisticsReinitialized?.Invoke(new SpellEventData(this, this.RefStats.GetStatistic(stat), stat));
         }
 
         /// <summary>
@@ -401,20 +405,29 @@ namespace DownBelow.Entity
         public void ApplyStat(EntityStatistics stat, int value, bool triggerEvents = true)
         {
             Debug.Log($"Applied stat {stat}, {value} to {ToString()} {Environment.StackTrace} ");
+
+            int maxStat = this.RefStats.GetStatistic(stat);
             Statistics[stat] += value;
+
+            if (Statistics[stat] > maxStat)
+            {
+                this.Statistics[stat] = maxStat;
+
+                if (value > 0)
+                {
+                    // Check overheal
+                    if (this.Statistics[stat] + value > maxStat)
+                    {
+                        value = maxStat - this.Statistics[stat];
+                    }
+                }
+            }
+
 
             switch (stat)
             {
                 case EntityStatistics.Health:
-                    if (value > 0)
-                    {
-                        // Check overheal
-                        if (this.Health + value > this.RefStats.Health)
-                        {
-                            value = this.RefStats.Health - Statistics[EntityStatistics.Health];
-                        }
-                    }
-                        this._applyHealth(value, triggerEvents); break;
+                    this._applyHealth(value, triggerEvents); break;
                 case EntityStatistics.Mana:
                     this._applyMana(value); break;
                 case EntityStatistics.Speed:
@@ -436,14 +449,8 @@ namespace DownBelow.Entity
         {
             if (value > 0)
             {
-                
                 Debug.Log("HEALED : "+ value);
-                // Check overheal
-                if (this.Health + value > this.RefStats.Health)
-                    value = this.RefStats.Health - Statistics[EntityStatistics.Health];
-                //else
-                //Statistics[EntityStatistics.Health] += value;
-                //value stays at its primary value.
+
                 if (triggerEvents)
                 {
                     this.OnHealthAdded?.Invoke(new(this, value));
@@ -614,6 +621,13 @@ namespace DownBelow.Entity
             if (this.Health <= 0)
             {
                 this.OnDeath?.Invoke(new EntityEventData(this));
+
+                if (this is PlayerBehavior && this.IsPlayingEntity)
+                {
+                    var endTurn = new EndTurnAction(this, this.EntityCell);
+
+                    NetworkManager.Instance.EntityAskToBuffAction(endTurn);
+                }
             }
         }
 
