@@ -5041,6 +5041,10 @@ MonoBehaviour:
   InnerCrackParticles: {fileID: 8135690118470374158}
   MainCrack: {fileID: 7229782536982557620}
   CrackBorders: {fileID: 7760026341850631012}
+  Sound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: df9def03349132b48817e7f7484a3f2c, type: 2}
   Orb: {fileID: 3156354033653975948}
   BubbleTrail: {fileID: 38943406412712218}
   Delay: 1.4
