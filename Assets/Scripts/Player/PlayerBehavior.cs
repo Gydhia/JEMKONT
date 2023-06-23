@@ -61,11 +61,42 @@ namespace DownBelow.Entity
 
         public BaseStorage PlayerSpecialSlots;
         public bool IsAutoAttacking = false;
-        
-        [HideInInspector] public int theList= 0;
+        public DownBelow.Outlining.Outline Outline;
+
+        public void ShowOutline(bool show)
+        {
+            Outline.enabled = show;
+            if (show)
+            {
+                InputManager.Instance.OnNewCellHovered += OutlineChange;
+            }
+            else
+            {
+                InputManager.Instance.OnNewCellHovered -= OutlineChange;
+            }
+        }
+
+        private void OutlineChange(CellEventData Data)
+        {
+            if (IsAutoAttacking)
+            {
+                Outline.OutlineColor = Color.red;
+            }
+            else if (Data.Cell == EntityCell)
+            {
+                Outline.OutlineColor = Color.cyan;
+            }
+            else
+            {
+                Outline.OutlineColor = Color.yellow;
+            }
+
+        }
+
+        [HideInInspector] public int theList = 0;
         public DeckPreset Deck
         {
-            get 
+            get
             {
                 return (this.CombatTool == null || CombatTool.DeckPreset == null) ?
                     null :
@@ -73,7 +104,7 @@ namespace DownBelow.Entity
             }
         }
 
-       
+
         public override int Mana
         {
             get => Mathf.Min(Statistics[EntityStatistics.Mana] + NumberOfTurnsPlayed,
@@ -118,7 +149,7 @@ namespace DownBelow.Entity
         {
             base.Init(refCell, refGrid, order);
 
-            if(this.RefStats == null)
+            if (this.RefStats == null)
             {
                 this.SetStatistics(SettingsManager.Instance.CombatPreset.EmptyStatistics, false);
             }
@@ -128,7 +159,7 @@ namespace DownBelow.Entity
             if (this.IsFake)
             {
                 this.FireEntityInited();
-                return; 
+                return;
             }
 
             int playersNb = PhotonNetwork.PlayerList.Length;
@@ -155,13 +186,13 @@ namespace DownBelow.Entity
             base.FireEnteredCell(cell);
         }
 
-       
+
 
         public void SetActiveTool(ToolItem activeTool)
         {
             activeTool.ActualPlayer = this;
             activeTool.DeckPreset.LinkedPlayer = this;
-            
+
             // Only set the player stats from one tool, the first one picked up
             if (this.ActiveTool == null)
             {
@@ -184,11 +215,11 @@ namespace DownBelow.Entity
 
             this.ActiveTools.Remove(removedTool);
 
-            if(isCurrentTool || this.ActiveTool == null)
+            if (isCurrentTool || this.ActiveTool == null)
             {
                 this.SetStatistics(this.ActiveTool ? this.ActiveTool.DeckPreset.Statistics : SettingsManager.Instance.CombatPreset.EmptyStatistics);
                 this.SetCharacterVisuals(this.ActiveTool);
-            }  
+            }
         }
 
         public void SetCharacterVisuals(ToolItem toolRef)
@@ -198,11 +229,11 @@ namespace DownBelow.Entity
                 Destroy(child.gameObject);
             }
 
-            if(toolRef != null)
+            if (toolRef != null)
             {
-             ToolOnGround tool =  Instantiate(toolRef.DroppedItemPrefab, this.ToolHolder).GetComponent<ToolOnGround>();
-             tool.Init(false);
-                
+                ToolOnGround tool = Instantiate(toolRef.DroppedItemPrefab, this.ToolHolder).GetComponent<ToolOnGround>();
+                tool.Init(false);
+
             }
 
             // Skin
@@ -214,17 +245,19 @@ namespace DownBelow.Entity
 
         public override void StartTurn()
         {
+            ShowOutline(true);
             base.StartTurn();
         }
 
         public override void EndTurn()
         {
+            ShowOutline(false);
             base.EndTurn();
         }
 
         public override string ToString()
         {
-            var res = base.ToString()+"\n";
+            var res = base.ToString() + "\n";
             res += $"Class: {ActiveTool?.Class}";
             return res;
         }
