@@ -940,7 +940,7 @@ MonoBehaviour:
   Title: Final Stretcher
   Cost: 2
   CardType: 1
-  Description: Choose an ally, teleport him to you and heal him.
+  Description: Choose an ally, teleport him to you and heal him by 20.
   IllustrationImage: {fileID: 21300000, guid: a34b26a131d4ac54397cfa0ebe0bd144, type: 3}
   Class: 1
   CurrentSpellTargetting: 0

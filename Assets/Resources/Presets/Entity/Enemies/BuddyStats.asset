@@ -21,13 +21,13 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  BaseHealth: 50
+  BaseHealth: 60
   BaseShield: 0
-  BaseStrength: 3
+  BaseStrength: 20
   BaseMana: 1
-  BaseSpeed: 6
-  BaseDefense: 20
-  BaseRange: 9
+  BaseSpeed: 5
+  BaseDefense: 0
+  BaseRange: 8
   BuffedHealth: 0
   BuffedShield: 0
   BuffedStrength: 0

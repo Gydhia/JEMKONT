@@ -490,9 +490,9 @@ MonoBehaviour:
       Entry: 8
       Data: 
   Title: Nurture Soil
-  Cost: 1
+  Cost: 2
   CardType: 3
-  Description: Surronds you with hella vines, bro
+  Description: You are surrounded by impassable vines for 3 turns.
   IllustrationImage: {fileID: 21300000, guid: ffb3026873cda2946830819f1c7a43a7, type: 3}
   Class: 2
   CurrentSpellTargetting: 0

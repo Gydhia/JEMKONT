@@ -25,7 +25,7 @@ namespace DownBelow.Entity
             if (this._isInRange())
             {
                 this.RefEntity.Animator.SetTrigger("Attack");
-                TargetCell.EntityIn.ApplyStat(EntityStatistics.Health, -(this.RefEntity.Strength * 3));
+                TargetCell.EntityIn.ApplyStat(EntityStatistics.Health, -(this.RefEntity.Strength));
             }
 
             this.EndAction();

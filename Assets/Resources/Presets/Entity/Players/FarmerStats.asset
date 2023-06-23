@@ -23,8 +23,8 @@ MonoBehaviour:
     SerializationNodes: []
   BaseHealth: 80
   BaseShield: 0
-  BaseStrength: 6
-  BaseMana: 4
+  BaseStrength: 40
+  BaseMana: 3
   BaseSpeed: 3
   BaseDefense: 0
   BaseRange: 5

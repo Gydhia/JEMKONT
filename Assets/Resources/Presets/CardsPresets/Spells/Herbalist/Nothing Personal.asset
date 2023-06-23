@@ -20,7 +20,6 @@ MonoBehaviour:
     - {fileID: 0}
     - {fileID: 11400000, guid: 1a809be3311568c45a307232300fa5f6, type: 2}
     - {fileID: 0}
-    - {fileID: 0}
     - {fileID: 11400000, guid: 629f550a71b2f0843958315d28a7ed33, type: 2}
     - {fileID: 11400000, guid: 9d0f6268ebf7985479145d8a3660f730, type: 2}
     - {fileID: 11400000, guid: 3fc342607e5f1764993a617ca652434d, type: 2}
@@ -317,7 +316,7 @@ MonoBehaviour:
       Data: 
     - Name: CasterID
       Entry: 1
-      Data: e5f5d225-1629-4410-8604-13a42e6e24be
+      Data: 713fb953-511a-452c-af68-ce8065057a22Herbalist
     - Name: 
       Entry: 8
       Data: 
@@ -356,7 +355,7 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 10
-      Data: 3
+      Data: 0
     - Name: 
       Entry: 13
       Data: 
@@ -503,8 +502,8 @@ MonoBehaviour:
       Entry: 12
       Data: 1
     - Name: 
-      Entry: 10
-      Data: 3
+      Entry: 6
+      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -540,7 +539,7 @@ MonoBehaviour:
       Data: 0
     - Name: TargetCell
       Entry: 10
-      Data: 4
+      Data: 3
     - Name: ContextActionId
       Entry: 2
       Data: 00000000000000000000000000000000
@@ -748,10 +747,7 @@ MonoBehaviour:
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 10
-      Data: 3
+      Data: 0
     - Name: 
       Entry: 13
       Data: 
@@ -795,19 +791,7 @@ MonoBehaviour:
       Data: 14
     - Name: 
       Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 10
-      Data: 3
-    - Name: $v
-      Entry: 3
-      Data: 33
-    - Name: 
-      Entry: 8
-      Data: 
+      Data: 0
     - Name: 
       Entry: 13
       Data: 
@@ -906,7 +890,7 @@ MonoBehaviour:
       Data: 
     - Name: TargettingCondition
       Entry: 10
-      Data: 5
+      Data: 4
     - Name: CastingCondition
       Entry: 6
       Data: 
@@ -930,7 +914,7 @@ MonoBehaviour:
       Data: 0
     - Name: TargetCell
       Entry: 10
-      Data: 4
+      Data: 3
     - Name: ContextActionId
       Entry: 2
       Data: 00000000000000000000000000000000
@@ -1101,7 +1085,7 @@ MonoBehaviour:
       Data: 2
     - Name: ProjectileSFX
       Entry: 10
-      Data: 6
+      Data: 5
     - Name: CellSFX
       Entry: 6
       Data: 
@@ -1113,7 +1097,7 @@ MonoBehaviour:
       Data: 0
     - Name: StatAmount
       Entry: 3
-      Data: 8
+      Data: 30
     - Name: GivesAlteration
       Entry: 5
       Data: false
@@ -1281,7 +1265,7 @@ MonoBehaviour:
       Data: 
     - Name: TargettingCondition
       Entry: 10
-      Data: 7
+      Data: 6
     - Name: CastingCondition
       Entry: 6
       Data: 
@@ -1297,8 +1281,8 @@ MonoBehaviour:
   Title: Nothing Personal
   Cost: 2
   CardType: 2
-  Description: Teleport to an entity. If it is an ally, heal them. If it is an opponent,
-    deal damage to it.
+  Description: Teleport to an entity. If it is an ally, heal them by 30. If it is
+    an opponent, deal 30 damage to it.
   IllustrationImage: {fileID: 21300000, guid: 3bef87d88502f4b499514c4f84b7489c, type: 3}
   Class: 1
   CurrentSpellTargetting: 0

@@ -623,7 +623,7 @@ MonoBehaviour:
   Title: Lawn Order
   Cost: 2
   CardType: 2
-  Description: Choose an opponent, when he dies, draw until your hand is full
+  Description: Choose an opponent, when he dies, draw until your hand is full.
   IllustrationImage: {fileID: 21300000, guid: bc921e064564ebd4594c82683f941e5f, type: 3}
   Class: 2
   CurrentSpellTargetting: 0

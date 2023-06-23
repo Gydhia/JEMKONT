@@ -437,7 +437,7 @@ MonoBehaviour:
       Data: 2
     - Name: PushDamages
       Entry: 3
-      Data: 5
+      Data: 30
     - Name: PushDamagesMultiplier
       Entry: 4
       Data: 1
@@ -859,7 +859,7 @@ MonoBehaviour:
   Title: Pool Maintenance
   Cost: 1
   CardType: 3
-  Description: Repell all opponents in a radius and deal X damage.
+  Description: Repell all opponents in a radius and deal 30 damage.
   IllustrationImage: {fileID: 21300000, guid: 5bd4d50855b851a46b1f8ad178ba3bc3, type: 3}
   Class: 3
   CurrentSpellTargetting: 0

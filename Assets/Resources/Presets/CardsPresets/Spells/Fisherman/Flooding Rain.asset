@@ -16,8 +16,33 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
+    - {fileID: 0}
+    - {fileID: 0}
     - {fileID: 11400000, guid: 672309b67e637ff4ca3549e1a384b411, type: 2}
     - {fileID: 11400000, guid: bc413fd47f0d3c94a93195dd2a067a46, type: 2}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -25,7 +50,7 @@ MonoBehaviour:
     SerializationNodes:
     - Name: UID
       Entry: 2
-      Data: 5fa2bb963f32bc3f368efa1b2549656a
+      Data: 162a76a9e73d28315f99c817fee700b8
     - Name: Spells
       Entry: 7
       Data: 0|DownBelow.Spells.Spell[], Assembly-CSharp
@@ -39,23 +64,33 @@ MonoBehaviour:
       Entry: 2
       Data: 00000000000000000000000000000000
     - Name: RefBuffer
-      Entry: 6
+      Entry: 7
+      Data: 2|System.Collections.Generic.List`1[[DownBelow.Entity.EntityAction, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
       Data: 
     - Name: RefGrid
       Entry: 6
       Data: 
     - Name: RefEntity
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 0
     - Name: TargetCell
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 1
     - Name: ContextActionId
       Entry: 2
       Data: 00000000000000000000000000000000
     - Name: Data
       Entry: 7
-      Data: 2|DownBelow.Spells.SpellData_Stats, Assembly-CSharp
+      Data: 3|DownBelow.Spells.SpellData_Stats, Assembly-CSharp
     - Name: RequiresTargetting
       Entry: 5
       Data: true
@@ -67,7 +102,7 @@ MonoBehaviour:
       Data: 0
     - Name: SpellShapeMatrix
       Entry: 7
-      Data: 3|System.Boolean[,], mscorlib
+      Data: 4|System.Boolean[,], mscorlib
     - Name: 
       Entry: 12
       Data: 49
@@ -240,23 +275,23 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: RotatedShapeMatrix
-      Entry: 6
-      Data: 
+      Entry: 9
+      Data: 4
     - Name: RotatedShapePosition
       Entry: 7
       Data: UnityEngine.Vector2, UnityEngine.CoreModule
     - Name: 
       Entry: 4
-      Data: 0
+      Data: 3
     - Name: 
       Entry: 4
-      Data: 0
+      Data: 3
     - Name: 
       Entry: 8
       Data: 
     - Name: CastingMatrix
       Entry: 7
-      Data: 4|System.Boolean[,], mscorlib
+      Data: 5|System.Boolean[,], mscorlib
     - Name: 
       Entry: 12
       Data: 25
@@ -364,10 +399,10 @@ MonoBehaviour:
       Data: 2
     - Name: ProjectileSFX
       Entry: 10
-      Data: 0
+      Data: 2
     - Name: CellSFX
       Entry: 10
-      Data: 1
+      Data: 3
     - Name: IsNegativeEffect
       Entry: 5
       Data: true
@@ -376,7 +411,7 @@ MonoBehaviour:
       Data: 0
     - Name: StatAmount
       Entry: 3
-      Data: 4
+      Data: 20
     - Name: GivesAlteration
       Entry: 5
       Data: false
@@ -387,22 +422,329 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: SpellHeader
-      Entry: 6
+      Entry: 7
+      Data: 6|DownBelow.Spells.SpellHeader, Assembly-CSharp
+    - Name: RefCard
+      Entry: 2
+      Data: 162a76a9e73d28315f99c817fee700b8
+    - Name: TargetedCells
+      Entry: 7
+      Data: 7|DownBelow.Managers.GridPosition[], Assembly-CSharp
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: DownBelow.Managers.GridPosition, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: CasterID
+      Entry: 1
+      Data: b2ba85c6-1310-4db9-a565-41fcf6e44940Fisherman
+    - Name: 
+      Entry: 8
       Data: 
     - Name: NCEHits
-      Entry: 6
+      Entry: 7
+      Data: 8|System.Collections.Generic.List`1[[DownBelow.Entity.NonCharacterEntity,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
       Data: 
     - Name: TargetedCells
-      Entry: 6
+      Entry: 7
+      Data: 9|System.Collections.Generic.List`1[[DownBelow.GridSystem.Cell, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 21
+    - Name: 
+      Entry: 10
+      Data: 4
+    - Name: 
+      Entry: 10
+      Data: 5
+    - Name: 
+      Entry: 10
+      Data: 6
+    - Name: 
+      Entry: 10
+      Data: 7
+    - Name: 
+      Entry: 10
+      Data: 8
+    - Name: 
+      Entry: 10
+      Data: 9
+    - Name: 
+      Entry: 10
+      Data: 10
+    - Name: 
+      Entry: 10
+      Data: 11
+    - Name: 
+      Entry: 10
+      Data: 12
+    - Name: 
+      Entry: 10
+      Data: 13
+    - Name: 
+      Entry: 10
+      Data: 1
+    - Name: 
+      Entry: 10
+      Data: 14
+    - Name: 
+      Entry: 10
+      Data: 15
+    - Name: 
+      Entry: 10
+      Data: 16
+    - Name: 
+      Entry: 10
+      Data: 17
+    - Name: 
+      Entry: 10
+      Data: 18
+    - Name: 
+      Entry: 10
+      Data: 19
+    - Name: 
+      Entry: 10
+      Data: 20
+    - Name: 
+      Entry: 10
+      Data: 21
+    - Name: 
+      Entry: 10
+      Data: 22
+    - Name: 
+      Entry: 10
+      Data: 23
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
       Data: 
     - Name: TargetEntities
-      Entry: 6
+      Entry: 7
+      Data: 10|System.Collections.Generic.List`1[[DownBelow.Entity.CharacterEntity,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 10
+      Data: 24
+    - Name: 
+      Entry: 10
+      Data: 25
+    - Name: 
+      Entry: 10
+      Data: 26
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
       Data: 
     - Name: ParentSpell
       Entry: 6
       Data: 
     - Name: Result
-      Entry: 6
+      Entry: 7
+      Data: 11|DownBelow.Spells.SpellResult, Assembly-CSharp
+    - Name: TargetedCells
+      Entry: 7
+      Data: 12|System.Collections.Generic.List`1[[DownBelow.GridSystem.Cell, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: SpellRef
+      Entry: 9
+      Data: 1
+    - Name: Caster
+      Entry: 10
+      Data: 0
+    - Name: SetUp
+      Entry: 5
+      Data: true
+    - Name: DamagesDealt
+      Entry: 7
+      Data: 13|System.Collections.Generic.Dictionary`2[[DownBelow.Entity.CharacterEntity,
+        Assembly-CSharp],[System.Int32, mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 14|System.Collections.Generic.ObjectEqualityComparer`1[[DownBelow.Entity.CharacterEntity,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 10
+      Data: 24
+    - Name: $v
+      Entry: 3
+      Data: 20
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 10
+      Data: 25
+    - Name: $v
+      Entry: 3
+      Data: 20
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 10
+      Data: 26
+    - Name: $v
+      Entry: 3
+      Data: 20
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: SelfDamagesReceived
+      Entry: 3
+      Data: 0
+    - Name: HealingDone
+      Entry: 7
+      Data: 15|System.Collections.Generic.Dictionary`2[[DownBelow.Entity.CharacterEntity,
+        Assembly-CSharp],[System.Int32, mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 9
+      Data: 14
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: SelfHealingReceived
+      Entry: 3
+      Data: 0
+    - Name: StatModified
+      Entry: 7
+      Data: 16|System.Collections.Generic.Dictionary`2[[DownBelow.Entity.CharacterEntity,
+        Assembly-CSharp],[DownBelow.Spells.StatModification, Assembly-CSharp]], mscorlib
+    - Name: comparer
+      Entry: 9
+      Data: 14
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: SelfStatModified
+      Entry: 7
+      Data: 17|System.Collections.Generic.Dictionary`2[[EntityStatistics, Assembly-CSharp],[System.Int32,
+        mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 18|System.Collections.Generic.EnumEqualityComparer`1[[EntityStatistics,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: AlterationGiven
+      Entry: 7
+      Data: 19|System.Collections.Generic.Dictionary`2[[DownBelow.Entity.CharacterEntity,
+        Assembly-CSharp],[System.Collections.Generic.List`1[[DownBelow.Spells.Alterations.Alteration,
+        Assembly-CSharp]], mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 9
+      Data: 14
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Teleported
+      Entry: 5
+      Data: false
+    - Name: TeleportedTo
+      Entry: 7
+      Data: 20|System.Collections.Generic.List`1[[DownBelow.Entity.CharacterEntity,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
       Data: 
     - Name: TargettingCondition
       Entry: 6
@@ -422,7 +764,7 @@ MonoBehaviour:
   Title: Flooding Rain
   Cost: 1
   CardType: 2
-  Description: Seals damage around an enemy.
+  Description: Deals 20 damage to an opponent and everyone around him.
   IllustrationImage: {fileID: 21300000, guid: 7fc04991099dd8d43ba20bb4d3a1b077, type: 3}
   Class: 3
   CurrentSpellTargetting: 0

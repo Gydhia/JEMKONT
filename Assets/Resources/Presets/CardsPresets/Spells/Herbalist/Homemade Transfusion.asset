@@ -24,7 +24,7 @@ MonoBehaviour:
     SerializationNodes:
     - Name: UID
       Entry: 2
-      Data: 5775aa7c68f932c9b9a7c602c4647096
+      Data: 5b80b79591cf5d7313ce90e3cad28b16
     - Name: Spells
       Entry: 7
       Data: 0|DownBelow.Spells.Spell[], Assembly-CSharp
@@ -465,7 +465,7 @@ MonoBehaviour:
       Data: 
     - Name: HealingValue
       Entry: 3
-      Data: 10
+      Data: 20
     - Name: 
       Entry: 8
       Data: 
@@ -505,8 +505,8 @@ MonoBehaviour:
   Title: Homemade Transfusion
   Cost: 2
   CardType: 2
-  Description: Choose an opponent, he is healed by X. If he is still hurt, he is
-    dealt X*2 damage.
+  Description: Choose an opponent, he is healed by 20. If he is still hurt, he is
+    dealt 40 damage.
   IllustrationImage: {fileID: 21300000, guid: 25c2848bc7e91414ca09cf5eb0c8fc1b, type: 3}
   Class: 1
   CurrentSpellTargetting: 0
