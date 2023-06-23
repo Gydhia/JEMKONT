@@ -557,13 +557,13 @@ namespace DownBelow.Managers
 
         public void GiftOrRemovePlayerItem(string playerID, ItemPreset item, int quantity, int preferedSlot = -1)
         {
-            this.photonView.RPC("RPC_RespondGiftOrRemovePlayerItem", RpcTarget.All, GameManager.SelfPlayer.UID, item.UID.ToString(), quantity, preferedSlot);
+            this.photonView.RPC("RPC_RespondGiftOrRemovePlayerItem", RpcTarget.All, playerID, item.UID.ToString(), quantity, preferedSlot);
         }
 
         [PunRPC]
         public void RPC_RespondGiftOrRemovePlayerItem(string playerID, string itemID, int quantity, int preferedSlot = -1)
         {
-            var storage = GameManager.RealSelfPlayer.PlayerInventory;
+            var storage = GameManager.Instance.Players[playerID].PlayerInventory;
             var item = SettingsManager.Instance.ItemsPresets[System.Guid.Parse(itemID)];
 
             if (quantity > 0)
@@ -738,8 +738,7 @@ namespace DownBelow.Managers
                 // We go here only if starting from game scene
                 GameData.Game.RefGameDataContainer = GameManager.MakeBaseGame("DownBelowBase");
 
-                GridManager.Instance.CreateWholeWorld(GameData.Game.RefGameDataContainer);
-                GameManager.Instance.ProcessPlayerWelcoming();
+                GameManager.Instance.SetupGameWithData();
             }
             
         }

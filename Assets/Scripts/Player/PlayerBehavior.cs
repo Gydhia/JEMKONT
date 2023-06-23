@@ -133,7 +133,7 @@ namespace DownBelow.Entity
 
             int playersNb = PhotonNetwork.PlayerList.Length;
 
-            this._setCharacterVisuals(null);
+            this.SetCharacterVisuals(null);
 
             this.PlayerInventory = new BaseStorage();
             this.PlayerInventory.Init(
@@ -167,7 +167,7 @@ namespace DownBelow.Entity
             {
                 this.ActiveTools.Add(activeTool);
                 this.SetStatistics(activeTool.DeckPreset.Statistics);
-                this._setCharacterVisuals(activeTool);
+                this.SetCharacterVisuals(activeTool);
             }
             else
             {
@@ -187,11 +187,11 @@ namespace DownBelow.Entity
             if(isCurrentTool || this.ActiveTool == null)
             {
                 this.SetStatistics(this.ActiveTool ? this.ActiveTool.DeckPreset.Statistics : SettingsManager.Instance.CombatPreset.EmptyStatistics);
-                this._setCharacterVisuals(this.ActiveTool);
+                this.SetCharacterVisuals(this.ActiveTool);
             }  
         }
 
-        private void _setCharacterVisuals(ToolItem toolRef)
+        public void SetCharacterVisuals(ToolItem toolRef)
         {
             foreach (Transform child in this.ToolHolder)
             {

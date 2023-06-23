@@ -3,12 +3,15 @@ using DownBelow.Events;
 using DownBelow.UI;
 using DownBelow.UI.Inventory;
 using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace DownBelow.Managers
 {
     public class UIManager : _baseManager<UIManager>
     {
+        public Transform DragItemParent;
+
         public UIStaticCombat CombatSection;
         public UIStaticTurnSection TurnSection;
         public UIStaticEscape EscapeSection;
@@ -57,9 +60,9 @@ namespace DownBelow.Managers
         }
         public void SwitchSelectedSlot(int oldSlot, int newSlot)
         {
-            PlayerInventory.PlayerStorage.Items[oldSlot - 1].SelectedSlot(false);
+            PlayerInventory.PlayerStorage.Items[oldSlot].SelectedSlot(false);
          
-            PlayerInventory.PlayerStorage.Items[newSlot - 1].SelectedSlot(true);
+            PlayerInventory.PlayerStorage.Items[newSlot].SelectedSlot(true);
         }
         private void _subscribe()
         {

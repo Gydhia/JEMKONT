@@ -112,8 +112,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.17, y: 0}
   m_AnchorMax: {x: 0.83, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -3, y: 0}
+  m_SizeDelta: {x: -12, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4786426944328619416
 CanvasRenderer:
@@ -143,7 +143,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Caca notamment
+  m_text: La fameuse carte longue
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fa08fff1716a04db18700207b6c202e5, type: 2}
   m_sharedMaterial: {fileID: 7908499825950019370, guid: fa08fff1716a04db18700207b6c202e5, type: 2}
@@ -170,7 +170,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 45.25
+  m_fontSize: 34.1
   m_fontSizeBase: 31.5
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -182,7 +182,7 @@ MonoBehaviour:
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
-  m_lineSpacing: 0
+  m_lineSpacing: -75
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -523,7 +523,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 100}
+  m_SizeDelta: {x: 399.42, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6987395131429855383
 CanvasRenderer:
@@ -575,10 +575,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5371a97e952040b44b7c0c186974fdc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  texts:
-  - {fileID: 9052321332439213160}
-  - {fileID: 4934906948345971784}
-  - {fileID: 7549565772329677132}
+  Name: {fileID: 4934906948345971784}
+  Cost: {fileID: 9052321332439213160}
+  Number: {fileID: 7549565772329677132}
   _button: {fileID: 4725140371376229163}
 --- !u!114 &4725140371376229163
 MonoBehaviour:

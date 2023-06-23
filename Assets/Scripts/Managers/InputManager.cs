@@ -235,12 +235,10 @@ namespace DownBelow.Managers
 
                 if (_inventorySlotSelected - 1 < 0)
                 {
-                    //if by decrementing we would go below 0;
-                    newSlot = this._playerInventory.MaxSlots;
+                    newSlot = this._playerInventory.MaxSlots - 1;
                 }
                 else
                 {
-                    //decrement
                     newSlot--;
                 }
 
@@ -258,7 +256,7 @@ namespace DownBelow.Managers
         {
             UIManager.Instance.SwitchSelectedSlot(old, newSlot);
 
-            _currentSelectedItem = this._playerInventory.StorageItems[newSlot - 1].ItemPreset;
+            _currentSelectedItem = this._playerInventory.StorageItems[newSlot].ItemPreset;
             _inventorySlotSelected = newSlot;
         }
 
