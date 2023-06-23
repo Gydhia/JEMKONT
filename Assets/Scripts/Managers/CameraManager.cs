@@ -120,7 +120,8 @@ namespace DownBelow.Managers
                     rotYRatio = Mathf.Abs(Mathf.Sin(rotYRatio * 1.57f));
                     float orthoWithoutZoom = (CurrentArenaSize.x + CurrentArenaSize.x * rotXRatio + CurrentArenaSize.y + CurrentArenaSize.y * rotYRatio) * InBattleOrthoSizeByArenaSize;
                     float orthoZoom = Zoom * (CurrentArenaSize.x + CurrentArenaSize.y) * InBattleOrthoSizeByArenaSize;
-                    this.VirtualCamera.m_Lens.OrthographicSize = Mathf.Lerp(this.VirtualCamera.m_Lens.OrthographicSize, orthoWithoutZoom - orthoZoom, 1 / (ZoomSmooth * 10));
+
+                    this.VirtualCamera.m_Lens.OrthographicSize =Mathf.Clamp(Mathf.Lerp(this.VirtualCamera.m_Lens.OrthographicSize, orthoWithoutZoom - orthoZoom, 1 / (ZoomSmooth * 10)), 2f,15f);
                 }
                 else if (IsGatheringZoom)
                 {

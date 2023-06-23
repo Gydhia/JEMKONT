@@ -305,6 +305,7 @@ namespace DownBelow.UI
 
         public void DiscardToPile(UICardsPile toPile)
         {
+            this.RefPile = toPile;
             this._isDestroying = true;
             SelectedCard = null;
 
@@ -317,15 +318,12 @@ namespace DownBelow.UI
             this.m_RectTransform.DOScale(0.2f, .4f);
             this.m_RectTransform.DOMove(toPile.VisualMoveTarget.position, 0.4f)
                 .OnComplete(() => {
-                    this.Burn();
+                    this.m_RectTransform.SetParent(this.RefPile.CardsHolder);
+                    this.m_RectTransform.DOScale(1f, 0f);
                     this._isDestroying = false;
                 });
         }
-
-        public void Burn()
-        {
-            this.gameObject.SetActive(false);
-        }
+        
 
         private IEnumerator _compareDistanceToStartFollow()
         {
