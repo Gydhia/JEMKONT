@@ -1713,7 +1713,7 @@ MonoBehaviour:
   Title: Somber Stitch
   Cost: 2
   CardType: 1
-  Description: Choose 2 entities. When one loses health, the other does aswell.
+  Description: Choose 2 entities. When one loses health, the other does too.
   IllustrationImage: {fileID: 21300000, guid: 7b8b36241d0813e409d45aad6b2cbcef, type: 3}
   Class: 1
   CurrentSpellTargetting: 1

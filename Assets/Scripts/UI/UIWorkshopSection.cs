@@ -78,18 +78,16 @@ namespace DownBelow.UI
         public void OnClickCraft()
         {
             SectionAnim.PlayAnims();
+            this.Craft();
         }
 
         private void Craft()
         {
             if(this.InItem.SelfItem.ItemPreset != null)
             {
-                for (int i = 0; i < this.InItem.TotalQuantity / 3; i++)
-                {
-                    NetworkManager.Instance.GiftOrRemoveStorageItem(this.CurrentWorkshop, this.CurrentWorkshop.OutputItem, 1, this.OutItem.Slot);
-                    NetworkManager.Instance.GiftOrRemoveStorageItem(this.CurrentWorkshop, this.InItem.SelfItem.ItemPreset, -3, this.InItem.Slot);
-                    NetworkManager.Instance.GiftOrRemoveStorageItem(this.CurrentWorkshop, this.FuelItem.SelfItem.ItemPreset, -1, this.FuelItem.Slot);
-                }
+                NetworkManager.Instance.GiftOrRemoveStorageItem(this.CurrentWorkshop, this.CurrentWorkshop.OutputItem, 1, this.OutItem.Slot);
+                NetworkManager.Instance.GiftOrRemoveStorageItem(this.CurrentWorkshop, this.InItem.SelfItem.ItemPreset, -3, this.InItem.Slot);
+                NetworkManager.Instance.GiftOrRemoveStorageItem(this.CurrentWorkshop, this.FuelItem.SelfItem.ItemPreset, -1, this.FuelItem.Slot);   
             }
 
             this._refreshWorkshop(null);

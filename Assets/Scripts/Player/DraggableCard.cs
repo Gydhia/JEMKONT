@@ -100,7 +100,11 @@ namespace DownBelow.UI
             {
                 return;
             }
-
+            if(SelectedCard == this && SelectedCard._pinUpdateCoroutine == null)
+            {
+                SelectedCard.PinnedToScreen = false;
+                SelectedCard = null;
+            }
             // Forbid the card drag if currently using another one
             if (HoveredCard == this && SelectedCard == null && !this._isDestroying)
             {
@@ -131,6 +135,12 @@ namespace DownBelow.UI
                 _flipSequence.Append(this.m_RectTransform.DOPunchScale(new Vector3(1.0001f, 1.0001f, 1.0001f), 0.4f)
                     .SetEase(Ease.OutQuad));
                 
+                _flipSequence.Append(this.m_RectTransform.DOPunchRotation(new Vector3(0, 180, 0), 0.2f)
+                    .SetEase(Ease.OutQuad).OnComplete(
+                        () =>
+                        {
+                            CardVisual.ReverseCard();
+                        }));
                 _flipSequence.Append(this.m_RectTransform.DOPunchRotation(new Vector3(0, 180, 0), 0.2f)
                     .SetEase(Ease.OutQuad).OnComplete(
                         () =>
@@ -304,7 +314,10 @@ namespace DownBelow.UI
             this.m_RectTransform.DOPunchScale(Vector3.one * 0.8f, .4f, 3);
             this.m_RectTransform.DOScale(0.2f, .4f);
             this.m_RectTransform.DOMove(toPile.VisualMoveTarget.position, 0.4f)
-                .OnComplete(() => this.Burn());
+                .OnComplete(() => {
+                    this.Burn();
+                    this._isDestroying = false;
+                });
         }
 
         public void Burn()

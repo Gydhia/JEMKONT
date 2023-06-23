@@ -435,7 +435,7 @@ MonoBehaviour:
       Data: 0
     - Name: StatAmount
       Entry: 3
-      Data: 3
+      Data: 20
     - Name: GivesAlteration
       Entry: 5
       Data: false
@@ -1187,7 +1187,7 @@ MonoBehaviour:
   Title: Geneva Privilege
   Cost: 2
   CardType: 2
-  Description: Heal an ally by X. Increase all his damage by X.
+  Description: Heal an ally by 20. Increase all his damage by 20.
   IllustrationImage: {fileID: 21300000, guid: b05ca4b82f4093a41b8fe0f92135bfd3, type: 3}
   Class: 1
   CurrentSpellTargetting: 0

@@ -1436,7 +1436,7 @@ MonoBehaviour:
   Title: Summon Stalactite
   Cost: 2
   CardType: 1
-  Description: Select 3 empty cells, these will be blocked for 2 turns
+  Description: Select 3 empty tiles, they will be blocked for 2 turns
   IllustrationImage: {fileID: 21300000, guid: 278a26c19103fe643a0d244b934c533e, type: 3}
   Class: 0
   CurrentSpellTargetting: 0

@@ -10,6 +10,7 @@ namespace DownBelow.GridSystem
     public class InteractableResource : Interactable<ResourcePreset>
     {
         public GameObject GatheredMesh;
+        public AK.Wwise.Event Sound;
         [ReadOnly] public bool isMature = true;
         [Tooltip("In Seconds.")] public int TimeToGrowUp = 80;
 

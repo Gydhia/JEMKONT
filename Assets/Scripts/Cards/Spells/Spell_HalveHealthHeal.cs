@@ -11,7 +11,7 @@ namespace DownBelow.Spells
 {
     public class SpellData_BonusSFX : SpellData
     {
-        [Tooltip("You can try to use this, if it works it works if not ask the devs.")]
+        [Tooltip("You can try to use this, if it works it works if not ask the devs. I will break your bones Thomas")]
         public ScriptableSFX BonusSFX;
         [Tooltip("(Has to be Instantaneous) You can try to use this, if it works it works if not ask the devs.")]
         public ScriptableSFX BonusCellSFX;

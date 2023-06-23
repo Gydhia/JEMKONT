@@ -310,7 +310,7 @@ namespace DownBelow.Entity
             this.PlayingIndicator.SetActive(true);
             this.CanAutoAttack = true;
 
-
+            Debug.LogWarning("START TURN : " + this);
              OnTurnBegun?.Invoke(new());
 
             this.ReinitializeStat(EntityStatistics.Speed);

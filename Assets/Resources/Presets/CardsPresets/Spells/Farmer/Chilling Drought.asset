@@ -307,10 +307,10 @@ MonoBehaviour:
       Data: 
     - Name: BaseDamage
       Entry: 3
-      Data: 20
+      Data: 40
     - Name: DamagePenaltyPerCard
       Entry: 3
-      Data: 2
+      Data: 5
     - Name: 
       Entry: 8
       Data: 
@@ -555,7 +555,7 @@ MonoBehaviour:
   Title: Chilling Drought
   Cost: 1
   CardType: 2
-  Description: Deal 20 damage to an opponent, -2 for each of your cards in hand.
+  Description: Deal 40 damage to an opponent, -5 for each of your cards in hand.
   IllustrationImage: {fileID: 21300000, guid: 9b4ecb82c640ec740b1c7ec13040b83c, type: 3}
   Class: 2
   CurrentSpellTargetting: 0

@@ -15,6 +15,7 @@ namespace DownBelow.Entity
 
         public override void ExecuteAction()
         {
+            Debug.LogWarning("ENDED TURN : " + this.RefEntity);
             NetworkManager.Instance.PlayerAsksEndTurn();
             this.EndAction();
         }

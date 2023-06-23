@@ -83,6 +83,10 @@ MonoBehaviour:
   Mesh: {fileID: 2978834279712383701}
   Outline: {fileID: 3625874901363889605}
   GatheredMesh: {fileID: 2590035929244948392}
+  Sound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: d7cc57b4c8c859346b0aeb03333d37a6, type: 2}
   isMature: 1
   TimeToGrowUp: 80
 --- !u!65 &717044911678835273

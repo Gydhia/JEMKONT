@@ -313,7 +313,7 @@ MonoBehaviour:
       Data: 0
     - Name: StatAmount
       Entry: 3
-      Data: 3
+      Data: 20
     - Name: GivesAlteration
       Entry: 5
       Data: false
@@ -951,8 +951,8 @@ MonoBehaviour:
   Title: Sickly Sickle
   Cost: 2
   CardType: 2
-  Description: Deal 3 damage, each turn for 3 turns, your opponent will be dealt
-    1 damage.
+  Description: Deal 20 damage to an opponent. Each turn for 3 turns, he will be dealt
+    10 damage.
   IllustrationImage: {fileID: 21300000, guid: 1ab49547e6ddd184bb8fc18612da9271, type: 3}
   Class: 1
   CurrentSpellTargetting: 0
