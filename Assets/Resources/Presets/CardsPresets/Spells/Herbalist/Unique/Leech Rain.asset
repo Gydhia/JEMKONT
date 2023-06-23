@@ -353,7 +353,7 @@ MonoBehaviour:
   Cost: 2
   CardType: 3
   Description: For the next 3 turns, each time allies play a card, their damage is
-    increased by 1.
+    increased by 5.
   IllustrationImage: {fileID: 21300000, guid: cdec36793b734fc489a7c088d6fd531b, type: 3}
   Class: 1
   CurrentSpellTargetting: 0

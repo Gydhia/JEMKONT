@@ -16,15 +16,7 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 0}
-    - {fileID: 0}
     - {fileID: 11400000, guid: 9d0f6268ebf7985479145d8a3660f730, type: 2}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -62,11 +54,11 @@ MonoBehaviour:
       Entry: 6
       Data: 
     - Name: RefEntity
-      Entry: 10
-      Data: 0
+      Entry: 6
+      Data: 
     - Name: TargetCell
-      Entry: 10
-      Data: 1
+      Entry: 6
+      Data: 
     - Name: ContextActionId
       Entry: 2
       Data: 00000000000000000000000000000000
@@ -312,10 +304,10 @@ MonoBehaviour:
       Data: 
     - Name: CellSFX
       Entry: 10
-      Data: 2
+      Data: 0
     - Name: HealingPerCard
       Entry: 3
-      Data: 2
+      Data: 5
     - Name: 
       Entry: 8
       Data: 
@@ -360,17 +352,17 @@ MonoBehaviour:
       Entry: 12
       Data: 4
     - Name: 
-      Entry: 10
-      Data: 1
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 3
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 4
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 5
+      Entry: 6
+      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -385,17 +377,17 @@ MonoBehaviour:
       Entry: 12
       Data: 4
     - Name: 
-      Entry: 10
-      Data: 0
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 6
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 7
+      Entry: 6
+      Data: 
     - Name: 
-      Entry: 10
-      Data: 8
+      Entry: 6
+      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -425,8 +417,8 @@ MonoBehaviour:
       Entry: 9
       Data: 1
     - Name: Caster
-      Entry: 10
-      Data: 0
+      Entry: 6
+      Data: 
     - Name: SetUp
       Entry: 5
       Data: true
@@ -443,43 +435,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 3
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 10
-      Data: 6
-    - Name: $v
-      Entry: 3
-      Data: 45
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 10
-      Data: 7
-    - Name: $v
-      Entry: 3
-      Data: 61
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 10
-      Data: 8
-    - Name: $v
-      Entry: 3
-      Data: 44
-    - Name: 
-      Entry: 8
-      Data: 
+      Data: 0
     - Name: 
       Entry: 13
       Data: 
@@ -604,7 +560,8 @@ MonoBehaviour:
   Title: Bile in a bottle
   Cost: 2
   CardType: 2
-  Description: All allies are healed by X*2 for each card in their hand.
+  Description: All allies draw a card. They are then healed by 5 for each card in
+    their hand.
   IllustrationImage: {fileID: 21300000, guid: 369aa4cce7bfe774c91f7caf686efc4a, type: 3}
   Class: 1
   CurrentSpellTargetting: 0
