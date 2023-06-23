@@ -19,8 +19,13 @@ public abstract class PlaceableItem : ItemPreset
 
     public void AskToPlace(InputAction.CallbackContext ctx)
     {
-        if (GridManager.Instance.LastHoveredCell == null)
+        if (GridManager.Instance.LastHoveredCell == null || 
+            GridManager.Instance.LastHoveredCell.Datas.state != CellState.Walkable ||
+            GridManager.Instance.LastHoveredCell.RefGrid.IsCombatGrid ||
+            GridManager.Instance.LastHoveredCell.IsPlacementCell)
+        {
             return;
+        }
 
         if (PrevisualizationInstance != null)
         {

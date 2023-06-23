@@ -10,7 +10,6 @@ namespace DownBelow.UI
 {
     public class UICraftingSection : MonoBehaviour
     {
-
         public Transform ItemsHolder;
         public UICraftingItem CraftingItemPrefab;
         public GameObject MainContainer;
@@ -46,6 +45,7 @@ namespace DownBelow.UI
 
         public void _closePanel(EntityEventData Data)
         {
+            this.InputHelper.SetActive(false);
             this.MainContainer.SetActive(false);
         }
 

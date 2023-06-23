@@ -280,7 +280,7 @@ namespace DownBelow.Pools
             {
                 for (int j = 0; j < range; j++)
                 {
-                    int distance = ManhattanDistance(i, j, player.Range, player.Range);
+                    int distance = GridUtility.ManhattanDistance(i, j, player.Range, player.Range);
                     attackRange[i, j] = distance <= player.Range;
                 }
             }
@@ -299,10 +299,7 @@ namespace DownBelow.Pools
             }
         }
 
-        private int ManhattanDistance(int firstBase, int secondBase, int firstTarget, int secondTarget)
-        {
-            return Mathf.Abs(firstBase - firstTarget) + Mathf.Abs(secondBase - secondTarget);
-        }
+        
 
         #endregion
     }
