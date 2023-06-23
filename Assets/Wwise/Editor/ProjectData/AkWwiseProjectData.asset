@@ -24,7 +24,7 @@ MonoBehaviour:
     ParentPath: Virtual Acoustics\Default Work Unit
     guid: 6adbcdce49052b4b9aeb10f52b2cf7ea
     GuidInternal: 
-    m_lastTime: -8585145229603086987
+    m_lastTime: -8585158876463963618
     List: []
   AuxBusWwu:
   - PhysicalPath: Master-Mixer Hierarchy\Default Work Unit.wwu
@@ -38,7 +38,7 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy\Default Work Unit
     guid: 482dc15fdb6a434b883d07304f613018
     GuidInternal: 
-    m_lastTime: -8585142289101285370
+    m_lastTime: -8585142462749818007
     List:
     - name: Master Audio Bus
       guid: d8a41415a61d2a41a17e75ca0c2149f3
@@ -100,7 +100,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: 192de397071d114d9f1f966b80edd569
     GuidInternal: 
-    m_lastTime: -8585142289098509388
+    m_lastTime: -8585142462746566677
     List:
     - name: SB_GLOBAL
       guid: afb1eebf811a1e4399ccef5e516cdff2
@@ -128,7 +128,7 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: 949bd9bfeea3b740b316a7f992c54fb1
     GuidInternal: 
-    m_lastTime: -8585141629677542582
+    m_lastTime: -8585141664083431095
     List:
     - name: CombatState
       guid: 6356ba787c934a4da0e4a41fe6079af1
@@ -212,26 +212,6 @@ MonoBehaviour:
         ObjectType: 4
         guid: 34ff750d4a08dc44a85cda7ae79f91b2
       Path: Events\Default Work Unit\Music
-      maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
-    - name: Play_Job
-      guid: 94b8ef287c788d46b0bf51d270a74309
-      id: 2993927107
-      PathAndIcons:
-      - ElementName: Events
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Default Work Unit
-        ObjectType: 12
-        guid: 949bd9bfeea3b740b316a7f992c54fb1
-      - ElementName: SSFX
-        ObjectType: 4
-        guid: a925d140d7d6be46a3ec23e2d212020a
-      - ElementName: Play_Job
-        ObjectType: 3
-        guid: 94b8ef287c788d46b0bf51d270a74309
-      Path: Events\Default Work Unit\SSFX\Play_Job
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -515,6 +495,86 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
+    - name: Play_SSFX_Fish
+      guid: 77df1ebf9700474ea017a7f5dc21cc36
+      id: 3581818263
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 949bd9bfeea3b740b316a7f992c54fb1
+      - ElementName: SSFX
+        ObjectType: 4
+        guid: a925d140d7d6be46a3ec23e2d212020a
+      - ElementName: Play_SSFX_Fish
+        ObjectType: 3
+        guid: 77df1ebf9700474ea017a7f5dc21cc36
+      Path: Events\Default Work Unit\SSFX\Play_SSFX_Fish
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_SSFX_Herb
+      guid: de07001a8e56a54d8d893640789804fd
+      id: 4082667236
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 949bd9bfeea3b740b316a7f992c54fb1
+      - ElementName: SSFX
+        ObjectType: 4
+        guid: a925d140d7d6be46a3ec23e2d212020a
+      - ElementName: Play_SSFX_Herb
+        ObjectType: 3
+        guid: de07001a8e56a54d8d893640789804fd
+      Path: Events\Default Work Unit\SSFX\Play_SSFX_Herb
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_SSFX_Ore
+      guid: 40b2b09dbbbae6468f74229ecaa08195
+      id: 1628470307
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 949bd9bfeea3b740b316a7f992c54fb1
+      - ElementName: SSFX
+        ObjectType: 4
+        guid: a925d140d7d6be46a3ec23e2d212020a
+      - ElementName: Play_SSFX_Ore
+        ObjectType: 3
+        guid: 40b2b09dbbbae6468f74229ecaa08195
+      Path: Events\Default Work Unit\SSFX\Play_SSFX_Ore
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_SSFX_Wood
+      guid: 94b8ef287c788d46b0bf51d270a74309
+      id: 2902633162
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 949bd9bfeea3b740b316a7f992c54fb1
+      - ElementName: SSFX
+        ObjectType: 4
+        guid: a925d140d7d6be46a3ec23e2d212020a
+      - ElementName: Play_SSFX_Wood
+        ObjectType: 3
+        guid: 94b8ef287c788d46b0bf51d270a74309
+      Path: Events\Default Work Unit\SSFX\Play_SSFX_Wood
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
     - name: Set_Grass
       guid: 2cb89a168407ad41a4aa75251d55b88e
       id: 4038830388
@@ -764,7 +824,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\Default Work Unit
     guid: ff666b964546ef4e9c0e4a1de8f844b7
     GuidInternal: 
-    m_lastTime: -8585142289109253441
+    m_lastTime: -8585142462762055812
     List:
     - name: MIX
       guid: 872cb04762716840b9b8968c79861de9
@@ -843,7 +903,7 @@ MonoBehaviour:
     ParentPath: States\Default Work Unit
     guid: 4357da42963e2141a2fff533c2aaa80c
     GuidInternal: 
-    m_lastTime: -8585141629677512582
+    m_lastTime: -8585141664083530762
     List:
     - name: GameState
       guid: 5df3a3c523000043aa95f9f98f66b10d
@@ -924,104 +984,6 @@ MonoBehaviour:
         - ElementName: None
           ObjectType: 8
           guid: 8b3043d6e31d15439b57c2a34992da21
-      ValueGuids: []
-      ValueIcons: []
-      valuesInternal: []
-    - name: Job
-      guid: 87498960ffa4fb41888c5e00bedc1417
-      id: 545665442
-      PathAndIcons:
-      - ElementName: States
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Default Work Unit
-        ObjectType: 12
-        guid: 4357da42963e2141a2fff533c2aaa80c
-      - ElementName: Job
-        ObjectType: 9
-        guid: 87498960ffa4fb41888c5e00bedc1417
-      Path: States\Default Work Unit\Job
-      values:
-      - name: Chop
-        guid: aae8083a2684e24b8bdde4c4aaab4ccf
-        id: 4240969745
-        PathAndIcons:
-        - ElementName: States
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: Default Work Unit
-          ObjectType: 12
-          guid: 4357da42963e2141a2fff533c2aaa80c
-        - ElementName: Job
-          ObjectType: 9
-          guid: 87498960ffa4fb41888c5e00bedc1417
-        - ElementName: Chop
-          ObjectType: 8
-          guid: aae8083a2684e24b8bdde4c4aaab4ccf
-      - name: Fish
-        guid: 0fb485380c60b44ca58dd873d0798bc4
-        id: 2695658327
-        PathAndIcons:
-        - ElementName: States
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: Default Work Unit
-          ObjectType: 12
-          guid: 4357da42963e2141a2fff533c2aaa80c
-        - ElementName: Job
-          ObjectType: 9
-          guid: 87498960ffa4fb41888c5e00bedc1417
-        - ElementName: Fish
-          ObjectType: 8
-          guid: 0fb485380c60b44ca58dd873d0798bc4
-      - name: Mine
-        guid: 0d7e3653e3c99e4e8ee59ddb943571dc
-        id: 2609527548
-        PathAndIcons:
-        - ElementName: States
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: Default Work Unit
-          ObjectType: 12
-          guid: 4357da42963e2141a2fff533c2aaa80c
-        - ElementName: Job
-          ObjectType: 9
-          guid: 87498960ffa4fb41888c5e00bedc1417
-        - ElementName: Mine
-          ObjectType: 8
-          guid: 0d7e3653e3c99e4e8ee59ddb943571dc
-      - name: Mow
-        guid: f333dbcd428023429f6d78f22d78e10c
-        id: 1082004780
-        PathAndIcons:
-        - ElementName: States
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: Default Work Unit
-          ObjectType: 12
-          guid: 4357da42963e2141a2fff533c2aaa80c
-        - ElementName: Job
-          ObjectType: 9
-          guid: 87498960ffa4fb41888c5e00bedc1417
-        - ElementName: Mow
-          ObjectType: 8
-          guid: f333dbcd428023429f6d78f22d78e10c
-      - name: None
-        guid: a4c829447c08c84cbcbe3c691fd72573
-        id: 748895195
-        PathAndIcons:
-        - ElementName: States
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: Default Work Unit
-          ObjectType: 12
-          guid: 4357da42963e2141a2fff533c2aaa80c
-        - ElementName: Job
-          ObjectType: 9
-          guid: 87498960ffa4fb41888c5e00bedc1417
-        - ElementName: None
-          ObjectType: 8
-          guid: a4c829447c08c84cbcbe3c691fd72573
       ValueGuids: []
       ValueIcons: []
       valuesInternal: []
@@ -1138,6 +1100,22 @@ MonoBehaviour:
         guid: efabfe1e9445f74aba840def1db0fa41
       Path: States\Default Work Unit\World
       values:
+      - name: Abyss
+        guid: 75a57e7026b3bd498215841699842371
+        id: 4215188899
+        PathAndIcons:
+        - ElementName: States
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: 4357da42963e2141a2fff533c2aaa80c
+        - ElementName: World
+          ObjectType: 9
+          guid: efabfe1e9445f74aba840def1db0fa41
+        - ElementName: Abyss
+          ObjectType: 8
+          guid: 75a57e7026b3bd498215841699842371
       - name: None
         guid: 0416dfb55c96ef489be1f3ed24359a3d
         id: 748895195
@@ -1170,22 +1148,6 @@ MonoBehaviour:
         - ElementName: Overworld
           ObjectType: 8
           guid: 915d39cad90fdc4385bd967f09f09b9b
-      - name: Underworld
-        guid: 75a57e7026b3bd498215841699842371
-        id: 442576059
-        PathAndIcons:
-        - ElementName: States
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: Default Work Unit
-          ObjectType: 12
-          guid: 4357da42963e2141a2fff533c2aaa80c
-        - ElementName: World
-          ObjectType: 9
-          guid: efabfe1e9445f74aba840def1db0fa41
-        - ElementName: Underworld
-          ObjectType: 8
-          guid: 75a57e7026b3bd498215841699842371
       ValueGuids: []
       ValueIcons: []
       valuesInternal: []
@@ -1201,7 +1163,7 @@ MonoBehaviour:
     ParentPath: Switches\Default Work Unit
     guid: 727aa02a69d7354da76e03849372a4fe
     GuidInternal: 
-    m_lastTime: -8585145229603086987
+    m_lastTime: -8585154262470301850
     List:
     - name: Ground_Switch
       guid: f3df87100802db4ba2f24f3cc73bd78c
@@ -1265,10 +1227,10 @@ MonoBehaviour:
     ParentPath: Triggers\Default Work Unit
     guid: 059de49afdf0cf4fb646f586885de550
     GuidInternal: 
-    m_lastTime: -8585145229603086987
+    m_lastTime: -8585158876463963618
     List: []
   ExpandedFileSystemItemIds: 
-  ExpandedWaapiItemIds: 
+  ExpandedWaapiItemIds: 05000000060000000c000000
   AutoSyncSelection: 0
   autoPopulateEnabled: 1
   currentDataSource: 0

@@ -37,6 +37,7 @@ namespace DownBelow.Managers
                 AudioHolder.HasMusicStarted = true;
                 AkSoundEngine.PostEvent("SetMainMenu", AudioHolder.Instance.gameObject);
                 AkSoundEngine.PostEvent("Set_Layer_0", AudioHolder.Instance.gameObject);
+                AkSoundEngine.SetState("World", "Overworld");
             }
             
 
@@ -49,6 +50,10 @@ namespace DownBelow.Managers
 
                 CombatManager.Instance.OnCombatStarted += SetCombatMusic;
                 CombatManager.Instance.OnCombatEnded += SetExploreMusic;
+
+            
+
+
             }
         }
 
@@ -58,10 +63,21 @@ namespace DownBelow.Managers
         }
         public void SetExploreMusic(EntityEventData a)
         {
-            if(a.Entity == GameManager.RealSelfPlayer && !a.Entity.CurrentGrid.IsCombatGrid)
+            if (a.Entity == GameManager.RealSelfPlayer && a.Entity.CurrentGrid.UName == GridManager.Instance.MainGrid)
+            {
+                // Farmland
+                AkSoundEngine.SetState("World", "Overworld");
+            }
+            else if (a.Entity == GameManager.RealSelfPlayer && a.Entity.CurrentGrid.UName != GridManager.Instance.MainGrid)
+            {
+                // Abyss
+                AkSoundEngine.SetState("World", "Abyss");
+            }
+            if (a.Entity == GameManager.RealSelfPlayer && !a.Entity.CurrentGrid.IsCombatGrid)
             {
                 AkSoundEngine.PostEvent("SetExplore", AudioHolder.Instance.gameObject);
             }
+            
         }
         public void SetExploreMusic(GridEventData a)
         {
@@ -71,7 +87,14 @@ namespace DownBelow.Managers
         {
             AkSoundEngine.PostEvent("SetCombat", AudioHolder.Instance.gameObject); 
         }
-
+        public void SetOverworld(GridEventData a)
+        {
+            AkSoundEngine.SetState("World", "Overworld");
+        }
+        public void SetAbyss(GridEventData a)
+        {
+            AkSoundEngine.SetState("World", "Abyss");
+        }
         protected void Update()
         {
             if (!GameManager.GameStarted)
@@ -88,89 +111,7 @@ namespace DownBelow.Managers
             
         }
 
-        //private void _newSettings(string ConfigName, string SettingName, object Value)
-        //{
-        //    if (ConfigName == "player" &&
-        //        (SettingName == "audio_musicvolume" || SettingName == "audio_soundvolume" ||
-        //         SettingName == "audio_mastervolume" || SettingName == "audio_ambiantvolume" || SettingName == "audio_uivolume"))
-        //        this.SetVolumes();
-        //}
-
-        //private void _playSound(AudioFeedbackData Data)
-        //{
-        //    if (Data != null)
-        //    {
-        //        if (Data.AudioRef.WwiseObjectReference != null)
-        //        {
-        //            Data.AudioRef.Post(Data.SoundHolder);
-        //        }
-        //    }
-        //}
-
-        //private void _startPlayback(GameEventData Data)
-        //{
-        //    if (!AudioHolder.HasMusicStarted)
-        //    {
-        //        AkSoundEngine.PostEvent("StartMusic", AudioHolder.Instance.gameObject);
-        //        AudioHolder.HasMusicStarted = true;
-        //    }
-        //
-        //    // if Menu != null, we're in MainMenu
-        //    if (MenuManager.Instance != null)
-        //    {
-        //        if (AudioHolder.Instance.AmbienceBedGenericID.HasValue)
-        //        {
-        //            AkSoundEngine.StopPlayingID(AudioHolder.Instance.AmbienceBedGenericID.Value);
-        //            AudioHolder.Instance.AmbienceBedGenericID = null;
-        //        }
-        //
-        //        //AkSoundEngine.SetState("GameState", "MainMenu");
-        //        AkSoundEngine.PostEvent("SetMainMenu", AudioHolder.Instance.gameObject);
-        //        AkSoundEngine.PostEvent("Set_Layer_0", AudioHolder.Instance.gameObject);
-        //    }
-        //    else
-        //    {
-        //        // Stop the menu ambience 
-        //        if (AudioHolder.Instance.AmbienceMenuSoundID.HasValue)
-        //        {
-        //            AkSoundEngine.StopPlayingID(AudioHolder.Instance.AmbienceMenuSoundID.Value);
-        //            AudioHolder.Instance.AmbienceMenuSoundID = null;
-        //        }
-        //
-        //        AkSoundEngine.SetState("GameState", "Explore");
-        //    }
-        //}
-
-        //private void _changeSceneMusic(GameEventData Data)
-        //{
-        //    // If we're comming from Game_dev
-        //    if (MenuManager.Instance == null)
-        //    {
-        //        // Start the menu ambience sound
-        //        if (!AudioHolder.Instance.AmbienceMenuSoundID.HasValue)
-        //        {
-        //            //AudioHolder.Instance.AmbienceMenuSoundID = SettingsManager.Instance.AudioPreset.audio_ambiance_mainmenu.Post(AudioHolder.Instance.gameObject);
-        //        }
-        //
-        //        // Cut every remaining sounds of game_dev just to be sure
-        //        AkSoundEngine.SetRTPCValue("RTPC_Surrounding_Citizens", 0f, AkSoundEngine.AK_INVALID_GAME_OBJECT);
-        //
-        //        if (AudioHolder.Instance.AmbienceBedGenericID.HasValue)
-        //        {
-        //            AkSoundEngine.StopPlayingID(AudioHolder.Instance.AmbienceBedGenericID.Value);
-        //            AudioHolder.Instance.AmbienceBedGenericID = null;
-        //        }
-        //
-        //        if (AudioHolder.Instance.AmbienceCrowdGenericID.HasValue)
-        //        {
-        //            AkSoundEngine.StopPlayingID(AudioHolder.Instance.AmbienceCrowdGenericID.Value);
-        //            AudioHolder.Instance.AmbienceCrowdGenericID = null;
-        //        }
-        //    }
-        //
-        //    // Then filter the music
-        //    AkSoundEngine.SetState("State_MusicFilter", "Filtered");
-        //}
+        
 
 
     }
