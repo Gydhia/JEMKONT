@@ -1,12 +1,12 @@
 using DownBelow.Entity;
 using DownBelow.GridSystem;
 using DownBelow.Managers;
-using ExternalPropertyAttributes;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 namespace DownBelow.Spells
 {
