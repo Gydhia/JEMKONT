@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6173396287208466639}
   - component: {fileID: 6820019089533986497}
   - component: {fileID: 6825622076740543621}
+  - component: {fileID: 2692478826764296642}
   m_Layer: 0
   m_Name: FishingRod
   m_TagString: Untagged
@@ -98,3 +99,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _delayBeforeStartLoop: 0
   IsOnGround: 1
+--- !u!114 &2692478826764296642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7398621043639688843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 1
+  outlineColor: {r: 1, g: 1, b: 1, a: 0.5019608}
+  outlineWidth: 3
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []

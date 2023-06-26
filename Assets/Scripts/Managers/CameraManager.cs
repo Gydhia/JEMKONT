@@ -39,6 +39,8 @@ namespace DownBelow.Managers
         public float GatheringZoomingTimeInSec = 1f;
         public float GatheringTargetZoom = 1f;
 
+        private int _frameCounter = 0;
+
 
 
         private void Start()
@@ -128,7 +130,35 @@ namespace DownBelow.Managers
                     this.VirtualCamera.m_Lens.OrthographicSize = Mathf.Lerp(this.VirtualCamera.m_Lens.OrthographicSize, NormalOrthoSize - Zoom * NormalOrthoSize, 1 / (ZoomSmooth * 10));
                 }
             }
-            
+
+
+            // Raycast to active silhouette
+            this._frameCounter++;
+
+            if(this._frameCounter >= 30)
+            {
+                this._frameCounter = 0;
+
+                if(GameManager.Instance.Players != null)
+                {
+                    foreach (var player in GameManager.Instance.Players.Values)
+                    {
+                        Ray ray = new Ray(Camera.main.transform.position, player.transform.position - Camera.main.transform.position);
+                        RaycastHit hit;
+
+                        if (Physics.Raycast(ray, out hit))
+                        {
+                            player.PlayerOutline.enabled = hit.collider == null || hit.collider.tag != "Player";
+                        }
+                        else
+                        {
+                            player.PlayerOutline.enabled = false;
+                        }
+                    }
+                }
+
+                
+            }
         }
 
         private void _manageScroll(InputAction.CallbackContext ctx) => this.manageScroll(ctx.ReadValue<float>());

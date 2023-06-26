@@ -267,34 +267,6 @@ namespace DownBelow.Entity
 
         #region ATTACKS
 
-        /// <summary>
-        /// Tries to attack the given cell.
-        /// </summary>
-        /// <param name="cellToAttack">The cell to attack.</param>
-        public void AutoAttack(Cell cellToAttack)
-        {
-            this.CanAutoAttack = false;
-
-            //Normally already verified. Just in case
-            //Calculate straight path, see if obstacle.  
-            var path = GridManager.Instance.FindPath(this, cellToAttack.PositionInGrid, true);
-
-            var notwalkable = path.Find(x => x.Datas.state != CellState.Walkable);
-            if (notwalkable != null)
-            {
-                switch (notwalkable.Datas.state)
-                {
-                    case CellState.EntityIn:
-                        NetworkManager.Instance.EntityAskToBuffAction(new AttackingAction(this, notwalkable));
-                        break;
-                }
-            }
-            else
-            {
-                NetworkManager.Instance.EntityAskToBuffAction(new AttackingAction(this, cellToAttack));
-            }
-        }
-
         public bool isInAttackRange(Cell cell)
         {
             bool res = Range >= Mathf.Abs(cell.PositionInGrid.latitude - EntityCell.PositionInGrid.latitude) +

@@ -61,39 +61,34 @@ namespace DownBelow.Entity
 
         public BaseStorage PlayerSpecialSlots;
         public bool IsAutoAttacking = false;
-        public DownBelow.Outlining.Outline Outline;
+        public Outlining.Outline ToolOutline;
+        public Outlining.Outline PlayerOutline;
 
         public void ShowOutline(bool show)
         {
             if (show)
             {
-                InputManager.Instance.OnNewCellHovered += OutlineChange;
+                this.ToolOutline.enabled = true;
+                InputManager.Instance.OnNewCellHovered += this.OutlineChange;
             }
             else
             {
-                InputManager.Instance.OnNewCellHovered -= OutlineChange;
+                this.ToolOutline.enabled = false;
+                InputManager.Instance.OnNewCellHovered -= this.OutlineChange;
             }
         }
 
         private void OutlineChange(CellEventData Data)
         {
-            Outline.enabled = false;
-            if (IsAutoAttacking)
+            if (Data.Cell == EntityCell)
             {
-                Outline.enabled = true;
-                Outline.OutlineColor = Color.red;
-            }
-            else if (Data.Cell == EntityCell)
-            {
-                Outline.enabled = true;
-                Outline.OutlineColor = Color.cyan;
+                ToolOutline.enabled = true;
+                ToolOutline.OutlineColor = SettingsManager.Instance.GameUIPreset.ToolHoverColor;
             }
             else
             {
-                Outline.enabled = true;
-                Outline.OutlineColor = Color.yellow;
+                ToolOutline.OutlineColor = SettingsManager.Instance.GameUIPreset.ToolAttackColor;
             }
-
         }
 
         [HideInInspector] public int theList = 0;
@@ -189,8 +184,6 @@ namespace DownBelow.Entity
             base.FireEnteredCell(cell);
         }
 
-
-
         public void SetActiveTool(ToolItem activeTool)
         {
             activeTool.ActualPlayer = this;
@@ -202,6 +195,10 @@ namespace DownBelow.Entity
                 this.ActiveTools.Add(activeTool);
                 this.SetStatistics(activeTool.DeckPreset.Statistics);
                 this.SetCharacterVisuals(activeTool);
+
+                this.ToolOutline = this.ToolHolder.GetComponentInChildren<Outlining.Outline>();
+                this.ToolOutline.enabled = false;
+                this.ToolOutline.OutlineColor = SettingsManager.Instance.GameUIPreset.ToolAttackColor;
             }
             else
             {
@@ -279,6 +276,45 @@ namespace DownBelow.Entity
                    SettingsManager.Instance.InputPreset.PathRequestDelay;
         }
 
+        #endregion
+
+        #region ATTACKS
+
+        /// <summary>
+        /// Tries to attack the given cell.
+        /// </summary>
+        /// <param name="cellToAttack">The cell to attack.</param>
+        public void AutoAttack(Cell cellToAttack)
+        {
+            this.CanAutoAttack = false;
+
+            //Normally already verified. Just in case
+            //Calculate straight path, see if obstacle.  
+            var path = GridManager.Instance.FindPath(this, cellToAttack.PositionInGrid, true);
+
+            var notwalkable = path.Find(x => x.Datas.state != CellState.Walkable);
+            bool attacked = false;
+            if (notwalkable != null)
+            {
+                switch (notwalkable.Datas.state)
+                {
+                    case CellState.EntityIn:
+                        NetworkManager.Instance.EntityAskToBuffAction(new AttackingAction(this, notwalkable));
+                        attacked = true;
+                        break;
+                }
+            }
+            else
+            {
+                NetworkManager.Instance.EntityAskToBuffAction(new AttackingAction(this, cellToAttack));
+                attacked = true;
+            }
+
+            if (attacked)
+            {
+                this.ToolOutline.enabled = false;
+            }
+        }
         #endregion
 
         #region INTERACTIONS
