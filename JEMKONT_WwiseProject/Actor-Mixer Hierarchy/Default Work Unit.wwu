@@ -1116,6 +1116,11 @@
 													<PropertyList>
 														<Property Name="NormalOrShuffle" Type="int16" Value="0"/>
 														<Property Name="RandomAvoidRepeating" Type="bool" Value="False"/>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-6</Value>
+															</ValueList>
+														</Property>
 													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
@@ -1197,6 +1202,11 @@
 												<RandomSequenceContainer Name="Mining" ID="{1C772272-ACBC-477A-88C9-90F185D46861}" ShortID="213560928">
 													<PropertyList>
 														<Property Name="OverrideEffect" Type="bool" Value="True"/>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>5</Value>
+															</ValueList>
+														</Property>
 													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
