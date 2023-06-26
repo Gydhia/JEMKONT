@@ -52,7 +52,6 @@ namespace DownBelow.Managers
                 CombatManager.Instance.OnCombatEnded += SetExploreMusic;
 
 
-
             }
         }
 

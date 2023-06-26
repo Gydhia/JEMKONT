@@ -87,7 +87,8 @@ namespace DownBelow.Entity
                 }
 
                 this.RefEntity.FireExitedCell();
-
+                AkSoundEngine.SetSwitch("Ground_Switch", "Grass", AudioHolder.Instance.gameObject);
+                AkSoundEngine.PostEvent("Play_SSFX_Walk", AudioHolder.Instance.gameObject);
                 this.RefEntity.EntityCell = this.calculatedPath[targetCell];
 
                 this.RefEntity.FireEnteredCell(this.calculatedPath[targetCell]);

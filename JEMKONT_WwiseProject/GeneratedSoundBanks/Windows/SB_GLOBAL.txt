@@ -1,29 +1,29 @@
 Event	ID	Name			Wwise Object Path	Notes
-	71458555	Play_SSFX__Walk			\Default Work Unit\SSFX\Play_SSFX__Walk	
 	217388420	Set_Layer_0			\Default Work Unit\MUS_LAYER\Set_Layer_0	
 	217388421	Set_Layer_1			\Default Work Unit\MUS_LAYER\Set_Layer_1	
 	217388422	Set_Layer_2			\Default Work Unit\MUS_LAYER\Set_Layer_2	
 	217388423	Set_Layer_3			\Default Work Unit\MUS_LAYER\Set_Layer_3	
-	241397386	Play_SSFX__CombatWin			\Default Work Unit\CombatState\Play_SSFX__CombatWin	
-	284401701	Play_SSFX__CardPick			\Default Work Unit\SSFX\Play_SSFX__CardPick	
-	529950874	Play_SSFX__MyTurnEnd			\Default Work Unit\CombatState\Play_SSFX__MyTurnEnd	
-	611645331	Play_SSFX__CombatLose			\Default Work Unit\CombatState\Play_SSFX__CombatLose	
-	803863510	Play_SSFX__DeckShuffle			\Default Work Unit\SSFX\Play_SSFX__DeckShuffle	
-	1381713026	Play_SSFX__Portal			\Default Work Unit\SSFX\Play_SSFX__Portal	
+	329156649	Play_SSFX_DeckShuffle			\Default Work Unit\SSFX\Play_SSFX_DeckShuffle	
+	900263106	Play_SSFX_Crate			\Default Work Unit\SSFX\Play_SSFX_Crate	
+	1232721797	Play_SSFX_CardSlap			\Default Work Unit\SSFX\Play_SSFX_CardSlap	
+	1271310997	Play_SSFX_CombatWin			\Default Work Unit\CombatState\Play_SSFX_CombatWin	
 	1592321915	SetCombat			\Default Work Unit\GameState\SetCombat	
 	1628470307	Play_SSFX_Ore			\Default Work Unit\SSFX\Play_SSFX_Ore	
-	1884104528	Play_SSFX__CardSlap			\Default Work Unit\SSFX\Play_SSFX__CardSlap	
 	1917263390	StopMusic			\Default Work Unit\Music\StopMusic	
-	2149827808	Play_SSFX__ClickBlocked			\Default Work Unit\SSFX\Play_SSFX__ClickBlocked	
-	2248673065	Play_SSFX__Crate			\Default Work Unit\SSFX\Play_SSFX__Crate	
-	2280958161	Play_SSFX__EnemyTurn			\Default Work Unit\CombatState\Play_SSFX__EnemyTurn	
 	2316203732	SetExplore			\Default Work Unit\GameState\SetExplore	
-	2351453751	Play_SSFX__AllyTurn			\Default Work Unit\CombatState\Play_SSFX__AllyTurn	
+	2447394445	Play_SSFX_ClickBlocked			\Default Work Unit\SSFX\Play_SSFX_ClickBlocked	
 	2902633162	Play_SSFX_Wood			\Default Work Unit\SSFX\Play_SSFX_Wood	
-	3168485769	Play_SSFX__MyTurnStart			\Default Work Unit\CombatState\Play_SSFX__MyTurnStart	
-	3568964008	Play_SSFX__Click			\Default Work Unit\SSFX\Play_SSFX__Click	
+	2945031810	Play_SSFX_AllyTurn			\Default Work Unit\CombatState\Play_SSFX_AllyTurn	
+	2953260286	Play_SSFX_Walk			\Default Work Unit\SSFX\Play_SSFX_Walk	
+	2963818062	Play_SSFX_CombatLose			\Default Work Unit\CombatState\Play_SSFX_CombatLose	
+	3003442901	Play_SSFX_MyTurnEnd			\Default Work Unit\CombatState\Play_SSFX_MyTurnEnd	
+	3130717460	Play_SSFX_CardPick			\Default Work Unit\SSFX\Play_SSFX_CardPick	
+	3131711783	Play_SSFX_Portal			\Default Work Unit\SSFX\Play_SSFX_Portal	
+	3350516382	Play_SSFX_MyTurnStart			\Default Work Unit\CombatState\Play_SSFX_MyTurnStart	
+	3353955478	Play_SSFX_EnemyTurn			\Default Work Unit\CombatState\Play_SSFX_EnemyTurn	
 	3581818263	Play_SSFX_Fish			\Default Work Unit\SSFX\Play_SSFX_Fish	
 	3628674037	SetMainMenu			\Default Work Unit\GameState\SetMainMenu	
+	3681299163	Play_SSFX_Click			\Default Work Unit\SSFX\Play_SSFX_Click	
 	3827058668	StartMusic			\Default Work Unit\Music\StartMusic	
 	4022000560	Set_Sand			\Default Work Unit\Ground\Set_Sand	
 	4038830388	Set_Grass			\Default Work Unit\Ground\Set_Grass	
@@ -85,6 +85,7 @@ Audio Bus	ID	Name			Wwise Object Path	Notes
 Effect plug-ins	ID	Name	Type				Notes
 	48620415	Have_U_Ever_Been_Outside	Wwise RoomVerb			
 	128149753	Pitch Shifter (Custom)	Wwise Pitch Shifter			
+	1008402193	Low_Pass_20KHz	Wwise Parametric EQ			
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	14506943	turnEnd	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\turnEnd_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\COMBAT\CombatProgression\turnEnd		374780

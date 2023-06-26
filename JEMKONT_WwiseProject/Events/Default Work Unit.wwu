@@ -5,7 +5,7 @@
 			<ChildrenList>
 				<Folder Name="SSFX" ID="{40D125A9-D6D7-46BE-A3EC-23E2D212020A}" ShortID="199483849">
 					<ChildrenList>
-						<Event Name="Play_SSFX__Click" ID="{66C723BE-5CFE-4055-8D5F-66C2DA128B91}">
+						<Event Name="Play_SSFX_Click" ID="{66C723BE-5CFE-4055-8D5F-66C2DA128B91}">
 							<ChildrenList>
 								<Action Name="" ID="{C8A533F8-F610-480B-A527-2D4507A8751C}" ShortID="1060026412">
 									<ReferenceList>
@@ -16,7 +16,7 @@
 								</Action>
 							</ChildrenList>
 						</Event>
-						<Event Name="Play_SSFX__Walk" ID="{C8041101-53F6-42F4-9B2D-4CDD2ADA5EA2}">
+						<Event Name="Play_SSFX_Walk" ID="{C8041101-53F6-42F4-9B2D-4CDD2ADA5EA2}">
 							<ChildrenList>
 								<Action Name="" ID="{99D24B76-6627-46A7-8B15-B8CD79B77CF1}" ShortID="153149802">
 									<PropertyList>
@@ -41,7 +41,7 @@
 								</Action>
 							</ChildrenList>
 						</Event>
-						<Event Name="Play_SSFX__ClickBlocked" ID="{9E97308C-7D81-43C0-8F12-A52526FDD905}">
+						<Event Name="Play_SSFX_ClickBlocked" ID="{9E97308C-7D81-43C0-8F12-A52526FDD905}">
 							<ChildrenList>
 								<Action Name="" ID="{DA1BCE60-CE28-4BB2-AFB2-C5BA6C673CA3}" ShortID="60646886">
 									<ReferenceList>
@@ -52,7 +52,7 @@
 								</Action>
 							</ChildrenList>
 						</Event>
-						<Event Name="Play_SSFX__CardPick" ID="{09331DF9-A0EE-4B14-B5FD-FF8AB95460CE}">
+						<Event Name="Play_SSFX_CardPick" ID="{09331DF9-A0EE-4B14-B5FD-FF8AB95460CE}">
 							<ChildrenList>
 								<Action Name="" ID="{95E26C83-205F-48D7-87DF-357FF95DAFDE}" ShortID="113897948">
 									<ReferenceList>
@@ -63,7 +63,7 @@
 								</Action>
 							</ChildrenList>
 						</Event>
-						<Event Name="Play_SSFX__DeckShuffle" ID="{094BB573-6A82-497D-91A7-8FBA4C3E419C}">
+						<Event Name="Play_SSFX_DeckShuffle" ID="{094BB573-6A82-497D-91A7-8FBA4C3E419C}">
 							<ChildrenList>
 								<Action Name="" ID="{05BE2590-C0FD-40A9-A29E-7510228A08C9}" ShortID="380126614">
 									<ReferenceList>
@@ -74,7 +74,7 @@
 								</Action>
 							</ChildrenList>
 						</Event>
-						<Event Name="Play_SSFX__CardSlap" ID="{AEDC5476-2F24-4F6B-88F0-C6DE41E1AB9C}">
+						<Event Name="Play_SSFX_CardSlap" ID="{AEDC5476-2F24-4F6B-88F0-C6DE41E1AB9C}">
 							<ChildrenList>
 								<Action Name="" ID="{E3A0D662-CFB6-4647-8C65-F4EB7C9291F6}" ShortID="59005125">
 									<ReferenceList>
@@ -96,7 +96,7 @@
 								</Action>
 							</ChildrenList>
 						</Event>
-						<Event Name="Play_SSFX__Crate" ID="{9D47FD46-12D8-4134-8961-0FD42F4E1C94}">
+						<Event Name="Play_SSFX_Crate" ID="{9D47FD46-12D8-4134-8961-0FD42F4E1C94}">
 							<ChildrenList>
 								<Action Name="" ID="{0195049A-5248-4F25-9093-5DEE226120F5}" ShortID="702743458">
 									<ReferenceList>
@@ -107,7 +107,7 @@
 								</Action>
 							</ChildrenList>
 						</Event>
-						<Event Name="Play_SSFX__Portal" ID="{335EE017-F665-4FAE-ACDD-84B3658DAEA4}">
+						<Event Name="Play_SSFX_Portal" ID="{335EE017-F665-4FAE-ACDD-84B3658DAEA4}">
 							<ChildrenList>
 								<Action Name="" ID="{A70B7DFB-4362-4D8D-9F15-2FEAA67E8D5D}" ShortID="344831957">
 									<ReferenceList>
@@ -322,7 +322,7 @@
 				</Folder>
 				<Folder Name="CombatState" ID="{78BA5663-937C-4D4A-A0E4-A41FE6079AF1}" ShortID="399552004">
 					<ChildrenList>
-						<Event Name="Play_SSFX__CombatWin" ID="{A6C1C678-8948-455F-9E5A-9267B2234F2E}">
+						<Event Name="Play_SSFX_CombatWin" ID="{A6C1C678-8948-455F-9E5A-9267B2234F2E}">
 							<ChildrenList>
 								<Action Name="" ID="{BF3D1687-E591-4627-AED1-447632E3F61C}" ShortID="960905219">
 									<ReferenceList>
@@ -333,7 +333,7 @@
 								</Action>
 							</ChildrenList>
 						</Event>
-						<Event Name="Play_SSFX__AllyTurn" ID="{6F429A4C-9EDC-4A40-B787-3CE0696598F5}">
+						<Event Name="Play_SSFX_AllyTurn" ID="{6F429A4C-9EDC-4A40-B787-3CE0696598F5}">
 							<ChildrenList>
 								<Action Name="" ID="{B3A65379-EFDD-4691-8FE0-88F38C8B914E}" ShortID="229548359">
 									<ReferenceList>
@@ -344,7 +344,7 @@
 								</Action>
 							</ChildrenList>
 						</Event>
-						<Event Name="Play_SSFX__EnemyTurn" ID="{83DC096C-A936-4505-9D3B-57E4019E7C48}">
+						<Event Name="Play_SSFX_EnemyTurn" ID="{83DC096C-A936-4505-9D3B-57E4019E7C48}">
 							<ChildrenList>
 								<Action Name="" ID="{B7AB30AA-A6FA-4CA7-89E7-AA209F3D4A9E}" ShortID="599591124">
 									<ReferenceList>
@@ -355,7 +355,7 @@
 								</Action>
 							</ChildrenList>
 						</Event>
-						<Event Name="Play_SSFX__MyTurnStart" ID="{AA75C0AA-2BCC-4287-A425-C5D1C6640592}">
+						<Event Name="Play_SSFX_MyTurnStart" ID="{AA75C0AA-2BCC-4287-A425-C5D1C6640592}">
 							<ChildrenList>
 								<Action Name="" ID="{13644084-1D13-4F8E-8EEE-58A387392D42}" ShortID="586165873">
 									<ReferenceList>
@@ -366,7 +366,7 @@
 								</Action>
 							</ChildrenList>
 						</Event>
-						<Event Name="Play_SSFX__MyTurnEnd" ID="{C6C943EC-09BD-42B0-8212-F74A5CDC3216}">
+						<Event Name="Play_SSFX_MyTurnEnd" ID="{C6C943EC-09BD-42B0-8212-F74A5CDC3216}">
 							<ChildrenList>
 								<Action Name="" ID="{2FB525B0-CB6D-4AF8-B2DE-75F00A5C6ED9}" ShortID="1065454165">
 									<ReferenceList>
@@ -377,7 +377,7 @@
 								</Action>
 							</ChildrenList>
 						</Event>
-						<Event Name="Play_SSFX__CombatLose" ID="{FD039B75-D1B5-4A2A-AFED-6A4A3E2ED893}">
+						<Event Name="Play_SSFX_CombatLose" ID="{FD039B75-D1B5-4A2A-AFED-6A4A3E2ED893}">
 							<ChildrenList>
 								<Action Name="" ID="{C4A3D677-9CFB-4503-AA02-528476431032}" ShortID="480256065">
 									<ReferenceList>
