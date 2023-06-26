@@ -2467,7 +2467,7 @@ MonoBehaviour:
       Data: 75|BuffAlteration, Assembly-CSharp
     - Name: Duration
       Entry: 3
-      Data: 0
+      Data: 3
     - Name: Target
       Entry: 6
       Data: 

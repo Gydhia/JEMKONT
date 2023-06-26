@@ -17,6 +17,8 @@ namespace DownBelow.Spells
         public ScriptableCard SpecificCard;
         [FoldoutGroup("CARD Spell Datas")]
         public int DrawNumber = 1;
+        [FoldoutGroup("CARD Spell Datas")]
+        public bool EveryoneDraw;
     }
 
     public class Spell_DrawCard : Spell<SpellData_Card>
@@ -29,8 +31,18 @@ namespace DownBelow.Spells
         {
             await base.DoSpellBehavior();
 
-            //Need to separate card draw
-            if (this.RefEntity is PlayerBehavior player)
+            List<PlayerBehavior> targets = new List<PlayerBehavior>();
+
+            if (this.LocalData.EveryoneDraw)
+            {
+                targets = CombatManager.Instance.PlayersInGrid;
+            }
+            else
+            {
+                targets.Add(this.RefEntity as PlayerBehavior);
+            }
+
+            foreach (var player in targets)
             {
                 for (int i = 0; i < LocalData.DrawNumber; i++)
                 {
@@ -42,9 +54,8 @@ namespace DownBelow.Spells
                     {
                         player.Deck.DrawCard();
                     }
-                }
+                }   
             }
         }
     }
-
 }

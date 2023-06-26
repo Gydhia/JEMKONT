@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6308714503540997839}
   - component: {fileID: 8100279336054721029}
   - component: {fileID: -1685242938607396045}
+  - component: {fileID: 7411581276808219690}
   m_Layer: 0
   m_Name: Pickaxe
   m_TagString: Untagged
@@ -98,3 +99,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _delayBeforeStartLoop: 4
   IsOnGround: 1
+--- !u!114 &7411581276808219690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7739723291343268816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 1
+  outlineColor: {r: 1, g: 1, b: 1, a: 0.5019608}
+  outlineWidth: 3
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []

@@ -74,6 +74,11 @@ MonoBehaviour:
     - {fileID: 11400000, guid: a4bd6d4842e41b347a6c5e845162e976, type: 2}
     - {fileID: 11400000, guid: a4bd6d4842e41b347a6c5e845162e976, type: 2}
   PlayerClass: 3
+  BaseDecks:
+  - {fileID: 11400000, guid: 960ccd4f9276e9b468d2a38752e1541f, type: 2}
+  - {fileID: 11400000, guid: a51135931d049d04da6556dd0c142d41, type: 2}
+  - {fileID: 11400000, guid: 607b7af1e6da2f349b1e10ab2c57daad, type: 2}
+  - {fileID: 11400000, guid: 3ab25b1a1942a0340810d7d5d324fd93, type: 2}
   OwnedCards: []
   AbyssesPresets:
   - {fileID: 11400000, guid: bf363e618afe021498b25a837367d1dc, type: 2}

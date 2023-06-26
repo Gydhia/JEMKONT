@@ -19,16 +19,16 @@ namespace DownBelow.UI
         private enum EDeckBuildState { Shown, CanShow, Hidden }//Shown => we're dblding, CanShow => the "Show Deckbuilding" button is shown, Hidden => even this button is hidden
 
         [BoxGroup("Prefabs")]
-        public GameObject BigCardPrefab;
+        public CardVisual BigCardPrefab;
         [BoxGroup("Prefabs")]
-        public GameObject LittleCardPrefab;
+        public SmallCardDeckbuilding LittleCardPrefab;
 
         [BoxGroup("UI")]
         public Button[] DeckSelectingButtons;
         [BoxGroup("UI")]
-        public GameObject ShowDeckBuildButton;
+        public Image[] DeckSelectingImage;
         [BoxGroup("UI")]
-        public GameObject InputHelper;
+        public GameObject ShowDeckBuildButton;
         [BoxGroup("UI")]
         public TextMeshProUGUI CollectionHeader;
         [BoxGroup("UI")]
@@ -49,7 +49,7 @@ namespace DownBelow.UI
 
         private int maxCardsDisplayed
         {
-            get => SettingsManager.Instance.MaxCollectionCount();
+            get => 24;
         }
 
         Dictionary<EClass, Dictionary<ScriptableCard, int>> DecksNumbers = new();
@@ -132,9 +132,8 @@ namespace DownBelow.UI
             //Instanciating card pool
             for (int i = 0;i < maxCardsDisplayed;i++)
             {
-                var go = Instantiate(BigCardPrefab, BigCardsParent);
-                go.SetActive(false);
-                CardPool.Add(go.GetComponent<CardVisual>());
+                CardPool.Add(Instantiate(BigCardPrefab, BigCardsParent));
+                CardPool[^1].gameObject.SetActive(false);
             }
         }
 
@@ -150,7 +149,6 @@ namespace DownBelow.UI
         void ToggleShowButton(bool on)
         {
             ShowDeckBuildButton.SetActive(on);
-            InputHelper.gameObject.SetActive(on);
         }
 
         void HideDeckBuilding()
@@ -253,6 +251,13 @@ namespace DownBelow.UI
             {
                 return;
             }
+
+            foreach (var image in this.DeckSelectingImage)
+            {
+                image.gameObject.SetActive(false);
+            }
+            this.DeckSelectingImage[intcollection].gameObject.SetActive(true);
+
             EClass collection = (EClass)intcollection;
             //Fuck les keufs
             CardPool.FindAll(x => x.gameObject.activeSelf).ForEach(card => { card.gameObject.SetActive(false); });

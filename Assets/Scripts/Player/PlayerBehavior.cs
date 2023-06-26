@@ -60,16 +60,41 @@ namespace DownBelow.Entity
         public List<ToolItem> CombatTools = new List<ToolItem>();
 
         public BaseStorage PlayerSpecialSlots;
-        public ItemPreset CurrentSelectedItem;
         public bool IsAutoAttacking = false;
-        public int inventorySlotSelected = 0;
+        public Outlining.Outline ToolOutline;
+        public Outlining.Outline PlayerOutline;
 
-        private bool scrollBusy;
-        private PlaceableItem lastPlaceable;
-        [HideInInspector] public int theList= 0;
+        public void ShowOutline(bool show)
+        {
+            if (show)
+            {
+                this.ToolOutline.enabled = true;
+                InputManager.Instance.OnNewCellHovered += this.OutlineChange;
+            }
+            else
+            {
+                this.ToolOutline.enabled = false;
+                InputManager.Instance.OnNewCellHovered -= this.OutlineChange;
+            }
+        }
+
+        private void OutlineChange(CellEventData Data)
+        {
+            if (Data.Cell == EntityCell)
+            {
+                ToolOutline.enabled = true;
+                ToolOutline.OutlineColor = SettingsManager.Instance.GameUIPreset.ToolHoverColor;
+            }
+            else
+            {
+                ToolOutline.OutlineColor = SettingsManager.Instance.GameUIPreset.ToolAttackColor;
+            }
+        }
+
+        [HideInInspector] public int theList = 0;
         public DeckPreset Deck
         {
-            get 
+            get
             {
                 return (this.CombatTool == null || CombatTool.DeckPreset == null) ?
                     null :
@@ -77,7 +102,7 @@ namespace DownBelow.Entity
             }
         }
 
-       
+
         public override int Mana
         {
             get => Mathf.Min(Statistics[EntityStatistics.Mana] + NumberOfTurnsPlayed,
@@ -122,7 +147,7 @@ namespace DownBelow.Entity
         {
             base.Init(refCell, refGrid, order);
 
-            if(this.RefStats == null)
+            if (this.RefStats == null)
             {
                 this.SetStatistics(SettingsManager.Instance.CombatPreset.EmptyStatistics, false);
             }
@@ -132,12 +157,12 @@ namespace DownBelow.Entity
             if (this.IsFake)
             {
                 this.FireEntityInited();
-                return; 
+                return;
             }
 
             int playersNb = PhotonNetwork.PlayerList.Length;
 
-            this._setCharacterVisuals(null);
+            this.SetCharacterVisuals(null);
 
             this.PlayerInventory = new BaseStorage();
             this.PlayerInventory.Init(
@@ -151,8 +176,6 @@ namespace DownBelow.Entity
             this.PlayerSpecialSlots = new BaseStorage();
             this.PlayerSpecialSlots.Init(toolSlots);
 
-            PlayerInputs.player_scroll.performed += this._scroll;
-
             this.FireEntityInited();
         }
 
@@ -161,113 +184,21 @@ namespace DownBelow.Entity
             base.FireEnteredCell(cell);
         }
 
-        private void _scroll(UnityEngine.InputSystem.InputAction.CallbackContext ctx) => this.Scroll(ctx.ReadValue<float>());
-        void Scroll(float value)
-        {
-            if (scrollBusy) return;
-            scrollBusy = true;
-            int newSlot = inventorySlotSelected;
-            if (value <= -110)
-            {
-                //If we're scrolling up,
-                if (inventorySlotSelected + 1 >= PlayerInventory.MaxSlots)
-                {
-                    //If by incrementing our selectedslot we would go over the limit; do a loop
-                    newSlot = 0;
-                } else
-                {
-                    //Increment simply
-                    newSlot++;
-                }
-                switchSlots(inventorySlotSelected, newSlot);
-            } else if (value >= 110)
-            {
-
-                if (inventorySlotSelected - 1 < 0)
-                {
-                    //if by decrementing we would go below 0;
-                    newSlot = PlayerInventory.MaxSlots;
-                } else
-                {
-                    //decrement
-                    newSlot--;
-                }
-
-                switchSlots(inventorySlotSelected, newSlot);
-            } else
-            {
-                //NoScrollin
-            }
-            scrollBusy = false;
-            processEndScroll();
-        }
-
-        void switchSlots(int old, int newSlot)
-        {
-            UIManager.Instance.SwitchSelectedSlot(old, newSlot);
-            if (newSlot == 0)
-            {
-                CurrentSelectedItem = ActiveTool;
-
-                //ActiveSlot
-            } else
-            {
-                CurrentSelectedItem = PlayerInventory.StorageItems[newSlot - 1].ItemPreset;
-                //Inventory
-            }
-            inventorySlotSelected = newSlot;
-        }
-
-        void processEndScroll()
-        {
-            if(lastPlaceable != null)
-            {
-                InputManager.Instance.OnNewCellHovered -= lastPlaceable.Previsualize;
-                InputManager.Instance.OnCellRightClickDown -= lastPlaceable.AskToPlace;
-                lastPlaceable.StopPrevisualize();
-                lastPlaceable = null;
-            }
-
-            if(CurrentSelectedItem != null)
-            {
-                if (CurrentSelectedItem is PlaceableItem placeable)
-                {
-                    lastPlaceable = placeable;
-                    InputManager.Instance.OnNewCellHovered += lastPlaceable.Previsualize;
-                    InputManager.Instance.OnCellRightClickDown += lastPlaceable.AskToPlace;
-                }
-                else
-                {
-                    if(lastPlaceable!= null)
-                    {
-                        InputManager.Instance.OnNewCellHovered -= lastPlaceable.Previsualize;
-                        InputManager.Instance.OnCellRightClickDown -= lastPlaceable.AskToPlace;
-                        lastPlaceable = null;
-                    }
-                }
-            }
-            else
-            {
-                if(lastPlaceable!= null)
-                {
-                    InputManager.Instance.OnNewCellHovered -= lastPlaceable.Previsualize;
-                    InputManager.Instance.OnCellRightClickDown -= lastPlaceable.AskToPlace;
-                    lastPlaceable = null;
-                }
-            }
-        }
-
         public void SetActiveTool(ToolItem activeTool)
         {
             activeTool.ActualPlayer = this;
             activeTool.DeckPreset.LinkedPlayer = this;
-            
+
             // Only set the player stats from one tool, the first one picked up
             if (this.ActiveTool == null)
             {
                 this.ActiveTools.Add(activeTool);
                 this.SetStatistics(activeTool.DeckPreset.Statistics);
-                this._setCharacterVisuals(activeTool);
+                this.SetCharacterVisuals(activeTool);
+
+                this.ToolOutline = this.ToolHolder.GetComponentInChildren<Outlining.Outline>();
+                this.ToolOutline.enabled = false;
+                this.ToolOutline.OutlineColor = SettingsManager.Instance.GameUIPreset.ToolAttackColor;
             }
             else
             {
@@ -284,25 +215,25 @@ namespace DownBelow.Entity
 
             this.ActiveTools.Remove(removedTool);
 
-            if(isCurrentTool || this.ActiveTool == null)
+            if (isCurrentTool || this.ActiveTool == null)
             {
                 this.SetStatistics(this.ActiveTool ? this.ActiveTool.DeckPreset.Statistics : SettingsManager.Instance.CombatPreset.EmptyStatistics);
-                this._setCharacterVisuals(this.ActiveTool);
-            }  
+                this.SetCharacterVisuals(this.ActiveTool);
+            }
         }
 
-        private void _setCharacterVisuals(ToolItem toolRef)
+        public void SetCharacterVisuals(ToolItem toolRef)
         {
             foreach (Transform child in this.ToolHolder)
             {
                 Destroy(child.gameObject);
             }
 
-            if(toolRef != null)
+            if (toolRef != null)
             {
-             ToolOnGround tool =  Instantiate(toolRef.DroppedItemPrefab, this.ToolHolder).GetComponent<ToolOnGround>();
-             tool.Init(false);
-                
+                ToolOnGround tool = Instantiate(toolRef.DroppedItemPrefab, this.ToolHolder).GetComponent<ToolOnGround>();
+                tool.Init(false);
+
             }
 
             // Skin
@@ -314,17 +245,19 @@ namespace DownBelow.Entity
 
         public override void StartTurn()
         {
+            ShowOutline(true);
             base.StartTurn();
         }
 
         public override void EndTurn()
         {
+            ShowOutline(false);
             base.EndTurn();
         }
 
         public override string ToString()
         {
-            var res = base.ToString()+"\n";
+            var res = base.ToString() + "\n";
             res += $"Class: {ActiveTool?.Class}";
             return res;
         }
@@ -343,6 +276,45 @@ namespace DownBelow.Entity
                    SettingsManager.Instance.InputPreset.PathRequestDelay;
         }
 
+        #endregion
+
+        #region ATTACKS
+
+        /// <summary>
+        /// Tries to attack the given cell.
+        /// </summary>
+        /// <param name="cellToAttack">The cell to attack.</param>
+        public void AutoAttack(Cell cellToAttack)
+        {
+            this.CanAutoAttack = false;
+
+            //Normally already verified. Just in case
+            //Calculate straight path, see if obstacle.  
+            var path = GridManager.Instance.FindPath(this, cellToAttack.PositionInGrid, true);
+
+            var notwalkable = path.Find(x => x.Datas.state != CellState.Walkable);
+            bool attacked = false;
+            if (notwalkable != null)
+            {
+                switch (notwalkable.Datas.state)
+                {
+                    case CellState.EntityIn:
+                        NetworkManager.Instance.EntityAskToBuffAction(new AttackingAction(this, notwalkable));
+                        attacked = true;
+                        break;
+                }
+            }
+            else
+            {
+                NetworkManager.Instance.EntityAskToBuffAction(new AttackingAction(this, cellToAttack));
+                attacked = true;
+            }
+
+            if (attacked)
+            {
+                this.ToolOutline.enabled = false;
+            }
+        }
         #endregion
 
         #region INTERACTIONS

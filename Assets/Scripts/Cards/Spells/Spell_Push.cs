@@ -1,3 +1,4 @@
+using DG.Tweening;
 using DownBelow.Entity;
 using DownBelow.Events;
 using DownBelow.GridSystem;
@@ -127,8 +128,14 @@ namespace DownBelow.Spells
                     }
                     else 
                     {
-                        entity.Teleport(newCell);
+                        entity.transform.DOMove(newCell.gameObject.transform.position, 0.35f).SetEase(Ease.OutExpo).OnComplete(() =>
+                        {
+                            entity.FireExitedCell();
 
+                            entity.EntityCell = newCell;
+
+                            entity.FireEnteredCell(newCell);
+                        });
                         yield return new WaitForSeconds(LocalData.PushDelay);
                     }
                 }

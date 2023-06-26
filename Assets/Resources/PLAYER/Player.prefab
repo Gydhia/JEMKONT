@@ -679,6 +679,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1619208123686391851}
   - component: {fileID: 6247681505854076104}
+  - component: {fileID: 7788073255095171724}
   m_Layer: 0
   m_Name: character_mesh
   m_TagString: Untagged
@@ -783,6 +784,24 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.011662781, y: 0.047779545, z: -0.10497174}
     m_Extent: {x: 0.91326326, y: 0.29325974, z: 0.8843049}
   m_DirtyAABB: 0
+--- !u!114 &7788073255095171724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5949920946769249573}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 4
+  outlineColor: {r: 1, g: 1, b: 1, a: 0.5019608}
+  outlineWidth: 2
+  precomputeOutline: 1
+  bakeKeys: []
+  bakeValues: []
 --- !u!1 &6072179033474684954
 GameObject:
   m_ObjectHideFlags: 0
@@ -1177,9 +1196,10 @@ GameObject:
   m_Component:
   - component: {fileID: 587424542633179983}
   - component: {fileID: -4998914615591247022}
+  - component: {fileID: 7483973318761063262}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1252,10 +1272,23 @@ MonoBehaviour:
     StorageItems: []
     MaxSlots: 0
     OnlyTake: 0
-  CurrentSelectedItem: {fileID: 0}
   IsAutoAttacking: 0
-  inventorySlotSelected: 0
+  ToolOutline: {fileID: 0}
+  PlayerOutline: {fileID: 7788073255095171724}
   theList: 0
+--- !u!65 &7483973318761063262
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8551188508102764981}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1.7, z: 1}
+  m_Center: {x: 0, y: 0.85, z: 0}
 --- !u!1 &9019159985274112074
 GameObject:
   m_ObjectHideFlags: 0
@@ -1356,13 +1389,7 @@ MonoBehaviour:
     Name: Speed
   - Type: 9
     SynchronizeType: 0
-    Name: Hit
-  - Type: 9
-    SynchronizeType: 0
     Name: Cast
-  - Type: 9
-    SynchronizeType: 0
-    Name: Melee
   - Type: 9
     SynchronizeType: 1
     Name: Gather_Pick
@@ -1375,6 +1402,12 @@ MonoBehaviour:
   - Type: 9
     SynchronizeType: 1
     Name: Gather_Fish
+  - Type: 9
+    SynchronizeType: 0
+    Name: OnHit
+  - Type: 9
+    SynchronizeType: 0
+    Name: Attack
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0

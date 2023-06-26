@@ -10,9 +10,12 @@ namespace DownBelow.UI
 {
     public class UICraftingSection : MonoBehaviour
     {
-
         public Transform ItemsHolder;
         public UICraftingItem CraftingItemPrefab;
+        public GameObject MainContainer;
+
+
+        public GameObject InputHelper;
 
         public List<UICraftingItem> CraftingItems = new List<UICraftingItem>();
 
@@ -29,7 +32,7 @@ namespace DownBelow.UI
 
             GameManager.RealSelfPlayer.PlayerInventory.OnStorageItemChanged += RefreshRecipesCraft;
 
-            this.gameObject.SetActive(false);
+            this.MainContainer.SetActive(false);
         }
 
         private void RefreshRecipesCraft(ItemEventData Data)
@@ -42,13 +45,15 @@ namespace DownBelow.UI
 
         public void _closePanel(EntityEventData Data)
         {
-            this.gameObject.SetActive(false);   
+            this.InputHelper.SetActive(false);
+            this.MainContainer.SetActive(false);
         }
 
-        private void _togglePanel(InputAction.CallbackContext context)
+        private void _togglePanel(InputAction.CallbackContext context) => this.TogglePanel();
+        public void TogglePanel() 
         {
             if(!GameManager.RealSelfPlayer.CurrentGrid.IsCombatGrid)
-                this.gameObject.SetActive(!this.gameObject.activeSelf);
+                this.MainContainer.SetActive(!this.MainContainer.activeSelf);
         }
     }
 }

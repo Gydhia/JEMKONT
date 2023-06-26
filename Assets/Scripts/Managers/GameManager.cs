@@ -157,17 +157,22 @@ namespace DownBelow.Managers
 
             if(GameData.Game.RefGameDataContainer != null)
             {
-                GridManager.Instance.CreateWholeWorld(GameData.Game.RefGameDataContainer);
-
-                this.LoadDatas(GameData.Game.RefGameDataContainer.Data);
-
-                this.ProcessPlayerWelcoming();
+                this.SetupGameWithData();
             }
             else if (MenuManager.Instance == null)
             {
                 // We're directly loading the FarmLand
                 LoadingScreen.Instance.Show();
             }
+        }
+
+        public void SetupGameWithData()
+        {
+            GridManager.Instance.CreateWholeWorld(GameData.Game.RefGameDataContainer);
+
+            this.LoadDatas(GameData.Game.RefGameDataContainer.Data);
+
+            this.ProcessPlayerWelcoming();
         }
 
         public void LoadDatas(GameData.GameData datas)
@@ -206,10 +211,15 @@ namespace DownBelow.Managers
             }
             else
             {
-                foreach (var tool in CardsManager.Instance.AvailableTools)
+                foreach (var deck in SettingsManager.Instance.BaseDecks)
                 {
-                    foreach (var card in tool.DeckPreset.Deck.Cards)
+                    var correspondingDeck = CardsManager.Instance.AvailableDecks.First(d => d.Class == deck.Class);
+
+                    correspondingDeck.Deck.Cards.Clear();
+                    foreach (var card in deck.Deck.Cards)
                     {
+                        correspondingDeck.Deck.Cards.Add(card); 
+
                         if (!SettingsManager.Instance.OwnedCards.Contains(card))
                         {
                             SettingsManager.Instance.OwnedCards.Add(card);

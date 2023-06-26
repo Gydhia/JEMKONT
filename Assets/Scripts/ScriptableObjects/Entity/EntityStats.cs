@@ -48,6 +48,28 @@ public class EntityStats : SerializedScriptableObject
     [ReadOnly]
     public int BuffedRange;
 
+    public int GetStatistic(EntityStatistics stat)
+    {
+        switch (stat)
+        {
+            case EntityStatistics.Health:
+                return this.Health;
+            case EntityStatistics.Mana:
+                return this.Mana;
+            case EntityStatistics.Speed:
+                return this.Speed;
+            case EntityStatistics.Strength:
+                return this.Strength;
+            case EntityStatistics.Defense:
+                return this.Defense;
+            case EntityStatistics.Range:
+                return this.Range;
+        }
+
+        return -1;
+    }
+
+
     public void UpdateBuffed(ToolItem RefTool)
     {
         foreach (var buff in RefTool.CurrentEnchantBuffs)

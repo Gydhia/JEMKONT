@@ -9,9 +9,15 @@ using UnityEngine;
 
 namespace DownBelow.Spells
 {
+    public enum ApplyType
+    {
+        Normal = 1,
+        CardBased = 2,
+    }
+
+
     public class SpellData_Stats : SpellData
     {
-
         [FoldoutGroup("STATS Spell Datas")]
         public bool IsNegativeEffect = false;
 
@@ -28,12 +34,8 @@ namespace DownBelow.Spells
         [ShowIf(nameof(GivesAlteration))]
         public int duration;
 
-        public SpellData_Stats(bool isNegativeEffect, EntityStatistics statistic, int statAmount)
-        {
-            IsNegativeEffect = isNegativeEffect;
-            Statistic = statistic;
-            StatAmount = statAmount;
-        }
+        [FoldoutGroup("STATS Spell Datas")]
+        public ApplyType ApplyType;
     }
 
     public class SpellData_TradeStats : SpellData_Stats
@@ -45,14 +47,6 @@ namespace DownBelow.Spells
         [InfoBox("If this is ticked, it will create an alteration for the buff, and will not buff the stats directly (thus making the stat changes temporary, and not permanent for the battle.)")]
         [FoldoutGroup("STATS Spell Datas")]
         public bool ConvertsIntoAlteration;
-        [FoldoutGroup("STATS Spell Datas")]
-
-        public SpellData_TradeStats(bool isNegativeEffect, EntityStatistics statistic, int statAmount, EntityStatistics StatToTradeFor, float convertRatio) : base(isNegativeEffect, statistic, statAmount)
-        {
-            this.StatToTradeFor = StatToTradeFor;
-            this.convertRatio = convertRatio;
-        }
-
     }
 
     public class Spell_Stats : Spell<SpellData_Stats>
@@ -73,16 +67,26 @@ namespace DownBelow.Spells
                 }
             }
             int realAmount = LocalData.StatAmount * (LocalData.IsNegativeEffect ? -1 : 1);
+
+            switch (this.LocalData.ApplyType)
+            {
+                case ApplyType.Normal:
+                    break;
+                case ApplyType.CardBased:
+                    realAmount *= ((PlayerBehavior)this.RefEntity).Deck.RefCardsHolder.PileSize(Managers.PileType.Hand);
+                    break;
+            }
+
             foreach (var target in targets)
             {
-
                 if (!LocalData.GivesAlteration)
                 {
                     target.ApplyStat(
-                    LocalData.Statistic,
-                    realAmount
-                );
-                } else
+                        LocalData.Statistic,
+                        realAmount
+                    );
+                } 
+                else
                 {
                     target.AddAlteration(new BuffAlteration(LocalData.duration, realAmount, LocalData.Statistic));
                 }
@@ -96,7 +100,8 @@ namespace DownBelow.Spells
                     if (!trading.ConvertsIntoAlteration)
                     {
                         target.ApplyStat(trading.StatToTradeFor, amountToTrade);
-                    } else
+                    } 
+                    else
                     {
                         target.AddAlteration(new BuffAlteration(LocalData.duration, amountToTrade, trading.Statistic));
                     }

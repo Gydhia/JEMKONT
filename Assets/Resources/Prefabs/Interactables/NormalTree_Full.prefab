@@ -240,9 +240,9 @@ MonoBehaviour:
   Sound:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: 939156bc8f06e154b946e03f3344fb62, type: 2}
+    WwiseObjectReference: {fileID: 11400000, guid: 6d66ad8f9acc8824e8e164e728aa8750, type: 2}
   isMature: 0
-  TimeToGrowUp: 5
+  TimeToGrowUp: 80
 --- !u!65 &717044911678835273
 BoxCollider:
   m_ObjectHideFlags: 0

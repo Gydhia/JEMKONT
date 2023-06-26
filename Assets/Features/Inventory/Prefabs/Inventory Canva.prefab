@@ -172,7 +172,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: R-Click
+  m_text: E
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9fe018fe5f9f045c7811bf5459e2e4d6, type: 2}
   m_sharedMaterial: {fileID: 6447333859754382329, guid: 9fe018fe5f9f045c7811bf5459e2e4d6, type: 2}
@@ -199,10 +199,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 19.1
-  m_fontSizeBase: 36
+  m_fontSize: 46.35
+  m_fontSizeBase: 46.35
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -474,7 +474,7 @@ MonoBehaviour:
   PlayerSpecialStorage: {fileID: 2177898936599453743}
   Holder: {fileID: 0}
   ToNearestStorageBtn: {fileID: 981828840394829115}
-  r_Clickinput: {fileID: 2001646429101442276}
+  PressEIndicator: {fileID: 2001646429101442276}
 --- !u!114 &4650631486422680937
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -683,7 +683,7 @@ GameObject:
   - component: {fileID: 3624081333035700748}
   - component: {fileID: 3427323353495410889}
   m_Layer: 5
-  m_Name: R_ClickInput
+  m_Name: E_Input
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -731,15 +731,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.49056602, g: 0.35983294, b: 0.2244571, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 8d880d04888be5041ab9a34d023c0824, type: 3}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 9cab63f24d8fe8f4b95bbf8414d95b77, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
