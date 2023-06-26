@@ -2438,7 +2438,7 @@ MonoBehaviour:
   SmallCardsParent: {fileID: 6198179161952745015}
   BigCardsParent: {fileID: 2910445843598007121}
   BG: {fileID: 3282535642026459449}
-  CurrentDeckLayoutGroup: {fileID: 7535537291553061707}
+  CurrentDeckLayoutGroup: {fileID: 8486192647533301236}
   DeckDisplayed: 0
 --- !u!1 &4441554908069863635
 GameObject:
@@ -2564,9 +2564,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6198179161952745015}
   - component: {fileID: 7768533806161742943}
-  - component: {fileID: 7535537291553061707}
   - component: {fileID: 7758969879820392407}
   - component: {fileID: 6010952294803990492}
+  - component: {fileID: 8486192647533301236}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -2608,33 +2608,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
---- !u!114 &7535537291553061707
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4734518546674079465}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33280b1ec9f89c546b24ad7dbdd35ac8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Padding:
-    m_Left: 20
-    m_Right: 20
-    m_Top: 0
-    m_Bottom: 0
-  moveDuration: 0.1
-  m_ChildAlignment: 4
-  m_Spacing: 10
-  m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 1
-  m_ChildControlHeight: 0
-  m_ChildScaleWidth: 0
-  m_ChildScaleHeight: 1
-  m_ReverseArrangement: 0
 --- !u!114 &7758969879820392407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2673,6 +2646,32 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4734518546674079465}
   m_CullTransparentMesh: 1
+--- !u!114 &8486192647533301236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4734518546674079465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 20
+    m_Right: 20
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 4
+  m_Spacing: 10
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 1
+  m_ChildControlHeight: 0
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 1
+  m_ReverseArrangement: 0
 --- !u!1 &4855463390310280658
 GameObject:
   m_ObjectHideFlags: 0

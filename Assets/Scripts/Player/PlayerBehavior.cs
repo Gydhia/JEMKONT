@@ -234,6 +234,8 @@ namespace DownBelow.Entity
                 ToolOnGround tool = Instantiate(toolRef.DroppedItemPrefab, this.ToolHolder).GetComponent<ToolOnGround>();
                 tool.Init(false);
 
+                var outline = tool.GetComponentInChildren<Outlining.Outline>();
+                outline.enabled = false;
             }
 
             // Skin

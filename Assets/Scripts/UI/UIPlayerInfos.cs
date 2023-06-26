@@ -14,6 +14,8 @@ namespace DownBelow.UI
 {
     public class UIPlayerInfos : MonoBehaviour
     {
+        public Tooltipable Tooltipable;
+
         public TextMeshProUGUI ManaText;
         public TextMeshProUGUI HealthText;
         public TextMeshProUGUI MoveText;
@@ -55,6 +57,9 @@ namespace DownBelow.UI
                 this.DeckRibbon.color = player.CombatTool.ToolRefColor;
                 this.DeckTool.sprite = player.CombatTool.InventoryIcon;
                 this.DeckName.text = player.CombatTool.Class.ToString();
+
+                this.Tooltipable.Text = player.ActiveTool.Description;
+                this.Tooltipable.Title = player.ActiveTool.ItemName;
             }
         }
 
