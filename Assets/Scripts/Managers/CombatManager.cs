@@ -107,7 +107,8 @@ namespace DownBelow.Managers
         private SpellHeader _currentSpellHeader;
         private Spell _currentSpell;
 
-        public int TurnNumber;
+        public int EntityTurnRotation;
+        public int TotalTurnNumber;
 
         #region Run-time
         private Coroutine _turnCoroutine;
@@ -272,7 +273,7 @@ namespace DownBelow.Managers
 
             UIManager.Instance.PlayerInfos.Init();
 
-            this.TurnNumber = -1;
+            this.EntityTurnRotation = -1;
             CurrentPlayingGrid.HasStarted = true;
 
             this._defineEntitiesTurn();
@@ -338,16 +339,30 @@ namespace DownBelow.Managers
                 return;
             }
 
-            this.TurnNumber++;
-            CurrentPlayingEntity = this.PlayingEntities[
-                this.TurnNumber % this.PlayingEntities.Count
-            ];
+            this.EntityTurnRotation++;
 
-            if (this.TurnNumber >= 0)
-                UIManager.Instance.TurnSection.ChangeSelectedEntity(
-                    this.TurnNumber % this.PlayingEntities.Count
-                );
+            int entityIndex = 0;
+            // Only try to get the next one if it's the the last one
+            if (CurrentPlayingEntity != null && CurrentPlayingEntity.TurnOrder < this.PlayingEntities.Count)
+            {
+                int startIndex = this.PlayingEntities.IndexOf(CurrentPlayingEntity) + 1;
+                for (int i = startIndex; i < this.PlayingEntities.Count; i++)
+                {
+                    if(this.PlayingEntities[i].Health > 0)
+                    {
+                        entityIndex = this.PlayingEntities.IndexOf(this.PlayingEntities[i]);
+                        break;
+                    }
+                }
+            }
 
+            CurrentPlayingEntity = this.PlayingEntities[entityIndex];
+
+            if (this.EntityTurnRotation >= 0)
+            {
+                UIManager.Instance.TurnSection.ChangeSelectedEntity(entityIndex);
+            }
+                
             if (CurrentPlayingEntity is PlayerBehavior player)
             {
                 this._turnCoroutine = StartCoroutine(this._startTurnTimer());
@@ -358,7 +373,6 @@ namespace DownBelow.Managers
                     this._switchSelectedPlayer(player);
                 }
             }
-
 
             this.OnTurnStarted?.Invoke(new EntityEventData(CurrentPlayingEntity));
         }
@@ -570,14 +584,10 @@ namespace DownBelow.Managers
                 .Cast<PlayerBehavior>()
                 .ToList();
 
-            for (int i = 0; i < players.Count; i++)
-                players[i].TurnOrder = i;
-            for (int i = 0; i < enemies.Count; i++)
-                enemies[i].TurnOrder = i;
-
             this.PlayingEntities = new List<CharacterEntity>();
 
             int indexIncr = 0;
+            int turnOrder = 0;
             // We check both for the tests, if we have more allies than ennemies or inverse
             if (enemies.Count >= players.Count)
             {
@@ -589,11 +599,14 @@ namespace DownBelow.Managers
                             players[i].Index = indexIncr++;
 
                         this.PlayingEntities.Add(players[i]);
+
+                        this.PlayingEntities[^1].TurnOrder = turnOrder++;
                     }
-                   
+
                     if (i < enemies.Count)
                     {
                         this.PlayingEntities.Add(enemies[i]);
+                        this.PlayingEntities[^1].TurnOrder = turnOrder++;
                     }
                 }
             }
@@ -604,6 +617,7 @@ namespace DownBelow.Managers
                     if(i < enemies.Count)
                     {
                         this.PlayingEntities.Add(enemies[i]);
+                        this.PlayingEntities[^1].TurnOrder = turnOrder++;
                     }
 
                     if (i < players.Count)
@@ -612,6 +626,7 @@ namespace DownBelow.Managers
                             players[i].Index = indexIncr++;
 
                         this.PlayingEntities.Add(players[i]);
+                        this.PlayingEntities[^1].TurnOrder = turnOrder++;
                     }
                 }
             }
@@ -645,6 +660,5 @@ namespace DownBelow.Managers
                 this.FireCombatEnded(CurrentPlayingGrid, true);
             }
         }
-
     }
 }

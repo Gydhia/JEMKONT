@@ -180,7 +180,7 @@ namespace DownBelow.Spells
                 {
                     TargetedCells = GridUtility.TransposeShapeToCells(ref Data.RotatedShapeMatrix, cellTarget, Data.RotatedShapePosition);
                     NCEHits = TargetedCells
-                        .FindAll(cell => cell.AttachedNCE != null)
+                        .Where(cell => cell.AttachedNCE != null)
                         .Select(cell => cell.AttachedNCE)
                         .ToList();
                 }
