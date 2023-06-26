@@ -28,7 +28,7 @@ namespace DownBelow.UI
             }
 
             PlayerInputs.player_tab.performed += _togglePanel;
-            GameManager.Instance.OnEnteredGrid += _closePanel;
+            GameManager.Instance.OnEnteredGrid += _switchVisibilityFromGrid;
 
             GameManager.RealSelfPlayer.PlayerInventory.OnStorageItemChanged += RefreshRecipesCraft;
 
@@ -43,17 +43,27 @@ namespace DownBelow.UI
             }
         }
 
-        public void _closePanel(EntityEventData Data)
+        public void _closePanel()
         {
-            this.InputHelper.SetActive(false);
+            this.MainContainer.SetActive(false);
+        }
+
+        private void _switchVisibilityFromGrid(EntityEventData Data)
+        {
+            if (Data.Entity != GameManager.RealSelfPlayer)
+                return;
+
+            this.InputHelper.SetActive(!Data.Entity.CurrentGrid.IsCombatGrid);
             this.MainContainer.SetActive(false);
         }
 
         private void _togglePanel(InputAction.CallbackContext context) => this.TogglePanel();
         public void TogglePanel() 
         {
-            if(!GameManager.RealSelfPlayer.CurrentGrid.IsCombatGrid)
+            if (!GameManager.RealSelfPlayer.CurrentGrid.IsCombatGrid)
+            {
                 this.MainContainer.SetActive(!this.MainContainer.activeSelf);
+            }
         }
     }
 }

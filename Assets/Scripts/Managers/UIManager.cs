@@ -168,7 +168,7 @@ namespace DownBelow.Managers
             this.EnchantSection.ClosePanel();
             this.AbyssesSection.OnClickClose();
             this.WorkshopSection.ClosePanel();
-            this.CraftingSection._closePanel(new EntityEventData(new EnemyEntity()));
+            this.CraftingSection._closePanel();
         }
 
         private void OnDestroy()
