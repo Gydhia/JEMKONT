@@ -19,8 +19,8 @@
 						</RTPCValue>
 					</RTPCValueList>
 					<CurrentStateList ShowAll="true">
-						<CurrentStateRef Name="Explore" ID="{59E5FECC-8882-46DC-8EFF-CE7971FBB99E}"/>
-						<CurrentStateRef Name="Layers1" ID="{C43C4834-66D1-4B6C-A74C-50262D378DF7}"/>
+						<CurrentStateRef Name="Combat" ID="{9094E21E-84D6-4C7F-8238-B2C8E9813C5A}"/>
+						<CurrentStateRef Name="Layers3" ID="{B442D004-8A22-4CDD-B5F3-8BB6505989AC}"/>
 						<CurrentStateRef Name="Abyss" ID="{707EA575-B326-49BD-8215-841699842371}"/>
 					</CurrentStateList>
 					<CurrentSwitchList ShowAll="true">
