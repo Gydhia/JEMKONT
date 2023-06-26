@@ -198,7 +198,7 @@ MonoBehaviour:
     m_Bottom: 0
   moveDuration: 0.3
   m_ChildAlignment: 4
-  m_Spacing: -500
+  m_Spacing: -400
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 1
@@ -223,7 +223,7 @@ MonoBehaviour:
   Cards: []
   HLayoutGroup: {fileID: 2843844106822496386}
   AdaptSpacing: 1
-  MinSpacing: -500
+  MinSpacing: -600
   MaxSpacing: -400
   CardPivot: {x: 0.5, y: 0.5}
   AuthorizeHover: 1
