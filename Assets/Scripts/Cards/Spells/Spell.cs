@@ -69,8 +69,7 @@ namespace DownBelow.Spells
 
         public override async void ExecuteAction()
         {
-            try
-            {
+            
                 Debug.LogWarning($"Executing spell {RefCard.Title}");
                 int cost = RefCard.Cost;
                 if (this.ParentSpell == null)
@@ -94,12 +93,8 @@ namespace DownBelow.Spells
                     await DoSpellBehavior();
                     EndAction();
                 }
-            }
-            catch (Exception ex)
-            {
-                Debug.LogError("Couldn't execute spell. Ended it here. \n" + ex.Message);
-                this.EndAction();
-            }   
+            
+             
         }
 
         public virtual async Task DoSpellBehavior()
