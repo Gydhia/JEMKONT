@@ -24,6 +24,9 @@ namespace DownBelow
         public int MaxStack = 1;
         public GameObject DroppedItemPrefab;
 
+        [TextArea]
+        public string Description;
+
         //Fields
         public void Drop(PlayerBehavior player)
         {

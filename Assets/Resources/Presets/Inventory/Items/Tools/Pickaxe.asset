@@ -53,9 +53,9 @@ MonoBehaviour:
   Type: 0
   ItemName: Pickaxe
   InventoryIcon: {fileID: 21300000, guid: 995ee7a24a7e4fb4b8494218405c38c9, type: 3}
-  ItemPrefab: {fileID: 0}
   MaxStack: 1
   DroppedItemPrefab: {fileID: 7739723291343268816, guid: 3cbe0f95e245ecd42bb5acdb236db949, type: 3}
+  Description: aze
   DeckPreset: {fileID: 11400000, guid: 65297000a20289941b928d0d23e05aa5, type: 2}
   Class: 0
   ActualPlayer: {fileID: 0}

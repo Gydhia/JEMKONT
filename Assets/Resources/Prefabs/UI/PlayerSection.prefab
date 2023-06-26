@@ -1021,6 +1021,7 @@ GameObject:
   - component: {fileID: 1069967088727509210}
   - component: {fileID: 6659378401997162900}
   - component: {fileID: 2096522517584732158}
+  - component: {fileID: 3996380201434848733}
   m_Layer: 5
   m_Name: PlayerSection
   m_TagString: Untagged
@@ -1069,6 +1070,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f0cbb92d5a316744907008f0465cb16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Tooltipable: {fileID: 3996380201434848733}
   ManaText: {fileID: 7651147646618169190}
   HealthText: {fileID: 8092931436249484596}
   MoveText: {fileID: 3129452867881112375}
@@ -1076,6 +1078,29 @@ MonoBehaviour:
   DeckTool: {fileID: 6646929918418511146}
   DeckName: {fileID: 7466273506290315460}
   _lifeFill: {fileID: 2260521678216114494}
+--- !u!114 &3996380201434848733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7262511405115443703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b71b41f10510fb46b76608406eb8d41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TooltipTargetObject: {fileID: 0}
+  AutoSize: 0
+  Side: 0
+  distance: 6
+  perp_distance: 0
+  Text: 
+  Title: 
+  TitleSize: 36
+  MinWidth: 200
+  delay: 0
+  UIRect: {fileID: 0}
 --- !u!1 &8306164375744940641
 GameObject:
   m_ObjectHideFlags: 0
