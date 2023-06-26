@@ -12,6 +12,8 @@ namespace DownBelow.Managers
     {
         public Transform DragItemParent;
 
+        public Tooltip UITooltip;
+
         public UIStaticCombat CombatSection;
         public UIStaticTurnSection TurnSection;
         public UIStaticEscape EscapeSection;

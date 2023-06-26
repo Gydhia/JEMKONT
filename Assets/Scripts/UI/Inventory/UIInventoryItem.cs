@@ -19,6 +19,8 @@ namespace DownBelow.UI.Inventory
     {
         public static UIInventoryItem LastHoveredItem;
 
+        public Tooltipable Tooltipable;
+
         [FoldoutGroup("Facultative parameters")]
         public ItemPreset OnlyAcceptedItem = null;
         [FoldoutGroup("Facultative parameters")]
@@ -96,11 +98,10 @@ namespace DownBelow.UI.Inventory
                     this.icon.gameObject.SetActive(false);
                 this.quantity.text = string.Empty;
                 this.TotalQuantity = 0;
-
             }
+
+            this.RefreshTooltipable();
         }
-
-
 
         /// <summary>
         /// To update the quantity of UI Item. Negative to remove, positive to add
@@ -204,6 +205,21 @@ namespace DownBelow.UI.Inventory
                 NetworkManager.Instance.EntityAskToBuffAction(action);
             }
         }
+
+        public virtual void RefreshTooltipable()
+        {
+            if (this.SelfItem.ItemPreset == null)
+            {
+                this.Tooltipable.enabled = false;
+            }
+            else
+            {
+                this.Tooltipable.enabled = true;
+                this.Tooltipable.Text = this.SelfItem.ItemPreset.Description;
+                this.Tooltipable.Title = this.SelfItem.ItemPreset.ItemName;
+            }
+        }
+
         public void OnPointerEnter(PointerEventData eventData)
         {
             LastHoveredItem = this;
