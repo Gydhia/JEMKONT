@@ -16,10 +16,7 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 0}
-    - {fileID: 0}
     - {fileID: 11400000, guid: 1a809be3311568c45a307232300fa5f6, type: 2}
-    - {fileID: 0}
     - {fileID: 11400000, guid: 629f550a71b2f0843958315d28a7ed33, type: 2}
     - {fileID: 11400000, guid: 9d0f6268ebf7985479145d8a3660f730, type: 2}
     - {fileID: 11400000, guid: 3fc342607e5f1764993a617ca652434d, type: 2}
@@ -60,11 +57,11 @@ MonoBehaviour:
       Entry: 6
       Data: 
     - Name: RefEntity
-      Entry: 10
-      Data: 0
+      Entry: 6
+      Data: 
     - Name: TargetCell
-      Entry: 10
-      Data: 1
+      Entry: 6
+      Data: 
     - Name: ContextActionId
       Entry: 2
       Data: 00000000000000000000000000000000
@@ -268,7 +265,7 @@ MonoBehaviour:
       Data: 6
     - Name: ProjectileSFX
       Entry: 10
-      Data: 2
+      Data: 0
     - Name: CellSFX
       Entry: 6
       Data: 
@@ -316,7 +313,7 @@ MonoBehaviour:
       Data: 
     - Name: CasterID
       Entry: 1
-      Data: 713fb953-511a-452c-af68-ce8065057a22Herbalist
+      Data: 2648f38f-ffbf-4126-ae68-5d074a9df6a7Herbalist
     - Name: 
       Entry: 8
       Data: 
@@ -354,8 +351,8 @@ MonoBehaviour:
       Entry: 12
       Data: 1
     - Name: 
-      Entry: 10
-      Data: 0
+      Entry: 6
+      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -385,8 +382,8 @@ MonoBehaviour:
       Entry: 9
       Data: 1
     - Name: Caster
-      Entry: 10
-      Data: 0
+      Entry: 6
+      Data: 
     - Name: SetUp
       Entry: 5
       Data: true
@@ -535,11 +532,11 @@ MonoBehaviour:
       Entry: 6
       Data: 
     - Name: RefEntity
-      Entry: 10
-      Data: 0
+      Entry: 6
+      Data: 
     - Name: TargetCell
-      Entry: 10
-      Data: 3
+      Entry: 6
+      Data: 
     - Name: ContextActionId
       Entry: 2
       Data: 00000000000000000000000000000000
@@ -722,11 +719,14 @@ MonoBehaviour:
       Data: 0
     - Name: StatAmount
       Entry: 3
-      Data: 9
+      Data: 30
     - Name: GivesAlteration
       Entry: 5
       Data: false
     - Name: duration
+      Entry: 3
+      Data: 0
+    - Name: ApplyType
       Entry: 3
       Data: 0
     - Name: 
@@ -747,7 +747,10 @@ MonoBehaviour:
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
-      Data: 0
+      Data: 1
+    - Name: 
+      Entry: 6
+      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -777,8 +780,8 @@ MonoBehaviour:
       Entry: 9
       Data: 21
     - Name: Caster
-      Entry: 10
-      Data: 0
+      Entry: 6
+      Data: 
     - Name: SetUp
       Entry: 5
       Data: true
@@ -890,7 +893,7 @@ MonoBehaviour:
       Data: 
     - Name: TargettingCondition
       Entry: 10
-      Data: 4
+      Data: 1
     - Name: CastingCondition
       Entry: 6
       Data: 
@@ -910,11 +913,11 @@ MonoBehaviour:
       Entry: 6
       Data: 
     - Name: RefEntity
-      Entry: 10
-      Data: 0
+      Entry: 6
+      Data: 
     - Name: TargetCell
-      Entry: 10
-      Data: 3
+      Entry: 6
+      Data: 
     - Name: ContextActionId
       Entry: 2
       Data: 00000000000000000000000000000000
@@ -1085,7 +1088,7 @@ MonoBehaviour:
       Data: 2
     - Name: ProjectileSFX
       Entry: 10
-      Data: 5
+      Data: 2
     - Name: CellSFX
       Entry: 6
       Data: 
@@ -1102,6 +1105,9 @@ MonoBehaviour:
       Entry: 5
       Data: false
     - Name: duration
+      Entry: 3
+      Data: 0
+    - Name: ApplyType
       Entry: 3
       Data: 0
     - Name: 
@@ -1152,8 +1158,8 @@ MonoBehaviour:
       Entry: 9
       Data: 34
     - Name: Caster
-      Entry: 10
-      Data: 0
+      Entry: 6
+      Data: 
     - Name: SetUp
       Entry: 5
       Data: true
@@ -1265,7 +1271,7 @@ MonoBehaviour:
       Data: 
     - Name: TargettingCondition
       Entry: 10
-      Data: 6
+      Data: 3
     - Name: CastingCondition
       Entry: 6
       Data: 

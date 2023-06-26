@@ -345,6 +345,9 @@ namespace DownBelow.Entity
 
                 NetworkManager.Instance.EntityAskToBuffAction(gridAction);
             }
+            else {
+                Debug.LogError($"COULD NOT FIND GRID {gridName}.");
+            }
 
             GameManager.RealSelfPlayer.CanMove = true;
         }

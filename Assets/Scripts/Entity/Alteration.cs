@@ -68,7 +68,7 @@ namespace DownBelow.Spells.Alterations
         }
 
         /// <summary>
-        /// Called when an alteration wears off.
+        /// Called when an alteration wears off. Also removes the alteration from the list
         /// </summary>
         /// <param name="entity"></param>
         public virtual void WearsOff(CharacterEntity entity)

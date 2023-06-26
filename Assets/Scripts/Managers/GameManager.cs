@@ -181,7 +181,7 @@ namespace DownBelow.Managers
             {
                 SettingsManager.Instance.AbyssesPresets[i].IsCleared = true;
             }
-            MaxAbyssReached = datas.last_unlocked_abyss;
+            MaxAbyssReached = datas.last_unlocked_abyss+1;
 
             if(datas.players_inventories != null)
             {

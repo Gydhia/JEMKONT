@@ -42,7 +42,7 @@ namespace DownBelow.UI
 
             this.Laurel.gameObject.SetActive(preset.IsCleared);
 
-            bool isLocked = level > GameManager.MaxAbyssReached + 1;
+            bool isLocked = level-1 > GameManager.MaxAbyssReached;
             this.Lock.gameObject.SetActive(isLocked);
             this.Level.gameObject.SetActive(!isLocked);
             this.EnterButton.interactable = !isLocked;
