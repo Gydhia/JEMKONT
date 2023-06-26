@@ -24,7 +24,7 @@ namespace DownBelow.GameData
         public StorageData[] players_inventories;
 
         [DataMember]
-        public int last_unlocked_abyss;
+        public int last_unlocked_abyss = -1;
 
         [DataMember]
         public int current_ressources;
