@@ -560,7 +560,7 @@ namespace DownBelow.Entity
         {
             if (alteration.ClassicCountdown)
             {
-                this.OnTurnEnded += alteration.DecrementAlterationCountdown;
+                this.OnTurnEnded -= alteration.DecrementAlterationCountdown;
             }
             else
             {
@@ -610,7 +610,6 @@ namespace DownBelow.Entity
                 Alteration alt = Alterations[0];
                 alt.WearsOff(this);
                 RemoveAlteration(alt); //You know what? Fuck you *unsubs your alterations*
-                Alterations.RemoveAt(0);
             }
 
             this.FireExitedCell();

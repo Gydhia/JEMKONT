@@ -2,6 +2,7 @@ using DownBelow.Entity;
 using DownBelow.Events;
 using DownBelow.GridSystem;
 using DownBelow.Managers;
+using EODE.Wonderland;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,6 +25,8 @@ namespace DownBelow.UI
 
         public void Init()
         {
+
+            Logpad.Log("Force end of turn",() => AskEndOfTurn());
             CombatManager.Instance.OnCombatStarted += SetupFromCombatBegin;
             CombatManager.Instance.OnCombatEnded += ClearFromCombatEnd;
         }
