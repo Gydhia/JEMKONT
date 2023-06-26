@@ -177,9 +177,10 @@ namespace DownBelow.Managers
 
         public void LoadDatas(GameData.GameData datas)
         {
-            for (int i = 0; i < datas.last_unlocked_abyss; i++)
+            
+            for (int i = 0; i < SettingsManager.Instance.AbyssesPresets.Count; i++)
             {
-                SettingsManager.Instance.AbyssesPresets[i].IsCleared = true;
+                SettingsManager.Instance.AbyssesPresets[i].IsCleared = i <= datas.last_unlocked_abyss;
             }
             MaxAbyssReached = datas.last_unlocked_abyss;
 
