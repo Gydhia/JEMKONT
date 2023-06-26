@@ -376,22 +376,22 @@ public class GridDataScriptableObject : SerializedBigDataScriptableObject<Editor
         }
         switch (Event.current.keyCode)
         {
-            case KeyCode.Keypad0:
+            case KeyCode.K:
                 PenType = CellState.Walkable;
                 this.MakeWalkable(hit.point - this.LazyLoadedData.TopLeftOffset);
                 break;
-            case KeyCode.Keypad1:
+            case KeyCode.B:
                 PenType = CellState.Blocked;
                 this.MakeBlock(hit.point - this.LazyLoadedData.TopLeftOffset);
                 break;
-            case KeyCode.Keypad2:
+            case KeyCode.C:
                 PenType = CellState.EntityIn;
                 this.MakeEntity(hit.point - this.LazyLoadedData.TopLeftOffset);
                 break;
             case KeyCode.F:
                 this.FindDictionaryKey(hit.point - this.LazyLoadedData.TopLeftOffset);
                 break;
-            case KeyCode.C:
+            case KeyCode.D:
                 this.MakeCombatEntrance(hit.point - this.LazyLoadedData.TopLeftOffset);
                 break;
         }
