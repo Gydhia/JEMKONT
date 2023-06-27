@@ -56,7 +56,7 @@ namespace DownBelow
                 }
                 else
                 {
-                    player.TeleportToGrid("FarmLand");
+                    player.TeleportToGrid(GridManager.Instance.MainGrid);
                 }                
             }
             

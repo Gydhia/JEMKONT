@@ -39,7 +39,10 @@ namespace DownBelow.Managers {
 			this.OnCombatStarted?.Invoke(new GridEventData(Grid));
 		}
 
-		public void FireCombatEnded(WorldGrid Grid, bool AllyVictory) {
+		public void FireCombatEnded(WorldGrid Grid, bool AllyVictory) 
+		{
+			NetworkManager.Instance.EndOfCombat();
+
 			BattleGoing = false;
 			CurrentPlayingGrid.HasStarted = false;
 

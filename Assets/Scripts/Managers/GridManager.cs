@@ -789,8 +789,8 @@ namespace DownBelow.Managers
                         true,
                         innerGrid.Value.GridHeight,
                         innerGrid.Value.GridWidth,
-                        innerGrid.Value.Latitude,
                         innerGrid.Value.Longitude,
+                        innerGrid.Value.Latitude,
                         innerGrid.Value.SelfData.Entrances,
                         cellsData,
                         savedSpawnables
@@ -837,17 +837,24 @@ namespace DownBelow.Managers
             {
                 for (int j = 0; j < grid.Cells.GetLength(1); j++)
                 {
-                    // The ones that override save have been processed already
-                    if (grid.Cells[i, j] != null && grid.Cells[i, j].AttachedInteract != null && !grid.Cells[i, j].AttachedInteract.InteractablePreset.OverrideSave)
+                    if(grid.Cells[i, j] != null)
                     {
-                        savedSpawnables.Add(grid.Cells[i, j].PositionInGrid, grid.Cells[i, j].AttachedInteract.InteractablePreset.UID);
-
-                        if (grid.Cells[i, j] != null && grid.Cells[i, j].Datas.state != CellState.Walkable)
-                            cellsData.Add(grid.Cells[i, j].Datas);
-
-                        if (grid.Cells[i, j].AttachedInteract is InteractableStorage iStorage)
+                        // The ones that override save have been processed already
+                        if (grid.Cells[i, j].AttachedInteract != null && !grid.Cells[i, j].AttachedInteract.InteractablePreset.OverrideSave)
                         {
-                            storages.Add(iStorage.Storage.GetData());
+                            savedSpawnables.Add(grid.Cells[i, j].PositionInGrid, grid.Cells[i, j].AttachedInteract.InteractablePreset.UID);
+
+                            if (grid.Cells[i, j].AttachedInteract is InteractableStorage iStorage)
+                            {
+                                storages.Add(iStorage.Storage.GetData());
+                            }
+                        }
+                        else
+                        {
+                            if (grid.Cells[i, j].Datas.state != CellState.Walkable)
+                            {
+                                cellsData.Add(grid.Cells[i, j].Datas);
+                            }
                         }
                     }
                 }

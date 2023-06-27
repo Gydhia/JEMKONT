@@ -87,7 +87,7 @@ namespace DownBelow.Managers
 
             InputManager.Instance.OnCellRightClickDown -= this.UpdateEntityToolTip;
             PlayerInputs.player_escape.canceled -= this._switchEscapeState;
-            PlayerInputs.player_escape.canceled += this._hideInteractables;
+            PlayerInputs.player_escape.canceled -= this._hideInteractables;
         }
 
         private void _switchEscapeState(UnityEngine.InputSystem.InputAction.CallbackContext ctx) => this.SwitchEscapeState();
@@ -97,7 +97,7 @@ namespace DownBelow.Managers
                 !this.EnchantSection.gameObject.activeInHierarchy &&
                 !this.AbyssesSection.gameObject.activeInHierarchy &&
                 !this.WorkshopSection.gameObject.activeInHierarchy &&
-                !this.CraftingSection.gameObject.activeInHierarchy)
+                !this.CraftingSection.MainContainer.activeInHierarchy)
             {
                 bool isActive = EscapeSection.gameObject.activeSelf;
 

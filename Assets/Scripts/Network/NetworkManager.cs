@@ -692,6 +692,10 @@ namespace DownBelow.Managers
         }
 
 
+        public void EndOfCombat()
+        {
+            this._turnOnGoing = false;
+        }
 
         // TODO : Make a generic answer architecture for network such as EntityActions
         /*
