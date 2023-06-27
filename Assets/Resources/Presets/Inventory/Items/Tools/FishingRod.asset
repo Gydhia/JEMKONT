@@ -53,9 +53,9 @@ MonoBehaviour:
   Type: 0
   ItemName: Fishing Rod
   InventoryIcon: {fileID: 21300000, guid: 55fa76305df17454bb7aa27b9dd1bf9d, type: 3}
-  ItemPrefab: {fileID: 0}
   MaxStack: 1
   DroppedItemPrefab: {fileID: 7398621043639688843, guid: 6a102bcec989b8c408529a700d4ec62d, type: 3}
+  Description: "Use this tool to collect Fish ! Fish are used to fuel workshops !\r"
   DeckPreset: {fileID: 11400000, guid: afde972ffb51c2945915475e3cbd72a0, type: 2}
   Class: 3
   ActualPlayer: {fileID: 0}
@@ -75,3 +75,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 607832195c7922143b94e3a619ce33a9, type: 2}
   CurrentLevel: 0
   CharacterTexture: {fileID: 2800000, guid: 4c3e7beffed214e49b879812b8d8e1cf, type: 3}
+  CombatDescription: "The Fisherman is a range specialist, he relies on moving his
+    opponents and combos to deal heavy damage !\r"
