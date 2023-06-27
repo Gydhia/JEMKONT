@@ -69,9 +69,21 @@ namespace DownBelow.UI.Inventory
                 this.icon.gameObject.SetActive(true);
                 this.TotalQuantity = Item.Quantity;
                 this.quantity.text = this.TotalQuantity.ToString();
-            } else
+            } 
+            else
             {
-                this.icon.gameObject.SetActive(false);
+                if (this.OnlyAcceptedItem != null)
+                {
+                    this.icon.sprite = this.OnlyAcceptedItem.InventoryIcon;
+                    this.icon.gameObject.SetActive(true);
+
+                    this.icon.color = new Color(this.icon.color.r, this.icon.color.g, this.icon.color.b, 0.1f);
+                }
+                else
+                {
+                    this.icon.gameObject.SetActive(false);
+                }
+
                 this.quantity.text = string.Empty;
                 this.TotalQuantity = 0;
             }
@@ -83,7 +95,8 @@ namespace DownBelow.UI.Inventory
             {
                 this.Data = Data;
                 this.icon.sprite = this.Data.ItemData.ItemPreset.InventoryIcon;
-                this.icon.DOFade(1f, 0f);
+                this.icon.color = new Color(this.icon.color.r, this.icon.color.g, this.icon.color.b, 1f);
+
                 if (!this.icon.gameObject.activeInHierarchy)
                     this.icon.gameObject.SetActive(true);
                 this.TotalQuantity = this.Data.ItemData.Quantity;
@@ -96,7 +109,8 @@ namespace DownBelow.UI.Inventory
                 {
                     this.icon.sprite = this.OnlyAcceptedItem.InventoryIcon;
                     this.icon.gameObject.SetActive(true);
-                    this.icon.DOFade(0.25f, 0f);
+
+                    this.icon.color = new Color(this.icon.color.r, this.icon.color.g, this.icon.color.b, 0.1f);
                 }
                 else
                 {
@@ -128,8 +142,10 @@ namespace DownBelow.UI.Inventory
 
         public void RemoveItem()
         {
-          //  this.icon.sprite = Managers.SettingsManager.Instance.GameUIPreset.ItemCase;
-          this.icon.gameObject.SetActive(false);
+            if(this.OnlyAcceptedItem == null)
+            {
+                this.icon.gameObject.SetActive(false);
+            }
             this.quantity.text = string.Empty;
             this.TotalQuantity = 0;
         }
