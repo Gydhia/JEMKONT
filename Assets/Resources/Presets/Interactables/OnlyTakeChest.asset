@@ -30,4 +30,4 @@ MonoBehaviour:
   ObjectPrefab: {fileID: 505161215106250109, guid: 398c1d62cf73ef64f9492dcebfea9d0e, type: 3}
   OutlineColor: {r: 0.21404415, g: 0.48488656, b: 0.6981132, a: 1}
   InteractAnimation: {fileID: 0}
-  MaxSlots: 40
+  MaxSlots: 25

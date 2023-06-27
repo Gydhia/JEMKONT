@@ -657,6 +657,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6008253201538663047}
     m_Modifications:
+    - target: {fileID: 3575076097724388968, guid: bfce2c1088b0f5940af5262eeb28a32b, type: 3}
+      propertyPath: CraftRepices.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3575076097724388968, guid: bfce2c1088b0f5940af5262eeb28a32b, type: 3}
+      propertyPath: CraftRepices.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 4edaa5a107bd054499fd5018028d5119, type: 2}
     - target: {fileID: 5117551869604057125, guid: bfce2c1088b0f5940af5262eeb28a32b, type: 3}
       propertyPath: m_RootOrder
       value: 3
