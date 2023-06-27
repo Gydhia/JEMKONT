@@ -11,7 +11,7 @@ public class ScriptableSFXAlterationList : SerializedScriptableObject
 {
     public List<AlterationSFX> AlterationsSFX;
 
-    public GameObject GetValue(Alteration alt)
+    public AlterationSFX GetValue(Alteration alt)
     {
         AlterationSFX altsfx;
         if (alt is BuffAlteration buff)
@@ -19,15 +19,15 @@ public class ScriptableSFXAlterationList : SerializedScriptableObject
             altsfx = AlterationsSFX.Find(x => x.Alteration is BuffAlteration buffFound && buff.StatToBuff == buffFound.StatToBuff);
         } else
         {
-            altsfx = AlterationsSFX.Find(x => x.GetType().Name == alt.GetType().Name);
+            altsfx = AlterationsSFX.Find(x => x.Alteration.GetType().Name == alt.GetType().Name);
         }
-        return altsfx?.AlterationSFXPrefab;
+        return altsfx;
     }
 
-    public bool TryGetValue(Alteration alt, out GameObject prefab)
+    public bool TryGetValue(Alteration alt, out AlterationSFX SFX)
     {
-        prefab = GetValue(alt);
-        return prefab != null;
+        SFX = GetValue(alt);
+        return SFX != null;
     }
 }
 public class AlterationSFX
@@ -35,4 +35,5 @@ public class AlterationSFX
     [OdinSerialize]
     public Alteration Alteration;
     public GameObject AlterationSFXPrefab;
+    public bool Loop;
 }

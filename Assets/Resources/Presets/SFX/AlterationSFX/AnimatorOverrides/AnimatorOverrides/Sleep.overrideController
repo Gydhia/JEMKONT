@@ -6,10 +6,10 @@ AnimatorOverrideController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SnareAnimation
+  m_Name: Sleep
   m_Controller: {fileID: 9100000, guid: 661712128c7cbe74d8bc27e271010e5f, type: 2}
   m_Clips:
   - m_OriginalClip: {fileID: 7400000, guid: 324219c6c7fa3624b861138832754c3b, type: 2}
-    m_OverrideClip: {fileID: 7400000, guid: db5c8710089495d4585a8ccbe9e233e3, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: c4d59af5b25bb7d4f8fb4233701b03ef, type: 2}
   - m_OriginalClip: {fileID: 7400000, guid: 7cfb525e7ddf6724c8b3bfed6e789485, type: 2}
-    m_OverrideClip: {fileID: 7400000, guid: 18011030573e35042a579ef89b3b0310, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 957439cf43e37b44ea9e294ea620d4f9, type: 2}
