@@ -1,5 +1,6 @@
 using DownBelow.Managers;
 using System.Collections.Generic;
+using Sirenix.Utilities;
 using UnityEngine;
 
 namespace DownBelow.UI
@@ -24,6 +25,8 @@ namespace DownBelow.UI
                 this.Separators.Add(Instantiate(this.SeparatorPrefab, this.AbyssItemsHolder));
                 counter++;
             }
+
+            
         }
 
         public void OpenPanel()
@@ -41,7 +44,7 @@ namespace DownBelow.UI
             this.Separators.Clear();
 
             this.Init();
-
+            
             this.gameObject.SetActive(true);
         }
 
