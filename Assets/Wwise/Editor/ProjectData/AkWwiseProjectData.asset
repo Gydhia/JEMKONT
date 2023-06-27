@@ -24,7 +24,7 @@ MonoBehaviour:
     ParentPath: Virtual Acoustics\Default Work Unit
     guid: 6adbcdce49052b4b9aeb10f52b2cf7ea
     GuidInternal: 
-    m_lastTime: -8585140940450433465
+    m_lastTime: -8585141633103319013
     List: []
   AuxBusWwu:
   - PhysicalPath: Master-Mixer Hierarchy\Default Work Unit.wwu
@@ -38,7 +38,7 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy\Default Work Unit
     guid: 482dc15fdb6a434b883d07304f613018
     GuidInternal: 
-    m_lastTime: -8585140940482488624
+    m_lastTime: -8585141633118767555
     List:
     - name: Master Audio Bus
       guid: d8a41415a61d2a41a17e75ca0c2149f3
@@ -100,7 +100,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: 192de397071d114d9f1f966b80edd569
     GuidInternal: 
-    m_lastTime: -8585140940450503282
+    m_lastTime: -8585141633103439288
     List:
     - name: SB_GLOBAL
       guid: afb1eebf811a1e4399ccef5e516cdff2
@@ -128,7 +128,7 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: 949bd9bfeea3b740b316a7f992c54fb1
     GuidInternal: 
-    m_lastTime: -8585140940482648206
+    m_lastTime: -8585138172934502907
     List:
     - name: CombatState
       guid: 6356ba787c934a4da0e4a41fe6079af1
@@ -215,9 +215,9 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
-    - name: Play_SSFX__AllyTurn
+    - name: Play_SSFX_AllyTurn
       guid: 4c9a426fdc9e404ab7873ce0696598f5
-      id: 2351453751
+      id: 2945031810
       PathAndIcons:
       - ElementName: Events
         ObjectType: 5
@@ -228,16 +228,16 @@ MonoBehaviour:
       - ElementName: CombatState
         ObjectType: 4
         guid: 6356ba787c934a4da0e4a41fe6079af1
-      - ElementName: Play_SSFX__AllyTurn
+      - ElementName: Play_SSFX_AllyTurn
         ObjectType: 3
         guid: 4c9a426fdc9e404ab7873ce0696598f5
-      Path: Events\Default Work Unit\CombatState\Play_SSFX__AllyTurn
+      Path: Events\Default Work Unit\CombatState\Play_SSFX_AllyTurn
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
-    - name: Play_SSFX__CardPick
+    - name: Play_SSFX_CardPick
       guid: f91d3309eea0144bb5fdff8ab95460ce
-      id: 284401701
+      id: 3130717460
       PathAndIcons:
       - ElementName: Events
         ObjectType: 5
@@ -248,16 +248,16 @@ MonoBehaviour:
       - ElementName: SSFX
         ObjectType: 4
         guid: a925d140d7d6be46a3ec23e2d212020a
-      - ElementName: Play_SSFX__CardPick
+      - ElementName: Play_SSFX_CardPick
         ObjectType: 3
         guid: f91d3309eea0144bb5fdff8ab95460ce
-      Path: Events\Default Work Unit\SSFX\Play_SSFX__CardPick
+      Path: Events\Default Work Unit\SSFX\Play_SSFX_CardPick
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
-    - name: Play_SSFX__CardSlap
+    - name: Play_SSFX_CardSlap
       guid: 7654dcae242f6b4f88f0c6de41e1ab9c
-      id: 1884104528
+      id: 1232721797
       PathAndIcons:
       - ElementName: Events
         ObjectType: 5
@@ -268,16 +268,16 @@ MonoBehaviour:
       - ElementName: SSFX
         ObjectType: 4
         guid: a925d140d7d6be46a3ec23e2d212020a
-      - ElementName: Play_SSFX__CardSlap
+      - ElementName: Play_SSFX_CardSlap
         ObjectType: 3
         guid: 7654dcae242f6b4f88f0c6de41e1ab9c
-      Path: Events\Default Work Unit\SSFX\Play_SSFX__CardSlap
+      Path: Events\Default Work Unit\SSFX\Play_SSFX_CardSlap
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
-    - name: Play_SSFX__Click
+    - name: Play_SSFX_Click
       guid: be23c766fe5c55408d5f66c2da128b91
-      id: 3568964008
+      id: 3681299163
       PathAndIcons:
       - ElementName: Events
         ObjectType: 5
@@ -288,16 +288,16 @@ MonoBehaviour:
       - ElementName: SSFX
         ObjectType: 4
         guid: a925d140d7d6be46a3ec23e2d212020a
-      - ElementName: Play_SSFX__Click
+      - ElementName: Play_SSFX_Click
         ObjectType: 3
         guid: be23c766fe5c55408d5f66c2da128b91
-      Path: Events\Default Work Unit\SSFX\Play_SSFX__Click
+      Path: Events\Default Work Unit\SSFX\Play_SSFX_Click
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
-    - name: Play_SSFX__ClickBlocked
+    - name: Play_SSFX_ClickBlocked
       guid: 8c30979e817dc0438f12a52526fdd905
-      id: 2149827808
+      id: 2447394445
       PathAndIcons:
       - ElementName: Events
         ObjectType: 5
@@ -308,16 +308,16 @@ MonoBehaviour:
       - ElementName: SSFX
         ObjectType: 4
         guid: a925d140d7d6be46a3ec23e2d212020a
-      - ElementName: Play_SSFX__ClickBlocked
+      - ElementName: Play_SSFX_ClickBlocked
         ObjectType: 3
         guid: 8c30979e817dc0438f12a52526fdd905
-      Path: Events\Default Work Unit\SSFX\Play_SSFX__ClickBlocked
+      Path: Events\Default Work Unit\SSFX\Play_SSFX_ClickBlocked
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
-    - name: Play_SSFX__CombatLose
+    - name: Play_SSFX_CombatLose
       guid: 759b03fdb5d12a4aafed6a4a3e2ed893
-      id: 611645331
+      id: 2963818062
       PathAndIcons:
       - ElementName: Events
         ObjectType: 5
@@ -328,16 +328,16 @@ MonoBehaviour:
       - ElementName: CombatState
         ObjectType: 4
         guid: 6356ba787c934a4da0e4a41fe6079af1
-      - ElementName: Play_SSFX__CombatLose
+      - ElementName: Play_SSFX_CombatLose
         ObjectType: 3
         guid: 759b03fdb5d12a4aafed6a4a3e2ed893
-      Path: Events\Default Work Unit\CombatState\Play_SSFX__CombatLose
+      Path: Events\Default Work Unit\CombatState\Play_SSFX_CombatLose
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
-    - name: Play_SSFX__CombatWin
+    - name: Play_SSFX_CombatWin
       guid: 78c6c1a648895f459e5a9267b2234f2e
-      id: 241397386
+      id: 1271310997
       PathAndIcons:
       - ElementName: Events
         ObjectType: 5
@@ -348,16 +348,16 @@ MonoBehaviour:
       - ElementName: CombatState
         ObjectType: 4
         guid: 6356ba787c934a4da0e4a41fe6079af1
-      - ElementName: Play_SSFX__CombatWin
+      - ElementName: Play_SSFX_CombatWin
         ObjectType: 3
         guid: 78c6c1a648895f459e5a9267b2234f2e
-      Path: Events\Default Work Unit\CombatState\Play_SSFX__CombatWin
+      Path: Events\Default Work Unit\CombatState\Play_SSFX_CombatWin
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
-    - name: Play_SSFX__Crate
+    - name: Play_SSFX_Crate
       guid: 46fd479dd812344189610fd42f4e1c94
-      id: 2248673065
+      id: 900263106
       PathAndIcons:
       - ElementName: Events
         ObjectType: 5
@@ -368,16 +368,16 @@ MonoBehaviour:
       - ElementName: SSFX
         ObjectType: 4
         guid: a925d140d7d6be46a3ec23e2d212020a
-      - ElementName: Play_SSFX__Crate
+      - ElementName: Play_SSFX_Crate
         ObjectType: 3
         guid: 46fd479dd812344189610fd42f4e1c94
-      Path: Events\Default Work Unit\SSFX\Play_SSFX__Crate
+      Path: Events\Default Work Unit\SSFX\Play_SSFX_Crate
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
-    - name: Play_SSFX__DeckShuffle
+    - name: Play_SSFX_DeckShuffle
       guid: 73b54b09826a7d4991a78fba4c3e419c
-      id: 803863510
+      id: 329156649
       PathAndIcons:
       - ElementName: Events
         ObjectType: 5
@@ -388,16 +388,16 @@ MonoBehaviour:
       - ElementName: SSFX
         ObjectType: 4
         guid: a925d140d7d6be46a3ec23e2d212020a
-      - ElementName: Play_SSFX__DeckShuffle
+      - ElementName: Play_SSFX_DeckShuffle
         ObjectType: 3
         guid: 73b54b09826a7d4991a78fba4c3e419c
-      Path: Events\Default Work Unit\SSFX\Play_SSFX__DeckShuffle
+      Path: Events\Default Work Unit\SSFX\Play_SSFX_DeckShuffle
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
-    - name: Play_SSFX__EnemyTurn
+    - name: Play_SSFX_EnemyTurn
       guid: 6c09dc8336a905459d3b57e4019e7c48
-      id: 2280958161
+      id: 3353955478
       PathAndIcons:
       - ElementName: Events
         ObjectType: 5
@@ -408,90 +408,10 @@ MonoBehaviour:
       - ElementName: CombatState
         ObjectType: 4
         guid: 6356ba787c934a4da0e4a41fe6079af1
-      - ElementName: Play_SSFX__EnemyTurn
+      - ElementName: Play_SSFX_EnemyTurn
         ObjectType: 3
         guid: 6c09dc8336a905459d3b57e4019e7c48
-      Path: Events\Default Work Unit\CombatState\Play_SSFX__EnemyTurn
-      maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
-    - name: Play_SSFX__MyTurnEnd
-      guid: ec43c9c6bd09b0428212f74a5cdc3216
-      id: 529950874
-      PathAndIcons:
-      - ElementName: Events
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Default Work Unit
-        ObjectType: 12
-        guid: 949bd9bfeea3b740b316a7f992c54fb1
-      - ElementName: CombatState
-        ObjectType: 4
-        guid: 6356ba787c934a4da0e4a41fe6079af1
-      - ElementName: Play_SSFX__MyTurnEnd
-        ObjectType: 3
-        guid: ec43c9c6bd09b0428212f74a5cdc3216
-      Path: Events\Default Work Unit\CombatState\Play_SSFX__MyTurnEnd
-      maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
-    - name: Play_SSFX__MyTurnStart
-      guid: aac075aacc2b8742a425c5d1c6640592
-      id: 3168485769
-      PathAndIcons:
-      - ElementName: Events
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Default Work Unit
-        ObjectType: 12
-        guid: 949bd9bfeea3b740b316a7f992c54fb1
-      - ElementName: CombatState
-        ObjectType: 4
-        guid: 6356ba787c934a4da0e4a41fe6079af1
-      - ElementName: Play_SSFX__MyTurnStart
-        ObjectType: 3
-        guid: aac075aacc2b8742a425c5d1c6640592
-      Path: Events\Default Work Unit\CombatState\Play_SSFX__MyTurnStart
-      maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
-    - name: Play_SSFX__Portal
-      guid: 17e05e3365f6ae4facdd84b3658daea4
-      id: 1381713026
-      PathAndIcons:
-      - ElementName: Events
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Default Work Unit
-        ObjectType: 12
-        guid: 949bd9bfeea3b740b316a7f992c54fb1
-      - ElementName: SSFX
-        ObjectType: 4
-        guid: a925d140d7d6be46a3ec23e2d212020a
-      - ElementName: Play_SSFX__Portal
-        ObjectType: 3
-        guid: 17e05e3365f6ae4facdd84b3658daea4
-      Path: Events\Default Work Unit\SSFX\Play_SSFX__Portal
-      maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
-    - name: Play_SSFX__Walk
-      guid: 011104c8f653f4429b2d4cdd2ada5ea2
-      id: 71458555
-      PathAndIcons:
-      - ElementName: Events
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Default Work Unit
-        ObjectType: 12
-        guid: 949bd9bfeea3b740b316a7f992c54fb1
-      - ElementName: SSFX
-        ObjectType: 4
-        guid: a925d140d7d6be46a3ec23e2d212020a
-      - ElementName: Play_SSFX__Walk
-        ObjectType: 3
-        guid: 011104c8f653f4429b2d4cdd2ada5ea2
-      Path: Events\Default Work Unit\SSFX\Play_SSFX__Walk
+      Path: Events\Default Work Unit\CombatState\Play_SSFX_EnemyTurn
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -535,6 +455,46 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
+    - name: Play_SSFX_MyTurnEnd
+      guid: ec43c9c6bd09b0428212f74a5cdc3216
+      id: 3003442901
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 949bd9bfeea3b740b316a7f992c54fb1
+      - ElementName: CombatState
+        ObjectType: 4
+        guid: 6356ba787c934a4da0e4a41fe6079af1
+      - ElementName: Play_SSFX_MyTurnEnd
+        ObjectType: 3
+        guid: ec43c9c6bd09b0428212f74a5cdc3216
+      Path: Events\Default Work Unit\CombatState\Play_SSFX_MyTurnEnd
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_SSFX_MyTurnStart
+      guid: aac075aacc2b8742a425c5d1c6640592
+      id: 3350516382
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 949bd9bfeea3b740b316a7f992c54fb1
+      - ElementName: CombatState
+        ObjectType: 4
+        guid: 6356ba787c934a4da0e4a41fe6079af1
+      - ElementName: Play_SSFX_MyTurnStart
+        ObjectType: 3
+        guid: aac075aacc2b8742a425c5d1c6640592
+      Path: Events\Default Work Unit\CombatState\Play_SSFX_MyTurnStart
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
     - name: Play_SSFX_Ore
       guid: 40b2b09dbbbae6468f74229ecaa08195
       id: 1628470307
@@ -552,6 +512,46 @@ MonoBehaviour:
         ObjectType: 3
         guid: 40b2b09dbbbae6468f74229ecaa08195
       Path: Events\Default Work Unit\SSFX\Play_SSFX_Ore
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_SSFX_Portal
+      guid: 17e05e3365f6ae4facdd84b3658daea4
+      id: 3131711783
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 949bd9bfeea3b740b316a7f992c54fb1
+      - ElementName: SSFX
+        ObjectType: 4
+        guid: a925d140d7d6be46a3ec23e2d212020a
+      - ElementName: Play_SSFX_Portal
+        ObjectType: 3
+        guid: 17e05e3365f6ae4facdd84b3658daea4
+      Path: Events\Default Work Unit\SSFX\Play_SSFX_Portal
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_SSFX_Walk
+      guid: 011104c8f653f4429b2d4cdd2ada5ea2
+      id: 2953260286
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 949bd9bfeea3b740b316a7f992c54fb1
+      - ElementName: SSFX
+        ObjectType: 4
+        guid: a925d140d7d6be46a3ec23e2d212020a
+      - ElementName: Play_SSFX_Walk
+        ObjectType: 3
+        guid: 011104c8f653f4429b2d4cdd2ada5ea2
+      Path: Events\Default Work Unit\SSFX\Play_SSFX_Walk
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -824,7 +824,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\Default Work Unit
     guid: ff666b964546ef4e9c0e4a1de8f844b7
     GuidInternal: 
-    m_lastTime: -8585140940482598335
+    m_lastTime: -8585141633132924943
     List:
     - name: MIX
       guid: 872cb04762716840b9b8968c79861de9
@@ -903,7 +903,7 @@ MonoBehaviour:
     ParentPath: States\Default Work Unit
     guid: 4357da42963e2141a2fff533c2aaa80c
     GuidInternal: 
-    m_lastTime: -8585140940450433465
+    m_lastTime: -8585141614208739232
     List:
     - name: GameState
       guid: 5df3a3c523000043aa95f9f98f66b10d
@@ -1163,7 +1163,7 @@ MonoBehaviour:
     ParentPath: Switches\Default Work Unit
     guid: 727aa02a69d7354da76e03849372a4fe
     GuidInternal: 
-    m_lastTime: -8585140940450463384
+    m_lastTime: -8585141633103379275
     List:
     - name: Ground_Switch
       guid: f3df87100802db4ba2f24f3cc73bd78c
@@ -1227,7 +1227,7 @@ MonoBehaviour:
     ParentPath: Triggers\Default Work Unit
     guid: 059de49afdf0cf4fb646f586885de550
     GuidInternal: 
-    m_lastTime: -8585140940450403549
+    m_lastTime: -8585141633103339010
     List: []
   ExpandedFileSystemItemIds: 
   ExpandedWaapiItemIds: 

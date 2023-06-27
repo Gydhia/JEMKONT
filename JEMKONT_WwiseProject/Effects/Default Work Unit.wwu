@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{CA49B611-71B4-4044-A8B6-41470AC16EC2}" SchemaVersion="110">
 	<Effects>
-		<WorkUnit Name="Default Work Unit" ID="{CA49B611-71B4-4044-A8B6-41470AC16EC2}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{CA49B611-71B4-4044-A8B6-41470AC16EC2}" PersistMode="Standalone">
+			<ChildrenList>
+				<Effect Name="New_iZotope_Hybrid_Reverb" ID="{371020DF-546C-4111-A0C9-6164A632CA94}" PluginName="iZotope Hybrid Reverb" CompanyID="259" PluginID="2" PluginType="3"/>
+			</ChildrenList>
+		</WorkUnit>
 	</Effects>
 </WwiseDocument>

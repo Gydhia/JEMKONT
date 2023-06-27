@@ -57,7 +57,10 @@ namespace DownBelow.Managers {
 			}
 			this.FakePlayers.Clear();
 
-			if (AllyVictory) {
+			if (AllyVictory) 
+			{
+				AkSoundEngine.PostEvent("Play_SSFX_CombatWin", AudioHolder.Instance.gameObject);
+
 				string abyssName = (Grid as CombatGrid).ParentGrid.UName;
 				var abyss = SettingsManager.Instance.AbyssesPresets.Find(x => x.name == abyssName);
 
@@ -66,6 +69,10 @@ namespace DownBelow.Managers {
 					abyss.IsCleared = true;
 					GameManager.MaxAbyssReached++;
 				}
+			}
+			else
+			{
+				AkSoundEngine.PostEvent("Play_SSFX_CombatLose", AudioHolder.Instance.gameObject);
 			}
 
 			GameManager.SelfPlayer = GameManager.RealSelfPlayer;
@@ -257,6 +264,7 @@ namespace DownBelow.Managers {
 			this.BattleGoing = true;
 			CurrentPlayingGrid = startingGrid;
 
+			AkSoundEngine.PostEvent("Set_Layer_0", AudioHolder.Instance.gameObject);
 			this._setupEnemyEntities();
 
 			UIManager.Instance.PlayerInfos.Init();

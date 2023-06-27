@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{304F2B05-57A2-3B2A-15FF-9150F52B4FBC}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{11653A63-E540-021F-52FF-04ECA88EAAFC}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -63,7 +63,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="2711878180" Type="User" Language="SFX" Hash="{32C7CC49-07AF-A5A5-2D6F-63F34813290B}">
+		<SoundBank Id="2711878180" Type="User" Language="SFX" Hash="{A0946877-E211-F543-10F5-17D38978B5AF}">
 			<ShortName>SB_GLOBAL</ShortName>
 			<Path>SB_GLOBAL.bnk</Path>
 			<Media>
@@ -169,7 +169,7 @@
 				</File>
 				<File Id="406068002" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>card0.wav</ShortName>
-					<CachePath>SFX/card0_0F4DB8AF.wem</CachePath>
+					<CachePath>SFX/card0_2058E61B.wem</CachePath>
 				</File>
 				<File Id="421529683" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>otherWorld.wav</ShortName>
@@ -177,7 +177,7 @@
 				</File>
 				<File Id="430019804" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>deckShuffle.wav</ShortName>
-					<CachePath>SFX/deckShuffle_5D1DA354.wem</CachePath>
+					<CachePath>SFX/deckShuffle_CD171DF5.wem</CachePath>
 				</File>
 				<File Id="469318380" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sand2.wav</ShortName>
@@ -330,117 +330,68 @@
 				</Custom>
 				<ShareSets>
 					<Plugin Id="48620415" Name="Have_U_Ever_Been_Outside" LibName="Wwise RoomVerb" LibId="7733251"/>
+					<Plugin Id="1008402193" Name="Low_Pass_20KHz" LibName="Wwise Parametric EQ" LibId="6881283"/>
 				</ShareSets>
 			</Plugins>
 			<Events>
-				<Event Id="2351453751" Name="Play_SSFX__AllyTurn" DurationType="OneShot" DurationMin="0.5476417" DurationMax="0.5476417">
+				<Event Id="2945031810" Name="Play_SSFX_AllyTurn" DurationType="OneShot" DurationMin="0.5476417" DurationMax="0.5476417">
 					<MediaRefs>
 						<MediaRef Id="567087666"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="284401701" Name="Play_SSFX__CardPick" DurationType="OneShot" DurationMin="0.45156464" DurationMax="0.561819">
+				<Event Id="3130717460" Name="Play_SSFX_CardPick" DurationType="OneShot" DurationMin="0.45156464" DurationMax="0.561819">
 					<MediaRefs>
 						<MediaRef Id="216173308"/>
 						<MediaRef Id="669417131"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="1884104528" Name="Play_SSFX__CardSlap" DurationType="OneShot" DurationMin="0.18333589" DurationMax="0.18333589">
+				<Event Id="1232721797" Name="Play_SSFX_CardSlap" DurationType="OneShot" DurationMin="0.15859172" DurationMax="0.15859172">
 					<MediaRefs>
 						<MediaRef Id="406068002"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="3568964008" Name="Play_SSFX__Click" DurationType="OneShot" DurationMin="0.038318895" DurationMax="0.06845805">
+				<Event Id="3681299163" Name="Play_SSFX_Click" DurationType="OneShot" DurationMin="0.038318895" DurationMax="0.06845805">
 					<MediaRefs>
 						<MediaRef Id="36056990"/>
 						<MediaRef Id="78472428"/>
 						<MediaRef Id="823762247"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="2149827808" Name="Play_SSFX__ClickBlocked" DurationType="OneShot" DurationMin="0.017278912" DurationMax="0.017278912">
+				<Event Id="2447394445" Name="Play_SSFX_ClickBlocked" DurationType="OneShot" DurationMin="0.017278912" DurationMax="0.017278912">
 					<MediaRefs>
 						<MediaRef Id="822974898"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="611645331" Name="Play_SSFX__CombatLose" DurationType="OneShot" DurationMin="3" DurationMax="3">
+				<Event Id="2963818062" Name="Play_SSFX_CombatLose" DurationType="OneShot" DurationMin="3" DurationMax="3">
 					<MediaRefs>
 						<MediaRef Id="112672015"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="241397386" Name="Play_SSFX__CombatWin" DurationType="OneShot" DurationMin="3" DurationMax="3">
+				<Event Id="1271310997" Name="Play_SSFX_CombatWin" DurationType="OneShot" DurationMin="3" DurationMax="3">
 					<MediaRefs>
 						<MediaRef Id="47948954"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="2248673065" Name="Play_SSFX__Crate" DurationType="OneShot" DurationMin="0.9285625" DurationMax="0.9285625">
+				<Event Id="900263106" Name="Play_SSFX_Crate" DurationType="OneShot" DurationMin="0.9285625" DurationMax="0.9285625">
 					<MediaRefs>
 						<MediaRef Id="95996942"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="803863510" Name="Play_SSFX__DeckShuffle" DurationType="OneShot" DurationMin="0.5669822" DurationMax="0.77582765">
+				<Event Id="329156649" Name="Play_SSFX_DeckShuffle" DurationType="OneShot" DurationMin="0.5669822" DurationMax="0.77582765">
 					<MediaRefs>
 						<MediaRef Id="430019804"/>
 						<MediaRef Id="881018081"/>
 					</MediaRefs>
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="1008402193"/>
+						</ShareSets>
+					</PluginRefs>
 				</Event>
-				<Event Id="2280958161" Name="Play_SSFX__EnemyTurn" DurationType="OneShot" DurationMin="0.9703175" DurationMax="0.9703175">
+				<Event Id="3353955478" Name="Play_SSFX_EnemyTurn" DurationType="OneShot" DurationMin="0.9703175" DurationMax="0.9703175">
 					<MediaRefs>
 						<MediaRef Id="404741341"/>
 					</MediaRefs>
-				</Event>
-				<Event Id="529950874" Name="Play_SSFX__MyTurnEnd" DurationType="OneShot" DurationMin="1.9512292" DurationMax="1.9512292">
-					<MediaRefs>
-						<MediaRef Id="14506943"/>
-					</MediaRefs>
-				</Event>
-				<Event Id="3168485769" Name="Play_SSFX__MyTurnStart" DurationType="OneShot" DurationMin="1.9512292" DurationMax="1.9512292">
-					<MediaRefs>
-						<MediaRef Id="71803895"/>
-					</MediaRefs>
-				</Event>
-				<Event Id="1381713026" Name="Play_SSFX__Portal" DurationType="OneShot" DurationMin="6.8705416" DurationMax="6.8705416">
-					<MediaRefs>
-						<MediaRef Id="199566494"/>
-					</MediaRefs>
-				</Event>
-				<Event Id="71458555" Name="Play_SSFX__Walk" DurationType="OneShot" DurationMin="0.5357083" DurationMax="0.7410625">
-					<SwitchContainers>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="2578143219" Id="4248645337"/>
-							<MediaRefs>
-								<MediaRef Id="595392903"/>
-								<MediaRef Id="847899675"/>
-								<MediaRef Id="938315024"/>
-							</MediaRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="2578143219" Id="803837735" Default="true"/>
-							<MediaRefs>
-								<MediaRef Id="193860459"/>
-								<MediaRef Id="369183912"/>
-								<MediaRef Id="469318380"/>
-								<MediaRef Id="747140157"/>
-								<MediaRef Id="888534994"/>
-							</MediaRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="2578143219" Id="4248645337"/>
-							<MediaRefs>
-								<MediaRef Id="595392903"/>
-								<MediaRef Id="847899675"/>
-								<MediaRef Id="938315024"/>
-							</MediaRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="2578143219" Id="803837735" Default="true"/>
-							<MediaRefs>
-								<MediaRef Id="193860459"/>
-								<MediaRef Id="369183912"/>
-								<MediaRef Id="469318380"/>
-								<MediaRef Id="747140157"/>
-								<MediaRef Id="888534994"/>
-							</MediaRefs>
-						</SwitchContainer>
-					</SwitchContainers>
 				</Event>
 				<Event Id="3581818263" Name="Play_SSFX_Fish" DurationType="OneShot" DurationMin="1.1830417" DurationMax="1.1830417">
 					<MediaRefs>
@@ -452,6 +403,16 @@
 						<MediaRef Id="498999293"/>
 						<MediaRef Id="575230282"/>
 						<MediaRef Id="881682970"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3003442901" Name="Play_SSFX_MyTurnEnd" DurationType="OneShot" DurationMin="1.9512292" DurationMax="1.9512292">
+					<MediaRefs>
+						<MediaRef Id="14506943"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3350516382" Name="Play_SSFX_MyTurnStart" DurationType="OneShot" DurationMin="1.9512292" DurationMax="1.9512292">
+					<MediaRefs>
+						<MediaRef Id="71803895"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="1628470307" Name="Play_SSFX_Ore" DurationType="OneShot" DurationMin="0.0535625" DurationMax="0.0535625">
@@ -470,6 +431,61 @@
 							<PluginRef Id="48620415"/>
 						</ShareSets>
 					</PluginRefs>
+				</Event>
+				<Event Id="3131711783" Name="Play_SSFX_Portal" DurationType="OneShot" DurationMin="6.8705416" DurationMax="6.8705416">
+					<MediaRefs>
+						<MediaRef Id="199566494"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2953260286" Name="Play_SSFX_Walk" DurationType="OneShot" DurationMin="0.5357083" DurationMax="0.7410625">
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2578143219" Id="4248645337" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="595392903"/>
+								<MediaRef Id="847899675"/>
+								<MediaRef Id="938315024"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="1008402193"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2578143219" Id="803837735"/>
+							<MediaRefs>
+								<MediaRef Id="193860459"/>
+								<MediaRef Id="369183912"/>
+								<MediaRef Id="469318380"/>
+								<MediaRef Id="747140157"/>
+								<MediaRef Id="888534994"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2578143219" Id="4248645337" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="595392903"/>
+								<MediaRef Id="847899675"/>
+								<MediaRef Id="938315024"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="1008402193"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2578143219" Id="803837735"/>
+							<MediaRefs>
+								<MediaRef Id="193860459"/>
+								<MediaRef Id="369183912"/>
+								<MediaRef Id="469318380"/>
+								<MediaRef Id="747140157"/>
+								<MediaRef Id="888534994"/>
+							</MediaRefs>
+						</SwitchContainer>
+					</SwitchContainers>
 				</Event>
 				<Event Id="2902633162" Name="Play_SSFX_Wood" DurationType="OneShot" DurationMin="0.64285415" DurationMax="0.64285415">
 					<MediaRefs>
@@ -753,5 +769,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{123C6971-2FCF-C3E3-BED1-CE3EA7CF7FE2}</FileHash>
+	<FileHash>{EAD9CEA0-6D70-85EE-D60D-00A61DBF2021}</FileHash>
 </SoundBanksInfo>

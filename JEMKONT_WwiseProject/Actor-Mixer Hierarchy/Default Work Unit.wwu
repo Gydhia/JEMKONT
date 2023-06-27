@@ -128,6 +128,17 @@
 														<ActiveSource Name="dustyAirHit" ID="{59C264F6-51A1-44C5-B3B4-80A168E51692}" Platform="Linked"/>
 													</ActiveSourceList>
 												</Sound>
+												<SwitchContainer Name="PlayerAttack" ID="{67CBD235-CDAD-40C6-9A11-65DC54C9C852}" ShortID="652921362">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{86B68257-100F-4BF5-A2A8-7B8994EA0037}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{5FC12D48-6ADB-4B43-883D-07304F613018}"/>
+														</Reference>
+													</ReferenceList>
+													<GroupingInfo/>
+												</SwitchContainer>
 											</ChildrenList>
 										</Folder>
 										<Folder Name="Abilities" ID="{2161DB4C-D929-4EA1-9778-2C748FAA55DC}" ShortID="155539530">
@@ -447,10 +458,10 @@
 													<ChildrenList>
 														<AudioFileSource Name="card0" ID="{13942B19-93DB-4813-8DA8-D2EF6EECDEED}">
 															<PropertyList>
-																<Property Name="FadeInDuration" Type="Real64" Value="0.0740071444102756"/>
+																<Property Name="FadeInDuration" Type="Real64" Value="0.0265250898600605"/>
 																<Property Name="FadeOutDuration" Type="Real64" Value="0.0728858240404229"/>
 																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-																<Property Name="TrimBegin" Type="Real64" Value="0.146332308265772"/>
+																<Property Name="TrimBegin" Type="Real64" Value="0.171076477538419"/>
 																<Property Name="TrimEnd" Type="Real64" Value="0.329668188736682"/>
 															</PropertyList>
 															<Language>SFX</Language>
@@ -465,6 +476,13 @@
 													</ActiveSourceList>
 												</Sound>
 												<RandomSequenceContainer Name="DeckShuffle" ID="{8718D28E-38C5-4F25-A6BC-F292630F74A6}" ShortID="717549739">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-6</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{86B68257-100F-4BF5-A2A8-7B8994EA0037}"/>
@@ -475,9 +493,43 @@
 													</ReferenceList>
 													<ChildrenList>
 														<Sound Name="deckShuffle0" ID="{42A016D3-BA6D-490A-A164-CDA984E35C93}" ShortID="479919758">
+															<PropertyList>
+																<Property Name="OverrideEffect" Type="bool" Value="True"/>
+																<Property Name="RenderEffect0" Type="bool">
+																	<ValueList>
+																		<Value>True</Value>
+																	</ValueList>
+																</Property>
+															</PropertyList>
 															<ReferenceList>
 																<Reference Name="Conversion">
 																	<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{86B68257-100F-4BF5-A2A8-7B8994EA0037}"/>
+																</Reference>
+																<Reference Name="Effect0">
+																	<Custom CreatedFrom="{62CB7384-421D-4F9A-9CF1-E90F7336A07B}">
+																		<Effect Name="Plate_Large (Custom)" ID="{91D883B0-F6D7-483F-879E-910363329230}" ShortID="882655940" PluginName="Wwise RoomVerb" CompanyID="0" PluginID="118" PluginType="3">
+																			<PropertyList>
+																				<Property Name="DecayTime" Type="Real32" Value="2.5"/>
+																				<Property Name="Density" Type="Real32" Value="60"/>
+																				<Property Name="Diffusion" Type="Real32" Value="9"/>
+																				<Property Name="DryLevel" Type="Real32" Value="-2.3"/>
+																				<Property Name="ERLevel" Type="Real32" Value="-96"/>
+																				<Property Name="ERPattern" Type="int32" Value="20"/>
+																				<Property Name="Filter1Freq" Type="Real32" Value="590"/>
+																				<Property Name="Filter1Gain" Type="Real32" Value="-2.5"/>
+																				<Property Name="Filter2Freq" Type="Real32" Value="780"/>
+																				<Property Name="HFDamping" Type="Real32" Value="5.5"/>
+																				<Property Name="PreDelay" Type="Real32" Value="38"/>
+																				<Property Name="Quality" Type="int32" Value="10"/>
+																				<Property Name="ReverbLevel" Type="Real32" Value="-38"/>
+																				<Property Name="RoomShape" Type="Real32" Value="0"/>
+																				<Property Name="RoomSize" Type="Real32" Value="20"/>
+																			</PropertyList>
+																		</Effect>
+																	</Custom>
+																</Reference>
+																<Reference Name="Effect1" PluginName="Wwise Parametric EQ" CompanyID="0" PluginID="105" PluginType="3">
+																	<ObjectRef Name="Low_Pass_20KHz" ID="{830124FB-B9D5-4AE8-846E-E94A74652666}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
 																</Reference>
 																<Reference Name="OutputBus">
 																	<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{5FC12D48-6ADB-4B43-883D-07304F613018}"/>
@@ -606,12 +658,19 @@
 								<Folder Name="EXPLORE" ID="{B112713D-F16F-4651-89FC-75778260D270}" ShortID="1003552209">
 									<ChildrenList>
 										<SwitchContainer Name="Walking" ID="{2A538C4F-9856-4376-A812-1B44546B8122}" ShortID="392227560">
+											<PropertyList>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>12</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{86B68257-100F-4BF5-A2A8-7B8994EA0037}"/>
 												</Reference>
 												<Reference Name="DefaultSwitchOrState">
-													<ObjectRef Name="Sand" ID="{F1790D9A-31B7-43D5-8215-CA445F5AAB96}" WorkUnitID="{2AA07A72-D769-4D35-A76E-03849372A4FE}"/>
+													<ObjectRef Name="Grass" ID="{B9AA152C-9DCA-45D1-BCB9-B3A75EB6874C}" WorkUnitID="{2AA07A72-D769-4D35-A76E-03849372A4FE}"/>
 												</Reference>
 												<Reference Name="OutputBus">
 													<ObjectRef Name="SSFX" ID="{0B37C307-5820-4E0D-8063-9D66E2E54F8D}" WorkUnitID="{5FC12D48-6ADB-4B43-883D-07304F613018}"/>
@@ -622,9 +681,15 @@
 											</ReferenceList>
 											<ChildrenList>
 												<RandomSequenceContainer Name="Grass" ID="{9DB32D22-8C78-49CB-B786-206599375207}" ShortID="1035359029">
+													<PropertyList>
+														<Property Name="OverrideEffect" Type="bool" Value="True"/>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{86B68257-100F-4BF5-A2A8-7B8994EA0037}"/>
+														</Reference>
+														<Reference Name="Effect0" PluginName="Wwise Parametric EQ" CompanyID="0" PluginID="105" PluginType="3">
+															<ObjectRef Name="Low_Pass_20KHz" ID="{830124FB-B9D5-4AE8-846E-E94A74652666}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
 														</Reference>
 														<Reference Name="OutputBus">
 															<ObjectRef Name="SSFX" ID="{0B37C307-5820-4E0D-8063-9D66E2E54F8D}" WorkUnitID="{5FC12D48-6ADB-4B43-883D-07304F613018}"/>
