@@ -15,6 +15,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4881580939449006115, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
+      propertyPath: MinWidth
+      value: 400
+      objectReference: {fileID: 0}
     - target: {fileID: 4893917238622806539, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0

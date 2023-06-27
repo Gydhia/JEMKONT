@@ -58,7 +58,7 @@ namespace DownBelow.UI
                 this.DeckTool.sprite = player.CombatTool.InventoryIcon;
                 this.DeckName.text = player.CombatTool.Class.ToString();
 
-                this.Tooltipable.Text = player.ActiveTool.Description;
+                this.Tooltipable.Text = player.ActiveTool.CombatDescription;
                 this.Tooltipable.Title = player.ActiveTool.ItemName;
             }
         }

@@ -80,25 +80,32 @@ namespace DownBelow.UI
         {
             if (CombatManager.CurrentPlayingGrid != null && CombatManager.CurrentPlayingGrid.HasStarted)
             {
-                NetworkManager.Instance.EntityAskToBuffAction(
-                    new EndTurnAction(CombatManager.CurrentPlayingEntity, CombatManager.CurrentPlayingEntity.EntityCell)
-                );
                 foreach (Button button in this.NextTurnButtons)
                 {
                     button.interactable = false;
                 }
-               // NextTurnButton.interactable = false;
+
+                NetworkManager.Instance.EntityAskToBuffAction(
+                    new EndTurnAction(CombatManager.CurrentPlayingEntity, CombatManager.CurrentPlayingEntity.EntityCell)
+                );
             }
         }
 
         private void _updateTurn(EntityEventData Data)
         {
+            StartCoroutine(this._updateButtonsLater(Data.Entity));
+        }
+
+        private IEnumerator _updateButtonsLater(CharacterEntity entity)
+        {
+            yield return new WaitForSeconds(0.3f);
+
+            bool interactable = CombatManager.Instance.IsPlayerOrOwned(entity);
+
             foreach (Button button in this.NextTurnButtons)
             {
-                button.interactable = CombatManager.Instance.IsPlayerOrOwned(Data.Entity);
+                button.interactable = interactable;
             }
-            
-           // NextTurnButton.interactable = CombatManager.Instance.IsPlayerOrOwned(Data.Entity);
         }
 
         private void _updateEntityDeath(EntityEventData Data)

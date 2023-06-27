@@ -39,7 +39,10 @@ namespace DownBelow.Managers {
 			this.OnCombatStarted?.Invoke(new GridEventData(Grid));
 		}
 
-		public void FireCombatEnded(WorldGrid Grid, bool AllyVictory) {
+		public void FireCombatEnded(WorldGrid Grid, bool AllyVictory) 
+		{
+			NetworkManager.Instance.EndOfCombat();
+
 			BattleGoing = false;
 			CurrentPlayingGrid.HasStarted = false;
 
@@ -101,7 +104,8 @@ namespace DownBelow.Managers {
 		private SpellHeader _currentSpellHeader;
 		private Spell _currentSpell;
 
-		public int TurnNumber;
+        public int EntityTurnRotation;
+        public int TotalTurnNumber;
 
 		#region Run-time
 		private Coroutine _turnCoroutine;
@@ -248,8 +252,8 @@ namespace DownBelow.Managers {
 
 			UIManager.Instance.PlayerInfos.Init();
 
-			this.TurnNumber = -1;
-			CurrentPlayingGrid.HasStarted = true;
+            this.EntityTurnRotation = -1;
+            CurrentPlayingGrid.HasStarted = true;
 
 			this._defineEntitiesTurn();
 			this._subcribeToEntitiesDeath();
@@ -306,18 +310,33 @@ namespace DownBelow.Managers {
 				return;
 			}
 
-			this.TurnNumber++;
-			CurrentPlayingEntity = this.PlayingEntities[
-				this.TurnNumber % this.PlayingEntities.Count
-			];
+            this.EntityTurnRotation++;
 
-			if (this.TurnNumber >= 0)
-				UIManager.Instance.TurnSection.ChangeSelectedEntity(
-					this.TurnNumber % this.PlayingEntities.Count
-				);
+            int entityIndex = 0;
+            // Only try to get the next one if it's the the last one
+            if (CurrentPlayingEntity != null && CurrentPlayingEntity.TurnOrder < this.PlayingEntities.Count)
+            {
+                int startIndex = this.PlayingEntities.IndexOf(CurrentPlayingEntity) + 1;
+                for (int i = startIndex; i < this.PlayingEntities.Count; i++)
+                {
+                    if(this.PlayingEntities[i].Health > 0)
+                    {
+                        entityIndex = this.PlayingEntities.IndexOf(this.PlayingEntities[i]);
+                        break;
+                    }
+                }
+            }
 
-			if (CurrentPlayingEntity is PlayerBehavior player) {
-				this._turnCoroutine = StartCoroutine(this._startTurnTimer());
+            CurrentPlayingEntity = this.PlayingEntities[entityIndex];
+
+            if (this.EntityTurnRotation >= 0)
+            {
+                UIManager.Instance.TurnSection.ChangeSelectedEntity(entityIndex);
+            }
+                
+            if (CurrentPlayingEntity is PlayerBehavior player)
+            {
+                this._turnCoroutine = StartCoroutine(this._startTurnTimer());
 
 				// Auto switch the current playing entity
 				if (this.IsPlayerOrOwned(player)) {
@@ -325,9 +344,8 @@ namespace DownBelow.Managers {
 				}
 			}
 
-
-			this.OnTurnStarted?.Invoke(new EntityEventData(CurrentPlayingEntity));
-		}
+            this.OnTurnStarted?.Invoke(new EntityEventData(CurrentPlayingEntity));
+        }
 
 
 		public void ProcessEndTurn() {
@@ -514,44 +532,52 @@ namespace DownBelow.Managers {
 				.Cast<PlayerBehavior>()
 				.ToList();
 
-			for (int i = 0; i < players.Count; i++)
-				players[i].TurnOrder = i;
-			for (int i = 0; i < enemies.Count; i++)
-				enemies[i].TurnOrder = i;
+            this.PlayingEntities = new List<CharacterEntity>();
 
-			this.PlayingEntities = new List<CharacterEntity>();
+            int indexIncr = 0;
+            int turnOrder = 0;
+            // We check both for the tests, if we have more allies than ennemies or inverse
+            if (enemies.Count >= players.Count)
+            {
+                for (int i = 0; i < enemies.Count; i++)
+                {
+                    if(i < players.Count)
+                    {
+                        if (this.IsPlayerOrOwned(players[i]))
+                            players[i].Index = indexIncr++;
 
-			int indexIncr = 0;
-			// We check both for the tests, if we have more allies than ennemies or inverse
-			if (enemies.Count >= players.Count) {
-				for (int i = 0; i < enemies.Count; i++) {
+                        this.PlayingEntities.Add(players[i]);
+
+                        this.PlayingEntities[^1].TurnOrder = turnOrder++;
+                    }
+
+                    if (i < enemies.Count)
+                    {
+                        this.PlayingEntities.Add(enemies[i]);
+                        this.PlayingEntities[^1].TurnOrder = turnOrder++;
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < players.Count; i++)
+                {
+                    if(i < enemies.Count)
+                    {
+                        this.PlayingEntities.Add(enemies[i]);
+                        this.PlayingEntities[^1].TurnOrder = turnOrder++;
+                    }
+
 					if (i < players.Count) {
 						if (this.IsPlayerOrOwned(players[i]))
 							players[i].Index = indexIncr++;
 
-						this.PlayingEntities.Add(players[i]);
-					}
-
-					if (i < enemies.Count) {
-						this.PlayingEntities.Add(enemies[i]);
-					}
-				}
-			}
-			else {
-				for (int i = 0; i < players.Count; i++) {
-					if (i < enemies.Count) {
-						this.PlayingEntities.Add(enemies[i]);
-					}
-
-					if (i < players.Count) {
-						if (this.IsPlayerOrOwned(players[i]))
-							players[i].Index = indexIncr++;
-
-						this.PlayingEntities.Add(players[i]);
-					}
-				}
-			}
-		}
+                        this.PlayingEntities.Add(players[i]);
+                        this.PlayingEntities[^1].TurnOrder = turnOrder++;
+                    }
+                }
+            }
+        }
 
 		private void _subcribeToEntitiesDeath() {
 			foreach (var entity in this.PlayingEntities) {
@@ -567,15 +593,16 @@ namespace DownBelow.Managers {
 
 			Data.Entity.Die();
 
-			// all Allies dead
-			if (PlayingEntities.Count(p => p.IsAlly) == 0) {
-				this.FireCombatEnded(CurrentPlayingGrid, false);
-			}
-			// all Enemies dead
-			else if (PlayingEntities.Count(p => !p.IsAlly) == 0) {
-				this.FireCombatEnded(CurrentPlayingGrid, true);
-			}
-		}
-
-	}
+            // all Allies dead
+            if (PlayingEntities.Count(p => p.IsAlly) == 0)
+            {
+                this.FireCombatEnded(CurrentPlayingGrid, false);
+            }
+            // all Enemies dead
+            else if (PlayingEntities.Count(p => !p.IsAlly) == 0)
+            {
+                this.FireCombatEnded(CurrentPlayingGrid, true);
+            }
+        }
+    }
 }

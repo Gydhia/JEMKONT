@@ -106,13 +106,17 @@ namespace DownBelow.GridSystem
             if(gridData.InnerGrids != null)
             {
                 foreach (GridData innerGrid in gridData.InnerGrids)
+                {
                     for (int i = innerGrid.Longitude; i < innerGrid.Longitude + innerGrid.GridWidth; i++)
+                    {
                         for (int j = innerGrid.Latitude; j < innerGrid.Latitude + innerGrid.GridHeight; j++)
                         {
                             // We'll never be in combat for now, so just destroy these cells
                             Destroy(this.Cells[j, i].gameObject);
                             this.Cells[j, i] = null;
                         }
+                    }
+                }
             }
 
             if(this.GridEntities == null)
@@ -123,10 +127,15 @@ namespace DownBelow.GridSystem
             {
                 // Used to generate UID
                 foreach (var spawnable in gridData.SpawnablePresets)
+                {
                     if (spawnable.Value != null)
+                    {
                         if (SettingsManager.Instance.SpawnablesPresets.TryGetValue(spawnable.Value, out BaseSpawnablePreset spawnSO))
-                            // TODO: Differentiate enemies and NPC. For now they'll be enemies
+                        {
                             spawnSO.Init(this.Cells[spawnable.Key.latitude, spawnable.Key.longitude]);
+                        }
+                    }
+                }
             }
 
             if(gridData.Storages != null)

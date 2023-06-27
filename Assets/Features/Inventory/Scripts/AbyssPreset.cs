@@ -29,7 +29,7 @@ namespace DownBelow.Mechanics
         {
             foreach (var card in GiftedCards) 
             {
-                var act = new PurchaseCardsAction(GameManager.SelfPlayer, GameManager.SelfPlayer.EntityCell);
+                var act = new PurchaseCardsAction(GameManager.RealSelfPlayer, GameManager.RealSelfPlayer.EntityCell);
                 act.Init(card);
                 NetworkManager.Instance.EntityAskToBuffAction(act);
             }

@@ -66,15 +66,18 @@ namespace DownBelow.Entity
 
         public void ShowOutline(bool show)
         {
-            if (show)
+            if(this.ToolOutline != null)
             {
-                this.ToolOutline.enabled = true;
-                InputManager.Instance.OnNewCellHovered += this.OutlineChange;
-            }
-            else
-            {
-                this.ToolOutline.enabled = false;
-                InputManager.Instance.OnNewCellHovered -= this.OutlineChange;
+                if (show)
+                {
+                    this.ToolOutline.enabled = true;
+                    InputManager.Instance.OnNewCellHovered += this.OutlineChange;
+                }
+                else
+                {
+                    this.ToolOutline.enabled = false;
+                    InputManager.Instance.OnNewCellHovered -= this.OutlineChange;
+                }
             }
         }
 

@@ -297,8 +297,9 @@ namespace DownBelow.Entity
 
             if (this.Stunned || this.Sleeping)
             {
-                EndTurn();
-                return;
+				var endTurn = new EndTurnAction(this, this.EntityCell);
+				NetworkManager.Instance.EntityAskToBuffAction(endTurn);
+				return;
             }
 
             GridManager.Instance.CalculatePossibleCombatMovements(this);

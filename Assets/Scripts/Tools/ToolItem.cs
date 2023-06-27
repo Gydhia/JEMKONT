@@ -29,6 +29,9 @@ public class ToolItem : ItemPreset
 
     public Texture2D CharacterTexture;
 
+    [TextArea]
+    public string CombatDescription;
+
     public virtual void WorldAction() 
     {
         switch (Class) {

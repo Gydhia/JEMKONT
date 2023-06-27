@@ -195,7 +195,6 @@ namespace DownBelow.Managers
                 MaxAbyssReached = 0;
             }
 
-
             if (datas.players_inventories != null)
             {
                 foreach (var inventory in datas.players_inventories)

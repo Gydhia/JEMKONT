@@ -63,7 +63,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="2711878180" Type="User" Language="SFX" Hash="{29AFBDF9-8C4E-5C0E-4F0F-2041561172A9}">
+		<SoundBank Id="2711878180" Type="User" Language="SFX" Hash="{32C7CC49-07AF-A5A5-2D6F-63F34813290B}">
 			<ShortName>SB_GLOBAL</ShortName>
 			<Path>SB_GLOBAL.bnk</Path>
 			<Media>
@@ -531,18 +531,7 @@
 					<SwitchContainers>
 						<SwitchContainer>
 							<SwitchValue GroupType="State" GroupId="4091656514" Id="2764240573"/>
-							<Children>
-								<SwitchContainer>
-									<SwitchValue GroupType="State" GroupId="2609808943" Id="1562068129"/>
-									<MediaRefs>
-										<MediaRef Id="65588681"/>
-										<MediaRef Id="597632551"/>
-										<MediaRef Id="801563757"/>
-										<MediaRef Id="959241070"/>
-										<MediaRef Id="991806595"/>
-									</MediaRefs>
-								</SwitchContainer>
-							</Children>
+							<Children/>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="State" GroupId="4091656514" Id="2764240573"/>
@@ -550,9 +539,14 @@
 								<SwitchContainer>
 									<SwitchValue GroupType="State" GroupId="2609808943" Id="4215188899"/>
 									<MediaRefs>
+										<MediaRef Id="65588681"/>
 										<MediaRef Id="488747114"/>
+										<MediaRef Id="597632551"/>
 										<MediaRef Id="708396059"/>
+										<MediaRef Id="801563757"/>
 										<MediaRef Id="920520952"/>
+										<MediaRef Id="959241070"/>
+										<MediaRef Id="991806595"/>
 										<MediaRef Id="1002096085"/>
 										<MediaRef Id="1002181933"/>
 									</MediaRefs>
@@ -594,18 +588,7 @@
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="State" GroupId="4091656514" Id="2764240573"/>
-							<Children>
-								<SwitchContainer>
-									<SwitchValue GroupType="State" GroupId="2609808943" Id="1562068129"/>
-									<MediaRefs>
-										<MediaRef Id="65588681"/>
-										<MediaRef Id="597632551"/>
-										<MediaRef Id="801563757"/>
-										<MediaRef Id="959241070"/>
-										<MediaRef Id="991806595"/>
-									</MediaRefs>
-								</SwitchContainer>
-							</Children>
+							<Children/>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="State" GroupId="4091656514" Id="2764240573"/>
@@ -613,9 +596,14 @@
 								<SwitchContainer>
 									<SwitchValue GroupType="State" GroupId="2609808943" Id="4215188899"/>
 									<MediaRefs>
+										<MediaRef Id="65588681"/>
 										<MediaRef Id="488747114"/>
+										<MediaRef Id="597632551"/>
 										<MediaRef Id="708396059"/>
+										<MediaRef Id="801563757"/>
 										<MediaRef Id="920520952"/>
+										<MediaRef Id="959241070"/>
+										<MediaRef Id="991806595"/>
 										<MediaRef Id="1002096085"/>
 										<MediaRef Id="1002181933"/>
 									</MediaRefs>
@@ -661,18 +649,7 @@
 					<SwitchContainers>
 						<SwitchContainer>
 							<SwitchValue GroupType="State" GroupId="4091656514" Id="2764240573"/>
-							<Children>
-								<SwitchContainer>
-									<SwitchValue GroupType="State" GroupId="2609808943" Id="1562068129"/>
-									<MediaRefs>
-										<MediaRef Id="65588681"/>
-										<MediaRef Id="597632551"/>
-										<MediaRef Id="801563757"/>
-										<MediaRef Id="959241070"/>
-										<MediaRef Id="991806595"/>
-									</MediaRefs>
-								</SwitchContainer>
-							</Children>
+							<Children/>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="State" GroupId="4091656514" Id="2764240573"/>
@@ -680,9 +657,14 @@
 								<SwitchContainer>
 									<SwitchValue GroupType="State" GroupId="2609808943" Id="4215188899"/>
 									<MediaRefs>
+										<MediaRef Id="65588681"/>
 										<MediaRef Id="488747114"/>
+										<MediaRef Id="597632551"/>
 										<MediaRef Id="708396059"/>
+										<MediaRef Id="801563757"/>
 										<MediaRef Id="920520952"/>
+										<MediaRef Id="959241070"/>
+										<MediaRef Id="991806595"/>
 										<MediaRef Id="1002096085"/>
 										<MediaRef Id="1002181933"/>
 									</MediaRefs>
@@ -771,5 +753,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{6A65AE7B-FA26-1539-4D43-3379B2E00DE9}</FileHash>
+	<FileHash>{123C6971-2FCF-C3E3-BED1-CE3EA7CF7FE2}</FileHash>
 </SoundBanksInfo>

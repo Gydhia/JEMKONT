@@ -1,17 +1,14 @@
-using System;
 using DownBelow.Entity;
 using DownBelow.Events;
 using DownBelow.Inventory;
 using DownBelow.Managers;
 using Sirenix.OdinInspector;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Assertions.Must;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using DG.Tweening;
 
 namespace DownBelow.UI.Inventory
 {
@@ -72,9 +69,21 @@ namespace DownBelow.UI.Inventory
                 this.icon.gameObject.SetActive(true);
                 this.TotalQuantity = Item.Quantity;
                 this.quantity.text = this.TotalQuantity.ToString();
-            } else
+            } 
+            else
             {
-                this.icon.gameObject.SetActive(false);
+                if (this.OnlyAcceptedItem != null)
+                {
+                    this.icon.sprite = this.OnlyAcceptedItem.InventoryIcon;
+                    this.icon.gameObject.SetActive(true);
+
+                    this.icon.color = new Color(this.icon.color.r, this.icon.color.g, this.icon.color.b, 0.1f);
+                }
+                else
+                {
+                    this.icon.gameObject.SetActive(false);
+                }
+
                 this.quantity.text = string.Empty;
                 this.TotalQuantity = 0;
             }
@@ -86,16 +95,29 @@ namespace DownBelow.UI.Inventory
             {
                 this.Data = Data;
                 this.icon.sprite = this.Data.ItemData.ItemPreset.InventoryIcon;
-                if(!this.icon.gameObject.activeInHierarchy)
+                this.icon.color = new Color(this.icon.color.r, this.icon.color.g, this.icon.color.b, 1f);
+
+                if (!this.icon.gameObject.activeInHierarchy)
                     this.icon.gameObject.SetActive(true);
                 this.TotalQuantity = this.Data.ItemData.Quantity;
                 this.quantity.text = this.TotalQuantity.ToString();
    
-            } else
+            } 
+            else
             {
-                this.icon.sprite = null;
-                if(this.icon.gameObject.activeInHierarchy)
+                if(this.OnlyAcceptedItem != null)
+                {
+                    this.icon.sprite = this.OnlyAcceptedItem.InventoryIcon;
+                    this.icon.gameObject.SetActive(true);
+
+                    this.icon.color = new Color(this.icon.color.r, this.icon.color.g, this.icon.color.b, 0.1f);
+                }
+                else
+                {
+                    this.icon.sprite = null;
                     this.icon.gameObject.SetActive(false);
+                }
+                
                 this.quantity.text = string.Empty;
                 this.TotalQuantity = 0;
             }
@@ -120,8 +142,10 @@ namespace DownBelow.UI.Inventory
 
         public void RemoveItem()
         {
-          //  this.icon.sprite = Managers.SettingsManager.Instance.GameUIPreset.ItemCase;
-          this.icon.gameObject.SetActive(false);
+            if(this.OnlyAcceptedItem == null)
+            {
+                this.icon.gameObject.SetActive(false);
+            }
             this.quantity.text = string.Empty;
             this.TotalQuantity = 0;
         }
@@ -170,7 +194,7 @@ namespace DownBelow.UI.Inventory
         }
         protected virtual void dropOverUI(PointerEventData eventData)
         {
-            if (LastHoveredItem && LastHoveredItem != this)
+            if (LastHoveredItem && LastHoveredItem != this && LastHoveredItem.SelfItem.ItemPreset == null)
             {
                 if (LastHoveredItem.OnlyAcceptedItem != null && LastHoveredItem.OnlyAcceptedItem != this.SelfItem.ItemPreset)
                     return;
@@ -208,15 +232,18 @@ namespace DownBelow.UI.Inventory
 
         public virtual void RefreshTooltipable()
         {
-            if (this.SelfItem.ItemPreset == null)
+            if (this.Tooltipable != null)
             {
-                this.Tooltipable.enabled = false;
-            }
-            else
-            {
-                this.Tooltipable.enabled = true;
-                this.Tooltipable.Text = this.SelfItem.ItemPreset.Description;
-                this.Tooltipable.Title = this.SelfItem.ItemPreset.ItemName;
+                if (this.SelfItem.ItemPreset == null)
+                {
+                    this.Tooltipable.enabled = false;
+                }
+                else
+                {
+                    this.Tooltipable.enabled = true;
+                    this.Tooltipable.Text = this.SelfItem.ItemPreset.Description;
+                    this.Tooltipable.Title = this.SelfItem.ItemPreset.ItemName;
+                }
             }
         }
 

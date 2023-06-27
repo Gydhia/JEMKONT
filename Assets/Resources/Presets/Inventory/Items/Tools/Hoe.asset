@@ -53,9 +53,12 @@ MonoBehaviour:
   Type: 0
   ItemName: Hoe
   InventoryIcon: {fileID: 21300000, guid: 4d815a29236d69c4580fc965354124db, type: 3}
-  ItemPrefab: {fileID: 0}
   MaxStack: 1
   DroppedItemPrefab: {fileID: 5392660244429977617, guid: 0943dbb6f03aa164aa495b34b9ec1d1a, type: 3}
+  Description: 'Use this tool to collect Wood ! Wood is used to build useful workshops
+    !
+
+'
   DeckPreset: {fileID: 11400000, guid: c2e0033a467715f4182f725e2d155c12, type: 2}
   Class: 2
   ActualPlayer: {fileID: 0}
@@ -75,3 +78,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 607832195c7922143b94e3a619ce33a9, type: 2}
   CurrentLevel: 0
   CharacterTexture: {fileID: 2800000, guid: e154e7589fdb4474cb9b1408e8e70f04, type: 3}
+  CombatDescription: 'The Farmer is a range damage dealer, protect him and watch
+    him ramp up to crazy power !
+
+'

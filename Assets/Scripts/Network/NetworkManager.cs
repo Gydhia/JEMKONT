@@ -641,7 +641,9 @@ namespace DownBelow.Managers
 
                 if (CombatManager.CurrentPlayingEntity is EnemyEntity enemy)
                 {
-                    this.EntityAskToBuffActions(enemy.CreateEnemyActions());
+                    if (!enemy.Sleeping && !enemy.Stunned) {
+                        this.EntityAskToBuffActions(enemy.CreateEnemyActions());
+                    }
                 }
             }
         }
@@ -692,6 +694,10 @@ namespace DownBelow.Managers
         }
 
 
+        public void EndOfCombat()
+        {
+            this._turnOnGoing = false;
+        }
 
         // TODO : Make a generic answer architecture for network such as EntityActions
         /*

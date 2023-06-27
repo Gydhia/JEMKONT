@@ -47,7 +47,11 @@ namespace DownBelow.UI
             this.UIStorage.SetStorageAndShow(workshop.Storage, isRealPlayer);
 
             this.InItem.OnlyAcceptedItem = workshop.InputItem;
+            this.InItem.RefreshItem(new ItemEventData(this.InItem.SelfItem));
+
             this.FuelItem.OnlyAcceptedItem = workshop.FuelItem;
+            this.FuelItem.RefreshItem(new ItemEventData(this.FuelItem.SelfItem));
+
             this.OutItem.CanOnlyTake = true;
             this._refreshWorkshop(null);
             
@@ -64,13 +68,10 @@ namespace DownBelow.UI
                 SectionAnim.ShowWorkshop();
                 Debug.Log("ShowSawStood");
             }
-            
-            SectionAnim.OnCraftComplete += Craft;
-            
+
+            SectionAnim.OnCraftComplete += Craft;            
         }
 
-
-        
         private void _refreshWorkshop(ItemEventData Data)
         {
             this.CraftButton.interactable = this.InItem.SelfItem.ItemPreset != null && this.FuelItem.SelfItem.ItemPreset != null;

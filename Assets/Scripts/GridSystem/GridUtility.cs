@@ -427,7 +427,7 @@ namespace DownBelow.GridSystem
             {
                 return true;
             }
-            var (width, height) = (playerRange.GetLength(1), playerRange.GetLength(0));
+            var (width, height) = (playerRange.GetLength(0), playerRange.GetLength(1));
 
             var (playerX, playerY) = (playerPos.longitude, playerPos.latitude);
 
@@ -437,7 +437,7 @@ namespace DownBelow.GridSystem
 
             var (offsetX, offsetY) = (cellX - (playerX - relativeX), cellY - (playerY - relativeY));
 
-            return offsetX >= 0 && offsetX < width && offsetY >= 0 && offsetY < height && playerRange[offsetY, offsetX];
+            return offsetX >= 0 && offsetX < width && offsetY >= 0 && offsetY < height && playerRange[offsetX, offsetY];
         }
 
         public static List<Cell> TransposeShapeToCells(ref bool[,] shape, Cell cell, Vector2 shapeRelativePos)

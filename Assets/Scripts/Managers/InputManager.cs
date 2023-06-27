@@ -83,6 +83,11 @@ namespace DownBelow.Managers
 
             PlayerInputs.player_F4.performed += this._onF4Down;
 
+            GameManager.Instance.OnGameStarted += _subscribeAfterSetup;
+        }
+
+        private void _subscribeAfterSetup(GameEventData Data)
+        {
             PlayerInputs.player_scroll.performed += this._scroll;
         }
 
@@ -213,6 +218,7 @@ namespace DownBelow.Managers
         void Scroll(float value)
         {
             if (_scrollBusy) return;
+
             _scrollBusy = true;
             int newSlot = _inventorySlotSelected;
             if (value <= -110)

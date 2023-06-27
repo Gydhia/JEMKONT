@@ -38,7 +38,7 @@ namespace DownBelow.UI
         [BoxGroup("UI")]
         public GameObject BG;
         [BoxGroup("UI")] 
-        public SVerticalLayoutGroup CurrentDeckLayoutGroup;
+        public VerticalLayoutGroup CurrentDeckLayoutGroup;
 
         private EDeckBuildState state;
 

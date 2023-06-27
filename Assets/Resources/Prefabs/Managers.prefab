@@ -334,7 +334,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44d26ebafca7f944f8be0cb5daa95a73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MainGrid: FarmLand
+  MainGrid: Farmland
   CellPrefab: {fileID: 7726041531083266328, guid: 790fb0bae6a6d344fbb3f0d1b7bd1f5d, type: 3}
   CombatGridPrefab: {fileID: 2420647313775234594, guid: 309f24f78f459eb4d809b4e078f52ee1, type: 3}
   WorldGridPrefab: {fileID: 613952523817220313, guid: 24fc8eafec30993478b5a8a889a1d8cf, type: 3}

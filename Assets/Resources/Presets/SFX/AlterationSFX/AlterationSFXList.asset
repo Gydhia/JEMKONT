@@ -19,6 +19,9 @@ MonoBehaviour:
     - {fileID: 236227460312623688, guid: 3f67f820445bad94cbb1889aba805a25, type: 3}
     - {fileID: 1388739475963207349, guid: c208f90ac03cc164587e44351cd4b20f, type: 3}
     - {fileID: 7718590588461952457, guid: 14076145544d90e419d5826a844bebfa, type: 3}
+    - {fileID: 6063614485222796646, guid: d39caa5b2eb1cf245945a1b000123caa, type: 3}
+    - {fileID: 108451145774425615, guid: 640d7e5f900600748b2535b7efe830ac, type: 3}
+    - {fileID: 2972122237972215306, guid: c82801c8f7a2e8245b7f5ebb4636d275, type: 3}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -30,7 +33,7 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 3
+      Data: 6
     - Name: 
       Entry: 7
       Data: 1|AlterationSFX, Assembly-CSharp
@@ -55,6 +58,9 @@ MonoBehaviour:
     - Name: AlterationSFXPrefab
       Entry: 10
       Data: 0
+    - Name: Loop
+      Entry: 5
+      Data: false
     - Name: 
       Entry: 8
       Data: 
@@ -79,6 +85,9 @@ MonoBehaviour:
     - Name: AlterationSFXPrefab
       Entry: 10
       Data: 1
+    - Name: Loop
+      Entry: 5
+      Data: true
     - Name: 
       Entry: 8
       Data: 
@@ -103,6 +112,93 @@ MonoBehaviour:
     - Name: AlterationSFXPrefab
       Entry: 10
       Data: 2
+    - Name: Loop
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7|AlterationSFX, Assembly-CSharp
+    - Name: Alteration
+      Entry: 7
+      Data: 8|DownBelow.Spells.Alterations.InverseFlow, Assembly-CSharp
+    - Name: Duration
+      Entry: 3
+      Data: 0
+    - Name: Target
+      Entry: 6
+      Data: 
+    - Name: InstanciatedFXAnimator
+      Entry: 6
+      Data: 
+    - Name: DamageFromFlow
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: AlterationSFXPrefab
+      Entry: 10
+      Data: 3
+    - Name: Loop
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 9|AlterationSFX, Assembly-CSharp
+    - Name: Alteration
+      Entry: 7
+      Data: 10|SleepAlteration, Assembly-CSharp
+    - Name: Duration
+      Entry: 3
+      Data: 0
+    - Name: Target
+      Entry: 6
+      Data: 
+    - Name: InstanciatedFXAnimator
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: AlterationSFXPrefab
+      Entry: 10
+      Data: 4
+    - Name: Loop
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 11|AlterationSFX, Assembly-CSharp
+    - Name: Alteration
+      Entry: 7
+      Data: 12|DownBelow.Spells.Alterations.Thornmail, Assembly-CSharp
+    - Name: Duration
+      Entry: 3
+      Data: 0
+    - Name: Target
+      Entry: 6
+      Data: 
+    - Name: InstanciatedFXAnimator
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: AlterationSFXPrefab
+      Entry: 10
+      Data: 5
+    - Name: Loop
+      Entry: 5
+      Data: true
     - Name: 
       Entry: 8
       Data: 
