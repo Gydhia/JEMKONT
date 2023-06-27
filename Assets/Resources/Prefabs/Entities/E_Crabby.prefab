@@ -113,7 +113,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1431573493514449160, guid: cb1bb2b81a4acd043865938c346ae768, type: 3}
       propertyPath: attackType
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1431573493514449160, guid: cb1bb2b81a4acd043865938c346ae768, type: 3}
       propertyPath: EntityHolder

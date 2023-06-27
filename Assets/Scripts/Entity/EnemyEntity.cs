@@ -56,10 +56,11 @@ namespace DownBelow.Entity
             base.StartTurn();
         }
 
-
         public EntityAction[] CreateEnemyActions()
         {
             var targettingAction = new TargettingAction(this, this.EntityCell);
+            targettingAction.Init(TargetType);
+
 
             var movementAction = new EnemyMovementAction(this, this.EntityCell);
             movementAction.Init(this.movementType);

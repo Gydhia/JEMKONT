@@ -357,6 +357,11 @@ namespace DownBelow.Entity
             GameManager.RealSelfPlayer.CanMove = true;
         }
 
-        #endregion
-    }
+		#endregion
+
+		public override void Die() {
+            ShowOutline(false);
+			base.Die();
+		}
+	}
 }

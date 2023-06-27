@@ -18,6 +18,7 @@ namespace DownBelow.Entity
 
         public virtual void Init(MovementType Type)
         {
+            Debug.Log($"init: {Type}");
             this.Type = Type;
         }
 
@@ -32,23 +33,23 @@ namespace DownBelow.Entity
         protected override List<Cell> GetProcessedPath()
         {
             List<Cell> path;
-            switch (this.Type)
-            {
-                case MovementType.Straight: path = this.MovementStraight(); break;
-                case MovementType.StraightToRange:
-                default: path = this.MovementStraightToRange(); break;
-            }
+			switch (this.Type) {
+				case MovementType.Straight: path = this.MovementStraight(); break;
+				case MovementType.Kite:
+				case MovementType.StraightToRange:
+				default: path = this.MovementStraightToRange(); break;
+			}
 
-            if (path == null || path.Count == 0)
+			if (path == null || path.Count == 0)
                 return null;
 
             if(path.Count >= RefEntity.Speed)
                 path.RemoveRange(RefEntity.Speed, (path.Count - 1) - (RefEntity.Speed - 1));
 
             return path;
-        }
+		}
 
-        private List<Cell> MovementStraight()
+		private List<Cell> MovementStraight()
         {
             if (TargetCell == null || TargetCell.EntityIn == null || TargetCell.EntityIn.EntityCell == null)
                 return null;
@@ -78,6 +79,6 @@ namespace DownBelow.Entity
         {
             this.Type = (MovementType)System.Enum.Parse(typeof(MovementType), Datas[0].ToString());
         }
-    }
+	}
 
 }
