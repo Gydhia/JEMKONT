@@ -113,7 +113,7 @@ namespace DownBelow.Managers
         public void SelectPopup(MenuPopup popup)
         {
             // In case we're trying to show a popup with delay
-            if (this._isSelectingPopup)
+            if (this._isSelectingPopup || popup == this.LastPopup)
                 return;
 
             if (this.LastPopup != MenuPopup.None && !this._menuPopups[this.LastPopup].IsHidden)

@@ -36,7 +36,8 @@ namespace DownBelow.Entity
         /// </summary>
         public PlayerBehavior Owner;
         public bool IsFake = false;
-        public int Index = -1;
+        public int PlayerIndex = -1;
+        public int SelectIndex = -1;
 
         public BaseStorage PlayerInventory;
 
@@ -83,6 +84,8 @@ namespace DownBelow.Entity
 
         private void OutlineChange(CellEventData Data)
         {
+            if(!this.CanAutoAttack) { return; }
+
             if (Data.Cell == EntityCell)
             {
                 ToolOutline.enabled = true;
@@ -297,7 +300,7 @@ namespace DownBelow.Entity
             //Calculate straight path, see if obstacle.  
             var path = GridManager.Instance.FindPath(this, cellToAttack.PositionInGrid, true);
 
-            var notwalkable = path.Find(x => x.Datas.state != CellState.Walkable);
+            var notwalkable = path == null ? null : path.Find(x => x.Datas.state != CellState.Walkable);
             bool attacked = false;
             if (notwalkable != null)
             {

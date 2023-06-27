@@ -145,7 +145,8 @@ namespace DownBelow.Managers {
 		/// To welcome any player entering a combat grid.
 		/// </summary>
 		/// <param name="Data"></param>
-		public void WelcomePlayerInCombat(EntityEventData Data) {
+		public void WelcomePlayerInCombat(EntityEventData Data) 
+		{
 			if (!Data.Entity.CurrentGrid.IsCombatGrid)
 				return;
 
@@ -184,11 +185,13 @@ namespace DownBelow.Managers {
 			// Merge the tools on ground to the equiped tools
 			freeTools.AddRange(allTools);
 
-			if (usedTools < totalTools) {
+			if (usedTools < totalTools)
+			{
 				int playersInGrid = PlayersInGrid.Count;
 				int playerIndex = 0;
 
-				foreach (var tool in freeTools) {
+				foreach (var tool in freeTools)
+				{
 					var playerToAdd = this.PlayersInGrid[playerIndex];
 
 					playerToAdd.CombatTools.Add(tool);
@@ -198,13 +201,19 @@ namespace DownBelow.Managers {
 				}
 			}
 
-			if (FakePlayers != null && this.FakePlayers.Count > 0) {
-				foreach (var fake in FakePlayers) {
+			if (FakePlayers != null && this.FakePlayers.Count > 0) 
+			{
+				foreach (var fake in FakePlayers) 
+				{
 					fake.FireExitedCell();
 					Destroy(fake.gameObject);
 				}
 				FakePlayers.Clear();
 			}
+
+			// We replaced a destroyed fake player. We need to tell the tool that we're now its owner
+			player.ActiveTool.ActualPlayer = player;
+			player.ActiveTool.DeckPreset.LinkedPlayer = player;
 
 			FakePlayers = new List<PlayerBehavior>();
 			foreach (var playerDecks in allyTools) {
@@ -273,28 +282,33 @@ namespace DownBelow.Managers {
 			NetworkManager.Instance.StartEntityTurn();
 		}
 
-
+		public void SwitchSelectedPlayer(int index) => this._switchSelectedPlayer(index);
 		private void _switchToFirstPlayer(InputAction.CallbackContext ctx) => this._switchSelectedPlayer(0);
 		private void _switchToSecondPlayer(InputAction.CallbackContext ctx) => this._switchSelectedPlayer(1);
 		private void _switchToThirdPlayer(InputAction.CallbackContext ctx) => this._switchSelectedPlayer(2);
 		private void _switchToFourthPlayer(InputAction.CallbackContext ctx) => this._switchSelectedPlayer(3);
-		private void _switchToSelfPlayer(InputAction.CallbackContext ctx) {
-			if (CurrentPlayingEntity is PlayerBehavior player && IsPlayerOrOwned(player)) {
+		private void _switchToSelfPlayer(InputAction.CallbackContext ctx) 
+		{
+			if (CurrentPlayingEntity is PlayerBehavior player && IsPlayerOrOwned(player))
+			{
 				this._switchSelectedPlayer(player);
 			}
 		}
-		private void _switchSelectedPlayer(PlayerBehavior player) {
-			this._switchSelectedPlayer(player.Index);
+		private void _switchSelectedPlayer(PlayerBehavior player) 
+		{
+			this._switchSelectedPlayer(player.SelectIndex);
 		}
 
-		private void _switchSelectedPlayer(int index) {
-			var player = this.FakePlayers.SingleOrDefault(f => f.Index == index);
-			player ??= GameManager.RealSelfPlayer.Index == index ? GameManager.RealSelfPlayer : null;
+		private void _switchSelectedPlayer(int index) 
+		{
+			var player = this.FakePlayers.SingleOrDefault(f => f.SelectIndex == index);
+			player ??= GameManager.RealSelfPlayer.SelectIndex == index ? GameManager.RealSelfPlayer : null;
 
 			if (player == null)
 				return;
 
-			if (IsPlayerOrOwned(player)) {
+			if (IsPlayerOrOwned(player)) 
+			{
 				GameManager.Instance.FireSelfPlayerSwitched(
 					player,
 					this._playerIndex,
@@ -371,7 +385,8 @@ namespace DownBelow.Managers {
 		}
 
 		#region CARDS
-		private void _beginUseSpell(CardEventData data) {
+		private void _beginUseSpell(CardEventData data) 
+		{
 			if (data.Card.Spells == null) {
 				Debug.LogError("Trying to use a card without Spell. Fix it in editor.");
 			}
@@ -396,13 +411,15 @@ namespace DownBelow.Managers {
 
 				UIManager.Instance.CardSection.OnCharacterSwitch += AbortUsedSpell;
 			}
-			else {
+			else 
+			{
 				_currentSpellHeader.TargetedCells[0] = CurrentPlayingEntity.EntityCell.PositionInGrid;
 				this.FireCardEndUse(data.Card, DraggableCard.SelectedCard, this._currentSpellHeader, CurrentPlayingEntity.EntityCell, true);
 			}
 		}
 
-		public void AbortUsedSpell(CellEventData Data) {
+		public void AbortUsedSpell(CellEventData Data) 
+		{
 			if (DraggableCard.SelectedCard != null) {
 				this.FireCardEndUse(
 				DraggableCard.SelectedCard.CardReference,
@@ -535,7 +552,8 @@ namespace DownBelow.Managers {
             this.PlayingEntities = new List<CharacterEntity>();
 
             int indexIncr = 0;
-            int turnOrder = 0;
+            int selectIncr = 0;
+			int turnOrder = 0;
             // We check both for the tests, if we have more allies than ennemies or inverse
             if (enemies.Count >= players.Count)
             {
@@ -543,10 +561,11 @@ namespace DownBelow.Managers {
                 {
                     if(i < players.Count)
                     {
-                        if (this.IsPlayerOrOwned(players[i]))
-                            players[i].Index = indexIncr++;
+                        players[i].PlayerIndex = indexIncr++;
+						if (IsPlayerOrOwned(players[i]))
+							players[i].SelectIndex = selectIncr++;
 
-                        this.PlayingEntities.Add(players[i]);
+						this.PlayingEntities.Add(players[i]);
 
                         this.PlayingEntities[^1].TurnOrder = turnOrder++;
                     }
@@ -569,10 +588,12 @@ namespace DownBelow.Managers {
                     }
 
 					if (i < players.Count) {
-						if (this.IsPlayerOrOwned(players[i]))
-							players[i].Index = indexIncr++;
+						
+						players[i].PlayerIndex = indexIncr++;
+						if (IsPlayerOrOwned(players[i]))
+							players[i].SelectIndex = selectIncr++;
 
-                        this.PlayingEntities.Add(players[i]);
+						this.PlayingEntities.Add(players[i]);
                         this.PlayingEntities[^1].TurnOrder = turnOrder++;
                     }
                 }

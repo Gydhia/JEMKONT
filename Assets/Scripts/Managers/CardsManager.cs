@@ -58,7 +58,7 @@ namespace DownBelow.Managers
             int counter = 0;
             foreach (PlayerBehavior player in allPlayers)
             {
-                player.Deck.SetupForCombat(UIManager.Instance.CardSection.CardsHolders[player.Index == -1 ? counter : player.Index]);
+                player.Deck.SetupForCombat(UIManager.Instance.CardSection.CardsHolders[player.PlayerIndex]);
                 counter++;
             }
         }

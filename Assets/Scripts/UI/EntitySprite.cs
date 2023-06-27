@@ -18,6 +18,7 @@ namespace DownBelow.UI
         [SerializeField] private Image _weaponImage;
         [SerializeField] private Image _ownedImage;
         [SerializeField] private TextMeshProUGUI _ownedInput;
+        [SerializeField] private Button _ownedButton;
         [SerializeField] private GameObject _selected;
 
         private CharacterEntity _refEntity;
@@ -36,7 +37,8 @@ namespace DownBelow.UI
             {
                 this._ownedImage.gameObject.SetActive(CombatManager.Instance.IsPlayerOrOwned(player));
                 this._weaponImage.sprite = player.CombatTool.FightIcon;
-                this._ownedInput.text = (player.Index + 1).ToString();
+                this._ownedInput.text = (player.SelectIndex + 1).ToString();
+                this._ownedButton.onClick.AddListener(() => CombatManager.Instance.SwitchSelectedPlayer(player.SelectIndex));
             }
             else
             {
@@ -70,6 +72,7 @@ namespace DownBelow.UI
 
         private void OnDestroy()
         {
+            this._ownedButton.onClick.RemoveAllListeners();
             this._refEntity.OnDeath -= this.SetDead;
             if(GameManager.Instance != null)
                 GameManager.Instance.OnSelfPlayerSwitched -= _toggleSelectedState;

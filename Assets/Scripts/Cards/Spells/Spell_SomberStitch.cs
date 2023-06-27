@@ -17,7 +17,7 @@ namespace DownBelow.Spells
         public override async Task DoSpellBehavior()
         {
             await base.DoSpellBehavior();
-            GetTargets(TargetCell);
+            SetTargets(TargetCell);
             TargetedCells[0].EntityIn.AddAlteration(new SomberStitch(-1, TargetedCells[1].EntityIn));
             TargetedCells[1].EntityIn.AddAlteration(new SomberStitch(-1, TargetedCells[0].EntityIn));
         }

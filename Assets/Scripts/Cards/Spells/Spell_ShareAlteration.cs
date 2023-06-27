@@ -18,7 +18,7 @@ namespace DownBelow.Spells
         {
             await base.DoSpellBehavior();
 
-            GetTargets(TargetCell)
+            SetTargets(TargetCell)
                 .ForEach(x=>x.AddAlterations(RefEntity.Alterations.FindAll(x=>x.GetType() == LocalData.GetType())));
         }
     }

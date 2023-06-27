@@ -109,8 +109,6 @@ namespace DownBelow.UI.Menu
         public void OnSelfLeftRoom()
         {
             this._clearPlayers();
-
-            this.LeaveRoomBtn.interactable = false;
         }
         private void _clearPlayers()
         {

@@ -20,7 +20,7 @@ namespace DownBelow.Spells
         {
             await base.DoSpellBehavior();
 
-            var targets = GetTargets(TargetCell);
+            var targets = SetTargets(TargetCell);
 
             foreach (var target in targets)
             {

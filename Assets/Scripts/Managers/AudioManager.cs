@@ -39,9 +39,9 @@ namespace DownBelow.Managers
                 AkSoundEngine.PostEvent("Set_Layer_0", AudioHolder.Instance.gameObject);
                 AkSoundEngine.SetState("World", "Overworld");
             }
-            
+            AkSoundEngine.SetRTPCValue("RTPC_Volume_Master", 0f, AkSoundEngine.AK_INVALID_GAME_OBJECT);
 
-            if(CombatManager.Instance != null && !_inited)
+            if (CombatManager.Instance != null && !_inited)
             {
                 this._inited = true;
 

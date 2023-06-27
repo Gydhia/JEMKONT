@@ -69,32 +69,51 @@ namespace DownBelow.Spells
 
         public override async void ExecuteAction()
         {
-            
-                Debug.LogWarning($"Executing spell {RefCard.Title}");
-                int cost = RefCard.Cost;
-                if (this.ParentSpell == null)
-                {
-                    this.RefEntity.ApplyStat(EntityStatistics.Mana, -cost);
-                    // Only play animation at first spell
-                    this.RefEntity.Animator.SetTrigger("Cast");
-                }
+            Debug.LogWarning($"Executing spell {RefCard.Title}");
+            int cost = RefCard.Cost;
+            if (this.ParentSpell == null)
+            {
+                this.RefEntity.ApplyStat(EntityStatistics.Mana, -cost);
+                // Only play animation at first spell
+                this.RefEntity.Animator.SetTrigger("Cast");
 
-                if (!this.ValidateConditions())
+                this._tryDiscard();
+            }
+
+            if (!this.ValidateConditions())
+            {
+                EndAction();
+                return;
+            }
+            else
+            {
+                this.TargetEntities = this.SetTargets(this.TargetCell);
+
+                this.Result = new SpellResult();
+                this.Result.Setup(this.TargetEntities, this);
+                await DoSpellBehavior();
+                EndAction();
+            }
+        }
+
+        private void _tryDiscard()
+        {
+            // Another player played the card, we need to remove it from deck. Either way, it's locally done
+            if (!CombatManager.Instance.IsPlayerOrOwned(this.RefEntity))
+            {
+                var cardsHolder = (this.RefEntity as PlayerBehavior).Deck.RefCardsHolder;
+                // Find the corresponding card
+                var correspondingCard = cardsHolder.Piles[PileType.Hand].Cards.FirstOrDefault(c => c.CardReference.UID == this.SpellHeader.RefCard);
+
+                if (correspondingCard != null)
                 {
-                    EndAction();
-                    return;
+                    cardsHolder.MoveCard(PileType.Hand, PileType.Discard, correspondingCard, false);
                 }
                 else
                 {
-                    this.TargetEntities = this.GetTargets(this.TargetCell);
-
-                    this.Result = new SpellResult();
-                    this.Result.Setup(this.TargetEntities, this);
-                    await DoSpellBehavior();
-                    EndAction();
+                    Debug.LogError("Moving a draggable card from multiplayer failed ; " + SettingsManager.Instance.ScriptableCards[SpellHeader.RefCard] + " couldn't be found in hand");
                 }
-            
-             
+            }
         }
 
         public virtual async Task DoSpellBehavior()
@@ -162,7 +181,7 @@ namespace DownBelow.Spells
             base.EndAction();
         }
 
-        public List<CharacterEntity> GetTargets(Cell cellTarget)
+        public List<CharacterEntity> SetTargets(Cell cellTarget)
         {
             if (Data.SpellResultTargeting)
             {
