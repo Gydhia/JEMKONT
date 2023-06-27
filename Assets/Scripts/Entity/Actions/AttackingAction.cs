@@ -19,6 +19,7 @@ namespace DownBelow.Entity
             // Should be a TargettingAction that return the cell to target, aka the entity. Only for Enemies 
             if (this.contextAction != null)
             {
+                Debug.Log(contextAction.TargetCell);
                 this.ProcessContextAction();
             }
             
