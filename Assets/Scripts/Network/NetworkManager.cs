@@ -641,7 +641,9 @@ namespace DownBelow.Managers
 
                 if (CombatManager.CurrentPlayingEntity is EnemyEntity enemy)
                 {
-                    this.EntityAskToBuffActions(enemy.CreateEnemyActions());
+                    if (!enemy.Sleeping && !enemy.Stunned) {
+                        this.EntityAskToBuffActions(enemy.CreateEnemyActions());
+                    }
                 }
             }
         }
