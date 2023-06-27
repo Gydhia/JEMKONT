@@ -628,6 +628,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a0934cf4d7c23d4a8b210eff82f44f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DragItemParent: {fileID: 0}
+  UITooltip: {fileID: 0}
   CombatSection: {fileID: 0}
   TurnSection: {fileID: 0}
   EscapeSection: {fileID: 0}
@@ -641,6 +643,7 @@ MonoBehaviour:
   EnchantSection: {fileID: 0}
   WorkshopSection: {fileID: 0}
   DialogSection: {fileID: 0}
+  DeckbuildingSystem: {fileID: 0}
   EntityTooltipUI: {fileID: 0}
   PlayerInventory: {fileID: 0}
   CurrentStorage: {fileID: 0}
@@ -654,6 +657,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6008253201538663047}
     m_Modifications:
+    - target: {fileID: 3575076097724388968, guid: bfce2c1088b0f5940af5262eeb28a32b, type: 3}
+      propertyPath: CraftRepices.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3575076097724388968, guid: bfce2c1088b0f5940af5262eeb28a32b, type: 3}
+      propertyPath: CraftRepices.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 4edaa5a107bd054499fd5018028d5119, type: 2}
     - target: {fileID: 5117551869604057125, guid: bfce2c1088b0f5940af5262eeb28a32b, type: 3}
       propertyPath: m_RootOrder
       value: 3

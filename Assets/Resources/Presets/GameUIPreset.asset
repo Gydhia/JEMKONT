@@ -139,7 +139,7 @@ MonoBehaviour:
       Data: 
   ItemPrefab: {fileID: 595109141347629658, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
   ItemCase: {fileID: 21300000, guid: 8834cbac06de956409fb4033f0d3bb97, type: 3}
-  SlotsByPlayer: 0a000000080000000600000004000000
+  SlotsByPlayer: 06000000040000000400000004000000
   AttackColor: {r: 0.8396226, g: 0.31287822, b: 0.31287822, a: 1}
   PowerColor: {r: 0.40744036, g: 0.52402294, b: 0.7924528, a: 1}
   SkillColor: {r: 0.9150943, g: 0.7989495, b: 0.2978373, a: 1}
