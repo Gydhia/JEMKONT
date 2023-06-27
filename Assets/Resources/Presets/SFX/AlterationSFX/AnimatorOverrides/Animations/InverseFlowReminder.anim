@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SnareReminder
+  m_Name: InverseFlowReminder
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -51,7 +51,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: EmissionModule.enabled
-    path: Chained
+    path: InverseFlow
     classID: 198
     script: {fileID: 0}
   - curve:
@@ -88,7 +88,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: EmissionModule.enabled
-    path: Chained/Chained2
+    path: InverseFlow/Debris
     classID: 198
     script: {fileID: 0}
   m_PPtrCurves: []
@@ -100,14 +100,14 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 4266133328
+      path: 1715164871
       attribute: 1087013301
       script: {fileID: 0}
       typeID: 198
       customType: 27
       isPPtrCurve: 0
     - serializedVersion: 2
-      path: 2412259923
+      path: 3241819701
       attribute: 1087013301
       script: {fileID: 0}
       typeID: 198
@@ -169,7 +169,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: EmissionModule.enabled
-    path: Chained
+    path: InverseFlow
     classID: 198
     script: {fileID: 0}
   - curve:
@@ -206,7 +206,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: EmissionModule.enabled
-    path: Chained/Chained2
+    path: InverseFlow/Debris
     classID: 198
     script: {fileID: 0}
   m_EulerEditorCurves: []
