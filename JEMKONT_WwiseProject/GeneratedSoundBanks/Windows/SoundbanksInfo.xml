@@ -63,7 +63,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="2711878180" Type="User" Language="SFX" Hash="{A36894DD-07DC-0005-E07B-06ADA2522BCD}">
+		<SoundBank Id="2711878180" Type="User" Language="SFX" Hash="{A0946877-E211-F543-10F5-17D38978B5AF}">
 			<ShortName>SB_GLOBAL</ShortName>
 			<Path>SB_GLOBAL.bnk</Path>
 			<Media>
@@ -169,7 +169,7 @@
 				</File>
 				<File Id="406068002" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>card0.wav</ShortName>
-					<CachePath>SFX/card0_0F4DB8AF.wem</CachePath>
+					<CachePath>SFX/card0_2058E61B.wem</CachePath>
 				</File>
 				<File Id="421529683" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>otherWorld.wav</ShortName>
@@ -177,7 +177,7 @@
 				</File>
 				<File Id="430019804" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>deckShuffle.wav</ShortName>
-					<CachePath>SFX/deckShuffle_5D1DA354.wem</CachePath>
+					<CachePath>SFX/deckShuffle_CD171DF5.wem</CachePath>
 				</File>
 				<File Id="469318380" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sand2.wav</ShortName>
@@ -345,7 +345,7 @@
 						<MediaRef Id="669417131"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="1232721797" Name="Play_SSFX_CardSlap" DurationType="OneShot" DurationMin="0.18333589" DurationMax="0.18333589">
+				<Event Id="1232721797" Name="Play_SSFX_CardSlap" DurationType="OneShot" DurationMin="0.15859172" DurationMax="0.15859172">
 					<MediaRefs>
 						<MediaRef Id="406068002"/>
 					</MediaRefs>
@@ -382,6 +382,11 @@
 						<MediaRef Id="430019804"/>
 						<MediaRef Id="881018081"/>
 					</MediaRefs>
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="1008402193"/>
+						</ShareSets>
+					</PluginRefs>
 				</Event>
 				<Event Id="3353955478" Name="Play_SSFX_EnemyTurn" DurationType="OneShot" DurationMin="0.9703175" DurationMax="0.9703175">
 					<MediaRefs>
@@ -435,7 +440,7 @@
 				<Event Id="2953260286" Name="Play_SSFX_Walk" DurationType="OneShot" DurationMin="0.5357083" DurationMax="0.7410625">
 					<SwitchContainers>
 						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="2578143219" Id="4248645337"/>
+							<SwitchValue GroupType="Switch" GroupId="2578143219" Id="4248645337" Default="true"/>
 							<MediaRefs>
 								<MediaRef Id="595392903"/>
 								<MediaRef Id="847899675"/>
@@ -448,7 +453,7 @@
 							</PluginRefs>
 						</SwitchContainer>
 						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="2578143219" Id="803837735" Default="true"/>
+							<SwitchValue GroupType="Switch" GroupId="2578143219" Id="803837735"/>
 							<MediaRefs>
 								<MediaRef Id="193860459"/>
 								<MediaRef Id="369183912"/>
@@ -458,7 +463,7 @@
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="2578143219" Id="4248645337"/>
+							<SwitchValue GroupType="Switch" GroupId="2578143219" Id="4248645337" Default="true"/>
 							<MediaRefs>
 								<MediaRef Id="595392903"/>
 								<MediaRef Id="847899675"/>
@@ -471,7 +476,7 @@
 							</PluginRefs>
 						</SwitchContainer>
 						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="2578143219" Id="803837735" Default="true"/>
+							<SwitchValue GroupType="Switch" GroupId="2578143219" Id="803837735"/>
 							<MediaRefs>
 								<MediaRef Id="193860459"/>
 								<MediaRef Id="369183912"/>
@@ -764,5 +769,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{464E0F0D-281A-88FE-2883-ED140809249D}</FileHash>
+	<FileHash>{EAD9CEA0-6D70-85EE-D60D-00A61DBF2021}</FileHash>
 </SoundBanksInfo>

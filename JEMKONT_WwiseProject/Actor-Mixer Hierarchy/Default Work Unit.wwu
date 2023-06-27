@@ -458,10 +458,10 @@
 													<ChildrenList>
 														<AudioFileSource Name="card0" ID="{13942B19-93DB-4813-8DA8-D2EF6EECDEED}">
 															<PropertyList>
-																<Property Name="FadeInDuration" Type="Real64" Value="0.0740071444102756"/>
+																<Property Name="FadeInDuration" Type="Real64" Value="0.0265250898600605"/>
 																<Property Name="FadeOutDuration" Type="Real64" Value="0.0728858240404229"/>
 																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-																<Property Name="TrimBegin" Type="Real64" Value="0.146332308265772"/>
+																<Property Name="TrimBegin" Type="Real64" Value="0.171076477538419"/>
 																<Property Name="TrimEnd" Type="Real64" Value="0.329668188736682"/>
 															</PropertyList>
 															<Language>SFX</Language>
@@ -476,6 +476,13 @@
 													</ActiveSourceList>
 												</Sound>
 												<RandomSequenceContainer Name="DeckShuffle" ID="{8718D28E-38C5-4F25-A6BC-F292630F74A6}" ShortID="717549739">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-6</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{86B68257-100F-4BF5-A2A8-7B8994EA0037}"/>
@@ -486,9 +493,43 @@
 													</ReferenceList>
 													<ChildrenList>
 														<Sound Name="deckShuffle0" ID="{42A016D3-BA6D-490A-A164-CDA984E35C93}" ShortID="479919758">
+															<PropertyList>
+																<Property Name="OverrideEffect" Type="bool" Value="True"/>
+																<Property Name="RenderEffect0" Type="bool">
+																	<ValueList>
+																		<Value>True</Value>
+																	</ValueList>
+																</Property>
+															</PropertyList>
 															<ReferenceList>
 																<Reference Name="Conversion">
 																	<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{86B68257-100F-4BF5-A2A8-7B8994EA0037}"/>
+																</Reference>
+																<Reference Name="Effect0">
+																	<Custom CreatedFrom="{62CB7384-421D-4F9A-9CF1-E90F7336A07B}">
+																		<Effect Name="Plate_Large (Custom)" ID="{91D883B0-F6D7-483F-879E-910363329230}" ShortID="882655940" PluginName="Wwise RoomVerb" CompanyID="0" PluginID="118" PluginType="3">
+																			<PropertyList>
+																				<Property Name="DecayTime" Type="Real32" Value="2.5"/>
+																				<Property Name="Density" Type="Real32" Value="60"/>
+																				<Property Name="Diffusion" Type="Real32" Value="9"/>
+																				<Property Name="DryLevel" Type="Real32" Value="-2.3"/>
+																				<Property Name="ERLevel" Type="Real32" Value="-96"/>
+																				<Property Name="ERPattern" Type="int32" Value="20"/>
+																				<Property Name="Filter1Freq" Type="Real32" Value="590"/>
+																				<Property Name="Filter1Gain" Type="Real32" Value="-2.5"/>
+																				<Property Name="Filter2Freq" Type="Real32" Value="780"/>
+																				<Property Name="HFDamping" Type="Real32" Value="5.5"/>
+																				<Property Name="PreDelay" Type="Real32" Value="38"/>
+																				<Property Name="Quality" Type="int32" Value="10"/>
+																				<Property Name="ReverbLevel" Type="Real32" Value="-38"/>
+																				<Property Name="RoomShape" Type="Real32" Value="0"/>
+																				<Property Name="RoomSize" Type="Real32" Value="20"/>
+																			</PropertyList>
+																		</Effect>
+																	</Custom>
+																</Reference>
+																<Reference Name="Effect1" PluginName="Wwise Parametric EQ" CompanyID="0" PluginID="105" PluginType="3">
+																	<ObjectRef Name="Low_Pass_20KHz" ID="{830124FB-B9D5-4AE8-846E-E94A74652666}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
 																</Reference>
 																<Reference Name="OutputBus">
 																	<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{5FC12D48-6ADB-4B43-883D-07304F613018}"/>
@@ -620,7 +661,7 @@
 											<PropertyList>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
-														<Value>6</Value>
+														<Value>12</Value>
 													</ValueList>
 												</Property>
 											</PropertyList>

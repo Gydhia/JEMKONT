@@ -113,9 +113,9 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	379634705	fishing	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\fishing_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\EXPLORE\JOBS\Fishing\fishing		227288
 	388705542	wood3	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\wood3_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\EXPLORE\JOBS\Chopping\wood3		123572
 	404741341	enemyTurn	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\PERC(EC0_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\COMBAT\CombatProgression\enemyTurn		85678
-	406068002	cardSlap	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\card0_0F4DB8AF.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\COMBAT\Card\cardSlap		32436
+	406068002	cardSlap	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\card0_2058E61B.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\COMBAT\Card\cardSlap		28072
 	421529683	otherWorld	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\otherWorld_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\Abyss\ExploreAbyss\ambianceAbyss\otherWorld		82944144
-	430019804	deckShuffle0	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\deckShuffle_5D1DA354.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\COMBAT\Card\DeckShuffle\deckShuffle0		100112
+	430019804	deckShuffle0	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\deckShuffle_CD171DF5.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\COMBAT\Card\DeckShuffle\deckShuffle0		548960
 	469318380	sand2	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\sand2_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\EXPLORE\Walking\Sand\sand2		103000
 	488747114	hihats loop	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\hihats loop_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\Abyss\CombatAbyss\Combat0\hihats loop		1660380
 	498999293	mowing2	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\mowing2_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\EXPLORE\JOBS\Mowing\mowing2		75572

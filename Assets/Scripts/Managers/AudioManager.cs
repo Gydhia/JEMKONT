@@ -51,7 +51,49 @@ namespace DownBelow.Managers
                 CombatManager.Instance.OnCombatStarted += SetCombatMusic;
                 CombatManager.Instance.OnCombatEnded += SetExploreMusic;
 
+                CombatManager.Instance.OnCombatStarted += SubscribeLayerChangeToPlayers;
 
+
+            }
+        }
+
+        public void ChangeLayerOnHealthDown(SpellEventData s)
+        {
+            int totalMaxHealth = 0;
+            int totalHealth = 0;
+            foreach (var player in CombatManager.Instance.PlayersInGrid)
+            {
+                totalMaxHealth += player.MaxHealth;
+                totalHealth += player.Health;
+            }
+            foreach (var player in CombatManager.Instance.FakePlayers)
+            {
+                totalMaxHealth += player.MaxHealth;
+                totalHealth += player.Health;
+            }
+
+            if (totalHealth < totalMaxHealth * 0.75)
+            {
+                AkSoundEngine.PostEvent("Set_Layer_1", AudioHolder.Instance.gameObject);
+                if (totalHealth < totalMaxHealth * 0.5)
+                {
+                    AkSoundEngine.PostEvent("Set_Layer_2", AudioHolder.Instance.gameObject);
+                    if (totalHealth < totalMaxHealth * 0.25)
+                    {
+                        AkSoundEngine.PostEvent("Set_Layer_3", AudioHolder.Instance.gameObject);
+                    }
+                }
+            }
+        }
+        public void SubscribeLayerChangeToPlayers(GridEventData g)
+        {
+            foreach(var player in CombatManager.Instance.PlayersInGrid)
+            {
+                player.OnHealthRemoved += ChangeLayerOnHealthDown;
+            }
+            foreach (var player in CombatManager.Instance.FakePlayers)
+            {
+                player.OnHealthRemoved += ChangeLayerOnHealthDown;
             }
         }
 
@@ -83,8 +125,11 @@ namespace DownBelow.Managers
         }
         public void SetCombatMusic(GridEventData a)
         {
-            AkSoundEngine.PostEvent("SetCombat", AudioHolder.Instance.gameObject); 
+            AkSoundEngine.PostEvent("SetCombat", AudioHolder.Instance.gameObject);
+            AkSoundEngine.PostEvent("Set_Layer_0", AudioHolder.Instance.gameObject);
+
         }
+
         public void SetOverworld(GridEventData a)
         {
             AkSoundEngine.SetState("World", "Overworld");

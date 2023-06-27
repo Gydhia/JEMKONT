@@ -460,7 +460,10 @@ namespace DownBelow.Entity
                 {
                     
                     this.OnHealthRemoved?.Invoke(new SpellEventData(this, value));
-                    if (value != 0) this.OnDamageTaken?.Invoke(new());
+                    if (value != 0)
+                    {
+                        this.OnDamageTaken?.Invoke(new());
+                    }
                 }
             }
         }
