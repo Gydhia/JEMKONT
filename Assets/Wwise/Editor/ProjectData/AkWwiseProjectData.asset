@@ -128,7 +128,7 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: 949bd9bfeea3b740b316a7f992c54fb1
     GuidInternal: 
-    m_lastTime: -8585138172934502907
+    m_lastTime: -8585137261595557099
     List:
     - name: CombatState
       guid: 6356ba787c934a4da0e4a41fe6079af1
@@ -903,7 +903,7 @@ MonoBehaviour:
     ParentPath: States\Default Work Unit
     guid: 4357da42963e2141a2fff533c2aaa80c
     GuidInternal: 
-    m_lastTime: -8585141614208739232
+    m_lastTime: -8585140996278203615
     List:
     - name: GameState
       guid: 5df3a3c523000043aa95f9f98f66b10d
@@ -1230,7 +1230,7 @@ MonoBehaviour:
     m_lastTime: -8585141633103339010
     List: []
   ExpandedFileSystemItemIds: 
-  ExpandedWaapiItemIds: 
+  ExpandedWaapiItemIds: 05000000060000000c000000
   AutoSyncSelection: 0
   autoPopulateEnabled: 1
   currentDataSource: 0

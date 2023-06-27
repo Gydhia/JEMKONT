@@ -39,7 +39,11 @@ namespace DownBelow.Managers
                 AkSoundEngine.PostEvent("Set_Layer_0", AudioHolder.Instance.gameObject);
                 AkSoundEngine.SetState("World", "Overworld");
             }
-            AkSoundEngine.SetRTPCValue("RTPC_Volume_Master", 0f, AkSoundEngine.AK_INVALID_GAME_OBJECT);
+            else if(MenuManager.Instance != null)
+            {
+                AkSoundEngine.PostEvent("SetMainMenu", AudioHolder.Instance.gameObject);
+                AkSoundEngine.PostEvent("Set_Layer_0", AudioHolder.Instance.gameObject);
+            }
 
             if (CombatManager.Instance != null && !_inited)
             {
@@ -52,8 +56,6 @@ namespace DownBelow.Managers
                 CombatManager.Instance.OnCombatEnded += SetExploreMusic;
 
                 CombatManager.Instance.OnCombatStarted += SubscribeLayerChangeToPlayers;
-
-
             }
         }
 
