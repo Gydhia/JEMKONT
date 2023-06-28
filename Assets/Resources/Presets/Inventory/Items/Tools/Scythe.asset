@@ -80,5 +80,7 @@ MonoBehaviour:
     help your allies and play with health values to achieve victory !
 
 
-    Hold
-    <b>[ALT]</b> for more datas.'
+    - Hold
+    <b>[ALT]</b> for more datas.
+
+    - Drag and drop your player to <b>Auto-Attack</b>'
