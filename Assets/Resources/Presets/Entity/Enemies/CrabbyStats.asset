@@ -26,7 +26,7 @@ MonoBehaviour:
   BaseStrength: 15
   BaseMana: 1
   BaseSpeed: 6
-  BaseDefense: 0
+  BaseDefense: 15
   BaseRange: 2
   BuffedHealth: 0
   BuffedShield: 0

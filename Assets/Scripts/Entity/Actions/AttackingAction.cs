@@ -26,7 +26,9 @@ namespace DownBelow.Entity
             if (this._isInRange())
             {
                 this.RefEntity.Animator.SetTrigger("Attack");
-                TargetCell.EntityIn.ApplyStat(EntityStatistics.Health, -(this.RefEntity.Strength));
+                int damage = Mathf.Min(TargetCell.EntityIn.Defense - (this.RefEntity.Strength),0);
+                //TODO: if damage == 0, feedback?
+				TargetCell.EntityIn.ApplyStat(EntityStatistics.Health, damage);
             }
 
             this.EndAction();
