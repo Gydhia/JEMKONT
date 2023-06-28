@@ -14,6 +14,8 @@ namespace AK
     namespace EVENTS
     {
         static const AkUniqueID PLAY_SSFX_ALLYTURN = 2945031810U;
+        static const AkUniqueID PLAY_SSFX_ARROWHIT = 2970065691U;
+        static const AkUniqueID PLAY_SSFX_CARDDRAW = 1322830077U;
         static const AkUniqueID PLAY_SSFX_CARDPICK = 3130717460U;
         static const AkUniqueID PLAY_SSFX_CARDSLAP = 1232721797U;
         static const AkUniqueID PLAY_SSFX_CLICK = 3681299163U;
@@ -21,14 +23,19 @@ namespace AK
         static const AkUniqueID PLAY_SSFX_COMBATLOSE = 2963818062U;
         static const AkUniqueID PLAY_SSFX_COMBATWIN = 1271310997U;
         static const AkUniqueID PLAY_SSFX_CRATE = 900263106U;
+        static const AkUniqueID PLAY_SSFX_DASH = 2787275873U;
         static const AkUniqueID PLAY_SSFX_DECKSHUFFLE = 329156649U;
         static const AkUniqueID PLAY_SSFX_ENEMYTURN = 3353955478U;
+        static const AkUniqueID PLAY_SSFX_FASTHIT = 2463337978U;
         static const AkUniqueID PLAY_SSFX_FISH = 3581818263U;
         static const AkUniqueID PLAY_SSFX_HERB = 4082667236U;
+        static const AkUniqueID PLAY_SSFX_MAGICRISE = 2970430981U;
         static const AkUniqueID PLAY_SSFX_MYTURNEND = 3003442901U;
         static const AkUniqueID PLAY_SSFX_MYTURNSTART = 3350516382U;
         static const AkUniqueID PLAY_SSFX_ORE = 1628470307U;
         static const AkUniqueID PLAY_SSFX_PORTAL = 3131711783U;
+        static const AkUniqueID PLAY_SSFX_ROCKDESTROY = 3556133744U;
+        static const AkUniqueID PLAY_SSFX_ROCKSPIKE = 259866600U;
         static const AkUniqueID PLAY_SSFX_WALK = 2953260286U;
         static const AkUniqueID PLAY_SSFX_WOOD = 2902633162U;
         static const AkUniqueID SET_GRASS = 4038830388U;
@@ -97,6 +104,7 @@ namespace AK
             {
                 static const AkUniqueID GRASS = 4248645337U;
                 static const AkUniqueID SAND = 803837735U;
+                static const AkUniqueID STONE = 1216965916U;
             } // namespace SWITCH
         } // namespace GROUND_SWITCH
 
