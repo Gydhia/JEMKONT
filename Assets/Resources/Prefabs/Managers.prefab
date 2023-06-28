@@ -663,9 +663,29 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3575076097724388968, guid: bfce2c1088b0f5940af5262eeb28a32b, type: 3}
+      propertyPath: AbyssesPresets.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3575076097724388968, guid: bfce2c1088b0f5940af5262eeb28a32b, type: 3}
       propertyPath: CraftRepices.Array.data[3]
       value: 
       objectReference: {fileID: 11400000, guid: 4edaa5a107bd054499fd5018028d5119, type: 2}
+    - target: {fileID: 3575076097724388968, guid: bfce2c1088b0f5940af5262eeb28a32b, type: 3}
+      propertyPath: AbyssesPresets.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 3598d706b603eab41a73061e08cabf6b, type: 2}
+    - target: {fileID: 3575076097724388968, guid: bfce2c1088b0f5940af5262eeb28a32b, type: 3}
+      propertyPath: AbyssesPresets.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5acf6ed0a1583e646ad28af65c7ed7cc, type: 2}
+    - target: {fileID: 3575076097724388968, guid: bfce2c1088b0f5940af5262eeb28a32b, type: 3}
+      propertyPath: AbyssesPresets.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 65d0a7b911a9f6547870fab61f8bceb5, type: 2}
+    - target: {fileID: 3575076097724388968, guid: bfce2c1088b0f5940af5262eeb28a32b, type: 3}
+      propertyPath: AbyssesPresets.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f3abed8f26e6cb41877dff0b9f31de5, type: 2}
     - target: {fileID: 5117551869604057125, guid: bfce2c1088b0f5940af5262eeb28a32b, type: 3}
       propertyPath: m_RootOrder
       value: 3

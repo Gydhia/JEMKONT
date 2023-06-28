@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 130d9b84c5367fe47b06c4038738f937, type: 3}
+  m_Name: CrabbyPreset3
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: UID
+      Entry: 2
+      Data: e7263f5eb1652a2b4332562feefe6086
+  UName: Crabby3
+  AffectingState: 4
+  OverrideSave: 1
+  Entity: {fileID: 4121417982332470165, guid: 5a5800351f3f8a942aa4db4f9fdebc57, type: 3}
+  IsPNJ: 0
+  Statistics: {fileID: 11400000, guid: aa021830f48303c4cacaa78d8cee2165, type: 2}
+  EntityIcon: {fileID: 21300000, guid: a02d4de8e58492a4b8469c0ee18f0abe, type: 3}

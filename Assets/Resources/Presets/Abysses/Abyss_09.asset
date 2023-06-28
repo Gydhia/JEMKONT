@@ -25,4 +25,6 @@ MonoBehaviour:
   TargetGrid: Abyss_09
   RefillResources: 1
   MaxResourcesUpgrade: 5
-  GiftedCards: []
+  GiftedCards:
+  - {fileID: 11400000, guid: 4b28fd3b0525e27468cc249976d8afc1, type: 2}
+  - {fileID: 11400000, guid: e9e4e42de3811764780aef58763fab3c, type: 2}

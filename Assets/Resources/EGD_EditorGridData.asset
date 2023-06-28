@@ -15,17 +15,11 @@ MonoBehaviour:
   cachedFileName: EGD_EditorGridData
   unityObjectReferences:
   - {fileID: 11400000, guid: 710edac696a8d534f844d188132ab11e, type: 2}
-  - {fileID: 11400000, guid: ac04db362f9bc51439aad9787774192c, type: 2}
-  - {fileID: 11400000, guid: 9b4b083d2c799eb4da1f245a72db6810, type: 2}
-  - {fileID: 11400000, guid: d29b9728e73e59441b49c714d0077872, type: 2}
-  - {fileID: 11400000, guid: d8075b2e2cc20a0418b34c5cbc084cc4, type: 2}
-  - {fileID: 11400000, guid: a05943feae5642f469710506905b22fe, type: 2}
-  - {fileID: 11400000, guid: d332da532288b7e4ba393c661207cef2, type: 2}
-  - {fileID: 11400000, guid: bbf91cdc992399a499214cb4015fc601, type: 2}
-  - {fileID: 11400000, guid: 5bbeea932be5f4e49a7ff88f7b5d597f, type: 2}
-  - {fileID: 11400000, guid: 00c8b570434ec1d43b4f8b156656f673, type: 2}
-  - {fileID: 11400000, guid: 3b93d11e0826cac4f9847b1d7058272c, type: 2}
+  - {fileID: 11400000, guid: c164c1518d5f2ce4a91772f2a59ed5ac, type: 2}
+  - {fileID: 11400000, guid: a6233bd948839934f9863f0fb90f8900, type: 2}
+  - {fileID: 11400000, guid: 643d188f958d52141a10d750680dd88e, type: 2}
+  - {fileID: 11400000, guid: 7fc5dfe5f0e46ca4990e04ffd184d47a, type: 2}
   _plane: {fileID: 0}
   PlanePrefab: {fileID: 913962143815404576, guid: 7141923bd86c41143a35f9d656e8949b, type: 3}
-  SelectedGrid: FarmlandSisisiiii
-  LevelPrefab: {fileID: 4928057427728653705, guid: 543e2763826e77d4a99c2f5d03b90a10, type: 3}
+  SelectedGrid: Abyss_06
+  LevelPrefab: {fileID: 2553832773548304120, guid: 705d0baf2c5dc8c4f9e3c3e08b81586a, type: 3}
