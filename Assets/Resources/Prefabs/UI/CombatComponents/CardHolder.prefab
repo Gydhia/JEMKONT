@@ -129,6 +129,7 @@ MonoBehaviour:
       Data: 
   CanvasGroup: {fileID: 819560658325363058}
   LinkedPlayer: {fileID: 0}
+  IsPileOpen: 0
 --- !u!225 &819560658325363058
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -230,6 +231,7 @@ MonoBehaviour:
   CardsNumber: {fileID: 0}
   VisualMoveTarget: {fileID: 6478722474700500118}
   CardsHolder: {fileID: 6478722474700500118}
+  _cardsHolder: {fileID: 0}
   OverviewContent: {fileID: 1701274230994331653}
   UnorganizeCards: 0
 --- !u!1001 &967456453937386383
@@ -387,6 +389,10 @@ PrefabInstance:
       propertyPath: CardPivot.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2736580632612684822, guid: 37411cff5062d5b49b20300a2e9511cf, type: 3}
+      propertyPath: _cardsHolder
+      value: 
+      objectReference: {fileID: 7534733339973391503}
     - target: {fileID: 3241638837387773131, guid: 37411cff5062d5b49b20300a2e9511cf, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
@@ -916,6 +922,10 @@ PrefabInstance:
       propertyPath: CardPivot.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2736580632612684822, guid: 37411cff5062d5b49b20300a2e9511cf, type: 3}
+      propertyPath: _cardsHolder
+      value: 
+      objectReference: {fileID: 7534733339973391503}
     - target: {fileID: 2736580632612684822, guid: 37411cff5062d5b49b20300a2e9511cf, type: 3}
       propertyPath: UnorganizeCards
       value: 1
