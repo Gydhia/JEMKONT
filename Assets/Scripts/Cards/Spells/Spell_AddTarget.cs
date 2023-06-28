@@ -35,7 +35,7 @@ namespace DownBelow.Spells
         public override async Task DoSpellBehavior()
         {
             await base.DoSpellBehavior();
-            GetTargets(TargetCell);
+            SetTargets(TargetCell);
             if (LocalData is SpellData_AddSpecificTarget Specific)
             {
                 switch (Specific.SpecificTargetType)

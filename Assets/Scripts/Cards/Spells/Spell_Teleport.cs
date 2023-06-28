@@ -44,7 +44,7 @@ namespace DownBelow.Spells
         public override async Task DoSpellBehavior()
         {
             await base.DoSpellBehavior();
-            GetTargets(TargetCell);
+            SetTargets(TargetCell);
             if (TargetEntities.Count == 1)
             {
                 var cellToTP = LocalData.TeleportType == ETeleportType.PullTo ? RefEntity.EntityCell : TargetCell;
@@ -52,16 +52,18 @@ namespace DownBelow.Spells
                 {
                     Cell oldCell = TargetEntities[0].EntityCell;
                     cellToTP = TargetEntities[0].SmartTeleport(cellToTP, Result);
-                    RefEntity.FireOnTeleportation(new(TargetEntities[0], RefEntity,oldCell,cellToTP));
-                } else
+                    RefEntity.FireOnTeleportation(new TeleportationEventData(TargetEntities[0], RefEntity,oldCell,cellToTP));
+                } 
+                else
                 {
                     Cell oldCell = RefEntity.EntityCell;
                     cellToTP = RefEntity.SmartTeleport(cellToTP, Result);
-                    RefEntity.FireOnTeleportation(new(RefEntity,TargetCell.EntityIn,oldCell,cellToTP));
+                    RefEntity.FireOnTeleportation(new TeleportationEventData(RefEntity,TargetCell.EntityIn,oldCell,cellToTP));
                 }
                 TargetedCells.Clear();
                 TargetedCells.Add(LocalData.TeleportType == ETeleportType.PullTo ? cellToTP : TargetCell);
-            } else if (LocalData.TeleportType == ETeleportType.PullTo)
+            }
+            else if (LocalData.TeleportType == ETeleportType.PullTo)
             {
                 string debug = "NO ENTITIES";
                 if (TargetEntities.Count > 0)

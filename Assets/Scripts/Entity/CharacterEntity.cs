@@ -285,7 +285,7 @@ namespace DownBelow.Entity
             this.CanAutoAttack = true;
 
             Debug.LogWarning("START TURN : " + this);
-             OnTurnBegun?.Invoke(new());
+            OnTurnBegun?.Invoke(new());
 
             this.ReinitializeStat(EntityStatistics.Speed);
             this.ReinitializeStat(EntityStatistics.Mana);
@@ -294,6 +294,19 @@ namespace DownBelow.Entity
 
             await SFXManager.Instance.RefreshAlterationSFX(this);
 
+            if (this.IsAlly && this is PlayerBehavior player)
+            {
+                if (GameManager.SelfPlayer == player)
+                {
+                    AkSoundEngine.PostEvent("Play_SSFX_MyTurnStart", AudioHolder.Instance.gameObject);
+
+                }
+                AkSoundEngine.PostEvent("Play_SSFX_AllyTurn", AudioHolder.Instance.gameObject);
+            }
+            else
+            {
+                AkSoundEngine.PostEvent("Play_SSFX_EnemyTurn", AudioHolder.Instance.gameObject);
+            }
 
             if (this.Stunned || this.Sleeping)
             {
@@ -316,6 +329,10 @@ namespace DownBelow.Entity
 
             this.PlayingIndicator.SetActive(false);
             this.IsPlayingEntity = false;
+            if (this.IsAlly)
+            {
+                AkSoundEngine.PostEvent("Play_SSFX_MyTurnEnd", AudioHolder.Instance.gameObject);
+            }
             OnTurnEnded?.Invoke(new());
         }
         #endregion
@@ -444,7 +461,10 @@ namespace DownBelow.Entity
                 {
                     
                     this.OnHealthRemoved?.Invoke(new SpellEventData(this, value));
-                    if (value != 0) this.OnDamageTaken?.Invoke(new());
+                    if (value != 0)
+                    {
+                        this.OnDamageTaken?.Invoke(new());
+                    }
                 }
             }
         }

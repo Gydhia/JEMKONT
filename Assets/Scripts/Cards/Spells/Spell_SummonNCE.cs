@@ -28,7 +28,7 @@ namespace DownBelow.Spells
         public override async Task DoSpellBehavior()
         {
             await base.DoSpellBehavior();
-            GetTargets(TargetCell);
+            SetTargets(TargetCell);
             foreach (Cell targetCell in TargetedCells)
             {
                 Managers.CombatManager.Instance.StartCoroutine(SummonNCE(targetCell, LocalData, RefEntity));

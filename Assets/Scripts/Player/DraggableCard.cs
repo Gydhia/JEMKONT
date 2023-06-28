@@ -166,6 +166,9 @@ namespace DownBelow.UI
                 _flipSequence.SetLoops(0);
                 
                 _flipSequence.Restart();
+
+
+                AkSoundEngine.PostEvent("Play_SSFX_CardSlap", AudioHolder.Instance.gameObject);
             }
         }
 
@@ -222,6 +225,8 @@ namespace DownBelow.UI
             PlayerInputs.player_r_click.canceled += _onRightClick;
 
             this._followCoroutine = StartCoroutine(this._followCursor());
+
+            AkSoundEngine.PostEvent("Play_SSFX_CardPick", AudioHolder.Instance.gameObject);
         }
 
 
@@ -299,7 +304,6 @@ namespace DownBelow.UI
             UIManager.Instance.CardSection.SetAllLayoutGroups(false);
             UIManager.Instance.CardSection.SetAllLayoutGroups(true);
             this.m_RectTransform.DOAnchorPos(this._spawnPosition, 0.3f).SetEase(Ease.OutQuad);
-            
             SelectedCard = null;
         }
 

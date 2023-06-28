@@ -20,7 +20,7 @@
 					</RTPCValueList>
 					<CurrentStateList ShowAll="true">
 						<CurrentStateRef Name="Combat" ID="{9094E21E-84D6-4C7F-8238-B2C8E9813C5A}"/>
-						<CurrentStateRef Name="Layers3" ID="{B442D004-8A22-4CDD-B5F3-8BB6505989AC}"/>
+						<CurrentStateRef Name="Layers0" ID="{E9622987-65EA-4CB8-96CA-E8C70608AF3B}"/>
 						<CurrentStateRef Name="Abyss" ID="{707EA575-B326-49BD-8215-841699842371}"/>
 					</CurrentStateList>
 					<CurrentSwitchList ShowAll="true">

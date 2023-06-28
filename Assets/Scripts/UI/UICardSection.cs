@@ -4,11 +4,9 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using DownBelow.Mechanics;
 using DownBelow.Managers;
 using Utility.SLayout;
 using DownBelow.Events;
-using DownBelow.GridSystem;
 
 namespace DownBelow.UI
 {
@@ -44,8 +42,6 @@ namespace DownBelow.UI
             this.CardsHolders[Data.NewIndex].CanvasGroup.alpha = 1;
             this.CardsHolders[Data.NewIndex].CanvasGroup.blocksRaycasts = true;
             this.CardsHolders[Data.NewIndex].CanvasGroup.interactable = true;
-            
-            
         }
 
         public void SetAllLayoutGroups(bool enabled)
@@ -54,9 +50,6 @@ namespace DownBelow.UI
             {
                 layoutGroup.enabled = enabled;
             }
-            
         }
-        
-        
     }
 }

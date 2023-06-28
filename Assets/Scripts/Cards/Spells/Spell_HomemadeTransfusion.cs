@@ -22,7 +22,7 @@ namespace DownBelow.Spells
         public override async Task DoSpellBehavior()
         {
             await base.DoSpellBehavior();
-            var target = GetTargets(TargetCell)[0];
+            var target = SetTargets(TargetCell)[0];
             target.ApplyStat(EntityStatistics.Health, LocalData.HealingValue);
             if (target.Health < target.MaxHealth)
             {

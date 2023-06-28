@@ -17,7 +17,7 @@ namespace DownBelow.Spells {
 
 		public override async Task DoSpellBehavior() {
 			await base.DoSpellBehavior();
-			GetTargets(TargetCell);
+			SetTargets(TargetCell);
 			switch (LocalData.Alteration) {
 				case FishyBusiness fishy:
 					fishy.player = (PlayerBehavior)RefEntity;
@@ -28,5 +28,4 @@ namespace DownBelow.Spells {
 			}
 		}
 	}
-
 }

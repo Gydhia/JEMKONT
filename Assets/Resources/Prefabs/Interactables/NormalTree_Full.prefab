@@ -236,6 +236,8 @@ MonoBehaviour:
   RefCell: {fileID: 0}
   Mesh: {fileID: 5225595416022973248}
   Outline: {fileID: 7405713865225625881}
+  MeshToHide:
+  - {fileID: 5225595416022973248}
   GatheredMesh: {fileID: 5993740690868852227}
   Sound:
     idInternal: 0
@@ -254,5 +256,5 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 2, z: 1}
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Size: {x: 1, y: 1.1299307, z: 1}
+  m_Center: {x: 0, y: 0.56496537, z: 0}

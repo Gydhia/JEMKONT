@@ -49,6 +49,7 @@ public class UICardsPile : MonoBehaviour
     public void ShufflePile(string UID)
     {
         this.Cards.Shuffle(UID);
+        AkSoundEngine.PostEvent("Play_SSFX_DeckShuffle", AudioHolder.Instance.gameObject);
     }
 
     public void ClickOnPile()
