@@ -26,5 +26,5 @@ MonoBehaviour:
   TimeToCrossCell: 0.223
   GridShader: {fileID: 5867004136967159630, guid: b1b688911b4aca14e8ee1f2c34b1675a, type: 3}
   SpellArrowPrefab: {fileID: 2853506859691198941, guid: 3fce89b91f0ba4d45a67ecfe1137b5be, type: 3}
-  CombatEntracePrefab: {fileID: 2277941171936448753, guid: b0f84aa5dc0941e41ab8e53590cdfdcb, type: 3}
+  CombatEntracePrefab: {fileID: 2277941171936448759, guid: b0f84aa5dc0941e41ab8e53590cdfdcb, type: 3}
   PlayerSwitchPrefab: {fileID: 2354855138877005459, guid: 04ca7a29a04a4fc45bf6ecdead06278d, type: 3}
