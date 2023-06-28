@@ -14,6 +14,7 @@ using UnityEngine.InputSystem;
 public abstract class PlaceableItem : ItemPreset
 {
     [HideInInspector] public GameObject PrevisualizationInstance;
+    public int rotation;
 
     protected abstract CellState AffectingState { get; }
 
@@ -63,7 +64,7 @@ public abstract class PlaceableItem : ItemPreset
     /// Create the previsualization object. <b>Should always contain an affactation to the PrevisualizationInstance variable.</b> 
     /// </summary>
     /// <param name="data"></param>
-    protected abstract void InstanciatePrevisualization(CellEventData data);
+    protected abstract void InstanciatePrevisualization(CellEventData data, int rotation);
 
     /// <summary>
     /// Places down the object prefab. 
@@ -95,7 +96,7 @@ public abstract class PlaceableItem : ItemPreset
         {
             if (PrevisualizationInstance == null)
             {
-                InstanciatePrevisualization(data);
+                InstanciatePrevisualization(data, rotation);
                 if (PrevisualizationInstance.TryGetComponent<PlacedDownItem>(out var down))
                 {
                     down.Placed = false;
@@ -111,6 +112,13 @@ public abstract class PlaceableItem : ItemPreset
             PrevisualizationInstance.SetActive(false);
         }
     }
+
+    public void RotatePrevisualization(GameEventData data)
+    {
+        rotation += 90;
+        PrevisualizationInstance.transform.Rotate(new Vector3(0,1,0), rotation);
+    }
+    
 
     public void StopPrevisualize()
     {

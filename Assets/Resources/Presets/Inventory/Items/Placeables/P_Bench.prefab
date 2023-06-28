@@ -41,7 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1167595748763631818}
   - component: {fileID: 3257815682923747617}
-  - component: {fileID: 678217023256241911}
+  - component: {fileID: 1459969337896624759}
   m_Layer: 8
   m_Name: P_Bench
   m_TagString: Untagged
@@ -79,7 +79,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.7461649, y: 0.6129809, z: 0.5286244}
   m_Center: {x: -0.012106001, y: 0.2972367, z: -0.0248622}
---- !u!114 &678217023256241911
+--- !u!114 &1459969337896624759
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -88,14 +88,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 2769568623919297241}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ed2900ebf2473a4baf2883229557264, type: 3}
+  m_Script: {fileID: 11500000, guid: 1fd9bf45602e777449409dba7aa97426, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   InteractablePreset: {fileID: 0}
   RefCell: {fileID: 0}
   Mesh: {fileID: 8955857108958479988}
   Outline: {fileID: 2655612771362296063}
-  SitPoint: {fileID: 2378895010660747259}
 --- !u!1001 &5658800042892715358
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -177,7 +176,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 1, g: 1, b: 1, a: 1}
-  outlineWidth: 5
+  outlineWidth: 0
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []

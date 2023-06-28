@@ -27,6 +27,6 @@ MonoBehaviour:
   UName: BarrelsPreset
   AffectingState: 2
   OverrideSave: 0
-  ObjectPrefab: {fileID: 678217023256241911, guid: 6524031c644ef394b84232b468407ba4, type: 3}
+  ObjectPrefab: {fileID: 5790127641205415030, guid: 9ea26d71d6066b2409f793986f9fca74, type: 3}
   OutlineColor: {r: 0.2627451, g: 0.79286313, b: 0.85882354, a: 1}
   InteractAnimation: {fileID: 0}
