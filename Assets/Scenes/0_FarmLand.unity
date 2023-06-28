@@ -2301,7 +2301,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7177104878325752, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 72
       objectReference: {fileID: 0}
     - target: {fileID: 7177104878325752, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -2937,7 +2937,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2678564370340161760, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 72
       objectReference: {fileID: 0}
     - target: {fileID: 2678564370340161760, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -3333,7 +3333,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3808426073630346338, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 72
       objectReference: {fileID: 0}
     - target: {fileID: 3808426073630346338, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -3469,7 +3469,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4044596493284675526, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 72
       objectReference: {fileID: 0}
     - target: {fileID: 4044596493284675526, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -5144,6 +5144,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1200353045 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3730378239508992745, guid: a2d9f22c64330d14fabf36b2855021f2, type: 3}
+  m_PrefabInstance: {fileID: 687280242204442376}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1200353048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1200353045}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 0
+  m_VerticalFit: 1
 --- !u!224 &1283768696 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1746934668702987531, guid: 7254b2bc37c3b9349bdcd633f69557e6, type: 3}
@@ -6724,6 +6743,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4085105607234868037, guid: a2d9f22c64330d14fabf36b2855021f2, type: 3}
+      propertyPath: m_Vertical
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6187186982578706907, guid: a2d9f22c64330d14fabf36b2855021f2, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -6993,6 +7016,30 @@ PrefabInstance:
       propertyPath: PossibleAutoAttacks.Array.data[0]
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 8204484604120715693, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: CraftRepices.Array.size
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8204484604120715693, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: CraftRepices.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: f232e2f8ddfec614a898f72d8cf5a082, type: 2}
+    - target: {fileID: 8204484604120715693, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: CraftRepices.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: 6691e1740ed412d47ab2174b649c3199, type: 2}
+    - target: {fileID: 8204484604120715693, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: CraftRepices.Array.data[6]
+      value: 
+      objectReference: {fileID: 11400000, guid: 3140a58cf41fe83429aacfbd5053263a, type: 2}
+    - target: {fileID: 8204484604120715693, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: CraftRepices.Array.data[7]
+      value: 
+      objectReference: {fileID: 11400000, guid: 3d3ce12b74461d6498d2865d96dda35d, type: 2}
+    - target: {fileID: 8204484604120715693, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: CraftRepices.Array.data[8]
+      value: 
+      objectReference: {fileID: 11400000, guid: e0b3b6c93be49d448917bd351d42cf45, type: 2}
     - target: {fileID: 8204484604120715693, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
       propertyPath: PlayerDeck.Cards.Array.size
       value: 21

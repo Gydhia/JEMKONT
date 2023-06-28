@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 72bd6922b1b16b54b86d905262196fb4, type: 3}
-  m_Name: Chest_Craft
+  m_Name: Bench_Craft
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -44,7 +44,7 @@ MonoBehaviour:
       Data: 0
     - Name: $v
       Entry: 3
-      Data: 8
+      Data: 4
     - Name: 
       Entry: 8
       Data: 
@@ -54,6 +54,6 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  ItemName: Chest
-  ItemIcon: {fileID: 21300000, guid: d5583070971864116a83a0f2577fa4da, type: 3}
-  ToPlaceItem: {fileID: 11400000, guid: a2c4d8e3e317bc244858b9e45b1cb948, type: 2}
+  ItemName: Bench
+  ItemIcon: {fileID: 21300000, guid: 82823589590416444b176a61e606b550, type: 3}
+  ToPlaceItem: {fileID: 11400000, guid: b02a339fe4bbc6343bdf1b25445334f8, type: 2}
