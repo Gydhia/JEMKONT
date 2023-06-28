@@ -30,7 +30,11 @@ MonoBehaviour:
   ObjectPrefab: {fileID: 8025783147948518094, guid: 738118ed5a071db4d95b7ce47e639a4e, type: 3}
   OutlineColor: {r: 0.21725611, g: 0.5471698, b: 0.1264685, a: 1}
   InteractAnimation: {fileID: 0}
+  Durability: -1
+  DestroySFX: {fileID: 0}
   GatherableBy: 0
   ResourceItem: {fileID: 11400000, guid: bf7cd4d4a1c92954e8a82da5efb4b9dd, type: 2}
-  MinGathering: 2
-  MaxGathering: 2
+  HitSFX: {fileID: 1738658161782828, guid: a0ba33fd4919e424bbee356c3e17d6fc, type: 3}
+  MinGathering: 8
+  MaxGathering: 8
+  TimeBeforeSFX: 0.433333

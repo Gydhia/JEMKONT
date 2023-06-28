@@ -29,6 +29,8 @@ public abstract class PlaceableItem : ItemPreset
 
         if (PrevisualizationInstance != null)
         {
+            UIManager.Instance.PlayerInventory.PressEIndicator.gameObject.SetActive(false);
+
             Destroy(PrevisualizationInstance);
 
             var item = GameManager.RealSelfPlayer.PlayerInventory.StorageItems.First(i => i.ItemPreset == this);

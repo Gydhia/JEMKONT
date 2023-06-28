@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 using DownBelow.Managers;
 using DownBelow.GridSystem;
+using UnityEngine.InputSystem;
 
 namespace DownBelow.Entity
 {
@@ -19,9 +20,13 @@ namespace DownBelow.Entity
 
         [SerializeField] protected TextMeshProUGUI healthText;
 
+        [SerializeField] protected Image _armorImage;
+        [SerializeField] protected Image _strenghtImage;
+        [SerializeField] protected TextMeshProUGUI _armorText;
+        [SerializeField] protected TextMeshProUGUI _strenghtText;
+
         #endregion
         protected Camera _mainCam;
-
 
         private void Awake()
         {
@@ -40,8 +45,43 @@ namespace DownBelow.Entity
 
             this._healthFeedback.gameObject.SetActive(false);
             this.healthText.gameObject.SetActive(this._entity.CurrentGrid is CombatGrid cGrid && cGrid.HasStarted);
+
+            PlayerInputs.player_alt.performed += this._showMoreStatistics;
+            PlayerInputs.player_alt.canceled += this._hideMoreStatistics;
             //Maybe for later add feedbacks for the other effects
         }
+
+        private void _showMoreStatistics(InputAction.CallbackContext ctx) => this.ShowMoreStatistics();
+        public void ShowMoreStatistics()
+        {
+            if (this._entity.Strength > 0)
+            {
+                this._strenghtImage.gameObject.SetActive(true);
+                this._strenghtText.text = this._entity.Strength.ToString();
+            }
+            else
+            {
+                this._strenghtImage.gameObject.SetActive(false);
+            }
+
+            if (this._entity.Defense > 0)
+            {
+                this._armorImage.gameObject.SetActive(true);
+                this._armorText.text = this._entity.Defense.ToString();
+            }
+            else
+            {
+                this._armorImage.gameObject.SetActive(false);
+            }
+        }
+
+        private void _hideMoreStatistics(InputAction.CallbackContext ctx) => this.HideMoreStatistics();
+        public void HideMoreStatistics()
+        {
+            this._armorImage.gameObject.SetActive(false);
+            this._strenghtImage.gameObject.SetActive(false);
+        }
+
 
         private void OnDestroy()
         {
@@ -49,6 +89,10 @@ namespace DownBelow.Entity
             this._entity.OnHealthAdded -= OnHealthAdded;
             this._entity.OnEntityTargetted -= OnEntityTargetted;
             this._entity.OnStatisticsChanged -= _refresh;
+
+            PlayerInputs.player_alt.performed -= this._showMoreStatistics;
+            PlayerInputs.player_alt.canceled -= this._hideMoreStatistics;
+
             if (CombatManager.Instance != null)
             {
                 CombatManager.Instance.OnCombatStarted -= SetupForCombat;
@@ -60,6 +104,9 @@ namespace DownBelow.Entity
         private void _refresh(GameEventData data)
         {
             this.healthText.text = this._entity.Health.ToString();
+
+            this._strenghtText.text = this._entity.Strength.ToString();
+            this._armorText.text = this._entity.Defense.ToString();
         }
 
 
@@ -82,6 +129,8 @@ namespace DownBelow.Entity
         {
             this.healthText.text = this._entity.Health.ToString();
             healthText.gameObject.SetActive(true);
+
+            this._refresh(null);
         }
         protected virtual void SetupForFarm(GridEventData data)
         {

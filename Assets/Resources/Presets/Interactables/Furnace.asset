@@ -26,6 +26,9 @@ MonoBehaviour:
       Data: 8f8e8bf4a73267c2af976d0befd73c43
   UName: FurnacePreset
   AffectingState: 8
+  OverrideSave: 0
   ObjectPrefab: {fileID: 322490926610022776, guid: 5c69f16680356534fa1fa6966bfd70ed, type: 3}
   OutlineColor: {r: 0.85882354, g: 0.5647059, b: 0.26666668, a: 1}
   InteractAnimation: {fileID: 0}
+  Durability: -1
+  DestroySFX: {fileID: 2696217829828647825, guid: 6c8094b917790524f9c7394584241ca7, type: 3}

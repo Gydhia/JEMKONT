@@ -32,5 +32,6 @@ MonoBehaviour:
   InteractAnimation: {fileID: 0}
   GatherableBy: 3
   ResourceItem: {fileID: 11400000, guid: db90c336454dd6d44be1bfcde89c090b, type: 2}
+  HitSFX: {fileID: 5733391386488340692, guid: a32800213660725428723ae51d2c2930, type: 3}
   MinGathering: 8
   MaxGathering: 12

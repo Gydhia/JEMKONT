@@ -576,6 +576,41 @@ namespace DownBelow.Managers
             }
         }
 
+        public void DestroyInteractable(Interactable interactable)
+        {
+            this.photonView.RPC("RPC_RespondDestroyInteractable", RpcTarget.All,
+                interactable.RefCell.Datas.widthPos, interactable.RefCell.Datas.heightPos, interactable.RefCell.RefGrid.UName);
+        }
+
+        [PunRPC]
+        public void RPC_RespondDestroyInteractable(int longitude, int latitude, string refGrid)
+        {
+            Cell targetCell = GridManager.Instance.WorldGrids[refGrid].Cells[latitude, longitude];
+
+            if (targetCell != null && targetCell.AttachedInteract != null)
+            {
+                targetCell.AttachedInteract.RemoveSelf();
+            }
+        }
+
+
+        public void ApplyInteractableDurability(Interactable interactable, int durabilityModification = -1)
+        {
+            this.photonView.RPC("RPC_RespondInteractableDurability", RpcTarget.All, 
+                interactable.RefCell.Datas.widthPos, interactable.RefCell.Datas.heightPos, durabilityModification, interactable.RefCell.RefGrid.UName);
+        }
+
+        [PunRPC]
+        public void RPC_RespondInteractableDurability(int longitude, int latitude, int durabilityModification, string refGrid)
+        {
+            Cell targetCell = GridManager.Instance.WorldGrids[refGrid].Cells[latitude, longitude];
+
+            if(targetCell != null && targetCell.AttachedInteract != null)
+            {
+                targetCell.AttachedInteract.ModifyDurability(durabilityModification);
+            }
+        }
+
         public void GiftOrRemoveStorageItem(InteractableStorage storage, ItemPreset item, int quantity, int slot)
         {
             this.photonView.RPC("RPC_RespondGiftOrRemoveStorageItem", RpcTarget.All,
