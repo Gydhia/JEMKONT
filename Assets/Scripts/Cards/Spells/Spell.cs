@@ -149,7 +149,6 @@ namespace DownBelow.Spells
                 }
                 if (Data.CellSFX != null && TargetedCells != null && TargetedCells.Count != 0)
                 {
-
                     for (int i = 0; i < TargetedCells.Count; i++)
                     {
                         var targetedCell = this.TargetedCells[i];

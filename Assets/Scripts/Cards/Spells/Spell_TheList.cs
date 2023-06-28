@@ -15,7 +15,6 @@ namespace DownBelow.Spells
         public override async Task DoSpellBehavior()
         {
             await base.DoSpellBehavior();
-            SetTargets(TargetCell);
             foreach(var target in TargetEntities)
             {
                 ((PlayerBehavior)RefEntity).theList++;

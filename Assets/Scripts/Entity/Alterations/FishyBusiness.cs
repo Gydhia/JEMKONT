@@ -7,7 +7,7 @@ namespace DownBelow.Spells.Alterations
 {
     public class FishyBusiness : Alteration
     {
-        public PlayerBehavior player;
+        public PlayerBehavior Player { get; set; }
         public FishyBusiness(int Cooldown) : base(Cooldown)
         {
         }
@@ -21,7 +21,7 @@ namespace DownBelow.Spells.Alterations
 
         private void FishyDraw(Events.SpellEventData Data)
         {
-
+            Player.Deck.DrawCard();
         }
 
         public override void WearsOff(CharacterEntity entity)

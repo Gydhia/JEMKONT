@@ -22,7 +22,7 @@ namespace DownBelow.Spells
         {
             await base.DoSpellBehavior();
 
-            SetTargets(TargetCell)[0].ApplyStat(EntityStatistics.Health,
+           TargetEntities[0].ApplyStat(EntityStatistics.Health,
                 - LocalData.BaseDamage +
                 (((PlayerBehavior)RefEntity).Deck.RefCardsHolder.PileSize(Managers.PileType.Hand) * LocalData.DamagePenaltyPerCard)
                 );

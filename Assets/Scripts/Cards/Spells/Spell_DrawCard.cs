@@ -29,8 +29,6 @@ namespace DownBelow.Spells
         {
             await base.DoSpellBehavior();
 
-            this.SetTargets(this.TargetCell);
-
             foreach (var entity in this.TargetEntities)
             {
                 var player = entity as PlayerBehavior;
