@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ed9d74509586bda4f9ecae3a2dda3c20, type: 3}
-  m_Name: BloodProjectileSFX1 1
+  m_Name: RegularStoneSpikesOneCell
   m_EditorClassIdentifier: 
-  Prefab: {fileID: 5764590846284722614, guid: ed429befffd9e28479c6fb71c92bca1c, type: 3}
-  TravelType: 1
+  Prefab: {fileID: 4005098664885711538, guid: d28b955a8e4adc643bc95ae19616e5a7, type: 3}
+  TravelType: 0
   TravelDuration: 0.35
   TravelUnit: 1.2

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed9d74509586bda4f9ecae3a2dda3c20, type: 3}
   m_Name: StoneSpikesOneCell
   m_EditorClassIdentifier: 
-  Prefab: {fileID: 4005098664885711538, guid: d28b955a8e4adc643bc95ae19616e5a7, type: 3}
+  Prefab: {fileID: 1093327010470390, guid: c91639566deccc74489652ecf4528557, type: 3}
   TravelType: 0
   TravelDuration: 0.35
   TravelUnit: 1.2

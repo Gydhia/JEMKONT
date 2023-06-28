@@ -38,6 +38,8 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 370bb121faa8ad34b9e33140c9315129, type: 2}
     - {fileID: 11400000, guid: 0a37ffd3e3876f4409448dea3a7f6323, type: 2}
     - {fileID: 11400000, guid: 1eb7bf8073162f4448155f73d9824b50, type: 2}
+    - {fileID: 11400000, guid: 58f1c81f98a920a44985b422f0f631d6, type: 2}
+    - {fileID: 11400000, guid: 7c0ad1373f8a9d147b16070ac2410a55, type: 2}
   Statistics: {fileID: 11400000, guid: 4d576a35a0dcc0e4cb45e35dc060d9d9, type: 2}
   LinkedPlayer: {fileID: 0}
   RefCardsHolder: {fileID: 0}

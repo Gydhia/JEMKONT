@@ -22,4 +22,5 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   entityToSummon: {fileID: -3687746825276176907, guid: 46e21507d4d8f6d40a3582da7661957f, type: 3}
-  Duration: 3
+  Duration: 1
+  randomRotation: 0

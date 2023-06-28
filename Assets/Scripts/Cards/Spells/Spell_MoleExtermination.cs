@@ -24,7 +24,6 @@ namespace DownBelow.Spells
         public override async Task DoSpellBehavior()
         {
             await base.DoSpellBehavior();
-            SetTargets(TargetCell);
             var targets = TargetedCells;
             if (targets != null)
             {

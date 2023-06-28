@@ -95,7 +95,7 @@ namespace DownBelow.Spells
             this.RotatedShapeMatrix = this.SpellShapeMatrix;
             this.RotatedShapePosition = this.ShapePosition;
         }
-
+        public bool CanRetargetAlreadyTargettedCells = false;
         // TODO : define it  according to casting matrix and target type later ?
         [DisableIf(nameof(SpellResultTargeting)), InfoBox("@TargetTypeInfo()")]
         public bool RequiresTargetting = true;

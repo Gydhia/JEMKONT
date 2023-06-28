@@ -17,7 +17,6 @@ namespace DownBelow.Spells
         public override async Task DoSpellBehavior()
         {
             await base.DoSpellBehavior();
-            SetTargets(TargetCell);
             List<Cell> cellsToCheck = new List<Cell>
             {
                 TargetCell,

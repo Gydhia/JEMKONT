@@ -39,8 +39,7 @@ namespace DownBelow.Managers {
 			this.OnCombatStarted?.Invoke(new GridEventData(Grid));
 		}
 
-		public void FireCombatEnded(WorldGrid Grid, bool AllyVictory) 
-		{
+		public void FireCombatEnded(WorldGrid Grid, bool AllyVictory) {
 			NetworkManager.Instance.EndOfCombat();
 
 			BattleGoing = false;
@@ -57,8 +56,7 @@ namespace DownBelow.Managers {
 			}
 			this.FakePlayers.Clear();
 
-			if (AllyVictory) 
-			{
+			if (AllyVictory) {
 				AkSoundEngine.PostEvent("Play_SSFX_CombatWin", AudioHolder.Instance.gameObject);
 
 				string abyssName = (Grid as CombatGrid).ParentGrid.UName;
@@ -70,8 +68,7 @@ namespace DownBelow.Managers {
 					GameManager.MaxAbyssReached++;
 				}
 			}
-			else
-			{
+			else {
 				AkSoundEngine.PostEvent("Play_SSFX_CombatLose", AudioHolder.Instance.gameObject);
 			}
 
@@ -111,8 +108,8 @@ namespace DownBelow.Managers {
 		private SpellHeader _currentSpellHeader;
 		private Spell _currentSpell;
 
-        public int EntityTurnRotation;
-        public int TotalTurnNumber;
+		public int EntityTurnRotation;
+		public int TotalTurnNumber;
 
 		#region Run-time
 		private Coroutine _turnCoroutine;
@@ -152,8 +149,7 @@ namespace DownBelow.Managers {
 		/// To welcome any player entering a combat grid.
 		/// </summary>
 		/// <param name="Data"></param>
-		public void WelcomePlayerInCombat(EntityEventData Data) 
-		{
+		public void WelcomePlayerInCombat(EntityEventData Data) {
 			if (!Data.Entity.CurrentGrid.IsCombatGrid)
 				return;
 
@@ -192,13 +188,11 @@ namespace DownBelow.Managers {
 			// Merge the tools on ground to the equiped tools
 			freeTools.AddRange(allTools);
 
-			if (usedTools < totalTools)
-			{
+			if (usedTools < totalTools) {
 				int playersInGrid = PlayersInGrid.Count;
 				int playerIndex = 0;
 
-				foreach (var tool in freeTools)
-				{
+				foreach (var tool in freeTools) {
 					var playerToAdd = this.PlayersInGrid[playerIndex];
 
 					playerToAdd.CombatTools.Add(tool);
@@ -208,10 +202,8 @@ namespace DownBelow.Managers {
 				}
 			}
 
-			if (FakePlayers != null && this.FakePlayers.Count > 0) 
-			{
-				foreach (var fake in FakePlayers) 
-				{
+			if (FakePlayers != null && this.FakePlayers.Count > 0) {
+				foreach (var fake in FakePlayers) {
 					fake.FireExitedCell();
 					Destroy(fake.gameObject);
 				}
@@ -269,8 +261,8 @@ namespace DownBelow.Managers {
 
 			UIManager.Instance.PlayerInfos.Init();
 
-            this.EntityTurnRotation = -1;
-            CurrentPlayingGrid.HasStarted = true;
+			this.EntityTurnRotation = -1;
+			CurrentPlayingGrid.HasStarted = true;
 
 			this._defineEntitiesTurn();
 			this._subcribeToEntitiesDeath();
@@ -295,28 +287,23 @@ namespace DownBelow.Managers {
 		private void _switchToSecondPlayer(InputAction.CallbackContext ctx) => this._switchSelectedPlayer(1);
 		private void _switchToThirdPlayer(InputAction.CallbackContext ctx) => this._switchSelectedPlayer(2);
 		private void _switchToFourthPlayer(InputAction.CallbackContext ctx) => this._switchSelectedPlayer(3);
-		private void _switchToSelfPlayer(InputAction.CallbackContext ctx) 
-		{
-			if (CurrentPlayingEntity is PlayerBehavior player && IsPlayerOrOwned(player))
-			{
+		private void _switchToSelfPlayer(InputAction.CallbackContext ctx) {
+			if (CurrentPlayingEntity is PlayerBehavior player && IsPlayerOrOwned(player)) {
 				this._switchSelectedPlayer(player);
 			}
 		}
-		private void _switchSelectedPlayer(PlayerBehavior player) 
-		{
+		private void _switchSelectedPlayer(PlayerBehavior player) {
 			this._switchSelectedPlayer(player.PlayerIndex);
 		}
 
-		private void _switchSelectedPlayer(int index) 
-		{
+		private void _switchSelectedPlayer(int index) {
 			var player = this.FakePlayers.SingleOrDefault(f => f.PlayerIndex == index);
 			player ??= GameManager.RealSelfPlayer.PlayerIndex == index ? GameManager.RealSelfPlayer : null;
 
 			if (player == null)
 				return;
 
-			if (IsPlayerOrOwned(player)) 
-			{
+			if (IsPlayerOrOwned(player)) {
 				GameManager.Instance.FireSelfPlayerSwitched(
 					player,
 					this._playerIndex,
@@ -332,33 +319,28 @@ namespace DownBelow.Managers {
 				return;
 			}
 
-            this.EntityTurnRotation++;
+			this.EntityTurnRotation++;
 
-            int entityIndex = 0;
-            // Only try to get the next one if it's the the last one
-            if (CurrentPlayingEntity != null && CurrentPlayingEntity.TurnOrder < this.PlayingEntities.Count)
-            {
-                int startIndex = this.PlayingEntities.IndexOf(CurrentPlayingEntity) + 1;
-                for (int i = startIndex; i < this.PlayingEntities.Count; i++)
-                {
-                    if(this.PlayingEntities[i].Health > 0)
-                    {
-                        entityIndex = this.PlayingEntities.IndexOf(this.PlayingEntities[i]);
-                        break;
-                    }
-                }
-            }
+			int entityIndex = 0;
+			// Only try to get the next one if it's the the last one
+			if (CurrentPlayingEntity != null && CurrentPlayingEntity.TurnOrder < this.PlayingEntities.Count) {
+				int startIndex = this.PlayingEntities.IndexOf(CurrentPlayingEntity) + 1;
+				for (int i = startIndex; i < this.PlayingEntities.Count; i++) {
+					if (this.PlayingEntities[i].Health > 0) {
+						entityIndex = this.PlayingEntities.IndexOf(this.PlayingEntities[i]);
+						break;
+					}
+				}
+			}
 
-            CurrentPlayingEntity = this.PlayingEntities[entityIndex];
+			CurrentPlayingEntity = this.PlayingEntities[entityIndex];
 
-            if (this.EntityTurnRotation >= 0)
-            {
-                UIManager.Instance.TurnSection.ChangeSelectedEntity(entityIndex);
-            }
-                
-            if (CurrentPlayingEntity is PlayerBehavior player)
-            {
-                this._turnCoroutine = StartCoroutine(this._startTurnTimer());
+			if (this.EntityTurnRotation >= 0) {
+				UIManager.Instance.TurnSection.ChangeSelectedEntity(entityIndex);
+			}
+
+			if (CurrentPlayingEntity is PlayerBehavior player) {
+				this._turnCoroutine = StartCoroutine(this._startTurnTimer());
 
 				// Auto switch the current playing entity
 				if (this.IsPlayerOrOwned(player)) {
@@ -366,8 +348,8 @@ namespace DownBelow.Managers {
 				}
 			}
 
-            this.OnTurnStarted?.Invoke(new EntityEventData(CurrentPlayingEntity));
-        }
+			this.OnTurnStarted?.Invoke(new EntityEventData(CurrentPlayingEntity));
+		}
 
 
 		public void ProcessEndTurn() {
@@ -393,8 +375,7 @@ namespace DownBelow.Managers {
 		}
 
 		#region CARDS
-		private void _beginUseSpell(CardEventData data) 
-		{
+		private void _beginUseSpell(CardEventData data) {
 			if (data.Card.Spells == null) {
 				Debug.LogError("Trying to use a card without Spell. Fix it in editor.");
 			}
@@ -419,15 +400,13 @@ namespace DownBelow.Managers {
 
 				UIManager.Instance.CardSection.OnCharacterSwitch += AbortUsedSpell;
 			}
-			else 
-			{
+			else {
 				_currentSpellHeader.TargetedCells[0] = CurrentPlayingEntity.EntityCell.PositionInGrid;
 				this.FireCardEndUse(data.Card, DraggableCard.SelectedCard, this._currentSpellHeader, CurrentPlayingEntity.EntityCell, true);
 			}
 		}
 
-		public void AbortUsedSpell(CellEventData Data) 
-		{
+		public void AbortUsedSpell(CellEventData Data) {
 			if (DraggableCard.SelectedCard != null) {
 				this.FireCardEndUse(
 				DraggableCard.SelectedCard.CardReference,
@@ -472,16 +451,18 @@ namespace DownBelow.Managers {
 
 		public static bool IsCellCastable(Cell cell, Spell spell) {
 			return cell != null
-				&& spell.Data.TargetType.ValidateTarget(cell)
-				&& (
-					spell.Data.CastingMatrix == null
-					|| GridUtility.IsCellWithinPlayerRange(
-						ref spell.Data.CastingMatrix,
-						CurrentPlayingEntity.EntityCell.PositionInGrid,
-						cell.PositionInGrid,
-						spell.Data.CasterPosition
-					)
-				);
+			&& spell.Data.TargetType.ValidateTarget(cell)
+			&& (
+				spell.Data.CastingMatrix == null
+				|| GridUtility.IsCellWithinPlayerRange(
+					ref spell.Data.CastingMatrix,
+					CurrentPlayingEntity.EntityCell.PositionInGrid,
+					cell.PositionInGrid,
+					spell.Data.CasterPosition
+				)
+			)
+			&& (spell.Data.CanRetargetAlreadyTargettedCells || (spell.Result == null || !spell.Result.TargetedCells.Contains(cell)))
+			;
 		}
 
 		private void _processSpellClick(CellEventData Data) {
@@ -557,51 +538,44 @@ namespace DownBelow.Managers {
 				.Cast<PlayerBehavior>()
 				.ToList();
 
-            this.PlayingEntities = new List<CharacterEntity>();
+			this.PlayingEntities = new List<CharacterEntity>();
 
-            int indexIncr = 0;
+			int indexIncr = 0;
 			int turnOrder = 0;
-            // We check both for the tests, if we have more allies than ennemies or inverse
-            if (enemies.Count >= players.Count)
-            {
-                for (int i = 0; i < enemies.Count; i++)
-                {
-                    if(i < players.Count)
-                    {
-                        players[i].PlayerIndex = indexIncr++;
-							
-						this.PlayingEntities.Add(players[i]);
-
-                        this.PlayingEntities[^1].TurnOrder = turnOrder++;
-                    }
-
-                    if (i < enemies.Count)
-                    {
-                        this.PlayingEntities.Add(enemies[i]);
-                        this.PlayingEntities[^1].TurnOrder = turnOrder++;
-                    }
-                }
-            }
-            else
-            {
-                for (int i = 0; i < players.Count; i++)
-                {
-                    if(i < enemies.Count)
-                    {
-                        this.PlayingEntities.Add(enemies[i]);
-                        this.PlayingEntities[^1].TurnOrder = turnOrder++;
-                    }
-
+			// We check both for the tests, if we have more allies than ennemies or inverse
+			if (enemies.Count >= players.Count) {
+				for (int i = 0; i < enemies.Count; i++) {
 					if (i < players.Count) {
-						
 						players[i].PlayerIndex = indexIncr++;
 
 						this.PlayingEntities.Add(players[i]);
-                        this.PlayingEntities[^1].TurnOrder = turnOrder++;
-                    }
-                }
-            }
-        }
+
+						this.PlayingEntities[^1].TurnOrder = turnOrder++;
+					}
+
+					if (i < enemies.Count) {
+						this.PlayingEntities.Add(enemies[i]);
+						this.PlayingEntities[^1].TurnOrder = turnOrder++;
+					}
+				}
+			}
+			else {
+				for (int i = 0; i < players.Count; i++) {
+					if (i < enemies.Count) {
+						this.PlayingEntities.Add(enemies[i]);
+						this.PlayingEntities[^1].TurnOrder = turnOrder++;
+					}
+
+					if (i < players.Count) {
+
+						players[i].PlayerIndex = indexIncr++;
+
+						this.PlayingEntities.Add(players[i]);
+						this.PlayingEntities[^1].TurnOrder = turnOrder++;
+					}
+				}
+			}
+		}
 
 		private void _subcribeToEntitiesDeath() {
 			foreach (var entity in this.PlayingEntities) {
@@ -617,16 +591,14 @@ namespace DownBelow.Managers {
 
 			Data.Entity.Die();
 
-            // all Allies dead
-            if (PlayingEntities.Count(p => p.IsAlly) == 0)
-            {
-                this.FireCombatEnded(CurrentPlayingGrid, false);
-            }
-            // all Enemies dead
-            else if (PlayingEntities.Count(p => !p.IsAlly) == 0)
-            {
-                this.FireCombatEnded(CurrentPlayingGrid, true);
-            }
-        }
-    }
+			// all Allies dead
+			if (PlayingEntities.Count(p => p.IsAlly) == 0) {
+				this.FireCombatEnded(CurrentPlayingGrid, false);
+			}
+			// all Enemies dead
+			else if (PlayingEntities.Count(p => !p.IsAlly) == 0) {
+				this.FireCombatEnded(CurrentPlayingGrid, true);
+			}
+		}
+	}
 }

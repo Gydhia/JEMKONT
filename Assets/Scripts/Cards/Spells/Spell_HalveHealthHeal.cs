@@ -27,7 +27,7 @@ namespace DownBelow.Spells
         {
             await base.DoSpellBehavior();
 
-            CharacterEntity target = SetTargets(TargetCell)[0];
+            CharacterEntity target = TargetEntities[0];
             int healAmount = target.Health / 2;
 
             target.ApplyStat(EntityStatistics.Health, -healAmount);

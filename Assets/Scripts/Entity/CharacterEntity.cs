@@ -12,7 +12,7 @@ using System;
 using DG.Tweening;
 using Photon.Realtime;
 using static UnityEngine.ParticleSystem;
-
+using EODE.Wonderland;
 
 namespace DownBelow.Entity
 {
@@ -223,9 +223,9 @@ namespace DownBelow.Entity
 
         public int Health => Statistics[EntityStatistics.Health] + Buff(EntityStatistics.Health);
         public int Strength => Statistics[EntityStatistics.Strength] + Buff(EntityStatistics.Strength);
-        public int Speed => Snared ? 0 : Statistics[EntityStatistics.Speed] + Buff(EntityStatistics.Speed);
+        public int Speed => Snared ? 0 : (Statistics[EntityStatistics.Speed] + Buff(EntityStatistics.Speed));
         public virtual int Mana => Statistics[EntityStatistics.Mana] + Buff(EntityStatistics.Mana);
-        public int Defense => Shattered ? 0 : Statistics[EntityStatistics.Defense] + Buff(EntityStatistics.Defense);
+        public int Defense => Shattered ? 0 : (Statistics[EntityStatistics.Defense] + Buff(EntityStatistics.Defense));
         public int Range => Statistics[EntityStatistics.Range] + Buff(EntityStatistics.Range);
 
 
@@ -523,7 +523,6 @@ namespace DownBelow.Entity
                     res += $"\n{item}";
                 }
             }
-
             return res;
         }
         public void AddAlterations(List<Alteration> alterations)
@@ -543,7 +542,6 @@ namespace DownBelow.Entity
             {
                 alreadyFound.Duration = alteration.Duration;
                 return;
-                //TODO : GD? Add Duration? Set duration?
             }
             else
             {
@@ -692,7 +690,7 @@ namespace DownBelow.Entity
             {
                 List<Cell> freeNeighbours = GridManager.Instance.GetNormalNeighbours(cellToTP, cellToTP.RefGrid)
                     .FindAll(x => x.Datas.state == CellState.Walkable)
-                    .OrderByDescending(x => Math.Abs(x.PositionInGrid.latitude - this.EntityCell.PositionInGrid.latitude) + Math.Abs(x.PositionInGrid.longitude - this.EntityCell.PositionInGrid.longitude))
+                    .OrderByDescending(x => System.Math.Abs(x.PositionInGrid.latitude - this.EntityCell.PositionInGrid.latitude) + System.Math.Abs(x.PositionInGrid.longitude - this.EntityCell.PositionInGrid.longitude))
                     .ToList();
                 //Someday will need a Foreach, but i just don't know what other things we need to check on the cells before tp'ing,
                 //so just tp on the farther one.
