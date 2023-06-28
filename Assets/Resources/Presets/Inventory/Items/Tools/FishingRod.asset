@@ -75,5 +75,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 607832195c7922143b94e3a619ce33a9, type: 2}
   CurrentLevel: 0
   CharacterTexture: {fileID: 2800000, guid: 4c3e7beffed214e49b879812b8d8e1cf, type: 3}
-  CombatDescription: "The Fisherman is a range specialist, he relies on moving his
-    opponents and combos to deal heavy damage !\r"
+  CombatDescription: 'The Fisherman is a range specialist, he relies on moving his
+    opponents and combos to deal heavy damage !
+
+
+    Hold <b>[ALT]</b> for more
+    datas.'

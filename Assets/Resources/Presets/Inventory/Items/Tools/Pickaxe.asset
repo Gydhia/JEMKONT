@@ -76,5 +76,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 607832195c7922143b94e3a619ce33a9, type: 2}
   CurrentLevel: 0
   CharacterTexture: {fileID: 2800000, guid: 2afca95c9c0c3c049bdb0c198c2e1a2f, type: 3}
-  CombatDescription: "The Miner is a tanky melee fighter, block paths and absorb
-    damage to safekeep your allies !\r"
+  CombatDescription: 'The Miner is a tanky melee fighter, block paths and absorb
+    damage to safekeep your allies !
+
+
+    Hold <b>[ALT]</b> for more datas.'
