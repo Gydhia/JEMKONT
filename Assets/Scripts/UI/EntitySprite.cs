@@ -60,9 +60,9 @@ namespace DownBelow.UI
 
         public void SetSelected(bool selected)
         {
-            this._playingBackground.sprite = selected ?
+          /*  this._playingBackground.sprite = selected ?
                 SettingsManager.Instance.GameUIPreset.SelectedBackground :
-                SettingsManager.Instance.GameUIPreset.NormalBackground;
+                SettingsManager.Instance.GameUIPreset.NormalBackground;*/
 
             if (selected)
             {
