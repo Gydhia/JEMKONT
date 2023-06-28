@@ -19,7 +19,11 @@ namespace DownBelow.UI
         [SerializeField] private Image _ownedImage;
         [SerializeField] private TextMeshProUGUI _ownedInput;
         [SerializeField] private GameObject _selected;
+        [SerializeField] private Image _selectedImage;
 
+        [SerializeField] private Color _enemySelectedColor;
+        [SerializeField] private Color _playerSelectedColor;
+        
         private CharacterEntity _refEntity;
 
         public void Init(CharacterEntity character, bool selected)
@@ -57,6 +61,11 @@ namespace DownBelow.UI
             this._playingBackground.sprite = selected ?
                 SettingsManager.Instance.GameUIPreset.SelectedBackground :
                 SettingsManager.Instance.GameUIPreset.NormalBackground;
+
+            if (selected)
+            {
+                this._selectedImage.color = _refEntity.IsAlly ? _playerSelectedColor : _enemySelectedColor;
+            }
         }
 
         public void SetDead(EntityEventData Data)
