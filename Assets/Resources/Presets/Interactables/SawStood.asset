@@ -26,6 +26,9 @@ MonoBehaviour:
       Data: 14236b66ae013c2ed61862eb17020d0f
   UName: SawStoodPreset
   AffectingState: 8
+  OverrideSave: 0
   ObjectPrefab: {fileID: 5318686262024870042, guid: 949e1f70895f81b42a3b9a45158cc06c, type: 3}
   OutlineColor: {r: 0.8584906, g: 0.5609538, b: 0.26456624, a: 1}
   InteractAnimation: {fileID: 0}
+  Durability: 5
+  DestroySFX: {fileID: 2696217829828647825, guid: 6c8094b917790524f9c7394584241ca7, type: 3}

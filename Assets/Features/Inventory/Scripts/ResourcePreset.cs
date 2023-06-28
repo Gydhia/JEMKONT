@@ -15,6 +15,8 @@ namespace DownBelow.GridSystem
 		public int MinGathering = 1;
         public int MaxGathering = 4;
 
+        public float TimeBeforeSFX = 0.433333f;
+
         public override void Init(Cell attachedCell)
         {
             base.Init(attachedCell);

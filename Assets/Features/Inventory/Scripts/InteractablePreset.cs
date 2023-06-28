@@ -14,6 +14,10 @@ public class InteractablePreset : BaseSpawnablePreset
 
     public Animation InteractAnimation;
 
+    [Tooltip("-1 for infinite uses, > 0 for restrictions")]
+    public int Durability = -1;
+    public ParticleSystem DestroySFX;
+
     public override void Init(Cell attachedCell)
     {
         base.Init(attachedCell);
