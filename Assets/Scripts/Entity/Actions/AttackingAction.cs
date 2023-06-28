@@ -25,6 +25,8 @@ namespace DownBelow.Entity
             
             if (this._isInRange())
             {
+                SFXManager.Instance.DOSFX(new Mechanics.RuntimeSFXData(this.RefEntity.AttackSFX, this.RefEntity, this.TargetCell, null));
+
                 this.RefEntity.Animator.SetTrigger("Attack");
                 int damage = Mathf.Min(TargetCell.EntityIn.Defense - (this.RefEntity.Strength),0);
                 //TODO: if damage == 0, feedback?

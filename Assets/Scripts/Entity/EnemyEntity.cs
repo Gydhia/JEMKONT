@@ -13,13 +13,12 @@ using System.Linq;
 using UnityEngine;
 using UnityEditor;
 using Math = System.Math;
-
+using DownBelow.Mechanics;
 
 namespace DownBelow.Entity 
 {
     public enum MovementType { Straight = 1, StraightToRange = 2, Flee = 3, Kite = 4 };
     public enum AttackType { ClosestRandom = 1, FarthestRandom = 2, LowestRandom = 3, HighestRandom = 4, Random = 5, HighestBaseHP = 6};
-
 
     public class EnemyEntity : CharacterEntity 
     {

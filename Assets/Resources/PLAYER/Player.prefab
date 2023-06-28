@@ -1235,6 +1235,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfe970a6b3853e9438f6751890782215, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AttackSFX: {fileID: 11400000, guid: b025b03493713bc4e9a9f32834240c64, type: 2}
   RefStats: {fileID: 0}
   TurnOrder: 0
   IsAlly: 1

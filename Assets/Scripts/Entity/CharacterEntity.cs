@@ -3,21 +3,20 @@ using DownBelow.Spells.Alterations;
 using DownBelow.Events;
 using DownBelow.GridSystem;
 using DownBelow.Managers;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Sirenix.Serialization;
 using System;
 using DG.Tweening;
-using Photon.Realtime;
-using static UnityEngine.ParticleSystem;
-using EODE.Wonderland;
+using DownBelow.Mechanics;
 
 namespace DownBelow.Entity
 {
     public abstract class CharacterEntity : MonoBehaviour
     {
+        public ScriptableSFX AttackSFX;
+
         #region events
         public delegate void StatModified();
 
