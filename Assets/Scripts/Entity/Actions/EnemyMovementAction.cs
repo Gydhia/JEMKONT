@@ -111,7 +111,7 @@ namespace DownBelow.Entity
         public List<Cell> MovementFlee()
         {
             // For now it's gonna be a random cell
-            var newTarget = this.TargetCell.RefGrid.Cells.RandomWalkable(this.RefEntity.UID);
+            var newTarget = this.TargetCell.RefGrid.Cells.RandomWalkable(GameManager.Instance.SaveName + CombatManager.Instance.EntityTurnRotation);
 
             if (newTarget == null)
                 return null;

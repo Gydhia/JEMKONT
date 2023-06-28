@@ -124,7 +124,7 @@ namespace DownBelow.Entity {
 		private CharacterEntity TargetClosestRandom() {
 			CharacterEntity[] PlayersByDistance = ((EnemyEntity)this.RefEntity).PlayersOrderedByDistance("Min", out int sameDist);
 
-			return PlayersByDistance.Length > 0 ? PlayersByDistance[UnityEngine.Random.Range(0, sameDist)] : null;
+			return PlayersByDistance.Length > 0 ? PlayersByDistance[0] : null;
 		}
 
 		/// <summary>
@@ -133,7 +133,7 @@ namespace DownBelow.Entity {
 		private CharacterEntity TargetFarthestRandom() {
 			CharacterEntity[] PlayersByDistance = ((EnemyEntity)this.RefEntity).PlayersOrderedByDistance("Max", out int sameDist);
 
-			return PlayersByDistance.Length > 0 ? PlayersByDistance[UnityEngine.Random.Range(0, sameDist)] : null;
+			return PlayersByDistance.Length > 0 ? PlayersByDistance[0] : null;
 		}
 
 
