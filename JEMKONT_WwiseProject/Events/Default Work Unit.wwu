@@ -230,8 +230,52 @@
 										</Action>
 									</ChildrenList>
 								</Event>
+								<Event Name="Play_SSFX_Bluebuff" ID="{CD844821-D387-48DD-B3D4-5A46749C1899}">
+									<ChildrenList>
+										<Action Name="" ID="{ECF1AA42-07FD-49CF-9FC1-18F99C252415}" ShortID="333309040">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="blueBuff" ID="{75C5677A-355F-4BE3-83D7-B73BCAFACE41}" WorkUnitID="{277D41B8-7D18-41D8-BFBF-88A00100C0C8}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="Play_SSFX_Chains" ID="{18310AE4-900B-4842-AB00-2E16D28E6FBD}">
+									<ChildrenList>
+										<Action Name="" ID="{3A324D9D-4580-4735-9CF9-54BC4B85EE3F}" ShortID="108749383">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="chains" ID="{0344B5B0-69FD-4EE6-B9F7-5637358C7B1A}" WorkUnitID="{277D41B8-7D18-41D8-BFBF-88A00100C0C8}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="Play_SSFX_Darkbuff" ID="{7B49EE0F-3E53-4CAB-A2E9-624E0A8014D8}">
+									<ChildrenList>
+										<Action Name="" ID="{8CE008BC-179C-4C98-8F83-467285C285BF}" ShortID="460182201">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="darkBuff" ID="{3E58A325-0DE7-4EB3-A656-C1C364CB63A0}" WorkUnitID="{277D41B8-7D18-41D8-BFBF-88A00100C0C8}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
 							</ChildrenList>
 						</Folder>
+						<Event Name="Play_SSFX_CardReplace" ID="{4FFA230B-D05C-426C-8B25-4963F7EDA576}">
+							<ChildrenList>
+								<Action Name="" ID="{54235E2B-1F81-4097-869A-84A8C91B611A}" ShortID="86732881">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="cardReplace" ID="{962B3638-6454-4F0F-8DB2-DE4D459CE83A}" WorkUnitID="{277D41B8-7D18-41D8-BFBF-88A00100C0C8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
 					</ChildrenList>
 				</Folder>
 				<Folder Name="MUS_LAYER" ID="{9E7B6713-3FD5-4E98-8F5E-4316700EF1CF}" ShortID="267737303">

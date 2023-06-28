@@ -6989,6 +6989,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Managers
       objectReference: {fileID: 0}
+    - target: {fileID: 7934421384719506005, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
+      propertyPath: MuteOnPlay
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7964413336302880731, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
       propertyPath: GridShader
       value: 

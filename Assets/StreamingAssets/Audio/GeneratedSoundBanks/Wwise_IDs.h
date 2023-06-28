@@ -15,14 +15,17 @@ namespace AK
     {
         static const AkUniqueID PLAY_SSFX_ALLYTURN = 2945031810U;
         static const AkUniqueID PLAY_SSFX_ARROWHIT = 2970065691U;
+        static const AkUniqueID PLAY_SSFX_BLUEBUFF = 2673952466U;
         static const AkUniqueID PLAY_SSFX_CARDDRAW = 1322830077U;
         static const AkUniqueID PLAY_SSFX_CARDPICK = 3130717460U;
         static const AkUniqueID PLAY_SSFX_CARDSLAP = 1232721797U;
+        static const AkUniqueID PLAY_SSFX_CHAINS = 230033191U;
         static const AkUniqueID PLAY_SSFX_CLICK = 3681299163U;
         static const AkUniqueID PLAY_SSFX_CLICKBLOCKED = 2447394445U;
         static const AkUniqueID PLAY_SSFX_COMBATLOSE = 2963818062U;
         static const AkUniqueID PLAY_SSFX_COMBATWIN = 1271310997U;
         static const AkUniqueID PLAY_SSFX_CRATE = 900263106U;
+        static const AkUniqueID PLAY_SSFX_DARKBUFF = 2048744142U;
         static const AkUniqueID PLAY_SSFX_DASH = 2787275873U;
         static const AkUniqueID PLAY_SSFX_DECKSHUFFLE = 329156649U;
         static const AkUniqueID PLAY_SSFX_ENEMYTURN = 3353955478U;

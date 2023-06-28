@@ -144,6 +144,13 @@
 										<Folder Name="Abilities" ID="{2161DB4C-D929-4EA1-9778-2C748FAA55DC}" ShortID="155539530">
 											<ChildrenList>
 												<Sound Name="arrowHit" ID="{FC537A97-6C22-4159-A3D0-876840B71B76}" ShortID="512032159">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-6</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{86B68257-100F-4BF5-A2A8-7B8994EA0037}"/>
@@ -344,6 +351,85 @@
 														<ActiveSource Name="rocksForming" ID="{840E9497-C792-44B6-A79E-8A87219B21ED}" Platform="Linked"/>
 													</ActiveSourceList>
 												</Sound>
+												<Sound Name="darkBuff" ID="{3E58A325-0DE7-4EB3-A656-C1C364CB63A0}" ShortID="447841632">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{86B68257-100F-4BF5-A2A8-7B8994EA0037}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{5FC12D48-6ADB-4B43-883D-07304F613018}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="blueBuff" ID="{22B7E36D-32F8-438D-B0C6-F02819403E0B}">
+															<Language>SFX</Language>
+															<AudioFile>blueBuff.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="963621528"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="blueBuff" ID="{22B7E36D-32F8-438D-B0C6-F02819403E0B}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="chains" ID="{0344B5B0-69FD-4EE6-B9F7-5637358C7B1A}" ShortID="746131647">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-4</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{86B68257-100F-4BF5-A2A8-7B8994EA0037}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{5FC12D48-6ADB-4B43-883D-07304F613018}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="chains" ID="{04FC96C5-500A-4629-8E01-D69D5AD08F61}">
+															<PropertyList>
+																<Property Name="FadeInDuration" Type="Real64" Value="0.23763364422202"/>
+																<Property Name="FadeOutDuration" Type="Real64" Value="0.339023999090082"/>
+																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+																<Property Name="TrimEnd" Type="Real64" Value="0.993308632848044"/>
+															</PropertyList>
+															<Language>SFX</Language>
+															<AudioFile>chains.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="935716147"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="chains" ID="{04FC96C5-500A-4629-8E01-D69D5AD08F61}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="blueBuff" ID="{75C5677A-355F-4BE3-83D7-B73BCAFACE41}" ShortID="626811592">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{86B68257-100F-4BF5-A2A8-7B8994EA0037}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{5FC12D48-6ADB-4B43-883D-07304F613018}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="darkBuff" ID="{BC873782-2C14-4F0B-86AA-D812866DCE94}">
+															<Language>SFX</Language>
+															<AudioFile>darkBuff.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="444711420"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="darkBuff" ID="{BC873782-2C14-4F0B-86AA-D812866DCE94}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
 											</ChildrenList>
 										</Folder>
 										<Folder Name="CombatProgression" ID="{84C924CC-1802-4E27-8F38-6C871E85746A}" ShortID="543605079">
@@ -362,7 +448,7 @@
 															<PropertyList>
 																<Property Name="VolumeOffset" Type="Real64">
 																	<ValueList>
-																		<Value>10</Value>
+																		<Value>3.7</Value>
 																	</ValueList>
 																</Property>
 															</PropertyList>
@@ -697,6 +783,28 @@
 														</Sound>
 													</ChildrenList>
 												</RandomSequenceContainer>
+												<Sound Name="cardReplace" ID="{962B3638-6454-4F0F-8DB2-DE4D459CE83A}" ShortID="627591593">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{86B68257-100F-4BF5-A2A8-7B8994EA0037}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{5FC12D48-6ADB-4B43-883D-07304F613018}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="3" ID="{32BF52B6-1EA5-402D-9296-F7E31170516F}">
+															<Language>SFX</Language>
+															<AudioFile>3.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="762655317"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="3" ID="{32BF52B6-1EA5-402D-9296-F7E31170516F}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
 											</ChildrenList>
 										</Folder>
 										<Sound Name="enemyHit" ID="{E36E1131-B804-4463-A38C-B58C157E5B71}" ShortID="781045067">
