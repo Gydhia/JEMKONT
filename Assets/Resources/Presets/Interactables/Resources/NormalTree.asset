@@ -13,17 +13,14 @@ MonoBehaviour:
   m_Name: NormalTree
   m_EditorClassIdentifier: 
   serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
+    SerializedFormat: 0
+    SerializedBytes: 29010300000055004900440000454e3dd4945b27379867b1d916ca60
     ReferencedUnityObjects: []
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes:
-    - Name: UID
-      Entry: 2
-      Data: 3d4e450094d4275b379867b1d916ca60
+    SerializationNodes: []
   UName: Normal Tree
   AffectingState: 8
   OverrideSave: 0
@@ -35,6 +32,6 @@ MonoBehaviour:
   GatherableBy: 2
   ResourceItem: {fileID: 11400000, guid: 1e5a5998004f5224ea7527f9e1fcd1c6, type: 2}
   HitSFX: {fileID: 1738658161782828, guid: a0ba33fd4919e424bbee356c3e17d6fc, type: 3}
-  MinGathering: 8
-  MaxGathering: 8
+  MinGathering: 2
+  MaxGathering: 2
   TimeBeforeSFX: 0.55

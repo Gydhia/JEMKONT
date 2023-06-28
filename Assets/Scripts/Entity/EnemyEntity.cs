@@ -1,19 +1,10 @@
 using EODE.Wonderland;
-
-using DownBelow.Spells;
-using DownBelow.Spells.Alterations;
 using DownBelow.GridSystem;
 using DownBelow.Managers;
-using Sirenix.Utilities;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using UnityEngine;
-using UnityEditor;
-using Math = System.Math;
-using DownBelow.Mechanics;
 
 namespace DownBelow.Entity 
 {
@@ -71,13 +62,13 @@ namespace DownBelow.Entity
             attackAction.SetContextAction(targettingAction);
             buffedActions.Add(attackAction);
 
-            if (this.movementType == MovementType.Kite)
-            {
-                var kiteAction = new EnemyMovementAction(this, this.EntityCell);
-                kiteAction.Init(MovementType.Flee);
-                kiteAction.SetContextAction(targettingAction);
-                buffedActions.Add(kiteAction);
-            }
+            //if (this.movementType == MovementType.Kite)
+            //{
+            //    var kiteAction = new EnemyMovementAction(this, this.EntityCell);
+            //    kiteAction.Init(MovementType.Flee);
+            //    kiteAction.SetContextAction(targettingAction);
+            //    buffedActions.Add(kiteAction);
+            //}
 
             var endTurnAction = new EndTurnAction(this, this.EntityCell);
             buffedActions.Add(endTurnAction);
