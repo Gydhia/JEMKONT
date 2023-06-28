@@ -34,6 +34,7 @@ Switch Group	ID	Name			Wwise Object Path	Notes
 
 Switch	ID	Name	Switch Group			Notes
 	803837735	Sand	Ground_Switch			
+	1216965916	Stone	Ground_Switch			
 	4248645337	Grass	Ground_Switch			
 
 State Group	ID	Name			Wwise Object Path	Notes
@@ -56,21 +57,15 @@ State	ID	Name	State Group			Notes
 	3604647259	MainMenu	GameState			
 
 Custom State	ID	Name	State Group	Owner		Notes
-	28508136	Layers2	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\Abyss\CombatAbyss\Combat0\bass piano loop		
 	216170066	Layers1	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\Abyss\CombatAbyss\Combat1\dbFight04		
 	224518876	Layers2	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\Abyss\CombatAbyss\Combat1\dbFight03		
 	268472730	Layers0	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\Abyss\CombatAbyss\Combat1\dbFight02		
 	272449028	Layers0	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\Abyss\CombatAbyss\Combat1\dbFight04		
 	279672907	Layers1	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\Abyss\CombatAbyss\Combat1\dbFight02		
-	474278211	Layers0	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\Abyss\CombatAbyss\Combat0\hihats loop		
-	503644836	Layers0	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\Abyss\CombatAbyss\Combat0\harp loop		
 	521700874	Layers1	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\Abyss\CombatAbyss\Combat1\dbFight03		
 	549644087	Layers0	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\Abyss\CombatAbyss\Combat1\dbFight01		
-	563894571	Layers1	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\Abyss\CombatAbyss\Combat0\harp loop		
-	564387403	Layers0	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\Abyss\CombatAbyss\Combat0\bass piano loop		
 	666925041	Layers0	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\Abyss\CombatAbyss\Combat1\dbFight03		
 	973650471	Layers2	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\Abyss\CombatAbyss\Combat1\dbFight04		
-	975108717	Layers1	Layers	\Interactive Music Hierarchy\Default Work Unit\GameState\Abyss\CombatAbyss\Combat0\bass piano loop		
 
 Game Parameter	ID	Name			Wwise Object Path	Notes
 	732857810	RTPC_Volume_Master			\Default Work Unit\MIX\RTPC_Volume_Master	
@@ -86,6 +81,7 @@ Effect plug-ins	ID	Name	Type				Notes
 	48620415	Have_U_Ever_Been_Outside	Wwise RoomVerb			
 	128149753	Pitch Shifter (Custom)	Wwise Pitch Shifter			
 	1008402193	Low_Pass_20KHz	Wwise Parametric EQ			
+	3604890626	High_Pass_60Hz	Wwise Parametric EQ			
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	14506943	turnEnd	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\turnEnd_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\COMBAT\CombatProgression\turnEnd		374780
@@ -101,7 +97,8 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	112672015	combatLose	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\combatLose_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\COMBAT\CombatProgression\combatLose		576144
 	143424456	arrowHit	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\arrowHit_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\COMBAT\Abilities\arrowHit		91156
 	178995152	wood2	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\wood2_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\EXPLORE\JOBS\Chopping\wood2		123572
-	193860459	sand4	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\sand4_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\EXPLORE\Walking\Sand\sand4		103000
+	193860459	sand4	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\sand4_83C3E695.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\EXPLORE\Walking\Sand\sand4		43840
+	198640029	grass2	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\grass1_BC92D297.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\EXPLORE\Walking\Grass\grass2		55012
 	199566494	portal	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\portal_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\EXPLORE\portal		1319288
 	203595723	wood4	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\wood4_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\EXPLORE\JOBS\Chopping\wood4		123572
 	216173308	cardPick0	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\cardPick0_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\COMBAT\Card\CardPick\cardPick0		79816
@@ -109,27 +106,25 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	238341709	menuMusic	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\menuMusic_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\MainMenu\MainMenu\menuMusic		28549708
 	265411443	softHit	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\softHit_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\COMBAT\Abilities\softHit		81512
 	340277932	mine2	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\mine2_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\EXPLORE\JOBS\Mining\mine2		10428
-	369183912	sand0	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\sand0_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\EXPLORE\Walking\Sand\sand0		103000
+	369183912	sand0	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\sand0_DE0A9483.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\EXPLORE\Walking\Sand\sand0		42048
 	379634705	fishing	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\fishing_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\EXPLORE\JOBS\Fishing\fishing		227288
 	388705542	wood3	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\wood3_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\EXPLORE\JOBS\Chopping\wood3		123572
 	404741341	enemyTurn	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\PERC(EC0_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\COMBAT\CombatProgression\enemyTurn		85678
-	406068002	cardSlap	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\card0_2058E61B.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\COMBAT\Card\cardSlap		28072
+	406068002	cardSlap	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\card0_71CE92D3.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\COMBAT\Card\cardSlap		28072
+	419762248	grass3	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\grass2_33101593.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\EXPLORE\Walking\Grass\grass3		91588
 	421529683	otherWorld	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\otherWorld_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\Abyss\ExploreAbyss\ambianceAbyss\otherWorld		82944144
 	430019804	deckShuffle0	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\deckShuffle_CD171DF5.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\COMBAT\Card\DeckShuffle\deckShuffle0		548960
-	469318380	sand2	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\sand2_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\EXPLORE\Walking\Sand\sand2		103000
-	488747114	hihats loop	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\hihats loop_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\Abyss\CombatAbyss\Combat0\hihats loop		1660380
+	469318380	sand2	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\sand2_CF74429B.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\EXPLORE\Walking\Sand\sand2		40144
 	498999293	mowing2	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\mowing2_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\EXPLORE\JOBS\Mowing\mowing2		75572
 	505025939	herboHit	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\dustyAirHit_2C381EC7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\COMBAT\Attacks\herboHit		84992
 	541747067	fastHit	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\fastHit_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\COMBAT\Abilities\fastHit		219104
 	545005341	mine0	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\mine0_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\EXPLORE\JOBS\Mining\mine0		10428
 	567087666	allyTurn	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\CONGA_hi_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\COMBAT\CombatProgression\allyTurn		48398
 	575230282	mowing0	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\mowing0_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\EXPLORE\JOBS\Mowing\mowing0		75572
-	595392903	grass3	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\grass2_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\EXPLORE\Walking\Grass\grass3		142428
 	597632551	dbFight04	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\dbFight04_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\Abyss\CombatAbyss\Combat1\dbFight04		6702688
 	669417131	cardPick1	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\cardPick1_9B908C8E.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\COMBAT\Card\CardPick\cardPick1		99200
 	694121276	fisherHit	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\swiftHit_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\COMBAT\Attacks\fisherHit		184104
-	708396059	kalimba loop	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\kalimba loop_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\Abyss\CombatAbyss\Combat0\kalimba loop		3320616
-	747140157	sand1	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\sand1_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\EXPLORE\Walking\Sand\sand1		103000
+	747140157	sand1	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\sand1_49F22754.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\EXPLORE\Walking\Sand\sand1		65244
 	747872994	minerHit	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\groundHit_D5D778C1.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\COMBAT\Attacks\minerHit		75328
 	768555745	mine4	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\mine4_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\EXPLORE\JOBS\Mining\mine4		10428
 	776546887	mine1	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\mine1_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\EXPLORE\JOBS\Mining\mine1		10428
@@ -139,17 +134,13 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	822974898	BLOCK1	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\UI_Click_Tap_Subtle_mono_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\MENU_SSFX\Impossible\BLOCK1		1620
 	823762247	CLICK3	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\UI_Click_Cut_mono_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\MENU_SSFX\Click\CLICK3		2938
 	846947184	wood0	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\wood0_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\EXPLORE\JOBS\Chopping\wood0		123572
-	847899675	grass1	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\grass0_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\EXPLORE\Walking\Grass\grass1		142428
+	847899675	grass1	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\grass0_FB13E49D.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\EXPLORE\Walking\Grass\grass1		47416
 	881018081	deckShuffle1	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\deckShuffle1_27734CD5.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\COMBAT\Card\DeckShuffle\deckShuffle1		136952
 	881682970	mowing1	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\mowing1_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\EXPLORE\JOBS\Mowing\mowing1		75572
-	888534994	sand3	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\sand3_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\EXPLORE\Walking\Sand\sand3		103000
+	888534994	sand3	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\sand3_4751DABC.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\EXPLORE\Walking\Sand\sand3		42496
 	889702892	enemyHit	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\enemyHit_67462A75.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\COMBAT\enemyHit		31248
-	920520952	bass piano loop	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\bass piano loop_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\Abyss\CombatAbyss\Combat0\bass piano loop		1660380
-	938315024	grass2	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\grass1_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\EXPLORE\Walking\Grass\grass2		142428
 	959241070	dbFight02	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\dbFight02_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\Abyss\CombatAbyss\Combat1\dbFight02		6702688
 	969935710	ambiance farm	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\ambiance farm_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\Overworld\ExploreOW\ambianceFarm\ambiance farm		11059344
 	991806595	dbFight00	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\dbFight00_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\Abyss\CombatAbyss\Combat1\dbFight00		6702688
-	1002096085	harp loop	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\harp loop_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\Abyss\CombatAbyss\Combat0\harp loop		6641084
-	1002181933	reverb piano loop	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\reverb piano loop_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\GameState\Abyss\CombatAbyss\Combat0\reverb piano loop		3320616
 	1019601285	mine3	C:\Workspace\JEMKONT\JEMKONT_WwiseProject\.cache\Windows\SFX\mine3_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SSFX\GAME_SSFX\EXPLORE\JOBS\Mining\mine3		10428
 

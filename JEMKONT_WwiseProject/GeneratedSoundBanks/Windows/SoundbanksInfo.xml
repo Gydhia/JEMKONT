@@ -58,12 +58,13 @@
 				<SwitchGroup Id="2578143219" Name="Ground_Switch">
 					<Switches>
 						<Switch Id="803837735" Name="Sand"/>
+						<Switch Id="1216965916" Name="Stone"/>
 						<Switch Id="4248645337" Name="Grass"/>
 					</Switches>
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="2711878180" Type="User" Language="SFX" Hash="{A0946877-E211-F543-10F5-17D38978B5AF}">
+		<SoundBank Id="2711878180" Type="User" Language="SFX" Hash="{D96014B2-0514-94E6-01CE-39561622C762}">
 			<ShortName>SB_GLOBAL</ShortName>
 			<Path>SB_GLOBAL.bnk</Path>
 			<Media>
@@ -121,7 +122,11 @@
 				</File>
 				<File Id="193860459" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sand4.wav</ShortName>
-					<CachePath>SFX/sand4_10C4C929.wem</CachePath>
+					<CachePath>SFX/sand4_83C3E695.wem</CachePath>
+				</File>
+				<File Id="198640029" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grass1.wav</ShortName>
+					<CachePath>SFX/grass1_BC92D297.wem</CachePath>
 				</File>
 				<File Id="199566494" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>portal.wav</ShortName>
@@ -153,7 +158,7 @@
 				</File>
 				<File Id="369183912" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sand0.wav</ShortName>
-					<CachePath>SFX/sand0_10C4C929.wem</CachePath>
+					<CachePath>SFX/sand0_DE0A9483.wem</CachePath>
 				</File>
 				<File Id="379634705" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fishing.wav</ShortName>
@@ -169,7 +174,11 @@
 				</File>
 				<File Id="406068002" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>card0.wav</ShortName>
-					<CachePath>SFX/card0_2058E61B.wem</CachePath>
+					<CachePath>SFX/card0_71CE92D3.wem</CachePath>
+				</File>
+				<File Id="419762248" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grass2.wav</ShortName>
+					<CachePath>SFX/grass2_33101593.wem</CachePath>
 				</File>
 				<File Id="421529683" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>otherWorld.wav</ShortName>
@@ -181,11 +190,7 @@
 				</File>
 				<File Id="469318380" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sand2.wav</ShortName>
-					<CachePath>SFX/sand2_10C4C929.wem</CachePath>
-				</File>
-				<File Id="488747114" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>hihats loop.wav</ShortName>
-					<CachePath>SFX/hihats loop_D79FB2B7.wem</CachePath>
+					<CachePath>SFX/sand2_CF74429B.wem</CachePath>
 				</File>
 				<File Id="498999293" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>mowing2.wav</ShortName>
@@ -211,10 +216,6 @@
 					<ShortName>mowing0.wav</ShortName>
 					<CachePath>SFX/mowing0_10C4C929.wem</CachePath>
 				</File>
-				<File Id="595392903" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>grass2.wav</ShortName>
-					<CachePath>SFX/grass2_10C4C929.wem</CachePath>
-				</File>
 				<File Id="597632551" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>dbFight04.wav</ShortName>
 					<CachePath>SFX/dbFight04_D79FB2B7.wem</CachePath>
@@ -227,13 +228,9 @@
 					<ShortName>swiftHit.wav</ShortName>
 					<CachePath>SFX/swiftHit_10C4C929.wem</CachePath>
 				</File>
-				<File Id="708396059" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>kalimba loop.wav</ShortName>
-					<CachePath>SFX/kalimba loop_D79FB2B7.wem</CachePath>
-				</File>
 				<File Id="747140157" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sand1.wav</ShortName>
-					<CachePath>SFX/sand1_10C4C929.wem</CachePath>
+					<CachePath>SFX/sand1_49F22754.wem</CachePath>
 				</File>
 				<File Id="747872994" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>groundHit.wav</ShortName>
@@ -273,7 +270,7 @@
 				</File>
 				<File Id="847899675" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>grass0.wav</ShortName>
-					<CachePath>SFX/grass0_10C4C929.wem</CachePath>
+					<CachePath>SFX/grass0_FB13E49D.wem</CachePath>
 				</File>
 				<File Id="881018081" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>deckShuffle1.wav</ShortName>
@@ -285,19 +282,11 @@
 				</File>
 				<File Id="888534994" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sand3.wav</ShortName>
-					<CachePath>SFX/sand3_10C4C929.wem</CachePath>
+					<CachePath>SFX/sand3_4751DABC.wem</CachePath>
 				</File>
 				<File Id="889702892" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>enemyHit.wav</ShortName>
 					<CachePath>SFX/enemyHit_67462A75.wem</CachePath>
-				</File>
-				<File Id="920520952" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>bass piano loop.wav</ShortName>
-					<CachePath>SFX/bass piano loop_D79FB2B7.wem</CachePath>
-				</File>
-				<File Id="938315024" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>grass1.wav</ShortName>
-					<CachePath>SFX/grass1_10C4C929.wem</CachePath>
 				</File>
 				<File Id="959241070" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>dbFight02.wav</ShortName>
@@ -311,14 +300,6 @@
 					<ShortName>dbFight00.wav</ShortName>
 					<CachePath>SFX/dbFight00_D79FB2B7.wem</CachePath>
 				</File>
-				<File Id="1002096085" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>harp loop.wav</ShortName>
-					<CachePath>SFX/harp loop_D79FB2B7.wem</CachePath>
-				</File>
-				<File Id="1002181933" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>reverb piano loop.wav</ShortName>
-					<CachePath>SFX/reverb piano loop_D79FB2B7.wem</CachePath>
-				</File>
 				<File Id="1019601285" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>mine3.wav</ShortName>
 					<CachePath>SFX/mine3_10C4C929.wem</CachePath>
@@ -331,6 +312,7 @@
 				<ShareSets>
 					<Plugin Id="48620415" Name="Have_U_Ever_Been_Outside" LibName="Wwise RoomVerb" LibId="7733251"/>
 					<Plugin Id="1008402193" Name="Low_Pass_20KHz" LibName="Wwise Parametric EQ" LibId="6881283"/>
+					<Plugin Id="3604890626" Name="High_Pass_60Hz" LibName="Wwise Parametric EQ" LibId="6881283"/>
 				</ShareSets>
 			</Plugins>
 			<Events>
@@ -437,20 +419,15 @@
 						<MediaRef Id="199566494"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="2953260286" Name="Play_SSFX_Walk" DurationType="OneShot" DurationMin="0.5357083" DurationMax="0.7410625">
+				<Event Id="2953260286" Name="Play_SSFX_Walk" DurationType="OneShot" DurationMin="0.20833102" DurationMax="0.476282">
 					<SwitchContainers>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="2578143219" Id="4248645337" Default="true"/>
 							<MediaRefs>
-								<MediaRef Id="595392903"/>
+								<MediaRef Id="198640029"/>
+								<MediaRef Id="419762248"/>
 								<MediaRef Id="847899675"/>
-								<MediaRef Id="938315024"/>
 							</MediaRefs>
-							<PluginRefs>
-								<ShareSets>
-									<PluginRef Id="1008402193"/>
-								</ShareSets>
-							</PluginRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="2578143219" Id="803837735"/>
@@ -461,19 +438,19 @@
 								<MediaRef Id="747140157"/>
 								<MediaRef Id="888534994"/>
 							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="3604890626"/>
+								</ShareSets>
+							</PluginRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="2578143219" Id="4248645337" Default="true"/>
 							<MediaRefs>
-								<MediaRef Id="595392903"/>
+								<MediaRef Id="198640029"/>
+								<MediaRef Id="419762248"/>
 								<MediaRef Id="847899675"/>
-								<MediaRef Id="938315024"/>
 							</MediaRefs>
-							<PluginRefs>
-								<ShareSets>
-									<PluginRef Id="1008402193"/>
-								</ShareSets>
-							</PluginRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="2578143219" Id="803837735"/>
@@ -484,6 +461,11 @@
 								<MediaRef Id="747140157"/>
 								<MediaRef Id="888534994"/>
 							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="3604890626"/>
+								</ShareSets>
+							</PluginRefs>
 						</SwitchContainer>
 					</SwitchContainers>
 				</Event>
@@ -556,15 +538,10 @@
 									<SwitchValue GroupType="State" GroupId="2609808943" Id="4215188899"/>
 									<MediaRefs>
 										<MediaRef Id="65588681"/>
-										<MediaRef Id="488747114"/>
 										<MediaRef Id="597632551"/>
-										<MediaRef Id="708396059"/>
 										<MediaRef Id="801563757"/>
-										<MediaRef Id="920520952"/>
 										<MediaRef Id="959241070"/>
 										<MediaRef Id="991806595"/>
-										<MediaRef Id="1002096085"/>
-										<MediaRef Id="1002181933"/>
 									</MediaRefs>
 								</SwitchContainer>
 							</Children>
@@ -613,15 +590,10 @@
 									<SwitchValue GroupType="State" GroupId="2609808943" Id="4215188899"/>
 									<MediaRefs>
 										<MediaRef Id="65588681"/>
-										<MediaRef Id="488747114"/>
 										<MediaRef Id="597632551"/>
-										<MediaRef Id="708396059"/>
 										<MediaRef Id="801563757"/>
-										<MediaRef Id="920520952"/>
 										<MediaRef Id="959241070"/>
 										<MediaRef Id="991806595"/>
-										<MediaRef Id="1002096085"/>
-										<MediaRef Id="1002181933"/>
 									</MediaRefs>
 								</SwitchContainer>
 							</Children>
@@ -674,15 +646,10 @@
 									<SwitchValue GroupType="State" GroupId="2609808943" Id="4215188899"/>
 									<MediaRefs>
 										<MediaRef Id="65588681"/>
-										<MediaRef Id="488747114"/>
 										<MediaRef Id="597632551"/>
-										<MediaRef Id="708396059"/>
 										<MediaRef Id="801563757"/>
-										<MediaRef Id="920520952"/>
 										<MediaRef Id="959241070"/>
 										<MediaRef Id="991806595"/>
-										<MediaRef Id="1002096085"/>
-										<MediaRef Id="1002181933"/>
 									</MediaRefs>
 								</SwitchContainer>
 							</Children>
@@ -763,11 +730,12 @@
 				<SwitchGroup Id="2578143219" Name="Ground_Switch">
 					<Switches>
 						<Switch Id="803837735" Name="Sand"/>
+						<Switch Id="1216965916" Name="Stone"/>
 						<Switch Id="4248645337" Name="Grass"/>
 					</Switches>
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{EAD9CEA0-6D70-85EE-D60D-00A61DBF2021}</FileHash>
+	<FileHash>{FFB93950-404D-B568-C007-3ACEE9816CCB}</FileHash>
 </SoundBanksInfo>

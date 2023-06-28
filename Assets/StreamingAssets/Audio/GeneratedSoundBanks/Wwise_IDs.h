@@ -97,6 +97,7 @@ namespace AK
             {
                 static const AkUniqueID GRASS = 4248645337U;
                 static const AkUniqueID SAND = 803837735U;
+                static const AkUniqueID STONE = 1216965916U;
             } // namespace SWITCH
         } // namespace GROUND_SWITCH
 
