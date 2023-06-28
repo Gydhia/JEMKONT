@@ -5045,7 +5045,7 @@ MonoBehaviour:
   Sound:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: efb61d3f7c46cb14d8f3555a3d208961, type: 2}
+    WwiseObjectReference: {fileID: 11400000, guid: fd473361220957a4ca1e6af7b4aaf34e, type: 2}
   Orb: {fileID: 3156354033653975948}
   BubbleTrail: {fileID: 38943406412712218}
   Delay: 1.4

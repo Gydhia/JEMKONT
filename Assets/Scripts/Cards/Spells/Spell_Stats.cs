@@ -13,6 +13,7 @@ namespace DownBelow.Spells
     {
         Normal = 1,
         CardBased = 2,
+        ManaConsuming = 3,
     }
 
 
@@ -57,7 +58,7 @@ namespace DownBelow.Spells
         {
             await base.DoSpellBehavior();
 
-            var targets = this.GetTargets(this.TargetCell);
+            var targets = this.SetTargets(this.TargetCell);
             if (LocalData.Statistic == EntityStatistics.Health && NCEHits != null)
             {
                 //This means it is a damaging spell. Then, the NCE is hit (we don't want it to be hit if we are lowering the defense or something.)
@@ -74,6 +75,10 @@ namespace DownBelow.Spells
                     break;
                 case ApplyType.CardBased:
                     realAmount *= ((PlayerBehavior)this.RefEntity).Deck.RefCardsHolder.PileSize(Managers.PileType.Hand);
+                    break;
+                case ApplyType.ManaConsuming:
+                    realAmount *= this.RefEntity.Mana;
+                    this.RefEntity.ApplyStat(EntityStatistics.Mana, this.RefEntity.Mana);
                     break;
             }
 

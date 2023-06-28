@@ -26,8 +26,11 @@ namespace DownBelow.UI.Menu
                     case MenuPopup.Close:
                         this._selfButton.onClick.AddListener(() =>
                         {
+                            if (MenuManager.Instance.LastPopup != MenuPopup.Room)
+                            {
+                                MenuManager.Instance.GoingToHost = false;
+                            }
                             MenuManager.Instance.HideCurrentPopup();
-                            MenuManager.Instance.GoingToHost = false;
                         });
                         break;
                     case MenuPopup.Quit:

@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Thornmail
+  m_Controller: {fileID: 9100000, guid: 661712128c7cbe74d8bc27e271010e5f, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 324219c6c7fa3624b861138832754c3b, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: a98337757a490a149b4b3a23d8bf8d0b, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 7cfb525e7ddf6724c8b3bfed6e789485, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 1d423fcb8d889344abe72156dac5abee, type: 2}

@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 803ad717c9d512743b19cf653bed0102, type: 3}
   m_Name: 9E97308C-7D81-43C0-8F12-A52526FDD905
   m_EditorClassIdentifier: 
-  objectName: Play_SSFX__ClickBlocked
-  id: 2149827808
+  objectName: Play_SSFX_ClickBlocked
+  id: 2447394445
   guid: 9E97308C-7D81-43C0-8F12-A52526FDD905

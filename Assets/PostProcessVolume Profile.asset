@@ -30,7 +30,7 @@ MonoBehaviour:
     m_Value: 0.44
   vibrance:
     m_OverrideState: 1
-    m_Value: 0.325
+    m_Value: 0.182
   saturation:
     m_OverrideState: 1
     m_Value: 0.13
@@ -49,7 +49,7 @@ MonoBehaviour:
   active: 1
   intensity:
     m_OverrideState: 1
-    m_Value: 0.3
+    m_Value: 0
   blur:
     m_OverrideState: 1
     m_Value: 1
@@ -94,7 +94,7 @@ MonoBehaviour:
   active: 1
   color:
     m_OverrideState: 1
-    m_Value: {r: 0.2735849, g: 0.23590246, b: 0.23590246, a: 1}
+    m_Value: {r: 0.248, g: 0.21257141, b: 0.21257141, a: 1}
   center:
     m_OverrideState: 0
     m_Value: {x: 0.5, y: 0.5}

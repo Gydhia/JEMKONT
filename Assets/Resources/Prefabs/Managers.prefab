@@ -239,7 +239,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BattleGoing: 0
-  TurnNumber: 0
+  EntityTurnRotation: 0
+  TotalTurnNumber: 0
   PlayingEntities: []
   DeadEntities: []
   PlayersInGrid: []
@@ -730,6 +731,10 @@ PrefabInstance:
     - target: {fileID: 597272314569240482, guid: d8cd1ce0096055b4198533f7135b7b79, type: 3}
       propertyPath: m_Name
       value: Audio
+      objectReference: {fileID: 0}
+    - target: {fileID: 1582070642444072958, guid: d8cd1ce0096055b4198533f7135b7b79, type: 3}
+      propertyPath: MuteOnPlay
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8078263489320882043, guid: d8cd1ce0096055b4198533f7135b7b79, type: 3}
       propertyPath: m_RootOrder
