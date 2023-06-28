@@ -239,7 +239,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BattleGoing: 0
-  TurnNumber: 0
+  EntityTurnRotation: 0
+  TotalTurnNumber: 0
   PlayingEntities: []
   DeadEntities: []
   PlayersInGrid: []
@@ -334,7 +335,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44d26ebafca7f944f8be0cb5daa95a73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MainGrid: FarmLand
+  MainGrid: Farmland
   CellPrefab: {fileID: 7726041531083266328, guid: 790fb0bae6a6d344fbb3f0d1b7bd1f5d, type: 3}
   CombatGridPrefab: {fileID: 2420647313775234594, guid: 309f24f78f459eb4d809b4e078f52ee1, type: 3}
   WorldGridPrefab: {fileID: 613952523817220313, guid: 24fc8eafec30993478b5a8a889a1d8cf, type: 3}
@@ -628,6 +629,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a0934cf4d7c23d4a8b210eff82f44f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DragItemParent: {fileID: 0}
+  UITooltip: {fileID: 0}
   CombatSection: {fileID: 0}
   TurnSection: {fileID: 0}
   EscapeSection: {fileID: 0}
@@ -641,6 +644,7 @@ MonoBehaviour:
   EnchantSection: {fileID: 0}
   WorkshopSection: {fileID: 0}
   DialogSection: {fileID: 0}
+  DeckbuildingSystem: {fileID: 0}
   EntityTooltipUI: {fileID: 0}
   PlayerInventory: {fileID: 0}
   CurrentStorage: {fileID: 0}
@@ -654,6 +658,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6008253201538663047}
     m_Modifications:
+    - target: {fileID: 3575076097724388968, guid: bfce2c1088b0f5940af5262eeb28a32b, type: 3}
+      propertyPath: CraftRepices.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3575076097724388968, guid: bfce2c1088b0f5940af5262eeb28a32b, type: 3}
+      propertyPath: CraftRepices.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 4edaa5a107bd054499fd5018028d5119, type: 2}
     - target: {fileID: 5117551869604057125, guid: bfce2c1088b0f5940af5262eeb28a32b, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -719,6 +731,10 @@ PrefabInstance:
     - target: {fileID: 597272314569240482, guid: d8cd1ce0096055b4198533f7135b7b79, type: 3}
       propertyPath: m_Name
       value: Audio
+      objectReference: {fileID: 0}
+    - target: {fileID: 1582070642444072958, guid: d8cd1ce0096055b4198533f7135b7b79, type: 3}
+      propertyPath: MuteOnPlay
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8078263489320882043, guid: d8cd1ce0096055b4198533f7135b7b79, type: 3}
       propertyPath: m_RootOrder

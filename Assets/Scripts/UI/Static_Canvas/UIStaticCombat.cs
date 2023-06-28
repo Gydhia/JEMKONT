@@ -91,5 +91,13 @@ namespace DownBelow.UI
                 this.DeckDropdowns[i].gameObject.SetActive(false);
             }
         }
+
+        public void OnClickResetDebugBtn()
+        {
+            if(DraggableCard.SelectedCard != null)
+            {
+                DraggableCard.SelectedCard.RefreshCardValues();
+            }
+        }
     }
 }

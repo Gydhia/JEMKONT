@@ -405,7 +405,7 @@ MonoBehaviour:
       Data: 1
     - Name: PushDamages
       Entry: 3
-      Data: 3
+      Data: 30
     - Name: PushDamagesMultiplier
       Entry: 4
       Data: 1
@@ -667,7 +667,8 @@ MonoBehaviour:
   Title: Angler's Eye
   Cost: 1
   CardType: 3
-  Description: All opponents are repelled 1 tile to the right
+  Description: All opponents are pushed 1 tile to the right. If an opponent hits
+    a wall, they are dealt damage.
   IllustrationImage: {fileID: 21300000, guid: b96e652cc6497b74daa00f8e0147499e, type: 3}
   Class: 3
   CurrentSpellTargetting: 0

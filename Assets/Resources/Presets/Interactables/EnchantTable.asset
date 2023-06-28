@@ -26,6 +26,9 @@ MonoBehaviour:
       Data: bbc8090b68d5c0e46f96a908bc436b98
   UName: EnchantTablePreset
   AffectingState: 8
+  OverrideSave: 0
   ObjectPrefab: {fileID: 1833509887537899529, guid: 7ef522682e811844cb16053a406e4d78, type: 3}
   OutlineColor: {r: 0.85882354, g: 0.5647059, b: 0.26666668, a: 1}
   InteractAnimation: {fileID: 0}
+  Durability: -1
+  DestroySFX: {fileID: 2696217829828647825, guid: 6c8094b917790524f9c7394584241ca7, type: 3}

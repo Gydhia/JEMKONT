@@ -1,3 +1,4 @@
+using DownBelow.Managers;
 using DownBelow.Mechanics;
 using DownBelow.UI;
 using EODE.Wonderland;
@@ -11,19 +12,21 @@ using UnityEngine;
 using UnityEngine.UI;
 using Utility.SLayout;
 
-namespace DownBelow.Managers
+namespace DownBelow.UI
 {
-    public class DeckbuildingSystem : _baseManager<DeckbuildingSystem>
+    public class DeckbuildingSystem : MonoBehaviour
     {
         private enum EDeckBuildState { Shown, CanShow, Hidden }//Shown => we're dblding, CanShow => the "Show Deckbuilding" button is shown, Hidden => even this button is hidden
 
         [BoxGroup("Prefabs")]
-        public GameObject BigCardPrefab;
+        public CardVisual BigCardPrefab;
         [BoxGroup("Prefabs")]
-        public GameObject LittleCardPrefab;
+        public SmallCardDeckbuilding LittleCardPrefab;
 
         [BoxGroup("UI")]
         public Button[] DeckSelectingButtons;
+        [BoxGroup("UI")]
+        public Image[] DeckSelectingImage;
         [BoxGroup("UI")]
         public GameObject ShowDeckBuildButton;
         [BoxGroup("UI")]
@@ -35,7 +38,7 @@ namespace DownBelow.Managers
         [BoxGroup("UI")]
         public GameObject BG;
         [BoxGroup("UI")] 
-        public SVerticalLayoutGroup CurrentDeckLayoutGroup;
+        public VerticalLayoutGroup CurrentDeckLayoutGroup;
 
         private EDeckBuildState state;
 
@@ -46,7 +49,7 @@ namespace DownBelow.Managers
 
         private int maxCardsDisplayed
         {
-            get => SettingsManager.Instance.MaxCollectionCount();
+            get => 24;
         }
 
         Dictionary<EClass, Dictionary<ScriptableCard, int>> DecksNumbers = new();
@@ -116,26 +119,21 @@ namespace DownBelow.Managers
             HideDeckBuilding();
         }
         #endregion
-        private void Start()
-        {
-            GameManager.Instance.OnGameStarted += DBuild_OnGameStart;
-            CombatManager.Instance.OnCombatStarted += CannotDeckbuild;
-            CombatManager.Instance.OnCombatEnded += CanDeckbuild;
-        }
 
-        private void DBuild_OnGameStart(Events.GameEventData Data) => Init();
         private void CannotDeckbuild(Events.GridEventData Data) => HideAllUI();
         private void CanDeckbuild(Events.GridEventData Data) => HideDeckBuilding();
 
-        void Init()
+        public void Init()
         {
+            CombatManager.Instance.OnCombatStarted += CannotDeckbuild;
+            CombatManager.Instance.OnCombatEnded += CanDeckbuild;
+
             state = EDeckBuildState.CanShow;
             //Instanciating card pool
             for (int i = 0;i < maxCardsDisplayed;i++)
             {
-                var go = Instantiate(BigCardPrefab, BigCardsParent);
-                go.SetActive(false);
-                CardPool.Add(go.GetComponent<CardVisual>());
+                CardPool.Add(Instantiate(BigCardPrefab, BigCardsParent));
+                CardPool[^1].gameObject.SetActive(false);
             }
         }
 
@@ -253,6 +251,13 @@ namespace DownBelow.Managers
             {
                 return;
             }
+
+            foreach (var image in this.DeckSelectingImage)
+            {
+                image.gameObject.SetActive(false);
+            }
+            this.DeckSelectingImage[intcollection].gameObject.SetActive(true);
+
             EClass collection = (EClass)intcollection;
             //Fuck les keufs
             CardPool.FindAll(x => x.gameObject.activeSelf).ForEach(card => { card.gameObject.SetActive(false); });

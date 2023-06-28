@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0229511ea5185984eb5833ff13151ec4, type: 3}
+  m_Name: Farmer_Base
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: UID
+      Entry: 2
+      Data: 0fdd576e2aae01d33324961f64a7270e
+  Name: BaseFarmerBase
+  Class: 2
+  Deck:
+    Cards:
+    - {fileID: 11400000, guid: a4a6955df41de2941aee0d1929bab8b7, type: 2}
+    - {fileID: 11400000, guid: 5f8d633d2cd32c74aae67a20974049bf, type: 2}
+    - {fileID: 11400000, guid: e30b7d271256c604eb320efe88cac15a, type: 2}
+    - {fileID: 11400000, guid: 3c48a7b90c0759b478fe24013146f97b, type: 2}
+    - {fileID: 11400000, guid: 900d466ebe03c864d9e8ad5799a11808, type: 2}
+    - {fileID: 11400000, guid: aaf02568e9a9c824d8d6ca8b961a8911, type: 2}
+  Statistics: {fileID: 11400000, guid: acc2fcfe067f4a548a44a691816601e8, type: 2}
+  LinkedPlayer: {fileID: 0}
+  RefCardsHolder: {fileID: 0}

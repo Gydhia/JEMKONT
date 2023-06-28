@@ -56,6 +56,7 @@ namespace DownBelow.Entity
         {
             this.ContextActionId = ContextAction.ID;
             this.contextAction = ContextAction;
+            Debug.Log(contextAction.TargetCell);
         }
         public virtual void ProcessContextAction()
         {

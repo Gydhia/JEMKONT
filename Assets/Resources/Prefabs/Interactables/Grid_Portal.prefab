@@ -4996,6 +4996,7 @@ GameObject:
   - component: {fileID: 6968659531589299814}
   - component: {fileID: 2023544193209507618}
   - component: {fileID: 7813989051609097475}
+  - component: {fileID: 7945515083502715497}
   m_Layer: 8
   m_Name: Grid_Portal
   m_TagString: Untagged
@@ -5041,6 +5042,10 @@ MonoBehaviour:
   InnerCrackParticles: {fileID: 8135690118470374158}
   MainCrack: {fileID: 7229782536982557620}
   CrackBorders: {fileID: 7760026341850631012}
+  Sound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: fd473361220957a4ca1e6af7b4aaf34e, type: 2}
   Orb: {fileID: 3156354033653975948}
   BubbleTrail: {fileID: 38943406412712218}
   Delay: 1.4
@@ -5057,6 +5062,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1.93, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &7945515083502715497
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5638427851219324986}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.5, y: 4.5, z: 1}
+  m_Center: {x: 0, y: 5.28, z: 1.75}
 --- !u!1001 &602364802641362189
 PrefabInstance:
   m_ObjectHideFlags: 0

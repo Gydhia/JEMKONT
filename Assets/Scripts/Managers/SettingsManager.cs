@@ -33,6 +33,8 @@ namespace DownBelow.Managers
 
         public Dictionary<Guid, ToolItem> ToolPresets;
 
+        public List<DeckPreset> BaseDecks;
+
         public List<ScriptableCard> OwnedCards;
 
 
@@ -82,19 +84,23 @@ namespace DownBelow.Managers
 
         public void LoadToolsRelative()
         {
+            var cardsPresets = Resources.LoadAll<ScriptableCard>("Presets/CardsPresets/Spells");
+
+            this.ScriptableCards = new Dictionary<Guid, ScriptableCard>();
+
+            foreach (var card in cardsPresets)
+            {
+                if (!this.ScriptableCards.ContainsKey(card.UID))
+                    this.ScriptableCards.Add(card.UID, card);
+            }
+
             // Generate decks according to what we plugged. We need a Guid access for easy network
             this.DeckPresets = new Dictionary<Guid, DeckPreset>();
-            this.ScriptableCards = new Dictionary<Guid, ScriptableCard>();
             foreach (var deck in CardsManager.Instance.AvailableDecks)
             {
                 this.DeckPresets.Add(deck.UID, deck);
-
-                foreach (var card in deck.Deck.Cards)
-                {
-                    if (!this.ScriptableCards.ContainsKey(card.UID))
-                        this.ScriptableCards.Add(card.UID, card);
-                }
             }
+
             this.ToolPresets = new Dictionary<Guid, ToolItem>();
             foreach (var tool in CardsManager.Instance.AvailableTools)
             {

@@ -1,4 +1,5 @@
 ﻿using DownBelow.Events;
+using DownBelow.GridSystem;
 using DownBelow.Managers;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,8 @@ public class ArrowRenderer : MonoBehaviour
     public float segmentLength = 0.5f;
     public float fadeDistance = 0.35f;
     public float speed = 1f;
+
+    public bool FromAutoAttack = false;
 
     [SerializeField] GameObject arrowPrefab;
     [SerializeField] GameObject segmentPrefab;
@@ -121,6 +124,8 @@ public class ArrowRenderer : MonoBehaviour
 
     public void FollowAutoAttack(DownBelow.GridSystem.Cell baseTarget)
     {
+        FromAutoAttack = true;
+
         this.SetPositions(GameManager.SelfPlayer.EntityCell.WorldPosition, baseTarget.WorldPosition);
         this.gameObject.SetActive(true);
 
@@ -139,6 +144,13 @@ public class ArrowRenderer : MonoBehaviour
     {
         if (Data.Card.IsTrackable())
         {
+            FromAutoAttack = false;
+
+            Vector3 target = CombatManager.IsCellInSpell(Data.Cell) ?
+                Data.Cell.WorldPosition : GameManager.SelfPlayer.EntityCell.WorldPosition;
+
+            this.SetPositions(GameManager.SelfPlayer.EntityCell.WorldPosition, target);
+
             this.gameObject.SetActive(true);
             InputManager.Instance.OnNewCellHovered += _updateArrowTarget;
         }
@@ -152,8 +164,24 @@ public class ArrowRenderer : MonoBehaviour
 
     private void _updateArrowTarget(CellEventData Data)
     {
-        if(Data.InCurrentGrid)
-            this.SetPositions(GameManager.SelfPlayer.transform.position, Data.Cell.WorldPosition);
+        if(!Data.InCurrentGrid) { return; }
+
+        var player = GameManager.SelfPlayer;
+
+        if (FromAutoAttack)
+        {
+            if(GridUtility.ManhattanDistance(player.EntityCell, Data.Cell) <= player.Range)
+            {
+                this.SetPositions(player.transform.position, Data.Cell.WorldPosition);
+            }
+        }
+        else
+        {
+            if (CombatManager.IsCellInSpell(Data.Cell))
+            {
+                this.SetPositions(player.transform.position, Data.Cell.WorldPosition);
+            }
+        }
     }
 
     #endregion

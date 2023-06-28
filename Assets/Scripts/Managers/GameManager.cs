@@ -157,11 +157,7 @@ namespace DownBelow.Managers
 
             if(GameData.Game.RefGameDataContainer != null)
             {
-                GridManager.Instance.CreateWholeWorld(GameData.Game.RefGameDataContainer);
-
-                this.LoadDatas(GameData.Game.RefGameDataContainer.Data);
-
-                this.ProcessPlayerWelcoming();
+                this.SetupGameWithData();
             }
             else if (MenuManager.Instance == null)
             {
@@ -170,15 +166,36 @@ namespace DownBelow.Managers
             }
         }
 
+        public void SetupGameWithData()
+        {
+            GridManager.Instance.CreateWholeWorld(GameData.Game.RefGameDataContainer);
+
+            this.LoadDatas(GameData.Game.RefGameDataContainer.Data);
+
+            this.ProcessPlayerWelcoming();
+        }
+
         public void LoadDatas(GameData.GameData datas)
         {
-            for (int i = 0; i < datas.last_unlocked_abyss; i++)
+            
+            if(datas.last_unlocked_abyss > -1)
             {
-                SettingsManager.Instance.AbyssesPresets[i].IsCleared = true;
+                for (int i = 0; i < SettingsManager.Instance.AbyssesPresets.Count; i++)
+                {
+                    SettingsManager.Instance.AbyssesPresets[i].IsCleared = i <= datas.last_unlocked_abyss;
+                }
+                MaxAbyssReached = datas.last_unlocked_abyss;
             }
-            MaxAbyssReached = datas.last_unlocked_abyss;
+            else
+            {
+                for (int i = 0; i < SettingsManager.Instance.AbyssesPresets.Count; i++)
+                {
+                    SettingsManager.Instance.AbyssesPresets[i].IsCleared = false;
+                }
+                MaxAbyssReached = 0;
+            }
 
-            if(datas.players_inventories != null)
+            if (datas.players_inventories != null)
             {
                 foreach (var inventory in datas.players_inventories)
                 {
@@ -202,6 +219,24 @@ namespace DownBelow.Managers
                 for (int i = 0; i < datas.owned_cards.Length; i++)
                 {
                     SettingsManager.Instance.OwnedCards.Add(SettingsManager.Instance.ScriptableCards[datas.owned_cards[i]]);
+                }
+            }
+            else
+            {
+                foreach (var deck in SettingsManager.Instance.BaseDecks)
+                {
+                    var correspondingDeck = CardsManager.Instance.AvailableDecks.First(d => d.Class == deck.Class);
+
+                    correspondingDeck.Deck.Cards.Clear();
+                    foreach (var card in deck.Deck.Cards)
+                    {
+                        correspondingDeck.Deck.Cards.Add(card); 
+
+                        if (!SettingsManager.Instance.OwnedCards.Contains(card))
+                        {
+                            SettingsManager.Instance.OwnedCards.Add(card);
+                        }
+                    } 
                 }
             }
 
@@ -341,8 +376,6 @@ namespace DownBelow.Managers
 
         #endregion
         #region ENTITY_ACTIONS
-
-
 
         private IEnumerator bufferWithDelay()
         {
@@ -533,16 +566,20 @@ namespace DownBelow.Managers
             gameData.current_ressources = CurrentAvailableResources;
             gameData.owned_cards = SettingsManager.Instance.OwnedCards.Select(c => c.UID).ToArray();
 
+            bool anyClear = false;
             // Get the last uncleared abyss
             for (int i = 0; i < SettingsManager.Instance.AbyssesPresets.Count; i++)
             {
                 if(!SettingsManager.Instance.AbyssesPresets[i].IsCleared)
                 {
+                    anyClear = true;
                     gameData.last_unlocked_abyss = i;
                     break;
                 }
             }
 
+            if (!anyClear)
+                gameData.last_unlocked_abyss = -1;
 
             return gameData;
         }
@@ -596,6 +633,7 @@ namespace DownBelow.Managers
                 CombatActionsBuffer[i].CancelAction();
                 i--;
             }
+            IsUsingCombatBuffer = false;
         }
 
         private void OnDestroy()

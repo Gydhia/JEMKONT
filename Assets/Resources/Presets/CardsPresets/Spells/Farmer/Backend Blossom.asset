@@ -66,6 +66,9 @@ MonoBehaviour:
     - Name: Data
       Entry: 7
       Data: 3|DownBelow.Spells.SpellData_AddSpecificTarget, Assembly-CSharp
+    - Name: CanRetargetAlreadyTargettedCells
+      Entry: 5
+      Data: false
     - Name: RequiresTargetting
       Entry: 5
       Data: false
@@ -528,6 +531,9 @@ MonoBehaviour:
     - Name: Data
       Entry: 7
       Data: 21|DownBelow.Spells.SpellData_Stats, Assembly-CSharp
+    - Name: CanRetargetAlreadyTargettedCells
+      Entry: 5
+      Data: false
     - Name: RequiresTargetting
       Entry: 5
       Data: false
@@ -827,10 +833,13 @@ MonoBehaviour:
       Data: 5
     - Name: GivesAlteration
       Entry: 5
-      Data: false
+      Data: true
     - Name: duration
       Entry: 3
-      Data: 0
+      Data: 3
+    - Name: ApplyType
+      Entry: 3
+      Data: 1
     - Name: 
       Entry: 8
       Data: 
@@ -1051,6 +1060,9 @@ MonoBehaviour:
     - Name: Data
       Entry: 7
       Data: 36|DownBelow.Spells.SpellData_Stats, Assembly-CSharp
+    - Name: CanRetargetAlreadyTargettedCells
+      Entry: 5
+      Data: false
     - Name: RequiresTargetting
       Entry: 5
       Data: false
@@ -1335,10 +1347,13 @@ MonoBehaviour:
       Data: 5
     - Name: GivesAlteration
       Entry: 5
-      Data: false
+      Data: true
     - Name: duration
       Entry: 3
-      Data: 0
+      Data: 3
+    - Name: ApplyType
+      Entry: 3
+      Data: 1
     - Name: 
       Entry: 8
       Data: 
@@ -1496,7 +1511,7 @@ MonoBehaviour:
   Title: Backend Blossom
   Cost: 2
   CardType: 3
-  Description: You and the closest character, allied or ennemy, receive X bonus damage.
+  Description: You and the closest character, allied or ennemy, receive X bonus strength.
   IllustrationImage: {fileID: 21300000, guid: 2e4668462754e9b4789e2e122037128f, type: 3}
   Class: 2
   CurrentSpellTargetting: 0

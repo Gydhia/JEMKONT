@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{1C2EFA12-705E-6809-5054-1B4D8B471F54}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{DD2CB8CA-7F2A-93B8-508F-880FBEA892E9}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -29,6 +29,13 @@
 				<GameParameter Id="4276639445" Name="RTPC_Volume_SFX"/>
 			</GameParameters>
 			<StateGroups>
+				<StateGroup Id="2609808943" Name="World">
+					<States>
+						<State Id="748895195" Name="None"/>
+						<State Id="1562068129" Name="Overworld"/>
+						<State Id="4215188899" Name="Abyss"/>
+					</States>
+				</StateGroup>
 				<StateGroup Id="3298531235" Name="Layers">
 					<States>
 						<State Id="602912168" Name="Layers1"/>
@@ -51,12 +58,13 @@
 				<SwitchGroup Id="2578143219" Name="Ground_Switch">
 					<Switches>
 						<Switch Id="803837735" Name="Sand"/>
+						<Switch Id="1216965916" Name="Stone"/>
 						<Switch Id="4248645337" Name="Grass"/>
 					</Switches>
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="2711878180" Type="User" Language="SFX" Hash="{4F9C962E-5959-3891-0353-A04A35931F0A}">
+		<SoundBank Id="2711878180" Type="User" Language="SFX" Hash="{37008981-B52B-64D9-3935-31A195190BBD}">
 			<ShortName>SB_GLOBAL</ShortName>
 			<Path>SB_GLOBAL.bnk</Path>
 			<Media>
@@ -76,6 +84,10 @@
 					<ShortName>combatwin.wav</ShortName>
 					<CachePath>SFX/combatwin_10C4C929.wem</CachePath>
 				</File>
+				<File Id="61646451" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>magicRise.wav</ShortName>
+					<CachePath>SFX/magicRise_10C4C929.wem</CachePath>
+				</File>
 				<File Id="65588681" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>dbFight03.wav</ShortName>
 					<CachePath>SFX/dbFight03_D79FB2B7.wem</CachePath>
@@ -88,6 +100,18 @@
 					<ShortName>UI_Click_Distinct_mono.wav</ShortName>
 					<CachePath>SFX/UI_Click_Distinct_mono_10C4C929.wem</CachePath>
 				</File>
+				<File Id="84338510" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>wood1.wav</ShortName>
+					<CachePath>SFX/wood1_10C4C929.wem</CachePath>
+				</File>
+				<File Id="90332455" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>wood6.wav</ShortName>
+					<CachePath>SFX/wood6_10C4C929.wem</CachePath>
+				</File>
+				<File Id="95996942" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>crate.wav</ShortName>
+					<CachePath>SFX/crate_10C4C929.wem</CachePath>
+				</File>
 				<File Id="112672015" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>combatLose.wav</ShortName>
 					<CachePath>SFX/combatLose_10C4C929.wem</CachePath>
@@ -96,9 +120,25 @@
 					<ShortName>arrowHit.wav</ShortName>
 					<CachePath>SFX/arrowHit_10C4C929.wem</CachePath>
 				</File>
+				<File Id="178995152" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>wood2.wav</ShortName>
+					<CachePath>SFX/wood2_10C4C929.wem</CachePath>
+				</File>
 				<File Id="193860459" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sand4.wav</ShortName>
-					<CachePath>SFX/sand4_10C4C929.wem</CachePath>
+					<CachePath>SFX/sand4_D5E4C439.wem</CachePath>
+				</File>
+				<File Id="198640029" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grass1.wav</ShortName>
+					<CachePath>SFX/grass1_AFCE694F.wem</CachePath>
+				</File>
+				<File Id="199566494" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>portal.wav</ShortName>
+					<CachePath>SFX/portal_10C4C929.wem</CachePath>
+				</File>
+				<File Id="203595723" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>wood4.wav</ShortName>
+					<CachePath>SFX/wood4_10C4C929.wem</CachePath>
 				</File>
 				<File Id="216173308" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>cardPick0.wav</ShortName>
@@ -112,13 +152,37 @@
 					<ShortName>menuMusic.wav</ShortName>
 					<CachePath>SFX/menuMusic_D79FB2B7.wem</CachePath>
 				</File>
+				<File Id="250000003" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>stone1.wav</ShortName>
+					<CachePath>SFX/stone1_9A57F9D1.wem</CachePath>
+				</File>
 				<File Id="265411443" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>softHit.wav</ShortName>
 					<CachePath>SFX/softHit_10C4C929.wem</CachePath>
 				</File>
+				<File Id="287433594" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>stone2.wav</ShortName>
+					<CachePath>SFX/stone2_B2680AB9.wem</CachePath>
+				</File>
+				<File Id="293791580" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>rocksForming.wav</ShortName>
+					<CachePath>SFX/rocksForming_71B52423.wem</CachePath>
+				</File>
+				<File Id="340277932" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>mine2.wav</ShortName>
+					<CachePath>SFX/mine2_10C4C929.wem</CachePath>
+				</File>
 				<File Id="369183912" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sand0.wav</ShortName>
-					<CachePath>SFX/sand0_10C4C929.wem</CachePath>
+					<CachePath>SFX/sand0_B2F3A859.wem</CachePath>
+				</File>
+				<File Id="379634705" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fishing.wav</ShortName>
+					<CachePath>SFX/fishing_10C4C929.wem</CachePath>
+				</File>
+				<File Id="388705542" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>wood3.wav</ShortName>
+					<CachePath>SFX/wood3_10C4C929.wem</CachePath>
 				</File>
 				<File Id="404741341" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>PERC(EC0.WAV</ShortName>
@@ -126,19 +190,27 @@
 				</File>
 				<File Id="406068002" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>card0.wav</ShortName>
-					<CachePath>SFX/card0_0F4DB8AF.wem</CachePath>
+					<CachePath>SFX/card0_71CE92D3.wem</CachePath>
+				</File>
+				<File Id="419762248" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grass2.wav</ShortName>
+					<CachePath>SFX/grass2_A73E03C1.wem</CachePath>
+				</File>
+				<File Id="421529683" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>otherWorld.wav</ShortName>
+					<CachePath>SFX/otherWorld_D79FB2B7.wem</CachePath>
 				</File>
 				<File Id="430019804" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>deckShuffle.wav</ShortName>
-					<CachePath>SFX/deckShuffle_AB179818.wem</CachePath>
+					<CachePath>SFX/deckShuffle_CD171DF5.wem</CachePath>
 				</File>
 				<File Id="469318380" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sand2.wav</ShortName>
-					<CachePath>SFX/sand2_10C4C929.wem</CachePath>
+					<CachePath>SFX/sand2_AA05E6B3.wem</CachePath>
 				</File>
-				<File Id="488747114" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>hihats loop.wav</ShortName>
-					<CachePath>SFX/hihats loop_D79FB2B7.wem</CachePath>
+				<File Id="498999293" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>mowing2.wav</ShortName>
+					<CachePath>SFX/mowing2_10C4C929.wem</CachePath>
 				</File>
 				<File Id="505025939" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>dustyAirHit.wav</ShortName>
@@ -148,17 +220,25 @@
 					<ShortName>fastHit.wav</ShortName>
 					<CachePath>SFX/fastHit_10C4C929.wem</CachePath>
 				</File>
+				<File Id="545005341" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>mine0.wav</ShortName>
+					<CachePath>SFX/mine0_10C4C929.wem</CachePath>
+				</File>
 				<File Id="567087666" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>CONGA_hi.WAV</ShortName>
 					<CachePath>SFX/CONGA_hi_10C4C929.wem</CachePath>
 				</File>
-				<File Id="595392903" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>grass2.wav</ShortName>
-					<CachePath>SFX/grass2_10C4C929.wem</CachePath>
+				<File Id="575230282" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>mowing0.wav</ShortName>
+					<CachePath>SFX/mowing0_10C4C929.wem</CachePath>
 				</File>
 				<File Id="597632551" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>dbFight04.wav</ShortName>
 					<CachePath>SFX/dbFight04_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="613361285" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>rocksDestroy.wav</ShortName>
+					<CachePath>SFX/rocksDestroy_596EC284.wem</CachePath>
 				</File>
 				<File Id="669417131" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>cardPick1.wav</ShortName>
@@ -168,25 +248,37 @@
 					<ShortName>swiftHit.wav</ShortName>
 					<CachePath>SFX/swiftHit_10C4C929.wem</CachePath>
 				</File>
-				<File Id="708396059" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>kalimba loop.wav</ShortName>
-					<CachePath>SFX/kalimba loop_D79FB2B7.wem</CachePath>
+				<File Id="735800592" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>stone3.wav</ShortName>
+					<CachePath>SFX/stone3_8EF8B947.wem</CachePath>
 				</File>
 				<File Id="747140157" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sand1.wav</ShortName>
-					<CachePath>SFX/sand1_10C4C929.wem</CachePath>
+					<CachePath>SFX/sand1_ED28710C.wem</CachePath>
 				</File>
 				<File Id="747872994" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>groundHit.wav</ShortName>
 					<CachePath>SFX/groundHit_D5D778C1.wem</CachePath>
 				</File>
+				<File Id="768555745" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>mine4.wav</ShortName>
+					<CachePath>SFX/mine4_10C4C929.wem</CachePath>
+				</File>
+				<File Id="776546887" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>mine1.wav</ShortName>
+					<CachePath>SFX/mine1_10C4C929.wem</CachePath>
+				</File>
 				<File Id="801563757" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>dbFight01.wav</ShortName>
 					<CachePath>SFX/dbFight01_D79FB2B7.wem</CachePath>
 				</File>
+				<File Id="813916266" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>wood5.wav</ShortName>
+					<CachePath>SFX/wood5_10C4C929.wem</CachePath>
+				</File>
 				<File Id="816289229" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>violentHit.wav</ShortName>
-					<CachePath>SFX/violentHit_10C4C929.wem</CachePath>
+					<CachePath>SFX/violentHit_00A8D2C2.wem</CachePath>
 				</File>
 				<File Id="822974898" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>UI_Click_Tap_Subtle_mono.wav</ShortName>
@@ -196,33 +288,37 @@
 					<ShortName>UI_Click_Cut_mono.wav</ShortName>
 					<CachePath>SFX/UI_Click_Cut_mono_10C4C929.wem</CachePath>
 				</File>
+				<File Id="846947184" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>wood0.wav</ShortName>
+					<CachePath>SFX/wood0_10C4C929.wem</CachePath>
+				</File>
 				<File Id="847899675" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>grass0.wav</ShortName>
-					<CachePath>SFX/grass0_10C4C929.wem</CachePath>
+					<CachePath>SFX/grass0_9C7A13B2.wem</CachePath>
 				</File>
 				<File Id="881018081" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>deckShuffle1.wav</ShortName>
-					<CachePath>SFX/deckShuffle1_270B16B8.wem</CachePath>
+					<CachePath>SFX/deckShuffle1_27734CD5.wem</CachePath>
+				</File>
+				<File Id="881682970" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>mowing1.wav</ShortName>
+					<CachePath>SFX/mowing1_10C4C929.wem</CachePath>
 				</File>
 				<File Id="888534994" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sand3.wav</ShortName>
-					<CachePath>SFX/sand3_10C4C929.wem</CachePath>
+					<CachePath>SFX/sand3_DC298C92.wem</CachePath>
 				</File>
 				<File Id="889702892" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>enemyHit.wav</ShortName>
 					<CachePath>SFX/enemyHit_67462A75.wem</CachePath>
 				</File>
-				<File Id="920520952" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>bass piano loop.wav</ShortName>
-					<CachePath>SFX/bass piano loop_D79FB2B7.wem</CachePath>
-				</File>
-				<File Id="938315024" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>grass1.wav</ShortName>
-					<CachePath>SFX/grass1_10C4C929.wem</CachePath>
-				</File>
 				<File Id="959241070" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>dbFight02.wav</ShortName>
 					<CachePath>SFX/dbFight02_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="965383484" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>stone0.wav</ShortName>
+					<CachePath>SFX/stone0_82C4E44F.wem</CachePath>
 				</File>
 				<File Id="969935710" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>ambiance farm.wav</ShortName>
@@ -232,87 +328,206 @@
 					<ShortName>dbFight00.wav</ShortName>
 					<CachePath>SFX/dbFight00_D79FB2B7.wem</CachePath>
 				</File>
-				<File Id="1002096085" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>harp loop.wav</ShortName>
-					<CachePath>SFX/harp loop_D79FB2B7.wem</CachePath>
-				</File>
-				<File Id="1002181933" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>reverb piano loop.wav</ShortName>
-					<CachePath>SFX/reverb piano loop_D79FB2B7.wem</CachePath>
+				<File Id="1019601285" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>mine3.wav</ShortName>
+					<CachePath>SFX/mine3_10C4C929.wem</CachePath>
 				</File>
 			</Media>
+			<Plugins>
+				<Custom>
+					<Plugin Id="128149753" Name="Pitch Shifter (Custom)" LibName="Wwise Pitch Shifter" LibId="8912899"/>
+				</Custom>
+				<ShareSets>
+					<Plugin Id="48620415" Name="Have_U_Ever_Been_Outside" LibName="Wwise RoomVerb" LibId="7733251"/>
+					<Plugin Id="506891147" Name="Plate_Small" LibName="Wwise RoomVerb" LibId="7733251"/>
+					<Plugin Id="1008402193" Name="Low_Pass_20KHz" LibName="Wwise Parametric EQ" LibId="6881283"/>
+					<Plugin Id="1144018367" Name="Plate_Large" LibName="Wwise RoomVerb" LibId="7733251"/>
+					<Plugin Id="1237275451" Name="Octave_Up" LibName="Wwise Pitch Shifter" LibId="8912899"/>
+					<Plugin Id="2180422931" Name="One_Tap_Quarter_Second" LibName="Wwise Delay" LibId="6946819"/>
+					<Plugin Id="2547645744" Name="Boost_3dB_100Hz" LibName="Wwise Parametric EQ" LibId="6881283"/>
+					<Plugin Id="3487820010" Name="One_Tap_Half_Second" LibName="Wwise Delay" LibId="6946819"/>
+					<Plugin Id="3604890626" Name="High_Pass_60Hz" LibName="Wwise Parametric EQ" LibId="6881283"/>
+				</ShareSets>
+			</Plugins>
 			<Events>
-				<Event Id="2351453751" Name="Play_SSFX__AllyTurn" DurationType="OneShot" DurationMin="0.5476417" DurationMax="0.5476417">
+				<Event Id="2945031810" Name="Play_SSFX_AllyTurn" DurationType="OneShot" DurationMin="0.5476417" DurationMax="0.5476417">
 					<MediaRefs>
 						<MediaRef Id="567087666"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="284401701" Name="Play_SSFX__CardPick" DurationType="OneShot" DurationMin="0.45156464" DurationMax="0.561819">
+				<Event Id="2970065691" Name="Play_SSFX_ArrowHit" DurationType="OneShot" DurationMin="0.5162132" DurationMax="0.5162132">
+					<MediaRefs>
+						<MediaRef Id="143424456"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1322830077" Name="Play_SSFX_CardDraw" DurationType="OneShot" DurationMin="0.45156464" DurationMax="0.561819">
 					<MediaRefs>
 						<MediaRef Id="216173308"/>
 						<MediaRef Id="669417131"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="1884104528" Name="Play_SSFX__CardSlap" DurationType="OneShot" DurationMin="0.18333589" DurationMax="0.18333589">
+				<Event Id="3130717460" Name="Play_SSFX_CardPick" DurationType="OneShot" DurationMin="0.45156464" DurationMax="0.561819">
+					<MediaRefs>
+						<MediaRef Id="216173308"/>
+						<MediaRef Id="669417131"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1232721797" Name="Play_SSFX_CardSlap" DurationType="OneShot" DurationMin="0.15859172" DurationMax="0.15859172">
 					<MediaRefs>
 						<MediaRef Id="406068002"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="3568964008" Name="Play_SSFX__Click" DurationType="OneShot" DurationMin="0.038318895" DurationMax="0.06845805">
+				<Event Id="3681299163" Name="Play_SSFX_Click" DurationType="OneShot" DurationMin="0.038318895" DurationMax="0.06845805">
 					<MediaRefs>
 						<MediaRef Id="36056990"/>
 						<MediaRef Id="78472428"/>
 						<MediaRef Id="823762247"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="2149827808" Name="Play_SSFX__ClickBlocked" DurationType="OneShot" DurationMin="0.017278912" DurationMax="0.017278912">
+				<Event Id="2447394445" Name="Play_SSFX_ClickBlocked" DurationType="OneShot" DurationMin="0.017278912" DurationMax="0.017278912">
 					<MediaRefs>
 						<MediaRef Id="822974898"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="611645331" Name="Play_SSFX__CombatLose" DurationType="OneShot" DurationMin="3" DurationMax="3">
+				<Event Id="2963818062" Name="Play_SSFX_CombatLose" DurationType="OneShot" DurationMin="3" DurationMax="3">
 					<MediaRefs>
 						<MediaRef Id="112672015"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="241397386" Name="Play_SSFX__CombatWin" DurationType="OneShot" DurationMin="3" DurationMax="3">
+				<Event Id="1271310997" Name="Play_SSFX_CombatWin" DurationType="OneShot" DurationMin="3" DurationMax="3">
 					<MediaRefs>
 						<MediaRef Id="47948954"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="803863510" Name="Play_SSFX__DeckShuffle" DurationType="OneShot" DurationMin="0.5669822" DurationMax="0.77582765">
+				<Event Id="900263106" Name="Play_SSFX_Crate" DurationType="OneShot" DurationMin="0.9285625" DurationMax="0.9285625">
+					<MediaRefs>
+						<MediaRef Id="95996942"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2787275873" Name="Play_SSFX_Dash" DurationType="OneShot" DurationMin="0.091454856" DurationMax="0.091454856">
+					<MediaRefs>
+						<MediaRef Id="816289229"/>
+					</MediaRefs>
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="3487820010"/>
+						</ShareSets>
+					</PluginRefs>
+				</Event>
+				<Event Id="329156649" Name="Play_SSFX_DeckShuffle" DurationType="OneShot" DurationMin="0.5669822" DurationMax="0.77582765">
 					<MediaRefs>
 						<MediaRef Id="430019804"/>
 						<MediaRef Id="881018081"/>
 					</MediaRefs>
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="1008402193"/>
+						</ShareSets>
+					</PluginRefs>
 				</Event>
-				<Event Id="2280958161" Name="Play_SSFX__EnemyTurn" DurationType="OneShot" DurationMin="0.9703175" DurationMax="0.9703175">
+				<Event Id="3353955478" Name="Play_SSFX_EnemyTurn" DurationType="OneShot" DurationMin="0.9703175" DurationMax="0.9703175">
 					<MediaRefs>
 						<MediaRef Id="404741341"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="529950874" Name="Play_SSFX__MyTurnEnd" DurationType="OneShot" DurationMin="1.9512292" DurationMax="1.9512292">
+				<Event Id="2463337978" Name="Play_SSFX_FastHit" DurationType="OneShot" DurationMin="1.241542" DurationMax="1.241542">
+					<MediaRefs>
+						<MediaRef Id="541747067"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3581818263" Name="Play_SSFX_Fish" DurationType="OneShot" DurationMin="1.1830417" DurationMax="1.1830417">
+					<MediaRefs>
+						<MediaRef Id="379634705"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="4082667236" Name="Play_SSFX_Herb" DurationType="OneShot" DurationMin="0.39285415" DurationMax="0.39285415">
+					<MediaRefs>
+						<MediaRef Id="498999293"/>
+						<MediaRef Id="575230282"/>
+						<MediaRef Id="881682970"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2970430981" Name="Play_SSFX_MagicRise" DurationType="OneShot" DurationMin="1.4865986" DurationMax="1.4865986">
+					<MediaRefs>
+						<MediaRef Id="61646451"/>
+					</MediaRefs>
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="506891147"/>
+							<PluginRef Id="1237275451"/>
+							<PluginRef Id="2180422931"/>
+						</ShareSets>
+					</PluginRefs>
+				</Event>
+				<Event Id="3003442901" Name="Play_SSFX_MyTurnEnd" DurationType="OneShot" DurationMin="1.9512292" DurationMax="1.9512292">
 					<MediaRefs>
 						<MediaRef Id="14506943"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="3168485769" Name="Play_SSFX__MyTurnStart" DurationType="OneShot" DurationMin="1.9512292" DurationMax="1.9512292">
+				<Event Id="3350516382" Name="Play_SSFX_MyTurnStart" DurationType="OneShot" DurationMin="1.9512292" DurationMax="1.9512292">
 					<MediaRefs>
 						<MediaRef Id="71803895"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="71458555" Name="Play_SSFX__Walk" DurationType="OneShot" DurationMin="0.5357083" DurationMax="0.7410625">
+				<Event Id="1628470307" Name="Play_SSFX_Ore" DurationType="OneShot" DurationMin="0.0535625" DurationMax="0.0535625">
+					<MediaRefs>
+						<MediaRef Id="340277932"/>
+						<MediaRef Id="545005341"/>
+						<MediaRef Id="768555745"/>
+						<MediaRef Id="776546887"/>
+						<MediaRef Id="1019601285"/>
+					</MediaRefs>
+					<PluginRefs>
+						<Custom>
+							<PluginRef Id="128149753"/>
+						</Custom>
+						<ShareSets>
+							<PluginRef Id="48620415"/>
+						</ShareSets>
+					</PluginRefs>
+				</Event>
+				<Event Id="3131711783" Name="Play_SSFX_Portal" DurationType="OneShot" DurationMin="6.8705416" DurationMax="6.8705416">
+					<MediaRefs>
+						<MediaRef Id="199566494"/>
+					</MediaRefs>
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="2547645744"/>
+						</ShareSets>
+					</PluginRefs>
+				</Event>
+				<Event Id="3556133744" Name="Play_SSFX_RockDestroy" DurationType="OneShot" DurationMin="0.5140056" DurationMax="0.5140056">
+					<MediaRefs>
+						<MediaRef Id="613361285"/>
+					</MediaRefs>
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="2547645744"/>
+						</ShareSets>
+					</PluginRefs>
+				</Event>
+				<Event Id="259866600" Name="Play_SSFX_RockSpike" DurationType="OneShot" DurationMin="0.79129094" DurationMax="0.79129094">
+					<MediaRefs>
+						<MediaRef Id="293791580"/>
+					</MediaRefs>
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="2547645744"/>
+						</ShareSets>
+					</PluginRefs>
+				</Event>
+				<Event Id="2953260286" Name="Play_SSFX_Walk" DurationType="OneShot" DurationMin="0.12263503" DurationMax="0.476282">
 					<SwitchContainers>
 						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="2578143219" Id="4248645337"/>
+							<SwitchValue GroupType="Switch" GroupId="2578143219" Id="4248645337" Default="true"/>
 							<MediaRefs>
-								<MediaRef Id="595392903"/>
+								<MediaRef Id="198640029"/>
+								<MediaRef Id="419762248"/>
 								<MediaRef Id="847899675"/>
-								<MediaRef Id="938315024"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="2578143219" Id="803837735" Default="true"/>
+							<SwitchValue GroupType="Switch" GroupId="2578143219" Id="803837735"/>
 							<MediaRefs>
 								<MediaRef Id="193860459"/>
 								<MediaRef Id="369183912"/>
@@ -320,17 +535,37 @@
 								<MediaRef Id="747140157"/>
 								<MediaRef Id="888534994"/>
 							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="3604890626"/>
+								</ShareSets>
+							</PluginRefs>
 						</SwitchContainer>
 						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="2578143219" Id="4248645337"/>
+							<SwitchValue GroupType="Switch" GroupId="2578143219" Id="1216965916"/>
 							<MediaRefs>
-								<MediaRef Id="595392903"/>
+								<MediaRef Id="250000003"/>
+								<MediaRef Id="287433594"/>
+								<MediaRef Id="735800592"/>
+								<MediaRef Id="965383484"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="1008402193"/>
+									<PluginRef Id="1144018367"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2578143219" Id="4248645337" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="198640029"/>
+								<MediaRef Id="419762248"/>
 								<MediaRef Id="847899675"/>
-								<MediaRef Id="938315024"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="2578143219" Id="803837735" Default="true"/>
+							<SwitchValue GroupType="Switch" GroupId="2578143219" Id="803837735"/>
 							<MediaRefs>
 								<MediaRef Id="193860459"/>
 								<MediaRef Id="369183912"/>
@@ -338,8 +573,39 @@
 								<MediaRef Id="747140157"/>
 								<MediaRef Id="888534994"/>
 							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="3604890626"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2578143219" Id="1216965916"/>
+							<MediaRefs>
+								<MediaRef Id="250000003"/>
+								<MediaRef Id="287433594"/>
+								<MediaRef Id="735800592"/>
+								<MediaRef Id="965383484"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="1008402193"/>
+									<PluginRef Id="1144018367"/>
+								</ShareSets>
+							</PluginRefs>
 						</SwitchContainer>
 					</SwitchContainers>
+				</Event>
+				<Event Id="2902633162" Name="Play_SSFX_Wood" DurationType="OneShot" DurationMin="0.64285415" DurationMax="0.64285415">
+					<MediaRefs>
+						<MediaRef Id="84338510"/>
+						<MediaRef Id="90332455"/>
+						<MediaRef Id="178995152"/>
+						<MediaRef Id="203595723"/>
+						<MediaRef Id="388705542"/>
+						<MediaRef Id="813916266"/>
+						<MediaRef Id="846947184"/>
+					</MediaRefs>
 				</Event>
 				<Event Id="4038830388" Name="Set_Grass" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0">
 					<ActionSetSwitch>
@@ -390,57 +656,107 @@
 					<SwitchContainers>
 						<SwitchContainer>
 							<SwitchValue GroupType="State" GroupId="4091656514" Id="2764240573"/>
-							<MediaRefs>
-								<MediaRef Id="65588681"/>
-								<MediaRef Id="488747114"/>
-								<MediaRef Id="597632551"/>
-								<MediaRef Id="708396059"/>
-								<MediaRef Id="801563757"/>
-								<MediaRef Id="920520952"/>
-								<MediaRef Id="959241070"/>
-								<MediaRef Id="991806595"/>
-								<MediaRef Id="1002096085"/>
-								<MediaRef Id="1002181933"/>
-							</MediaRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="State" GroupId="4091656514" Id="579523862"/>
-							<MediaRefs>
-								<MediaRef Id="969935710"/>
-							</MediaRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="State" GroupId="4091656514" Id="3604647259"/>
-							<MediaRefs>
-								<MediaRef Id="238341709"/>
-							</MediaRefs>
+							<Children/>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="State" GroupId="4091656514" Id="2764240573"/>
-							<MediaRefs>
-								<MediaRef Id="65588681"/>
-								<MediaRef Id="488747114"/>
-								<MediaRef Id="597632551"/>
-								<MediaRef Id="708396059"/>
-								<MediaRef Id="801563757"/>
-								<MediaRef Id="920520952"/>
-								<MediaRef Id="959241070"/>
-								<MediaRef Id="991806595"/>
-								<MediaRef Id="1002096085"/>
-								<MediaRef Id="1002181933"/>
-							</MediaRefs>
+							<Children>
+								<SwitchContainer>
+									<SwitchValue GroupType="State" GroupId="2609808943" Id="4215188899"/>
+									<MediaRefs>
+										<MediaRef Id="65588681"/>
+										<MediaRef Id="597632551"/>
+										<MediaRef Id="801563757"/>
+										<MediaRef Id="959241070"/>
+										<MediaRef Id="991806595"/>
+									</MediaRefs>
+								</SwitchContainer>
+							</Children>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="State" GroupId="4091656514" Id="579523862"/>
-							<MediaRefs>
-								<MediaRef Id="969935710"/>
-							</MediaRefs>
+							<Children>
+								<SwitchContainer>
+									<SwitchValue GroupType="State" GroupId="2609808943" Id="1562068129"/>
+									<MediaRefs>
+										<MediaRef Id="969935710"/>
+									</MediaRefs>
+								</SwitchContainer>
+							</Children>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="4091656514" Id="579523862"/>
+							<Children>
+								<SwitchContainer>
+									<SwitchValue GroupType="State" GroupId="2609808943" Id="4215188899"/>
+									<MediaRefs>
+										<MediaRef Id="421529683"/>
+									</MediaRefs>
+								</SwitchContainer>
+							</Children>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="State" GroupId="4091656514" Id="3604647259"/>
-							<MediaRefs>
-								<MediaRef Id="238341709"/>
-							</MediaRefs>
+							<Children>
+								<SwitchContainer>
+									<SwitchValue GroupType="State" GroupId="2609808943" Id="0"/>
+									<MediaRefs>
+										<MediaRef Id="238341709"/>
+									</MediaRefs>
+								</SwitchContainer>
+							</Children>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="4091656514" Id="2764240573"/>
+							<Children/>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="4091656514" Id="2764240573"/>
+							<Children>
+								<SwitchContainer>
+									<SwitchValue GroupType="State" GroupId="2609808943" Id="4215188899"/>
+									<MediaRefs>
+										<MediaRef Id="65588681"/>
+										<MediaRef Id="597632551"/>
+										<MediaRef Id="801563757"/>
+										<MediaRef Id="959241070"/>
+										<MediaRef Id="991806595"/>
+									</MediaRefs>
+								</SwitchContainer>
+							</Children>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="4091656514" Id="579523862"/>
+							<Children>
+								<SwitchContainer>
+									<SwitchValue GroupType="State" GroupId="2609808943" Id="1562068129"/>
+									<MediaRefs>
+										<MediaRef Id="969935710"/>
+									</MediaRefs>
+								</SwitchContainer>
+							</Children>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="4091656514" Id="579523862"/>
+							<Children>
+								<SwitchContainer>
+									<SwitchValue GroupType="State" GroupId="2609808943" Id="4215188899"/>
+									<MediaRefs>
+										<MediaRef Id="421529683"/>
+									</MediaRefs>
+								</SwitchContainer>
+							</Children>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="4091656514" Id="3604647259"/>
+							<Children>
+								<SwitchContainer>
+									<SwitchValue GroupType="State" GroupId="2609808943" Id="0"/>
+									<MediaRefs>
+										<MediaRef Id="238341709"/>
+									</MediaRefs>
+								</SwitchContainer>
+							</Children>
 						</SwitchContainer>
 					</SwitchContainers>
 				</Event>
@@ -448,30 +764,55 @@
 					<SwitchContainers>
 						<SwitchContainer>
 							<SwitchValue GroupType="State" GroupId="4091656514" Id="2764240573"/>
-							<MediaRefs>
-								<MediaRef Id="65588681"/>
-								<MediaRef Id="488747114"/>
-								<MediaRef Id="597632551"/>
-								<MediaRef Id="708396059"/>
-								<MediaRef Id="801563757"/>
-								<MediaRef Id="920520952"/>
-								<MediaRef Id="959241070"/>
-								<MediaRef Id="991806595"/>
-								<MediaRef Id="1002096085"/>
-								<MediaRef Id="1002181933"/>
-							</MediaRefs>
+							<Children/>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="4091656514" Id="2764240573"/>
+							<Children>
+								<SwitchContainer>
+									<SwitchValue GroupType="State" GroupId="2609808943" Id="4215188899"/>
+									<MediaRefs>
+										<MediaRef Id="65588681"/>
+										<MediaRef Id="597632551"/>
+										<MediaRef Id="801563757"/>
+										<MediaRef Id="959241070"/>
+										<MediaRef Id="991806595"/>
+									</MediaRefs>
+								</SwitchContainer>
+							</Children>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="State" GroupId="4091656514" Id="579523862"/>
-							<MediaRefs>
-								<MediaRef Id="969935710"/>
-							</MediaRefs>
+							<Children>
+								<SwitchContainer>
+									<SwitchValue GroupType="State" GroupId="2609808943" Id="1562068129"/>
+									<MediaRefs>
+										<MediaRef Id="969935710"/>
+									</MediaRefs>
+								</SwitchContainer>
+							</Children>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="4091656514" Id="579523862"/>
+							<Children>
+								<SwitchContainer>
+									<SwitchValue GroupType="State" GroupId="2609808943" Id="4215188899"/>
+									<MediaRefs>
+										<MediaRef Id="421529683"/>
+									</MediaRefs>
+								</SwitchContainer>
+							</Children>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="State" GroupId="4091656514" Id="3604647259"/>
-							<MediaRefs>
-								<MediaRef Id="238341709"/>
-							</MediaRefs>
+							<Children>
+								<SwitchContainer>
+									<SwitchValue GroupType="State" GroupId="2609808943" Id="0"/>
+									<MediaRefs>
+										<MediaRef Id="238341709"/>
+									</MediaRefs>
+								</SwitchContainer>
+							</Children>
 						</SwitchContainer>
 					</SwitchContainers>
 				</Event>
@@ -487,6 +828,13 @@
 				<GameParameter Id="4276639445" Name="RTPC_Volume_SFX"/>
 			</GameParameters>
 			<StateGroups>
+				<StateGroup Id="2609808943" Name="World">
+					<States>
+						<State Id="748895195" Name="None"/>
+						<State Id="1562068129" Name="Overworld"/>
+						<State Id="4215188899" Name="Abyss"/>
+					</States>
+				</StateGroup>
 				<StateGroup Id="3298531235" Name="Layers">
 					<States>
 						<State Id="602912168" Name="Layers1"/>
@@ -509,11 +857,12 @@
 				<SwitchGroup Id="2578143219" Name="Ground_Switch">
 					<Switches>
 						<Switch Id="803837735" Name="Sand"/>
+						<Switch Id="1216965916" Name="Stone"/>
 						<Switch Id="4248645337" Name="Grass"/>
 					</Switches>
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{C9B66E18-BF79-199B-33C3-3BFEE09FAA9F}</FileHash>
+	<FileHash>{390BC468-2FD8-9908-C9C1-4750DB00A386}</FileHash>
 </SoundBanksInfo>

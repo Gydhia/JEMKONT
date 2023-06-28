@@ -1,14 +1,10 @@
-using System;
 using DownBelow.Managers;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using DownBelow.Mechanics;
 using System.Linq;
-using System.Security.AccessControl;
 using DG.Tweening;
 using Random = UnityEngine.Random;
 using DownBelow.Events;
@@ -100,7 +96,10 @@ namespace DownBelow.UI
             {
                 return;
             }
-
+            if(SelectedCard == this && SelectedCard._pinUpdateCoroutine == null)
+            {
+                this.RefreshCardValues();
+            }
             // Forbid the card drag if currently using another one
             if (HoveredCard == this && SelectedCard == null && !this._isDestroying)
             {
@@ -109,6 +108,13 @@ namespace DownBelow.UI
 
                 this._compareCoroutine = StartCoroutine(this._compareDistanceToStartFollow());
             }
+        }
+
+        public void RefreshCardValues()
+        {
+            SelectedCard.PinnedToScreen = false;
+            SelectedCard.IsDragged = false;
+            SelectedCard = null;
         }
 
         // Player released the card.
@@ -148,12 +154,21 @@ namespace DownBelow.UI
                         () =>
                         {
                             CardVisual.ReverseCard();
+                        }));
+                _flipSequence.Append(this.m_RectTransform.DOPunchRotation(new Vector3(0, 180, 0), 0.2f)
+                    .SetEase(Ease.OutQuad).OnComplete(
+                        () =>
+                        {
+                            CardVisual.ReverseCard();
                             this.PlayNotTargetCard();
                         }));
 
                 _flipSequence.SetLoops(0);
                 
                 _flipSequence.Restart();
+
+
+                AkSoundEngine.PostEvent("Play_SSFX_CardSlap", AudioHolder.Instance.gameObject);
             }
         }
 
@@ -210,6 +225,8 @@ namespace DownBelow.UI
             PlayerInputs.player_r_click.canceled += _onRightClick;
 
             this._followCoroutine = StartCoroutine(this._followCursor());
+
+            AkSoundEngine.PostEvent("Play_SSFX_CardPick", AudioHolder.Instance.gameObject);
         }
 
 
@@ -248,6 +265,7 @@ namespace DownBelow.UI
         {
             this._abortCoroutine(ref this._followCoroutine);
             CombatManager.Instance.FireCardBeginUse(this.CardReference);
+            InputManager.Instance.ChangeCursorAppearance(CursorAppearance.Idle);
         }
 
         public void DrawFromPile(UICardsPile fromPile, UICardsPile toPile)
@@ -260,21 +278,27 @@ namespace DownBelow.UI
             this.transform.position = Vector3.zero;
 
             int result = Random.Range(1, 11);
+   
+            
+                this.m_RectTransform.DOPunchRotation(Vector3.one * 0.8f, 1.3f, result);
+                this.m_RectTransform.DOPunchScale(Vector3.one * 0.8f, 1.3f, result);
+                this.m_RectTransform.DOPunchPosition(Vector3.one * 0.8f, 1.4f, result).OnComplete((() =>
+                {
+                    this.m_RectTransform.localScale = Vector3.one;
+                    this.m_RectTransform.parent = this.RefPile.CardsHolder;
+                    this._spawnPosition = m_RectTransform.position;
+                    this.m_RectTransform.DOAnchorPosY(this._spawnPosition.y, 0.3f);
 
-            this.m_RectTransform.DOPunchRotation(Vector3.one * 0.8f, 1.3f, result);
-            this.m_RectTransform.DOPunchScale(Vector3.one * 0.8f, 1.3f, result);
-            this.m_RectTransform.DOPunchPosition(Vector3.one * 0.8f, 1.3f, result).OnComplete((() =>
-            {
-                this.m_RectTransform.localScale = Vector3.one;
-                this.m_RectTransform.parent = this.RefPile.CardsHolder;
-                this._spawnPosition = m_RectTransform.position;
-                this.m_RectTransform.DOAnchorPosY(this._spawnPosition.y, 0.3f);
+                    // FOR CARDS OVERVIEW, we're resetting this
+                    this.m_RectTransform.pivot = this.RefPile.CardPivot;
+                    
+                    UIManager.Instance.CardSection.SetAllLayoutGroups(true);
+                }));
+            
 
-                // FOR CARDS OVERVIEW, we're resetting this
-                this.m_RectTransform.pivot = this.RefPile.CardPivot;
-            }));
+           
         }
-
+        
         public void DiscardToHand()
         {
             PlayerInputs.player_r_click.canceled -= _onRightClick;
@@ -286,12 +310,12 @@ namespace DownBelow.UI
             UIManager.Instance.CardSection.SetAllLayoutGroups(false);
             UIManager.Instance.CardSection.SetAllLayoutGroups(true);
             this.m_RectTransform.DOAnchorPos(this._spawnPosition, 0.3f).SetEase(Ease.OutQuad);
-            
             SelectedCard = null;
         }
 
         public void DiscardToPile(UICardsPile toPile)
         {
+            this.RefPile = toPile;
             this._isDestroying = true;
             SelectedCard = null;
 
@@ -303,13 +327,13 @@ namespace DownBelow.UI
             this.m_RectTransform.DOPunchScale(Vector3.one * 0.8f, .4f, 3);
             this.m_RectTransform.DOScale(0.2f, .4f);
             this.m_RectTransform.DOMove(toPile.VisualMoveTarget.position, 0.4f)
-                .OnComplete(() => this.Burn());
+                .OnComplete(() => {
+                    this.m_RectTransform.SetParent(this.RefPile.CardsHolder);
+                    this.m_RectTransform.DOScale(1f, 0f);
+                    this._isDestroying = false;
+                });
         }
-
-        public void Burn()
-        {
-            this.gameObject.SetActive(false);
-        }
+        
 
         private IEnumerator _compareDistanceToStartFollow()
         {

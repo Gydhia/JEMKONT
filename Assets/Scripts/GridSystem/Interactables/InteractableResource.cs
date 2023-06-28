@@ -9,7 +9,9 @@ namespace DownBelow.GridSystem
 {
     public class InteractableResource : Interactable<ResourcePreset>
     {
+        public List<GameObject> MeshToHide = new List<GameObject>();
         public GameObject GatheredMesh;
+        public AK.Wwise.Event Sound;
         [ReadOnly] public bool isMature = true;
         [Tooltip("In Seconds.")] public int TimeToGrowUp = 80;
 
@@ -18,13 +20,19 @@ namespace DownBelow.GridSystem
             isMature = true;
             base.Init(InteractableRef, RefCell);
 
-            this.Mesh.gameObject.SetActive(true);
+            foreach (GameObject ToHide in MeshToHide)
+            {
+                ToHide.SetActive(true);
+            }
             this.GatheredMesh.gameObject.SetActive(false);
         }
 
         public override void Interact(Entity.PlayerBehavior player)
         {
-            this.Mesh.gameObject.SetActive(false);
+            foreach (GameObject ToHide in MeshToHide)
+            {
+                ToHide.SetActive(false);
+            }
             this.GatheredMesh.gameObject.SetActive(true);
             
             StartCoroutine(GrowingRoutine());
@@ -34,7 +42,10 @@ namespace DownBelow.GridSystem
             isMature = false;
             yield return new WaitForSeconds(TimeToGrowUp);
             isMature = true;
-            this.Mesh.gameObject.SetActive(true);
+            foreach (GameObject ToHide in MeshToHide)
+            {
+                ToHide.SetActive(true);
+            }
             this.GatheredMesh.gameObject.SetActive(false);
         }
     }

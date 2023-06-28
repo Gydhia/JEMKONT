@@ -20,7 +20,7 @@ namespace DownBelow.Spells
         public override async Task DoSpellBehavior()
         {
             await base.DoSpellBehavior();
-            var targets = GetTargets(TargetCell);
+            var targets = TargetEntities;
             if (targets == null || targets.Count > 2)
             {
 

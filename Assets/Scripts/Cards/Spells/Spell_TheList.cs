@@ -15,11 +15,10 @@ namespace DownBelow.Spells
         public override async Task DoSpellBehavior()
         {
             await base.DoSpellBehavior();
-            GetTargets(TargetCell);
             foreach(var target in TargetEntities)
             {
                 ((PlayerBehavior)RefEntity).theList++;
-                target.ApplyStat(EntityStatistics.Health, -2 * ((PlayerBehavior)RefEntity).theList);
+                target.ApplyStat(EntityStatistics.Health, -10 * ((PlayerBehavior)RefEntity).theList);
             }
             
         }

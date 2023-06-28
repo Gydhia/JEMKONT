@@ -1,13 +1,19 @@
+using DownBelow.Entity;
 using DownBelow.Events;
 using DownBelow.UI;
 using DownBelow.UI.Inventory;
 using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace DownBelow.Managers
 {
     public class UIManager : _baseManager<UIManager>
     {
+        public Transform DragItemParent;
+
+        public Tooltip UITooltip;
+
         public UIStaticCombat CombatSection;
         public UIStaticTurnSection TurnSection;
         public UIStaticEscape EscapeSection;
@@ -21,6 +27,8 @@ namespace DownBelow.Managers
         public UIEnchantSection EnchantSection;
         public UIWorkshopSection WorkshopSection;
         public UIDialogSection DialogSection;
+
+        public DeckbuildingSystem DeckbuildingSystem;
 
         public EntityTooltipUI EntityTooltipUI;
 
@@ -43,6 +51,7 @@ namespace DownBelow.Managers
             this.EnchantSection.Init();
             this.WorkshopSection.Init();
             this.DialogSection.Init();
+            this.DeckbuildingSystem.Init();
 
             this.TurnSection.gameObject.SetActive(false);
             this.PlayerInfos.gameObject.SetActive(false);
@@ -53,24 +62,9 @@ namespace DownBelow.Managers
         }
         public void SwitchSelectedSlot(int oldSlot, int newSlot)
         {
-            if (oldSlot == 0)
-            {
-                //ActiveSlot
-                PlayerInventory.ClassItem.SelectedSlot(false);
-            } else
-            {
-                //Inventory
-                PlayerInventory.PlayerStorage.Items[oldSlot - 1].SelectedSlot(false);
-            }
-            if (newSlot == 0)
-            {
-                PlayerInventory.ClassItem.SelectedSlot(true);
-                //ActiveSlot
-            } else
-            {
-                PlayerInventory.PlayerStorage.Items[newSlot - 1].SelectedSlot(true);
-                //Inventory
-            }
+            PlayerInventory.PlayerStorage.Items[oldSlot].SelectedSlot(false);
+         
+            PlayerInventory.PlayerStorage.Items[newSlot].SelectedSlot(true);
         }
         private void _subscribe()
         {
@@ -81,6 +75,8 @@ namespace DownBelow.Managers
 
             InputManager.Instance.OnCellRightClickDown += this.UpdateEntityToolTip;
             PlayerInputs.player_escape.canceled += this._switchEscapeState;
+            PlayerInputs.player_escape.canceled += this._hideInteractables;
+            
         }
         private void _unsubscribe()
         {
@@ -91,14 +87,23 @@ namespace DownBelow.Managers
 
             InputManager.Instance.OnCellRightClickDown -= this.UpdateEntityToolTip;
             PlayerInputs.player_escape.canceled -= this._switchEscapeState;
+            PlayerInputs.player_escape.canceled -= this._hideInteractables;
         }
 
         private void _switchEscapeState(UnityEngine.InputSystem.InputAction.CallbackContext ctx) => this.SwitchEscapeState();
         public void SwitchEscapeState()
         {
-            bool isActive = EscapeSection.gameObject.activeSelf;
+            if (!this.CurrentStorage.gameObject.activeInHierarchy &&
+                !this.EnchantSection.gameObject.activeInHierarchy &&
+                !this.AbyssesSection.gameObject.activeInHierarchy &&
+                !this.WorkshopSection.gameObject.activeInHierarchy &&
+                !this.CraftingSection.MainContainer.activeInHierarchy)
+            {
+                bool isActive = EscapeSection.gameObject.activeSelf;
 
-            EscapeSection.gameObject.SetActive(!isActive);
+                EscapeSection.gameObject.SetActive(!isActive);
+            }
+            
         }
 
         public void UpdateEntityToolTip(CellEventData Data)
@@ -156,12 +161,14 @@ namespace DownBelow.Managers
             InputManager.Instance.ChangeCursorAppearance(CursorAppearance.Idle);
         }
 
+        private void _hideInteractables(UnityEngine.InputSystem.InputAction.CallbackContext ctx) => this.HideInteractables();
         public void HideInteractables()
         {
             this.CurrentStorage.HideStorage();
             this.EnchantSection.ClosePanel();
             this.AbyssesSection.OnClickClose();
             this.WorkshopSection.ClosePanel();
+            this.CraftingSection._closePanel();
         }
 
         private void OnDestroy()

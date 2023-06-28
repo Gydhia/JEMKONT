@@ -5,8 +5,11 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class SmallCardDeckbuilding : MonoBehaviour {
-    public TextMeshProUGUI[] texts;
+public class SmallCardDeckbuilding : MonoBehaviour 
+{
+    public TextMeshProUGUI Name;
+    public TextMeshProUGUI Cost;
+    public TextMeshProUGUI Number;
 
     [SerializeField] private Button _button;
     private UnityEngine.Events.UnityAction LeftClick;
@@ -25,14 +28,14 @@ public class SmallCardDeckbuilding : MonoBehaviour {
 
     private void SendLeftClickEvent()
     {
-        DeckbuildingSystem.Instance.CurrentDeckLayoutGroup.enabled = false;
+        UIManager.Instance.DeckbuildingSystem.CurrentDeckLayoutGroup.enabled = false;
         LeftClick();
-        DeckbuildingSystem.Instance.CurrentDeckLayoutGroup.enabled = true;
+        UIManager.Instance.DeckbuildingSystem.CurrentDeckLayoutGroup.enabled = true;
     }
     public void Init(ScriptableCard card, int number, UnityEngine.Events.UnityAction call) {
-        texts[0].text = number.ToString();
-        texts[1].text = card.Title.ToString();
-        texts[2].text = card.Cost.ToString();
+        Number.text = number.ToString();
+        Name.text = card.Title.ToString();
+        Cost.text = card.Cost.ToString();
         LeftClick = call;
         
         _button.onClick.AddListener(SendLeftClickEvent);

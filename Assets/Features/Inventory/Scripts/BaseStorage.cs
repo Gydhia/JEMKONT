@@ -44,7 +44,7 @@ namespace DownBelow.UI.Inventory
         public void Init(StoragePreset preset, Cell RefCell, bool OnlyTake = false)
         {
             this.RefCell = RefCell;
-            this.Init(preset.MaxSlots);
+            this.Init(preset.MaxSlots, OnlyTake);
         }
 
         public void Init(int slots, Cell RefCell, bool OnlyTake = false)

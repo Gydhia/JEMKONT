@@ -1,3 +1,4 @@
+using System.Collections;
 using DownBelow.Events;
 using DownBelow.GridSystem;
 using DownBelow.Managers;
@@ -20,12 +21,7 @@ namespace DownBelow.UI
         public UIInventoryItem InItem;
         public UIInventoryItem OutItem;
         public UIInventoryItem FuelItem;
-
-        public Transform ScrollWheel;
-        public Transform InnerScrollWheel;
-
-        public GameObject GearGaeObject;
-        public GameObject FireGameObject;
+        
 
         public UICraftSectionAnim SectionAnim;
         public void Init()
@@ -51,30 +47,52 @@ namespace DownBelow.UI
             this.UIStorage.SetStorageAndShow(workshop.Storage, isRealPlayer);
 
             this.InItem.OnlyAcceptedItem = workshop.InputItem;
+            this.InItem.RefreshItem(new ItemEventData(this.InItem.SelfItem));
+
             this.FuelItem.OnlyAcceptedItem = workshop.FuelItem;
+            this.FuelItem.RefreshItem(new ItemEventData(this.FuelItem.SelfItem));
+
             this.OutItem.CanOnlyTake = true;
             this._refreshWorkshop(null);
-
+            
+            
             SectionAnim.Init();
-            SectionAnim.TempPlayAnims();
-            //CHECKER SI FURNACE OU CRAFT POUR AFFICHER LES ANIMS
+
+            if (CurrentWorkshop is InteractableFurnace)
+            {
+                SectionAnim.ShowFurnace();
+                Debug.Log("ShowFurnace");
+            }
+            else if (CurrentWorkshop is InteractableSawStood)
+            {
+                SectionAnim.ShowWorkshop();
+                Debug.Log("ShowSawStood");
+            }
+
+            SectionAnim.OnCraftComplete += Craft;            
         }
 
         private void _refreshWorkshop(ItemEventData Data)
         {
-            this.CraftButton.interactable = this.InItem.SelfItem.ItemPreset != null && this.FuelItem.SelfItem.ItemPreset != null;
+            this.CraftButton.interactable = 
+                (this.InItem.SelfItem.ItemPreset != null && this.FuelItem.SelfItem.ItemPreset != null) &&
+                (this.CurrentWorkshop != null && this.CurrentWorkshop.CurrentDurability > 0);
+        }
+        public void OnClickCraft()
+        {
+            SectionAnim.PlayAnims();
+            this.Craft();
         }
 
-        public void OnClickCraft()
+        private void Craft()
         {
             if(this.InItem.SelfItem.ItemPreset != null)
             {
-                for (int i = 0; i < this.InItem.TotalQuantity / 3; i++)
-                {
-                    NetworkManager.Instance.GiftOrRemoveStorageItem(this.CurrentWorkshop, this.CurrentWorkshop.OutputItem, 1, this.OutItem.Slot);
-                    NetworkManager.Instance.GiftOrRemoveStorageItem(this.CurrentWorkshop, this.InItem.SelfItem.ItemPreset, -3, this.InItem.Slot);
-                    NetworkManager.Instance.GiftOrRemoveStorageItem(this.CurrentWorkshop, this.FuelItem.SelfItem.ItemPreset, -1, this.FuelItem.Slot);
-                }
+                NetworkManager.Instance.ApplyInteractableDurability(this.CurrentWorkshop);
+
+                NetworkManager.Instance.GiftOrRemoveStorageItem(this.CurrentWorkshop, this.CurrentWorkshop.OutputItem, 1, this.OutItem.Slot);
+                NetworkManager.Instance.GiftOrRemoveStorageItem(this.CurrentWorkshop, this.InItem.SelfItem.ItemPreset, -3, this.InItem.Slot);
+                NetworkManager.Instance.GiftOrRemoveStorageItem(this.CurrentWorkshop, this.FuelItem.SelfItem.ItemPreset, -1, this.FuelItem.Slot);   
             }
 
             this._refreshWorkshop(null);
@@ -90,12 +108,20 @@ namespace DownBelow.UI
             if(this.CurrentWorkshop != null)
             {
                 this.CurrentWorkshop.Storage.OnStorageItemChanged -= _refreshWorkshop;
+                SectionAnim.OnCraftComplete -= Craft;
+
+                if(this.CurrentWorkshop.CurrentDurability <= 0)
+                {
+                    if(this.InItem.TotalQuantity <= 0 && this.OutItem.TotalQuantity <= 0 && this.FuelItem.TotalQuantity <= 0)
+                    {
+                        NetworkManager.Instance.DestroyInteractable(this.CurrentWorkshop);
+                    }
+                }
+
                 this.CurrentWorkshop = null;
             }
 
             this.gameObject.SetActive(false);
-
-
         }
     }
 }

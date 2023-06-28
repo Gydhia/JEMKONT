@@ -23,12 +23,16 @@ namespace DownBelow.UI.Inventory
         private InteractableStorage _nearestInteractable;
         public Button ToNearestStorageBtn;
 
+        public GameObject PressEIndicator;     
+
         private void Awake()
         {
             GameManager.Instance.OnGameStarted += _initInventory;
 
             GameManager.Instance.OnEnteredGrid += _toggleInventoryUI;
             GameManager.Instance.OnExitingGrid += _toggleInventoryUI;
+
+            this.PressEIndicator.gameObject.SetActive(false);
         }
 
         private void _toggleInventoryUI(EntityEventData Data) 

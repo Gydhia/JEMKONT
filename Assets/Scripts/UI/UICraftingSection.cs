@@ -10,9 +10,12 @@ namespace DownBelow.UI
 {
     public class UICraftingSection : MonoBehaviour
     {
-
         public Transform ItemsHolder;
         public UICraftingItem CraftingItemPrefab;
+        public GameObject MainContainer;
+
+
+        public GameObject InputHelper;
 
         public List<UICraftingItem> CraftingItems = new List<UICraftingItem>();
 
@@ -25,11 +28,11 @@ namespace DownBelow.UI
             }
 
             PlayerInputs.player_tab.performed += _togglePanel;
-            GameManager.Instance.OnEnteredGrid += _closePanel;
+            GameManager.Instance.OnEnteredGrid += _switchVisibilityFromGrid;
 
             GameManager.RealSelfPlayer.PlayerInventory.OnStorageItemChanged += RefreshRecipesCraft;
 
-            this.gameObject.SetActive(false);
+            this.MainContainer.SetActive(false);
         }
 
         private void RefreshRecipesCraft(ItemEventData Data)
@@ -40,14 +43,27 @@ namespace DownBelow.UI
             }
         }
 
-        private void _closePanel(EntityEventData Data)
+        public void _closePanel()
         {
-            this.gameObject.SetActive(false);   
+            this.MainContainer.SetActive(false);
         }
 
-        private void _togglePanel(InputAction.CallbackContext context)
+        private void _switchVisibilityFromGrid(EntityEventData Data)
         {
-            this.gameObject.SetActive(!this.gameObject.activeSelf);
+            if (Data.Entity != GameManager.RealSelfPlayer)
+                return;
+
+            this.InputHelper.SetActive(!Data.Entity.CurrentGrid.IsCombatGrid);
+            this.MainContainer.SetActive(false);
+        }
+
+        private void _togglePanel(InputAction.CallbackContext context) => this.TogglePanel();
+        public void TogglePanel() 
+        {
+            if (!GameManager.RealSelfPlayer.CurrentGrid.IsCombatGrid)
+            {
+                this.MainContainer.SetActive(!this.MainContainer.activeSelf);
+            }
         }
     }
 }

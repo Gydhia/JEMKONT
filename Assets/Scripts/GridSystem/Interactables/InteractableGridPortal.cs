@@ -15,6 +15,8 @@ namespace DownBelow
         public GameObject MainCrack;
         public GameObject CrackBorders;
 
+        public AK.Wwise.Event Sound;
+
         public ParticleSystem Orb;
         public ParticleSystem BubbleTrail;
 
@@ -41,6 +43,8 @@ namespace DownBelow
 
                 this._hideInteractParticle();
                 this._openPortal();
+
+                Sound.Post(AudioHolder.Instance.gameObject);
             }
             // Only the local player with process animations, ...
             else if (GameManager.RealSelfPlayer == player)
@@ -52,7 +56,7 @@ namespace DownBelow
                 }
                 else
                 {
-                    player.TeleportToGrid("FarmLand");
+                    player.TeleportToGrid(GridManager.Instance.MainGrid);
                 }                
             }
             

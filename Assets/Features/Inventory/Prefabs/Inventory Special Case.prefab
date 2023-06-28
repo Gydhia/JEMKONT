@@ -15,6 +15,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4881580939449006115, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
+      propertyPath: MinWidth
+      value: 400
+      objectReference: {fileID: 0}
     - target: {fileID: 4893917238622806539, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -122,6 +126,17 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 595109141347629658, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
+--- !u!114 &474871615423726909 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4881580939449006115, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
+  m_PrefabInstance: {fileID: 4983735704767151390}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 487346413357116836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b71b41f10510fb46b76608406eb8d41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &487346413357116836 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4893917239753150650, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
@@ -139,6 +154,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdb2dde9d44a252468851cec73930ad2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Tooltipable: {fileID: 474871615423726909}
+  OnlyAcceptedItem: {fileID: 0}
+  CanOnlyTake: 0
   icon: {fileID: 6371737917137892949}
   quantity: {fileID: 1224365899964127450}
   selfButton: {fileID: 3959634318063012531}
@@ -159,8 +177,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Storage:
+    RefCell: {fileID: 0}
     StorageItems: []
     MaxSlots: 0
+    OnlyTake: 0
   ItemsHolder: {fileID: 0}
   Items:
   - {fileID: 557678934793235308}

@@ -29,6 +29,9 @@ public class ToolItem : ItemPreset
 
     public Texture2D CharacterTexture;
 
+    [TextArea]
+    public string CombatDescription;
+
     public virtual void WorldAction() 
     {
         switch (Class) {
@@ -110,10 +113,12 @@ public class ToolItem : ItemPreset
             else
                 this.CurrentEnchantBuffs[stat.Key] = this.GetStatsSum(stat.Key, this.CurrentLevel);
         }
+
+        this.ActualPlayer.RefStats.UpdateBuffed(this);
     }
 
 
-    public void Reset()
+    public void ResetStatus()
     {
         this.CurrentLevel = 0;
         this.ActualPlayer = null;

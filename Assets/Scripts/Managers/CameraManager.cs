@@ -29,6 +29,7 @@ namespace DownBelow.Managers
 
         //Parameters
         public Vector3 InBattleAngle = new Vector3(45,-30,0);
+        public Vector3 InFarmAngle = new Vector3(65,0,0);
         private float InBattleFOV = 40f;
         public float Zoom = 0f;
         public float ZoomSpeed = 1f;
@@ -38,6 +39,8 @@ namespace DownBelow.Managers
 
         public float GatheringZoomingTimeInSec = 1f;
         public float GatheringTargetZoom = 1f;
+
+        private int _frameCounter = 0;
 
 
 
@@ -90,6 +93,7 @@ namespace DownBelow.Managers
                 {
                     IsInCombatGrid = false;
                     this.VirtualCamera.Follow = Data.Entity.transform;
+                    this.VirtualCamera.transform.eulerAngles = InFarmAngle;
                 }
 
                 
@@ -120,14 +124,43 @@ namespace DownBelow.Managers
                     rotYRatio = Mathf.Abs(Mathf.Sin(rotYRatio * 1.57f));
                     float orthoWithoutZoom = (CurrentArenaSize.x + CurrentArenaSize.x * rotXRatio + CurrentArenaSize.y + CurrentArenaSize.y * rotYRatio) * InBattleOrthoSizeByArenaSize;
                     float orthoZoom = Zoom * (CurrentArenaSize.x + CurrentArenaSize.y) * InBattleOrthoSizeByArenaSize;
-                    this.VirtualCamera.m_Lens.OrthographicSize = Mathf.Lerp(this.VirtualCamera.m_Lens.OrthographicSize, orthoWithoutZoom - orthoZoom, 1 / (ZoomSmooth * 10));
+
+                    this.VirtualCamera.m_Lens.OrthographicSize =Mathf.Clamp(Mathf.Lerp(this.VirtualCamera.m_Lens.OrthographicSize, orthoWithoutZoom - orthoZoom, 1 / (ZoomSmooth * 10)), 2f,15f);
                 }
                 else if (IsGatheringZoom)
                 {
                     this.VirtualCamera.m_Lens.OrthographicSize = Mathf.Lerp(this.VirtualCamera.m_Lens.OrthographicSize, NormalOrthoSize - Zoom * NormalOrthoSize, 1 / (ZoomSmooth * 10));
                 }
             }
-            
+
+
+            // Raycast to active silhouette
+            this._frameCounter++;
+
+            if(this._frameCounter >= 30)
+            {
+                this._frameCounter = 0;
+
+                if(GameManager.Instance.Players != null)
+                {
+                    foreach (var player in GameManager.Instance.Players.Values)
+                    {
+                        Ray ray = new Ray(Camera.main.transform.position, player.transform.position - Camera.main.transform.position);
+                        RaycastHit hit;
+
+                        if (Physics.Raycast(ray, out hit))
+                        {
+                            player.PlayerOutline.enabled = hit.collider == null || hit.collider.tag != "Player";
+                        }
+                        else
+                        {
+                            player.PlayerOutline.enabled = false;
+                        }
+                    }
+                }
+
+                
+            }
         }
 
         private void _manageScroll(InputAction.CallbackContext ctx) => this.manageScroll(ctx.ReadValue<float>());

@@ -3,21 +3,20 @@ using DownBelow.Spells.Alterations;
 using DownBelow.Events;
 using DownBelow.GridSystem;
 using DownBelow.Managers;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Sirenix.Serialization;
 using System;
 using DG.Tweening;
-using Photon.Realtime;
-using static UnityEngine.ParticleSystem;
-
+using DownBelow.Mechanics;
 
 namespace DownBelow.Entity
 {
     public abstract class CharacterEntity : MonoBehaviour
     {
+        public ScriptableSFX AttackSFX;
+
         #region events
         public delegate void StatModified();
 
@@ -35,6 +34,8 @@ namespace DownBelow.Entity
         public event SpellEventData.Event OnDefenseAdded;
         public event SpellEventData.Event OnRangeRemoved;
         public event SpellEventData.Event OnRangeAdded;
+
+        public event SpellEventData.Event OnStatisticsReinitialized;
 
         public event GameEventData.Event OnStatisticsChanged;
 
@@ -215,16 +216,15 @@ namespace DownBelow.Entity
         public int MaxHealth
         {
             get => RefStats.Health;
-            set => RefStats.Health = value;
         }
 
         public Dictionary<EntityStatistics, int> Statistics;
 
         public int Health => Statistics[EntityStatistics.Health] + Buff(EntityStatistics.Health);
         public int Strength => Statistics[EntityStatistics.Strength] + Buff(EntityStatistics.Strength);
-        public int Speed => Snared ? 0 : Statistics[EntityStatistics.Speed] + Buff(EntityStatistics.Speed);
+        public int Speed => Snared ? 0 : (Statistics[EntityStatistics.Speed] + Buff(EntityStatistics.Speed));
         public virtual int Mana => Statistics[EntityStatistics.Mana] + Buff(EntityStatistics.Mana);
-        public int Defense => Shattered ? 0 : Statistics[EntityStatistics.Defense] + Buff(EntityStatistics.Defense);
+        public int Defense => Shattered ? 0 : (Statistics[EntityStatistics.Defense] + Buff(EntityStatistics.Defense));
         public int Range => Statistics[EntityStatistics.Range] + Buff(EntityStatistics.Range);
 
 
@@ -266,34 +266,6 @@ namespace DownBelow.Entity
 
         #region ATTACKS
 
-        /// <summary>
-        /// Tries to attack the given cell.
-        /// </summary>
-        /// <param name="cellToAttack">The cell to attack.</param>
-        public void AutoAttack(Cell cellToAttack)
-        {
-            this.CanAutoAttack = false;
-
-            //Normally already verified. Just in case
-            //Calculate straight path, see if obstacle.  
-            var path = GridManager.Instance.FindPath(this, cellToAttack.PositionInGrid, true);
-
-            var notwalkable = path.Find(x => x.Datas.state != CellState.Walkable);
-            if (notwalkable != null)
-            {
-                switch (notwalkable.Datas.state)
-                {
-                    case CellState.EntityIn:
-                        NetworkManager.Instance.EntityAskToBuffAction(new AttackingAction(this, notwalkable));
-                        break;
-                }
-            }
-            else
-            {
-                NetworkManager.Instance.EntityAskToBuffAction(new AttackingAction(this, cellToAttack));
-            }
-        }
-
         public bool isInAttackRange(Cell cell)
         {
             bool res = Range >= Mathf.Abs(cell.PositionInGrid.latitude - EntityCell.PositionInGrid.latitude) +
@@ -311,8 +283,8 @@ namespace DownBelow.Entity
             this.PlayingIndicator.SetActive(true);
             this.CanAutoAttack = true;
 
-
-             OnTurnBegun?.Invoke(new());
+            Debug.LogWarning("START TURN : " + this);
+            OnTurnBegun?.Invoke(new());
 
             this.ReinitializeStat(EntityStatistics.Speed);
             this.ReinitializeStat(EntityStatistics.Mana);
@@ -321,11 +293,25 @@ namespace DownBelow.Entity
 
             await SFXManager.Instance.RefreshAlterationSFX(this);
 
+            if (this.IsAlly && this is PlayerBehavior player)
+            {
+                if (GameManager.SelfPlayer == player)
+                {
+                    AkSoundEngine.PostEvent("Play_SSFX_MyTurnStart", AudioHolder.Instance.gameObject);
+
+                }
+                AkSoundEngine.PostEvent("Play_SSFX_AllyTurn", AudioHolder.Instance.gameObject);
+            }
+            else
+            {
+                AkSoundEngine.PostEvent("Play_SSFX_EnemyTurn", AudioHolder.Instance.gameObject);
+            }
 
             if (this.Stunned || this.Sleeping)
             {
-                EndTurn();
-                return;
+				var endTurn = new EndTurnAction(this, this.EntityCell);
+				NetworkManager.Instance.EntityAskToBuffAction(endTurn);
+				return;
             }
 
             GridManager.Instance.CalculatePossibleCombatMovements(this);
@@ -342,6 +328,10 @@ namespace DownBelow.Entity
 
             this.PlayingIndicator.SetActive(false);
             this.IsPlayingEntity = false;
+            if (this.IsAlly)
+            {
+                AkSoundEngine.PostEvent("Play_SSFX_MyTurnEnd", AudioHolder.Instance.gameObject);
+            }
             OnTurnEnded?.Invoke(new());
         }
         #endregion
@@ -360,7 +350,6 @@ namespace DownBelow.Entity
             this.RefStats = stats;
             this.Statistics = new Dictionary<EntityStatistics, int>
             {
-                { EntityStatistics.MaxMana, stats.MaxMana },
                 { EntityStatistics.Health, stats.Health },
                 { EntityStatistics.Strength, stats.Strength },
                 { EntityStatistics.Speed, stats.Speed },
@@ -393,19 +382,7 @@ namespace DownBelow.Entity
                 case EntityStatistics.Range: this.Statistics[EntityStatistics.Range] = this.RefStats.Range; break;
             }
 
-            if (this is PlayerBehavior player)
-            {
-                if (player.ActiveTool != null)
-                {
-                    // May god forgive me 
-                    var realStat = stat == EntityStatistics.Mana ?
-                        EntityStatistics.MaxMana : stat;
-                    if (player.ActiveTool.CurrentEnchantBuffs.ContainsKey(realStat))
-                    {
-                        this.Statistics[stat] += player.ActiveTool.CurrentEnchantBuffs[realStat];
-                    }
-                }
-            }
+            this.OnStatisticsReinitialized?.Invoke(new SpellEventData(this, this.RefStats.GetStatistic(stat), stat));
         }
 
         /// <summary>
@@ -417,20 +394,29 @@ namespace DownBelow.Entity
         public void ApplyStat(EntityStatistics stat, int value, bool triggerEvents = true)
         {
             Debug.Log($"Applied stat {stat}, {value} to {ToString()} {Environment.StackTrace} ");
+
+            int maxStat = this.RefStats.GetStatistic(stat);
             Statistics[stat] += value;
+
+            if (Statistics[stat] > maxStat)
+            {
+                this.Statistics[stat] = maxStat;
+
+                if (value > 0)
+                {
+                    // Check overheal
+                    if (this.Statistics[stat] + value > maxStat)
+                    {
+                        value = maxStat - this.Statistics[stat];
+                    }
+                }
+            }
+
 
             switch (stat)
             {
                 case EntityStatistics.Health:
-                    if (value > 0)
-                    {
-                        // Check overheal
-                        if (this.Health + value > this.RefStats.Health)
-                        {
-                            value = this.RefStats.Health - Statistics[EntityStatistics.Health];
-                        }
-                    }
-                        this._applyHealth(value, triggerEvents); break;
+                    this._applyHealth(value, triggerEvents); break;
                 case EntityStatistics.Mana:
                     this._applyMana(value); break;
                 case EntityStatistics.Speed:
@@ -452,14 +438,8 @@ namespace DownBelow.Entity
         {
             if (value > 0)
             {
-                
                 Debug.Log("HEALED : "+ value);
-                // Check overheal
-                if (this.Health + value > this.RefStats.Health)
-                    value = this.RefStats.Health - Statistics[EntityStatistics.Health];
-                //else
-                //Statistics[EntityStatistics.Health] += value;
-                //value stays at its primary value.
+
                 if (triggerEvents)
                 {
                     this.OnHealthAdded?.Invoke(new(this, value));
@@ -480,7 +460,10 @@ namespace DownBelow.Entity
                 {
                     
                     this.OnHealthRemoved?.Invoke(new SpellEventData(this, value));
-                    if (value != 0) this.OnDamageTaken?.Invoke(new());
+                    if (value != 0)
+                    {
+                        this.OnDamageTaken?.Invoke(new());
+                    }
                 }
             }
         }
@@ -539,7 +522,6 @@ namespace DownBelow.Entity
                     res += $"\n{item}";
                 }
             }
-
             return res;
         }
         public void AddAlterations(List<Alteration> alterations)
@@ -559,7 +541,6 @@ namespace DownBelow.Entity
             {
                 alreadyFound.Duration = alteration.Duration;
                 return;
-                //TODO : GD? Add Duration? Set duration?
             }
             else
             {
@@ -597,7 +578,7 @@ namespace DownBelow.Entity
         {
             if (alteration.ClassicCountdown)
             {
-                this.OnTurnEnded += alteration.DecrementAlterationCountdown;
+                this.OnTurnEnded -= alteration.DecrementAlterationCountdown;
             }
             else
             {
@@ -630,6 +611,13 @@ namespace DownBelow.Entity
             if (this.Health <= 0)
             {
                 this.OnDeath?.Invoke(new EntityEventData(this));
+
+                if (this is PlayerBehavior && this.IsPlayingEntity)
+                {
+                    var endTurn = new EndTurnAction(this, this.EntityCell);
+
+                    NetworkManager.Instance.EntityAskToBuffAction(endTurn);
+                }
             }
         }
 
@@ -640,7 +628,6 @@ namespace DownBelow.Entity
                 Alteration alt = Alterations[0];
                 alt.WearsOff(this);
                 RemoveAlteration(alt); //You know what? Fuck you *unsubs your alterations*
-                Alterations.RemoveAt(0);
             }
 
             this.FireExitedCell();
@@ -702,7 +689,7 @@ namespace DownBelow.Entity
             {
                 List<Cell> freeNeighbours = GridManager.Instance.GetNormalNeighbours(cellToTP, cellToTP.RefGrid)
                     .FindAll(x => x.Datas.state == CellState.Walkable)
-                    .OrderByDescending(x => Math.Abs(x.PositionInGrid.latitude - this.EntityCell.PositionInGrid.latitude) + Math.Abs(x.PositionInGrid.longitude - this.EntityCell.PositionInGrid.longitude))
+                    .OrderByDescending(x => System.Math.Abs(x.PositionInGrid.latitude - this.EntityCell.PositionInGrid.latitude) + System.Math.Abs(x.PositionInGrid.longitude - this.EntityCell.PositionInGrid.longitude))
                     .ToList();
                 //Someday will need a Foreach, but i just don't know what other things we need to check on the cells before tp'ing,
                 //so just tp on the farther one.

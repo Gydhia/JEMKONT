@@ -13,17 +13,15 @@ using System.Linq;
 using UnityEngine;
 using UnityEditor;
 using Math = System.Math;
-
+using DownBelow.Mechanics;
 
 namespace DownBelow.Entity 
 {
     public enum MovementType { Straight = 1, StraightToRange = 2, Flee = 3, Kite = 4 };
-    public enum AttackType { ClosestRandom = 1, FarthestRandom = 2, LowestRandom = 3, HighestRandom = 4, Random = 5 };
-
+    public enum AttackType { ClosestRandom = 1, FarthestRandom = 2, LowestRandom = 3, HighestRandom = 4, Random = 5, HighestBaseHP = 6};
 
     public class EnemyEntity : CharacterEntity 
     {
-
         public EntityPreset EnemyStyle;
         CharacterEntity cachedAllyToAttack;
 
@@ -56,24 +54,35 @@ namespace DownBelow.Entity
             base.StartTurn();
         }
 
-
         public EntityAction[] CreateEnemyActions()
         {
+            List<EntityAction> buffedActions = new List<EntityAction>();
+
             var targettingAction = new TargettingAction(this, this.EntityCell);
+            targettingAction.Init(TargetType);
+            buffedActions.Add(targettingAction);
 
             var movementAction = new EnemyMovementAction(this, this.EntityCell);
             movementAction.Init(this.movementType);
             movementAction.SetContextAction(targettingAction);
+            buffedActions.Add(movementAction);
 
             var attackAction = new AttackingAction(this, this.EntityCell);
             attackAction.SetContextAction(targettingAction);
+            buffedActions.Add(attackAction);
+
+            if (this.movementType == MovementType.Kite)
+            {
+                var kiteAction = new EnemyMovementAction(this, this.EntityCell);
+                kiteAction.Init(MovementType.Flee);
+                kiteAction.SetContextAction(targettingAction);
+                buffedActions.Add(kiteAction);
+            }
 
             var endTurnAction = new EndTurnAction(this, this.EntityCell);
+            buffedActions.Add(endTurnAction);
 
-            // TODO : Implement a deck for enemy
-            //var attackAction = new Spell();
-
-            return new EntityAction[4] { targettingAction, movementAction, attackAction, endTurnAction };
+            return buffedActions.ToArray();
         }
 
         // All Attack Behaviours
@@ -99,7 +108,8 @@ namespace DownBelow.Entity
         /// Returns Players ordered from closest to farthest / farthest to Closest. If an entity is provoking, clones it to put in index 0 of the array.
         /// Arguments : Type = "Min" or "Max" depending on getting the closest or farthest
         /// </summary>
-        public CharacterEntity[] PlayersOrderedByDistance(string type, out int sameDist) {
+        public CharacterEntity[] PlayersOrderedByDistance(string type, out int sameDist) 
+        {
             var Players = CurrentGrid.GridEntities.FindAll(x => x.IsAlly && x.Health > 0);
 
             int[] distances = new int[Players.Count];

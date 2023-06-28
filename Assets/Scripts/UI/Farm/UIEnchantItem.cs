@@ -71,6 +71,8 @@ namespace DownBelow.UI
 
         public void OnClickUpgrade()
         {
+            NetworkManager.Instance.ApplyInteractableDurability(UIManager.Instance.EnchantSection.CurrentTable);
+
             this.RefTool.UpgradeLevel();
 
             this.RefreshCanCraft();

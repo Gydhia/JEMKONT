@@ -2,6 +2,7 @@ using DownBelow.Entity;
 using DownBelow.Events;
 using DownBelow.GridSystem;
 using DownBelow.Managers;
+using EODE.Wonderland;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,12 +19,14 @@ namespace DownBelow.UI
         public Transform EntitiesHolder;
 
         public Image TimeSlider;
-        public Button NextTurnButton;
+        public Button[] NextTurnButtons;
 
         public List<EntitySprite> CombatEntities;
 
         public void Init()
         {
+
+            Logpad.Log("Force end of turn",() => AskEndOfTurn());
             CombatManager.Instance.OnCombatStarted += SetupFromCombatBegin;
             CombatManager.Instance.OnCombatEnded += ClearFromCombatEnd;
         }
@@ -36,8 +39,13 @@ namespace DownBelow.UI
                 this.CombatEntities[i].Init(CombatManager.Instance.PlayingEntities[i], i <= 0);
             }
 
-            this.NextTurnButton.onClick.RemoveAllListeners();
-            this.NextTurnButton.onClick.AddListener(AskEndOfTurn);
+            foreach (Button button in this.NextTurnButtons)
+            {
+                button.onClick.RemoveAllListeners();
+                button.onClick.AddListener(AskEndOfTurn);
+            }
+            /*his.NextTurnButton
+            this.NextTurnButton.*/
 
             CombatManager.Instance.OnTurnStarted += this._updateTurn;
             CombatManager.Instance.OnEntityDeath += this._updateEntityDeath;
@@ -72,17 +80,32 @@ namespace DownBelow.UI
         {
             if (CombatManager.CurrentPlayingGrid != null && CombatManager.CurrentPlayingGrid.HasStarted)
             {
+                foreach (Button button in this.NextTurnButtons)
+                {
+                    button.interactable = false;
+                }
+
                 NetworkManager.Instance.EntityAskToBuffAction(
                     new EndTurnAction(CombatManager.CurrentPlayingEntity, CombatManager.CurrentPlayingEntity.EntityCell)
                 );
-
-                NextTurnButton.interactable = false;
             }
         }
 
         private void _updateTurn(EntityEventData Data)
         {
-            NextTurnButton.interactable = CombatManager.Instance.IsPlayerOrOwned(Data.Entity);
+            StartCoroutine(this._updateButtonsLater(Data.Entity));
+        }
+
+        private IEnumerator _updateButtonsLater(CharacterEntity entity)
+        {
+            yield return new WaitForSeconds(0.3f);
+
+            bool interactable = CombatManager.Instance.IsPlayerOrOwned(entity);
+
+            foreach (Button button in this.NextTurnButtons)
+            {
+                button.interactable = interactable;
+            }
         }
 
         private void _updateEntityDeath(EntityEventData Data)

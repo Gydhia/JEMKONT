@@ -71,6 +71,9 @@ MonoBehaviour:
     - Name: Data
       Entry: 7
       Data: 4|DownBelow.Spells.SpellData_Stats, Assembly-CSharp
+    - Name: CanRetargetAlreadyTargettedCells
+      Entry: 5
+      Data: false
     - Name: RequiresTargetting
       Entry: 5
       Data: false
@@ -359,6 +362,9 @@ MonoBehaviour:
     - Name: duration
       Entry: 3
       Data: 0
+    - Name: ApplyType
+      Entry: 3
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -463,6 +469,9 @@ MonoBehaviour:
     - Name: Data
       Entry: 7
       Data: 12|DownBelow.Spells.SpellData_Teleport, Assembly-CSharp
+    - Name: CanRetargetAlreadyTargettedCells
+      Entry: 5
+      Data: false
     - Name: RequiresTargetting
       Entry: 5
       Data: true
@@ -1095,6 +1104,9 @@ MonoBehaviour:
     - Name: Data
       Entry: 7
       Data: 39|DownBelow.Spells.SpellData_Stats, Assembly-CSharp
+    - Name: CanRetargetAlreadyTargettedCells
+      Entry: 5
+      Data: false
     - Name: RequiresTargetting
       Entry: 5
       Data: false
@@ -1383,6 +1395,9 @@ MonoBehaviour:
     - Name: duration
       Entry: 3
       Data: 0
+    - Name: ApplyType
+      Entry: 3
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -1620,6 +1635,9 @@ MonoBehaviour:
     - Name: Data
       Entry: 7
       Data: 55|DownBelow.Spells.SpellData_Stats, Assembly-CSharp
+    - Name: CanRetargetAlreadyTargettedCells
+      Entry: 5
+      Data: false
     - Name: RequiresTargetting
       Entry: 5
       Data: true
@@ -2043,6 +2061,9 @@ MonoBehaviour:
     - Name: duration
       Entry: 3
       Data: 0
+    - Name: ApplyType
+      Entry: 3
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -2294,6 +2315,9 @@ MonoBehaviour:
     - Name: Data
       Entry: 7
       Data: 72|DownBelow.Spells.SpellData_Alteration, Assembly-CSharp
+    - Name: CanRetargetAlreadyTargettedCells
+      Entry: 5
+      Data: false
     - Name: RequiresTargetting
       Entry: 5
       Data: false
@@ -2467,7 +2491,7 @@ MonoBehaviour:
       Data: 75|BuffAlteration, Assembly-CSharp
     - Name: Duration
       Entry: 3
-      Data: 0
+      Data: 3
     - Name: Target
       Entry: 6
       Data: 
@@ -2479,7 +2503,7 @@ MonoBehaviour:
       Data: 30
     - Name: value
       Entry: 3
-      Data: 2
+      Data: 20
     - Name: 
       Entry: 8
       Data: 
@@ -2676,7 +2700,7 @@ MonoBehaviour:
   Title: Scrap Metal
   Cost: 1
   CardType: 1
-  Description: Destroy a non character entity, receive X armor for 2 turns.
+  Description: Destroy a non character entity, receive 20 armor for 2 turns.
   IllustrationImage: {fileID: 21300000, guid: 8b2ecdef46eb36a49be127947f43349c, type: 3}
   Class: 0
   CurrentSpellTargetting: 0

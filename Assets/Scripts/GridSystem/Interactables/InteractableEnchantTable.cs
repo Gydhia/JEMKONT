@@ -8,10 +8,11 @@ namespace DownBelow.GridSystem
 {
     public class InteractableEnchantTable : Interactable
     {
+
+
         public override void Interact(PlayerBehavior p)
         {
-            UIManager.Instance.EnchantSection.OpenPanel();
+            UIManager.Instance.EnchantSection.OpenPanel(this);
         }
     }
-
 }

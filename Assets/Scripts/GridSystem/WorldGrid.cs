@@ -106,24 +106,36 @@ namespace DownBelow.GridSystem
             if(gridData.InnerGrids != null)
             {
                 foreach (GridData innerGrid in gridData.InnerGrids)
+                {
                     for (int i = innerGrid.Longitude; i < innerGrid.Longitude + innerGrid.GridWidth; i++)
+                    {
                         for (int j = innerGrid.Latitude; j < innerGrid.Latitude + innerGrid.GridHeight; j++)
                         {
                             // We'll never be in combat for now, so just destroy these cells
                             Destroy(this.Cells[j, i].gameObject);
                             this.Cells[j, i] = null;
                         }
+                    }
+                }
             }
 
-            this.GridEntities = new List<CharacterEntity>();
-            if(gridData.SpawnablePresets != null)
+            if(this.GridEntities == null)
+            {
+                this.GridEntities = new List<CharacterEntity>();
+            }
+            if (gridData.SpawnablePresets != null)
             {
                 // Used to generate UID
                 foreach (var spawnable in gridData.SpawnablePresets)
+                {
                     if (spawnable.Value != null)
+                    {
                         if (SettingsManager.Instance.SpawnablesPresets.TryGetValue(spawnable.Value, out BaseSpawnablePreset spawnSO))
-                            // TODO: Differentiate enemies and NPC. For now they'll be enemies
+                        {
                             spawnSO.Init(this.Cells[spawnable.Key.latitude, spawnable.Key.longitude]);
+                        }
+                    }
+                }
             }
 
             if(gridData.Storages != null)
@@ -169,7 +181,7 @@ namespace DownBelow.GridSystem
             {
                 for (int j = 0; j < this.Cells.GetLength(1); j++)
                 {
-                    this.CreateAddCell(i, j, new Vector3((j + longitude) * cellsWidth + widthOffset, 0.075f, -(i + latitude) * cellsWidth - widthOffset));
+                    this.CreateAddCell(i, j, new Vector3((j + longitude) * cellsWidth + widthOffset, 0.01f, -(i + latitude) * cellsWidth - widthOffset));
                 }
             }
         }
@@ -217,7 +229,7 @@ namespace DownBelow.GridSystem
                     this.Cells = newCells;
                     for (int i = oldHeight; i < newHeight; i++)
                         for (int j = 0; j < oldWidth; j++)
-                            this.CreateAddCell(i, j, new Vector3(j * cellsWidth + widthOffset, 0.075f, -i * cellsWidth));
+                            this.CreateAddCell(i, j, new Vector3(j * cellsWidth + widthOffset, 0.01f, -i * cellsWidth));
                 }
             }
             // Resize the width
@@ -236,7 +248,7 @@ namespace DownBelow.GridSystem
                     this.Cells = newCells;
                     for (int j = oldWidth; j < newWidth; j++)
                         for (int i = 0; i < oldHeight; i++)
-                            this.CreateAddCell(i, j, new Vector3(j * cellsWidth + widthOffset, 0.075f, -i * cellsWidth));
+                            this.CreateAddCell(i, j, new Vector3(j * cellsWidth + widthOffset, 0.01f, -i * cellsWidth));
                 }
             }
         }

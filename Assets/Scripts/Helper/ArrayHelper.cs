@@ -1,10 +1,7 @@
 using DownBelow.GridSystem;
-using EODE.Wonderland;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using static UnityEngine.UI.Image;
 
 public static class ArrayHelper
 {
@@ -41,12 +38,34 @@ public static class ArrayHelper
         return res.ToArray();
     }
 
-    public static T Random<T>(this T[,] array)
+    public static T Random<T>(this T[,] array, string hash)
     {
-        int x = UnityEngine.Random.Range(0, array.GetLength(0));
-        int y = UnityEngine.Random.Range(0, array.GetLength(1));
+        Random rng = new Random(hash.GetHashCode());
+
+        int x = rng.Next(0, array.GetLength(0));
+        int y = rng.Next(0, array.GetLength(1));
 
         return array[x, y];
+    }
+
+    public static Cell RandomWalkable(this Cell[,] array, string hash)
+    {
+        Random rng = new Random(hash.GetHashCode());
+
+        List<Cell> availableCells = new List<Cell>();
+
+        for (int i = 0; i < array.GetLength(0); i++)
+        {
+            for (int j = 0; j < array.GetLength(1); j++)
+            {
+                if(array[i, j].Datas.state == CellState.Walkable)
+                {
+                    availableCells.Add(array[i, j]);
+                }
+            }
+        }
+
+        return availableCells[rng.Next(0, availableCells.Count)];
     }
 
     public static bool Contains<T>(this T[,] array, T value)

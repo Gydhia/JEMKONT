@@ -443,8 +443,8 @@ MonoBehaviour:
   Title: Sow & Reap
   Cost: 2
   CardType: 1
-  Description: Create a Rune, after 3 turns, all allies in a radius have their damage
-    increased.
+  Description: Create a Rune, after 3 turns, all allies in a radius have their strength
+    increased by X.
   IllustrationImage: {fileID: 21300000, guid: 1809c49a81359f34abbc86649794389e, type: 3}
   Class: 2
   CurrentSpellTargetting: 0

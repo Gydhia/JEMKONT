@@ -28,12 +28,12 @@ namespace DownBelow.Spells
         public override async Task DoSpellBehavior()
         {
             await base.DoSpellBehavior();
-            GetTargets(TargetCell);
             foreach (Cell targetCell in TargetedCells)
             {
                 Managers.CombatManager.Instance.StartCoroutine(SummonNCE(targetCell, LocalData, RefEntity));
             }
-            
+
+            EndAction();
         }
 
         public static IEnumerator<NonCharacterEntity> SummonNCE(Cell cell, SpellData_Summon summondata, CharacterEntity RefEntity)

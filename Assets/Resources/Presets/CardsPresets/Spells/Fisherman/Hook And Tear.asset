@@ -704,7 +704,7 @@ MonoBehaviour:
       Data: true
     - Name: TargetType
       Entry: 3
-      Data: 262
+      Data: 278
     - Name: ProjectileSFX
       Entry: 10
       Data: 0
@@ -713,7 +713,7 @@ MonoBehaviour:
       Data: 1
     - Name: PushType
       Entry: 3
-      Data: 4
+      Data: 5
     - Name: PushDelay
       Entry: 4
       Data: 0
@@ -722,7 +722,7 @@ MonoBehaviour:
       Data: 1
     - Name: PushDamages
       Entry: 3
-      Data: 3
+      Data: 30
     - Name: PushDamagesMultiplier
       Entry: 4
       Data: 1
@@ -761,7 +761,7 @@ MonoBehaviour:
       Data: 
     - Name: CasterID
       Entry: 1
-      Data: a57c3f5a-4545-477d-a846-f77a19b07429Fisherman
+      Data: 689f4df9-82e0-42d2-9ed6-be6029cfe916Fisherman
     - Name: 
       Entry: 8
       Data: 
@@ -1469,7 +1469,7 @@ MonoBehaviour:
   Cost: 2
   CardType: 2
   Description: Choose a direction, attract everything in a straight line in that
-    direction by 1 tiles and deal X damage.
+    direction by 1 tiles and deal 30 damage.
   IllustrationImage: {fileID: 21300000, guid: 3e70afd6c42a6c1449f3f632d62f8059, type: 3}
   Class: 3
   CurrentSpellTargetting: 0

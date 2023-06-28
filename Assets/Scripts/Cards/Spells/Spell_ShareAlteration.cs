@@ -1,6 +1,5 @@
 using DownBelow.Entity;
 using DownBelow.GridSystem;
-using ExternalPropertyAttributes;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -19,8 +18,9 @@ namespace DownBelow.Spells
         {
             await base.DoSpellBehavior();
 
-            GetTargets(TargetCell)
-                .ForEach(x=>x.AddAlterations(RefEntity.Alterations.FindAll(x=>x.GetType() == LocalData.GetType())));
+            foreach (var x in TargetEntities) {
+                x.AddAlterations(RefEntity.Alterations.FindAll(x => x.GetType() == LocalData.GetType()));
+			}
         }
     }
 }

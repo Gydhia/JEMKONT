@@ -1,4 +1,5 @@
 using DownBelow.Events;
+using DownBelow.GridSystem;
 using DownBelow.Managers;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,6 +11,9 @@ namespace DownBelow.UI
     public class UIEnchantSection : MonoBehaviour
     {
         public Transform ItemsHolder;
+
+        public InteractableEnchantTable CurrentTable;
+
         public UIEnchantItem EnchantItemPrefab;
 
         public List<UIEnchantItem> EnchantItems = new List<UIEnchantItem>();
@@ -37,11 +41,14 @@ namespace DownBelow.UI
 
         public void ClosePanel()
         {
+            this.CurrentTable = null;
             this.gameObject.SetActive(false);
         }
 
-        public void OpenPanel()
+        public void OpenPanel(InteractableEnchantTable table)
         {
+            this.CurrentTable = table;
+
             this.gameObject.SetActive(true);
 
             foreach (var enchantItem in this.EnchantItems)

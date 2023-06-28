@@ -679,6 +679,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1619208123686391851}
   - component: {fileID: 6247681505854076104}
+  - component: {fileID: 7788073255095171724}
   m_Layer: 0
   m_Name: character_mesh
   m_TagString: Untagged
@@ -783,6 +784,24 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.011662781, y: 0.047779545, z: -0.10497174}
     m_Extent: {x: 0.91326326, y: 0.29325974, z: 0.8843049}
   m_DirtyAABB: 0
+--- !u!114 &7788073255095171724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5949920946769249573}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 4
+  outlineColor: {r: 1, g: 1, b: 1, a: 0.5019608}
+  outlineWidth: 2
+  precomputeOutline: 1
+  bakeKeys: []
+  bakeValues: []
 --- !u!1 &6072179033474684954
 GameObject:
   m_ObjectHideFlags: 0
@@ -1177,9 +1196,10 @@ GameObject:
   m_Component:
   - component: {fileID: 587424542633179983}
   - component: {fileID: -4998914615591247022}
+  - component: {fileID: 7483973318761063262}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1215,6 +1235,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfe970a6b3853e9438f6751890782215, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AttackSFX: {fileID: 11400000, guid: b025b03493713bc4e9a9f32834240c64, type: 2}
+  RefStats: {fileID: 0}
   TurnOrder: 0
   IsAlly: 1
   IsPlayingEntity: 0
@@ -1235,11 +1257,12 @@ MonoBehaviour:
   NumberOfTurnsPlayed: 0
   Owner: {fileID: 0}
   IsFake: 0
-  Index: -1
+  PlayerIndex: -1
   PlayerInventory:
     RefCell: {fileID: 0}
     StorageItems: []
     MaxSlots: 0
+    OnlyTake: 0
   NextInteract: {fileID: 0}
   ToolHolder: {fileID: 2445502742508925622}
   PlayerView: {fileID: 0}
@@ -1249,10 +1272,24 @@ MonoBehaviour:
     RefCell: {fileID: 0}
     StorageItems: []
     MaxSlots: 0
-  CurrentSelectedItem: {fileID: 0}
+    OnlyTake: 0
   IsAutoAttacking: 0
-  inventorySlotSelected: 0
+  ToolOutline: {fileID: 0}
+  PlayerOutline: {fileID: 7788073255095171724}
   theList: 0
+--- !u!65 &7483973318761063262
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8551188508102764981}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1.7, z: 1}
+  m_Center: {x: 0, y: 0.85, z: 0}
 --- !u!1 &9019159985274112074
 GameObject:
   m_ObjectHideFlags: 0
@@ -1280,7 +1317,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9019159985274112074}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: -1.04, z: 0}
+  m_LocalPosition: {x: 0, y: -0.88, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1353,13 +1390,7 @@ MonoBehaviour:
     Name: Speed
   - Type: 9
     SynchronizeType: 0
-    Name: Hit
-  - Type: 9
-    SynchronizeType: 0
     Name: Cast
-  - Type: 9
-    SynchronizeType: 0
-    Name: Melee
   - Type: 9
     SynchronizeType: 1
     Name: Gather_Pick
@@ -1372,6 +1403,12 @@ MonoBehaviour:
   - Type: 9
     SynchronizeType: 1
     Name: Gather_Fish
+  - Type: 9
+    SynchronizeType: 0
+    Name: OnHit
+  - Type: 9
+    SynchronizeType: 0
+    Name: Attack
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
@@ -1585,7 +1622,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2919703978631575511, guid: 65d69de924683f44a912d49d2c65c6af, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 1.2999998
+      value: 1.4
       objectReference: {fileID: 0}
     - target: {fileID: 2919703978631575511, guid: 65d69de924683f44a912d49d2c65c6af, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1643,7 +1680,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6827766241666734997, guid: 58f029317940c444fb9bd1b31850c1f8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6827766241666734997, guid: 58f029317940c444fb9bd1b31850c1f8, type: 3}
       propertyPath: m_LocalPosition.z

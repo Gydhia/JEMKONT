@@ -9,7 +9,7 @@ namespace DownBelow.Spells
 {
     public class SpellData_HomemadeTransfusion : SpellData
     {
-        [Tooltip("Reminder: target is healed by this. If he is still hurt, he is dealt this*2 damage.")]
+        [Tooltip("Reminder: target is healed by X. If he is still hurt, he is dealt X*2 damage.")]
         public int HealingValue;
     }
 
@@ -22,7 +22,7 @@ namespace DownBelow.Spells
         public override async Task DoSpellBehavior()
         {
             await base.DoSpellBehavior();
-            var target = GetTargets(TargetCell)[0];
+            var target = TargetEntities[0];
             target.ApplyStat(EntityStatistics.Health, LocalData.HealingValue);
             if (target.Health < target.MaxHealth)
             {

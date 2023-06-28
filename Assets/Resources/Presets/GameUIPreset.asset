@@ -139,10 +139,12 @@ MonoBehaviour:
       Data: 
   ItemPrefab: {fileID: 595109141347629658, guid: c569c18bedea3c04ca15d7e822d8cce5, type: 3}
   ItemCase: {fileID: 21300000, guid: 8834cbac06de956409fb4033f0d3bb97, type: 3}
-  SlotsByPlayer: 0a000000080000000600000004000000
+  SlotsByPlayer: 06000000040000000400000004000000
   AttackColor: {r: 0.8396226, g: 0.31287822, b: 0.31287822, a: 1}
   PowerColor: {r: 0.40744036, g: 0.52402294, b: 0.7924528, a: 1}
   SkillColor: {r: 0.9150943, g: 0.7989495, b: 0.2978373, a: 1}
+  ToolAttackColor: {r: 0.83921576, g: 0.3137255, b: 0.3137255, a: 1}
+  ToolHoverColor: {r: 1, g: 0.45, b: 0.45, a: 1}
   Ally: {fileID: 21300000, guid: 8ffef94fef0791440a2d5c4fe41939ed, type: 3}
   Dead: {fileID: 21300000, guid: 945c94fa95e16461b814ba86437b2f71, type: 3}
   SelectedBackground: {fileID: 21300000, guid: f139613dc3ca24233a05524c5162cdd8, type: 3}

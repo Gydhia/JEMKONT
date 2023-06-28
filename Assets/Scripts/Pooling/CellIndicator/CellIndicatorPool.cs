@@ -163,9 +163,9 @@ namespace DownBelow.Pools
                 {
                     CellIndicator indicator = this._spellsRef[cell];
                     // We're gonna override this color
-                    if (indicator.Color == GreenColor && isShape)
+                    if ((indicator.Color == GreenColor || indicator.Color == GreenColorTransparent) && isShape)
                     {
-                        indicator.IsOveridden = true;
+                        indicator.OveriddenColor = indicator.Color;
                         indicator.Color = RedColor;
                     }
                 }
@@ -179,10 +179,10 @@ namespace DownBelow.Pools
                 var indicator = this._spellsRef.ElementAt(i).Value;
                 if (indicator.Color == RedColor)
                 {
-                    if (indicator.IsOveridden)
+                    if (indicator.OveriddenColor != null)
                     {
-                        indicator.Color = GreenColor;
-                        indicator.IsOveridden = false;
+                        indicator.Color = indicator.OveriddenColor.Value;
+                        indicator.OveriddenColor = null;
                     }
                     else
                     {
@@ -280,7 +280,7 @@ namespace DownBelow.Pools
             {
                 for (int j = 0; j < range; j++)
                 {
-                    int distance = ManhattanDistance(i, j, player.Range, player.Range);
+                    int distance = GridUtility.ManhattanDistance(i, j, player.Range, player.Range);
                     attackRange[i, j] = distance <= player.Range;
                 }
             }
@@ -299,10 +299,7 @@ namespace DownBelow.Pools
             }
         }
 
-        private int ManhattanDistance(int firstBase, int secondBase, int firstTarget, int secondTarget)
-        {
-            return Mathf.Abs(firstBase - firstTarget) + Mathf.Abs(secondBase - secondTarget);
-        }
+        
 
         #endregion
     }

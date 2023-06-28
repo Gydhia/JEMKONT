@@ -14,18 +14,24 @@ namespace DownBelow.Entity
         {
         }
 
-        public override void ExecuteAction()
+        public async override void ExecuteAction()
         {
             // Should be a TargettingAction that return the cell to target, aka the entity. Only for Enemies 
             if (this.contextAction != null)
             {
+                Debug.Log(contextAction.TargetCell);
                 this.ProcessContextAction();
             }
             
             if (this._isInRange())
             {
                 this.RefEntity.Animator.SetTrigger("Attack");
-                TargetCell.EntityIn.ApplyStat(EntityStatistics.Health, -(this.RefEntity.Strength * 3));
+
+                await SFXManager.Instance.DOSFX(new Mechanics.RuntimeSFXData(this.RefEntity.AttackSFX, this.RefEntity, this.TargetCell, null));
+
+                int damage = Mathf.Min(TargetCell.EntityIn.Defense - (this.RefEntity.Strength),0);
+                //TODO: if damage == 0, feedback?
+				TargetCell.EntityIn.ApplyStat(EntityStatistics.Health, damage);
             }
 
             this.EndAction();
@@ -40,8 +46,6 @@ namespace DownBelow.Entity
             var path = GridManager.Instance.FindPath(this.RefEntity, targPosition, true);
             return path != null && path.Count <= this.RefEntity.Range;
         }
-
-
 
         public override object[] GetDatas()
         {

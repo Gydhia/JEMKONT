@@ -16,16 +16,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4027809865310250297}
     - target: {fileID: 1431573493514449160, guid: cb1bb2b81a4acd043865938c346ae768, type: 3}
+      propertyPath: AttackSFX
+      value: 
+      objectReference: {fileID: 11400000, guid: eeb8c1331003cbc458f9ad524ab8c394, type: 2}
+    - target: {fileID: 1431573493514449160, guid: cb1bb2b81a4acd043865938c346ae768, type: 3}
       propertyPath: EnemyStyle
       value: 
       objectReference: {fileID: 11400000, guid: 884093700e88f0742b307d440fa708d2, type: 2}
     - target: {fileID: 1431573493514449160, guid: cb1bb2b81a4acd043865938c346ae768, type: 3}
       propertyPath: TargetType
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1431573493514449160, guid: cb1bb2b81a4acd043865938c346ae768, type: 3}
       propertyPath: attackType
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1431573493514449160, guid: cb1bb2b81a4acd043865938c346ae768, type: 3}
       propertyPath: EntityHolder

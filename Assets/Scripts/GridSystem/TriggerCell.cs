@@ -36,7 +36,24 @@ namespace DownBelow.GridSystem
         {
             if(Data.Cell == this.RefCell)
             {
+                this._unsubscribe();
                 UIManager.Instance.DialogSection.ShowDialog(this.Preset);
+            }
+        }
+
+        private void OnDestroy()
+        {
+            this._unsubscribe();
+        }
+
+        private void _unsubscribe()
+        {
+            if(GameManager.Instance != null && GameManager.Instance.Players != null)
+            {
+                foreach (var player in GameManager.Instance.Players.Values)
+                {
+                    player.OnEnteredCell -= OnTrigger;
+                }
             }
         }
     }

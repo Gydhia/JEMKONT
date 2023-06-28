@@ -109,14 +109,17 @@ namespace DownBelow.UI.Menu
         public void OnSelfLeftRoom()
         {
             this._clearPlayers();
-
-            this.LeaveRoomBtn.interactable = false;
         }
         private void _clearPlayers()
         {
             // Destroy existing players
             for (int i = 0; i < this._playerList.Count; i++)
-                Destroy(this._playerList[i].gameObject);
+            {
+                if(this._playerList[i] != null)
+                {
+                    Destroy(this._playerList[i].gameObject);
+                }
+            }
 
             this._playerList.Clear();
         }

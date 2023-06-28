@@ -18,8 +18,13 @@ namespace DownBelow.UI
         [SerializeField] private Image _weaponImage;
         [SerializeField] private Image _ownedImage;
         [SerializeField] private TextMeshProUGUI _ownedInput;
+        [SerializeField] private Button _ownedButton;
         [SerializeField] private GameObject _selected;
+        [SerializeField] private Image _selectedImage;
 
+        [SerializeField] private Color _enemySelectedColor;
+        [SerializeField] private Color _playerSelectedColor;
+        
         private CharacterEntity _refEntity;
 
         public void Init(CharacterEntity character, bool selected)
@@ -36,7 +41,8 @@ namespace DownBelow.UI
             {
                 this._ownedImage.gameObject.SetActive(CombatManager.Instance.IsPlayerOrOwned(player));
                 this._weaponImage.sprite = player.CombatTool.FightIcon;
-                this._ownedInput.text = (player.Index + 1).ToString();
+                this._ownedInput.text = (player.PlayerIndex + 1).ToString();
+                this._ownedButton.onClick.AddListener(() => CombatManager.Instance.SwitchSelectedPlayer(player.PlayerIndex));
             }
             else
             {
@@ -54,9 +60,14 @@ namespace DownBelow.UI
 
         public void SetSelected(bool selected)
         {
-            this._playingBackground.sprite = selected ?
+          /*  this._playingBackground.sprite = selected ?
                 SettingsManager.Instance.GameUIPreset.SelectedBackground :
-                SettingsManager.Instance.GameUIPreset.NormalBackground;
+                SettingsManager.Instance.GameUIPreset.NormalBackground;*/
+
+            if (selected)
+            {
+                this._selectedImage.color = _refEntity.IsAlly ? _playerSelectedColor : _enemySelectedColor;
+            }
         }
 
         public void SetDead(EntityEventData Data)
@@ -70,6 +81,7 @@ namespace DownBelow.UI
 
         private void OnDestroy()
         {
+            this._ownedButton.onClick.RemoveAllListeners();
             this._refEntity.OnDeath -= this.SetDead;
             if(GameManager.Instance != null)
                 GameManager.Instance.OnSelfPlayerSwitched -= _toggleSelectedState;

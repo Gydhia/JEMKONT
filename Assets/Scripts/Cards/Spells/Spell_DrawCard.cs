@@ -29,9 +29,9 @@ namespace DownBelow.Spells
         {
             await base.DoSpellBehavior();
 
-            //Need to separate card draw
-            if (this.RefEntity is PlayerBehavior player)
+            foreach (var entity in this.TargetEntities)
             {
+                var player = entity as PlayerBehavior;
                 for (int i = 0; i < LocalData.DrawNumber; i++)
                 {
                     if (LocalData.SpecificCard != null)
@@ -42,9 +42,8 @@ namespace DownBelow.Spells
                     {
                         player.Deck.DrawCard();
                     }
-                }
+                }   
             }
         }
     }
-
 }

@@ -10,8 +10,6 @@ using DownBelow.Events;
 using System;
 using Newtonsoft.Json;
 using DownBelow.Loading;
-using EODE.Wonderland;
-using static UnityEditor.Progress;
 
 namespace DownBelow.Managers
 {
@@ -559,13 +557,13 @@ namespace DownBelow.Managers
 
         public void GiftOrRemovePlayerItem(string playerID, ItemPreset item, int quantity, int preferedSlot = -1)
         {
-            this.photonView.RPC("RPC_RespondGiftOrRemovePlayerItem", RpcTarget.All, GameManager.SelfPlayer.UID, item.UID.ToString(), quantity, preferedSlot);
+            this.photonView.RPC("RPC_RespondGiftOrRemovePlayerItem", RpcTarget.All, playerID, item.UID.ToString(), quantity, preferedSlot);
         }
 
         [PunRPC]
         public void RPC_RespondGiftOrRemovePlayerItem(string playerID, string itemID, int quantity, int preferedSlot = -1)
         {
-            var storage = GameManager.RealSelfPlayer.PlayerInventory;
+            var storage = GameManager.Instance.Players[playerID].PlayerInventory;
             var item = SettingsManager.Instance.ItemsPresets[System.Guid.Parse(itemID)];
 
             if (quantity > 0)
@@ -575,6 +573,41 @@ namespace DownBelow.Managers
             else
             {
                 storage.RemoveItem(item, -quantity, preferedSlot);
+            }
+        }
+
+        public void DestroyInteractable(Interactable interactable)
+        {
+            this.photonView.RPC("RPC_RespondDestroyInteractable", RpcTarget.All,
+                interactable.RefCell.Datas.widthPos, interactable.RefCell.Datas.heightPos, interactable.RefCell.RefGrid.UName);
+        }
+
+        [PunRPC]
+        public void RPC_RespondDestroyInteractable(int longitude, int latitude, string refGrid)
+        {
+            Cell targetCell = GridManager.Instance.WorldGrids[refGrid].Cells[latitude, longitude];
+
+            if (targetCell != null && targetCell.AttachedInteract != null)
+            {
+                targetCell.AttachedInteract.RemoveSelf();
+            }
+        }
+
+
+        public void ApplyInteractableDurability(Interactable interactable, int durabilityModification = -1)
+        {
+            this.photonView.RPC("RPC_RespondInteractableDurability", RpcTarget.All, 
+                interactable.RefCell.Datas.widthPos, interactable.RefCell.Datas.heightPos, durabilityModification, interactable.RefCell.RefGrid.UName);
+        }
+
+        [PunRPC]
+        public void RPC_RespondInteractableDurability(int longitude, int latitude, int durabilityModification, string refGrid)
+        {
+            Cell targetCell = GridManager.Instance.WorldGrids[refGrid].Cells[latitude, longitude];
+
+            if(targetCell != null && targetCell.AttachedInteract != null)
+            {
+                targetCell.AttachedInteract.ModifyDurability(durabilityModification);
             }
         }
 
@@ -602,17 +635,28 @@ namespace DownBelow.Managers
         }
         #region TURNS
 
+        private bool _turnOnGoing = false;
 
         public void StartEntityTurn()
         {
-            this._playersNetState.Clear();
+            if (PhotonNetwork.IsMasterClient)
+            {
+                this._playersNetState.Clear();
 
-            this.photonView.RPC("NotifyPlayerStartTurn", RpcTarget.All);
+                this.photonView.RPC("NotifyPlayerStartTurn", RpcTarget.All);
+            }
         }
 
         [PunRPC]
         public void NotifyPlayerStartTurn()
         {
+            if (_turnOnGoing)
+            {
+                return;
+            }
+
+            _turnOnGoing = true;
+
             CombatManager.Instance.ProcessStartTurn();
 
             CombatManager.CurrentPlayingEntity.StartTurn();
@@ -626,13 +670,15 @@ namespace DownBelow.Managers
             this._playersNetState.Add(PlayerID);
 
             // When all players have started the playing entity's turn, create the actions IF it's an enemy
-            if (this._playersNetState.Count >= GameManager.Instance.Players.Count)
+            if (this._playersNetState.Count >= GameManager.Instance.Players.Values.Count(p => p.CurrentGrid.IsCombatGrid))
             {
                 this._playersNetState.Clear();
 
                 if (CombatManager.CurrentPlayingEntity is EnemyEntity enemy)
                 {
-                    this.EntityAskToBuffActions(enemy.CreateEnemyActions());
+                    if (!enemy.Sleeping && !enemy.Stunned) {
+                        this.EntityAskToBuffActions(enemy.CreateEnemyActions());
+                    }
                 }
             }
         }
@@ -642,6 +688,7 @@ namespace DownBelow.Managers
         /// </summary>
         public void PlayerAsksEndTurn()
         {
+            _turnOnGoing = false;
             this.photonView.RPC("RespondMasterEndEntityTurn", RpcTarget.MasterClient, GameManager.RealSelfPlayer.UID);
         }
 
@@ -650,8 +697,9 @@ namespace DownBelow.Managers
         {
             this._playersNetState.Add(PlayerID);
 
-            if (this._playersNetState.Count >= GameManager.Instance.Players.Count)
+            if (this._playersNetState.Count >= GameManager.Instance.Players.Values.Count(p => p.CurrentGrid.IsCombatGrid))
             {
+                this._playersNetState.Clear();
                 this.photonView.RPC("RespondPlayerEndEntityTurn", RpcTarget.All, PlayerID);
             }
         }
@@ -659,6 +707,7 @@ namespace DownBelow.Managers
         [PunRPC]
         public void RespondPlayerEndEntityTurn(string PlayerID)
         {
+            this._turnOnGoing = false;
             this._playersNetState.Clear();
 
             // Each player process it 
@@ -672,13 +721,18 @@ namespace DownBelow.Managers
         {
             this._playersNetState.Add(PlayerID);
 
-            if (this._playersNetState.Count >= GameManager.Instance.Players.Count)
+            if (this._playersNetState.Count >= GameManager.Instance.Players.Values.Count(p => p.CurrentGrid.IsCombatGrid))
             {
+                this._playersNetState.Clear();
                 this.StartEntityTurn();
             }
         }
 
 
+        public void EndOfCombat()
+        {
+            this._turnOnGoing = false;
+        }
 
         // TODO : Make a generic answer architecture for network such as EntityActions
         /*
@@ -725,8 +779,7 @@ namespace DownBelow.Managers
                 // We go here only if starting from game scene
                 GameData.Game.RefGameDataContainer = GameManager.MakeBaseGame("DownBelowBase");
 
-                GridManager.Instance.CreateWholeWorld(GameData.Game.RefGameDataContainer);
-                GameManager.Instance.ProcessPlayerWelcoming();
+                GameManager.Instance.SetupGameWithData();
             }
             
         }
@@ -739,7 +792,10 @@ namespace DownBelow.Managers
 
         public override void OnLeftRoom()
         {
-            MenuManager.Instance?.UIRoom?.OnSelfLeftRoom();
+            if(MenuManager.Instance != null && MenuManager.Instance.UIRoom != null)
+            {
+                MenuManager.Instance?.UIRoom?.OnSelfLeftRoom();
+            }
         }
 
         public override void OnPlayerLeftRoom(Player otherPlayer)

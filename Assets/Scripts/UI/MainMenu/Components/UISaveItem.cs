@@ -98,7 +98,6 @@ namespace DownBelow.UI.Menu
 
         public void OnClickSave()
         {
-            this.SelfButton.interactable = false;
             MenuManager.Instance.SelectSave(this._savegame);
         }
     }

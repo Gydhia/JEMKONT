@@ -53,9 +53,10 @@ MonoBehaviour:
   Type: 0
   ItemName: Pickaxe
   InventoryIcon: {fileID: 21300000, guid: 995ee7a24a7e4fb4b8494218405c38c9, type: 3}
-  ItemPrefab: {fileID: 0}
   MaxStack: 1
   DroppedItemPrefab: {fileID: 7739723291343268816, guid: 3cbe0f95e245ecd42bb5acdb236db949, type: 3}
+  Description: "Use this tool to collect Ores ! Ores is used to build useful workshops
+    !\r"
   DeckPreset: {fileID: 11400000, guid: 65297000a20289941b928d0d23e05aa5, type: 2}
   Class: 0
   ActualPlayer: {fileID: 0}
@@ -75,3 +76,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 607832195c7922143b94e3a619ce33a9, type: 2}
   CurrentLevel: 0
   CharacterTexture: {fileID: 2800000, guid: 2afca95c9c0c3c049bdb0c198c2e1a2f, type: 3}
+  CombatDescription: 'The Miner is a tanky melee fighter, block paths and absorb
+    damage to safekeep your allies !
+
+
+    - Hold <b>[ALT]</b> for more datas.
+
+    -
+    Drag and drop your player to <b>Auto-Attack</b>'

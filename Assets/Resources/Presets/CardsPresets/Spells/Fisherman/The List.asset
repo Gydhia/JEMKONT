@@ -361,7 +361,7 @@ MonoBehaviour:
       Data: false
     - Name: TargetType
       Entry: 3
-      Data: 262
+      Data: 2
     - Name: ProjectileSFX
       Entry: 10
       Data: 0
@@ -407,7 +407,7 @@ MonoBehaviour:
   Title: The List
   Cost: 1
   CardType: 2
-  Description: For each time you played the list (including this one), deal 2 damage.
+  Description: For each time you played the list (including this one), deal 10 damage.
   IllustrationImage: {fileID: 21300000, guid: f4c35258a0d01414f97a618781f0f2a6, type: 3}
   Class: 3
   CurrentSpellTargetting: 0

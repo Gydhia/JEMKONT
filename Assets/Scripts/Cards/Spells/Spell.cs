@@ -21,7 +21,7 @@ namespace DownBelow.Spells
         protected T LocalData => this.Data as T;
 
         protected Spell(SpellData CopyData, CharacterEntity RefEntity, Cell TargetCell, Spell ParentSpell, TargettingCondition targCond, CastingCondition castCond)
-            : base(CopyData, RefEntity, TargetCell, ParentSpell, targCond,castCond)
+            : base(CopyData, RefEntity, TargetCell, ParentSpell, targCond, castCond)
         {
         }
     }
@@ -70,21 +70,25 @@ namespace DownBelow.Spells
         public override async void ExecuteAction()
         {
             Debug.LogWarning($"Executing spell {RefCard.Title}");
-            int cost = RefCard.Cost;
+            
+            // Mana cost
             if (this.ParentSpell == null)
             {
-                this.RefEntity.ApplyStat(EntityStatistics.Mana, -cost);
+                this.RefEntity.ApplyStat(EntityStatistics.Mana, -RefCard.Cost);
                 // Only play animation at first spell
                 this.RefEntity.Animator.SetTrigger("Cast");
+
+                this._tryDiscard();
             }
 
             if (!this.ValidateConditions())
             {
                 EndAction();
                 return;
-            } else
+            }
+            else
             {
-                this.TargetEntities = this.GetTargets(this.TargetCell);
+                this.TargetEntities = this.SetTargets(this.TargetCell);
 
                 this.Result = new SpellResult();
                 this.Result.Setup(this.TargetEntities, this);
@@ -93,42 +97,78 @@ namespace DownBelow.Spells
             }
         }
 
+        private void _tryDiscard()
+        {
+            // Another player played the card, we need to remove it from deck. Either way, it's locally done
+            if (!CombatManager.Instance.IsPlayerOrOwned(this.RefEntity))
+            {
+                var cardsHolder = (this.RefEntity as PlayerBehavior).Deck.RefCardsHolder;
+                // Find the corresponding card
+                var correspondingCard = cardsHolder.Piles[PileType.Hand].Cards.FirstOrDefault(c => c.CardReference.UID == this.SpellHeader.RefCard);
+
+                if (correspondingCard != null)
+                {
+                    cardsHolder.MoveCard(PileType.Hand, PileType.Discard, correspondingCard, false);
+                }
+                else
+                {
+                    Debug.LogError("Moving a draggable card from multiplayer failed ; " + SettingsManager.Instance.ScriptableCards[SpellHeader.RefCard] + " couldn't be found in hand");
+                }
+            }
+        }
+
         public virtual async Task DoSpellBehavior()
         {
-            if (Data.ProjectileSFX != null)
+            try
             {
-                if (Data.RequiresTargetting)
+                if (Data.ProjectileSFX != null)
                 {
-                    await SFXManager.Instance.DOSFX(new RuntimeSFXData(Data.ProjectileSFX, RefEntity, TargetCell, this));
-                }
-                else if(Data.SpellResultTargeting){
-                    await SFXManager.Instance.DOSFX(new RuntimeSFXData(Data.ProjectileSFX, RefEntity, GetSpellFromIndex(Data.SpellResultIndex).TargetCell, this));
-                } else
-                {
-                    for (int i = 0;i < TargetEntities.Count;i++)
+                    if (Data.RequiresTargetting)
                     {
-                        CharacterEntity item = TargetEntities[i];
-                        if(i == TargetEntities.Count - 1)
+                        await SFXManager.Instance.DOSFX(new RuntimeSFXData(Data.ProjectileSFX, RefEntity, TargetCell, this));
+                    }
+                    else if (Data.SpellResultTargeting)
+                    {
+                        await SFXManager.Instance.DOSFX(new RuntimeSFXData(Data.ProjectileSFX, RefEntity, GetSpellFromIndex(Data.SpellResultIndex).TargetCell, this));
+                    }
+                    else
+                    {
+                        for (int i = 0; i < TargetEntities.Count; i++)
                         {
-                            await SFXManager.Instance.DOSFX(new RuntimeSFXData(Data.ProjectileSFX, RefEntity, item.EntityCell, this));
-                        } else
-                        {
-                            SFXManager.Instance.DOSFX(new RuntimeSFXData(Data.ProjectileSFX, RefEntity, item.EntityCell, this));
+                            CharacterEntity item = TargetEntities[i];
+                            if (i == TargetEntities.Count - 1)
+                            {
+                                await SFXManager.Instance.DOSFX(new RuntimeSFXData(Data.ProjectileSFX, RefEntity, item.EntityCell, this));
+                            }
+                            else
+                            {
+                                SFXManager.Instance.DOSFX(new RuntimeSFXData(Data.ProjectileSFX, RefEntity, item.EntityCell, this));
+                            }
                         }
                     }
                 }
-            }
-            if (Data.CellSFX != null && TargetedCells != null && TargetedCells.Count != 0)
-            {
-                for (int i = 0;i < TargetedCells.Count;i++)
+                if (Data.CellSFX != null && TargetedCells != null && TargetedCells.Count != 0)
                 {
-                    var targetedCell = this.TargetedCells[i];
-                    if (i != TargetedCells.Count)
-                        //Not awaiting since we want to do it all. Suggestion could be to wait 0.05s to have some kind of wave effect.
-                        SFXManager.Instance.DOSFX(new(Data.CellSFX, RefEntity, targetedCell, this));
-                    else
-                        await SFXManager.Instance.DOSFX(new(Data.CellSFX, RefEntity, targetedCell, this));
+                    for (int i = 0; i < TargetedCells.Count; i++)
+                    {
+                        var targetedCell = this.TargetedCells[i];
+                        if (TargettingCondition == null || TargettingCondition.Validated(targetedCell))
+                        {
+                            if (i != TargetedCells.Count)
+                                //Not awaiting since we want to do it all. Suggestion could be to wait 0.05s to have some kind of wave effect.
+                                SFXManager.Instance.DOSFX(new(Data.CellSFX, RefEntity, targetedCell, this));
+                            else
+                                await SFXManager.Instance.DOSFX(new(Data.CellSFX, RefEntity, targetedCell, this));
+                        }
+
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError("Doing spell behaviour provoked and error. Safe end\n" + ex.Message);
+                this.EndAction();
+                return;
             }
         }
 
@@ -141,26 +181,37 @@ namespace DownBelow.Spells
             base.EndAction();
         }
 
-        public List<CharacterEntity> GetTargets(Cell cellTarget)
+        public List<CharacterEntity> SetTargets(Cell cellTarget)
         {
             if (Data.SpellResultTargeting)
             {
                 var spell = GetSpellFromIndex(Data.SpellResultIndex);
                 TargetedCells = spell.TargetedCells;
-            } else if (this.Data.RequiresTargetting)
+            }
+            else if (this.Data.RequiresTargetting)
             {
-                TargetedCells = GridUtility.TransposeShapeToCells(ref Data.RotatedShapeMatrix, cellTarget, Data.RotatedShapePosition);
-                NCEHits = TargetedCells
-                    .FindAll(cell => cell.AttachedNCE != null)
-                    .Select(cell => cell.AttachedNCE)
-                    .ToList();
-            } else
+                try
+                {
+                    TargetedCells = GridUtility.TransposeShapeToCells(ref Data.RotatedShapeMatrix, cellTarget, Data.RotatedShapePosition);
+                    NCEHits = TargetedCells
+                        .Where(cell => cell.AttachedNCE != null)
+                        .Select(cell => cell.AttachedNCE)
+                        .ToList();
+                }
+                catch(Exception ex)
+                {
+                    Debug.LogError("SPELL " + this.SpellHeader.RefCard + " COULDNT WORK. Stopped it here\n" + ex.Message);
+                    this.EndAction();
+                    return null;
+                }
+            }
+            else
             {
                 TargetedCells = new();
                 List<Cell> TargetCellsToTranspose = new List<Cell>();
                 if (this.Data.TargetType.HasFlag(ETargetType.None))
                 {
-                    //rien?
+                   // Debug.LogError("No target has been set for this spell. Is it an error ? | " + this.RefCard.name+ " | " + this);
                 }
                 if (this.Data.TargetType.HasFlag(ETargetType.Ally))
                 {
@@ -190,9 +241,9 @@ namespace DownBelow.Spells
                 if (this.Data.TargetType.HasFlag(ETargetType.All))
                 {
                     var cells = CombatManager.Instance.PlayingEntities[0].CurrentGrid.Cells;
-                    for (int col = 0;col < cells.GetLength(0);col++)
+                    for (int col = 0; col < cells.GetLength(0); col++)
                     {
-                        for (int row = 0;row < cells.GetLength(1);row++)
+                        for (int row = 0; row < cells.GetLength(1); row++)
                         {
                             TargetCellsToTranspose.Add(cells[col, row]);
                         }
@@ -241,13 +292,12 @@ namespace DownBelow.Spells
 
         public override object[] GetDatas()
         {
-            // temporary
             return new object[0];
         }
 
         public override void SetDatas(object[] Datas)
         {
-            throw new NotImplementedException();
+            return;
         }
 
         #endregion

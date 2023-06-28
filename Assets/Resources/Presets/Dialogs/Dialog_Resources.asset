@@ -23,6 +23,15 @@ MonoBehaviour:
     SerializationNodes: []
   TalkerIcon: {fileID: 21300000, guid: 4156a0fcb5a3a49cb9e3639da32288d6, type: 3}
   Dialogs:
-  - Hello Dear adventurer !
-  - 'I hope that this place is enough welcoming to you '
-  - In fact, nothing's going pretty well these times...
+  - 'And now your best friend, ressources !
+
+    There are 4 types, wood, ores, herbs
+    and fish souls !'
+  - Just get close to one and click on it like you'd move on it...
+  - Then get ready to react quickly in order to gather the maximum of ressources
+    !
+  - 'At the top of your screen, you''ll find a meter, once it''s depleted, you can
+    no longer obtain ressources.
+
+    You''ll have to replenish it by figthing in
+    the abyss !'

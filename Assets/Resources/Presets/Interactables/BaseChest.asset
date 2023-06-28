@@ -26,7 +26,10 @@ MonoBehaviour:
       Data: 5c04a23d4ed70a3c2d10f5cb2ceb6f71
   UName: BaseChest
   AffectingState: 8
+  OverrideSave: 0
   ObjectPrefab: {fileID: 6944299834032497403, guid: 1ee5710fbb2b073409a4c6843a75c377, type: 3}
   OutlineColor: {r: 0.21404415, g: 0.48488656, b: 0.6981132, a: 1}
   InteractAnimation: {fileID: 0}
-  MaxSlots: 15
+  Durability: -1
+  DestroySFX: {fileID: 2696217829828647825, guid: 6c8094b917790524f9c7394584241ca7, type: 3}
+  MaxSlots: 7

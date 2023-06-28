@@ -8,25 +8,28 @@ using UnityEngine.UI;
 public class UICraftSectionAnim : MonoBehaviour
 {
     [Header("Gears")] 
+    [SerializeField] private GameObject _gearParent;
     [SerializeField] private Image _outerGear;
     [SerializeField] private Image _innerGear;
     
     [Header("Fire")]
+    [SerializeField] private GameObject _fireParent;
     [SerializeField] private Image _fire;
 
 
     private Sequence gearsSequence;
     private Sequence fireSequence;
-    
 
+    public Action OnCraftComplete;
+    
     public void Init()
     {
-
+        
         gearsSequence = DOTween.Sequence();
         fireSequence = DOTween.Sequence();
 
-        gearsSequence.Append(_outerGear.transform.DORotate(new Vector3(0, 0, 360), 4f).SetEase(Ease.Linear));
-        gearsSequence.Join(_innerGear.transform.DORotate(new Vector3(0, 0, 360), 4f).SetEase(Ease.Linear));
+        gearsSequence.Append(_outerGear.rectTransform.DOLocalRotate(new Vector3(0, 0, 360), 4f).SetEase(Ease.Linear)); 
+        gearsSequence.Join(_innerGear.rectTransform.DOLocalRotate(new Vector3(0, 0, 360), 4f).SetEase(Ease.Linear));
        
         gearsSequence.SetLoops(-1, LoopType.Restart);
         gearsSequence.Pause();
@@ -39,28 +42,30 @@ public class UICraftSectionAnim : MonoBehaviour
 
     public void ShowWorkshop()
     {
-        _fire.gameObject.SetActive(false);
-        _outerGear.gameObject.SetActive(true);
+        _fireParent.gameObject.SetActive(false);
+        _gearParent.gameObject.SetActive(true);
     }
 
     public void ShowFurnace()
     {
-        _fire.gameObject.SetActive(true);
-        _outerGear.gameObject.SetActive(false);
+        _fireParent.gameObject.SetActive(true);
+        _gearParent.gameObject.SetActive(false);
     }
 
-    public void TempPlayAnims()
+    public void PlayAnims()
     {
-        PlayFireSequence();
-        PlayGearsSequence();
+        if(_fireParent.gameObject.activeInHierarchy)
+            PlayFireSequence();
+        else
+            PlayGearsSequence();
     }
 
-    public void PlayGearsSequence()
+    private void PlayGearsSequence()
     {
         gearsSequence.Restart();
     }
 
-    public void PlayFireSequence()
+    private void PlayFireSequence()
     {
         fireSequence.Restart();
     }

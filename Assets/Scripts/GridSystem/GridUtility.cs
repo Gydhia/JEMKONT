@@ -13,16 +13,21 @@ namespace DownBelow.GridSystem
 {
     public static class GridUtility
     {
-        public static int Distance(Cell cell1, Cell cell2)
+        public static int ManhattanDistance(Cell cell1, Cell cell2)
         {
             int dx = Math.Abs(cell1.PositionInGrid.longitude - cell2.PositionInGrid.longitude);
             int dy = Math.Abs(cell1.PositionInGrid.latitude - cell2.PositionInGrid.latitude);
             return dx + dy;
         }
 
+        public static int ManhattanDistance(int firstBase, int secondBase, int firstTarget, int secondTarget)
+        {
+            return Mathf.Abs(firstBase - firstTarget) + Mathf.Abs(secondBase - secondTarget);
+        }
+
         public static int DistanceWith(this Cell ourcell, Cell CellToMesureDistance)
         {
-            return Distance(ourcell, CellToMesureDistance);
+            return ManhattanDistance(ourcell, CellToMesureDistance);
         }
         public static void ResizeGrid(ref CellData[,] oldCells, CellData[,] newCells)
         {
@@ -422,7 +427,7 @@ namespace DownBelow.GridSystem
             {
                 return true;
             }
-            var (width, height) = (playerRange.GetLength(1), playerRange.GetLength(0));
+            var (width, height) = (playerRange.GetLength(0), playerRange.GetLength(1));
 
             var (playerX, playerY) = (playerPos.longitude, playerPos.latitude);
 
@@ -432,34 +437,42 @@ namespace DownBelow.GridSystem
 
             var (offsetX, offsetY) = (cellX - (playerX - relativeX), cellY - (playerY - relativeY));
 
-            return offsetX >= 0 && offsetX < width && offsetY >= 0 && offsetY < height && playerRange[offsetY, offsetX];
+            return offsetX >= 0 && offsetX < width && offsetY >= 0 && offsetY < height && playerRange[offsetX, offsetY];
         }
 
         public static List<Cell> TransposeShapeToCells(ref bool[,] shape, Cell cell, Vector2 shapeRelativePos)
         {
             List<Cell> cells = new List<Cell>();
 
-            // Determine the size of the bool array
-            int shapeHeight = shape.GetLength(0);
-            int shapeWidth = shape.GetLength(1);
-
-            // Iterate over the cells in the pattern and add the corresponding cells in the grid to the list
-            for (int x = 0; x < shapeHeight; x++)
+            try
             {
-                for (int y = 0; y < shapeWidth; y++)
-                {
-                    if (shape[x, y])
-                    {
-                        int gridX = (cell.Datas.widthPos - (int)shapeRelativePos.x) + x;
-                        int gridY = (cell.Datas.heightPos - (int)shapeRelativePos.y) + y;
+                // Determine the size of the bool array
+                int shapeHeight = shape.GetLength(0);
+                int shapeWidth = shape.GetLength(1);
 
-                        // Check if the grid position is within the bounds of the grid
-                        if (gridX >= 0 && gridX < cell.RefGrid.GridWidth && gridY >= 0 && gridY < cell.RefGrid.GridHeight)
+                // Iterate over the cells in the pattern and add the corresponding cells in the grid to the list
+                for (int x = 0; x < shapeHeight; x++)
+                {
+                    for (int y = 0; y < shapeWidth; y++)
+                    {
+                        if (shape[x, y])
                         {
-                            cells.Add(cell.RefGrid.Cells[gridY, gridX]);
+                            int gridX = (cell.Datas.widthPos - (int)shapeRelativePos.x) + x;
+                            int gridY = (cell.Datas.heightPos - (int)shapeRelativePos.y) + y;
+
+                            // Check if the grid position is within the bounds of the grid
+                            if (gridX >= 0 && gridX < cell.RefGrid.GridWidth && gridY >= 0 && gridY < cell.RefGrid.GridHeight)
+                            {
+                                cells.Add(cell.RefGrid.Cells[gridY, gridX]);
+                            }
                         }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError("COULDN'T TRANSPOSE SHAPE TO CELLS.\n" + ex.Message);
+                cells.Add(cell);
             }
 
             return cells;
