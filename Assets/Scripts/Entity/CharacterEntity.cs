@@ -523,7 +523,6 @@ namespace DownBelow.Entity
             {
                 alreadyFound.Duration = alteration.Duration;
                 return;
-                //TODO : GD? Add Duration? Set duration?
             }
             else
             {
