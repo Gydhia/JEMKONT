@@ -21,8 +21,8 @@ public class PlaceableItemPreset : PlaceableItem
         PrevisualizationInstance.transform.SetParent(cell.transform);
     }
 
-    protected override void InstanciatePrevisualization(CellEventData data)
+    protected override void InstanciatePrevisualization(CellEventData data, int rotation)
     {
-        PrevisualizationInstance = Instantiate(ObjectToPlace, data.Cell.WorldPosition, Quaternion.identity);
+        PrevisualizationInstance = Instantiate(ObjectToPlace, data.Cell.WorldPosition, new Quaternion(0, Mathf.Deg2Rad * rotation, 0,0));
     }
 }

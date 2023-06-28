@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa2dfc0d5045bba4786dbbe42fef742e, type: 3}
+  m_Name: Place_Fence
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: UID
+      Entry: 2
+      Data: d0785f744d893b2cf1ffd5d92c5da83f
+  Type: 0
+  ItemName: PlaceFence
+  InventoryIcon: {fileID: 21300000, guid: a442207650da7524ea075e7413c03d89, type: 3}
+  MaxStack: 1
+  DroppedItemPrefab: {fileID: 2769568623919297241, guid: 3332cc292e5a52841b0db7a69cc98ccf, type: 3}
+  Description: 
+  PrevisualizationInstance: {fileID: 0}
+  Interactable: {fileID: 11400000, guid: 8102d357f8484234bae9c9ea3952724f, type: 2}

@@ -21,9 +21,10 @@ public class PlaceableInteractablePreset : PlaceableItem
         Interactable.Init(cell);
     }
 
-    protected override void InstanciatePrevisualization(CellEventData data)
+    protected override void InstanciatePrevisualization(CellEventData data, int rotation)
     {
         PrevisualizationInstance = Instantiate(Interactable.ObjectPrefab, data.Cell.WorldPosition, Quaternion.identity).gameObject;
+        PrevisualizationInstance.transform.Rotate(new Vector3(0, 1, 0), rotation);
     }
 
 }
