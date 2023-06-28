@@ -151,6 +151,87 @@
 								</Action>
 							</ChildrenList>
 						</Event>
+						<Folder Name="Spells" ID="{F6B17A5C-1A2E-4046-88A0-DC309B6F677E}" ShortID="429925384">
+							<ChildrenList>
+								<Event Name="Play_SSFX_CardDraw" ID="{9FA5BB45-1D3F-4899-889C-9EF6A2738EB7}">
+									<ChildrenList>
+										<Action Name="" ID="{37859C33-C70A-4432-A326-4B54293FC4A2}" ShortID="1037198750">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="CardPick" ID="{8257380A-2569-4D03-9D77-976BFAF65671}" WorkUnitID="{277D41B8-7D18-41D8-BFBF-88A00100C0C8}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="Play_SSFX_RockSpike" ID="{D5010B6D-5D01-42A4-B36B-FC49E31B4422}">
+									<ChildrenList>
+										<Action Name="" ID="{FC3D7235-C124-4D2A-B198-710F12308226}" ShortID="337203779">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="rocksForming" ID="{F609CFEE-E649-4B73-A004-A6FAF250A66D}" WorkUnitID="{277D41B8-7D18-41D8-BFBF-88A00100C0C8}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="Play_SSFX_RockDestroy" ID="{C15787DF-8367-4CFF-BE42-A99E89A01162}">
+									<ChildrenList>
+										<Action Name="" ID="{337AE22B-9BCF-449D-A5DC-CA131552CEC5}" ShortID="986056716">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="rocksDestroy" ID="{07B99BC2-9F54-4F3B-8B17-93439539A236}" WorkUnitID="{277D41B8-7D18-41D8-BFBF-88A00100C0C8}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="Play_SSFX_MagicRise" ID="{AF204B2A-EFB0-4F7A-92D5-AB6E0C85786C}">
+									<ChildrenList>
+										<Action Name="" ID="{FDD5F329-E31B-4391-B223-4C055E2B8ADA}" ShortID="98126605">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="magicRise" ID="{BBBC4195-2D0B-4E89-A862-DF67E2FD8957}" WorkUnitID="{277D41B8-7D18-41D8-BFBF-88A00100C0C8}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="Play_SSFX_ArrowHit" ID="{91BB539D-399C-405D-A771-BCDBD71C6431}">
+									<ChildrenList>
+										<Action Name="" ID="{F61D7C1D-D848-4147-A9BA-7EBD8CBB5B66}" ShortID="799447244">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="arrowHit" ID="{FC537A97-6C22-4159-A3D0-876840B71B76}" WorkUnitID="{277D41B8-7D18-41D8-BFBF-88A00100C0C8}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="Play_SSFX_FastHit" ID="{9B9BEE4E-0A10-465B-99D1-5273FA309620}">
+									<ChildrenList>
+										<Action Name="" ID="{18C19A4D-7B5D-4A6A-BE65-75554C1CEE1A}" ShortID="43871593">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="fastHit" ID="{DC021ADE-4818-4338-A413-A9ACEAA4558D}" WorkUnitID="{277D41B8-7D18-41D8-BFBF-88A00100C0C8}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="Play_SSFX_Dash" ID="{DD81CAEC-3740-454A-AD54-AC9C6826A565}">
+									<ChildrenList>
+										<Action Name="" ID="{A07D98C7-07A9-416C-88F0-FB94B0437727}" ShortID="451374949">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="dash" ID="{0CC4C071-669D-49F2-963E-07BEFDD8924B}" WorkUnitID="{277D41B8-7D18-41D8-BFBF-88A00100C0C8}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+							</ChildrenList>
+						</Folder>
 					</ChildrenList>
 				</Folder>
 				<Folder Name="MUS_LAYER" ID="{9E7B6713-3FD5-4E98-8F5E-4316700EF1CF}" ShortID="267737303">

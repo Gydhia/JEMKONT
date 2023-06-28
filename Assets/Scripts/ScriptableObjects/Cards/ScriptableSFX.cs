@@ -28,6 +28,7 @@ namespace DownBelow.Mechanics
         [Tooltip("This also defines when the spells are going to be applied.")]
         public ESFXTravelType TravelType;
         //Sounds too, one day,maybe...
+        public AK.Wwise.Event Sound;
         [EnableIf("@TravelType != ESFXTravelType.Instantaneous")]
         public float TravelDuration = 0.35f;
         [ShowIf("@TravelType == ESFXTravelType.InPlaceProjectile")]
@@ -45,6 +46,8 @@ namespace DownBelow.Mechanics
         public Cell target;
         public Spell spell;
 
+        public AK.Wwise.Event Sound;
+
         public SFXEventData.Event OnSFXStarted;
         public SFXEventData.Event OnSFXEnded;
 
@@ -55,6 +58,7 @@ namespace DownBelow.Mechanics
             TravelType = sfx.TravelType;
             TravelDuration = sfx.TravelDuration;
             TravelUnit = sfx.TravelUnit;
+            Sound = sfx.Sound;
             this.caster = caster;
             this.target = target;
             this.spell = spell;

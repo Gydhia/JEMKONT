@@ -128,7 +128,7 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: 949bd9bfeea3b740b316a7f992c54fb1
     GuidInternal: 
-    m_lastTime: -8585137261595557099
+    m_lastTime: -8585136464230426202
     List:
     - name: CombatState
       guid: 6356ba787c934a4da0e4a41fe6079af1
@@ -232,6 +232,52 @@ MonoBehaviour:
         ObjectType: 3
         guid: 4c9a426fdc9e404ab7873ce0696598f5
       Path: Events\Default Work Unit\CombatState\Play_SSFX_AllyTurn
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_SSFX_ArrowHit
+      guid: 9d53bb919c395d40a771bcdbd71c6431
+      id: 2970065691
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 949bd9bfeea3b740b316a7f992c54fb1
+      - ElementName: SSFX
+        ObjectType: 4
+        guid: a925d140d7d6be46a3ec23e2d212020a
+      - ElementName: Spells
+        ObjectType: 4
+        guid: 5c7ab1f62e1a464088a0dc309b6f677e
+      - ElementName: Play_SSFX_ArrowHit
+        ObjectType: 3
+        guid: 9d53bb919c395d40a771bcdbd71c6431
+      Path: Events\Default Work Unit\SSFX\Spells\Play_SSFX_ArrowHit
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_SSFX_CardDraw
+      guid: 45bba59f3f1d9948889c9ef6a2738eb7
+      id: 1322830077
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 949bd9bfeea3b740b316a7f992c54fb1
+      - ElementName: SSFX
+        ObjectType: 4
+        guid: a925d140d7d6be46a3ec23e2d212020a
+      - ElementName: Spells
+        ObjectType: 4
+        guid: 5c7ab1f62e1a464088a0dc309b6f677e
+      - ElementName: Play_SSFX_CardDraw
+        ObjectType: 3
+        guid: 45bba59f3f1d9948889c9ef6a2738eb7
+      Path: Events\Default Work Unit\SSFX\Spells\Play_SSFX_CardDraw
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -375,6 +421,29 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
+    - name: Play_SSFX_Dash
+      guid: ecca81dd40374a45ad54ac9c6826a565
+      id: 2787275873
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 949bd9bfeea3b740b316a7f992c54fb1
+      - ElementName: SSFX
+        ObjectType: 4
+        guid: a925d140d7d6be46a3ec23e2d212020a
+      - ElementName: Spells
+        ObjectType: 4
+        guid: 5c7ab1f62e1a464088a0dc309b6f677e
+      - ElementName: Play_SSFX_Dash
+        ObjectType: 3
+        guid: ecca81dd40374a45ad54ac9c6826a565
+      Path: Events\Default Work Unit\SSFX\Spells\Play_SSFX_Dash
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
     - name: Play_SSFX_DeckShuffle
       guid: 73b54b09826a7d4991a78fba4c3e419c
       id: 329156649
@@ -415,6 +484,29 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
+    - name: Play_SSFX_FastHit
+      guid: 4eee9b9b100a5b4699d15273fa309620
+      id: 2463337978
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 949bd9bfeea3b740b316a7f992c54fb1
+      - ElementName: SSFX
+        ObjectType: 4
+        guid: a925d140d7d6be46a3ec23e2d212020a
+      - ElementName: Spells
+        ObjectType: 4
+        guid: 5c7ab1f62e1a464088a0dc309b6f677e
+      - ElementName: Play_SSFX_FastHit
+        ObjectType: 3
+        guid: 4eee9b9b100a5b4699d15273fa309620
+      Path: Events\Default Work Unit\SSFX\Spells\Play_SSFX_FastHit
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
     - name: Play_SSFX_Fish
       guid: 77df1ebf9700474ea017a7f5dc21cc36
       id: 3581818263
@@ -452,6 +544,29 @@ MonoBehaviour:
         ObjectType: 3
         guid: de07001a8e56a54d8d893640789804fd
       Path: Events\Default Work Unit\SSFX\Play_SSFX_Herb
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_SSFX_MagicRise
+      guid: 2a4b20afb0ef7a4f92d5ab6e0c85786c
+      id: 2970430981
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 949bd9bfeea3b740b316a7f992c54fb1
+      - ElementName: SSFX
+        ObjectType: 4
+        guid: a925d140d7d6be46a3ec23e2d212020a
+      - ElementName: Spells
+        ObjectType: 4
+        guid: 5c7ab1f62e1a464088a0dc309b6f677e
+      - ElementName: Play_SSFX_MagicRise
+        ObjectType: 3
+        guid: 2a4b20afb0ef7a4f92d5ab6e0c85786c
+      Path: Events\Default Work Unit\SSFX\Spells\Play_SSFX_MagicRise
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -532,6 +647,52 @@ MonoBehaviour:
         ObjectType: 3
         guid: 17e05e3365f6ae4facdd84b3658daea4
       Path: Events\Default Work Unit\SSFX\Play_SSFX_Portal
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_SSFX_RockDestroy
+      guid: df8757c16783ff4cbe42a99e89a01162
+      id: 3556133744
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 949bd9bfeea3b740b316a7f992c54fb1
+      - ElementName: SSFX
+        ObjectType: 4
+        guid: a925d140d7d6be46a3ec23e2d212020a
+      - ElementName: Spells
+        ObjectType: 4
+        guid: 5c7ab1f62e1a464088a0dc309b6f677e
+      - ElementName: Play_SSFX_RockDestroy
+        ObjectType: 3
+        guid: df8757c16783ff4cbe42a99e89a01162
+      Path: Events\Default Work Unit\SSFX\Spells\Play_SSFX_RockDestroy
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_SSFX_RockSpike
+      guid: 6d0b01d5015da442b36bfc49e31b4422
+      id: 259866600
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 949bd9bfeea3b740b316a7f992c54fb1
+      - ElementName: SSFX
+        ObjectType: 4
+        guid: a925d140d7d6be46a3ec23e2d212020a
+      - ElementName: Spells
+        ObjectType: 4
+        guid: 5c7ab1f62e1a464088a0dc309b6f677e
+      - ElementName: Play_SSFX_RockSpike
+        ObjectType: 3
+        guid: 6d0b01d5015da442b36bfc49e31b4422
+      Path: Events\Default Work Unit\SSFX\Spells\Play_SSFX_RockSpike
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -755,6 +916,26 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
+    - name: Spells
+      guid: 5c7ab1f62e1a464088a0dc309b6f677e
+      id: 4160437992
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 949bd9bfeea3b740b316a7f992c54fb1
+      - ElementName: SSFX
+        ObjectType: 4
+        guid: a925d140d7d6be46a3ec23e2d212020a
+      - ElementName: Spells
+        ObjectType: 4
+        guid: 5c7ab1f62e1a464088a0dc309b6f677e
+      Path: Events\Default Work Unit\SSFX\Spells
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
     - name: SSFX
       guid: a925d140d7d6be46a3ec23e2d212020a
       id: 672574001
@@ -903,7 +1084,7 @@ MonoBehaviour:
     ParentPath: States\Default Work Unit
     guid: 4357da42963e2141a2fff533c2aaa80c
     GuidInternal: 
-    m_lastTime: -8585140996278203615
+    m_lastTime: -8585136667176673850
     List:
     - name: GameState
       guid: 5df3a3c523000043aa95f9f98f66b10d
@@ -1163,7 +1344,7 @@ MonoBehaviour:
     ParentPath: Switches\Default Work Unit
     guid: 727aa02a69d7354da76e03849372a4fe
     GuidInternal: 
-    m_lastTime: -8585141633103379275
+    m_lastTime: -8585136645406065867
     List:
     - name: Ground_Switch
       guid: f3df87100802db4ba2f24f3cc73bd78c
@@ -1212,6 +1393,22 @@ MonoBehaviour:
         - ElementName: Sand
           ObjectType: 10
           guid: 9a0d79f1b731d5438215ca445f5aab96
+      - name: Stone
+        guid: abf058f07a04c94eb7986a13fb41722b
+        id: 1216965916
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: 727aa02a69d7354da76e03849372a4fe
+        - ElementName: Ground_Switch
+          ObjectType: 11
+          guid: f3df87100802db4ba2f24f3cc73bd78c
+        - ElementName: Stone
+          ObjectType: 10
+          guid: abf058f07a04c94eb7986a13fb41722b
       ValueGuids: []
       ValueIcons: []
       valuesInternal: []
@@ -1230,7 +1427,7 @@ MonoBehaviour:
     m_lastTime: -8585141633103339010
     List: []
   ExpandedFileSystemItemIds: 
-  ExpandedWaapiItemIds: 05000000060000000c000000
+  ExpandedWaapiItemIds: 05000000060000000c0000003b000000
   AutoSyncSelection: 0
   autoPopulateEnabled: 1
   currentDataSource: 0
