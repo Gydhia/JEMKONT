@@ -1,6 +1,7 @@
 using DG.Tweening;
 using DownBelow.Entity;
 using DownBelow.Events;
+using DownBelow.GridSystem;
 using DownBelow.Managers;
 using System.Collections;
 using System.Linq;
@@ -9,155 +10,147 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-namespace DownBelow.UI
-{
-    public class UIStaticGather : MonoBehaviour
-    {
-        public GameObject ContentGauge;
-        public Slider GaugeResources;
-        public TextMeshProUGUI NumberResources;
+namespace DownBelow.UI {
+	public class UIStaticGather : MonoBehaviour {
+		public GameObject ContentGauge;
+		public Slider GaugeResources;
+		public TextMeshProUGUI NumberResources;
 
-        public GameObject ContentQTE;
+		public GameObject ContentQTE;
 
-        public TextMeshProUGUI Result;
-        public Slider CursorQTE;
-        public RectTransform ZoneQTE;
+		public TextMeshProUGUI Result;
+		public Slider CursorQTE;
+		public RectTransform ZoneQTE;
 
-        private Sequence _cursor;
-        private Sequence _anchorMin;
-        private Sequence _anchorMax;
+		private Sequence _cursor;
+		private Sequence _anchorMin;
+		private Sequence _anchorMax;
 
-        private Sequence _result;
+		private Sequence _result;
 
-        private GatheringAction _gatherAction;
+		private GatheringAction _gatherAction;
 
-        private int _maxInteract = 0;
-        private int _failedInteract = 0;
-        private int _currInteract = 0;
+		private int _maxInteract = 0;
+		private int _failedInteract = 0;
+		private int _currInteract = 0;
 
-        private void Start()
-        {
-            this.ContentQTE.SetActive(false);
-            this.ContentGauge.SetActive(true);
+		private void Start() {
+			this.ContentQTE.SetActive(false);
+			this.ContentGauge.SetActive(true);
 
-            GameManager.Instance.OnResourceGathered += UpdateGatherBar;
-            GameManager.Instance.OnEnteredGrid += _updateGatherUI;
+			GameManager.Instance.OnResourceGathered += UpdateGatherBar;
+			GameManager.Instance.OnEnteredGrid += _updateGatherUI;
 
-            this.UpdateGatherBar(null);
-        }
+			this.UpdateGatherBar(null);
+		}
 
-        public void UpdateGatherBar(GatheringEventData Data)
-        {
-            int maxResources = GameManager.MaxGatherableResources;
+		public void UpdateGatherBar(GatheringEventData Data) {
+			int maxResources = GameManager.MaxGatherableResources;
 
-            this.GaugeResources.maxValue = maxResources;
-            this.GaugeResources.value = GameManager.CurrentAvailableResources;
+			this.GaugeResources.maxValue = maxResources;
+			this.GaugeResources.value = GameManager.CurrentAvailableResources;
 
-            this.NumberResources.text = "Total resources : " + GameManager.CurrentAvailableResources + "/" + maxResources;
-        }
+			this.NumberResources.text = "Total resources : " + GameManager.CurrentAvailableResources + "/" + maxResources;
+		}
 
-        private void _updateGatherUI(EntityEventData Data)
-        {
-            if (Data.Entity != GameManager.RealSelfPlayer)
-                return;
+		private void _updateGatherUI(EntityEventData Data) {
+			if (Data.Entity != GameManager.RealSelfPlayer)
+				return;
 
-            this.gameObject.SetActive(!Data.Entity.CurrentGrid.IsCombatGrid);
-        }
+			this.gameObject.SetActive(!Data.Entity.CurrentGrid.IsCombatGrid);
+		}
 
-        public void StartInteract(GatheringAction action, int numberOfInteracts = 3)
-        {
-            this._gatherAction = action;
+		public void StartInteract(GatheringAction action, int numberOfInteracts = 3) {
+			this._gatherAction = action;
 
-            this._maxInteract = numberOfInteracts;
-            this._currInteract = 0;
+			this._maxInteract = numberOfInteracts;
+			this._currInteract = 0;
 
-            this.ContentQTE.gameObject.SetActive(true);
+			this.ContentQTE.gameObject.SetActive(true);
 
-            this.Result.alpha = 0f;
+			this.Result.alpha = 0f;
 
-            this.LoneInteract();
-        }
+			this.LoneInteract();
+		}
 
-        public void LoneInteract()
-        {
-            PlayerInputs.player_interact.performed += _playerInteract;
-            var preset = SettingsManager.Instance.ResourcesPreset;
+		public void LoneInteract() {
+			PlayerInputs.player_interact.performed += _playerInteract;
+			var preset = SettingsManager.Instance.ResourcesPreset;
 
-            this._cursor = DOTween.Sequence();
-            this._anchorMin = DOTween.Sequence();
-            this._anchorMax = DOTween.Sequence();
-            this._result = DOTween.Sequence();
+			this._cursor = DOTween.Sequence();
+			this._anchorMin = DOTween.Sequence();
+			this._anchorMax = DOTween.Sequence();
+			this._result = DOTween.Sequence();
 
-            this.ContentQTE.SetActive(true);
+			this.ContentQTE.SetActive(true);
 
-            float newCenter = Random.Range(preset.MinX, preset.MaxX);
+			float newCenter = Random.Range(preset.MinX, preset.MaxX);
 
-            this.CursorQTE.value = 0f;
-            this.ZoneQTE.anchorMin = new Vector2(newCenter - preset.InteractWidth / 2f, this.ZoneQTE.anchorMin.y);
-            this.ZoneQTE.anchorMax = new Vector2(newCenter + preset.InteractWidth / 2f, this.ZoneQTE.anchorMax.y);
-            
-            float averageCenter = (this.ZoneQTE.anchorMin.x + this.ZoneQTE.anchorMax.x) / 2f;
+			this.CursorQTE.value = 0f;
+			this.ZoneQTE.anchorMin = new Vector2(newCenter - preset.InteractWidth / 2f, this.ZoneQTE.anchorMin.y);
+			this.ZoneQTE.anchorMax = new Vector2(newCenter + preset.InteractWidth / 2f, this.ZoneQTE.anchorMax.y);
 
-            this._anchorMin.Append(this.ZoneQTE.DOAnchorMin(new Vector2(averageCenter, this.ZoneQTE.anchorMin.y), preset.DecreaseSpeed).SetEase(Ease.Linear));
-            this._anchorMax.Append(this.ZoneQTE.DOAnchorMax(new Vector2(averageCenter, this.ZoneQTE.anchorMax.y), preset.DecreaseSpeed).SetEase(Ease.Linear));
-            this._cursor.Append(this.CursorQTE.DOValue(1f, preset.CursorCrossTime).SetEase(Ease.InOutCubic)).OnComplete(() =>
-            {
-                this.PlayerInteract(false);
-            });
-        }
+			float averageCenter = (this.ZoneQTE.anchorMin.x + this.ZoneQTE.anchorMax.x) / 2f;
 
-        private void _playerInteract(InputAction.CallbackContext ctx) => this.PlayerInteract(true);
-        public void PlayerInteract(bool fromPlayer)
-        {
-            this._currInteract++;
+			this._anchorMin.Append(this.ZoneQTE.DOAnchorMin(new Vector2(averageCenter, this.ZoneQTE.anchorMin.y), preset.DecreaseSpeed).SetEase(Ease.Linear));
+			this._anchorMax.Append(this.ZoneQTE.DOAnchorMax(new Vector2(averageCenter, this.ZoneQTE.anchorMax.y), preset.DecreaseSpeed).SetEase(Ease.Linear));
+			this._cursor.Append(this.CursorQTE.DOValue(1f, preset.CursorCrossTime).SetEase(Ease.InOutCubic)).OnComplete(() => {
+				this.PlayerInteract(false);
+			});
+		}
 
-            PlayerInputs.player_interact.performed -= _playerInteract;
+		private void _playerInteract(InputAction.CallbackContext ctx) => this.PlayerInteract(true);
+		public async void PlayerInteract(bool fromPlayer) {
+			this._currInteract++;
 
-            this._cursor.Kill();
-            this._anchorMin.Kill();
-            this._anchorMax.Kill(); 
-            this._result.Kill();
+			PlayerInputs.player_interact.performed -= _playerInteract;
 
-            bool succeeded = this.CursorQTE.value > this.ZoneQTE.anchorMin.x && this.CursorQTE.value < this.ZoneQTE.anchorMax.x;
+			this._cursor.Kill();
+			this._anchorMin.Kill();
+			this._anchorMax.Kill();
+			this._result.Kill();
 
-            this.Result.text = succeeded ? "GREAT !" :  "FAILED..";
-            this.Result.color = succeeded ? Color.green : Color.red;
+			bool succeeded = this.CursorQTE.value > this.ZoneQTE.anchorMin.x && this.CursorQTE.value < this.ZoneQTE.anchorMax.x;
 
-            var basePos = this.Result.transform.position;
-            this.Result.alpha = 1f;
-            this._result
-                .Join(this.Result.transform.DOMoveY(this.Result.transform.position.y + 1f, 0.5f))
-                .Join(this.Result.DOFade(0f, 0.5f))
-                .OnComplete(() => { this.Result.transform.position = basePos; });
+			this.Result.text = succeeded ? "GREAT !" : "FAILED..";
+			this.Result.color = succeeded ? Color.green : Color.red;
 
-            this._gatherAction.NotifyTick(succeeded);
-            if (succeeded)
-            {
-                _gatherAction.CurrentRessource.Sound.Post(AudioHolder.Instance.gameObject);
-            }
-            if (this._currInteract == this._maxInteract)
-            {
-                this._onEndQTE();
-            }
-            else
-            {
-                this.LoneInteract();
-            }
+			var basePos = this.Result.transform.position;
+			this.Result.alpha = 1f;
+			this._result
+				.Join(this.Result.transform.DOMoveY(this.Result.transform.position.y + 1f, 0.5f))
+				.Join(this.Result.DOFade(0f, 0.5f))
+				.OnComplete(() => { this.Result.transform.position = basePos; });
+
+			this._gatherAction.NotifyTick(succeeded);
+			if (fromPlayer) {
+				//SFX:
+				await new WaitForSeconds(0.4333f);
+				Destroy(Instantiate(((ResourcePreset)_gatherAction.CurrentRessource.InteractablePreset).HitSFX, _gatherAction.CurrentRessource.transform), 1f);
+
+			}
+			if (succeeded) {
+				_gatherAction.CurrentRessource.Sound.Post(AudioHolder.Instance.gameObject);
+			}
+			if (this._currInteract == this._maxInteract) {
+				this._onEndQTE();
+			}
+			else {
+				this.LoneInteract();
+			}
 
 
-        }
+		}
 
-        private void _onEndQTE()
-        {
-            StartCoroutine(_hideOnEnd());            
-        }
+		private void _onEndQTE() {
+			StartCoroutine(_hideOnEnd());
+		}
 
-        private IEnumerator _hideOnEnd()
-        {
-            yield return new WaitForSeconds(0.5f);
+		private IEnumerator _hideOnEnd() {
+			yield return new WaitForSeconds(0.5f);
 
-            this.ContentQTE.gameObject.SetActive(false);
+			this.ContentQTE.gameObject.SetActive(false);
 
-        }
-    }
+		}
+	}
 }

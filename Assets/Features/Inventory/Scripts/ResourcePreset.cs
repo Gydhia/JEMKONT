@@ -10,8 +10,9 @@ namespace DownBelow.GridSystem
         public EClass GatherableBy;
 
         public ItemPreset ResourceItem;
+		public GameObject HitSFX;
 
-        public int MinGathering = 1;
+		public int MinGathering = 1;
         public int MaxGathering = 4;
 
         public override void Init(Cell attachedCell)
