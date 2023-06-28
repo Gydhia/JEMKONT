@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 130d9b84c5367fe47b06c4038738f937, type: 3}
+  m_Name: SnakeyPreset3
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: UID
+      Entry: 2
+      Data: 18fd965863b69ff96beb873c6145070c
+  UName: Snakey3
+  AffectingState: 4
+  OverrideSave: 1
+  Entity: {fileID: 1036855247208038438, guid: ce6c7d1cd03a0944d85a8411c5bc6097, type: 3}
+  IsPNJ: 0
+  Statistics: {fileID: 11400000, guid: 2ee11fed5ea980b4eacc278b5ea56ebc, type: 2}
+  EntityIcon: {fileID: 21300000, guid: 5fe67a1a43a015646b4391d10b324494, type: 3}

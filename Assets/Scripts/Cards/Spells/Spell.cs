@@ -123,11 +123,11 @@ namespace DownBelow.Spells
             {
                 if (Data.ProjectileSFX != null)
                 {
-                    if (Data.RequiresTargetting)
+                    if (Data.RequiresTargetting && (TargettingCondition == null || TargettingCondition.Validated(TargetCell)))
                     {
                         await SFXManager.Instance.DOSFX(new RuntimeSFXData(Data.ProjectileSFX, RefEntity, TargetCell, this));
                     }
-                    else if (Data.SpellResultTargeting)
+                    else if (Data.SpellResultTargeting && (TargettingCondition == null || TargettingCondition.Validated(GetSpellFromIndex(Data.SpellResultIndex).TargetCell)))
                     {
                         await SFXManager.Instance.DOSFX(new RuntimeSFXData(Data.ProjectileSFX, RefEntity, GetSpellFromIndex(Data.SpellResultIndex).TargetCell, this));
                     }

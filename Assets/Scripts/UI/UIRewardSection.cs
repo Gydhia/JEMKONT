@@ -70,13 +70,14 @@ namespace DownBelow.UI
 
             Vignette.DOFade(0.7f, 1f);
 
+			string abyssName = (Data.Grid as CombatGrid).ParentGrid.UName;
+			var abyss = SettingsManager.Instance.AbyssesPresets.Find(x => x.name == abyssName);
+			LevelNumber.text = $"{SettingsManager.Instance.AbyssesPresets.IndexOf(abyss)+1}";
             this._alliesVictory = Data.AlliesVictory;
             if (this._alliesVictory)
             {
                 this.VictoryCanvas.DOFade(1f, 2.5f);
                 
-                string abyssName = (Data.Grid as CombatGrid).ParentGrid.UName;
-                var abyss = SettingsManager.Instance.AbyssesPresets.Find(x=> x.name == abyssName);
                 
                 ResourcesSliderParent.SetActive(false);
                 CardsRewardParent.SetActive(true);
