@@ -1,5 +1,7 @@
 using DownBelow.Managers;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace DownBelow.GridSystem
 {
@@ -20,7 +22,10 @@ namespace DownBelow.GridSystem
 
         [Tooltip("For Furnace and SawStood. We need to pick resources before destroying item")]
         public bool DestroyOnUse = false;
-        public int CurrentDurability; 
+        public int CurrentDurability;
+
+        public Slider DurabilitySlider;
+        public TextMeshProUGUI DurabilityAmount;
 
         public virtual void Init(InteractablePreset InteractableRef, Cell RefCell) 
         {
@@ -30,7 +35,19 @@ namespace DownBelow.GridSystem
             this.InteractablePreset = InteractableRef;
             this.Outline.OutlineColor = InteractableRef.OutlineColor;
 
-            this.CurrentDurability = InteractableRef.Durability;
+            if(InteractableRef.Durability == -1)
+            {
+                if (this.DurabilitySlider != null)
+                    this.DurabilitySlider.transform.parent.gameObject.SetActive(false);
+            }
+            else
+            {
+                this.CurrentDurability = InteractableRef.Durability;
+                this.DurabilitySlider.maxValue = InteractableRef.Durability;
+                this.DurabilitySlider.value = InteractableRef.Durability;
+                this.DurabilitySlider.minValue = 0;
+                this.DurabilityAmount.text = InteractableRef.Durability.ToString();
+            }
         }
 
         public abstract void Interact(Entity.PlayerBehavior p);
@@ -38,8 +55,10 @@ namespace DownBelow.GridSystem
         public void ModifyDurability(int amount)
         {
             this.CurrentDurability += amount;
+            this.DurabilitySlider.value = this.CurrentDurability;
+            this.DurabilityAmount.text = this.CurrentDurability.ToString() + " / " + this.InteractablePreset.Durability;
 
-            if(this.CurrentDurability <= 0 && DestroyOnUse)
+            if (this.CurrentDurability <= 0 && DestroyOnUse)
             {
                 NetworkManager.Instance.DestroyInteractable(this);
             }
