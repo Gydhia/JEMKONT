@@ -13,6 +13,7 @@ namespace DownBelow.Spells
     {
         Normal = 1,
         CardBased = 2,
+        ManaConsuming = 3,
     }
 
 
@@ -74,6 +75,10 @@ namespace DownBelow.Spells
                     break;
                 case ApplyType.CardBased:
                     realAmount *= ((PlayerBehavior)this.RefEntity).Deck.RefCardsHolder.PileSize(Managers.PileType.Hand);
+                    break;
+                case ApplyType.ManaConsuming:
+                    realAmount *= this.RefEntity.Mana;
+                    this.RefEntity.ApplyStat(EntityStatistics.Mana, this.RefEntity.Mana);
                     break;
             }
 

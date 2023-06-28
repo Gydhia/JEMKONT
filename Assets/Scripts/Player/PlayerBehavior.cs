@@ -37,7 +37,6 @@ namespace DownBelow.Entity
         public PlayerBehavior Owner;
         public bool IsFake = false;
         public int PlayerIndex = -1;
-        public int SelectIndex = -1;
 
         public BaseStorage PlayerInventory;
 
@@ -318,7 +317,7 @@ namespace DownBelow.Entity
                 attacked = true;
             }
 
-            if (attacked)
+            if (attacked && this.ToolOutline != null)
             {
                 this.ToolOutline.enabled = false;
             }

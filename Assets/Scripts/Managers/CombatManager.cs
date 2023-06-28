@@ -304,13 +304,13 @@ namespace DownBelow.Managers {
 		}
 		private void _switchSelectedPlayer(PlayerBehavior player) 
 		{
-			this._switchSelectedPlayer(player.SelectIndex);
+			this._switchSelectedPlayer(player.PlayerIndex);
 		}
 
 		private void _switchSelectedPlayer(int index) 
 		{
-			var player = this.FakePlayers.SingleOrDefault(f => f.SelectIndex == index);
-			player ??= GameManager.RealSelfPlayer.SelectIndex == index ? GameManager.RealSelfPlayer : null;
+			var player = this.FakePlayers.SingleOrDefault(f => f.PlayerIndex == index);
+			player ??= GameManager.RealSelfPlayer.PlayerIndex == index ? GameManager.RealSelfPlayer : null;
 
 			if (player == null)
 				return;
@@ -560,7 +560,6 @@ namespace DownBelow.Managers {
             this.PlayingEntities = new List<CharacterEntity>();
 
             int indexIncr = 0;
-            int selectIncr = 0;
 			int turnOrder = 0;
             // We check both for the tests, if we have more allies than ennemies or inverse
             if (enemies.Count >= players.Count)
@@ -570,9 +569,7 @@ namespace DownBelow.Managers {
                     if(i < players.Count)
                     {
                         players[i].PlayerIndex = indexIncr++;
-						if (IsPlayerOrOwned(players[i]))
-							players[i].SelectIndex = selectIncr++;
-
+							
 						this.PlayingEntities.Add(players[i]);
 
                         this.PlayingEntities[^1].TurnOrder = turnOrder++;
@@ -598,8 +595,6 @@ namespace DownBelow.Managers {
 					if (i < players.Count) {
 						
 						players[i].PlayerIndex = indexIncr++;
-						if (IsPlayerOrOwned(players[i]))
-							players[i].SelectIndex = selectIncr++;
 
 						this.PlayingEntities.Add(players[i]);
                         this.PlayingEntities[^1].TurnOrder = turnOrder++;

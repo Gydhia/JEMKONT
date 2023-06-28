@@ -37,8 +37,8 @@ namespace DownBelow.UI
             {
                 this._ownedImage.gameObject.SetActive(CombatManager.Instance.IsPlayerOrOwned(player));
                 this._weaponImage.sprite = player.CombatTool.FightIcon;
-                this._ownedInput.text = (player.SelectIndex + 1).ToString();
-                this._ownedButton.onClick.AddListener(() => CombatManager.Instance.SwitchSelectedPlayer(player.SelectIndex));
+                this._ownedInput.text = (player.PlayerIndex + 1).ToString();
+                this._ownedButton.onClick.AddListener(() => CombatManager.Instance.SwitchSelectedPlayer(player.PlayerIndex));
             }
             else
             {

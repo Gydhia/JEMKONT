@@ -17,6 +17,7 @@ namespace DownBelow.Managers
 
         private bool _inited = false;
 
+        public bool MuteOnPlay = false;
 
         private void SetVolumes()
         {
@@ -30,6 +31,12 @@ namespace DownBelow.Managers
 
         public void Init()
         {
+#if UNITY_EDITOR 
+            if (this.MuteOnPlay)
+            {
+                AkSoundEngine.SetRTPCValue("RTPC_Volume_Master", 0f, AkSoundEngine.AK_INVALID_GAME_OBJECT);
+            }
+#endif
             if (!AudioHolder.HasMusicStarted) 
             { 
                 this.SetVolumes();

@@ -393,6 +393,9 @@ MonoBehaviour:
     - Name: duration
       Entry: 3
       Data: 0
+    - Name: ApplyType
+      Entry: 3
+      Data: 1
     - Name: 
       Entry: 8
       Data: 
@@ -434,7 +437,7 @@ MonoBehaviour:
       Data: 
     - Name: CasterID
       Entry: 1
-      Data: 1191bef6-27bd-4eef-b424-0180d75aec48Miner
+      Data: aa91f8a6-dfe8-4516-9464-71c394cc455b
     - Name: 
       Entry: 8
       Data: 
@@ -457,76 +460,7 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 24
-    - Name: 
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 6
-      Data: 
+      Data: 1
     - Name: 
       Entry: 6
       Data: 
@@ -579,7 +513,7 @@ MonoBehaviour:
       Data: 
     - Name: SetUp
       Entry: 5
-      Data: false
+      Data: true
     - Name: DamagesDealt
       Entry: 7
       Data: 13|System.Collections.Generic.Dictionary`2[[DownBelow.Entity.CharacterEntity,
@@ -1001,17 +935,30 @@ MonoBehaviour:
       Entry: 9
       Data: 9
     - Name: TargetEntities
-      Entry: 9
-      Data: 10
-    - Name: ParentSpell
+      Entry: 7
+      Data: 26|System.Collections.Generic.List`1[[DownBelow.Entity.CharacterEntity,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
       Entry: 6
       Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: ParentSpell
+      Entry: 9
+      Data: 1
     - Name: Result
       Entry: 7
-      Data: 26|DownBelow.Spells.SpellResult, Assembly-CSharp
+      Data: 27|DownBelow.Spells.SpellResult, Assembly-CSharp
     - Name: TargetedCells
       Entry: 7
-      Data: 27|System.Collections.Generic.List`1[[DownBelow.GridSystem.Cell, Assembly-CSharp]],
+      Data: 28|System.Collections.Generic.List`1[[DownBelow.GridSystem.Cell, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -1030,10 +977,10 @@ MonoBehaviour:
       Data: 
     - Name: SetUp
       Entry: 5
-      Data: false
+      Data: true
     - Name: DamagesDealt
       Entry: 7
-      Data: 28|System.Collections.Generic.Dictionary`2[[DownBelow.Entity.CharacterEntity,
+      Data: 29|System.Collections.Generic.Dictionary`2[[DownBelow.Entity.CharacterEntity,
         Assembly-CSharp],[System.Int32, mscorlib]], mscorlib
     - Name: comparer
       Entry: 9
@@ -1052,7 +999,7 @@ MonoBehaviour:
       Data: 0
     - Name: HealingDone
       Entry: 7
-      Data: 29|System.Collections.Generic.Dictionary`2[[DownBelow.Entity.CharacterEntity,
+      Data: 30|System.Collections.Generic.Dictionary`2[[DownBelow.Entity.CharacterEntity,
         Assembly-CSharp],[System.Int32, mscorlib]], mscorlib
     - Name: comparer
       Entry: 9
@@ -1071,7 +1018,7 @@ MonoBehaviour:
       Data: 0
     - Name: StatModified
       Entry: 7
-      Data: 30|System.Collections.Generic.Dictionary`2[[DownBelow.Entity.CharacterEntity,
+      Data: 31|System.Collections.Generic.Dictionary`2[[DownBelow.Entity.CharacterEntity,
         Assembly-CSharp],[DownBelow.Spells.StatModification, Assembly-CSharp]], mscorlib
     - Name: comparer
       Entry: 9
@@ -1087,7 +1034,7 @@ MonoBehaviour:
       Data: 
     - Name: SelfStatModified
       Entry: 7
-      Data: 31|System.Collections.Generic.Dictionary`2[[EntityStatistics, Assembly-CSharp],[System.Int32,
+      Data: 32|System.Collections.Generic.Dictionary`2[[EntityStatistics, Assembly-CSharp],[System.Int32,
         mscorlib]], mscorlib
     - Name: comparer
       Entry: 9
@@ -1103,7 +1050,7 @@ MonoBehaviour:
       Data: 
     - Name: AlterationGiven
       Entry: 7
-      Data: 32|System.Collections.Generic.Dictionary`2[[DownBelow.Entity.CharacterEntity,
+      Data: 33|System.Collections.Generic.Dictionary`2[[DownBelow.Entity.CharacterEntity,
         Assembly-CSharp],[System.Collections.Generic.List`1[[DownBelow.Spells.Alterations.Alteration,
         Assembly-CSharp]], mscorlib]], mscorlib
     - Name: comparer
@@ -1123,7 +1070,7 @@ MonoBehaviour:
       Data: false
     - Name: TeleportedTo
       Entry: 7
-      Data: 33|System.Collections.Generic.List`1[[DownBelow.Entity.CharacterEntity,
+      Data: 34|System.Collections.Generic.List`1[[DownBelow.Entity.CharacterEntity,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
@@ -1148,7 +1095,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 34|DownBelow.Spells.Spell_BuffCasterForeachHit, Assembly-CSharp
+      Data: 35|DownBelow.Spells.Spell_BuffCasterForeachHit, Assembly-CSharp
     - Name: ID
       Entry: 2
       Data: 00000000000000000000000000000000
@@ -1169,7 +1116,7 @@ MonoBehaviour:
       Data: 00000000000000000000000000000000
     - Name: Data
       Entry: 7
-      Data: 35|DownBelow.Spells.SpellData_Stats, Assembly-CSharp
+      Data: 36|DownBelow.Spells.SpellData_Stats, Assembly-CSharp
     - Name: RequiresTargetting
       Entry: 5
       Data: false
@@ -1181,7 +1128,7 @@ MonoBehaviour:
       Data: 0
     - Name: SpellShapeMatrix
       Entry: 7
-      Data: 36|System.Boolean[,], mscorlib
+      Data: 37|System.Boolean[,], mscorlib
     - Name: 
       Entry: 12
       Data: 36
@@ -1316,7 +1263,7 @@ MonoBehaviour:
       Data: 
     - Name: RotatedShapeMatrix
       Entry: 9
-      Data: 36
+      Data: 37
     - Name: RotatedShapePosition
       Entry: 7
       Data: UnityEngine.Vector2, UnityEngine.CoreModule
@@ -1331,7 +1278,7 @@ MonoBehaviour:
       Data: 
     - Name: CastingMatrix
       Entry: 7
-      Data: 37|System.Boolean[,], mscorlib
+      Data: 38|System.Boolean[,], mscorlib
     - Name: 
       Entry: 12
       Data: 1
@@ -1386,6 +1333,9 @@ MonoBehaviour:
     - Name: duration
       Entry: 3
       Data: 0
+    - Name: ApplyType
+      Entry: 3
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -1397,7 +1347,7 @@ MonoBehaviour:
       Data: 
     - Name: TargetedCells
       Entry: 7
-      Data: 38|System.Collections.Generic.List`1[[DownBelow.GridSystem.Cell, Assembly-CSharp]],
+      Data: 39|System.Collections.Generic.List`1[[DownBelow.GridSystem.Cell, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -1413,7 +1363,7 @@ MonoBehaviour:
       Data: 
     - Name: TargetEntities
       Entry: 7
-      Data: 39|System.Collections.Generic.List`1[[DownBelow.Entity.CharacterEntity,
+      Data: 40|System.Collections.Generic.List`1[[DownBelow.Entity.CharacterEntity,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
@@ -1428,14 +1378,14 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: ParentSpell
-      Entry: 6
-      Data: 
+      Entry: 9
+      Data: 21
     - Name: Result
       Entry: 7
-      Data: 40|DownBelow.Spells.SpellResult, Assembly-CSharp
+      Data: 41|DownBelow.Spells.SpellResult, Assembly-CSharp
     - Name: TargetedCells
       Entry: 7
-      Data: 41|System.Collections.Generic.List`1[[DownBelow.GridSystem.Cell, Assembly-CSharp]],
+      Data: 42|System.Collections.Generic.List`1[[DownBelow.GridSystem.Cell, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -1448,16 +1398,16 @@ MonoBehaviour:
       Data: 
     - Name: SpellRef
       Entry: 9
-      Data: 34
+      Data: 35
     - Name: Caster
       Entry: 6
       Data: 
     - Name: SetUp
       Entry: 5
-      Data: false
+      Data: true
     - Name: DamagesDealt
       Entry: 7
-      Data: 42|System.Collections.Generic.Dictionary`2[[DownBelow.Entity.CharacterEntity,
+      Data: 43|System.Collections.Generic.Dictionary`2[[DownBelow.Entity.CharacterEntity,
         Assembly-CSharp],[System.Int32, mscorlib]], mscorlib
     - Name: comparer
       Entry: 9
@@ -1476,7 +1426,7 @@ MonoBehaviour:
       Data: 0
     - Name: HealingDone
       Entry: 7
-      Data: 43|System.Collections.Generic.Dictionary`2[[DownBelow.Entity.CharacterEntity,
+      Data: 44|System.Collections.Generic.Dictionary`2[[DownBelow.Entity.CharacterEntity,
         Assembly-CSharp],[System.Int32, mscorlib]], mscorlib
     - Name: comparer
       Entry: 9
@@ -1495,7 +1445,7 @@ MonoBehaviour:
       Data: 0
     - Name: StatModified
       Entry: 7
-      Data: 44|System.Collections.Generic.Dictionary`2[[DownBelow.Entity.CharacterEntity,
+      Data: 45|System.Collections.Generic.Dictionary`2[[DownBelow.Entity.CharacterEntity,
         Assembly-CSharp],[DownBelow.Spells.StatModification, Assembly-CSharp]], mscorlib
     - Name: comparer
       Entry: 9
@@ -1511,7 +1461,7 @@ MonoBehaviour:
       Data: 
     - Name: SelfStatModified
       Entry: 7
-      Data: 45|System.Collections.Generic.Dictionary`2[[EntityStatistics, Assembly-CSharp],[System.Int32,
+      Data: 46|System.Collections.Generic.Dictionary`2[[EntityStatistics, Assembly-CSharp],[System.Int32,
         mscorlib]], mscorlib
     - Name: comparer
       Entry: 9
@@ -1527,7 +1477,7 @@ MonoBehaviour:
       Data: 
     - Name: AlterationGiven
       Entry: 7
-      Data: 46|System.Collections.Generic.Dictionary`2[[DownBelow.Entity.CharacterEntity,
+      Data: 47|System.Collections.Generic.Dictionary`2[[DownBelow.Entity.CharacterEntity,
         Assembly-CSharp],[System.Collections.Generic.List`1[[DownBelow.Spells.Alterations.Alteration,
         Assembly-CSharp]], mscorlib]], mscorlib
     - Name: comparer
@@ -1547,7 +1497,7 @@ MonoBehaviour:
       Data: false
     - Name: TeleportedTo
       Entry: 7
-      Data: 47|System.Collections.Generic.List`1[[DownBelow.Entity.CharacterEntity,
+      Data: 48|System.Collections.Generic.List`1[[DownBelow.Entity.CharacterEntity,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12

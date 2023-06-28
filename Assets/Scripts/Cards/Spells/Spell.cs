@@ -70,10 +70,11 @@ namespace DownBelow.Spells
         public override async void ExecuteAction()
         {
             Debug.LogWarning($"Executing spell {RefCard.Title}");
-            int cost = RefCard.Cost;
+            
+            // Mana cost
             if (this.ParentSpell == null)
             {
-                this.RefEntity.ApplyStat(EntityStatistics.Mana, -cost);
+                this.RefEntity.ApplyStat(EntityStatistics.Mana, -RefCard.Cost);
                 // Only play animation at first spell
                 this.RefEntity.Animator.SetTrigger("Cast");
 
@@ -211,7 +212,7 @@ namespace DownBelow.Spells
                 List<Cell> TargetCellsToTranspose = new List<Cell>();
                 if (this.Data.TargetType.HasFlag(ETargetType.None))
                 {
-                    //rien?
+                   // Debug.LogError("No target has been set for this spell. Is it an error ? | " + this.RefCard.name+ " | " + this);
                 }
                 if (this.Data.TargetType.HasFlag(ETargetType.Ally))
                 {
@@ -292,13 +293,12 @@ namespace DownBelow.Spells
 
         public override object[] GetDatas()
         {
-            // temporary
             return new object[0];
         }
 
         public override void SetDatas(object[] Datas)
         {
-            throw new NotImplementedException();
+            return;
         }
 
         #endregion

@@ -65,6 +65,9 @@ namespace DownBelow.Spells
             int gridWidth = TargetCell.RefGrid.GridWidth;
             int gridHeight = TargetCell.RefGrid.GridHeight;
 
+            var baseRef = (this.Data.SpellResultTargeting && TargetCell.Datas.widthPos == 0 && TargetCell.Datas.heightPos == 0) ? 
+                this.RefEntity.EntityCell : this.TargetCell;
+
             foreach (var entity in pushedEntities)
             {
                 bool blockedOnce = false;
@@ -74,8 +77,8 @@ namespace DownBelow.Spells
                     newX = entity.EntityCell.PositionInGrid.longitude;
                     newY = entity.EntityCell.PositionInGrid.latitude;
 
-                    offsetX = newX - TargetCell.PositionInGrid.longitude;
-                    offsetY = newY - TargetCell.PositionInGrid.latitude;
+                    offsetX = newX - baseRef.PositionInGrid.longitude;
+                    offsetY = newY - baseRef.PositionInGrid.latitude;
 
                     switch (LocalData.PushType)
                     {
