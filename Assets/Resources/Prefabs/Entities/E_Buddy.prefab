@@ -105,7 +105,7 @@ PrefabInstance:
       objectReference: {fileID: 3437911252171272520}
     - target: {fileID: 1431573493514449160, guid: cb1bb2b81a4acd043865938c346ae768, type: 3}
       propertyPath: movementType
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3151041345836561540, guid: cb1bb2b81a4acd043865938c346ae768, type: 3}
       propertyPath: _healthFeedback

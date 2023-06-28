@@ -552,7 +552,7 @@ namespace DownBelow.Managers
                 closedSet.Add(currentCell);
 
                 // We go there at the end of the path
-                if (currentCell == targetCell || Range >= 0 && IsInRange(currentCell.PositionInGrid, targetCell.PositionInGrid, Range))
+                if (currentCell == targetCell || Range >= 0 && IsInRange(currentCell, targetCell, Range))
                 {
                     if (Range >= 0)
                         targetCell = currentCell;
@@ -607,24 +607,9 @@ namespace DownBelow.Managers
             return path;
         }
 
-        private bool IsInRange(GridPosition CurrentPosition, GridPosition TargetPosition, int Range)
+        private bool IsInRange(Cell CurrentPosition, Cell TargetPosition, int Range)
         {
-            bool latitudeOnRange = false;
-            bool longitudeOnRange = false;
-
-            if (
-                TargetPosition.latitude - Range <= CurrentPosition.latitude
-                && CurrentPosition.latitude <= TargetPosition.latitude + Range
-            )
-                latitudeOnRange = true;
-
-            if (
-                TargetPosition.longitude - Range <= CurrentPosition.longitude
-                && CurrentPosition.longitude <= TargetPosition.longitude + Range
-            )
-                longitudeOnRange = true;
-
-            return latitudeOnRange && longitudeOnRange;
+            return GridUtility.ManhattanDistance(CurrentPosition, TargetPosition) <= Range;
         }
 
         /// <summary>
