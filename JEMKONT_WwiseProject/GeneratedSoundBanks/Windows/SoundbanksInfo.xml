@@ -64,7 +64,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="2711878180" Type="User" Language="SFX" Hash="{37008981-B52B-64D9-3935-31A195190BBD}">
+		<SoundBank Id="2711878180" Type="User" Language="SFX" Hash="{581BC2FD-1F61-9A4F-CD00-6D229ACAB6D0}">
 			<ShortName>SB_GLOBAL</ShortName>
 			<Path>SB_GLOBAL.bnk</Path>
 			<Media>
@@ -166,7 +166,7 @@
 				</File>
 				<File Id="293791580" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>rocksForming.wav</ShortName>
-					<CachePath>SFX/rocksForming_71B52423.wem</CachePath>
+					<CachePath>SFX/rocksForming_B7736A18.wem</CachePath>
 				</File>
 				<File Id="340277932" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>mine2.wav</ShortName>
@@ -204,6 +204,10 @@
 					<ShortName>deckShuffle.wav</ShortName>
 					<CachePath>SFX/deckShuffle_CD171DF5.wem</CachePath>
 				</File>
+				<File Id="444711420" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>darkBuff.wav</ShortName>
+					<CachePath>SFX/darkBuff_10C4C929.wem</CachePath>
+				</File>
 				<File Id="469318380" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sand2.wav</ShortName>
 					<CachePath>SFX/sand2_AA05E6B3.wem</CachePath>
@@ -238,7 +242,7 @@
 				</File>
 				<File Id="613361285" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>rocksDestroy.wav</ShortName>
-					<CachePath>SFX/rocksDestroy_596EC284.wem</CachePath>
+					<CachePath>SFX/rocksDestroy_803CDC75.wem</CachePath>
 				</File>
 				<File Id="669417131" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>cardPick1.wav</ShortName>
@@ -278,7 +282,7 @@
 				</File>
 				<File Id="816289229" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>violentHit.wav</ShortName>
-					<CachePath>SFX/violentHit_00A8D2C2.wem</CachePath>
+					<CachePath>SFX/violentHit_2354B2CB.wem</CachePath>
 				</File>
 				<File Id="822974898" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>UI_Click_Tap_Subtle_mono.wav</ShortName>
@@ -312,13 +316,21 @@
 					<ShortName>enemyHit.wav</ShortName>
 					<CachePath>SFX/enemyHit_67462A75.wem</CachePath>
 				</File>
+				<File Id="935716147" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>chains.wav</ShortName>
+					<CachePath>SFX/chains_527F3898.wem</CachePath>
+				</File>
 				<File Id="959241070" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>dbFight02.wav</ShortName>
 					<CachePath>SFX/dbFight02_D79FB2B7.wem</CachePath>
 				</File>
+				<File Id="963621528" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>blueBuff.wav</ShortName>
+					<CachePath>SFX/blueBuff_10C4C929.wem</CachePath>
+				</File>
 				<File Id="965383484" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>stone0.wav</ShortName>
-					<CachePath>SFX/stone0_82C4E44F.wem</CachePath>
+					<CachePath>SFX/stone0_7ADB30B3.wem</CachePath>
 				</File>
 				<File Id="969935710" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>ambiance farm.wav</ShortName>
@@ -360,6 +372,11 @@
 						<MediaRef Id="143424456"/>
 					</MediaRefs>
 				</Event>
+				<Event Id="2673952466" Name="Play_SSFX_Bluebuff" DurationType="OneShot" DurationMin="1.7142917" DurationMax="1.7142917">
+					<MediaRefs>
+						<MediaRef Id="444711420"/>
+					</MediaRefs>
+				</Event>
 				<Event Id="1322830077" Name="Play_SSFX_CardDraw" DurationType="OneShot" DurationMin="0.45156464" DurationMax="0.561819">
 					<MediaRefs>
 						<MediaRef Id="216173308"/>
@@ -375,6 +392,11 @@
 				<Event Id="1232721797" Name="Play_SSFX_CardSlap" DurationType="OneShot" DurationMin="0.15859172" DurationMax="0.15859172">
 					<MediaRefs>
 						<MediaRef Id="406068002"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="230033191" Name="Play_SSFX_Chains" DurationType="OneShot" DurationMin="0.9933086" DurationMax="0.9933086">
+					<MediaRefs>
+						<MediaRef Id="935716147"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="3681299163" Name="Play_SSFX_Click" DurationType="OneShot" DurationMin="0.038318895" DurationMax="0.06845805">
@@ -402,6 +424,11 @@
 				<Event Id="900263106" Name="Play_SSFX_Crate" DurationType="OneShot" DurationMin="0.9285625" DurationMax="0.9285625">
 					<MediaRefs>
 						<MediaRef Id="95996942"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2048744142" Name="Play_SSFX_Darkbuff" DurationType="OneShot" DurationMin="1.7410625" DurationMax="1.7410625">
+					<MediaRefs>
+						<MediaRef Id="963621528"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="2787275873" Name="Play_SSFX_Dash" DurationType="OneShot" DurationMin="0.091454856" DurationMax="0.091454856">
@@ -864,5 +891,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{390BC468-2FD8-9908-C9C1-4750DB00A386}</FileHash>
+	<FileHash>{EF22A2AB-5D1D-0FBC-F538-3CC53353E675}</FileHash>
 </SoundBanksInfo>

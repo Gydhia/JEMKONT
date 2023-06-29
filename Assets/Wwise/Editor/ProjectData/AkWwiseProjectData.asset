@@ -24,7 +24,7 @@ MonoBehaviour:
     ParentPath: Virtual Acoustics\Default Work Unit
     guid: 6adbcdce49052b4b9aeb10f52b2cf7ea
     GuidInternal: 
-    m_lastTime: -8585141633103319013
+    m_lastTime: -8585158876463963618
     List: []
   AuxBusWwu:
   - PhysicalPath: Master-Mixer Hierarchy\Default Work Unit.wwu
@@ -38,7 +38,7 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy\Default Work Unit
     guid: 482dc15fdb6a434b883d07304f613018
     GuidInternal: 
-    m_lastTime: -8585141633118767555
+    m_lastTime: -8585142462749818007
     List:
     - name: Master Audio Bus
       guid: d8a41415a61d2a41a17e75ca0c2149f3
@@ -100,7 +100,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: 192de397071d114d9f1f966b80edd569
     GuidInternal: 
-    m_lastTime: -8585141633103439288
+    m_lastTime: -8585142462746566677
     List:
     - name: SB_GLOBAL
       guid: afb1eebf811a1e4399ccef5e516cdff2
@@ -128,7 +128,7 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: 949bd9bfeea3b740b316a7f992c54fb1
     GuidInternal: 
-    m_lastTime: -8585136464230426202
+    m_lastTime: -8585136162833769698
     List:
     - name: CombatState
       guid: 6356ba787c934a4da0e4a41fe6079af1
@@ -258,6 +258,29 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
+    - name: Play_SSFX_Bluebuff
+      guid: 214884cd87d3dd48b3d45a46749c1899
+      id: 2673952466
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 949bd9bfeea3b740b316a7f992c54fb1
+      - ElementName: SSFX
+        ObjectType: 4
+        guid: a925d140d7d6be46a3ec23e2d212020a
+      - ElementName: Spells
+        ObjectType: 4
+        guid: 5c7ab1f62e1a464088a0dc309b6f677e
+      - ElementName: Play_SSFX_Bluebuff
+        ObjectType: 3
+        guid: 214884cd87d3dd48b3d45a46749c1899
+      Path: Events\Default Work Unit\SSFX\Spells\Play_SSFX_Bluebuff
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
     - name: Play_SSFX_CardDraw
       guid: 45bba59f3f1d9948889c9ef6a2738eb7
       id: 1322830077
@@ -318,6 +341,29 @@ MonoBehaviour:
         ObjectType: 3
         guid: 7654dcae242f6b4f88f0c6de41e1ab9c
       Path: Events\Default Work Unit\SSFX\Play_SSFX_CardSlap
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_SSFX_Chains
+      guid: e40a31180b904248ab002e16d28e6fbd
+      id: 230033191
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 949bd9bfeea3b740b316a7f992c54fb1
+      - ElementName: SSFX
+        ObjectType: 4
+        guid: a925d140d7d6be46a3ec23e2d212020a
+      - ElementName: Spells
+        ObjectType: 4
+        guid: 5c7ab1f62e1a464088a0dc309b6f677e
+      - ElementName: Play_SSFX_Chains
+        ObjectType: 3
+        guid: e40a31180b904248ab002e16d28e6fbd
+      Path: Events\Default Work Unit\SSFX\Spells\Play_SSFX_Chains
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -1005,7 +1051,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\Default Work Unit
     guid: ff666b964546ef4e9c0e4a1de8f844b7
     GuidInternal: 
-    m_lastTime: -8585141633132924943
+    m_lastTime: -8585142462762055812
     List:
     - name: MIX
       guid: 872cb04762716840b9b8968c79861de9
@@ -1084,7 +1130,7 @@ MonoBehaviour:
     ParentPath: States\Default Work Unit
     guid: 4357da42963e2141a2fff533c2aaa80c
     GuidInternal: 
-    m_lastTime: -8585136667176673850
+    m_lastTime: -8585136243159780945
     List:
     - name: GameState
       guid: 5df3a3c523000043aa95f9f98f66b10d
@@ -1344,7 +1390,7 @@ MonoBehaviour:
     ParentPath: Switches\Default Work Unit
     guid: 727aa02a69d7354da76e03849372a4fe
     GuidInternal: 
-    m_lastTime: -8585136645406065867
+    m_lastTime: -8585136243159780945
     List:
     - name: Ground_Switch
       guid: f3df87100802db4ba2f24f3cc73bd78c
@@ -1424,7 +1470,7 @@ MonoBehaviour:
     ParentPath: Triggers\Default Work Unit
     guid: 059de49afdf0cf4fb646f586885de550
     GuidInternal: 
-    m_lastTime: -8585141633103339010
+    m_lastTime: -8585158876463963618
     List: []
   ExpandedFileSystemItemIds: 
   ExpandedWaapiItemIds: 05000000060000000c0000003b000000
