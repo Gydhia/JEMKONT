@@ -17,6 +17,6 @@ MonoBehaviour:
   Sound:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: 086e7c64b73828a44baa59b2ee135e8d, type: 2}
+    WwiseObjectReference: {fileID: 11400000, guid: 2fdab6625e0ec8b49aa5b2aaa9d4cccd, type: 2}
   TravelDuration: 0.35
   TravelUnit: 1.2

@@ -44508,7 +44508,7 @@ MonoBehaviour:
   Sound:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: d39d8ffb1f3661644bd297af87ad216e, type: 2}
+    WwiseObjectReference: {fileID: 11400000, guid: c84849ca0063f0d49bd25dcd986129fb, type: 2}
   isMature: 1
   TimeToGrowUp: 80
 --- !u!65 &717044911678835273
