@@ -44,7 +44,8 @@ namespace DownBelow.UI {
 			this.UpdateGatherBar(null);
 		}
 
-		public void UpdateGatherBar(GatheringEventData Data) {
+		public void UpdateGatherBar(GatheringEventData Data) 
+		{
 			int maxResources = GameManager.MaxGatherableResources;
 
 			this.GaugeResources.maxValue = maxResources;
