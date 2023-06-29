@@ -4898,17 +4898,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7edc66e8e8b4d0d429c7cddcb7014a1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &808257839 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7813925686177794451, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
-  m_PrefabInstance: {fileID: 808257834}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &808257840 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2722922969409474542, guid: c2c7fffb4fc4ccf46a7cf88d17a836a4, type: 3}
@@ -6806,14 +6795,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 942809737677840814, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
-      propertyPath: Outline
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 942809737677840814, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
-      propertyPath: Storage
-      value: 
-      objectReference: {fileID: 2047736274}
-    - target: {fileID: 942809737677840814, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
       propertyPath: UITooltip
       value: 
       objectReference: {fileID: 5628645203056240210}
@@ -6834,10 +6815,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 808871661178266989}
     - target: {fileID: 942809737677840814, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
-      propertyPath: CollectedItem
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 942809737677840814, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
       propertyPath: CombatSection
       value: 
       objectReference: {fileID: 808257835}
@@ -6853,10 +6830,6 @@ PrefabInstance:
       propertyPath: GatherSection
       value: 
       objectReference: {fileID: 776829853}
-    - target: {fileID: 942809737677840814, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
-      propertyPath: GatheringName
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 942809737677840814, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
       propertyPath: RewardSection
       value: 
@@ -6878,10 +6851,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1436125772}
     - target: {fileID: 942809737677840814, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
-      propertyPath: NextTurnButton
-      value: 
-      objectReference: {fileID: 808257839}
-    - target: {fileID: 942809737677840814, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
       propertyPath: CraftingSection
       value: 
       objectReference: {fileID: 507757118}
@@ -6890,10 +6859,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 976819285}
     - target: {fileID: 942809737677840814, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
-      propertyPath: GatheringSlider
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 942809737677840814, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
       propertyPath: PlayerInventory
       value: 
       objectReference: {fileID: 25866691}
@@ -6901,10 +6866,6 @@ PrefabInstance:
       propertyPath: WorkshopSection
       value: 
       objectReference: {fileID: 1034754784}
-    - target: {fileID: 942809737677840814, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
-      propertyPath: StartCombatButton
-      value: 
-      objectReference: {fileID: 808257840}
     - target: {fileID: 942809737677840814, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
       propertyPath: DeckbuildingSystem
       value: 
@@ -6917,18 +6878,6 @@ PrefabInstance:
       propertyPath: VirtualCamera
       value: 
       objectReference: {fileID: 127333210}
-    - target: {fileID: 1319291778372884564, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
-      propertyPath: GatheringZoomTarget
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 4056352322092990697, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
-      propertyPath: PoolContainer
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4946891328310257652, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
-      propertyPath: sceneViewId
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6008253201538663047, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -6973,37 +6922,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
-      propertyPath: DeckPresets.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
-      propertyPath: serializationData.Prefab
-      value: 
-      objectReference: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
-    - target: {fileID: 7152127348150087471, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
-      propertyPath: DeckPresets.Array.data[4]
-      value: 
-      objectReference: {fileID: 11400000, guid: dd2bfd15c03fc73419ff1859368e683d, type: 2}
     - target: {fileID: 7177147408384528591, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
       propertyPath: m_Name
       value: Managers
-      objectReference: {fileID: 0}
-    - target: {fileID: 7934421384719506005, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
-      propertyPath: MuteOnPlay
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7964413336302880731, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
-      propertyPath: GridShader
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7964413336302880731, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
-      propertyPath: FirstSpawn.x
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 7964413336302880731, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
-      propertyPath: FirstSpawn.y
-      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7964413336302880731, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
       propertyPath: BitmapTexture
@@ -7014,25 +6935,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2016117605}
     - target: {fileID: 7964413336302880731, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
-      propertyPath: _objectsHandler
-      value: 
-      objectReference: {fileID: 1171847043}
-    - target: {fileID: 7964413336302880731, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
       propertyPath: _gridsDataHandler
       value: 
       objectReference: {fileID: 1090901377}
-    - target: {fileID: 8070630671700927374, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
-      propertyPath: PossibleAutoAttacks.Array.data[0]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8204484604120715693, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
-      propertyPath: PlayerDeck.Cards.Array.size
-      value: 21
-      objectReference: {fileID: 0}
-    - target: {fileID: 8267398679234714750, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
-      propertyPath: EventSystem
-      value: 
-      objectReference: {fileID: 110923007}
     - target: {fileID: 8267398679234714750, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
       propertyPath: PlayerInput
       value: 
@@ -7041,22 +6946,6 @@ PrefabInstance:
       propertyPath: GameEventSystem
       value: 
       objectReference: {fileID: 110923007}
-    - target: {fileID: 8322103470459949579, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
-      propertyPath: AlterationSFXList
-      value: 
-      objectReference: {fileID: 11400000, guid: 980541b1f93667242bc13db4e6b0d359, type: 2}
-    - target: {fileID: 9130029332865921162, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9130029332865921162, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9130029332865921162, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 29891c9ec60fceb4e8790b52b8d3f302, type: 3}
 --- !u!1001 &5628645203056240208

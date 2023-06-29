@@ -291,7 +291,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b677cfc4c3f91154ea576620b2e2b3da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AlterationSFXList: {fileID: 0}
+  AlterationSFXList: {fileID: 11400000, guid: 980541b1f93667242bc13db4e6b0d359, type: 2}
 --- !u!1 &4684062575287771609
 GameObject:
   m_ObjectHideFlags: 0
@@ -344,7 +344,7 @@ MonoBehaviour:
   _gridsDataHandler: {fileID: 0}
   InCombat: 1
   MainWorldGrid: {fileID: 0}
-  BitmapTexture: {fileID: 2800000, guid: 774cf7acc1c321844b3f8ee5e9f215b8, type: 3}
+  BitmapTexture: {fileID: 0}
   BitmapShader: {fileID: 2100000, guid: 0349616ade0e9a54cbd7bfb285ede134, type: 2}
   BitmapShaderEditor: {fileID: 2100000, guid: d7ee3575319574e4688189eaa3ce6d01, type: 2}
   GridShader: {fileID: 0}
@@ -661,7 +661,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3575076097724388968, guid: bfce2c1088b0f5940af5262eeb28a32b, type: 3}
       propertyPath: CraftRepices.Array.size
-      value: 4
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 3575076097724388968, guid: bfce2c1088b0f5940af5262eeb28a32b, type: 3}
       propertyPath: AbyssesPresets.Array.size
@@ -671,6 +671,30 @@ PrefabInstance:
       propertyPath: CraftRepices.Array.data[3]
       value: 
       objectReference: {fileID: 11400000, guid: 4edaa5a107bd054499fd5018028d5119, type: 2}
+    - target: {fileID: 3575076097724388968, guid: bfce2c1088b0f5940af5262eeb28a32b, type: 3}
+      propertyPath: CraftRepices.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: 3d3ce12b74461d6498d2865d96dda35d, type: 2}
+    - target: {fileID: 3575076097724388968, guid: bfce2c1088b0f5940af5262eeb28a32b, type: 3}
+      propertyPath: CraftRepices.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: 6691e1740ed412d47ab2174b649c3199, type: 2}
+    - target: {fileID: 3575076097724388968, guid: bfce2c1088b0f5940af5262eeb28a32b, type: 3}
+      propertyPath: CraftRepices.Array.data[6]
+      value: 
+      objectReference: {fileID: 11400000, guid: f232e2f8ddfec614a898f72d8cf5a082, type: 2}
+    - target: {fileID: 3575076097724388968, guid: bfce2c1088b0f5940af5262eeb28a32b, type: 3}
+      propertyPath: CraftRepices.Array.data[7]
+      value: 
+      objectReference: {fileID: 11400000, guid: e0b3b6c93be49d448917bd351d42cf45, type: 2}
+    - target: {fileID: 3575076097724388968, guid: bfce2c1088b0f5940af5262eeb28a32b, type: 3}
+      propertyPath: CraftRepices.Array.data[8]
+      value: 
+      objectReference: {fileID: 11400000, guid: 3140a58cf41fe83429aacfbd5053263a, type: 2}
+    - target: {fileID: 3575076097724388968, guid: bfce2c1088b0f5940af5262eeb28a32b, type: 3}
+      propertyPath: PlayerDeck.Cards.Array.size
+      value: 21
+      objectReference: {fileID: 0}
     - target: {fileID: 3575076097724388968, guid: bfce2c1088b0f5940af5262eeb28a32b, type: 3}
       propertyPath: AbyssesPresets.Array.data[1]
       value: 
@@ -755,7 +779,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1582070642444072958, guid: d8cd1ce0096055b4198533f7135b7b79, type: 3}
       propertyPath: MuteOnPlay
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8078263489320882043, guid: d8cd1ce0096055b4198533f7135b7b79, type: 3}
       propertyPath: m_RootOrder
