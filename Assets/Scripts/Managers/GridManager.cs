@@ -565,7 +565,7 @@ namespace DownBelow.Managers
                     : GetNormalNeighbours(currentCell, entity.CurrentGrid);
                 foreach (Cell neighbour in actNeighbours)
                 {
-                    if (CellState.NonWalkable.HasFlag(neighbour.Datas.state) && (!directPath || (directPath && neighbour.Datas.state == CellState.Blocked)) || closedSet.Contains(neighbour))
+                    if (CellState.NonWalkable.HasFlag(neighbour.Datas.state) && (!directPath) || closedSet.Contains(neighbour))
                         continue;
 
                     int newMovementCostToNeightbour =
