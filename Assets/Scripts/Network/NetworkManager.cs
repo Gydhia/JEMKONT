@@ -637,6 +637,23 @@ namespace DownBelow.Managers
 
         private bool _turnOnGoing = false;
 
+        public void ForceRefreshTurns()
+        {
+            this.photonView.RPC("RespondRefreshTurns", RpcTarget.All, CombatManager.Instance.EntityTurnRotation);
+        }
+
+        [PunRPC]
+        public void RespondRefreshTurns(int currentTurn)
+        {
+            CombatManager.Instance.EntityTurnRotation = currentTurn;
+            if (PhotonNetwork.IsMasterClient)
+            {
+                var endTurn = new EndTurnAction(CombatManager.CurrentPlayingEntity, CombatManager.CurrentPlayingEntity.EntityCell);
+                this.EntityAskToBuffAction(endTurn);
+            }
+        }
+
+
         public void StartEntityTurn()
         {
             if (PhotonNetwork.IsMasterClient)

@@ -416,6 +416,15 @@ namespace DownBelow.Entity
             switch (stat)
             {
                 case EntityStatistics.Health:
+                    //if(this is PlayerBehavior)
+                    //{
+                    //    AkSoundEngine.PostEvent("Play_SSFX_MyTurnStart", AudioHolder.Instance.gameObject);
+                    //}
+                    //else
+                    //{
+                    //    AkSoundEngine.PostEvent("Play_SSFX_MyTurnStart", AudioHolder.Instance.gameObject);
+                    //}
+
                     this._applyHealth(value, triggerEvents); break;
                 case EntityStatistics.Mana:
                     this._applyMana(value); break;

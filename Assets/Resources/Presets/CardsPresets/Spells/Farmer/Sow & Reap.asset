@@ -56,6 +56,9 @@ MonoBehaviour:
     - Name: Data
       Entry: 7
       Data: 2|DownBelow.Spells.SpellData_Summon, Assembly-CSharp
+    - Name: CanRetargetAlreadyTargettedCells
+      Entry: 5
+      Data: false
     - Name: RequiresTargetting
       Entry: 5
       Data: true
@@ -443,7 +446,7 @@ MonoBehaviour:
   Title: Sow & Reap
   Cost: 2
   CardType: 1
-  Description: Create a Rune, after 3 turns, all allies in a radius have their strength
+  Description: Create a Rune, after 1 turn, all allies in a radius have their strength
     increased by X.
   IllustrationImage: {fileID: 21300000, guid: 1809c49a81359f34abbc86649794389e, type: 3}
   Class: 2

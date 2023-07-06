@@ -69,6 +69,9 @@ MonoBehaviour:
     - Name: Data
       Entry: 7
       Data: 4|DownBelow.Spells.SpellData_Summon, Assembly-CSharp
+    - Name: CanRetargetAlreadyTargettedCells
+      Entry: 5
+      Data: false
     - Name: RequiresTargetting
       Entry: 5
       Data: false
@@ -533,6 +536,9 @@ MonoBehaviour:
     - Name: Data
       Entry: 7
       Data: 22|DownBelow.Spells.SpellData_Summon, Assembly-CSharp
+    - Name: CanRetargetAlreadyTargettedCells
+      Entry: 5
+      Data: false
     - Name: RequiresTargetting
       Entry: 5
       Data: true
@@ -1075,7 +1081,7 @@ MonoBehaviour:
   Title: Regalia Rune
   Cost: 3
   CardType: 1
-  Description: Create a Rune for 3 turns, all allies in a radius have their armor
+  Description: Create a Rune for 1 turns, all allies in a radius have their armor
     increased.
   IllustrationImage: {fileID: 21300000, guid: 0951e82510d3bdf41b544758046dfeba, type: 3}
   Class: 0
