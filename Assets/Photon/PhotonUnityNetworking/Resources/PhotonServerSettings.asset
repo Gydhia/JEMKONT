@@ -70,6 +70,9 @@ MonoBehaviour:
   - RPC_SelfLoadedGame
   - RPC_EntityRespondToTickAction
   - RPC_RespondGiftOrRemoveStorageItem
+  - RespondRefreshTurns
+  - RPC_RespondDestroyInteractable
+  - RPC_RespondInteractableDurability
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
