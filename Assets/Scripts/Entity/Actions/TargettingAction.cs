@@ -9,31 +9,46 @@ namespace DownBelow.Entity {
 		public AttackType Type;
 
 		public TargettingAction(CharacterEntity RefEntity, Cell TargetCell)
-			: base(RefEntity, TargetCell) {
+			: base(RefEntity, TargetCell) 
+		{
 		}
-		public void Init(AttackType type) {
+
+		public void Init(AttackType type) 
+		{
 			Debug.Log($"INIT: {type}");
 			Type = type;
 		}
-		public override void ExecuteAction() {
+
+		public override void ExecuteAction() 
+		{
 			CharacterEntity target;
 
 			switch (Type) {
-				case AttackType.ClosestRandom: target = this.TargetClosestRandom(); break;
+				case AttackType.ClosestRandom: 
+					target = this.TargetClosestRandom();
+					break;
 				case AttackType.LowestRandom:
-					target = TargetRandomByHP(false);
+					target = this.TargetRandomByHP(false);
 					break;
 				case AttackType.HighestRandom:
-					target = TargetRandomByHP(true);
+					target = this.TargetRandomByHP(true);
 					break;
 				case AttackType.Random:
-					target = CombatManager.Instance.PlayersInGrid.Random();
+					var players = this.GetAllPlayers();
+					target = players.Random();
+					break;
+				case AttackType.HighestBaseHP:
+					target = this.TargetByMaxHP();
 					break;
 				case AttackType.FarthestRandom:
-				default: target = this.TargetFarthestRandom(); break;
+				default: 
+					target = this.TargetFarthestRandom(); 
+					break;
 			}
+
 			Debug.Log($"TARGETTED: {target} => {Type}");
-			if (target != null) {
+			if (target != null) 
+			{
 				this.TargetCell = target.EntityCell;
 				target.FireEntityTargetted(this.RefEntity);
 			}
@@ -41,33 +56,62 @@ namespace DownBelow.Entity {
 			base.EndAction();
 		}
 
-		private CharacterEntity TargetRandomByHP(bool highestInTheRoom) {
+		private CharacterEntity TargetByMaxHP()
+        {
+			var players = this.GetAllPlayers();
+
+			if(players.Count <= 0) { return null; }
+
+			var targetPlayer = players[0];
+            for (int i = 1; i < players.Count; i++)
+            {
+				if(players[i].MaxHealth > targetPlayer.MaxHealth)
+                {
+					targetPlayer = players[i];
+                }
+            }
+
+			return targetPlayer;
+		}
+
+		private CharacterEntity TargetRandomByHP(bool highestInTheRoom) 
+		{
 			int HP;
 			var targets = new List<PlayerBehavior>();
-			targets.AddRange(CombatManager.Instance.PlayersInGrid);
-			if (highestInTheRoom) {
+
+			var players = this.GetAllPlayers();
+
+			if (highestInTheRoom) 
+			{
 				HP = 0;
-				foreach (PlayerBehavior play in CombatManager.Instance.PlayersInGrid) {
-					if (HP == Mathf.Max(play.Health, HP)) {
-						targets.Add(play);
+				foreach (PlayerBehavior player in players) 
+				{
+					if (HP == Mathf.Max(player.Health, HP)) 
+					{
+						targets.Add(player);
 					}
-					else if (HP < Mathf.Max(play.Health, HP)) {
-						HP = Mathf.Max(play.Health, HP);
+					else if (HP < Mathf.Max(player.Health, HP)) 
+					{
+						HP = Mathf.Max(player.Health, HP);
 						targets.Clear();
-						targets.Add(play);
+						targets.Add(player);
 					}
 				}
 			}
-			else {
+			else 
+			{
 				HP = int.MaxValue;
-				foreach (PlayerBehavior play in CombatManager.Instance.PlayersInGrid) {
-					if (HP == Mathf.Min(play.Health, HP)) {
-						targets.Add(play);
+				foreach (PlayerBehavior player in players) 
+				{
+					if (HP == Mathf.Min(player.Health, HP)) 
+					{
+						targets.Add(player);
 					}
-					else if (HP > Mathf.Min(play.Health, HP)) {
-						HP = Mathf.Min(play.Health, HP);
+					else if (HP > Mathf.Min(player.Health, HP)) 
+					{
+						HP = Mathf.Min(player.Health, HP);
 						targets.Clear();
-						targets.Add(play);
+						targets.Add(player);
 					}
 				}
 			}
@@ -80,7 +124,7 @@ namespace DownBelow.Entity {
 		private CharacterEntity TargetClosestRandom() {
 			CharacterEntity[] PlayersByDistance = ((EnemyEntity)this.RefEntity).PlayersOrderedByDistance("Min", out int sameDist);
 
-			return PlayersByDistance.Length > 0 ? PlayersByDistance[UnityEngine.Random.Range(0, sameDist)] : null;
+			return PlayersByDistance.Length > 0 ? PlayersByDistance[0] : null;
 		}
 
 		/// <summary>
@@ -89,9 +133,23 @@ namespace DownBelow.Entity {
 		private CharacterEntity TargetFarthestRandom() {
 			CharacterEntity[] PlayersByDistance = ((EnemyEntity)this.RefEntity).PlayersOrderedByDistance("Max", out int sameDist);
 
-			return PlayersByDistance.Length > 0 ? PlayersByDistance[UnityEngine.Random.Range(0, sameDist)] : null;
+			return PlayersByDistance.Length > 0 ? PlayersByDistance[0] : null;
 		}
 
+
+		public List<PlayerBehavior> GetAllPlayers()
+        {
+			List<PlayerBehavior> players = new List<PlayerBehavior>();
+			for (int i = 0; i < CombatManager.Instance.PlayingEntities.Count; i++)
+			{
+				if (CombatManager.Instance.PlayingEntities[i] is PlayerBehavior player)
+				{
+					players.Add(player);
+				}
+			}
+
+			return players;
+		}
 
 		public override object[] GetDatas() {
 			return new object[1] { (int)Type };

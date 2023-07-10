@@ -44,7 +44,8 @@ namespace DownBelow.UI {
 			this.UpdateGatherBar(null);
 		}
 
-		public void UpdateGatherBar(GatheringEventData Data) {
+		public void UpdateGatherBar(GatheringEventData Data) 
+		{
 			int maxResources = GameManager.MaxGatherableResources;
 
 			this.GaugeResources.maxValue = maxResources;
@@ -122,27 +123,30 @@ namespace DownBelow.UI {
 				.Join(this.Result.DOFade(0f, 0.5f))
 				.OnComplete(() => { this.Result.transform.position = basePos; });
 
-			this._gatherAction.NotifyTick(succeeded);
-			if (fromPlayer) {
-				//SFX:
-				await new WaitForSeconds(0.4333f);
-				Destroy(Instantiate(((ResourcePreset)_gatherAction.CurrentRessource.InteractablePreset).HitSFX, _gatherAction.CurrentRessource.transform), 1f);
+			var resource = _gatherAction.CurrentRessource;
 
+			this._gatherAction.NotifyTick(succeeded);
+			if (fromPlayer && succeeded) 
+			{
+				await new WaitForSeconds(resource.LocalPreset.TimeBeforeSFX);
+				Destroy(Instantiate(resource.LocalPreset.HitSFX, _gatherAction.CurrentRessource.transform), 1f);
 			}
-			if (succeeded) {
-				_gatherAction.CurrentRessource.Sound.Post(AudioHolder.Instance.gameObject);
+			if (succeeded) 
+			{
+				resource.Sound.Post(AudioHolder.Instance.gameObject);
 			}
-			if (this._currInteract == this._maxInteract) {
+			if (this._currInteract == this._maxInteract) 
+			{
 				this._onEndQTE();
 			}
-			else {
+			else 
+			{
 				this.LoneInteract();
 			}
-
-
 		}
 
-		private void _onEndQTE() {
+		private void _onEndQTE() 
+		{
 			StartCoroutine(_hideOnEnd());
 		}
 

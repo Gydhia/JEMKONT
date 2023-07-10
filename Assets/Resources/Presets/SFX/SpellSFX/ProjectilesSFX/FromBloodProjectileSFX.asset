@@ -14,5 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefab: {fileID: 5764590846284722614, guid: ed429befffd9e28479c6fb71c92bca1c, type: 3}
   TravelType: 2
+  Sound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 966117e55106de649927653009b1edde, type: 2}
   TravelDuration: 0.5
   TravelUnit: 1.2

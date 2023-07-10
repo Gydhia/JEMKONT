@@ -13,25 +13,25 @@ MonoBehaviour:
   m_Name: GoldVein
   m_EditorClassIdentifier: 
   serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
+    SerializedFormat: 0
+    SerializedBytes: 290103000000550049004400919c6f6fa85265e8c6b0b6deacfc6d87
     ReferencedUnityObjects: []
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes:
-    - Name: UID
-      Entry: 2
-      Data: 6f6f9c9152a8e865c6b0b6deacfc6d87
+    SerializationNodes: []
   UName: Gold Vein
   AffectingState: 8
   OverrideSave: 0
   ObjectPrefab: {fileID: 8025783147948518094, guid: 738118ed5a071db4d95b7ce47e639a4e, type: 3}
   OutlineColor: {r: 0.21725611, g: 0.5471698, b: 0.1264685, a: 1}
   InteractAnimation: {fileID: 0}
+  Durability: -1
+  DestroySFX: {fileID: 0}
   GatherableBy: 0
   ResourceItem: {fileID: 11400000, guid: bf7cd4d4a1c92954e8a82da5efb4b9dd, type: 2}
   HitSFX: {fileID: 1738658161782828, guid: a0ba33fd4919e424bbee356c3e17d6fc, type: 3}
   MinGathering: 2
   MaxGathering: 2
+  TimeBeforeSFX: 0.433333

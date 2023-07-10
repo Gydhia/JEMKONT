@@ -62,10 +62,14 @@ namespace DownBelow.Managers {
 				string abyssName = (Grid as CombatGrid).ParentGrid.UName;
 				var abyss = SettingsManager.Instance.AbyssesPresets.Find(x => x.name == abyssName);
 
-				if (!abyss.IsCleared) {
+				if (!abyss.IsCleared) 
+				{
 					abyss.GiftCards();
 					abyss.IsCleared = true;
 					GameManager.MaxAbyssReached++;
+
+					GameManager.CurrentAvailableResources = GameManager.MaxGatherableResources;
+					UIManager.Instance.GatherSection.UpdateGatherBar(null);
 				}
 			}
 			else {
@@ -461,7 +465,7 @@ namespace DownBelow.Managers {
 					spell.Data.CasterPosition
 				)
 			)
-			&& (spell.Data.CanRetargetAlreadyTargettedCells || (spell.Result == null || !spell.Result.TargetedCells.Contains(cell)))
+			&& (spell.Data.CanRetargetAlreadyTargettedCells || (spell.Result == null || (spell.Result.TargetedCells != null && !spell.Result.TargetedCells.Contains(cell))))
 			;
 		}
 

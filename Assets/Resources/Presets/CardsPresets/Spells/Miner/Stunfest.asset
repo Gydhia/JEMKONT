@@ -65,6 +65,9 @@ MonoBehaviour:
     - Name: Data
       Entry: 7
       Data: 3|DownBelow.Spells.SpellData_Alteration, Assembly-CSharp
+    - Name: CanRetargetAlreadyTargettedCells
+      Entry: 5
+      Data: false
     - Name: RequiresTargetting
       Entry: 5
       Data: true
@@ -576,7 +579,7 @@ MonoBehaviour:
   Title: Stunfest
   Cost: 1
   CardType: 2
-  Description: Stun an enemy for 3 turns.
+  Description: Stun an enemy for 1 turns.
   IllustrationImage: {fileID: 21300000, guid: e4b0fe1446fe121449ef780deb8be19f, type: 3}
   Class: 0
   CurrentSpellTargetting: 0

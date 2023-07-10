@@ -29,6 +29,7 @@ namespace DownBelow.Managers
 
         //Parameters
         public Vector3 InBattleAngle = new Vector3(45,-30,0);
+        public Vector3 InFarmAngle = new Vector3(65,0,0);
         private float InBattleFOV = 40f;
         public float Zoom = 0f;
         public float ZoomSpeed = 1f;
@@ -92,6 +93,7 @@ namespace DownBelow.Managers
                 {
                     IsInCombatGrid = false;
                     this.VirtualCamera.Follow = Data.Entity.transform;
+                    this.VirtualCamera.transform.eulerAngles = InFarmAngle;
                 }
 
                 

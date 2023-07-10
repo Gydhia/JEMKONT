@@ -278,21 +278,27 @@ namespace DownBelow.UI
             this.transform.position = Vector3.zero;
 
             int result = Random.Range(1, 11);
+   
+            
+                this.m_RectTransform.DOPunchRotation(Vector3.one * 0.8f, 1.3f, result);
+                this.m_RectTransform.DOPunchScale(Vector3.one * 0.8f, 1.3f, result);
+                this.m_RectTransform.DOPunchPosition(Vector3.one * 0.8f, 1.4f, result).OnComplete((() =>
+                {
+                    this.m_RectTransform.localScale = Vector3.one;
+                    this.m_RectTransform.parent = this.RefPile.CardsHolder;
+                    this._spawnPosition = m_RectTransform.position;
+                    this.m_RectTransform.DOAnchorPosY(this._spawnPosition.y, 0.3f);
 
-            this.m_RectTransform.DOPunchRotation(Vector3.one * 0.8f, 1.3f, result);
-            this.m_RectTransform.DOPunchScale(Vector3.one * 0.8f, 1.3f, result);
-            this.m_RectTransform.DOPunchPosition(Vector3.one * 0.8f, 1.3f, result).OnComplete((() =>
-            {
-                this.m_RectTransform.localScale = Vector3.one;
-                this.m_RectTransform.parent = this.RefPile.CardsHolder;
-                this._spawnPosition = m_RectTransform.position;
-                this.m_RectTransform.DOAnchorPosY(this._spawnPosition.y, 0.3f);
+                    // FOR CARDS OVERVIEW, we're resetting this
+                    this.m_RectTransform.pivot = this.RefPile.CardPivot;
+                    
+                    UIManager.Instance.CardSection.SetAllLayoutGroups(true);
+                }));
+            
 
-                // FOR CARDS OVERVIEW, we're resetting this
-                this.m_RectTransform.pivot = this.RefPile.CardPivot;
-            }));
+           
         }
-
+        
         public void DiscardToHand()
         {
             PlayerInputs.player_r_click.canceled -= _onRightClick;

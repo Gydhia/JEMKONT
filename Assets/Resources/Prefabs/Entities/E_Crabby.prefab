@@ -104,6 +104,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5399806964580525008}
     - target: {fileID: 1431573493514449160, guid: cb1bb2b81a4acd043865938c346ae768, type: 3}
+      propertyPath: AttackSFX
+      value: 
+      objectReference: {fileID: 11400000, guid: 743cdde23d4b8a349a55a22a72ae6f24, type: 2}
+    - target: {fileID: 1431573493514449160, guid: cb1bb2b81a4acd043865938c346ae768, type: 3}
       propertyPath: EnemyStyle
       value: 
       objectReference: {fileID: 11400000, guid: ed8c7df3d95b8e64bb72a70fd2fcd8b6, type: 2}

@@ -20,6 +20,8 @@ namespace DownBelow.Managers
         #region EVENTS
         public event CellEventData.Event OnCellRightClickDown;
         public event GameEventData.Event OnAnyRightClickDown;
+        public event GameEventData.Event OnAnyRightClickDown2;
+        public event GameEventData.Event OnAnyAltDown;
 
         public event CellEventData.Event OnCellClickedUp;
         public event CellEventData.Event OnCellClickedDown;
@@ -30,6 +32,10 @@ namespace DownBelow.Managers
         public void FireRightClick()
         {
             this.OnAnyRightClickDown?.Invoke(new GameEventData());
+        }
+        public void FireAltDown()
+        {
+            this.OnAnyAltDown?.Invoke(new GameEventData());
         }
         public void FireCellRightClick(Cell Cell)
         {
@@ -76,6 +82,7 @@ namespace DownBelow.Managers
             PlayerInputs.player_l_click.canceled += this._onLeftClickUp;
 
             PlayerInputs.player_r_click.performed += this._onRightClickDown;
+            PlayerInputs.player_alt.performed += this._onAltDown;
 
             PlayerInputs.player_interact.canceled += this._onInteract;
 
@@ -201,6 +208,15 @@ namespace DownBelow.Managers
             this.FireRightClick();
         }
 
+        private void _onAltDown(InputAction.CallbackContext ctx) => this.OnAltDown();
+        public void OnAltDown()
+        {
+            if (this.IsPointingOverUI)
+                return;
+
+            this.FireAltDown();
+        }
+
         private void _onInteract(InputAction.CallbackContext ctx) => this.OnInteract();
         public void OnInteract()
         {
@@ -282,6 +298,7 @@ namespace DownBelow.Managers
                 {
                     _lastPlaceable = placeable;
                     OnNewCellHovered += _lastPlaceable.Previsualize;
+                    OnAnyAltDown += _lastPlaceable.RotatePrevisualization;
                     PlayerInputs.player_interact.performed += _lastPlaceable.AskToPlace;
 
                     UIManager.Instance.PlayerInventory.PressEIndicator.gameObject.SetActive(true);

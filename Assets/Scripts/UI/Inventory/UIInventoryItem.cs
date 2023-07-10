@@ -194,7 +194,7 @@ namespace DownBelow.UI.Inventory
         }
         protected virtual void dropOverUI(PointerEventData eventData)
         {
-            if (LastHoveredItem && LastHoveredItem != this && LastHoveredItem.SelfItem.ItemPreset == null)
+            if (LastHoveredItem && LastHoveredItem != this && (LastHoveredItem.SelfItem.ItemPreset == null || LastHoveredItem.SelfItem.ItemPreset == this.SelfItem.ItemPreset))
             {
                 if (LastHoveredItem.OnlyAcceptedItem != null && LastHoveredItem.OnlyAcceptedItem != this.SelfItem.ItemPreset)
                     return;

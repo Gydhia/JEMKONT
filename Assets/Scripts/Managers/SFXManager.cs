@@ -58,7 +58,7 @@ namespace DownBelow.Managers {
 			else {
 				landTime = (float)0f;
 			}
-
+			SfxData.Sound.Post(AudioHolder.Instance.gameObject);
 			switch (SfxData.TravelType) {
 				case ESFXTravelType.ProjectileToEnemy:
 					proj = Instantiate(SfxData.Prefab, SfxData.caster.transform.position, Quaternion.identity);

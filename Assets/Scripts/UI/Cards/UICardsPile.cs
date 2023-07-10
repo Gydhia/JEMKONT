@@ -1,3 +1,4 @@
+using System;
 using DownBelow.Managers;
 using DownBelow.UI;
 using Sirenix.OdinInspector;
@@ -30,9 +31,12 @@ public class UICardsPile : MonoBehaviour
     public Transform VisualMoveTarget;
 
     public Transform CardsHolder;
+
+    public UICardsHolder _cardsHolder;
+    
     public GameObject OverviewContent;
     public bool UnorganizeCards;
-
+    
     private void Update()
     {
         if(this.CardsNumber != null)
@@ -54,7 +58,20 @@ public class UICardsPile : MonoBehaviour
 
     public void ClickOnPile()
     {
-        this.OverviewContent.SetActive(!this.OverviewContent.activeSelf);
+        if (!_cardsHolder.IsPileOpen)
+        {
+            this.OverviewContent.SetActive(!this.OverviewContent.activeSelf);
+            _cardsHolder.IsPileOpen = this.OverviewContent.activeInHierarchy;
+        }
+        else
+        {
+            if (this.OverviewContent.activeInHierarchy)
+            {
+                this.OverviewContent.SetActive(!this.OverviewContent.activeSelf);
+                _cardsHolder.IsPileOpen = this.OverviewContent.activeInHierarchy;
+            }
+        }
+            
 
         if (this.UnorganizeCards)
         {

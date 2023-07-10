@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 
 namespace DownBelow.Entity
@@ -87,7 +88,37 @@ namespace DownBelow.Entity
                 }
 
                 this.RefEntity.FireExitedCell();
-                AkSoundEngine.SetSwitch("Ground_Switch", "Grass", AudioHolder.Instance.gameObject);
+                RaycastHit groundHit;
+                
+                if (Physics.Raycast(this.RefEntity.gameObject.transform.position, Vector3.down, out groundHit))
+                {
+                    TerrainData terData = Terrain.activeTerrain.terrainData;
+                    if (terData)
+                    {
+                        float[,,] splatDat = terData.GetAlphamaps(0,0,terData.alphamapWidth,terData.alphamapHeight);
+                        if (splatDat.Length == 2)
+                        {
+                            float mxAlpha = Math.Max(splatDat[(int)groundHit.textureCoord.x, (int)groundHit.textureCoord.y, 0], splatDat[(int)groundHit.textureCoord.x, (int)groundHit.textureCoord.y, 1]);
+                            if (mxAlpha== splatDat[(int)groundHit.textureCoord.x, (int)groundHit.textureCoord.y, 0])
+                            {
+                                AkSoundEngine.SetSwitch("Ground_Switch", "Stone", AudioHolder.Instance.gameObject);
+
+                            }
+                            else
+                            {
+                                AkSoundEngine.SetSwitch("Ground_Switch", "Sand", AudioHolder.Instance.gameObject);
+                            }
+                        }
+                        else
+                        {
+                            AkSoundEngine.SetSwitch("Ground_Switch", "Grass", AudioHolder.Instance.gameObject);
+
+                        }
+                    }
+                    
+
+                }
+                
                 AkSoundEngine.PostEvent("Play_SSFX_Walk", AudioHolder.Instance.gameObject);
                 this.RefEntity.EntityCell = this.calculatedPath[targetCell];
 

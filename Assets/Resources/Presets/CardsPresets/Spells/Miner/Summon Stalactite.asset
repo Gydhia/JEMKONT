@@ -56,6 +56,9 @@ MonoBehaviour:
     - Name: Data
       Entry: 7
       Data: 2|DownBelow.Spells.SpellData_Summon, Assembly-CSharp
+    - Name: CanRetargetAlreadyTargettedCells
+      Entry: 5
+      Data: false
     - Name: RequiresTargetting
       Entry: 5
       Data: true
@@ -521,6 +524,9 @@ MonoBehaviour:
     - Name: Data
       Entry: 7
       Data: 6|DownBelow.Spells.SpellData_Summon, Assembly-CSharp
+    - Name: CanRetargetAlreadyTargettedCells
+      Entry: 5
+      Data: false
     - Name: RequiresTargetting
       Entry: 5
       Data: true
@@ -986,6 +992,9 @@ MonoBehaviour:
     - Name: Data
       Entry: 7
       Data: 10|DownBelow.Spells.SpellData_Summon, Assembly-CSharp
+    - Name: CanRetargetAlreadyTargettedCells
+      Entry: 5
+      Data: false
     - Name: RequiresTargetting
       Entry: 5
       Data: true
@@ -1436,7 +1445,7 @@ MonoBehaviour:
   Title: Summon Stalactite
   Cost: 2
   CardType: 1
-  Description: Select 3 empty tiles, they will be blocked for 2 turns
+  Description: Select 3 empty tiles, they will be blocked for 1 turns
   IllustrationImage: {fileID: 21300000, guid: 278a26c19103fe643a0d244b934c533e, type: 3}
   Class: 0
   CurrentSpellTargetting: 0

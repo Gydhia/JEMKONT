@@ -64,6 +64,8 @@ namespace DownBelow.UI
 
         public void ShowRewards(GridEventData Data)
         {
+            this.gameObject.SetActive(true);
+
             this.DefeatCanvas.blocksRaycasts = true;
             this.VictoryCanvas.blocksRaycasts = true;
             this.Continue.gameObject.SetActive(true);

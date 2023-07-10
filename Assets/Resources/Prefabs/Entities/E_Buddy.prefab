@@ -88,6 +88,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3437911252157571176}
     - target: {fileID: 1431573493514449160, guid: cb1bb2b81a4acd043865938c346ae768, type: 3}
+      propertyPath: AttackSFX
+      value: 
+      objectReference: {fileID: 11400000, guid: 632b0fbb149606044b28cb3868cec130, type: 2}
+    - target: {fileID: 1431573493514449160, guid: cb1bb2b81a4acd043865938c346ae768, type: 3}
       propertyPath: EnemyStyle
       value: 
       objectReference: {fileID: 11400000, guid: 43243b76698031a4b81b140c629c985c, type: 2}
@@ -105,7 +109,7 @@ PrefabInstance:
       objectReference: {fileID: 3437911252171272520}
     - target: {fileID: 1431573493514449160, guid: cb1bb2b81a4acd043865938c346ae768, type: 3}
       propertyPath: movementType
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3151041345836561540, guid: cb1bb2b81a4acd043865938c346ae768, type: 3}
       propertyPath: _healthFeedback

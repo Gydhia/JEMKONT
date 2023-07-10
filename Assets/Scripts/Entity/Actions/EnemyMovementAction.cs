@@ -1,7 +1,9 @@
 using DownBelow.GridSystem;
 using DownBelow.Managers;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime;
 using UnityEngine;
 
@@ -33,13 +35,19 @@ namespace DownBelow.Entity
         protected override List<Cell> GetProcessedPath()
         {
             List<Cell> path;
-			switch (this.Type) {
-				case MovementType.Straight: path = this.MovementStraight(); break;
+			switch (this.Type) 
+            {
+				case MovementType.Straight: 
+                    path = this.MovementStraight(); break;
+                case MovementType.Flee:
+                    path = this.MovementFlee();
+                    break;
 				case MovementType.Kite:
 				case MovementType.StraightToRange:
-				default: path = this.MovementStraightToRange(); break;
+				default: 
+                    path = this.MovementStraightToRange(); break;
 			}
-
+ 
 			if (path == null || path.Count == 0)
                 return null;
 
@@ -58,6 +66,36 @@ namespace DownBelow.Entity
             return GridManager.Instance.FindPath(this.RefEntity, targPosition, false, 1);
         }
 
+        public bool IsValidDirection(Border direction)
+        {
+            return direction == Border.Left || direction == Border.Right ||
+                   direction == Border.Top || direction == Border.Bottom;
+        }
+
+        public Cell GetNewPosition(Cell currentPosition, Border direction)
+        {
+            int newLatitude = currentPosition.Datas.heightPos;
+            int newLongitude = currentPosition.Datas.widthPos;
+
+            switch (direction)
+            {
+                case Border.Left:
+                    newLongitude--;
+                    break;
+                case Border.Right:
+                    newLongitude++;
+                    break;
+                case Border.Top:
+                    newLatitude++;
+                    break;
+                case Border.Bottom:
+                    newLatitude--;
+                    break;
+            }
+
+            return currentPosition.RefGrid.Cells[newLatitude, newLongitude];
+        }
+
         /// <summary>
         /// Will Go straight to the target stops when in range
         /// </summary>
@@ -68,6 +106,17 @@ namespace DownBelow.Entity
 
             GridPosition targPosition = TargetCell.EntityIn.EntityCell.PositionInGrid;
             return GridManager.Instance.FindPath(this.RefEntity, targPosition, false, this.RefEntity.Range);
+        }
+
+        public List<Cell> MovementFlee()
+        {
+            // For now it's gonna be a random cell
+            var newTarget = this.TargetCell.RefGrid.Cells.RandomWalkable(GameManager.Instance.SaveName + CombatManager.Instance.EntityTurnRotation);
+
+            if (newTarget == null)
+                return null;
+
+            return GridManager.Instance.FindPath(this.RefEntity, newTarget.PositionInGrid);
         }
 
         public override object[] GetDatas()

@@ -240,13 +240,17 @@ MonoBehaviour:
   RefCell: {fileID: 0}
   Mesh: {fileID: 125539866402002253}
   Outline: {fileID: 7405713865225625881}
+  DestroyOnUse: 0
+  CurrentDurability: 0
+  DurabilitySlider: {fileID: 0}
+  DurabilityAmount: {fileID: 0}
   MeshToHide:
   - {fileID: 5225595416022973248}
   GatheredMesh: {fileID: 125539866402002253}
   Sound:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: 41ef6e7b1c664114285886b4dcb5e5f8, type: 2}
+    WwiseObjectReference: {fileID: 11400000, guid: 1d9cfc7d7fa76ef41af8295c813fd00a, type: 2}
   isMature: 1
   TimeToGrowUp: 80
 --- !u!65 &717044911678835273

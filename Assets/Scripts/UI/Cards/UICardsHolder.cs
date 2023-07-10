@@ -13,6 +13,8 @@ public class UICardsHolder : SerializedMonoBehaviour
 
     public Dictionary<PileType, UICardsPile> Piles;
 
+    public bool IsPileOpen;
+    
     public int PileSize(PileType type)
     {
         return Piles[type].Cards.Count;

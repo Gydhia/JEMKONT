@@ -520,7 +520,7 @@ MonoBehaviour:
   Title: Nurture Soil
   Cost: 2
   CardType: 3
-  Description: You surround an enemy by impassable vines for 3 turns.
+  Description: You surround an enemy by impassable vines for 1 turns.
   IllustrationImage: {fileID: 21300000, guid: ffb3026873cda2946830819f1c7a43a7, type: 3}
   Class: 2
   CurrentSpellTargetting: 0

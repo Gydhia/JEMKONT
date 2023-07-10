@@ -74,7 +74,9 @@ namespace DownBelow.UI
 
         private void _refreshWorkshop(ItemEventData Data)
         {
-            this.CraftButton.interactable = this.InItem.SelfItem.ItemPreset != null && this.FuelItem.SelfItem.ItemPreset != null;
+            this.CraftButton.interactable = 
+                (this.InItem.SelfItem.ItemPreset != null && this.FuelItem.SelfItem.ItemPreset != null) &&
+                (this.CurrentWorkshop != null && this.CurrentWorkshop.CurrentDurability > 0);
         }
         public void OnClickCraft()
         {
@@ -86,6 +88,8 @@ namespace DownBelow.UI
         {
             if(this.InItem.SelfItem.ItemPreset != null)
             {
+                NetworkManager.Instance.ApplyInteractableDurability(this.CurrentWorkshop);
+
                 NetworkManager.Instance.GiftOrRemoveStorageItem(this.CurrentWorkshop, this.CurrentWorkshop.OutputItem, 1, this.OutItem.Slot);
                 NetworkManager.Instance.GiftOrRemoveStorageItem(this.CurrentWorkshop, this.InItem.SelfItem.ItemPreset, -3, this.InItem.Slot);
                 NetworkManager.Instance.GiftOrRemoveStorageItem(this.CurrentWorkshop, this.FuelItem.SelfItem.ItemPreset, -1, this.FuelItem.Slot);   
@@ -97,22 +101,27 @@ namespace DownBelow.UI
         public void OpenPanel()
         {
             this.gameObject.SetActive(true);
-            
         }
 
         public void ClosePanel()
         {
-
             if(this.CurrentWorkshop != null)
             {
                 this.CurrentWorkshop.Storage.OnStorageItemChanged -= _refreshWorkshop;
                 SectionAnim.OnCraftComplete -= Craft;
+
+                if(this.CurrentWorkshop.CurrentDurability <= 0)
+                {
+                    if(this.InItem.TotalQuantity <= 0 && this.OutItem.TotalQuantity <= 0 && this.FuelItem.TotalQuantity <= 0)
+                    {
+                        NetworkManager.Instance.DestroyInteractable(this.CurrentWorkshop);
+                    }
+                }
+
                 this.CurrentWorkshop = null;
             }
 
             this.gameObject.SetActive(false);
-
-
         }
     }
 }
