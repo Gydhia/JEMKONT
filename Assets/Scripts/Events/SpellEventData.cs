@@ -24,6 +24,7 @@ namespace DownBelow.Events
         public CharacterEntity Entity;
         public EntityStatistics Stat;
         public int Value;
+
         public SpellEventData(CharacterEntity Entity, int Value, EntityStatistics Stat = EntityStatistics.None)
         {
             this.Entity = Entity;

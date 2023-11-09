@@ -14,7 +14,7 @@ public class RegaliaRune : TempObject
 
     private List<PlayerBehavior> playersInRange = new List<PlayerBehavior>();
 
-    public override void Init(Cell attachedCell, int TurnsLeft, CharacterEntity RefEntity, NonCharacterEntity prefab)
+    public override void Init(Cell attachedCell, int TurnsLeft, CharacterEntity RefEntity, NCEPreset prefab)
     {
         base.Init(attachedCell, TurnsLeft, RefEntity,prefab);
         foreach (var item in GameManager.Instance.Players)

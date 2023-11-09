@@ -16,7 +16,7 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 6742846473957726477, guid: 51d487ef60aae8b42a3d9630961186ef, type: 3}
+    - {fileID: 11400000, guid: efaf392078135794fb0f0bef96ae3352, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -361,10 +361,7 @@ MonoBehaviour:
     - Name: CellSFX
       Entry: 6
       Data: 
-    - Name: Duration
-      Entry: 3
-      Data: 3
-    - Name: NCEPrefab
+    - Name: NCEPreset
       Entry: 10
       Data: 0
     - Name: 
@@ -402,6 +399,6 @@ MonoBehaviour:
   CardType: 1
   Description: Create a Rune for 3 turns, all allies in a radius have their armor
     increased.
-  IllustrationImage: {fileID: 0}
+  IllustrationImage: {fileID: 21300000, guid: 0951e82510d3bdf41b544758046dfeba, type: 3}
   Class: 0
   CurrentSpellTargetting: 0

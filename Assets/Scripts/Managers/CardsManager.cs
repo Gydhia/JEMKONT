@@ -101,6 +101,12 @@ namespace DownBelow.Managers
             this.DiscardPile.Add(Data.DraggableCard);
         }
 
+        public void DrawCard(ScriptableCard card)
+        {
+            this.HandPile.Add(Instantiate(CardPrefab, UIManager.Instance.CardSection.DrawPile.transform));
+            this.HandPile[^1].Init(card);
+        }
+
         public void DrawCard()
         {
             this.checkPilesState();

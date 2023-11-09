@@ -19,7 +19,7 @@ namespace DownBelow.Entity
         [Range(0, 8)]
         public int NumberOfDuplicates;
 
-        public override void Init(Cell AttachedCell, int TurnsLeft, CharacterEntity RefEntity, NonCharacterEntity prefab)
+        public override void Init(Cell AttachedCell, int TurnsLeft, CharacterEntity RefEntity, NCEPreset prefab)
         {
             base.Init(AttachedCell, TurnsLeft, RefEntity, prefab);
             foreach (var item in CombatManager.Instance.PlayingEntities.Where(e => !e.IsAlly))
@@ -54,7 +54,7 @@ namespace DownBelow.Entity
             }
             foreach (var cell in randomDupeCells)
             {
-                NetworkManager.Instance.EntityAskToBuffAction(new Spell_SummonNCE(new SpellData_Summon(-1, PrefabRef), RefEntity, cell, null, null, 0));
+                NetworkManager.Instance.EntityAskToBuffAction(new Spell_SummonNCE(new SpellData_Summon(PresetRef), RefEntity, cell, null, null, 0));
 
             }
 

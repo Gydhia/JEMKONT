@@ -335,10 +335,10 @@ MonoBehaviour:
       Entry: 8
       Data: 
   Title: Thornmail
-  Cost: 0
-  CardType: 0
+  Cost: 2
+  CardType: 3
   Description: For 2 turns, each time the miner is dealt damage, all opponents are
     dealt as much damage as his armor.
-  IllustrationImage: {fileID: 0}
+  IllustrationImage: {fileID: 21300000, guid: bde7a57dfcff4b243b6713166cb6af94, type: 3}
   Class: 0
   CurrentSpellTargetting: 0

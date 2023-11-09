@@ -255,6 +255,12 @@ MonoBehaviour:
     - Name: TargetType
       Entry: 3
       Data: 1
+    - Name: ProjectileSFX
+      Entry: 6
+      Data: 
+    - Name: CellSFX
+      Entry: 6
+      Data: 
     - Name: IsNegativeEffect
       Entry: 5
       Data: true
@@ -290,7 +296,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 5|DownBelow.Spells.Spell_Alteration, Assembly-CSharp
+      Data: 5|DownBelow.Spells.Spell_AlterationOnResult, Assembly-CSharp
     - Name: ID
       Entry: 2
       Data: 00000000000000000000000000000000
@@ -314,7 +320,7 @@ MonoBehaviour:
       Data: 6|DownBelow.Spells.SpellData_Alteration, Assembly-CSharp
     - Name: RequiresTargetting
       Entry: 5
-      Data: false
+      Data: true
     - Name: SpellShapeMatrix
       Entry: 7
       Data: 7|System.Boolean[,], mscorlib
@@ -540,6 +546,12 @@ MonoBehaviour:
     - Name: TargetType
       Entry: 3
       Data: 0
+    - Name: ProjectileSFX
+      Entry: 6
+      Data: 
+    - Name: CellSFX
+      Entry: 6
+      Data: 
     - Name: Alteration
       Entry: 7
       Data: 9|DownBelow.Spells.Alterations.DoTAlteration, Assembly-CSharp
@@ -593,6 +605,6 @@ MonoBehaviour:
   CardType: 2
   Description: Deal 3 damage, each turn for 3 turns, your opponent will be dealt
     1 damage.
-  IllustrationImage: {fileID: 21300000, guid: 44b62bdd66dc688408c07e86a957f139, type: 3}
+  IllustrationImage: {fileID: 0}
   Class: 1
   CurrentSpellTargetting: 0

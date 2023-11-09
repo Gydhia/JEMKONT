@@ -1,4 +1,5 @@
 using DownBelow.Entity;
+using DownBelow.Managers;
 using DownBelow.Spells.Alterations;
 using Sirenix.OdinInspector;
 using System.Collections;
@@ -38,11 +39,17 @@ namespace DownBelow.Spells
         [EnableIf("@this.Healing")]
         public int Heal;
 
+        [InfoBox("Will check if the targets are altered or not by a certain alteration.")]
         [BoxGroup("Alterations")]
         public bool IsAltered;
         [BoxGroup("Alterations")]
         [EnableIf("@this.IsAltered")]
-        public Alteration Buff;
+        public Alteration Alteration;
+        [BoxGroup("Alterations")]
+        public bool NotAltered;
+        [BoxGroup("Alterations")]
+        [EnableIf("@this.NotAltered")]
+        public Alteration NotAlteration;
 
         [BoxGroup("Teleported")]
         public bool TeleportedToEntity;
@@ -68,7 +75,10 @@ namespace DownBelow.Spells
                 validated = this.CheckHealing();
 
             if (this.IsAltered)
-                validated = this.CheckBuffs();
+                validated = this.CheckAlterations();
+
+            if (this.NotAltered)
+                validated = this.CheckAlterations(true);
 
             if (this.TeleportedToEntity)
                 validated = this.CheckTeleported();
@@ -112,11 +122,28 @@ namespace DownBelow.Spells
             return healValidated || (!this.OneHealedTarget && total > this.Heal);
         }
 
-        public bool CheckBuffs()
+        public bool CheckAlterations(bool inverse = false)
         {
             //envicané? 
             // Just need this, with Target being a CharacterEntity
             //Target.Alterations.Any(x => x.GetType() == Buff.GetType());
+            foreach (CharacterEntity item in _currentResult.TargetedCells.FindAll(x => x.EntityIn != null).Select(x => x.EntityIn))
+            {
+                if (inverse)
+                {
+                    if (!item.Alterations.Any(x => x.GetType() == NotAlteration.GetType()))
+                    {
+                        TargetedEntities.Add(item);
+                    }
+                } else
+                {
+                    if (item.Alterations.Any(x => x.GetType() == Alteration.GetType()))
+                    {
+                        TargetedEntities.Add(item);
+                    }
+                }
+            }
+
             return false;
         }
 
@@ -126,7 +153,7 @@ namespace DownBelow.Spells
             {
                 if (TeleportedToEnemy)
                 {
-                    if(this._currentResult.TeleportedTo.Any(x => x is EnemyEntity))
+                    if (this._currentResult.TeleportedTo.Any(x => x is EnemyEntity))
                     {
                         return true;
                     }
@@ -144,27 +171,19 @@ namespace DownBelow.Spells
 
         public List<CharacterEntity> GetValidatedTargets()
         {
-            switch (this.TargetType)
+            return this.TargetType switch
             {
-                case ETargetType.Self:
-
-                    return new List<CharacterEntity> { this._currentResult.SpellRef.RefEntity };
-
-                case ETargetType.Enemy:
-
-                    return this.TargetedEntities.Where(e => !e.IsAlly).ToList();
-
-                case ETargetType.Ally:
-
-                    return this.TargetedEntities.Where(e => e.IsAlly).ToList();
-
-                case ETargetType.Entities:
-                case ETargetType.All:
-                    return this.TargetedEntities;
-                case ETargetType.Empty:
-                default:
-                    return null; // Maybe that this shouldn't be selectable 
-            }
+                ETargetType.Self => new List<CharacterEntity> { this._currentResult.SpellRef.RefEntity },
+                ETargetType.Enemy => this.TargetedEntities.Where(e => !e.IsAlly).ToList(),
+                ETargetType.Ally => this.TargetedEntities.Where(e => e.IsAlly).ToList(),
+                ETargetType.Entities => this.TargetedEntities,//NEEDS TO TARGET NCES ALSO?????? WHICH ARENT CHARACTERENTITIES????
+                ETargetType.All or ETargetType.AllAllies => CombatManager.Instance.PlayingEntities.FindAll(x => x.IsAlly),
+                ETargetType.AllEnemies => CombatManager.Instance.PlayingEntities.FindAll(x => !x.IsAlly),
+                ETargetType.NCEs => this.TargetedEntities,//NEEDS TO TARGET NCES?????? WHICH ARENT CHARACTERENTITIES????
+                ETargetType.CharacterEntities => this.TargetedEntities,
+                ETargetType.Empty => null,
+                _ => null,// Maybe that this shouldn't be selectable 
+            };
         }
     }
 }
